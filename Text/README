@@ -1,0 +1,9 @@
+Diretório repositório de arquivos textos.
+Tem a seguinte estrutura de arquivos:
+/Text
+    /Artigos
+    /Dissertacao
+    /Presentations
+
+O arquivos bibliografia.bib está neste diretório pois será usados
+por todos os diretórios
