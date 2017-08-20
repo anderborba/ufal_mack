@@ -1,9 +1,9 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[english,brazil]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 
 \begin{document}
-\nocite{lee94}
 
 \section{Estudo da bibliografia}
 
@@ -40,8 +40,320 @@ De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivaria
 \subsection{Estudo do artigo  \cite{goodman1963}}
 
 
+A variável randômica gaussiana complexa ${\bf Z=X+iY}$ é uma variável randômica complexa cuja parte imaginária e complexa são distribuída de forma Gaussiana.  E uma variável randômica gaussiana complexa $p-$variada $\xi^{'}=(Z_1,Z_2,\dots,Z_p)$ é uma $p-$upla  de variáveis randômica gaussiana complexas tal que o vetor de partes imaginárias e reais é $\eta^{'}=(X_1,Y_1,\dots,X_p,Y_p)$.
+
+A matriz de covariância definida positiva $2p\times 2p$ será:
+$$
+{\bf \Sigma_{\eta}} = \left[
+\begin{array}{cc}
+	E(X_jX_k)  & E(X_jY_k)  \\
+	E(Y_jX_k)  & E(Y_jY_k)  \\
+\end{array}
+\right].
+$$
+Tal que
+$$
+{\bf \Sigma_{\eta}} = \left[
+\begin{array}{cc}
+	E(X_jX_k)  & E(X_jY_k)  \\
+	E(Y_jX_k)  & E(Y_jY_k)  \\
+\end{array}
+\right]= \left\{
+\begin{array}{cc}
+	\frac{1}{2}\left[
+\begin{array}{cc}
+	 1 & 0  \\
+	 0 & 1  \\
+\end{array}
+	\right]\sigma^{2}_{k}  & \mbox{se}\quad j=k, \\
+	& \\
+	\frac{1}{2}\left[
+\begin{array}{cc}
+	\alpha_{ik} & -\beta_{jk}  \\
+	 \beta_{jk} & \alpha_{ik}  \\
+\end{array}
+	\right]\sigma_j\sigma_k  & \mbox{se}\quad j\neq k.   \\
+\end{array}
+\right.
+$$
+
+Onde $E(\cdot)$ denota o operador de valor esperado(esperança).
+
+Podemos usar a matriz de covariância hermitiana complexa definida positiva usando a $\xi$ variável randômica gaussiana complexa de dimensão $p\times p$
+
+$$\Sigma_{\xi}=E(\xi\bar{\xi}^{T})=||E(Z_j\bar{Z}_k)||=||\sigma_{jk}||$$
+
+onde
+
+$$
+\sigma_{jk} = \left\{
+\begin{array}{cc}
+	\sigma_k^2                                & \mbox{se}\quad j=k,  \\
+	(\alpha_{jk}+i\beta_{jk})\sigma_j\sigma_k & \mbox{se}\quad j\neq k. \\
+\end{array}
+\right.
+$$
+
+A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
+\begin{equation}\label{sec2eqn1}
+\begin{array}{ccc}
+	p(\xi)&=&\frac{1}{\pi^p|\Sigma_{\xi}|}\exp(-\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi)  \\
+\end{array}
+\end{equation}
 
 
+{\bf Exemplo 1 -} Seja a distribuição gaussian complexa univariada $(p=1)$. Sendo $\xi^{T}=z_1=x_1+iy_1$. E a "matriz" de covariância $\Sigma_{\xi}=\sigma_{1}^{2}$ com determinante $|\Sigma_{\xi}|=\sigma_{1}^{2}$ e  "matriz inversa" $\Sigma_{\xi}^{-1}=\frac{1}{\sigma_{1}^{2}}$, Assim,
+
+\begin{equation}\label{sec2eqn2}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&(x_i-iy_1)\frac{1}{\sigma_1^2}(x_1+iy_1)  \\
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&(x_i-iy_1)(x_1+iy_1)\frac{1}{\sigma_1^2}  \\
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{x_1^2+y_1^2}{\sigma_1^2}  \\
+\end{array}
+\end{equation}
+
+
+\begin{equation}\label{sec2eqn3}
+\begin{array}{ccc}
+	p(\xi)&=&\frac{1}{\pi\Sigma_{\xi}^{2}}\exp\left(-\frac{x_1^2+y_1^2}{\sigma_1^2}\right)  \\
+\end{array}
+\end{equation}
+
+{\bf Exemplo 2 -} Seja a distribuição gaussian complexa bivariada $(p=2)$. Sendo $\xi^{T}=(z_1, z_2)=(x_1 + iy_1, x_2 + iy_2)^{T}$. E a matriz de covariância 
+
+$$
+\Sigma_{\xi} = \left[
+\begin{array}{cc}
+	\sigma_1^2                                &  (\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
+	(\alpha_{12}-i\beta_{12})\sigma_j\sigma_k & \sigma_2^2 \\
+\end{array}
+\right].
+$$
+com determinante $|\Sigma_{\xi}|=(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2$ e  matriz inversa 
+$$
+\Sigma_{\xi}^{-1} =\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} \left[
+\begin{array}{cc}
+	\sigma_2^2                                &  -(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
+	-(\alpha_{12}-i\beta_{12})\sigma_j\sigma_k & \sigma_1^2 \\
+\end{array}
+\right].
+$$
+\begin{equation}\label{sec2eqn4}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&[z_1,z_2]^{H}\Sigma_{\xi}^{-1}
+	\left[
+\begin{array}{c}
+	z_1  \\
+	z_2 \\
+\end{array}\right]\\
+\end{array}
+\end{equation}
+\begin{equation}\label{sec2eqn5}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&[z_1,z_2]^{H}\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} \left[
+\begin{array}{cc}
+	\sigma_2^2                                &  -(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
+	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2 & \sigma_1^2 \\
+\end{array}
+\right]
+	\left[
+\begin{array}{c}
+	z_1  \\
+	z_2 \\
+\end{array}\right]\\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{sec2eqn6}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} [z_1,z_2]^{H}\left[
+\begin{array}{cc}
+	\sigma_2^2                                &  -(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
+	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2 & \sigma_1^2 \\
+\end{array}
+\right]
+	\left[
+\begin{array}{c}
+	z_1  \\
+	z_2 \\
+\end{array}\right]\\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{sec2eqn7}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} [z_1,z_2]^{H}\left[
+\begin{array}{cc}
+	\sigma_2^2z_1-(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2z_2  \\
+	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2z_1+\sigma_1^2z_2 \\
+\end{array}
+\right]
+\end{array}
+\end{equation}
+
+\begin{equation}\label{sec2eqn8}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
+\begin{array}{c}
+	\sigma_2^2\bar{z_1}z_1-(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2\bar{z_1}z_2 
+	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2\bar{z_2}z_1+\sigma_1^2\bar{z_2}z_2 \\
+\end{array}
+	\right)
+\end{array}
+\end{equation}
+
+\begin{equation}\label{sec2eqn9}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
+\begin{array}{c}
+	\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2 \\
+\end{array}
+	\right)
+\end{array}
+\end{equation}
+
+\begin{equation}\label{sec2eqn10}
+\begin{array}{ccc}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
+\end{array}
+\end{equation}
+
+Assim, a função densidade de probabilidade ({\bf pdf}) 
+
+\begin{equation}\label{sec2eqn11}
+\begin{array}{ccc}
+	p(\xi)&=&\frac{1}{\pi^2(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\exp\left(-\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
+\right)  \\
+\end{array}
+\end{equation}
+
+{\bf Distribuição complexa de Wishart}
+
+A distribuição complexa de Wishart descrita no artigo \cite{goodman1963}, define agora uma amostra de  $n$ vetores com valores complexos $\xi_1,\xi_2,\dots,\xi_n$ então a matriz hermitiana de covariância é 
+
+\begin{equation}\label{sec2eqn12}
+\begin{array}{ccc}
+	\hat{\Sigma}_{\xi}&=&\frac{1}{n}\displaystyle{\sum_{j=1}^{n}\xi_j\bar{\xi}_{j}^{T}} . \\
+\end{array}
+\end{equation}
+
+A matriz $\hat{\Sigma}_{\xi}$ é uma "maximum likelihood" para $\Sigma_{\xi}$ sendo uma estatística suficiente para a matriz hermitiana de covariância.
+
+Considerando $A=||A_{jkR}+iA{jkI}||=n\hat{\Sigma}_{\xi}$ chamaremos a matriz $A$ de distribuição complexa de Wishart. A função densidade de probabilidade de $A$ é
+
+
+\begin{equation}\label{sec2eqn13}
+\begin{array}{ccc}
+	p_W(A)&=&\frac{|A|^{n-p}}{I(\Sigma_{\xi})} \exp(-tr(\Sigma_{\xi}^{-1}A)), \\
+\end{array}
+\end{equation}
+onde
+\begin{equation}\label{sec2eqn14}
+\begin{array}{ccc}
+	I(\Sigma_{\xi})&=&\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1)|\Sigma_{\xi}|^n, \\
+\end{array}
+\end{equation}
+sendo $\Gamma(\cdot)$ a função Gamma.
+
+\subsection{Estudo do artigo  \cite{salicru_pardo_1994}}
+
+Para começar a entender os resultados do artigo \cite{salicru_pardo_1994} é descrito abaixo o exemplo 1 sobre medida craniana de rãs:
+
+Sendo $(x_1)$ o comprimento craniano e $(x_2)$ a amplitude craniana, uma amostra de $n=35$ rãs femeas maduras conduziu a seguinte estatística:
+
+$$
+{\bf x_1} = \left[
+\begin{array}{c}
+	22.860   \\
+	24.397   \\
+\end{array}
+\right]
+{\bf S_1} = \left[
+\begin{array}{cc}
+	 17.178  & 19.710   \\
+         19.710  & 23.710   \\
+\end{array}
+\right].
+$$
+
+e similar medidas para uma amostra $m=14$ rãs machos, 
+
+$$
+{\bf x_2} = \left[
+\begin{array}{c}
+	21.821  \\
+	22.843   \\
+\end{array}
+\right]
+{\bf S_2} = \left[
+\begin{array}{cc}
+	 17.159  & 17.731   \\
+         17.731  & 19.273   \\
+\end{array}
+\right].
+$$
+
+onde ${\bf S_1}$ e ${\bf S_2}$ são estimadores de máxima varossimilhança da matriz de covariância.
+
+Para auxiliar foi criado dois programas em matlab chamados "salicruex1a.m" e "salicru1ex1b.m" armazenado em (meu micro): $$"/home/aborba/MEGAsync/mack/alejandro/gitufalmackbackup/doclatex/"$$
+
+
+\begin{description}
+\item[(a)] Sendo:
+$$
+		{\bf S}=\frac{n{\bf S_1}+m{\bf S_2}}{n+m} = \left[
+\begin{array}{cc}
+	 17.173  & 19.145   \\
+         19.145  & 22.442   \\
+\end{array}
+\right].
+$$
+tal que sua matriz inversa é:
+$$
+		{\bf S^{-1}} = \left[
+\begin{array}{cc}
+	 1.18958  & -1.01482   \\
+        -1.01482.  & 0.91028   \\
+\end{array}
+\right].
+$$
+
+		A expressão $(r,s)$-divergência obtida de $(h,\phi)$-divergência sobre certas condições pode ser escrita:
+\begin{equation}\label{sec3eqn1}
+\begin{array}{ccl}
+	D_r^s((\mu_1,\Sigma_1),(\mu_2,\Sigma_2))&=&\frac{1}{(s-1)}\left[\exp\left(\frac{r(s-1)}{2}(\mu_1-\mu_2)^{T}[r\Sigma_2+(1-r)\Sigma_1]^{-1}(\mu_1-\mu_2) \right)\right. \\
+	&\cdot&\left.\frac{|r\Sigma_2+(1-r)\Sigma_1|^{\frac{(1-s)}{2(r-1)}}}{|\Sigma_1|^{\frac{s-1}{2}}|\Sigma_2|^{\frac{(1-s)r}{2(r-1)}}}-1\right]  \\
+\end{array}
+\end{equation}
+
+Assim calculando
+\begin{equation}\label{sec3eqn2}
+\begin{array}{ccc}
+	T_4&=&\frac{2nm}{r(n+m)}D_r^s(({\bf x_1}, {\bf S}),({\bf x_2}, {\bf S})) \\
+	T_4&=&40(0.052663) \\
+	T_4&=&2.10653
+\end{array}
+\end{equation}
+\item[(b)] Será usado o corolário $2b$ do artigo \cite{salicru_pardo_1994} assim a estatística que vamos calcular será:
+
+\begin{equation}\label{sec3eqn3}
+\begin{array}{ccc}
+	T_3&=&\frac{2nm}{r(n+m)}D_r^s(({\bf x_1}, {\bf S_1}),({\bf x_2}, {\bf S_2})) \\
+	T_3&=&4.76047
+\end{array}
+\end{equation}
+
+Tendo um valor diferente do artigo, investigando onde pode estar a discrepância encontramos o seguinte valor para, 
+
+\begin{equation}\label{sec3eqn4}
+\begin{array}{ccc}
+	({\bf x_1}-{\bf x_2})^T [r{\bf S_2+(1-r){\bf S_1}}]^{-1}({\bf x_1}-{\bf x_2})&=& 0.22724\\
+\end{array}
+\end{equation}
+
+enquanto o artigo encontrou $0.06970$ para o mesmo passo, até o momento não sei explicar a diferença.
+
+\end{description}
 
 
 
