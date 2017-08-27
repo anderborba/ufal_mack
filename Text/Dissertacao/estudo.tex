@@ -2,6 +2,11 @@
 \usepackage[english,brazil]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+ 
+\newtheorem{definition}{Definição}[section]
+
 
 \begin{document}
 
@@ -14,7 +19,7 @@ Este arquivo serve para fazer apontamentos acerca da bibliografia indicada/pesqu
 A matriz de espalhamento complexa {\bf S} é definida por
 
 $$
-{\bf S} = \left[
+{\bf s} = \left[
 \begin{array}{cc}
 	S_{hh}   & S_{hv}   \\
 	S_{vh}   & S_{vv}   \\
@@ -24,7 +29,7 @@ $$
 
 Por facilidade usaremos o fato de ser um {\it reciprocal medium}, isto é, $S_{hv}=S_{vh}$
 $$
-{\bf S} = \left[
+{\bf s} = \left[
 \begin{array}{c}
 	S_{vv}      \\
 	S_{vh}     \\
@@ -33,9 +38,36 @@ $$
 \right].
 $$
 
-De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por $S=[S_1,S_2,\dots,S_p]^t$. 
+De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
 
+A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
+\begin{equation}\label{sec1eqn2}
+\begin{array}{ccc}
+	p({\bf s})&=&\frac{1}{\pi^p|\Sigma_{{\bf s}}|}\exp(-\bar{{\bf s}}^{T}\Sigma_{{\bf s}}^{-1}{\bf s})  \\
+\end{array}
+\end{equation}
 
+Sendo a matriz de covariância definida por:
+\begin{equation}\label{sec1eqn2}
+	{\bf \Sigma_{{\bf s}}} = E[{\bf s}{\bf s}^H] = \left[
+\begin{array}{cccc}
+	E({\bf s_1}{\bf s_1}^H)  & E({\bf s_1}{\bf s_2}^H) &\hdots & E({\bf s_1}{\bf s_p}^H) \\
+	E({\bf s_2}{\bf s_1}^H)  & E({\bf s_2}{\bf s_2}^H) &\hdots &E({\bf s_2}{\bf s_p}^H)\\
+        \vdots&\vdots &\ddots &\vdots\\
+	E({\bf s_p}{\bf s_1}^H)  & E({\bf s_p}{\bf s_2}^H) &\hdots &E({\bf s_p}{\bf s_p}^H)\\
+\end{array}
+\right].
+\end{equation}
+
+onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
+
+Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}. Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
+
+\begin{equation}\label{sec1eqn3}
+\begin{array}{ccc}
+	{\bf Z}&=&\frac{1}{n}\displaystyle{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} . \\
+\end{array}
+\end{equation}
 
 \subsection{Estudo do artigo  \cite{goodman1963}}
 
@@ -257,6 +289,19 @@ sendo $\Gamma(\cdot)$ a função Gamma.
 
 \subsection{Estudo do artigo  \cite{salicru_pardo_1994}}
 
+Definição importante  
+
+\begin{definition}{Divergência ($h,\phi$).}
+	Sejam as variáveis aleatórias $X$ e $Y$ com mesmo suporte $S$  e $p.d.f$ respectivamente $f_{X}(x|\theta_1)$ e $f_{Y}(x|\theta_2)$. Sejam ainda $\phi:(0,\infty)\rightarrow \mathbb{R}_+$ uma função convexa e diferenciável, e $h$ uma função crescente tal que $h(0)=0$ então a divergência ($h,\phi$) é definida como
+\begin{equation}\label{sec3eqn1}
+\begin{array}{ccc}
+	d_{\phi}^{h}(X||Y)&=&\displaystyle{h\left[\int_{x\in S(x)} f_{Y}(x|\theta_2)\phi\left(\frac{f_{X}(x|\theta_1)}{f_{Y}(x|\theta_2)}\right)dx \right]}. \\
+\end{array}
+\end{equation}
+\end{definition}
+
+Definindo que divergência é uma maneira de medir as diferenças entre duas distribuições. A seguir descreveremos um exemplo para ilustrar a definição.
+
 Para começar a entender os resultados do artigo \cite{salicru_pardo_1994} é descrito abaixo o exemplo 1 sobre medida craniana de rãs:
 
 Sendo $(x_1)$ o comprimento craniano e $(x_2)$ a amplitude craniana, uma amostra de $n=35$ rãs femeas maduras conduziu a seguinte estatística:
@@ -319,7 +364,7 @@ $$
 $$
 
 		A expressão $(r,s)$-divergência obtida de $(h,\phi)$-divergência sobre certas condições pode ser escrita:
-\begin{equation}\label{sec3eqn1}
+\begin{equation}\label{sec3eqn2}
 \begin{array}{ccl}
 	D_r^s((\mu_1,\Sigma_1),(\mu_2,\Sigma_2))&=&\frac{1}{(s-1)}\left[\exp\left(\frac{r(s-1)}{2}(\mu_1-\mu_2)^{T}[r\Sigma_2+(1-r)\Sigma_1]^{-1}(\mu_1-\mu_2) \right)\right. \\
 	&\cdot&\left.\frac{|r\Sigma_2+(1-r)\Sigma_1|^{\frac{(1-s)}{2(r-1)}}}{|\Sigma_1|^{\frac{s-1}{2}}|\Sigma_2|^{\frac{(1-s)r}{2(r-1)}}}-1\right]  \\
@@ -327,7 +372,7 @@ $$
 \end{equation}
 
 Assim calculando
-\begin{equation}\label{sec3eqn2}
+\begin{equation}\label{sec3eqn3}
 \begin{array}{ccc}
 	T_4&=&\frac{2nm}{r(n+m)}D_r^s(({\bf x_1}, {\bf S}),({\bf x_2}, {\bf S})) \\
 	T_4&=&40(0.052663) \\
@@ -336,7 +381,7 @@ Assim calculando
 \end{equation}
 \item[(b)] Será usado o corolário $2b$ do artigo \cite{salicru_pardo_1994} assim a estatística que vamos calcular será:
 
-\begin{equation}\label{sec3eqn3}
+\begin{equation}\label{sec3eqn4}
 \begin{array}{ccc}
 	T_3&=&\frac{2nm}{r(n+m)}D_r^s(({\bf x_1}, {\bf S_1}),({\bf x_2}, {\bf S_2})) \\
 	T_3&=&4.76047
@@ -345,7 +390,7 @@ Assim calculando
 
 Tendo um valor diferente do artigo, investigando onde pode estar a discrepância encontramos o seguinte valor para, 
 
-\begin{equation}\label{sec3eqn4}
+\begin{equation}\label{sec3eqn5}
 \begin{array}{ccc}
 	({\bf x_1}-{\bf x_2})^T [r{\bf S_2+(1-r){\bf S_1}}]^{-1}({\bf x_1}-{\bf x_2})&=& 0.22724\\
 \end{array}
@@ -356,8 +401,251 @@ enquanto o artigo encontrou $0.06970$ para o mesmo passo, até o momento não se
 \end{description}
 
 
+\subsection{Estudo do artigo  \cite{anfinsen2009}}
+
+O instrumento SAR totalmente polarimétrico transmite pulsos de microondas polarizados ortogonalmente e mede componentes ortogonais do sinal recebido. Para cada pixel a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem a transformação do campo eletromagnético trasmitido para o campo eletromagnético recebido para todas as combinações de transmitidas e recebidas polarizações.
+
+A transformação pode ser representada como
+
+\begin{equation}\label{sec4eqn1}
+ \left[
+\begin{array}{c}
+	E_{h}^{r}   \\
+	E_{v}^{r}    \\
+\end{array}
+\right]
+ = \frac{e^{jkr}}{r}\left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right]
+ \left[
+\begin{array}{c}
+	E_{h}^{t}   \\
+	E_{v}^{t}    \\
+\end{array}
+\right]
+\end{equation}
+
+Onde $k$ denota o número de onda e $r$ é a distância entre o radar e o alvo. No campo eletromagnético com componentes $E_{i}^{j}$ os índices subscritos denotados polarização horizontal $h$ ou vertical $v$ enquanto os índices sobrescritos indicam a onda recebida $r$ ou transmitida $t$.    
 
 
+A matrix de espalhamento pode ser reduzida ao seguintes vetores:
+
+\begin{equation}\label{sec4eqn2}
+{\bf s} = \left[
+\begin{array}{c}
+	S_{hh}      \\
+	\frac{S_{hv}+S_{vh}}{\sqrt{2}}     \\
+	S_{vv}      \\
+\end{array}
+\right].
+{\bf k} =\frac{1}{\sqrt{2}} \left[
+\begin{array}{c}
+	S_{hh} + S_{vv}      \\
+	S_{hh} - S_{vv}      \\
+	S_{hv} + S_{vh}      \\
+\end{array}
+\right].
+\end{equation}
+
+%De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
+
+%A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
+%\begin{equation}\label{sec1eqn2}
+%\begin{array}{ccc}
+%	p({\bf s})&=&\frac{1}{\pi^p|\Sigma_{{\bf s}}|}\exp(-\bar{{\bf s}}^{T}\Sigma_{{\bf s}}^{-1}{\bf s})  \\
+%\end{array}
+%\end{equation}
+
+%Sendo a matriz de covariância definida por:
+%\begin{equation}\label{sec1eqn2}
+%	{\bf \Sigma_{{\bf s}}} = E[{\bf s}{\bf s}^H] \left[
+%\begin{array}{cccc}
+%	E({\bf s_1}{\bf s_1}^H)  & E({\bf s_1}{\bf s_2}^H) &\hdots & E({\bf s_1}{\bf s_p}^H) \\
+%	E({\bf s_2}{\bf s_1}^H)  & E({\bf s_2}{\bf s_2}^H) &\hdots &E({\bf s_2}{\bf s_p}^H)\\
+%        \vdots&\vdots &\ddots &\vdots\\
+%	E({\bf s_p}{\bf s_1}^H)  & E({\bf s_p}{\bf s_2}^H) &\hdots &E({\bf s_p}{\bf s_p}^H)\\
+%\end{array}
+%\right].
+%\end{equation}
+
+%onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
+
+%Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}. Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
+
+%\begin{equation}\label{sec1eqn3}
+%\begin{array}{ccc}
+%	{\bf Z}&=&\frac{1}{n}\displaystyle{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} . \\
+%\end{array}
+%\end{equation}
+
+\subsubsection{Modelos Gaussianos}
+
+
+Podemos assumir que o vetor de espalhamento é uma distribuíção gaussiana complexa circular. A matriz {\bf S} e os vetores {\bf s} e {\bf k} são {\it Single-look complex} representação dos daos PolSAR. Dados PolSAR {\it Multilook} podem ser representados por
+ 
+\begin{equation}\label{sec41eqn1}
+\begin{array}{ccc}
+	{\bf C_{\bf s}}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} . \\
+\end{array}
+\begin{array}{ccc}
+	{\bf C_{\bf k}}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\bf k_i}{\bf k_i}^H} . \\
+\end{array}
+\end{equation}
+
+chamadas de matriz de covariância e matriz de coerência, sendo $L$ o número de {\it looks}. Por definição assumimos que {\bf s} ou {\bf k} é gaussiana multivariada e complexa circular e tem média zero. Será denotado $s\sim N_d^{\mathbb C}(\bf 0, \Sigma_{\bf s})$ onde $\bf 0$ é um vetor coluna de zeros, $d$ a dimensão de $\bf s$ a matriz de covariância de $\bf s$  
+
+\begin{equation}\label{sec41eqn2}
+	{\bf \Sigma_{{\bf s}}} = E[{\bf s}{\bf s}^H] =\left[
+\begin{array}{cccc}
+	E({\bf s_1}{\bf s_1}^H)  & E({\bf s_1}{\bf s_2}^H) &\hdots & E({\bf s_1}{\bf s_p}^H) \\
+	E({\bf s_2}{\bf s_1}^H)  & E({\bf s_2}{\bf s_2}^H) &\hdots &E({\bf s_2}{\bf s_p}^H)\\
+        \vdots&\vdots &\ddots &\vdots\\
+	E({\bf s_p}{\bf s_1}^H)  & E({\bf s_p}{\bf s_2}^H) &\hdots &E({\bf s_p}{\bf s_p}^H)\\
+\end{array}
+\right].
+\end{equation}
+
+A função densidade de probabilidade $(pdf)$ de {\bf s} é 
+
+\begin{equation}\label{sec41eqn3}
+\begin{array}{ccc}
+	p({\bf s},\Sigma_{\bf s})&=&\frac{1}{\pi^p|\Sigma_{{\bf s}}|}\exp(-{\bf s}^{H}\Sigma_{{\bf s}}^{-1}{\bf s})  \\
+\end{array}
+\end{equation}
+
+Se $L\geq d$ e os {\bf $S_i$} (ou {\bf $k_i$}) e na equação (\ref{sec41eqn1}) são independentes, então ma matriz de covariância escalada pode ser definida como ${\bf Z}=L{\bf C_{\bf s}}$ (ou ${\bf Z}=L{\bf C_{\bf k}}$), de acordo com distribuição de Wishart complexa não singular \cite{goodman1963}
+
+\begin{equation}\label{sec41eqn4}
+\begin{array}{ccc}
+	p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})&=&\frac{|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)} \exp(-tr({\bf \Sigma}^{-1}{\bf Z})), \\
+\end{array}
+\end{equation}
+onde $tr(\cdot)$ é o operadot traço e ${\Sigma}=\frac{E[{\bf Z}]}{L}=E[{\bf C_{s}}]$. 
+
+Vamos escrever ${\bf Z}\sim W_d^{\mathbb C}(L, {\bf \Sigma})$.
+
+E ainda, A constante de normalização $\Gamma_d(L)$ é a função Gamma multivariada definida como 
+\begin{equation}\label{sec41eqn5}
+\begin{array}{ccc}
+	\Gamma_d(L)&=&\pi^{\frac{1}{2}d(d-1)} \displaystyle{\prod_{i=0}^{d-1}\Gamma(L-i)} \\
+\end{array}
+\end{equation}
+sendo $\Gamma(\cdot)$ a função Gamma.
+
+\subsubsection{Coeficiente de estimador de variação}
+
+ O exemplo da figura (\ref{sec41fig1}) mostra uma distribuíção gamma $g(\sigma, L)$ parametrizada com intensidade média $\sigma=0.0358$ e com múmeros de {\it looks} $L=\{8,10,12\}$.
+
+\begin{equation}\label{sec41eqn6}
+\begin{array}{ccc}
+	p_{I}(I;\sigma,L)&=&\frac{1}{\Gamma(L)}\left(\frac{L}{\sigma}\right)^L \exp(-\frac{LI}{\sigma}), \\
+\end{array}
+\end{equation}
+onde intensidade média $\sigma$ e número de {\it looks} $L$ são parametros desta distribuição gamma.
+
+{\bf obs 1} - Programa {\it proanfinsen2009.r} armazenado no meu computador pessoal.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=4.0in]{/home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig_1_anfinsen_2009.pdf}
+	\caption{Distribuição gamma da referência \cite{anfinsen2009} com parametros $\sigma=0.0356$ e $L=\{8,10,12\}$.}
+\label{sec41fig1}
+\end{figure}
+
+\subsection{Estudo do artigo  \cite{freitas_frery_2005}}
+
+As definições deste artigo são semelhantes as definições do artigo \cite{anfinsen2009} descrita na seção acima. 
+
+\subsubsection{ Entendendo as densidades e seus gráficos}
+
+Nesta seção o intuito é reproduzir e entender as distribuições que geraram as figuras (1), (2) e (3) do artigo \cite{freitas_frery_2005}. 
+
+\begin{equation}\label{sec51eqn1}
+\begin{array}{ccc}
+	f_{X}(x)&=&\frac{r_{\alpha,\omega}}{2K_{\alpha}(\omega)}x^{\alpha-1}\exp\left(-\frac{\omega}{2}\left(\frac{1}{r_{\alpha,\omega}x}+ r_{\alpha,\omega}x\right)\right), \\
+\end{array}
+\end{equation}
+
+onde $x>0$  e $r_{\alpha,\omega}=\frac{K_{\alpha+1}(\omega)}{K_{\alpha}(\omega)}$
+
+Seja $K_{\nu}$ uma função de Bessel de terceiro tipo e com ordem $\nu$. Na figura (\ref{sec51fig1}) é mostrado os gráficos das funções para diferentes valores de $\nu=1,2,3,4,5,10$ e $\nu=20$. 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=4.0in]{/home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fun_bessel_nu.pdf}
+	\caption{Gráficos da referência \cite{freitas_frery_2005} para as funções de Bessel de terceiro tipo para diferentes $\nu$.}
+\label{sec51fig1}
+\end{figure}
+
+A figura (\ref{sec51fig2}) mostra os gráficos da equação (\ref{sec51eqn1}) para $\omega=1$ e diferentes valores de $\alpha\in(1.1,3,10,20)$. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=4.0in]{/home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig1_freitas_frery_2005.pdf}
+	\caption{Gráficos da referência \cite{freitas_frery_2005} para as equação (\ref{sec51eqn1}) para $\omega=1$ e $\alpha\in(1.1,3,10,20)$.}
+\label{sec51fig2}
+\end{figure}
+
+A figura (\ref{sec51fig3}) mostra os gráficos da equação (\ref{sec51eqn1}) para $\alpha=1$ e diferentes valores de $\omega\in(1,2,10,30)$. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=4.0in]{/home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig2_freitas_frery_2005.pdf}
+	\caption{Gráficos da referência \cite{freitas_frery_2005} para as equação (\ref{sec51eqn1}) para $\alpha=1$ e $\omega\in(1,2,10,30)$.}
+\label{sec51fig3}
+\end{figure}
+
+	
+As figuras (\ref{sec51fig2}) e (\ref{sec51fig3}) deste estudo deveriam estar equivalentes as figuras (1) e (2) do artigo \cite{freitas_frery_2005}, porém mostraram diferenças consideráveis nas magnitudes das funções. 
+
+Para gerar as figuras (\ref{sec51fig1}), (\ref{sec51fig2}) e (\ref{sec51fig3}) usei a função de Bessel (besselk) programada no pacote R.
+
+{\bf obs 2} - Programa {\it probesselfreitasfrery2005.r} armazenado no meu computador pessoal.
+
+{\bf obs 3} - Programa {\it profig1freitasfrery2005.r} armazenado no meu computador pessoal.
+
+{\bf obs 4} - Programa {\it profig2freitasfrery2005.r} armazenado no meu computador pessoal.
+
+A densidade que caracteriza a distribuição gamma com média unitária
+
+\begin{equation}\label{sec51eqn2}
+\begin{array}{ccc}
+	f_{X}(x)&=&\frac{\alpha^{\alpha}x^{\alpha-1}}{\Gamma(\alpha)}\exp\left(-\alpha x\right), \\
+\end{array}
+\end{equation}
+
+onde $\alpha$,$x>0$, cujos gráficos estão na figura (\ref{sec51fig4}).
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=4.0in]{/home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3a_freitas_frery_2005.pdf}
+	\caption{Densidades  gamma unitária (\ref{sec51eqn2}) para $\alpha > 0$ e $|\alpha|\in(1.2,1.5,3,10,20)$, referência \cite{freitas_frery_2005} .}
+\label{sec51fig4}
+\end{figure}
+
+
+A densidade que caracteriza a distribuição gamma reciproca com média unitária
+
+\begin{equation}\label{sec51eqn3}
+\begin{array}{ccc}
+	f_{X}(x)&=&\frac{x^{\alpha-1}}{(-\alpha-1)^{\alpha}\Gamma(-\alpha)}\exp\left(\frac{\alpha+1}{x}\right), \\
+\end{array}
+\end{equation}
+
+onde $-\alpha$,$x>0$, cujos gráficos estão na figura (\ref{sec51fig5}).
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=4.0in]{/home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3b_freitas_frery_2005.pdf}
+	\caption{Densidades gamma unitária reciproca (\ref{sec51eqn3}) para $\alpha < 0$ e $|\alpha|\in(1.2,1.5,3,10,20)$, referência \cite{freitas_frery_2005} .}
+\label{sec51fig5}
+\end{figure}
+
+{\bf obs 5} - Programa {\it profig3afreitasfrery2005.r} armazenado no meu computador pessoal.
+
+{\bf obs 6} - Programa {\it profig3bfreitasfrery2005.r} armazenado no meu computador pessoal.
 \bibliographystyle{unsrt}
-\bibliography{/home/aborba/git_ufal_mack/Text/bibliografia} 
+\bibliography{bibliografia} 
 \end{document}

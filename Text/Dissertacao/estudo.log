@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=latex 2017.8.9)  20 AUG 2017 17:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.8.9)  27 AUG 2017 19:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -414,75 +414,295 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
 \mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
-) (./estudo.aux)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks21
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2016/07/10 v1.0t Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2016/07/10 v0.06j Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count100
+))
+\Gin@req@height=\dimen113
+\Gin@req@width=\dimen114
+)
+\c@definition=\count101
+
+(./estudo.aux
+
+LaTeX Warning: Label `sec1eqn2' multiply defined.
+
+)
 \openout1 = `estudo.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count102
+\scratchdimen=\dimen115
+\scratchbox=\box28
+\nofMPsegments=\count103
+\nofMParguments=\count104
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count105
+\MPscratchDim=\dimen116
+\MPnumerator=\count106
+\makeMPintoPDFobject=\count107
+\everyMPtoPDFconversion=\toks23
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
+)
 
-Overfull \hbox (28.08405pt too wide) in paragraph at lines 10--11
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Overfull \hbox (28.08405pt too wide) in paragraph at lines 15--16
 \OT1/cmr/m/n/10 Este ar-quivo serve para fa-zer apon-ta-men-tos acerca da bi-bl
 i-o-gra-fia in-di-cada/pesquisada. 
  []
 
+LaTeX Font Info:    Try loading font information for U+msa on input line 21.
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 21.
 
-Overfull \hbox (0.34221pt too wide) in paragraph at lines 43--44
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Overfull \hbox (0.34221pt too wide) in paragraph at lines 75--76
 \OT1/cmr/m/n/10 A vari^^Savel rand^omica gaus-si-ana com-plexa $[]$ ^^Se uma va
 ri^^Savel rand^omica
  []
 
 [1
 
-]
-Overfull \hbox (53.87912pt too wide) detected at line 165
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (53.87912pt too wide) detected at line 197
 []
  []
 
 
-Overfull \hbox (53.87912pt too wide) detected at line 181
-[]
- []
-
-
-Overfull \hbox (90.5953pt too wide) detected at line 203
+Overfull \hbox (53.87912pt too wide) detected at line 213
 []
  []
 
 [2]
-Overfull \hbox (3.58403pt too wide) in paragraph at lines 298--298
+Overfull \hbox (90.5953pt too wide) detected at line 235
+[]
+ []
+
+[3]
+Overfull \hbox (3.58403pt too wide) in paragraph at lines 343--343
 []\OT1/cmr/m/n/10 Para au-xi-liar foi cri-ado dois pro-gra-mas em ma-tlab cha-m
 a-dos "sa-li-cruex1a.m"e
  []
 
 
-Overfull \hbox (2.8033pt too wide) detected at line 298
+Overfull \hbox (2.8033pt too wide) detected at line 343
 \OT1/cmr/m/n/10 "\OML/cmm/m/it/10 =home=aborba=MEGAsync=mack=alejandro=gitufalm
 ackbackup=doclatex=\OT1/cmr/m/n/10 "
  []
 
 
-Overfull \hbox (72.29791pt too wide) detected at line 327
+Overfull \hbox (72.29791pt too wide) detected at line 372
 []
  []
 
-[3] (./estudo.bbl) [4] (./estudo.aux) ) 
-Here is how much of TeX's memory you used:
- 1630 strings out of 493014
- 18057 string characters out of 6135709
- 92592 words of memory out of 5000000
- 5201 multiletter control sequences out of 15000+600000
- 6577 words of font info for 24 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 27i,13n,23p,425b,192s stack positions out of 5000i,500n,10000p,200000b,80000s
+[4] [5]
+</home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig_1_anfinsen_2009.pdf
+, id=35, 505.89pt x 505.89pt>
+File: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig_1_anfinsen_200
+9.pdf Graphic file (type pdf)
 
-Output written on estudo.dvi (4 pages, 18832 bytes).
+<use /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig_1_anfinsen_2009
+.pdf>
+Package pdftex.def Info: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf
+/fig_1_anfinsen_2009.pdf used on input line 553.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+</home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fun_bessel_nu.pdf, id=3
+6, 505.89pt x 505.89pt>
+File: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fun_bessel_nu.pdf 
+Graphic file (type pdf)
+
+<use /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fun_bessel_nu.pdf>
+Package pdftex.def Info: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf
+/fun_bessel_nu.pdf used on input line 577.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+
+[6]
+</home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig1_freitas_frery_2005
+.pdf, id=40, 505.89pt x 505.89pt>
+File: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig1_freitas_frery
+_2005.pdf Graphic file (type pdf)
+
+<use /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig1_freitas_frery_
+2005.pdf>
+Package pdftex.def Info: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf
+/fig1_freitas_frery_2005.pdf used on input line 586.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+
+</home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig2_freitas_frery_2005
+.pdf, id=41, 505.89pt x 505.89pt>
+File: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig2_freitas_frery
+_2005.pdf Graphic file (type pdf)
+
+<use /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig2_freitas_frery_
+2005.pdf>
+Package pdftex.def Info: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf
+/fig2_freitas_frery_2005.pdf used on input line 595.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+
+</home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3a_freitas_frery_200
+5.pdf, id=42, 505.89pt x 505.89pt>
+File: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3a_freitas_frer
+y_2005.pdf Graphic file (type pdf)
+
+<use /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3a_freitas_frery
+_2005.pdf>
+Package pdftex.def Info: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf
+/fig3a_freitas_frery_2005.pdf used on input line 623.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+ [7 </home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig_1_anfinsen_2009
+.pdf>]
+</home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3b_freitas_frery_200
+5.pdf, id=53, 505.89pt x 505.89pt>
+File: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3b_freitas_frer
+y_2005.pdf Graphic file (type pdf)
+
+<use /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig3b_freitas_frery
+_2005.pdf>
+Package pdftex.def Info: /home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf
+/fig3b_freitas_frery_2005.pdf used on input line 641.
+(pdftex.def)             Requested size: 289.07999pt x 289.08589pt.
+ (./estudo.bbl [8 </home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fun_b
+essel_nu.pdf>]) [9 </home/aborba/git_ufal_mack/Text/Dissertacao/figuraspdf/fig1
+_freitas_frery_2005.pdf>] [10 </home/aborba/git_ufal_mack/Text/Dissertacao/figu
+raspdf/fig2_freitas_frery_2005.pdf>] [11 </home/aborba/git_ufal_mack/Text/Disse
+rtacao/figuraspdf/fig3a_freitas_frery_2005.pdf>] [12 </home/aborba/git_ufal_mac
+k/Text/Dissertacao/figuraspdf/fig3b_freitas_frery_2005.pdf>]
+(./estudo.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 3229 strings out of 493013
+ 42545 string characters out of 6135683
+ 117562 words of memory out of 5000000
+ 6709 multiletter control sequences out of 15000+600000
+ 7822 words of font info for 30 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 40i,13n,26p,475b,227s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on estudo.pdf (12 pages, 645779 bytes).
+PDF statistics:
+ 152 PDF objects out of 1000 (max. 8388607)
+ 107 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+

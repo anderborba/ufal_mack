@@ -19,4 +19,16 @@ M.~Salicru, D.~Morales, M.L. Menendez, and L.~Pardo.
   statistical hypotheses.
 \newblock {\em Journal of Multivariate Analysis}, 51(2):372 -- 391, 1994.
 
+\bibitem{anfinsen2009}
+Stian~Normann Anfinsen, Anthony~P Doulgeris, and Torbj{\o}rn Eltoft.
+\newblock Estimation of the equivalent number of looks in polarimetric
+  synthetic aperture radar imagery.
+\newblock {\em IEEE Transactions on Geoscience and Remote Sensing},
+  47(11):3795--3809, 2009.
+
+\bibitem{freitas_frery_2005}
+Corina~C Freitas, Alejandro~C Frery, and Antonio~H Correia.
+\newblock The polarimetric g distribution for sar data analysis.
+\newblock {\em Environmetrics}, 16(1):13--31, 2005.
+
 \end{thebibliography}
