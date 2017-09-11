@@ -61,6 +61,45 @@ Sendo a matriz de covariância definida por:
 
 onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
 
+A matriz {\bf $\Sigma_{{\bf s}}$} é hermitiana pois se ${\bf S_j }= x_j+iy_j $
+
+\begin{equation}\label{sec1eqn3}
+\begin{array}{ccc}
+	{\bf S}_j\overline{{\bf S}}_j&=& (x_j+iy_j)\overline{(x_j+iy_j)} \\
+	{\bf S}_j\overline{{\bf S}}_j&=& (x_j+iy_j)(x_j-iy_j) \\
+	{\bf S}_j\overline{{\bf S}}_j&=& x_j^2+y_j^2 \\
+\end{array}
+\end{equation}
+considerando $j \neq k$
+\begin{equation}\label{sec1eqn4}
+\begin{array}{ccc}
+	{\bf S}_j\overline{{\bf S}}_k&=& (x_j+iy_j)\overline{(x_k+iy_k)} \\
+	{\bf S}_j\overline{{\bf S}}_k&=& (x_j+iy_j)(x_k-iy_k) \\
+	{\bf S}_j\overline{{\bf S}}_k&=& (x_jx_k+y_jy_k)+i(x_ky_j-x_jy_k) \\
+\end{array}
+\end{equation}
+ainda,
+\begin{equation}\label{sec1eqn5}
+\begin{array}{ccc}
+	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&\overline{ (x_k+iy_k)\overline{(x_j+iy_j)} }\\
+	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&\overline{ (x_k+iy_k)(x_j-iy_j)} \\
+	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&\overline{ (x_kx_j+y_ky_j)+i(x_jy_k-x_ky_j) }\\
+	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&(x_kx_j+y_ky_j)-i(x_jy_k-x_ky_j) \\
+	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&(x_kx_j+y_ky_j)+i(x_ky_j-x_jy_k) \\
+\end{array}
+\end{equation}
+Portanto
+\begin{equation}\label{sec1eqn6}
+\begin{array}{ccc}
+	{\bf S}_j\overline{{\bf S}}_j&=&\overline{{\bf S}_j\overline{{\bf S}}}_j \\
+	{\bf S}_j\overline{{\bf S}}_k&=&\overline{{\bf S}_k\overline{{\bf S}}}_j \\
+\end{array}
+\end{equation}
+Assim com $j$ e $k$ varrendo toda a matriz podemos afirma que ${\bf \Sigma_{{\bf s}}}={\bf \Sigma_{{\bf s}}}^H$ portanto hermitiana.
+
+
+
+
 Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}. Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
 
 \begin{equation}\label{sec1eqn3}
@@ -865,6 +904,45 @@ Sendo $n$ tomado arbitrariamente entre o $L$ {\it looks} temos a seguinte equaç
 	\frac{\partial}{\partial n}\left(\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},n)\right)}\right)&=&p\left(\ln{\left(n\right)}+1\right)+\ln{\left(\frac{|{\bf Z}|}{|\bf \Sigma|}\right)}-\frac{\Gamma^{\prime}_d(n)}{\Gamma_d(n)}-\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}. \\
 \end{array}
 \end{equation}
+
+
+
+\subsection{Estudo do livro  \cite{lee2009polarimetric}}.
+
+Algumas observações:
+\begin{description}
+\item[(1)] As imagens $SAR$ são uma técnica de sensoriamento remoto bem desenvolvidas para obter imagens da superfície da terra bidimensionais com alta resolução espacial e em larga escla.
+\item[(2)] Sistema de imagem $SAR$ são um sistema de radar operando na região de microondas do spectro eletromagnético, usualmente entre a $P-${\it band} e $Ka-${\it band} conforme tabela abaixo.
+
+\begin{center}
+	\begin{table}[h!]
+		\centering
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+	{\it band} & Frequência$f(Ghz)$ & Freq$\times$Comprimento de onda $\lambda(cm)$. \\
+\hline
+	$P-${\it band}&$(<0.39, 0.39)$  & $0.3\times 100.0$  \\ 
+	$L-${\it band}&$(0.39-1.55)$  &  $1.0\times 30.0$\\ 
+	$S-${\it band}&$(1.55-3.90)$  &  $3.0\times 10.0$\\ 
+	$C-${\it band}&$(3.90-5.75)$  & $\sim(4.0\times 7.0)$ \\ 
+	$X-${\it band}&$(5.75-10.9)$  & $10.0\times 3.0$ \\ 
+	$K-${\it band}&$(10.9-36.0)$  & $30.0\times 1.0$ \\ 
+	$Q-${\it band}&$(36.0-46.0)$  & $\sim(40.0\times 0.8 )$ \\ 
+	$V-${\it band}&$(46.0-56.0)$  & $\sim(50.0\times 0.6)$ \\ 
+	$W-${\it band}&$(56.0- >56.0)$  & $100.0\times 0.3$ \\ 
+\hline
+\end{tabular}
+	\caption{Espectro magnético para a faixa de microondas.}
+	\label{sec8tab01}
+\end{table}
+\end{center}
+\item[(3)] O radar é usualmente montado em uma plataforma em movimento(aviões, satélites e etc...) e opera com a fonte eletromagnética emissora perpendicular ao linha suporte do voo.
+\item[(4)] O sistema emite para terra um pulso de microondas e recebe um sinal eletromagnético retroespalhados.
+\item[(5)] O sistema $SAR$ usa o sinal recebido para sintetizar a imagem da superfície terra com alta resolução.  
+\item[(6)] E ainda permite monitorar clima em escala global quando a frequência opera abaixo de $L-${\it band}.  
+
+\end{description}
+
 
 \bibliographystyle{unsrt}
 \bibliography{../bibliografia} 
