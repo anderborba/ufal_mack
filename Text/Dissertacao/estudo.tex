@@ -4,8 +4,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage[usenames, dvipsnames]{color}
 \newtheorem{definition}{Definição}[section]
 \graphicspath{{figuraspdf/}}
+
+
 
 
 \begin{document}
@@ -41,7 +44,7 @@ $$
 De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
 
 A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
-\begin{equation}\label{sec1eqn2}
+\begin{equation}\label{sec1eqn1}
 \begin{array}{ccc}
 	p({\bf s})&=&\frac{1}{\pi^p|\Sigma_{{\bf s}}|}\exp(-\bar{{\bf s}}^{T}\Sigma_{{\bf s}}^{-1}{\bf s})  \\
 \end{array}
@@ -102,11 +105,506 @@ Assim com $j$ e $k$ varrendo toda a matriz podemos afirma que ${\bf \Sigma_{{\bf
 
 Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}. Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
 
-\begin{equation}\label{sec1eqn3}
+\begin{equation}\label{sec1eqn7}
 \begin{array}{ccc}
 	{\bf Z}&=&\frac{1}{n}\displaystyle{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} . \\
 \end{array}
 \end{equation}
+
+\subsubsection{Um {\it Multilook} coeficiente de correlação}
+
+O coeficiente de correlação complexo é um importante parametro para descrever a $PDF's$. Podemos definir como
+
+\begin{equation}\label{sec1eqn8}
+\begin{array}{ccccc}
+	\rho_c&=&\frac{E[{\bf s_i}{\bf s_j}^H]}{\sqrt{E[\left|{\bf s_i}\right|^2]E[\left|{\bf s_j}\right|^2]}} &=&\left|\rho_c\right|e^{i\theta}. \\
+\end{array}
+\end{equation}
+
+onde {\bf $s_i$} e {\bf $s_j$} são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico $SAR$. Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de um $n-look$ intensidade é definida como   
+
+\begin{equation}\label{sec1eqn9}
+\begin{array}{ccc}
+	\rho_I^{(n)}&=&\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
+\end{array}
+\end{equation}
+
+No apêndice do artigo \cite{lee94} foi mostrado que 
+
+\begin{equation}\label{sec1eqn10}
+\begin{array}{ccc}
+	\rho_I^{(n)}&=& \left|\rho_c\right|^2\\
+\end{array}
+\end{equation}
+
+Sendo 
+
+\begin{equation}\label{sec1eqn11}
+\begin{array}{ccc}
+     {\bf S_i}	&=&a_{R}+ia_{I} \\
+     {\bf S_j}  &=&b_{R}+ib_{I} \\
+\end{array}
+\end{equation}
+
+Assim a equação (\ref{sec1eqn8}) pode ser reescrita
+
+\begin{equation}\label{sec1eqn12}
+\begin{array}{ccc}
+	\rho_c&=&\frac{E[(a_{R}+ia_{I})\overline{(b_{R}+ib_{I})}]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
+	\rho_c&=&\frac{E[(a_{R}+ia_{I})(b_{R}-ib_{I})]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sqrt{E[a_{R}^2+a_{I}^2]}\sqrt{E[b_{R}^2+b_{I}^2]}}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sqrt{E[a_{R}^2+a_{I}^2]}\sqrt{E[b_{R}^2+b_{I}^2]}}. \\
+\end{array}
+\end{equation}
+Definindo os desvios padrões,
+\begin{equation}\label{sec1eqn13}
+\begin{array}{ccc}
+	\sigma_{a}	&=&\sqrt{E[a_{R}^2+a_{I}^2]} \\
+	\sigma_{b}      &=&\sqrt{E[b_{R}^2+b_{I}^2]} \\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{sec1eqn14}
+\begin{array}{ccc}
+	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sigma_a\sigma_b}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}+a_{I}b_{I}+i(a_{I}b_{R}-a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}]+E[a_{I}b_{I}]+i(E[a_{I}b_{R}]-E[a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b}+\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b}+i\left(\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b}-\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}\right). \\
+\end{array}
+\end{equation}
+Definindo
+\begin{equation}\label{sec1eqn15}
+\begin{array}{ccccccccc}
+	\rho_{RR}=\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b},&&\rho_{II}=\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b},&&\rho_{IR}=\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b},&&\rho_{RI}=\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}. \\
+\end{array}
+\end{equation}
+
+Portanto, 
+\begin{equation}\label{sec1eqn16}
+\begin{array}{ccc}
+	\rho_c&=&\frac{(\rho_{RR}+\rho_{II})+i(\rho_{IR}-\rho_{RI})}{2}. \\
+\end{array}
+\end{equation}
+
+\textcolor{red}{obs:Explicar melhor o fator 2}
+
+Devido a condição de ser gaussiana circular
+
+\begin{equation}\label{sec1eqn17}
+\begin{array}{ccc}
+	\rho_{RR}=\rho_{II},&&\rho_{IR}=-\rho_{RI}. \\
+\end{array}
+\end{equation}
+podemos escrever $\rho_c$
+\begin{equation}\label{sec1eqn18}
+\begin{array}{ccc}
+	\rho_c&=&\rho_{RR}+i\rho_{IR}. \\
+\end{array}
+\end{equation}
+
+Portanto
+
+\begin{equation}\label{sec1eqn19}
+\begin{array}{ccc}
+	\left|\rho_c\right|^2&=&\rho_{RR}^2+\rho_{IR}^2. \\
+\end{array}
+\end{equation}
+
+O processo de {\bf Multilook} produz
+\begin{equation}\label{sec1eqn20}
+\begin{array}{ccc}
+	A_n&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n} [a_{R}^2(k)+a_{I}^2(k)]}. \\
+	B_n&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n} [b_{R}^2(k)+b_{I}^2(k)]}. \\
+\end{array}
+\end{equation}
+
+
+Assumindo a independência estatística entre amostras, a média e o desvio padrão podem ser definidos por
+\begin{equation}\label{sec1eqn21}
+\begin{array}{cccccccccccc}
+	\overline{A_n}&=&E[A_n]&=&2E[a_{R}^2(k)]&=&2\sigma_a^2,&SD[A_n]&=&\frac{2\sigma_a^2}{\sqrt{n}}.\\
+	\overline{B_n}&=&E[B_n]&=&2E[b_{R}^2(k)]&=&2\sigma_b^2,&SD[B_n]&=&\frac{2\sigma_b^2}{\sqrt{n}}.\\
+\end{array}
+\end{equation}
+
+O coeficiente de correlação {\it Multilook} para intensidade (equação (\ref{sec1eqn9})) pode ser escrito por:
+
+\begin{equation}\label{sec1eqn22}
+\begin{array}{ccc}
+	\rho_I^{(n)}&=&\frac{E[(A_n-\overline{A_n})(B_n-\overline{B_n})]}{SD[A_n]SD[B_n]}. \\
+	%\rho_I^{(n)}&=&\frac{E[(A_nB_n-A_n\overline{B_n}-\overline{A_n}B_n+\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
+	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
+	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
+\end{array}
+\end{equation}
+
+Assumindo a independência entre as amostras e depois de algumas manipulações algébricas para o numerador da equação (\ref{sec1eqn22}). 
+\begin{equation}\label{sec1eqn23}
+\begin{array}{ccc}
+	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]&=&\frac{1}{n^2}{\displaystyle{\sum_{k=1}^{n}[E[(a_{R}^2(k)+a_{I}^2(k))(b_{R}^2(k)+b_{I}^2(k))]-4\sigma_a^2\sigma_b^2] }}\\
+\end{array}
+\end{equation}
+\textcolor{red}{OBS: Entender melhor a equação (\ref{sec1eqn23}) e (\ref{sec1eqn24})}.
+\begin{equation}\label{sec1eqn24}
+\begin{array}{ccc}
+	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]&=&\frac{4}{n}\sigma_a^2\sigma_b^2\left|\rho_c\right|^2\\
+\end{array}
+\end{equation}
+
+Agora substituindo em (\ref{sec1eqn22})
+
+\begin{equation}\label{sec1eqn25}
+\begin{array}{ccc}
+	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2\left|\rho_c\right|^2}{SD[A_n]SD[B_n]}. \\
+	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2\left|\rho_c\right|^2}{\frac{2\sigma_a^2}{\sqrt{n}}\frac{2\sigma_b^2}{\sqrt{n}}}. \\
+\end{array}
+\end{equation}
+
+completando as simplificaçãoes
+
+\begin{equation}\label{sec1eqn26}
+\begin{array}{ccc}
+	\rho_I^{(n)}&=&\left|\rho_c\right|^2. \\
+\end{array}
+\end{equation}
+
+\textcolor{blue}{OBS: Esta relação mostra que o coeficiente de correlação da intensidade não depende dos {\it nlooks}.}
+
+\subsubsection{Diferença de fase {\it Multilook}}
+
+A $PDF$ diferença de fase é derivafda nesta seção para cada duas componentes do $SAR$ polarimetrico. A {\it 1ook} diferença de fase é definida como 
+
+
+\begin{equation}\label{sec1eqn27}
+\begin{array}{ccc}
+	\psi_1&=&Arg({\bf S_iS_j^{H}}). \\
+\end{array}
+\end{equation}
+
+A fase {\it multilook} é obtida por 
+
+\begin{equation}\label{sec1eqn28}
+\begin{array}{ccc}
+	\psi_n&=&Arg\left(\frac{1}{n}\displaystyle{\sum_{k=1}^{n}{\bf S_i(k)S_j^{H}(k)}}\right). \\
+\end{array}
+\end{equation}
+
+A $\psi_n$ são os elementos fora da diagonal principal da matriz de covariança $Z$. Podemos pensar como uma média de {\it 1-looks}.
+
+Para derivar estas $PDF's$ vamos usar duas componentes de seguinte forma
+
+\begin{equation}\label{sec1eqn29}
+	A=\left[
+\begin{array}{cc}
+	A_{11}              & \alpha e^{i\psi_n} \\
+	\alpha e^{-i\psi_n} & A_{22} \\
+\end{array}\right]
+\end{equation}
+
+
+\begin{equation}\label{sec1eqn30}
+	C=E[{\bf SS^{H}}]=\left[
+\begin{array}{cc}
+	C_{11}              & \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta} \\
+ \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta} & C_{22}\\
+\end{array}\right]
+\end{equation}
+
+Onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ e $C_{ii}=E[|{\bf S_i}|^2]$, assim podemos rescrever a matriz (\ref{sec1eqn29})
+
+\begin{equation}\label{sec1eqn31}
+	A=\left[
+\begin{array}{cc}
+	A_{11}              & A_{12R}+iA_{12I} \\
+	A_{12R}-iA_{12I}    & A_{22} \\
+\end{array}\right]
+\end{equation}
+
+
+\begin{equation}\label{sec1eqn32}
+\begin{array}{ccc}
+	p_A^{(n)}(A)&=&\frac{|A|^{n-p}}{K(n,p)|C|^n} \exp(-tr(C^{-1}A)), \\
+\end{array}
+\end{equation}
+onde
+\begin{equation}\label{sec1eqn33}
+\begin{array}{ccc}
+	K(n,p)&=&\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1), \\
+\end{array}
+\end{equation}
+sendo $\Gamma(\cdot)$ a função Gamma.
+
+Como nesse caso estamos usando $p=2$ podemos rescrever,
+\begin{equation}\label{sec1eqn34}
+\begin{array}{ccc}
+	p_A^{(n)}(A)&=&\frac{|A|^{n-2}}{K(n,2)|C|^n} \exp(-tr(C^{-1}A)), \\
+\end{array}
+\end{equation}
+\begin{equation}\label{sec1eqn35}
+\begin{array}{ccc}
+	K(n,2)&=&\pi\Gamma(n)\Gamma(n-1), \\
+\end{array}
+\end{equation}
+Efetuando as manipulações algébricas
+\begin{equation}\label{sec1eqn36}
+\begin{array}{ccc}
+	\left|A\right|&=&A_{11}A_{22}-(A_{12R}+iA_{12I})(A_{12R}-iA_{12I})\\
+	\left|A\right|&=&A_{11}A_{22}-(A_{12R}^2+A_{12I}^2)\\
+\end{array}
+\end{equation}
+\begin{equation}\label{sec1eqn37}
+\begin{array}{ccc}
+	\left|C\right|&=&C_{11}C_{22}-C_{11}C_{22}\left|\rho_c\right|^2\\
+	\left|C\right|&=&C_{11}C_{22}(1-\left|\rho_c\right|^2)\\
+\end{array}
+\end{equation}
+assim temos
+\begin{equation}\label{sec1eqn38}
+\begin{array}{ccc}
+	\left|A\right|^{n-2}&=&(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}\\
+	\left|C\right|^{n}&=&(C_{11}C_{22})^{n}(1-\left|\rho_c\right|^2)^{n}\\
+\end{array}
+\end{equation}
+
+Agora será verificado somente quociente,
+\begin{equation}\label{sec1eqn39}
+\begin{array}{ccc}
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}}{(C_{11}C_{22})^{n}(1-\left|\rho_c\right|^2)^{n}}\\
+\end{array}
+\end{equation}
+Como  $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ então $\left|A_{12R}+iA_{12I}\right|=|\alpha e^{i\psi_n}|$ portanto $\alpha=A_{12R}^2+A_{12I}^2$ 
+\begin{equation}\label{sec1eqn40}
+\begin{array}{ccc}
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}(1-\left|\rho_c\right|^2)^{n}}\\
+\end{array}
+\end{equation}
+reescrevendo a equação (\ref{sec1eqn40})
+\begin{equation}\label{sec1eqn41}
+\begin{array}{ccc}
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}\left(\frac{C_{11}C_{22}}{C_{11}C_{22}}\right)^2(1-\left|\rho_c\right|^2)^{n}}\\
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{\frac{(C_{11}C_{22})^{n-2}}{\left(C_{11}C_{22}\right)^2}(1-\left|\rho_c\right|^2)^{n}}\\
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{\left(\frac{A_{11}A_{22}}{C_{11}C_{22}}-\frac{\alpha^2}{C_{11}C_{22}}\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-\left|\rho_c\right|^2)^{n}}\\
+\end{array}
+\end{equation}
+Definindo a seguinte normalização 
+\begin{equation}\label{sec1eqn42}
+\begin{array}{ccccc}
+	B_1=\frac{A_{11}}{C_{11}},&&B_2=\frac{A_{22}}{C_{22}},&&\eta=\frac{\alpha}{\sqrt{C_{11}C_{22}}}.\\
+\end{array}
+\end{equation}
+
+Substituindo na equação (\ref{sec1eqn41})
+\begin{equation}\label{sec1eqn43}
+\begin{array}{ccc}
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-\left|\rho_c\right|^2)^{n}}\\
+	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-\left|\rho_c\right|^2)^{n}}\\
+\end{array}
+\end{equation}
+\textcolor{red}{OBS:Entender melhor o fator $(C_{11}C_{22})^{-2}$, não está compatível com o artigo \cite{lee94}- verificar o Jacobiano.}
+
+Encontrando a matriz inversa de $C$,
+\begin{equation}\label{sec1eqn44}
+	C^{-1}=\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{cc}
+	C_{22}              & -\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta} \\
+ -\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta} & C_{11}\\
+\end{array}\right]
+\end{equation}
+\begin{equation}\label{sec1eqn45}
+	C^{-1}A=\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{cc}
+	C_{22}A_{11}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta}\alpha e^{-i\psi_n} & C_{22} \alpha e^{i\psi_n}-A_{22}\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta} \\
+	C_{11}\alpha e^{-i\psi_n}-A_{11}\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta} & C_{11}A_{22}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta}\alpha e^{i\psi_n} \\
+\end{array}\right]
+\end{equation}
+
+Aplicando o traço para a matriz $C^{-1}A$,
+{\footnotesize
+\begin{equation}\label{sec1eqn46}
+	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{ccc}
+	C_{22}A_{11}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta}\alpha e^{-i\psi_n} &+& C_{11}A_{22}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta}\alpha e^{i\psi_n} \\
+\end{array}\right]
+\end{equation}}
+
+{\footnotesize
+\begin{equation}\label{sec1eqn47}
+	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{ccc}
+	C_{22}A_{11}-\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i(\theta-\psi_n)} &+& C_{11}A_{22}-\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i(\psi_n-\theta)}\\
+\end{array}\right]
+\end{equation}}
+{\footnotesize
+\begin{equation}\label{sec1eqn48}
+	tr(-C^{-1}A)=-\frac{1}{(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{ccc}
+	\frac{C_{22}A_{11}}{C_{11}C_{22}}+\frac{C_{11}A_{22}}{C_{11}C_{22}}&-&\frac{2\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|\cos(\psi_n-\theta)}{C_{11}C_{22}}\\
+\end{array}\right]
+\end{equation}}
+{\footnotesize
+\begin{equation}\label{sec1eqn49}
+	tr(-C^{-1}A)=-\frac{1}{(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{ccc}
+	\frac{A_{11}}{C_{11}}+\frac{A_{22}}{C_{22}}&-&\frac{2\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|\cos(\psi_n-\theta)}{C_{11}C_{22}}\\
+\end{array}\right]
+\end{equation}}
+
+{\footnotesize
+\begin{equation}\label{sec1eqn50}
+	tr(-C^{-1}A)=-\frac{1}{(1-\left|\rho_c\right|^2)}\left[
+\begin{array}{ccc}
+	B_1+B_2&-&2\eta \left|\rho_c \right|\cos(\psi_n-\theta)\\
+\end{array}\right]
+\end{equation}}
+{\footnotesize
+\begin{equation}\label{sec1eqn51}
+	tr(-C^{-1}A)=-\frac{B_1+B_2-2\eta \left|\rho_c \right|\cos(\psi_n-\theta)}{(1-\left|\rho_c\right|^2)}
+\end{equation}}
+
+portanto usando e equação (\ref{sec1eqn43}), (\ref{sec1eqn51}),   (\ref{sec1eqn34}), (\ref{sec1eqn35}) termos   
+{\footnotesize
+\begin{equation}\label{sec1eqn52}
+	p(B_1,B_2,\eta,\psi_n)=\frac{\left(B_1B_2-\eta^2\right)^{n-2}\eta}{\pi(1-\left|\rho_c\right|^2)^{n}\Gamma(n)\Gamma(n-1)}\exp\left(-\frac{B_1+B_2-2\eta \left|\rho_c \right|\cos(\psi_n-\theta)}{(1-\left|\rho_c\right|^2)}\right)
+\end{equation}}
+
+Derivando e equação (\ref{sec1eqn52}) com relação a $B_1$, $B_2$ e $\eta$ podemos afirmar que a distribuição diferença de fase {\it multilook} é 
+\begin{equation}\label{sec1eqn53}
+\begin{array}{ccccc}
+	p_{\psi}^{(n)}(\psi)&=&\frac{\Gamma(n+\frac{1}{2})(1-|\rho_c|^2)^n\beta}{2\sqrt{\pi}\Gamma(n)(1-\beta^2)^{n+\frac{1}{2}}}&+&\frac{(1-|\rho_c|^2)^n}{2\pi}F(n,1;\frac{1}{2};\beta^2)
+\end{array}
+\end{equation}
+Sendo $-\pi<\psi\leq\pi$, $\beta=|\rho_c|\cos(\psi-\theta)$ e $F(n,1;\frac{1}{2};\beta^2)$ a função de Gauss hipergométrica.
+
+Para $n=1$  vale a seguinte identidade para a função de Gauss Hipergeométrica,
+\begin{equation}\label{sec1eqn54}
+\begin{array}{ccc}
+	F(1,1;\frac{1}{2};z)&=&(1-z)^{-1}\left[1+\frac{\sqrt{z}\sin^{-1}(\sqrt{z})}{\sqrt{1-z}}\right]
+\end{array}
+\end{equation}
+
+Pela equação (\ref{sec1eqn53})
+\begin{equation}\label{sec1eqn55}
+\begin{array}{ccc}
+	p_{\psi}^{(1)}(\psi)&=&\frac{(1-|\rho_c|^2)[(1-\beta^{2})^{\frac{1}{2}}+\beta(\pi-\cos^{-1}(\beta))]}{2\pi(1-\beta^{2})^{\frac{3}{2}}}
+\end{array}
+\end{equation}
+
+Da mesma forma podemos obter $2-look$, $3-look$ e $4-look$,
+
+\begin{equation}\label{sec1eqn56}
+\begin{array}{ccc}
+	p_{\psi}^{(2)}(\psi)&=&\frac{3}{8}\frac{(1-|\rho_c|^2)^2\beta}{(1-\beta^2)^{\frac{5}{2}}}+\frac{(1-|\rho_c|^2)^2}{4\pi(1-\beta^2)^{2}}\left[2+\beta^2+\frac{3\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
+\end{array}
+\end{equation}
+\begin{equation}\label{sec1eqn57}
+\begin{array}{ccc}
+	p_{\psi}^{(3)}(\psi)&=&\frac{15}{32}\frac{(1-|\rho_c|^2)^3\beta}{(1-\beta^2)^{\frac{7}{2}}}+\frac{(1-|\rho_c|^2)^3(1-\beta^2)^{-3}}{16\pi}\left[8+9\beta^2-2\beta^4+\frac{15\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
+\end{array}
+\end{equation}
+\begin{equation}\label{sec1eqn58}
+\begin{array}{ccc}
+	p_{\psi}^{(4)}(\psi)&=&\frac{35}{64}\frac{(1-|\rho_c|^2)^4\beta}{(1-\beta^2)^{\frac{9}{2}}}+\frac{(1-|\rho_c|^2)^4(1-\beta^2)^{-4}}{96\pi}\left[48+87\beta^2-38\beta^4+8\beta^6+\frac{105\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
+\end{array}
+\end{equation}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=4.0in]{fig1_eq_18_lee_1994.pdf}
+	\caption{Distribuição diferença de fase {\it n-looks}.}
+\label{sec1fig1}
+\end{figure}
+
+A  figura (\ref{sec1fig1}) mostra a equação (\ref{sec1eqn53}) para seus diferentes {\it 1,2,3 e 4 - looks} que são $p_{\psi}^{(1)}(\psi)$, $p_{\psi}^{(2)}(\psi)$, $p_{\psi}^{(3)}(\psi)$ e $p_{\psi}^{(4)}(\psi)$.
+
+\subsubsection{Distribuição conjunta do {\it Multilook} $|S_i|^2$ e $|S_j|^2$ }
+
+O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{sec1eqn42}) temos que as intensidades {\it multilook} sejam 
+
+\begin{equation}\label{sec1eqn59}
+\begin{array}{ccccc}
+	R_1&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}&=&\frac{B_1C_{11}}{n}\\
+	R_2&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n}|S_j(k)|^2}&=&\frac{B_2C_{22}}{n}\\
+\end{array}
+\end{equation}
+
+Integrando a equação (\ref{sec1eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+
+\begin{equation}\label{sec1eqn60}
+	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-\left|\rho_c\right|^2}\right)}{\Gamma(n)(1-\left|\rho_c\right|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+Sendo
+\begin{equation}\label{sec1eqn61}
+	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
+\end{equation}
+
+\textcolor{red}{OBS: As integrações na equação (\ref{sec1eqn52}) não foram realizadas neste estudo.}
+\begin{equation}\label{sec1eqn62}
+	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-\left|\rho_c\right|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-\left|\rho_c\right|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+\textcolor{red}{OBS: Verificar o surgimento de um fator $\frac{n^2}{C_{11}C_{22}}$ na equação  (\ref{sec1eqn62}) - Mudança de variável!!!!!.}
+
+\subsubsection{Distribuição razão intensidade e amplitude para {\it multilook}}
+
+A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
+
+\begin{equation}\label{sec1eqn63}
+\begin{array}{ccccccc}
+	\mu&=&\frac{B_1}{B_2}&=&\frac{\displaystyle{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}}{\displaystyle{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}}&=&\frac{\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}}{\tau\displaystyle{\sum_{k=1}^{n}|S_j(k)|^2}}\\
+\end{array}
+\end{equation}
+
+Onde $\tau=\frac{C_{11}}{C_{22}}$.
+
+A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee94}  
+
+
+\begin{equation}\label{sec1eqn64}
+\begin{array}{ccc}
+	p^{(n)}(\mu)&=&\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
+\end{array}
+\end{equation}
+
+\textcolor{red}{OBS: Não realizei as contas do apêndice $(C)$.}
+
+Realizando a troca de variável $\nu=\sqrt{\mu}$ a equação (\ref{sec1eqn64}) pode ser rescrita por
+\begin{equation}\label{sec1eqn65}
+\begin{array}{ccc}
+	p^{(n)}(\nu)&=&\frac{2\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\nu^2)\nu^{2n-1}}{\Gamma(n)\Gamma(n)\left[(1+\nu^2)^2-4|\rho_c|^2\nu^2 \right]^{\frac{2n+1}{2}}}\\
+\end{array}
+\end{equation}
+As $PDF's$ razão de intensidade e amplitude entre os {\it multilook} ${\bf S_1}$ e ${\bf S_2}$ podem ser facilmente deduzidas das seguintes definições e posterior aplicação nas equações (\ref{sec1eqn64}) e (\ref{sec1eqn65}). definindo 
+\begin{equation}\label{sec1eqn66}
+\begin{array}{ccccc}
+	w&=&\frac{\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}}{\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}}&=&\tau\mu\\
+	z&=&\sqrt{w}&=&\sqrt{\tau}\nu
+\end{array}
+\end{equation}
+Portanto a distribuição da razão $w$ de intensidade {\it multilook} é
+\begin{equation}\label{sec1eqn67}
+\begin{array}{ccc}
+	p^{(n)}(w)&=&\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+w)w^{n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2n+1}{2}}}.\\
+\end{array}
+\end{equation}
+Portanto a distribuição da razão $z$ de amplitude {\it multilook} é
+\begin{equation}\label{sec1eqn68}
+\begin{array}{ccc}
+	p^{(n)}(z)&=&\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+z^2)z^{2n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+z^2)^2-4\tau|\rho_c|^2z^2 \right]^{\frac{2n+1}{2}}}.\\
+\end{array}
+\end{equation}
+
+A discusão será limitada para estatística da razão $\nu$ amplitude normalizada. A figura (\ref{sec1fig2}) mostra a distribuição razão amplitude apresentada na equação  (\ref{sec1eqn65}). Notadamente a medida que $n$ aumenta tendemos a ter uma aproximação da "função" delta de Dirac e uma concentração em torno da abscissa $\nu=1$.
+
+\textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variação estatística.}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=4.0in]{fig4_eq_33_lee_1994.pdf}
+	\caption{Distribuição de razão amplitude {\it n-looks}.}
+\label{sec1fig2}
+\end{figure}
+
 
 \subsection{Estudo do artigo  \cite{goodman1963}}
 
