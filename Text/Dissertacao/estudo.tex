@@ -1,8 +1,8 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
+
 \usepackage[english,brazil]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amssymb}
+\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage[usenames, dvipsnames]{color}
 \newtheorem{definition}{Definição}[section]
@@ -17,10 +17,9 @@
 
 Este arquivo serve para fazer apontamentos acerca da bibliografia indicada/pesquisada.
 
-\subsection{Estudo do artigo  \cite{lee94}}.
+\subsection{Estudo do artigo~\cite{lee94}}.
 
 A matriz de espalhamento complexa {\bf S} é definida por
-
 $$
 {\bf s} = \left[
 \begin{array}{cc}
@@ -40,8 +39,10 @@ $$
 \end{array}
 \right].
 $$
+% % % ACF Não é sempre um fato. Ocorre na maioria das vezes, e em português é "meio recíproco".
 
-De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
+De acordo com~\cite{goodman1963} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
+% % % ACF Acrescentei "complex"
 
 A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
 \begin{equation}\label{sec1eqn1}
@@ -61,7 +62,6 @@ Sendo a matriz de covariância definida por:
 \end{array}
 \right].
 \end{equation}
-
 onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
 
 A matriz {\bf $\Sigma_{{\bf s}}$} é hermitiana pois se ${\bf S_j }= x_j+iy_j $
@@ -98,31 +98,31 @@ Portanto
 	{\bf S}_j\overline{{\bf S}}_k&=&\overline{{\bf S}_k\overline{{\bf S}}}_j \\
 \end{array}
 \end{equation}
-Assim com $j$ e $k$ varrendo toda a matriz podemos afirma que ${\bf \Sigma_{{\bf s}}}={\bf \Sigma_{{\bf s}}}^H$ portanto hermitiana.
+Assim com $j$ e $k$ varrendo toda a matriz podemos afirmar que ${\bf \Sigma_{{\bf s}}}={\bf \Sigma_{{\bf s}}}^H$ portanto hermitiana.
 
 
-
-
-Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}. Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
-
+Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}.
+% % % ACF "relação senhal-ruído"
+Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} 
+% % % ACF "visadas", mas ninguém usa
+independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
 \begin{equation}\label{sec1eqn7}
-\begin{array}{ccc}
-	{\bf Z}&=&\frac{1}{n}\displaystyle{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} . \\
-\end{array}
+	{\bf Z}=\frac{1}{L}{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} .
 \end{equation}
+% % % ACF Código LaTeX simplificado
 
-\subsubsection{Um {\it Multilook} coeficiente de correlação}
+\subsubsection{Coeficiente de correlação {\it Multilook}}
 
-O coeficiente de correlação complexo é um importante parametro para descrever a $PDF's$. Podemos definir como
-
+O coeficiente de correlação complexo é um importante parâmetro para descrever a função de densidade de probabilidade. 
+Podemos defini-la como
 \begin{equation}\label{sec1eqn8}
-\begin{array}{ccccc}
-	\rho_c&=&\frac{E[{\bf s_i}{\bf s_j}^H]}{\sqrt{E[\left|{\bf s_i}\right|^2]E[\left|{\bf s_j}\right|^2]}} &=&\left|\rho_c\right|e^{i\theta}. \\
-\end{array}
+	\rho_c=\frac{E[{\bf s_i}{\bf s_j}^H]}{\sqrt{E[\left|{\bf s_i}\right|^2]E[\left|{\bf s_j}\right|^2]}} =\left|\rho_c\right|e^{i\theta}.
 \end{equation}
-
-onde {\bf $s_i$} e {\bf $s_j$} são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico $SAR$. Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de um $n-look$ intensidade é definida como   
-
+% % % ACF Não complique LaTeX
+em que {\bf $s_i$} e {\bf $s_j$} 
+% % % ACF Repare que o negrito matemático se faz de outra maneira
+são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico $SAR$. Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $n$ looks intensidade é definida como   
+% % % ACF Eram L looks, agora são n. Unificar a notação
 \begin{equation}\label{sec1eqn9}
 \begin{array}{ccc}
 	\rho_I^{(n)}&=&\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
