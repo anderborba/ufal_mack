@@ -8,9 +8,6 @@
 \newtheorem{definition}{Definição}[section]
 \graphicspath{{figuraspdf/}}
 
-
-
-
 \begin{document}
 
 \section{Estudo da bibliografia}
@@ -19,9 +16,9 @@ Este arquivo serve para fazer apontamentos acerca da bibliografia indicada/pesqu
 
 \subsection{Estudo do artigo~\cite{lee94}}.
 
-A matriz de espalhamento complexa {\bf S} é definida por
+A matriz de espalhamento complexa {\boldmath S} é definida por
 $$
-{\bf s} = \left[
+\mathbf{ s} = \left[
 \begin{array}{cc}
 	S_{hh}   & S_{hv}   \\
 	S_{vh}   & S_{vv}   \\
@@ -29,9 +26,9 @@ $$
 \right].
 $$
 
-Por facilidade usaremos o fato de ser um {\it reciprocal medium}, isto é, $S_{hv}=S_{vh}$
+Usaremos o caso do meio de propagação ser recíproco, isto é, $S_{hv}=S_{vh}$ tornando a matriz de espalhamento simétrica. Podemos facilitar a notação representando a matriz de espalhamento por um vetor da seguinte forma
 $$
-{\bf s} = \left[
+\mathbf{s} = \left[
 \begin{array}{c}
 	S_{vv}      \\
 	S_{vh}     \\
@@ -41,73 +38,71 @@ $$
 $$
 % % % ACF Não é sempre um fato. Ocorre na maioria das vezes, e em português é "meio recíproco".
 
-De acordo com~\cite{goodman1963} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
+De acordo com \cite{goodman1963} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{s}=[S_1,S_2,\dots,S_p]^T$. 
 % % % ACF Acrescentei "complex"
 
-A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
-\begin{equation}\label{sec1eqn1}
-\begin{array}{ccc}
-	p({\bf s})&=&\frac{1}{\pi^p|\Sigma_{{\bf s}}|}\exp(-\bar{{\bf s}}^{T}\Sigma_{{\bf s}}^{-1}{\bf s})  \\
-\end{array}
+A função densidade de probabilidade ({\boldmath pdf}) da distribuição gaussiana complexa $p-$variada é dada por
+\begin{equation}\label{eqn1}
+	p(\mathbf{s})=\frac{1}{\pi^p|\Sigma_{\mathbf{s}}|}\exp(-\bar{\mathbf{s}}^{T}\Sigma_{\mathbf{s}}^{-1}\mathbf{s})  \\
 \end{equation}
 
 Sendo a matriz de covariância definida por:
-\begin{equation}\label{sec1eqn2}
-	{\bf \Sigma_{{\bf s}}} = E[{\bf s}{\bf s}^H] = \left[
+\begin{equation}\label{eqn2}
+	\mathbf{ \Sigma_{s}} = E[\mathbf{ss}^H] = \left[
 \begin{array}{cccc}
-	E({\bf s_1}{\bf s_1}^H)  & E({\bf s_1}{\bf s_2}^H) &\hdots & E({\bf s_1}{\bf s_p}^H) \\
-	E({\bf s_2}{\bf s_1}^H)  & E({\bf s_2}{\bf s_2}^H) &\hdots &E({\bf s_2}{\bf s_p}^H)\\
+	E(\mathbf{s_1s_1}^H)  & E(\mathbf{s_1s_2}^H) &\hdots & E({\mathbf s_1s_p}^H) \\
+	E(\mathbf{ s_2s_1}^H)  & E(\mathbf {s_2 s_2}^H) &\hdots &E(\mathbf {s_2 s_p}^H)\\
         \vdots&\vdots &\ddots &\vdots\\
-	E({\bf s_p}{\bf s_1}^H)  & E({\bf s_p}{\bf s_2}^H) &\hdots &E({\bf s_p}{\bf s_p}^H)\\
+	E(\mathbf{ s_ps_1}^H)  & E(\mathbf {s_ps_2}^H) &\hdots &E(\mathbf {s_ps_p}^H)\\
 \end{array}
 \right].
 \end{equation}
 onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
 
-A matriz {\bf $\Sigma_{{\bf s}}$} é hermitiana pois se ${\bf S_j }= x_j+iy_j $
+A matriz {\boldmath$\Sigma_{\mathbf{s}}$} é hermitiana pois se $\mathbf {S_j}= x_j+iy_j $
 
-\begin{equation}\label{sec1eqn3}
+\begin{equation}\label{eqn3}
 \begin{array}{ccc}
-	{\bf S}_j\overline{{\bf S}}_j&=& (x_j+iy_j)\overline{(x_j+iy_j)} \\
-	{\bf S}_j\overline{{\bf S}}_j&=& (x_j+iy_j)(x_j-iy_j) \\
-	{\bf S}_j\overline{{\bf S}}_j&=& x_j^2+y_j^2 \\
+\mathbf{S}_j\overline{\mathbf{S}}_j&=& (x_j+iy_j)\overline{(x_j+iy_j)} \\
+\mathbf{S}_j\overline{\mathbf{S}}_j&=& (x_j+iy_j)(x_j-iy_j) \\
+\mathbf{S}_j\overline{\mathbf{S}}_j&=& x_j^2+y_j^2 \\
 \end{array}
 \end{equation}
 considerando $j \neq k$
-\begin{equation}\label{sec1eqn4}
+\begin{equation}\label{eqn4}
 \begin{array}{ccc}
-	{\bf S}_j\overline{{\bf S}}_k&=& (x_j+iy_j)\overline{(x_k+iy_k)} \\
-	{\bf S}_j\overline{{\bf S}}_k&=& (x_j+iy_j)(x_k-iy_k) \\
-	{\bf S}_j\overline{{\bf S}}_k&=& (x_jx_k+y_jy_k)+i(x_ky_j-x_jy_k) \\
+\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_j+iy_j)\overline{(x_k+iy_k)} \\
+\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_j+iy_j)(x_k-iy_k) \\
+\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_jx_k+y_jy_k)+i(x_ky_j-x_jy_k) \\
 \end{array}
 \end{equation}
 ainda,
-\begin{equation}\label{sec1eqn5}
+\begin{equation}\label{eqn5}
 \begin{array}{ccc}
-	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&\overline{ (x_k+iy_k)\overline{(x_j+iy_j)} }\\
-	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&\overline{ (x_k+iy_k)(x_j-iy_j)} \\
-	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&\overline{ (x_kx_j+y_ky_j)+i(x_jy_k-x_ky_j) }\\
-	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&(x_kx_j+y_ky_j)-i(x_jy_k-x_ky_j) \\
-	\overline{{\bf S}_k\overline{{\bf S}}}_j&=&(x_kx_j+y_ky_j)+i(x_ky_j-x_jy_k) \\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_k+iy_k)\overline{(x_j+iy_j)} }\\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_k+iy_k)(x_j-iy_j)} \\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_kx_j+y_ky_j)+i(x_jy_k-x_ky_j) }\\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)-i(x_jy_k-x_ky_j) \\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)+i(x_ky_j-x_jy_k) \\
 \end{array}
 \end{equation}
 Portanto
-\begin{equation}\label{sec1eqn6}
+\begin{equation}\label{eqn6}
 \begin{array}{ccc}
-	{\bf S}_j\overline{{\bf S}}_j&=&\overline{{\bf S}_j\overline{{\bf S}}}_j \\
-	{\bf S}_j\overline{{\bf S}}_k&=&\overline{{\bf S}_k\overline{{\bf S}}}_j \\
+	\mathbf{S}_j\overline{\mathbf{S}}_j&=&\overline{\mathbf{S}_j\overline{\mathbf {S}}}_j \\
+	\mathbf{S}_j\overline{\mathbf{S}}_k&=&\overline{\mathbf{S}_k\overline{\mathbf {S}}}_j \\
 \end{array}
 \end{equation}
-Assim com $j$ e $k$ varrendo toda a matriz podemos afirmar que ${\bf \Sigma_{{\bf s}}}={\bf \Sigma_{{\bf s}}}^H$ portanto hermitiana.
+Assim com $j$ e $k$ varrendo toda a matriz podemos afirmar que $\mathbf{\Sigma_{\mathbf{s}}}=\mathbf{\Sigma_{ s}}^H$ portanto hermitiana.
 
 
-Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão {\it signal-to-noise}.
+Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão sinal-ruído.
 % % % ACF "relação senhal-ruído"
-Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ {\it looks} 
+Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ visadas 
 % % % ACF "visadas", mas ninguém usa
-independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} dada por:
-\begin{equation}\label{sec1eqn7}
-	{\bf Z}=\frac{1}{L}{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} .
+independentes de uma mesma cena. Isto resulta na matriz de covariância {\boldmath{Z}} dada por:
+\begin{equation}\label{eqn7}
+	\mathbf{Z}=\frac{1}{L}\sum_{i=1}^{L} \mathbf{s_is_i}^H .
 \end{equation}
 % % % ACF Código LaTeX simplificado
 
@@ -115,40 +110,36 @@ independentes de uma mesma cena. Isto resulta na matriz de covariância {\bf Z} 
 
 O coeficiente de correlação complexo é um importante parâmetro para descrever a função de densidade de probabilidade. 
 Podemos defini-la como
-\begin{equation}\label{sec1eqn8}
-	\rho_c=\frac{E[{\bf s_i}{\bf s_j}^H]}{\sqrt{E[\left|{\bf s_i}\right|^2]E[\left|{\bf s_j}\right|^2]}} =\left|\rho_c\right|e^{i\theta}.
+\begin{equation}\label{eqn8}
+	\rho_c=\frac{E[\mathbf{s_is_j}^H]}{\sqrt{E[|\mathbf{s_i}|^2]E[|\mathbf{s_j}|^2]}} =|\rho_c|e^{i\theta}.
 \end{equation}
 % % % ACF Não complique LaTeX
-em que {\bf $s_i$} e {\bf $s_j$} 
+em que {\boldmath $s_i$} e {\boldmath $s_j$} 
 % % % ACF Repare que o negrito matemático se faz de outra maneira
-são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico $SAR$. Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $n$ looks intensidade é definida como   
+são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico $SAR$. Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $L$ looks intensidade é definida como   
 % % % ACF Eram L looks, agora são n. Unificar a notação
-\begin{equation}\label{sec1eqn9}
-\begin{array}{ccc}
-	\rho_I^{(n)}&=&\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
-\end{array}
+\begin{equation}\label{eqn9}
+	\rho_I^{(n)}=\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
 \end{equation}
 
 No apêndice do artigo \cite{lee94} foi mostrado que 
 
-\begin{equation}\label{sec1eqn10}
-\begin{array}{ccc}
-	\rho_I^{(n)}&=& \left|\rho_c\right|^2\\
-\end{array}
+\begin{equation}\label{eqn10}
+	\rho_I^{(n)}= |\rho_c|^2\\
 \end{equation}
 
 Sendo 
 
-\begin{equation}\label{sec1eqn11}
+\begin{equation}\label{eqn11}
 \begin{array}{ccc}
-     {\bf S_i}	&=&a_{R}+ia_{I} \\
-     {\bf S_j}  &=&b_{R}+ib_{I} \\
+	\mathbf{S_i}&=&a_{R}+ia_{I} \\
+        \mathbf{S_j}&=&b_{R}+ib_{I} \\
 \end{array}
 \end{equation}
 
-Assim a equação (\ref{sec1eqn8}) pode ser reescrita
+Assim a equação (\ref{eqn8}) pode ser reescrita
 
-\begin{equation}\label{sec1eqn12}
+\begin{equation}\label{eqn12}
 \begin{array}{ccc}
 	\rho_c&=&\frac{E[(a_{R}+ia_{I})\overline{(b_{R}+ib_{I})}]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
 	\rho_c&=&\frac{E[(a_{R}+ia_{I})(b_{R}-ib_{I})]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
@@ -157,14 +148,14 @@ Assim a equação (\ref{sec1eqn8}) pode ser reescrita
 \end{array}
 \end{equation}
 Definindo os desvios padrões,
-\begin{equation}\label{sec1eqn13}
+\begin{equation}\label{eqn13}
 \begin{array}{ccc}
 	\sigma_{a}	&=&\sqrt{E[a_{R}^2+a_{I}^2]} \\
 	\sigma_{b}      &=&\sqrt{E[b_{R}^2+b_{I}^2]} \\
 \end{array}
 \end{equation}
 
-\begin{equation}\label{sec1eqn14}
+\begin{equation}\label{eqn14}
 \begin{array}{ccc}
 	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sigma_a\sigma_b}. \\
 	\rho_c&=&\frac{E[a_{R}b_{R}+a_{I}b_{I}+i(a_{I}b_{R}-a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
@@ -173,99 +164,82 @@ Definindo os desvios padrões,
 \end{array}
 \end{equation}
 Definindo
-\begin{equation}\label{sec1eqn15}
+\begin{equation}\label{eqn15}
 \begin{array}{ccccccccc}
 	\rho_{RR}=\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b},&&\rho_{II}=\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b},&&\rho_{IR}=\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b},&&\rho_{RI}=\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}. \\
 \end{array}
 \end{equation}
 
 Portanto, 
-\begin{equation}\label{sec1eqn16}
-\begin{array}{ccc}
-	\rho_c&=&\frac{(\rho_{RR}+\rho_{II})+i(\rho_{IR}-\rho_{RI})}{2}. \\
-\end{array}
+\begin{equation}\label{eqn16}
+	\rho_c=\frac{(\rho_{RR}+\rho_{II})+i(\rho_{IR}-\rho_{RI})}{2}. \\
 \end{equation}
 
 \textcolor{red}{obs:Explicar melhor o fator 2}
 
 Devido a condição de ser gaussiana circular
 
-\begin{equation}\label{sec1eqn17}
-\begin{array}{ccc}
-	\rho_{RR}=\rho_{II},&&\rho_{IR}=-\rho_{RI}. \\
-\end{array}
+\begin{equation}\label{eqn17}
+	\rho_{RR}=\rho_{II},\quad \rho_{IR}=-\rho_{RI}. \\
 \end{equation}
 podemos escrever $\rho_c$
-\begin{equation}\label{sec1eqn18}
-\begin{array}{ccc}
-	\rho_c&=&\rho_{RR}+i\rho_{IR}. \\
-\end{array}
+\begin{equation}\label{eqn18}
+	\rho_c=\rho_{RR}+i\rho_{IR}. \\
 \end{equation}
 
 Portanto
 
-\begin{equation}\label{sec1eqn19}
-\begin{array}{ccc}
-	\left|\rho_c\right|^2&=&\rho_{RR}^2+\rho_{IR}^2. \\
-\end{array}
+\begin{equation}\label{eqn19}
+	|\rho_c|^2=\rho_{RR}^2+\rho_{IR}^2. \\
 \end{equation}
 
 O processo de {\bf Multilook} produz
-\begin{equation}\label{sec1eqn20}
+\begin{equation}\label{eqn20}
 \begin{array}{ccc}
-	A_n&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n} [a_{R}^2(k)+a_{I}^2(k)]}. \\
-	B_n&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n} [b_{R}^2(k)+b_{I}^2(k)]}. \\
+	A_n&=&\frac{1}{n}\sum_{k=1}^{n} [a_{R}^2(k)+a_{I}^2(k)]. \\
+	B_n&=&\frac{1}{n}\sum_{k=1}^{n} [b_{R}^2(k)+b_{I}^2(k)]. \\
 \end{array}
 \end{equation}
 
-
 Assumindo a independência estatística entre amostras, a média e o desvio padrão podem ser definidos por
-\begin{equation}\label{sec1eqn21}
+\begin{equation}\label{eqn21}
 \begin{array}{cccccccccccc}
 	\overline{A_n}&=&E[A_n]&=&2E[a_{R}^2(k)]&=&2\sigma_a^2,&SD[A_n]&=&\frac{2\sigma_a^2}{\sqrt{n}}.\\
 	\overline{B_n}&=&E[B_n]&=&2E[b_{R}^2(k)]&=&2\sigma_b^2,&SD[B_n]&=&\frac{2\sigma_b^2}{\sqrt{n}}.\\
 \end{array}
 \end{equation}
 
-O coeficiente de correlação {\it Multilook} para intensidade (equação (\ref{sec1eqn9})) pode ser escrito por:
+O coeficiente de correlação {\it Multilook} para intensidade (equação (\ref{eqn9})) pode ser escrito por:
 
-\begin{equation}\label{sec1eqn22}
-\begin{array}{ccc}
-	\rho_I^{(n)}&=&\frac{E[(A_n-\overline{A_n})(B_n-\overline{B_n})]}{SD[A_n]SD[B_n]}. \\
+\begin{equation}\label{eqn22}
+	\rho_I^{(n)}=\frac{E[(A_n-\overline{A_n})(B_n-\overline{B_n})]}{SD[A_n]SD[B_n]}. \\
 	%\rho_I^{(n)}&=&\frac{E[(A_nB_n-A_n\overline{B_n}-\overline{A_n}B_n+\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
 	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
 	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
-\end{array}
 \end{equation}
 
-Assumindo a independência entre as amostras e depois de algumas manipulações algébricas para o numerador da equação (\ref{sec1eqn22}). 
-\begin{equation}\label{sec1eqn23}
-\begin{array}{ccc}
-	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]&=&\frac{1}{n^2}{\displaystyle{\sum_{k=1}^{n}[E[(a_{R}^2(k)+a_{I}^2(k))(b_{R}^2(k)+b_{I}^2(k))]-4\sigma_a^2\sigma_b^2] }}\\
-\end{array}
+Assumindo a independência entre as amostras e depois de algumas manipulações algébricas para o numerador da equação (\ref{eqn22}). 
+\begin{equation}\label{eqn23}
+	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]=\frac{1}{n^2}\sum_{k=1}^{n}[E[(a_{R}^2(k)+a_{I}^2(k))(b_{R}^2(k)+b_{I}^2(k))]-4\sigma_a^2\sigma_b^2] \\
 \end{equation}
-\textcolor{red}{OBS: Entender melhor a equação (\ref{sec1eqn23}) e (\ref{sec1eqn24})}.
-\begin{equation}\label{sec1eqn24}
-\begin{array}{ccc}
-	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]&=&\frac{4}{n}\sigma_a^2\sigma_b^2\left|\rho_c\right|^2\\
-\end{array}
+\textcolor{red}{OBS: Entender melhor a equação (\ref{eqn23}) e (\ref{eqn24})}.
+\begin{equation}\label{eqn24}
+	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]=\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2\\
 \end{equation}
 
-Agora substituindo em (\ref{sec1eqn22})
+Agora substituindo em (\ref{eqn22})
 
-\begin{equation}\label{sec1eqn25}
+\begin{equation}\label{eqn25}
 \begin{array}{ccc}
-	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2\left|\rho_c\right|^2}{SD[A_n]SD[B_n]}. \\
-	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2\left|\rho_c\right|^2}{\frac{2\sigma_a^2}{\sqrt{n}}\frac{2\sigma_b^2}{\sqrt{n}}}. \\
+	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2}{SD[A_n]SD[B_n]}. \\
+	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2}{\frac{2\sigma_a^2}{\sqrt{n}}\frac{2\sigma_b^2}{\sqrt{n}}}. \\
 \end{array}
 \end{equation}
 
 completando as simplificaçãoes
 
-\begin{equation}\label{sec1eqn26}
-\begin{array}{ccc}
-	\rho_I^{(n)}&=&\left|\rho_c\right|^2. \\
-\end{array}
+\begin{equation}\label{eqn26}
+	\rho_I^{(n)}=|\rho_c|^2. \\
 \end{equation}
 
 \textcolor{blue}{OBS: Esta relação mostra que o coeficiente de correlação da intensidade não depende dos {\it nlooks}.}
@@ -275,25 +249,21 @@ completando as simplificaçãoes
 A $PDF$ diferença de fase é derivafda nesta seção para cada duas componentes do $SAR$ polarimetrico. A {\it 1ook} diferença de fase é definida como 
 
 
-\begin{equation}\label{sec1eqn27}
-\begin{array}{ccc}
-	\psi_1&=&Arg({\bf S_iS_j^{H}}). \\
-\end{array}
+\begin{equation}\label{eqn27}
+	\psi_1=Arg(\mathbf{S_iS_j^{H}}). \\
 \end{equation}
 
 A fase {\it multilook} é obtida por 
 
-\begin{equation}\label{sec1eqn28}
-\begin{array}{ccc}
-	\psi_n&=&Arg\left(\frac{1}{n}\displaystyle{\sum_{k=1}^{n}{\bf S_i(k)S_j^{H}(k)}}\right). \\
-\end{array}
+\begin{equation}\label{eqn28}
+	\psi_n=Arg\left(\frac{1}{n}\sum_{k=1}^{n}\mathbf{S_i(k)S_j^{H}(k)}\right). \\
 \end{equation}
 
 A $\psi_n$ são os elementos fora da diagonal principal da matriz de covariança $Z$. Podemos pensar como uma média de {\it 1-looks}.
 
 Para derivar estas $PDF's$ vamos usar duas componentes de seguinte forma
 
-\begin{equation}\label{sec1eqn29}
+\begin{equation}\label{eqn29}
 	A=\left[
 \begin{array}{cc}
 	A_{11}              & \alpha e^{i\psi_n} \\
@@ -302,17 +272,17 @@ Para derivar estas $PDF's$ vamos usar duas componentes de seguinte forma
 \end{equation}
 
 
-\begin{equation}\label{sec1eqn30}
-	C=E[{\bf SS^{H}}]=\left[
+\begin{equation}\label{eqn30}
+	C=E[\mathbf{SS^{H}}]=\left[
 \begin{array}{cc}
-	C_{11}              & \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta} \\
- \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta} & C_{22}\\
+	C_{11}              & \sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta} \\
+ \sqrt{C_{11}C_{22}}|\rho_c |e^{-i\theta} & C_{22}\\
 \end{array}\right]
 \end{equation}
 
-Onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ e $C_{ii}=E[|{\bf S_i}|^2]$, assim podemos rescrever a matriz (\ref{sec1eqn29})
+Onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ e $C_{ii}=E[|\mathbf{S_i}|^2]$, assim podemos rescrever a matriz (\ref{eqn29})
 
-\begin{equation}\label{sec1eqn31}
+\begin{equation}\label{eqn31}
 	A=\left[
 \begin{array}{cc}
 	A_{11}              & A_{12R}+iA_{12I} \\
@@ -321,237 +291,202 @@ Onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ e $C_{ii}=E[|{\bf S_i}|^2]$, assim po
 \end{equation}
 
 
-\begin{equation}\label{sec1eqn32}
-\begin{array}{ccc}
-	p_A^{(n)}(A)&=&\frac{|A|^{n-p}}{K(n,p)|C|^n} \exp(-tr(C^{-1}A)), \\
-\end{array}
+\begin{equation}\label{eqn32}
+	p_A^{(n)}(A)=\frac{|A|^{n-p}}{K(n,p)|C|^n} \exp(-tr(C^{-1}A)), \\
 \end{equation}
 onde
-\begin{equation}\label{sec1eqn33}
-\begin{array}{ccc}
-	K(n,p)&=&\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1), \\
-\end{array}
+\begin{equation}\label{eqn33}
+	K(n,p)=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1), \\
 \end{equation}
 sendo $\Gamma(\cdot)$ a função Gamma.
 
 Como nesse caso estamos usando $p=2$ podemos rescrever,
-\begin{equation}\label{sec1eqn34}
-\begin{array}{ccc}
-	p_A^{(n)}(A)&=&\frac{|A|^{n-2}}{K(n,2)|C|^n} \exp(-tr(C^{-1}A)), \\
-\end{array}
+\begin{equation}\label{eqn34}
+	p_A^{(n)}(A)=\frac{|A|^{n-2}}{K(n,2)|C|^n} \exp(-tr(C^{-1}A)), \\
 \end{equation}
-\begin{equation}\label{sec1eqn35}
-\begin{array}{ccc}
-	K(n,2)&=&\pi\Gamma(n)\Gamma(n-1), \\
-\end{array}
+\begin{equation}\label{eqn35}
+	K(n,2)=\pi\Gamma(n)\Gamma(n-1), \\
 \end{equation}
 Efetuando as manipulações algébricas
-\begin{equation}\label{sec1eqn36}
+\begin{equation}\label{eqn36}
 \begin{array}{ccc}
-	\left|A\right|&=&A_{11}A_{22}-(A_{12R}+iA_{12I})(A_{12R}-iA_{12I})\\
-	\left|A\right|&=&A_{11}A_{22}-(A_{12R}^2+A_{12I}^2)\\
+	|A|&=&A_{11}A_{22}-(A_{12R}+iA_{12I})(A_{12R}-iA_{12I})\\
+	|A|&=&A_{11}A_{22}-(A_{12R}^2+A_{12I}^2)\\
 \end{array}
 \end{equation}
-\begin{equation}\label{sec1eqn37}
+\begin{equation}\label{eqn37}
 \begin{array}{ccc}
-	\left|C\right|&=&C_{11}C_{22}-C_{11}C_{22}\left|\rho_c\right|^2\\
-	\left|C\right|&=&C_{11}C_{22}(1-\left|\rho_c\right|^2)\\
+	|C|&=&C_{11}C_{22}-C_{11}C_{22}|\rho_c|^2\\
+	|C|&=&C_{11}C_{22}(1-|\rho_c|^2)\\
 \end{array}
 \end{equation}
 assim temos
-\begin{equation}\label{sec1eqn38}
+\begin{equation}\label{eqn38}
 \begin{array}{ccc}
-	\left|A\right|^{n-2}&=&(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}\\
-	\left|C\right|^{n}&=&(C_{11}C_{22})^{n}(1-\left|\rho_c\right|^2)^{n}\\
+	|A|^{n-2}&=&(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}\\
+	|C|^{n}&=&(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}\\
 \end{array}
 \end{equation}
 
 Agora será verificado somente quociente,
-\begin{equation}\label{sec1eqn39}
-\begin{array}{ccc}
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}}{(C_{11}C_{22})^{n}(1-\left|\rho_c\right|^2)^{n}}\\
-\end{array}
+\begin{equation}\label{eqn39}
+	\frac{|A|^{n-2}}{|C|^{n}}=\frac{(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}}{(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}}\\
 \end{equation}
-Como  $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ então $\left|A_{12R}+iA_{12I}\right|=|\alpha e^{i\psi_n}|$ portanto $\alpha=A_{12R}^2+A_{12I}^2$ 
-\begin{equation}\label{sec1eqn40}
-\begin{array}{ccc}
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}(1-\left|\rho_c\right|^2)^{n}}\\
-\end{array}
+Como  $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ então $|A_{12R}+iA_{12I}|=|\alpha e^{i\psi_n}|$ portanto $\alpha=A_{12R}^2+A_{12I}^2$ 
+\begin{equation}\label{eqn40}
+	\frac{|A|^{n-2}}{|C|^{n}}=\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}}\\
 \end{equation}
-reescrevendo a equação (\ref{sec1eqn40})
-\begin{equation}\label{sec1eqn41}
+reescrevendo a equação (\ref{eqn40})
+\begin{equation}\label{eqn41}
 \begin{array}{ccc}
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}\left(\frac{C_{11}C_{22}}{C_{11}C_{22}}\right)^2(1-\left|\rho_c\right|^2)^{n}}\\
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{\frac{(C_{11}C_{22})^{n-2}}{\left(C_{11}C_{22}\right)^2}(1-\left|\rho_c\right|^2)^{n}}\\
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{\left(\frac{A_{11}A_{22}}{C_{11}C_{22}}-\frac{\alpha^2}{C_{11}C_{22}}\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-\left|\rho_c\right|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}\left(\frac{C_{11}C_{22}}{C_{11}C_{22}}\right)^2(1-|\rho_c|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{\frac{(C_{11}C_{22})^{n-2}}{\left(C_{11}C_{22}\right)^2}(1-|\rho_c|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(\frac{A_{11}A_{22}}{C_{11}C_{22}}-\frac{\alpha^2}{C_{11}C_{22}}\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
 \end{array}
 \end{equation}
 Definindo a seguinte normalização 
-\begin{equation}\label{sec1eqn42}
-\begin{array}{ccccc}
-	B_1=\frac{A_{11}}{C_{11}},&&B_2=\frac{A_{22}}{C_{22}},&&\eta=\frac{\alpha}{\sqrt{C_{11}C_{22}}}.\\
-\end{array}
+\begin{equation}\label{eqn42}
+	B_1=\frac{A_{11}}{C_{11}},\quad B_2=\frac{A_{22}}{C_{22}},\quad\eta=\frac{\alpha}{\sqrt{C_{11}C_{22}}}.\\
 \end{equation}
 
-Substituindo na equação (\ref{sec1eqn41})
-\begin{equation}\label{sec1eqn43}
+Substituindo na equação (\ref{eqn41})
+\begin{equation}\label{eqn43}
 \begin{array}{ccc}
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-\left|\rho_c\right|^2)^{n}}\\
-	\frac{\left|A\right|^{n-2}}{\left|C\right|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-\left|\rho_c\right|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
 \end{array}
 \end{equation}
 \textcolor{red}{OBS:Entender melhor o fator $(C_{11}C_{22})^{-2}$, não está compatível com o artigo \cite{lee94}- verificar o Jacobiano.}
 
 Encontrando a matriz inversa de $C$,
-\begin{equation}\label{sec1eqn44}
-	C^{-1}=\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
+\begin{equation}\label{eqn44}
+	C^{-1}=\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
 \begin{array}{cc}
-	C_{22}              & -\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta} \\
- -\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta} & C_{11}\\
+	C_{22}              & -\sqrt{C_{11}C_{22}}|\rho_c |e^{i\theta} \\
+ -\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta} & C_{11}\\
 \end{array}\right]
 \end{equation}
-\begin{equation}\label{sec1eqn45}
-	C^{-1}A=\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
+\begin{equation}\label{eqn45}
+	C^{-1}A=\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
 \begin{array}{cc}
-	C_{22}A_{11}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta}\alpha e^{-i\psi_n} & C_{22} \alpha e^{i\psi_n}-A_{22}\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta} \\
-	C_{11}\alpha e^{-i\psi_n}-A_{11}\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta} & C_{11}A_{22}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta}\alpha e^{i\psi_n} \\
+	C_{22}A_{11}-\sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta}\alpha e^{-i\psi_n} & C_{22} \alpha e^{i\psi_n}-A_{22}\sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta} \\
+	C_{11}\alpha e^{-i\psi_n}-A_{11}\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta} & C_{11}A_{22}-\sqrt{C_{11}C_{22}}\rho_c|e^{-i\theta}\alpha e^{i\psi_n} \\
 \end{array}\right]
 \end{equation}
 
 Aplicando o traço para a matriz $C^{-1}A$,
 {\footnotesize
-\begin{equation}\label{sec1eqn46}
-	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
-\begin{array}{ccc}
-	C_{22}A_{11}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i\theta}\alpha e^{-i\psi_n} &+& C_{11}A_{22}-\sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{-i\theta}\alpha e^{i\psi_n} \\
-\end{array}\right]
+\begin{equation}\label{eqn46}
+	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
+	C_{22}A_{11}-\sqrt{C_{11}C_{22}}|\rho_c |e^{i\theta}\alpha e^{-i\psi_n} + C_{11}A_{22}-\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta}\alpha e^{i\psi_n} \right]
 \end{equation}}
 
 {\footnotesize
-\begin{equation}\label{sec1eqn47}
-	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-\left|\rho_c\right|^2)}\left[
-\begin{array}{ccc}
-	C_{22}A_{11}-\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i(\theta-\psi_n)} &+& C_{11}A_{22}-\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|e^{i(\psi_n-\theta)}\\
-\end{array}\right]
+\begin{equation}\label{eqn47}
+	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
+		C_{22}A_{11}-\alpha \sqrt{C_{11}C_{22}}|\rho_c|e^{i(\theta-\psi_n)} + C_{11}A_{22}-\alpha \sqrt{C_{11}C_{22}}|\rho_c|e^{i(\psi_n-\theta)}\right]
 \end{equation}}
 {\footnotesize
-\begin{equation}\label{sec1eqn48}
-	tr(-C^{-1}A)=-\frac{1}{(1-\left|\rho_c\right|^2)}\left[
-\begin{array}{ccc}
-	\frac{C_{22}A_{11}}{C_{11}C_{22}}+\frac{C_{11}A_{22}}{C_{11}C_{22}}&-&\frac{2\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|\cos(\psi_n-\theta)}{C_{11}C_{22}}\\
-\end{array}\right]
+\begin{equation}\label{eqn48}
+	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[
+	\frac{C_{22}A_{11}}{C_{11}C_{22}}+\frac{C_{11}A_{22}}{C_{11}C_{22}}-\frac{2\alpha \sqrt{C_{11}C_{22}}|\rho_c \cos(\psi_n-\theta)}{C_{11}C_{22}}\right]
 \end{equation}}
 {\footnotesize
-\begin{equation}\label{sec1eqn49}
-	tr(-C^{-1}A)=-\frac{1}{(1-\left|\rho_c\right|^2)}\left[
-\begin{array}{ccc}
-	\frac{A_{11}}{C_{11}}+\frac{A_{22}}{C_{22}}&-&\frac{2\alpha \sqrt{C_{11}C_{22}}\left|\rho_c \right|\cos(\psi_n-\theta)}{C_{11}C_{22}}\\
-\end{array}\right]
+\begin{equation}\label{eqn49}
+	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[
+	\frac{A_{11}}{C_{11}}+\frac{A_{22}}{C_{22}}-\frac{2\alpha \sqrt{C_{11}C_{22}}|\rho_c |\cos(\psi_n-\theta)}{C_{11}C_{22}}\right]
 \end{equation}}
 
 {\footnotesize
-\begin{equation}\label{sec1eqn50}
-	tr(-C^{-1}A)=-\frac{1}{(1-\left|\rho_c\right|^2)}\left[
-\begin{array}{ccc}
-	B_1+B_2&-&2\eta \left|\rho_c \right|\cos(\psi_n-\theta)\\
-\end{array}\right]
+\begin{equation}\label{eqn50}
+	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[B_1+B_2-2\eta |\rho_c |\cos(\psi_n-\theta)\right]
 \end{equation}}
 {\footnotesize
-\begin{equation}\label{sec1eqn51}
-	tr(-C^{-1}A)=-\frac{B_1+B_2-2\eta \left|\rho_c \right|\cos(\psi_n-\theta)}{(1-\left|\rho_c\right|^2)}
+\begin{equation}\label{eqn51}
+	tr(-C^{-1}A)=-\frac{B_1+B_2-2\eta |\rho_c|\cos(\psi_n-\theta)}{(1-|\rho_c|^2)}
 \end{equation}}
 
-portanto usando e equação (\ref{sec1eqn43}), (\ref{sec1eqn51}),   (\ref{sec1eqn34}), (\ref{sec1eqn35}) termos   
+portanto usando e equação (\ref{eqn43}), (\ref{eqn51}),   (\ref{eqn34}), (\ref{eqn35}) termos   
 {\footnotesize
-\begin{equation}\label{sec1eqn52}
-	p(B_1,B_2,\eta,\psi_n)=\frac{\left(B_1B_2-\eta^2\right)^{n-2}\eta}{\pi(1-\left|\rho_c\right|^2)^{n}\Gamma(n)\Gamma(n-1)}\exp\left(-\frac{B_1+B_2-2\eta \left|\rho_c \right|\cos(\psi_n-\theta)}{(1-\left|\rho_c\right|^2)}\right)
+\begin{equation}\label{eqn52}
+	p(B_1,B_2,\eta,\psi_n)=\frac{\left(B_1B_2-\eta^2\right)^{n-2}\eta}{\pi(1-|\rho_c|^2)^{n}\Gamma(n)\Gamma(n-1)}\exp\left(-\frac{B_1+B_2-2\eta |\rho_c |\cos(\psi_n-\theta)}{(1-|\rho_c|^2)}\right)
 \end{equation}}
 
-Derivando e equação (\ref{sec1eqn52}) com relação a $B_1$, $B_2$ e $\eta$ podemos afirmar que a distribuição diferença de fase {\it multilook} é 
-\begin{equation}\label{sec1eqn53}
-\begin{array}{ccccc}
-	p_{\psi}^{(n)}(\psi)&=&\frac{\Gamma(n+\frac{1}{2})(1-|\rho_c|^2)^n\beta}{2\sqrt{\pi}\Gamma(n)(1-\beta^2)^{n+\frac{1}{2}}}&+&\frac{(1-|\rho_c|^2)^n}{2\pi}F(n,1;\frac{1}{2};\beta^2)
-\end{array}
+Derivando e equação (\ref{eqn52}) com relação a $B_1$, $B_2$ e $\eta$ podemos afirmar que a distribuição diferença de fase {\it multilook} é 
+\begin{equation}\label{eqn53}
+	p_{\psi}^{(n)}(\psi)=\frac{\Gamma(n+\frac{1}{2})(1-|\rho_c|^2)^n\beta}{2\sqrt{\pi}\Gamma(n)(1-\beta^2)^{n+\frac{1}{2}}}+\frac{(1-|\rho_c|^2)^n}{2\pi}F(n,1;\frac{1}{2};\beta^2)
 \end{equation}
 Sendo $-\pi<\psi\leq\pi$, $\beta=|\rho_c|\cos(\psi-\theta)$ e $F(n,1;\frac{1}{2};\beta^2)$ a função de Gauss hipergométrica.
 
 Para $n=1$  vale a seguinte identidade para a função de Gauss Hipergeométrica,
-\begin{equation}\label{sec1eqn54}
-\begin{array}{ccc}
-	F(1,1;\frac{1}{2};z)&=&(1-z)^{-1}\left[1+\frac{\sqrt{z}\sin^{-1}(\sqrt{z})}{\sqrt{1-z}}\right]
-\end{array}
+\begin{equation}\label{eqn54}
+	F(1,1;\frac{1}{2};z)=(1-z)^{-1}\left[1+\frac{\sqrt{z}\sin^{-1}(\sqrt{z})}{\sqrt{1-z}}\right]
 \end{equation}
 
-Pela equação (\ref{sec1eqn53})
-\begin{equation}\label{sec1eqn55}
-\begin{array}{ccc}
-	p_{\psi}^{(1)}(\psi)&=&\frac{(1-|\rho_c|^2)[(1-\beta^{2})^{\frac{1}{2}}+\beta(\pi-\cos^{-1}(\beta))]}{2\pi(1-\beta^{2})^{\frac{3}{2}}}
-\end{array}
+Pela equação (\ref{eqn53})
+\begin{equation}\label{eqn55}
+	p_{\psi}^{(1)}(\psi)=\frac{(1-|\rho_c|^2)[(1-\beta^{2})^{\frac{1}{2}}+\beta(\pi-\cos^{-1}(\beta))]}{2\pi(1-\beta^{2})^{\frac{3}{2}}}
 \end{equation}
 
 Da mesma forma podemos obter $2-look$, $3-look$ e $4-look$,
 
-\begin{equation}\label{sec1eqn56}
-\begin{array}{ccc}
-	p_{\psi}^{(2)}(\psi)&=&\frac{3}{8}\frac{(1-|\rho_c|^2)^2\beta}{(1-\beta^2)^{\frac{5}{2}}}+\frac{(1-|\rho_c|^2)^2}{4\pi(1-\beta^2)^{2}}\left[2+\beta^2+\frac{3\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
-\end{array}
+\begin{equation}\label{eqn56}
+	p_{\psi}^{(2)}(\psi)=\frac{3}{8}\frac{(1-|\rho_c|^2)^2\beta}{(1-\beta^2)^{\frac{5}{2}}}+\frac{(1-|\rho_c|^2)^2}{4\pi(1-\beta^2)^{2}}\left[2+\beta^2+\frac{3\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
 \end{equation}
-\begin{equation}\label{sec1eqn57}
+\begin{equation}\label{eqn57}
 \begin{array}{ccc}
 	p_{\psi}^{(3)}(\psi)&=&\frac{15}{32}\frac{(1-|\rho_c|^2)^3\beta}{(1-\beta^2)^{\frac{7}{2}}}+\frac{(1-|\rho_c|^2)^3(1-\beta^2)^{-3}}{16\pi}\left[8+9\beta^2-2\beta^4+\frac{15\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
 \end{array}
 \end{equation}
-\begin{equation}\label{sec1eqn58}
-\begin{array}{ccc}
-	p_{\psi}^{(4)}(\psi)&=&\frac{35}{64}\frac{(1-|\rho_c|^2)^4\beta}{(1-\beta^2)^{\frac{9}{2}}}+\frac{(1-|\rho_c|^2)^4(1-\beta^2)^{-4}}{96\pi}\left[48+87\beta^2-38\beta^4+8\beta^6+\frac{105\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
-\end{array}
+\begin{equation}\label{eqn58}
+	p_{\psi}^{(4)}(\psi)=\frac{35}{64}\frac{(1-|\rho_c|^2)^4\beta}{(1-\beta^2)^{\frac{9}{2}}}+\frac{(1-|\rho_c|^2)^4(1-\beta^2)^{-4}}{96\pi}\left[48+87\beta^2-38\beta^4+8\beta^6+\frac{105\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
 \end{equation}
 
 \begin{figure}[!h]
 \centering
 \includegraphics[width=4.0in]{fig1_eq_18_lee_1994.pdf}
 	\caption{Distribuição diferença de fase {\it n-looks}.}
-\label{sec1fig1}
+\label{fig1}
 \end{figure}
 
-A  figura (\ref{sec1fig1}) mostra a equação (\ref{sec1eqn53}) para seus diferentes {\it 1,2,3 e 4 - looks} que são $p_{\psi}^{(1)}(\psi)$, $p_{\psi}^{(2)}(\psi)$, $p_{\psi}^{(3)}(\psi)$ e $p_{\psi}^{(4)}(\psi)$.
+A  figura (\ref{fig1}) mostra a equação (\ref{eqn53}) para seus diferentes {\it 1,2,3 e 4 - looks} que são $p_{\psi}^{(1)}(\psi)$, $p_{\psi}^{(2)}(\psi)$, $p_{\psi}^{(3)}(\psi)$ e $p_{\psi}^{(4)}(\psi)$.
 
 \subsubsection{Distribuição conjunta do {\it Multilook} $|S_i|^2$ e $|S_j|^2$ }
 
-O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{sec1eqn42}) temos que as intensidades {\it multilook} sejam 
+O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
 
-\begin{equation}\label{sec1eqn59}
+\begin{equation}\label{eqn59}
 \begin{array}{ccccc}
-	R_1&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}&=&\frac{B_1C_{11}}{n}\\
-	R_2&=&\frac{1}{n}\displaystyle{\sum_{k=1}^{n}|S_j(k)|^2}&=&\frac{B_2C_{22}}{n}\\
+	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
+	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
 \end{array}
 \end{equation}
 
-Integrando a equação (\ref{sec1eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
 
-\begin{equation}\label{sec1eqn60}
-	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-\left|\rho_c\right|^2}\right)}{\Gamma(n)(1-\left|\rho_c\right|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\begin{equation}\label{eqn60}
+	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
 \end{equation}
 
 Sendo
-\begin{equation}\label{sec1eqn61}
+\begin{equation}\label{eqn61}
 	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
 \end{equation}
 
-\textcolor{red}{OBS: As integrações na equação (\ref{sec1eqn52}) não foram realizadas neste estudo.}
-\begin{equation}\label{sec1eqn62}
-	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-\left|\rho_c\right|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-\left|\rho_c\right|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\textcolor{red}{OBS: As integrações na equação (\ref{eqn52}) não foram realizadas neste estudo.}
+\begin{equation}\label{eqn62}
+	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
 \end{equation}
 
-\textcolor{red}{OBS: Verificar o surgimento de um fator $\frac{n^2}{C_{11}C_{22}}$ na equação  (\ref{sec1eqn62}) - Mudança de variável!!!!!.}
+\textcolor{red}{OBS: Verificar o surgimento de um fator $\frac{n^2}{C_{11}C_{22}}$ na equação  (\ref{eqn62}) - Mudança de variável!!!!!.}
 
 \subsubsection{Distribuição razão intensidade e amplitude para {\it multilook}}
 
 A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
 
-\begin{equation}\label{sec1eqn63}
+\begin{equation}\label{eqn63}
 \begin{array}{ccccccc}
-	\mu&=&\frac{B_1}{B_2}&=&\frac{\displaystyle{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}}{\displaystyle{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}}&=&\frac{\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}}{\tau\displaystyle{\sum_{k=1}^{n}|S_j(k)|^2}}\\
+	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
 \end{array}
 \end{equation}
 
@@ -560,41 +495,33 @@ Onde $\tau=\frac{C_{11}}{C_{22}}$.
 A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee94}  
 
 
-\begin{equation}\label{sec1eqn64}
-\begin{array}{ccc}
-	p^{(n)}(\mu)&=&\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
-\end{array}
+\begin{equation}\label{eqn64}
+	p^{(n)}(\mu)=\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
 \end{equation}
 
 \textcolor{red}{OBS: Não realizei as contas do apêndice $(C)$.}
 
-Realizando a troca de variável $\nu=\sqrt{\mu}$ a equação (\ref{sec1eqn64}) pode ser rescrita por
-\begin{equation}\label{sec1eqn65}
-\begin{array}{ccc}
-	p^{(n)}(\nu)&=&\frac{2\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\nu^2)\nu^{2n-1}}{\Gamma(n)\Gamma(n)\left[(1+\nu^2)^2-4|\rho_c|^2\nu^2 \right]^{\frac{2n+1}{2}}}\\
-\end{array}
+Realizando a troca de variável $\nu=\sqrt{\mu}$ a equação (\ref{eqn64}) pode ser rescrita por
+\begin{equation}\label{eqn65}
+	p^{(n)}(\nu)=\frac{2\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\nu^2)\nu^{2n-1}}{\Gamma(n)\Gamma(n)\left[(1+\nu^2)^2-4|\rho_c|^2\nu^2 \right]^{\frac{2n+1}{2}}}\\
 \end{equation}
-As $PDF's$ razão de intensidade e amplitude entre os {\it multilook} ${\bf S_1}$ e ${\bf S_2}$ podem ser facilmente deduzidas das seguintes definições e posterior aplicação nas equações (\ref{sec1eqn64}) e (\ref{sec1eqn65}). definindo 
-\begin{equation}\label{sec1eqn66}
+As $PDF's$ razão de intensidade e amplitude entre os {\it multilook} $\mathbf{S_1}$ e $\mathbf{S_2}$ podem ser facilmente deduzidas das seguintes definições e posterior aplicação nas equações (\ref{eqn64}) e (\ref{eqn65}). definindo 
+\begin{equation}\label{eqn66}
 \begin{array}{ccccc}
-	w&=&\frac{\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}}{\displaystyle{\sum_{k=1}^{n}|S_i(k)|^2}}&=&\tau\mu\\
+	w&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\sum_{k=1}^{n}|S_i(k)|^2}&=&\tau\mu\\
 	z&=&\sqrt{w}&=&\sqrt{\tau}\nu
 \end{array}
 \end{equation}
 Portanto a distribuição da razão $w$ de intensidade {\it multilook} é
-\begin{equation}\label{sec1eqn67}
-\begin{array}{ccc}
-	p^{(n)}(w)&=&\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+w)w^{n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2n+1}{2}}}.\\
-\end{array}
+\begin{equation}\label{eqn67}
+	p^{(n)}(w)=\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+w)w^{n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2n+1}{2}}}.
 \end{equation}
 Portanto a distribuição da razão $z$ de amplitude {\it multilook} é
-\begin{equation}\label{sec1eqn68}
-\begin{array}{ccc}
-	p^{(n)}(z)&=&\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+z^2)z^{2n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+z^2)^2-4\tau|\rho_c|^2z^2 \right]^{\frac{2n+1}{2}}}.\\
-\end{array}
+\begin{equation}\label{eqn68}
+	p^{(n)}(z)=\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+z^2)z^{2n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+z^2)^2-4\tau|\rho_c|^2z^2 \right]^{\frac{2n+1}{2}}}.
 \end{equation}
 
-A discusão será limitada para estatística da razão $\nu$ amplitude normalizada. A figura (\ref{sec1fig2}) mostra a distribuição razão amplitude apresentada na equação  (\ref{sec1eqn65}). Notadamente a medida que $n$ aumenta tendemos a ter uma aproximação da "função" delta de Dirac e uma concentração em torno da abscissa $\nu=1$.
+A discusão será limitada para estatística da razão $\nu$ amplitude normalizada. A figura (\ref{fig2}) mostra a distribuição razão amplitude apresentada na equação  (\ref{eqn65}). Notadamente a medida que $n$ aumenta tendemos a ter uma aproximação da "função" delta de Dirac e uma concentração em torno da abscissa $\nu=1$.
 
 \textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variação estatística.}
 
@@ -602,18 +529,18 @@ A discusão será limitada para estatística da razão $\nu$ amplitude normaliza
 \centering
 \includegraphics[width=4.0in]{fig4_eq_33_lee_1994.pdf}
 	\caption{Distribuição de razão amplitude {\it n-looks}.}
-\label{sec1fig2}
+\label{fig2}
 \end{figure}
 
 
 \subsection{Estudo do artigo  \cite{goodman1963}}
 
 
-A variável randômica gaussiana complexa ${\bf Z=X+iY}$ é uma variável randômica complexa cuja parte imaginária e complexa são distribuída de forma Gaussiana.  E uma variável randômica gaussiana complexa $p-$variada $\xi^{'}=(Z_1,Z_2,\dots,Z_p)$ é uma $p-$upla  de variáveis randômica gaussiana complexas tal que o vetor de partes imaginárias e reais é $\eta^{'}=(X_1,Y_1,\dots,X_p,Y_p)$.
+A variável randômica gaussiana complexa $\mathbf{Z=X+iY}$ é uma variável randômica complexa cuja parte imaginária e complexa são distribuída de forma Gaussiana.  E uma variável randômica gaussiana complexa $p-$variada $\xi^{'}=(Z_1,Z_2,\dots,Z_p)$ é uma $p-$upla  de variáveis randômica gaussiana complexas tal que o vetor de partes imaginárias e reais é $\eta^{'}=(X_1,Y_1,\dots,X_p,Y_p)$.
 
 A matriz de covariância definida positiva $2p\times 2p$ será:
 $$
-{\bf \Sigma_{\eta}} = \left[
+\mathbf{\Sigma_{\eta}} = \left[
 \begin{array}{cc}
 	E(X_jX_k)  & E(X_jY_k)  \\
 	E(Y_jX_k)  & E(Y_jY_k)  \\
@@ -622,7 +549,7 @@ $$
 $$
 Tal que
 $$
-{\bf \Sigma_{\eta}} = \left[
+\mathbf{\Sigma_{\eta}} = \left[
 \begin{array}{cc}
 	E(X_jX_k)  & E(X_jY_k)  \\
 	E(Y_jX_k)  & E(Y_jY_k)  \\
@@ -664,16 +591,14 @@ $$
 $$
 
 A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
-\begin{equation}\label{sec2eqn1}
-\begin{array}{ccc}
-	p(\xi)&=&\frac{1}{\pi^p|\Sigma_{\xi}|}\exp(-\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi)  \\
-\end{array}
+\begin{equation}\label{eqn69}
+	p(\xi)=\frac{1}{\pi^p|\Sigma_{\xi}|}\exp(-\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi)  \\
 \end{equation}
 
 
 {\bf Exemplo 1 -} Seja a distribuição gaussian complexa univariada $(p=1)$. Sendo $\xi^{T}=z_1=x_1+iy_1$. E a "matriz" de covariância $\Sigma_{\xi}=\sigma_{1}^{2}$ com determinante $|\Sigma_{\xi}|=\sigma_{1}^{2}$ e  "matriz inversa" $\Sigma_{\xi}^{-1}=\frac{1}{\sigma_{1}^{2}}$, Assim,
 
-\begin{equation}\label{sec2eqn2}
+\begin{equation}\label{eqn70}
 \begin{array}{ccc}
 	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&(x_i-iy_1)\frac{1}{\sigma_1^2}(x_1+iy_1)  \\
 	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&(x_i-iy_1)(x_1+iy_1)\frac{1}{\sigma_1^2}  \\
@@ -682,10 +607,8 @@ A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana co
 \end{equation}
 
 
-\begin{equation}\label{sec2eqn3}
-\begin{array}{ccc}
-	p(\xi)&=&\frac{1}{\pi\Sigma_{\xi}^{2}}\exp\left(-\frac{x_1^2+y_1^2}{\sigma_1^2}\right)  \\
-\end{array}
+\begin{equation}\label{eqn71}
+	p(\xi)=\frac{1}{\pi\Sigma_{\xi}^{2}}\exp\left(-\frac{x_1^2+y_1^2}{\sigma_1^2}\right)  \\
 \end{equation}
 
 {\bf Exemplo 2 -} Seja a distribuição gaussian complexa bivariada $(p=2)$. Sendo $\xi^{T}=(z_1, z_2)=(x_1 + iy_1, x_2 + iy_2)^{T}$. E a matriz de covariância 
@@ -707,7 +630,7 @@ $$
 \end{array}
 \right].
 $$
-\begin{equation}\label{sec2eqn4}
+\begin{equation}\label{eqn72}
 \begin{array}{ccc}
 	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&[z_1,z_2]^{H}\Sigma_{\xi}^{-1}
 	\left[
@@ -717,7 +640,7 @@ $$
 \end{array}\right]\\
 \end{array}
 \end{equation}
-\begin{equation}\label{sec2eqn5}
+\begin{equation}\label{eqn73}
 \begin{array}{ccc}
 	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&[z_1,z_2]^{H}\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} \left[
 \begin{array}{cc}
@@ -733,7 +656,7 @@ $$
 \end{array}
 \end{equation}
 
-\begin{equation}\label{sec2eqn6}
+\begin{equation}\label{eqn74}
 \begin{array}{ccc}
 	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} [z_1,z_2]^{H}\left[
 \begin{array}{cc}
@@ -749,7 +672,7 @@ $$
 \end{array}
 \end{equation}
 
-\begin{equation}\label{sec2eqn7}
+\begin{equation}\label{eqn75}
 \begin{array}{ccc}
 	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} [z_1,z_2]^{H}\left[
 \begin{array}{cc}
@@ -760,50 +683,34 @@ $$
 \end{array}
 \end{equation}
 
-\begin{equation}\label{sec2eqn8}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
-\begin{array}{c}
+\begin{equation}\label{eqn76}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi=\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
 	\sigma_2^2\bar{z_1}z_1-(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2\bar{z_1}z_2 
-	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2\bar{z_2}z_1+\sigma_1^2\bar{z_2}z_2 \\
-\end{array}
-	\right)
-\end{array}
+	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2\bar{z_2}z_1+\sigma_1^2\bar{z_2}z_2 \right)
 \end{equation}
 
-\begin{equation}\label{sec2eqn9}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
-\begin{array}{c}
-	\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2 \\
-\end{array}
-	\right)
-\end{array}
+\begin{equation}\label{eqn77}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi=\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
+	\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2 	\right)
 \end{equation}
 
-\begin{equation}\label{sec2eqn10}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
-\end{array}
+\begin{equation}\label{eqn78}
+	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi=\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
 \end{equation}
 
 Assim, a função densidade de probabilidade ({\bf pdf}) 
 
-\begin{equation}\label{sec2eqn11}
-\begin{array}{ccc}
-	p(\xi)&=&\frac{1}{\pi^2(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\exp\left(-\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
-\right)  \\
-\end{array}
+\begin{equation}\label{eqn79}
+	p(\xi)=\frac{1}{\pi^2(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\exp\left(-\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
+\right)  
 \end{equation}
 
 {\bf Distribuição complexa de Wishart}
 
 A distribuição complexa de Wishart descrita no artigo \cite{goodman1963}, define agora uma amostra de  $n$ vetores com valores complexos $\xi_1,\xi_2,\dots,\xi_n$ então a matriz hermitiana de covariância é 
 
-\begin{equation}\label{sec2eqn12}
-\begin{array}{ccc}
-	\hat{\Sigma}_{\xi}&=&\frac{1}{n}\displaystyle{\sum_{j=1}^{n}\xi_j\bar{\xi}_{j}^{T}} . \\
-\end{array}
+\begin{equation}\label{eqn80}
+	\hat{\Sigma}_{\xi}=\frac{1}{n}\sum_{j=1}^{n}\xi_j\bar{\xi}_{j}^{T} . \\
 \end{equation}
 
 A matriz $\hat{\Sigma}_{\xi}$ é uma "maximum likelihood" para $\Sigma_{\xi}$ sendo uma estatística suficiente para a matriz hermitiana de covariância.
@@ -811,16 +718,12 @@ A matriz $\hat{\Sigma}_{\xi}$ é uma "maximum likelihood" para $\Sigma_{\xi}$ se
 Considerando $A=||A_{jkR}+iA{jkI}||=n\hat{\Sigma}_{\xi}$ chamaremos a matriz $A$ de distribuição complexa de Wishart. A função densidade de probabilidade de $A$ é
 
 
-\begin{equation}\label{sec2eqn13}
-\begin{array}{ccc}
-	p_W(A)&=&\frac{|A|^{n-p}}{I(\Sigma_{\xi})} \exp(-tr(\Sigma_{\xi}^{-1}A)), \\
-\end{array}
+\begin{equation}\label{eqn81}
+	p_W(A)=\frac{|A|^{n-p}}{I(\Sigma_{\xi})} \exp(-tr(\Sigma_{\xi}^{-1}A)), 
 \end{equation}
 onde
-\begin{equation}\label{sec2eqn14}
-\begin{array}{ccc}
-	I(\Sigma_{\xi})&=&\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1)|\Sigma_{\xi}|^n, \\
-\end{array}
+\begin{equation}\label{eqn82}
+	I(\Sigma_{\xi})=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1)|\Sigma_{\xi}|^n, 
 \end{equation}
 sendo $\Gamma(\cdot)$ a função Gamma.
 
@@ -830,10 +733,8 @@ Definição importante
 
 \begin{definition}{Divergência ($h,\phi$).}
 	Sejam as variáveis aleatórias $X$ e $Y$ com mesmo suporte $S$  e $p.d.f$ respectivamente $f_{X}(x|\theta_1)$ e $f_{Y}(x|\theta_2)$. Sejam ainda $\phi:(0,\infty)\rightarrow \mathbb{R}_+$ uma função convexa e diferenciável, e $h$ uma função crescente tal que $h(0)=0$ então a divergência ($h,\phi$) é definida como
-\begin{equation}\label{sec3eqn1}
-\begin{array}{ccc}
-	d_{\phi}^{h}(X||Y)&=&\displaystyle{h\left[\int_{x\in S(x)} f_{Y}(x|\theta_2)\phi\left(\frac{f_{X}(x|\theta_1)}{f_{Y}(x|\theta_2)}\right)dx \right]}. \\
-\end{array}
+\begin{equation}\label{eqn83}
+	d_{\phi}^{h}(X||Y)=h\left[\int_{x\in S(x)} f_{Y}(x|\theta_2)\phi\left(\frac{f_{X}(x|\theta_1)}{f_{Y}(x|\theta_2)}\right)dx \right]. \\
 \end{equation}
 \end{definition}
 
@@ -844,13 +745,13 @@ Para começar a entender os resultados do artigo \cite{salicru_pardo_1994} é de
 Sendo $(x_1)$ o comprimento craniano e $(x_2)$ a amplitude craniana, uma amostra de $n=35$ rãs femeas maduras conduziu a seguinte estatística:
 
 $$
-{\bf x_1} = \left[
+\mathbf{x_1} = \left[
 \begin{array}{c}
 	22.860   \\
 	24.397   \\
 \end{array}
 \right]
-{\bf S_1} = \left[
+\mathbf{S_1} = \left[
 \begin{array}{cc}
 	 17.178  & 19.710   \\
          19.710  & 23.710   \\
@@ -861,13 +762,13 @@ $$
 e similar medidas para uma amostra $m=14$ rãs machos, 
 
 $$
-{\bf x_2} = \left[
+\mathbf{x_2} = \left[
 \begin{array}{c}
 	21.821  \\
 	22.843   \\
 \end{array}
 \right]
-{\bf S_2} = \left[
+\mathbf{S_2} = \left[
 \begin{array}{cc}
 	 17.159  & 17.731   \\
          17.731  & 19.273   \\
@@ -875,7 +776,7 @@ $$
 \right].
 $$
 
-onde ${\bf S_1}$ e ${\bf S_2}$ são estimadores de máxima varossimilhança da matriz de covariância.
+onde $\mathbf{S_1}$ e $\mathbf{S_2}$ são estimadores de máxima varossimilhança da matriz de covariância.
 
 Para auxiliar foi criado dois programas em matlab chamados "salicruex1a.m" e "salicru1ex1b.m" armazenado em (meu micro): $$"/home/aborba/MEGAsync/mack/alejandro/gitufalmackbackup/doclatex/"$$
 
@@ -883,7 +784,7 @@ Para auxiliar foi criado dois programas em matlab chamados "salicruex1a.m" e "sa
 \begin{description}
 \item[(a)] Sendo:
 $$
-		{\bf S}=\frac{n{\bf S_1}+m{\bf S_2}}{n+m} = \left[
+		\mathbf{S}=\frac{n\mathbf{S_1}+m\mathbf{S_2}}{n+m} = \left[
 \begin{array}{cc}
 	 17.173  & 19.145   \\
          19.145  & 22.442   \\
@@ -892,7 +793,7 @@ $$
 $$
 tal que sua matriz inversa é:
 $$
-		{\bf S^{-1}} = \left[
+		\mathbf{S^{-1}} = \left[
 \begin{array}{cc}
 	 1.18958  & -1.01482   \\
         -1.01482.  & 0.91028   \\
@@ -901,7 +802,7 @@ $$
 $$
 
 		A expressão $(r,s)$-divergência obtida de $(h,\phi)$-divergência sobre certas condições pode ser escrita:
-\begin{equation}\label{sec3eqn2}
+\begin{equation}\label{eqn84}
 \begin{array}{ccl}
 	D_r^s((\mu_1,\Sigma_1),(\mu_2,\Sigma_2))&=&\frac{1}{(s-1)}\left[\exp\left(\frac{r(s-1)}{2}(\mu_1-\mu_2)^{T}[r\Sigma_2+(1-r)\Sigma_1]^{-1}(\mu_1-\mu_2) \right)\right. \\
 	&\cdot&\left.\frac{|r\Sigma_2+(1-r)\Sigma_1|^{\frac{(1-s)}{2(r-1)}}}{|\Sigma_1|^{\frac{s-1}{2}}|\Sigma_2|^{\frac{(1-s)r}{2(r-1)}}}-1\right]  \\
@@ -909,28 +810,26 @@ $$
 \end{equation}
 
 Assim calculando
-\begin{equation}\label{sec3eqn3}
+\begin{equation}\label{eqn85}
 \begin{array}{ccc}
-	T_4&=&\frac{2nm}{r(n+m)}D_r^s(({\bf x_1}, {\bf S}),({\bf x_2}, {\bf S})) \\
+	T_4&=&\frac{2nm}{r(n+m)}D_r^s((\mathbf{x_1}, \mathbf{S}),(\mathbf{x_2}, \mathbf{S})) \\
 	T_4&=&40(0.052663) \\
 	T_4&=&2.10653
 \end{array}
 \end{equation}
 \item[(b)] Será usado o corolário $2b$ do artigo \cite{salicru_pardo_1994} assim a estatística que vamos calcular será:
 
-\begin{equation}\label{sec3eqn4}
+\begin{equation}\label{eqn86}
 \begin{array}{ccc}
-	T_3&=&\frac{2nm}{r(n+m)}D_r^s(({\bf x_1}, {\bf S_1}),({\bf x_2}, {\bf S_2})) \\
+	T_3&=&\frac{2nm}{r(n+m)}D_r^s((\mathbf{x_1}, \mathbf{S_1}),(\mathbf{x_2}, \mathbf{S_2})) \\
 	T_3&=&4.76047
 \end{array}
 \end{equation}
 
 Tendo um valor diferente do artigo, investigando onde pode estar a discrepância encontramos o seguinte valor para, 
 
-\begin{equation}\label{sec3eqn5}
-\begin{array}{ccc}
-	({\bf x_1}-{\bf x_2})^T [r{\bf S_2+(1-r){\bf S_1}}]^{-1}({\bf x_1}-{\bf x_2})&=& 0.22724\\
-\end{array}
+\begin{equation}\label{eqn87}
+	(\mathbf{x_1}-\mathbf{x_2})^T [r\mathbf{S_2+(1-r)S_1}]^{-1}(\mathbf{x_1-x_2})= 0.22724\\
 \end{equation}
 
 enquanto o artigo encontrou $0.06970$ para o mesmo passo, até o momento não sei explicar a diferença.
@@ -944,7 +843,7 @@ O instrumento SAR totalmente polarimétrico transmite pulsos de microondas polar
 
 A transformação pode ser representada como
 
-\begin{equation}\label{sec4eqn1}
+\begin{equation}\label{eqn88}
  \left[
 \begin{array}{c}
 	E_{h}^{r}   \\
@@ -970,15 +869,15 @@ Onde $k$ denota o número de onda e $r$ é a distância entre o radar e o alvo. 
 
 A matrix de espalhamento pode ser reduzida ao seguintes vetores:
 
-\begin{equation}\label{sec4eqn2}
-{\bf s} = \left[
+\begin{equation}\label{eqn89}
+\mathbf{s} = \left[
 \begin{array}{c}
 	S_{hh}      \\
 	\frac{S_{hv}+S_{vh}}{\sqrt{2}}     \\
 	S_{vv}      \\
 \end{array}
-\right].
-{\bf k} =\frac{1}{\sqrt{2}} \left[
+\right],
+\mathbf{k} =\frac{1}{\sqrt{2}} \left[
 \begin{array}{c}
 	S_{hh} + S_{vv}      \\
 	S_{hh} - S_{vv}      \\
@@ -987,7 +886,7 @@ A matrix de espalhamento pode ser reduzida ao seguintes vetores:
 \right].
 \end{equation}
 
-%De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\bf S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por ${\bf s}=[S_1,S_2,\dots,S_p]^T$. 
+%De acordo com \cite{goodman1963} a distribuíção gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\mathbf{ S$. Isto é chamado de {\it single-look PolSar data representation} e podemos definir o vetor de espalhamento por ${\mathbf s}=[S_1,S_2,\dots,S_p]^T$. 
 
 %A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $p-$variada é dada por
 %\begin{equation}\label{sec1eqn2}
@@ -1021,94 +920,80 @@ A matrix de espalhamento pode ser reduzida ao seguintes vetores:
 \subsubsection{Modelos Gaussianos}
 
 
-Podemos assumir que o vetor de espalhamento é uma distribuíção gaussiana complexa circular. A matriz {\bf S} e os vetores {\bf s} e {\bf k} são {\it Single-look complex} representação dos daos PolSAR. Dados PolSAR {\it Multilook} podem ser representados por
+Podemos assumir que o vetor de espalhamento é uma distribuíção gaussiana complexa circular. A matriz {\boldmath S} e os vetores {\boldmath s} e {\boldmath k} são {\it Single-look complex} representação dos daos PolSAR. Dados PolSAR {\it Multilook} podem ser representados por
  
-\begin{equation}\label{sec41eqn1}
-\begin{array}{ccc}
-	{\bf C_{\bf s}}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\bf s_i}{\bf s_i}^H} . \\
-\end{array}
-\begin{array}{ccc}
-	{\bf C_{\bf k}}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\bf k_i}{\bf k_i}^H} . \\
-\end{array}
+\begin{equation}\label{eqn90}
+	\mathbf{C_{\mathbf s}}=\frac{1}{L}\sum_{i=1}^{L} \mathbf{s_i s_i}^H ,
+	\mathbf{C_{\mathbf k}}=\frac{1}{L}\sum_{i=1}^{L} \mathbf{k_i k_i}^H . \\
 \end{equation}
 
-chamadas de matriz de covariância e matriz de coerência, sendo $L$ o número de {\it looks}. Por definição assumimos que {\bf s} ou {\bf k} é gaussiana multivariada e complexa circular e tem média zero. Será denotado $s\sim N_d^{\mathbb C}(\bf 0, \Sigma_{\bf s})$ onde $\bf 0$ é um vetor coluna de zeros, $d$ a dimensão de $\bf s$ a matriz de covariância de $\bf s$  
+chamadas de matriz de covariância e matriz de coerência, sendo $L$ o número de {\it looks}. Por definição assumimos que {\boldmath s} ou {\boldmath k} é gaussiana multivariada e complexa circular e tem média zero. Será denotado $s\sim N_d^\mathbb{C}(\mathbf{0, \Sigma_{s}})$ onde $\mathbf{0}$ é um vetor coluna de zeros, $d$ a dimensão de $\mathbf{s}$ a matriz de covariância de $\mathbf{s}$  
 
-\begin{equation}\label{sec41eqn2}
-	{\bf \Sigma_{{\bf s}}} = E[{\bf s}{\bf s}^H] =\left[
+\begin{equation}\label{eqn91}
+	\mathbf{\Sigma_{\mathbf{s}}} = E[\mathbf{s}\mathbf{s}^H] =\left[
 \begin{array}{cccc}
-	E({\bf s_1}{\bf s_1}^H)  & E({\bf s_1}{\bf s_2}^H) &\hdots & E({\bf s_1}{\bf s_p}^H) \\
-	E({\bf s_2}{\bf s_1}^H)  & E({\bf s_2}{\bf s_2}^H) &\hdots &E({\bf s_2}{\bf s_p}^H)\\
+	E(\mathbf{s_1s_1}^H)  & E(\mathbf{s_1s_2}^H) &\hdots & E(\mathbf {s_1s_p}^H) \\
+	E(\mathbf{s_2 s_1}^H)  & E(\mathbf{ s_2 s_2}^H) &\hdots &E(\mathbf{s_2 s_p}^H)\\
         \vdots&\vdots &\ddots &\vdots\\
-	E({\bf s_p}{\bf s_1}^H)  & E({\bf s_p}{\bf s_2}^H) &\hdots &E({\bf s_p}{\bf s_p}^H)\\
+	E(\mathbf{s_p s_1}^H)  & E(\mathbf{s_ps_2}^H) &\hdots &E(\mathbf{s_p s_p}^H)\\
 \end{array}
 \right].
 \end{equation}
 
-A função densidade de probabilidade $(pdf)$ de {\bf s} é 
+A função densidade de probabilidade $(pdf)$ de {\boldmath s} é 
 
-\begin{equation}\label{sec41eqn3}
-\begin{array}{ccc}
-	p({\bf s},\Sigma_{\bf s})&=&\frac{1}{\pi^p|\Sigma_{{\bf s}}|}\exp(-{\bf s}^{H}\Sigma_{{\bf s}}^{-1}{\bf s})  \\
-\end{array}
+\begin{equation}\label{eqn92}
+	p(\mathbf{s},\Sigma_{\mathbf{s}})=\frac{1}{\pi^p|\Sigma_{\mathbf{s}}|}\exp(-\mathbf{s}^{H}\Sigma_{\mathbf{s}}^{-1}\mathbf{s})  \\
 \end{equation}
 
-Se $L\geq d$ e os {\bf $S_i$} (ou {\bf $k_i$}) e na equação (\ref{sec41eqn1}) são independentes, então ma matriz de covariância escalada pode ser definida como ${\bf Z}=L{\bf C_{\bf s}}$ (ou ${\bf Z}=L{\bf C_{\bf k}}$), de acordo com distribuição de Wishart complexa não singular \cite{goodman1963}
+Se $L\geq d$ e os {\boldmath$S_i$} (ou {\boldmath$k_i$}) e na equação (\ref{eqn90}) são independentes, então ma matriz de covariância escalada pode ser definida como $\mathbf{Z}=L\mathbf{C_{\mathbf s}}$ (ou $\mathbf{Z}=L\mathbf{C_k}$), de acordo com distribuição de Wishart complexa não singular \cite{goodman1963}
 
-\begin{equation}\label{sec41eqn4}
-\begin{array}{ccc}
-	p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})&=&\frac{|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)} \exp(-tr({\bf \Sigma}^{-1}{\bf Z})), \\
-\end{array}
+\begin{equation}\label{eqn93}
+	p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})=\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z})), \\
 \end{equation}
-onde $tr(\cdot)$ é o operador traço e ${\Sigma}=\frac{E[{\bf Z}]}{L}=E[{\bf C_{s}}]$. 
+onde $tr(\cdot)$ é o operador traço e ${\Sigma}=\frac{E[\mathbf{Z}]}{L}=E[\mathbf{C_{s}}]$. 
 
-Vamos escrever ${\bf Z}\sim W_d^{\mathbb C}(L, {\bf \Sigma})$.
+Vamos escrever $\mathbf{Z}\sim W_d^{\mathbb C}(L, \mathbf{\Sigma})$.
 
 E ainda, A constante de normalização $\Gamma_d(L)$ é a função Gamma multivariada definida como 
-\begin{equation}\label{sec41eqn5}
-\begin{array}{ccc}
-	\Gamma_d(L)&=&\pi^{\frac{1}{2}d(d-1)} \displaystyle{\prod_{i=0}^{d-1}\Gamma(L-i)} \\
-\end{array}
+\begin{equation}\label{eqn94}
+	\Gamma_d(L)=\pi^{\frac{1}{2}d(d-1)} \prod_{i=0}^{d-1}\Gamma(L-i) \\
 \end{equation}
 sendo $\Gamma(\cdot)$ a função Gamma.
 
-Seja a distribuíção complexa Wishart (\ref{sec41eqn4}) vamos encontrar a derivada do logaritmo natural desta distribuição em relação ao número de {\it looks}.
+Seja a distribuíção complexa Wishart (\ref{eqn93}) vamos encontrar a derivada do logaritmo natural desta distribuição em relação ao número de {\it looks}.
 
 
-\begin{equation}\label{sec41eqn6}
+\begin{equation}\label{eqn95}
 \begin{array}{ccc}
-	\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}&=&\ln{\left(\frac{|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)} \exp(-tr({\bf \Sigma}^{-1}{\bf Z}))\right)}, \\
-	\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}&=&\ln{\left(\frac{|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)}\right)}\ln{\left( \exp(-tr({\bf \Sigma}^{-1}{\bf Z}))\right)}, \\
-	\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}&=&\ln{\left(|{\bf Z}|^{L-p}\right)} - \ln{\left(|{\bf \Sigma}|^{L}\Gamma_d(L)\right)}-tr({\bf \Sigma}^{-1}{\bf Z}), \\
-	\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}&=&(L-p)\ln{\left(|{\bf Z}|\right)} - \ln{\left(|{\bf \Sigma}|^{L}\right)}-\ln{\left(\Gamma_d(L)\right)}-tr({\bf \Sigma}^{-1}{\bf Z}), \\
-	\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}&=&L\ln{\left(|{\bf Z}|\right)}-p\ln{\left(|{\bf Z}|\right)} - L\ln{\left(|{\bf \Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr({\bf \Sigma}^{-1}{\bf Z}). \\
+	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
+	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)}\right)}\ln{\left( \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
+	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(|\mathbf{Z}|^{L-p}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
+	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&(L-p)\ln{\left(|\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf {Z}), \\
+	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&L\ln{\left(|\mathbf{Z}|\right)}-p\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}). \\
 \end{array}
 \end{equation}
 
 Derivando a o logaritmo da distribuição em relação a $L$ teremos:
-\begin{equation}\label{sec41eqn7}
+\begin{equation}\label{eqn96}
 \begin{array}{ccc}
-	\frac{\partial}{\partial L}\left(\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}\right)&=&\frac{\partial}{\partial L}\left(L\ln{\left(|{\bf Z}|\right)}-p\ln{\left(|{\bf Z}|\right)} - L\ln{\left(|{\bf \Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr({\bf \Sigma}^{-1}{\bf Z})\right). \\
-	\frac{\partial}{\partial L}\left(\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}\right)&=&\ln{\left(|{\bf Z}|\right)} - \ln{\left(|{\bf \Sigma}|\right)}-\frac{\partial}{\partial L}\left(\ln{\left(\Gamma_d(L)\right)}\right). \\
-	\frac{\partial}{\partial L}\left(\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}\right)&=&\ln{\left(\frac{|{\bf Z}|}{|{\bf \Sigma}|}\right)} - \frac{\Gamma^{'}_d(L)}{\Gamma_d(L)}. \\
+	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)&=&\frac{\partial}{\partial L}\left(L\ln{\left(|\mathbf{Z}|\right)}-p\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z})\right). \\
+	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)&=&\ln{\left(|\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|\right)}-\frac{\partial}{\partial L}\left(\ln{\left(\Gamma_d(L)\right)}\right). \\
+	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)&=&\ln{\left(\frac{|\mathbf{Z}|}{|\mathbf{\Sigma}|}\right)} - \frac{\Gamma^{'}_d(L)}{\Gamma_d(L)}. \\
 \end{array}
 \end{equation}
 
 isto é, 
 
-\begin{equation}\label{sec41eqn8}
-\begin{array}{ccc}
-	\frac{\partial}{\partial L}\left(\ln{\left(p_{{\bf Z}}({\bf Z};L,{\bf \Sigma})\right)}\right)&=&\ln{\left(\frac{|{\bf Z}|}{|{\bf \Sigma}|}\right)} - \frac{\Gamma^{'}_d(L)}{\Gamma_d(L)}. \\
-\end{array}
+\begin{equation}\label{eqn97}
+	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)=\ln{\left(\frac{|\mathbf{Z}|}{|\mathbf{\Sigma}|}\right)} - \frac{\Gamma^{'}_d(L)}{\Gamma_d(L)}. \\
 \end{equation}
 \subsubsection{Coeficiente de estimador de variação}
 
- O exemplo da figura (\ref{sec41fig1}) mostra uma distribuíção gamma $g(\sigma, L)$ parametrizada com intensidade média $\sigma=0.0358$ e com múmeros de {\it looks} $L=\{8,10,12\}$.
+ O exemplo da figura (\ref{fig3}) mostra uma distribuíção gamma $g(\sigma, L)$ parametrizada com intensidade média $\sigma=0.0358$ e com múmeros de {\it looks} $L=\{8,10,12\}$.
 
-\begin{equation}\label{sec41eqn6}
-\begin{array}{ccc}
-	p_{I}(I;\sigma,L)&=&\frac{1}{\Gamma(L)}\left(\frac{L}{\sigma}\right)^L \exp(-\frac{LI}{\sigma}), \\
-\end{array}
+\begin{equation}\label{eqn98}
+	p_{I}(I;\sigma,L)=\frac{1}{\Gamma(L)}\left(\frac{L}{\sigma}\right)^L \exp(-\frac{LI}{\sigma}), 
 \end{equation}
 onde intensidade média $\sigma$ e número de {\it looks} $L$ são parametros desta distribuição gamma.
 
@@ -1118,7 +1003,7 @@ onde intensidade média $\sigma$ e número de {\it looks} $L$ são parametros de
 \centering
 \includegraphics[width=4.0in]{fig_1_anfinsen_2009.pdf}
 	\caption{Distribuição gamma da referência \cite{anfinsen2009} com parametros $\sigma=0.0356$ e $L=\{8,10,12\}$.}
-\label{sec41fig1}
+\label{fig3}
 \end{figure}
 
 \subsection{Estudo do artigo  \cite{freitas_frery_2005}}
@@ -1129,44 +1014,42 @@ As definições deste artigo são semelhantes as definições do artigo \cite{an
 
 Nesta seção o intuito é reproduzir e entender as distribuições que geraram as figuras (1), (2) e (3) do artigo \cite{freitas_frery_2005}. 
 
-\begin{equation}\label{sec51eqn1}
-\begin{array}{ccc}
-	f_{X}(x)&=&\frac{r_{\alpha,\omega}}{2K_{\alpha}(\omega)}x^{\alpha-1}\exp\left(-\frac{\omega}{2}\left(\frac{1}{r_{\alpha,\omega}x}+ r_{\alpha,\omega}x\right)\right), \\
-\end{array}
+\begin{equation}\label{eqn99}
+	f_{X}(x)=\frac{r_{\alpha,\omega}}{2K_{\alpha}(\omega)}x^{\alpha-1}\exp\left(-\frac{\omega}{2}\left(\frac{1}{r_{\alpha,\omega}x}+ r_{\alpha,\omega}x\right)\right), \\
 \end{equation}
 
 onde $x>0$  e $r_{\alpha,\omega}=\frac{K_{\alpha+1}(\omega)}{K_{\alpha}(\omega)}$
 
-Seja $K_{\nu}$ uma função de Bessel de terceiro tipo e com ordem $\nu$. Na figura (\ref{sec51fig1}) é mostrado os gráficos das funções para diferentes valores de $\nu=1,2,3,4,5,10$ e $\nu=20$. 
+Seja $K_{\nu}$ uma função de Bessel de terceiro tipo e com ordem $\nu$. Na figura (\ref{fig4}) é mostrado os gráficos das funções para diferentes valores de $\nu=1,2,3,4,5,10$ e $\nu=20$. 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fun_bessel_nu.pdf}
 	\caption{Gráficos da referência \cite{freitas_frery_2005} para as funções de Bessel de terceiro tipo para diferentes $\nu$.}
-\label{sec51fig1}
+\label{fig4}
 \end{figure}
 
-A figura (\ref{sec51fig2}) mostra os gráficos da equação (\ref{sec51eqn1}) para $\omega=1$ e diferentes valores de $\alpha\in(1.1,3,10,20)$. 
+A figura (\ref{fig5}) mostra os gráficos da equação (\ref{eqn99}) para $\omega=1$ e diferentes valores de $\alpha\in(1.1,3,10,20)$. 
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig1_freitas_frery_2005.pdf}
-	\caption{Gráficos da referência \cite{freitas_frery_2005} para as equações (\ref{sec51eqn1}) para $\omega=1$ e $\alpha\in(1.1,3,10,20)$.}
-\label{sec51fig2}
+	\caption{Gráficos da referência \cite{freitas_frery_2005} para as equações (\ref{eqn99}) para $\omega=1$ e $\alpha\in(1.1,3,10,20)$.}
+\label{fig5}
 \end{figure}
 
-A figura (\ref{sec51fig3}) mostra os gráficos da equação (\ref{sec51eqn1}) para $\alpha=1$ e diferentes valores de $\omega\in(1,2,10,30)$. 
+A figura (\ref{fig6}) mostra os gráficos da equação (\ref{eqn99}) para $\alpha=1$ e diferentes valores de $\omega\in(1,2,10,30)$. 
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig2_freitas_frery_2005.pdf}
-	\caption{Gráficos da referência \cite{freitas_frery_2005} para as equações (\ref{sec51eqn1}) para $\alpha=1$ e $\omega\in(1,2,10,30)$.}
-\label{sec51fig3}
+	\caption{Gráficos da referência \cite{freitas_frery_2005} para as equações (\ref{eqn99}) para $\alpha=1$ e $\omega\in(1,2,10,30)$.}
+\label{fig6}
 \end{figure}
 
 	
-As figuras (\ref{sec51fig2}) e (\ref{sec51fig3}) deste estudo deveriam estar equivalentes as figuras (1) e (2) do artigo \cite{freitas_frery_2005}, porém mostraram diferenças consideráveis nas magnitudes das funções. 
+As figuras (\ref{fig5}) e (\ref{fig6}) deste estudo deveriam estar equivalentes as figuras (1) e (2) do artigo \cite{freitas_frery_2005}, porém mostraram diferenças consideráveis nas magnitudes das funções. 
 
-Para gerar as figuras (\ref{sec51fig1}), (\ref{sec51fig2}) e (\ref{sec51fig3}) usei a função de Bessel (besselk) programada no pacote R.
+Para gerar as figuras (\ref{fig4}), (\ref{fig5}) e (\ref{fig6}) usei a função de Bessel (besselk) programada no pacote R.
 
 {\bf obs 2} - Programa {\it probesselfreitasfrery2005.r} armazenado no meu computador pessoal.
 
@@ -1176,37 +1059,33 @@ Para gerar as figuras (\ref{sec51fig1}), (\ref{sec51fig2}) e (\ref{sec51fig3}) u
 
 A densidade que caracteriza a distribuição gamma com média unitária
 
-\begin{equation}\label{sec51eqn2}
-\begin{array}{ccc}
-	f_{X}(x)&=&\frac{\alpha^{\alpha}x^{\alpha-1}}{\Gamma(\alpha)}\exp\left(-\alpha x\right), \\
-\end{array}
+\begin{equation}\label{eqn100}
+	f_{X}(x)=\frac{\alpha^{\alpha}x^{\alpha-1}}{\Gamma(\alpha)}\exp\left(-\alpha x\right), 
 \end{equation}
 
-onde $\alpha$,$x>0$, cujos gráficos estão na figura (\ref{sec51fig4}).
+onde $\alpha$,$x>0$, cujos gráficos estão na figura (\ref{fig7}).
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig3a_freitas_frery_2005.pdf}
-	\caption{Densidades  gamma unitária (\ref{sec51eqn2}) para $\alpha > 0$ e $|\alpha|\in(1.2,1.5,3,10,20)$, referência \cite{freitas_frery_2005} .}
-\label{sec51fig4}
+	\caption{Densidades  gamma unitária (\ref{eqn100}) para $\alpha > 0$ e $|\alpha|\in(1.2,1.5,3,10,20)$, referência \cite{freitas_frery_2005} .}
+\label{fig7}
 \end{figure}
 
 
-A densidade que caracteriza a distribuição gamma reciproca com média unitária
+A densidade que caracteriza a distribuição gamma recíproca com média unitária
 
-\begin{equation}\label{sec51eqn3}
-\begin{array}{ccc}
-	f_{X}(x)&=&\frac{x^{\alpha-1}}{(-\alpha-1)^{\alpha}\Gamma(-\alpha)}\exp\left(\frac{\alpha+1}{x}\right), \\
-\end{array}
+\begin{equation}\label{eqn101}
+	f_{X}(x)=\frac{x^{\alpha-1}}{(-\alpha-1)^{\alpha}\Gamma(-\alpha)}\exp\left(\frac{\alpha+1}{x}\right), \\
 \end{equation}
 
-onde $-\alpha$,$x>0$, cujos gráficos estão na figura (\ref{sec51fig5}).
+onde $-\alpha$,$x>0$, cujos gráficos estão na figura (\ref{fig8}).
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig3b_freitas_frery_2005.pdf}
-	\caption{Densidades gamma unitária reciproca (\ref{sec51eqn3}) para $\alpha < 0$ e $|\alpha|\in(1.2,1.5,3,10,20)$, referência \cite{freitas_frery_2005} .}
-\label{sec51fig5}
+	\caption{Densidades gamma unitária recíproca (\ref{eqn101}) para $\alpha < 0$ e $|\alpha|\in(1.2,1.5,3,10,20)$, referência \cite{freitas_frery_2005} .}
+\label{fig8}
 \end{figure}
 
 {\bf obs 5} - Programa {\it profig3afreitasfrery2005.r} armazenado no meu computador pessoal.
@@ -1226,72 +1105,60 @@ O modelo multiplicativo é uma ferramenta usada para explicar o comportamento es
 
 O valor observado é resultado da variável randômica definida como $Z=X\cdot Y$. Serão definidos os seguintes subescritos $C$, $I$, e $A$ para a referência a complexos, intensidade e amplitude respectivamente.
 
-{\it Speckle} complexo tem distribuição normal bivariada com componentes distribuída identicamente independente tendo média $0$ e variância $\frac{1}{2}$. Assim, ${\bf Y}_{C}=(Y_{\mathbb{R}}, Y_{\mathbb{I}})\sim N2(0,\frac{1}{2})$ denota a distribuíção do par.
+{\it Speckle} complexo tem distribuição normal bivariada com componentes distribuída identicamente independente tendo média $0$ e variância $\frac{1}{2}$. Assim, $\mathbf{Y}_{C}=(Y_{\mathbb{R}}, Y_{\mathbb{I}})\sim N2(0,\frac{1}{2})$ denota a distribuíção do par.
 
-{\it Multilook intensity speackle} surge tomando a média sobre $n$ amostras independentes de $Y_{I}=\|Y_{C}\|^2$ na qual implica a distribuição gamma denotada por $Y_{I}\sim \Gamma(n,n)$ e caracterizado pela densidade mostrada na figura (\ref{sec61fig1})
+{\it Multilook intensity speackle} surge tomando a média sobre $n$ amostras independentes de $Y_{I}=\|Y_{C}\|^2$ na qual implica a distribuição gamma denotada por $Y_{I}\sim \Gamma(n,n)$ e caracterizado pela densidade mostrada na figura (\ref{fig9})
 
-\begin{equation}\label{sec61eqn1}
-\begin{array}{ccc}
-	f_{Y_{I}}(y)&=&\frac{n^{n}}{\Gamma(n)}y^{n-1}\exp\left(-ny\right),\quad y,n>0 \\
-\end{array}
+\begin{equation}\label{eqn102}
+	f_{Y_{I}}(y)=\frac{n^{n}}{\Gamma(n)}y^{n-1}\exp\left(-ny\right),\quad y,n>0 
 \end{equation}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig_eq_fyi_frery_muller_1997.pdf}
 	\caption{Multilook Intensity speckle  para $n\in(1,2,3,4,5,10)$.}
-\label{sec61fig1}
+\label{fig9}
 \end{figure}
 
-{\it Multilook amplitude speackle} surge tomando a raíz quadrada do {\it Multilook intensity speackle} e portanto a raíz quadrada da distribuíção gamma, denotado por $Y_{A}\sim \Gamma^{\frac{1}{2}}(n,n)$ e caracterizado pela densidade e mostrada na figura  (\ref{sec61fig2}).
+{\it Multilook amplitude speackle} surge tomando a raíz quadrada do {\it Multilook intensity speackle} e portanto a raíz quadrada da distribuíção gamma, denotado por $Y_{A}\sim \Gamma^{\frac{1}{2}}(n,n)$ e caracterizado pela densidade e mostrada na figura  (\ref{fig10}).
 
-\begin{equation}\label{sec61eqn2}
-\begin{array}{ccc}
-	f_{Y_{A}}(y)&=&\frac{2*n^{n}}{\Gamma(n)}y^{2*n-1}\exp\left(-ny^2\right),\quad y,n>0 \\
-\end{array}
+\begin{equation}\label{eqn103}
+	f_{Y_{A}}(y)=\frac{2n^{n}}{\Gamma(n)}y^{2*n-1}\exp\left(-ny^2\right),\quad y,n>0 
 \end{equation}
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig_eq_fya_frery_muller_1997.pdf}
 	\caption{Multilook Amplitude speckle  para $n\in(1,2,3,4,5,10)$.}
-\label{sec61fig2}
+\label{fig10}
 \end{figure}
 \subsubsection{Amplitude do retroespalhamento}
 
-A amplitude do retroespalhamento obedeçe a raíz quadrada da lei gaussiana inversa generalizada, donotado aqui por ${\bf X}_{A}\sim N^{-\frac{1}{2}}(\alpha,\gamma,\lambda)$, sendo sua densidade dada por
-\begin{equation}\label{sec62eqn1}
-\begin{array}{ccc}
-	f_{X_{A}}(x)&=&\frac{\left(\frac{\lambda}{\gamma}\right)^{\frac{\alpha}{2}}}{K_{\alpha}(2\sqrt{\lambda\gamma})}x^{2\alpha-1}\exp\left(-\frac{\gamma}{x^2}-\lambda x^2\right) \\
-\end{array}
+A amplitude do retroespalhamento obedeçe a raíz quadrada da lei gaussiana inversa generalizada, donotado aqui por $\mathbf{X}_{A}\sim N^{-\frac{1}{2}}(\alpha,\gamma,\lambda)$, sendo sua densidade dada por
+\begin{equation}\label{eqn104}
+	f_{X_{A}}(x)=\frac{\left(\frac{\lambda}{\gamma}\right)^{\frac{\alpha}{2}}}{K_{\alpha}(2\sqrt{\lambda\gamma})}x^{2\alpha-1}\exp\left(-\frac{\gamma}{x^2}-\lambda x^2\right) 
 \end{equation}
 
-Dois casos particulares desta distribuíção são de interesse na análise de dados $SAR$, a raíz quadrada de gamma e a reciproca da raíz quadrada da distribuição gamma. 
+Dois casos particulares desta distribuíção são de interesse na análise de dados $SAR$, a raíz quadrada de gamma e a recíproca da raíz quadrada da distribuição gamma. 
 
 A raíz quadrada da distribuição gamma surge quando $\gamma \rightarrow 0$ enquanto $\alpha,\lambda>0$. Esta distribuição é denota aqui por $\Gamma^{\frac{1}{2}}(\alpha,\lambda)$ e caracterizada pela densidade 
-\begin{equation}\label{sec62eqn2}
-\begin{array}{ccc}
-	f_{X_{A}}(x)&=&\frac{2\lambda^{\alpha}}{\Gamma(\alpha)}x^{2\alpha-1}exp(-\lambda x^2), \quad \alpha,\lambda, x>0. \\
-\end{array}
+\begin{equation}\label{eqn105}
+	f_{X_{A}}(x)=\frac{2\lambda^{\alpha}}{\Gamma(\alpha)}x^{2\alpha-1}exp(-\lambda x^2), \quad \alpha,\lambda, x>0. 
 \end{equation}
-A reciproca da raíz quadrada da distribuição gamma surge quando $\lambda\rightarrow 0$ enquanto $-\alpha,\gamma>0$. Esta distribuição é denotada aqui por $\Gamma^{-\frac{1}{2}}(\alpha,\gamma) $ e caracterizada pela densidade
-\begin{equation}\label{sec62eqn3}
-\begin{array}{ccc}
-	f_{X_{A}}(x)&=&\frac{2}{\gamma^{\alpha}\Gamma(-\alpha)}x^{2\alpha-1}exp(-\frac{-\gamma}{x^2}), \quad -\alpha,\lambda, x>0. \\
-\end{array}
+A recíproca da raíz quadrada da distribuição gamma surge quando $\lambda\rightarrow 0$ enquanto $-\alpha,\gamma>0$. Esta distribuição é denotada aqui por $\Gamma^{-\frac{1}{2}}(\alpha,\gamma) $ e caracterizada pela densidade
+\begin{equation}\label{eqn106}
+	f_{X_{A}}(x)=\frac{2}{\gamma^{\alpha}\Gamma(-\alpha)}x^{2\alpha-1}exp(-\frac{-\gamma}{x^2}), \quad -\alpha,\lambda, x>0. \\
 \end{equation}
 
 \subsubsection{Retorno complexo}
 
 Definindo uma distribuição geral $X_{A}$ como sendo $N^{-\frac{1}{2}}$ e dado um ruído complexo {\it speckle} é definido como $Y_{C}=(Y_{\mathbb{R}},Y_{\mathbb{I}})\sim N2(0,\frac{1}{2})$. assim é possível derivar uma distribuição marginal associada para o retorno complexo, o qual é dado por $Z_{C}=X_{A}\cdot Y_{C}=X_{
 A}\cdot(Y_{\mathbb{R}},Y_{\mathbb{I}})$. A densidade que caracteriza a distribuição da parte real e da parte imaginária de $Z_{C}$, denotada por $Z_{\circ}$ e definida por
-\begin{equation}\label{sec63eqn1}
-\begin{array}{ccc}
-	f_{Z_{\circ}}(x)&=&\frac{1}{K_{\alpha}(2\sqrt{\lambda\gamma})}\sqrt{\frac{\left(\frac{\lambda}{\gamma} \right)^{\alpha}}{\pi}}\left(\frac{\gamma+x^2}{\lambda} \right)^{\frac{\alpha-\frac{1}{2}}{2}}K_{\alpha-\frac{1}{2}}\left(2\sqrt{\lambda(\gamma+x^2)}\right), x\in\mathbb{R}. \\
-\end{array}
+\begin{equation}\label{eqn107}
+	f_{Z_{\circ}}(x)=\frac{1}{K_{\alpha}(2\sqrt{\lambda\gamma})}\sqrt{\frac{\left(\frac{\lambda}{\gamma} \right)^{\alpha}}{\pi}}\left(\frac{\gamma+x^2}{\lambda} \right)^{\frac{\alpha-\frac{1}{2}}{2}}K_{\alpha-\frac{1}{2}}\left(2\sqrt{\lambda(\gamma+x^2)}\right), x\in\mathbb{R}. 
 \end{equation}
 
 sendo o espaço do parâmetro dado por:
-\begin{equation}\label{sec63eqn2}
+\begin{equation}\label{eqn108}
 	\left\{
 \begin{array}{ccr}
 	\gamma>0,&\lambda\geq 0&\mbox{se}\quad\alpha<0 \\
@@ -1305,58 +1172,48 @@ Esta distribuição é denotada por $g_{C}(\alpha,\gamma,\lambda)$, o artigo mos
 
 A distribuição $K$ e $g^0$ podem ser representadas pelas equações respectivamente
 
-\begin{equation}\label{sec63eqn3}
-\begin{array}{ccc}
-	f_{Z_{\circ}}(x)&=&\frac{2}{\Gamma(\alpha)}\sqrt{\frac{\lambda^{\alpha+\frac{1}{2}}}{\pi}} |x|^{\alpha-\frac{1}{2}}K_{\alpha-\frac{1}{2}}(2|x|\sqrt{\lambda}), \alpha,\lambda>0, x\in\mathbb{R}. \\
-\end{array}
+\begin{equation}\label{eqn109}
+	f_{Z_{\circ}}(x)=\frac{2}{\Gamma(\alpha)}\sqrt{\frac{\lambda^{\alpha+\frac{1}{2}}}{\pi}} |x|^{\alpha-\frac{1}{2}}K_{\alpha-\frac{1}{2}}(2|x|\sqrt{\lambda}), \alpha,\lambda>0, x\in\mathbb{R}. \\
 \end{equation}
-\begin{equation}\label{sec63eqn4}
-\begin{array}{ccc}
-	f_{Z_{\circ}}(x)&=&\frac{\Gamma(\frac{1}{2}-\alpha)}{\sqrt{\pi}\gamma^{\alpha}\Gamma(-\alpha)}\left(x^2+\gamma\right)^{\alpha-\frac{1}{2}}, -\alpha,\lambda>0, x\in\mathbb{R}. \\
-\end{array}
+\begin{equation}\label{eqn110}
+	f_{Z_{\circ}}(x)=\frac{\Gamma(\frac{1}{2}-\alpha)}{\sqrt{\pi}\gamma^{\alpha}\Gamma(-\alpha)}\left(x^2+\gamma\right)^{\alpha-\frac{1}{2}}, -\alpha,\lambda>0, x\in\mathbb{R}. 
 \end{equation}
 
 \subsubsection{Retorno da amplitude}
 
 A distribuição do retorno da distribuição surge de $Z_{A}=X_{A}Y_{A}$ onde $X_{A}\sim N^{-\frac{1}{2}}(\alpha,\gamma,\lambda)$  e $Y_{A}\sim\Gamma^{\frac{1}{2}}(n,n)$ é denotado por como $g_{A}(\alpha,\gamma,\lambda,n)$ é caracterizado pela densidade  
 
-\begin{equation}\label{sec64eqn1}
-\begin{array}{ccc}
-	f_{Z_{\circ}}(x)&=&\frac{2n^n\left(\frac{\lambda}{\gamma}\right)^{\frac{\alpha}{2}}}{\Gamma(n)K_{\alpha}(2\sqrt{\lambda\gamma})}x^{2n-1}\left(\frac{\gamma+nx^2}{\lambda}\right)^{\frac{\alpha-n}{2}}K_{\alpha-n}(2\sqrt{\lambda(\gamma+nx^2)}), x\in\mathbb{R}. \\
-\end{array}
+\begin{equation}\label{eqn111}
+	f_{Z_{\circ}}(x)=\frac{2n^n\left(\frac{\lambda}{\gamma}\right)^{\frac{\alpha}{2}}}{\Gamma(n)K_{\alpha}(2\sqrt{\lambda\gamma})}x^{2n-1}\left(\frac{\gamma+nx^2}{\lambda}\right)^{\frac{\alpha-n}{2}}K_{\alpha-n}(2\sqrt{\lambda(\gamma+nx^2)}), x\in\mathbb{R}. \\
 \end{equation}
-com o espaço de parametro (\ref{sec63eqn2}).
+com o espaço de parametro (\ref{eqn108}).
 
 Onde $K_{A}$ e $g_{A}$  distribuição amplitude $K$ e a distribuição $g^0$ e podem ser representadas pelas equações abaixo respectivamente
 
-\begin{equation}\label{sec64eqn2}
-\begin{array}{ccc}
-	f_{Z_{A}}(x)&=& \frac{4\lambda n x}{\Gamma(\alpha)\Gamma(n)}(\lambda n x^2)^{\frac{(\alpha+n)}{2}-1} K_{\alpha-n}(2x\sqrt{\lambda n}), \alpha,\lambda,n, x>0. \\
-\end{array}
+\begin{equation}\label{eqn112}
+	f_{Z_{A}}(x)= \frac{4\lambda n x}{\Gamma(\alpha)\Gamma(n)}(\lambda n x^2)^{\frac{(\alpha+n)}{2}-1} K_{\alpha-n}(2x\sqrt{\lambda n}), \alpha,\lambda,n, x>0. 
 \end{equation}
 
-\begin{equation}\label{sec64eqn3}
-\begin{array}{ccc}
-	f_{Z_{A}}(x)&=& \frac{2n^n\Gamma(n-\alpha)\gamma^{-\alpha}x^{2n-1}}{\Gamma(n)\Gamma(-\alpha)(\gamma+nx^2)^{n-\alpha}}, -\alpha,\gamma,n, x>0. \\
-\end{array}
+\begin{equation}\label{eqn113}
+	f_{Z_{A}}(x)= \frac{2n^n\Gamma(n-\alpha)\gamma^{-\alpha}x^{2n-1}}{\Gamma(n)\Gamma(-\alpha)(\gamma+nx^2)^{n-\alpha}}, -\alpha,\gamma,n, x>0. 
 \end{equation}
 
 
-As distribuições $g_A$ com a variação do parâmetros conforme o artigo estão representadas nas figuras (\ref{sec64fig1}) e (\ref{sec64fig2}).
+As distribuições $g_A$ com a variação do parâmetros conforme o artigo estão representadas nas figuras (\ref{fig11}) e (\ref{fig12}).
 
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig_eq_ga_fig1_frery_muller_1997.pdf}
 	\caption{Distribuições de amplitude.}
-\label{sec64fig1}
+\label{fig11}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=4.0in]{fig_eq_ga_fig2_frery_muller_1997.pdf}
 	\caption{Distribuições de amplitude.}
-\label{sec64fig2}
+\label{fig12}
 \end{figure}
 
 \subsubsection{Modelando áreas urbanas}
@@ -1367,40 +1224,36 @@ Quando estimamos os três parâmetros da distribuíção $g_A$ sobre áreas urba
 
 \subsubsection{Distribuição complexa de Wishart}
 
-\begin{equation}\label{sec71eqn1}
-\begin{array}{ccc}
-	f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)&=&\frac{L^{pL}|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)} exp(-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}), \\
-\end{array}
+\begin{equation}\label{eqn114}
+	f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{pL}|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} exp(-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}), \\
 \end{equation}
 
-A ideia é encontrar a derivada do logaritmo natural em relação ao número de {\it looks}, com esse intuito a ditribuição (\ref{sec71eqn1}) será reescrita
-\begin{equation}\label{sec71eqn2}
+A ideia é encontrar a derivada do logaritmo natural em relação ao número de {\it looks}, com esse intuito a distribuição (\ref{eqn114}) será reescrita
+\begin{equation}\label{eqn115}
 \begin{array}{ccc}
-	\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}&=&\ln{\left(\frac{L^{pL}|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)} \exp(-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})})\right)}, \\
-	\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}&=&\ln{\left(\frac{L^{pL}|{\bf Z}|^{L-p}}{|{\bf \Sigma}|^{L}\Gamma_d(L)}\right)}\ln{\left( exp(-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})})\right)}, \\
-	\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}&=&\ln{\left(L^{pL}|{\bf Z}|^{L-p}\right)} - \ln{\left(|{\bf \Sigma}|^{L}\Gamma_d(L)\right)}-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}, \\
-	\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}&=&\ln{\left(L^{pL}\right)}+\ln{\left( |{\bf Z}|^{L-p}\right)} - \ln{\left(|{\bf \Sigma}|^{L}\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}, \\
-	\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}&=&pL\ln{\left(L\right)}+(L-p)\ln{\left( |{\bf Z}|\right)} - L\ln{\left(|{\bf \Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}, \\
-	\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}&=&pL\ln{\left(L\right)}+L\ln{\left( |{\bf Z}|\right)}-p\ln{\left( |{\bf Z}|\right)}- L\ln{\left(|{\bf \Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(\frac{L^{pL}|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} \exp(-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})})\right)}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(\frac{L^{pL}|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)}\right)}\ln{\left( exp(-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})})\right)}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(L^{pL}|\mathbf{Z}|^{L-p}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_d(L)\right)}-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(L^{pL}\right)}+\ln{\left( |\mathbf{Z}|^{L-p}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&pL\ln{\left(L\right)}+(L-p)\ln{\left( |\mathbf{Z}|\right)} - L\ln{\left(|\mathbf {\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf {Z})}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&pL\ln{\left(L\right)}+L\ln{\left( |\mathbf{Z}|\right)}-p\ln{\left( |\mathbf{Z}|\right)}- L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf {Z})}, \\
 \end{array}
 \end{equation}
 
 
 Derivando com relação ao número de {\it looks} $L$, teremos
 
-\begin{equation}\label{sec71eqn3}
+\begin{equation}\label{eqn116}
 \begin{array}{ccc}
-	\frac{\partial}{\partial L}\left(\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}\right)&=&\frac{\partial}{\partial L}\left(pL\ln{\left(L\right)}+L\ln{\left( |{\bf Z}|\right)}-p\ln{\left( |{\bf Z}|\right)} - L \ln{\left(|{\bf \Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}\right), \\
-	\frac{\partial}{\partial L}\left(\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}\right)&=&\left(p\ln{\left(L\right)}+p\right)+\ln{\left( |{\bf Z}|\right)} - \ln{\left(|{\bf \Sigma}|\right)}-\frac{\partial}{\partial L}\ln{\left(\Gamma_d(L)\right)}-\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}, \\
-	\frac{\partial}{\partial L}\left(\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},L)\right)}\right)&=&p\left(\ln{\left(L\right)}+1\right)+\ln{\left(\frac{|{\bf Z}|}{|\bf \Sigma|}\right)}-\frac{\Gamma^{\prime}_d(L)}{\Gamma_d(L)}-\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}. \\
+	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&\frac{\partial}{\partial L}\left(pL\ln{\left(L\right)}+L\ln{\left( |\mathbf{Z}|\right)}-p\ln{\left( |\mathbf{Z}|\right)} - L \ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}\right), \\
+	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&\left(p\ln{\left(L\right)}+p\right)+\ln{\left( |\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|\right)}-\frac{\partial}{\partial L}\ln{\left(\Gamma_d(L)\right)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}, \\
+	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&p\left(\ln{\left(L\right)}+1\right)+\ln{\left(\frac{|\mathbf{Z}|}|\mathbf{\Sigma|}\right)}-\frac{\Gamma^{\prime}_d(L)}{\Gamma_d(L)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}. \\
 \end{array}
 \end{equation}
 
 Sendo $n$ tomado arbitrariamente entre o $L$ {\it looks} temos a seguinte equação
-\begin{equation}\label{sec71eqn4}
-\begin{array}{ccc}
-	\frac{\partial}{\partial n}\left(\ln{\left(f_{{\bf Z}}({\bf Z};{\bf \Sigma},n)\right)}\right)&=&p\left(\ln{\left(n\right)}+1\right)+\ln{\left(\frac{|{\bf Z}|}{|\bf \Sigma|}\right)}-\frac{\Gamma^{\prime}_d(n)}{\Gamma_d(n)}-\mathrm{tr}{({\bf \Sigma}^{-1}{\bf Z})}. \\
-\end{array}
+\begin{equation}\label{eqn117}
+	\frac{\partial}{\partial n}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},n)\right)}\right)=p\left(\ln{\left(n\right)}+1\right)+\ln{\left(\frac{|\mathbf{Z}|}|\mathbf {\Sigma|}\right)}-\frac{\Gamma^{\prime}_d(n)}{\Gamma_d(n)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}. 
 \end{equation}
 
 
