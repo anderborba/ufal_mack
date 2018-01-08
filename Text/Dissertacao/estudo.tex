@@ -967,7 +967,7 @@ Seja a distribuíção complexa Wishart (\ref{eqn93}) vamos encontrar a derivada
 \begin{equation}\label{eqn95}
 \begin{array}{ccc}
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
-	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)}\right)}\ln{\left( \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
+	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)}\right)}+\ln{\left( \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(|\mathbf{Z}|^{L-p}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&(L-p)\ln{\left(|\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf {Z}), \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&L\ln{\left(|\mathbf{Z}|\right)}-p\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}). \\
@@ -1244,18 +1244,18 @@ A ideia é encontrar a derivada do logaritmo natural em relação ao número de 
 Derivando com relação ao número de {\it looks} $L$, teremos
 
 \begin{equation}\label{eqn116}
+	{\footnotesize
 \begin{array}{ccc}
 	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&\frac{\partial}{\partial L}\left(pL\ln{\left(L\right)}+L\ln{\left( |\mathbf{Z}|\right)}-p\ln{\left( |\mathbf{Z}|\right)} - L \ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-L\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}\right), \\
 	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&\left(p\ln{\left(L\right)}+p\right)+\ln{\left( |\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|\right)}-\frac{\partial}{\partial L}\ln{\left(\Gamma_d(L)\right)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}, \\
-	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&p\left(\ln{\left(L\right)}+1\right)+\ln{\left(\frac{|\mathbf{Z}|}|\mathbf{\Sigma|}\right)}-\frac{\Gamma^{\prime}_d(L)}{\Gamma_d(L)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}. \\
-\end{array}
+	\frac{\partial}{\partial L}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}\right)&=&p\left(\ln{\left(L\right)}+1\right)+\ln{\left(\frac{|\mathbf{Z}|}{|\mathbf{\Sigma|}}\right)}-\frac{\Gamma^{\prime}_d(L)}{\Gamma_d(L)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}. \\
+\end{array}}
 \end{equation}
 
 Sendo $n$ tomado arbitrariamente entre o $L$ {\it looks} temos a seguinte equação
 \begin{equation}\label{eqn117}
-	\frac{\partial}{\partial n}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},n)\right)}\right)=p\left(\ln{\left(n\right)}+1\right)+\ln{\left(\frac{|\mathbf{Z}|}|\mathbf {\Sigma|}\right)}-\frac{\Gamma^{\prime}_d(n)}{\Gamma_d(n)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}. 
+	\frac{\partial}{\partial n}\left(\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},n)\right)}\right)=p\left(\ln{\left(n\right)}+1\right)+\ln{\left(\frac{|\mathbf{Z}|}{|\mathbf{\Sigma|}}\right)}-\frac{\Gamma^{\prime}_d(n)}{\Gamma_d(n)}-\mathrm{tr}{(\mathbf{\Sigma}^{-1}\mathbf{Z})}. 
 \end{equation}
-
 
 
 \subsection{Estudo do livro  \cite{lee2009polarimetric}}.
@@ -1293,6 +1293,384 @@ Algumas observações:
 \item[(6)] E ainda permite monitorar clima em escala global quando a frequência opera abaixo de $L-${\it band}.  
 
 \end{description}
+
+\subsubsection{Estudo das imagens Polsar }
+
+\begin{figure}[!h]
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_teste.jpeg}
+\caption{Imagem Polsar da Baía de São Francisco.}
+\label{fig5:sobel}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_green.jpeg}
+\caption{Canal com a cor verde da imagem Polsar.}
+\label{fig5:Log}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[!htb]
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_blue.jpeg}
+\caption{Canal com a cor azul da imagem Polsar.}
+\label{fig5:sobel}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_red.jpeg}
+\caption{Canal com a cor vermelha da imagem Polsar.}
+\label{fig5:Log}
+\end{minipage}
+\end{figure}
+
+\subsection{Estudo do artigo  \cite{gomez_frery_2017}}
+\subsubsection{Imagens Simuladas}
+
+Será usado imegens sintéticas $500 \times 500$ para estudar a acurária de diferentes métodos de classificação. A ideia é estudar como ocorre a redução de ruído e preservação de bordas. Para gerar uma imagem PolSAR usaremos a imagem sintética combinada com as matrizes de covariância $\{\Sigma_{k}\}_{k=1\dots5}$ extraídas de uma imagem PolSAR com uma distribuição de Wishart complexa $W_G(\Sigma, L)$. No presente artigo os experimentos apresentados usam $L=4$.
+
+Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ (com $k_2>k_1$) será gerado uma imagem PolSAR $P_{k_1,k_2,\beta}$ da seguinte maneira: em cada pixel branco da imagem sintética vindo de $W_G(\Sigma_{k_1}, L)$ e de cada pixel preto vindo de $W_G(\Sigma_{k_2},L)$ vamos fazer a combinação linear $W_G(\beta\Sigma_{k_1}+(1-\beta)\Sigma_{k_2}, L)$ com $\beta\in[0,1]$.
+
+O parâmetro $\beta$ é usado para pesar as informações entre as matrizes de covariância $\Sigma_{k_1}$ e $\Sigma_{k_2}$, modelando a mistura de classes em imagens PolSAR atuais. Quando $\beta=0$ não há mistura e o problema consiste em escolher entre amostras puras de $\Sigma_{k_1}$ e $\Sigma_{k_2}$. Se o parâmetro $\beta$ se aproxima de $1$, teremmos uma aproximação com a matriz de covariância $\Sigma_{k_1}$, assim teremos maior dificuldade de escolher classes. As figuras abaixo mostram algumas {\it Phantons} geradas com auxílio dos códigos programados pelos autores do artigo em Matlab e localizado em  \begin{verbatim} http://www.ctim.es/polsar/\end{verbatim}
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_3_1.jpg}
+	\caption{$P_{1,3,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p500_1_3_1.jpg}
+	\caption{$P_{1,3,0.5}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p700_1_3_1.jpg}
+	\caption{ $P_{1,3,0.7}$}\label{fig:awesome_image1}
+\endminipage
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+\end{figure}
+
+As {\it Phantons} foram geradas com o auxílio do método Monte Carlo, que será descrito com mais detalhes na próxima seção.
+
+\subsubsection{Monte Carlo \cite{odell1966}}
+
+Sendo uma matriz de covariância e simétrica definida positiva $S$. Portanto podemos encontrar a fatoração de Crout $S=CC^H$. Segue que o vetor $Z_{\alpha}$ pode ser encontrado da seguinte maneira $Z_{\alpha}=CW_{\alpha}$, onde o vetor $W_{\alpha}$ $p\times 1$ é distribuido como $N(\phi,I)$, isto é, $W_{\alpha}\sim N(\phi,I)$. Definindo $N(\phi,I)$ como uma distribuição normal multivariada com vetor de média nula $\phi$ e a matriz de covariância sendo a identidade $I$.Isto significa que $W_{\alpha}$ são vetores independentes $p-$dimensional cuja as componentes são variáveis independentes normalmentes distribuídas com média zero e variância unitária. 
+
+\begin{equation}\label{eqn118}
+\begin{array}{ccccc}
+	B&=&\{b_{ij}\}&=&\sum_{\alpha=1}^{N-1}W_{\alpha}W_{\alpha}^{T} \\
+\end{array}
+\end{equation}
+
+então
+
+\begin{equation}\label{eqn119}
+\begin{array}{ccccccc}
+	CBC^{T}&=&\{b_{ij}\}&=&\sum_{\alpha=1}^{N-1}CW_{\alpha}W_{\alpha}^{T}C^{T}&=&A \\
+\end{array}
+\end{equation}
+
+Desta forma, o problema fica restrito a gerar uma matriz randômica simétrica $B$.
+
+\subsubsection{Algoritmo de geração das imagens {\it Phantons}} 
+
+ No arquivo \begin{verbatim} S_6_classes.m \end{verbatim} há seis matrizes de dados Polsar Wishart, extraídas de uma imagem de dados "inteiramente" Polsar. Por exemplo  
+
+$$
+\mathbf{S(:, :, 1)} = \left[
+\begin{array}{lll}
+	0.002836  &0.000067+-0.000526i &0.006216+0.000654i\\
+	0.000067+0.000526i &0.000543 & -0.000084+0.001434i\\
+	0.006216-0.000654i& -0.000084-0.001434i & 0.016687\\
+\end{array}
+\right].
+$$
+
+Além das definições de $S$ nesse arquivo temos a definição do número de visadas $L=4$. Rodando o arquivo será gerado o arquivo \begin{verbatim} S_6_classes.mat \end{verbatim} com as matrizes e o número de visadas.
+
+No arquivo \begin{verbatim} cwishart_variates.m \end{verbatim} está programando o processo descrito na seção anterior e com uma versão melhorada, o arquivo recebe a matriz  $Sigma(:,:)$, $L$ e  $NSamples$. Onde $Sigma(:,:)$ é uma matriz de covariância $\Sigma_i$ e o número de visadas $L$ definidas respectivamente em $\mbox{S\_6\_classes.m}$ e $NSamples$ o número de amostras definido no programa.
+
+A saída do programa é um vetor de matrizes  de Wishart $B$ com ($p\times p \times Nsample$). 
+
+
+O arquivo \begin{verbatim} Generate_Polsar_two_classes_phantom \end{verbatim} tem entradas $S, L, m, n$ onde respectivamente $S$ é a matriz de covariância $\Sigma_i$, $L$ é o número de visadas, e $m$ e $n$ são as dimensões da imagem {\it Phantom}.   
+
+A saída do programa são a imagem {\it phantom} de tamanho $(m\times n \times 9)$e uma vetor de matrizer $R$ de tamanho $(3 \times 3 \times 2)$.
+
+
+O arquivo \begin{verbatim} Polsar_two_classes_phantom_Convex_Sum.m \end{verbatim} é o programa principal que chama os programas descritos acima e geram uma matriz wishart $W_G(\Sigma,L)$. Para cada par de matriz de covariância $\Sigma_{k_1}$e $\Sigma_{k_2}$ com $k_2>k_1$ será gerado uma imagem PolSAR $P_{k_1,k_2,\alpha}$ da seguinta maneira: Em casa pixel branco da imagem {\it phantom} colocamos $W_G(\Sigma_{k_1},L)$ e para cada pixel preto vamos colocar a combinação linear $W_G(\alpha\Sigma_{k_1}+(1-\alpha\Sigma_{k_2}))$ com $\alpha\in[0,1]$ combinações lineares convexas de {\it Phantons} com duas matrizes de covariância,  
+ 
+\subsubsection{Imagens  {\it Phantons} $P_{k_1,k_2,0}$ - Visualização de Pauli} 
+
+
+\textcolor{red}{Para essa imagens está sendo usado o matlab, com a visualização de Pauli}
+
+\begin{figure}[!htb]
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_2_1.jpg}
+	\caption{$P_{1,2,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_3_1.jpg}
+	\caption{$P_{1,3,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_4_1.jpg}
+	\caption{ $P_{1,4,0.0}$}\label{fig:awesome_image1}
+\endminipage
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_5_1.jpg}
+	\caption{ $P_{1,5,0.0}$}\label{fig:awesome_image1}
+\endminipage
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+\end{figure}
+\begin{figure}[!htb]
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_2_3_1.jpg}
+	\caption{$P_{2,3,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_2_4_1.jpg}
+	\caption{$P_{2,4,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_2_5_1.jpg}
+	\caption{ $P_{2,5,0.0}$}\label{fig:awesome_image1}
+\endminipage
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_3_4_1.jpg}
+	\caption{ $P_{3,4,0.0}$}\label{fig:awesome_image1}
+\endminipage
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+%\end{figure}
+
+%\begin{figure}[!htb]
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_3_5_1.jpg}
+	\caption{$P_{3,5,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_4_5_1.jpg}
+	\caption{$P_{4,5,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+\end{figure}
+
+\subsubsection{Imagens  {\it Phantons} $P_{k_1,k_2,0}$ - Visualização com histeq} 
+
+
+\textcolor{blue}{São realizadas equalizações das imagens usando o comando histeq(I)}
+
+\textcolor{red}{Para essa imagens está sendo usado o matlab, cuidar ainda algumas discrepância em relação ao artigo}
+
+\begin{figure}[!htb]
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_2_1_histeq.jpg}
+	\caption{$P_{1,2,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_3_1_histeq.jpg}
+	\caption{$P_{1,3,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_4_1_histeq.jpg}
+	\caption{ $P_{1,4,0.0}$}\label{fig:awesome_image1}
+\endminipage
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_1_5_1_histeq.jpg}
+	\caption{ $P_{1,5,0.0}$}\label{fig:awesome_image1}
+\endminipage
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+\end{figure}
+\begin{figure}[!htb]
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_2_3_1_histeq.jpg}
+	\caption{$P_{2,3,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_2_4_1_histeq.jpg}
+	\caption{$P_{2,4,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_2_5_1_histeq.jpg}
+	\caption{ $P_{2,5,0.0}$}\label{fig:awesome_image1}
+\endminipage
+\minipage{0.25\textwidth}%
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_3_4_1_histeq.jpg}
+	\caption{ $P_{3,4,0.0}$}\label{fig:awesome_image1}
+\endminipage
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+%\end{figure}
+
+%\begin{figure}[!htb]
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_3_5_1_histeq.jpg}
+	\caption{$P_{3,5,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.25\textwidth}
+  \includegraphics[width=\linewidth]{Eq_Phantom_0p000_4_5_1_histeq.jpg}
+	\caption{$P_{4,5,0.0}$}\label{fig:awesome_image1}
+\endminipage\hfill
+%\caption{A really Awesome Image}\label{fig:awesome_image3}
+\end{figure}
+
+\subsection{Estudo do artigo  \cite{nasc_frery_2014}}
+
+Artigo que discutirá métodos de detecção de borda em imagens Polsar com multiplas visadas. A ideia básica é detectar o ponto de transição em uma faixa tão fina quanto possível entre duas regiões da imagem.
+
+Os métodos clássicos de detecção de bordas assumem que o ruído é aditivo, tornando esses métodos ineficiêntes para aplicação em imagens PolSAR. O ruídos neste tipo de imagens é do tipo {\it speckle} que tem natureza multiplicativa e torna images SAR uma tarefa desafiadora.
+
+Podemos indicar que o problema de detecção de borda pode ser resumido em três importantes aspectos:
+\begin{enumerate}
+	\item o procedimento para detecção,
+	\item a determinação de uma posição mais acurada da posição da borda,
+	\item a especificação de tamanho para uma janela (pode ser uma janela quadrada ou ou em uma faixa de dados). 
+\end{enumerate}
+
+O tamanho dá janela pode influênciar em alguns aspectos como por exemplo, uma janela pequena pode não conter informações para identificar a presença de bordas, ou janelas maiores podem obter informações para mais de uma borda. Assim o tamanho de janela ideal é aquele que contém as informaões para detecção de uma borda. Vamos assumir que há uma borda na janela fornecida pela seleção inicial.
+
+A proposta do artigo extende este procedimento em três sentidos:
+\begin{enumerate}
+	\item as mais finas faixas possíveis usadas, inclusive do tamanho de um pixel,
+	\item distâncias estocásticas e diferenças de entropias são aplicadas como função objetivo para serem maximizadas, não somente a função de verosimilhança,
+	\item A influência da resolução espacial da imagem é usada. 
+\end{enumerate}
+
+\subsubsection{Detecção de bordas em imagens Polsar}
+
+De uma maneira geral, a ideia se baseia em encontrar um ponto de transição em uma faixa de dados o qual é considerado uma estimativa de posicionamento da borda. O estimador é o máximo de uma função dada. 
+
+As metodologias de detecção de bordas nesse artigo ocorrem em diversos estágios:
+
+\begin{enumerate}
+	\item identificar o centróide de uma área de interesse de maneira automática, semiautomática ou manual,  
+	\item Construindo raios do centróide para fora da área de interesse,
+	\item Coletando dados em torno dos raios,
+	\item detectar pontos na faixa de dados os quais fornecem evidências de mudanças de propriedades, ou seja, uma transição,
+	\item Definindo o contorno usando um método de interpolação entre os pontos de transição, por exemplo as B-Splines.
+\end{enumerate}
+
+Inicialmente, escolhemos uma região $\it R$ com centroíde $\bf C$ e traçamos raios iniciando em $\it C$ e indo até um ponto de controle $P_i$, com $i=1,2,\dots, S$, este pontos de controle estão fora da região $\it R$. Teremos $S$ raios resultantes representados por ${\bf s^{(i)}}=\overline{CP_i}$ com ângulos $\epsilon_{i}=\angle ({\bf s_{(i)}},{\bf s_{(i+1)}})$. 
+
+O raio serão convertido sobre pixel usando o algoritmo {\it Bresenham's midpoint line algorithm}, esse algoritmo fornece uma fina representação digital para o raio.
+
+Vamos assumir que os dados seguem uma distribuição complexa Wishart e com sua respectiva função de distribuíção dado por 
+\begin{equation}\label{eqn120}
+	f_{\mathbf{Z}}(\mathbf{Z^{'}};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z^{'}}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z^{'}})), \\
+\end{equation}
+
+onde $\mathbf{Z^{'}}$ é um possível resultado para $\mathbf{Z}$, $\mathbf{\Sigma}$ representa a matriz de covariância, $L$ é o número de visadas, $m$ é o número de canais polarizados.
+
+Sendo ainda, a constante de normalização $\Gamma_m(L)$ é a função Gamma multivariada definida como 
+\begin{equation}\label{eqn121}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+\end{equation}
+sendo $\Gamma(\cdot)$ a função Gamma e $|\cdot|$, $tr(\cdot)$ são respectivamente o determinande e o traço de uma matriz. Vamoas denotar a distribuíção Wishart como $W(\Sigma,L)$. 
+
+A faixa de dados coletada no {\it i}-ésimo raio {\bf $s^{i}$} , $i=1,2,\dots S$, contém $N^{(i)}$ pixels. Para cada pixel {\it k} em uma dada faixa {\it i} é assumida que pode ser descrita pelo resultado da matriz $\mathbf{Z_{k}^{(i)}}$ que é um distribuíção de Wishart.  
+
+
+\begin{equation}\label{eqn122}
+ \left\{
+\begin{array}{cl}
+	Z_{k}^{(i)}\sim W(\Sigma_{A}^{(i),L_{A}^{(i)}}),& \mbox{para}\quad k=1,\dots,j^{(i)}  \\
+	Z_{k}^{(i)}\sim W(\Sigma_{B}^{(i),L_{B}^{(i)}}),& \mbox{para}\quad k=j^{(i)} + 1,\dots,N^{(i)}  \\
+\end{array}
+\right.
+\end{equation}
+
+Podemos definir cada faixa composta de dois tipos de amostras, e cada tipo obedeçe uma lei de Wishart complexa com diferentes parametros. Vamos assumir que o número de visadas é constante para todas a faixas.
+
+A ideia principal é encontrar a posição $j^{(i)}$ em uma faixa ao longo do raio ${\bf s^{(i)}}$ dada alguma regra especifíca.
+
+O modelo proposto em (\ref{eqn122}) assume que existe uma transição ocorrendo ao longo da faixa $\bf s^{(i)}$. 
+
+Na continuidade do trabalho será omitido o indíce $(i)$ para focarmos nossa análise em uma única faixa.
+
+\subsubsection{Máxima verosimilhança}
+
+A função de máxima verosimilhança descrita por (\ref{eqn122}) é dada por
+
+\begin{equation*}
+	L(j)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L) \prod_{k=j+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L) \\
+\end{equation*}
+
+Usando propriedades de logaritmos natural teremos,
+
+
+\begin{equation}\label{eqn123}
+	l(j)=\ln(L(j))=\sum_{k=1}^{j}\ln\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\right)+ \sum_{k=j+1}^{N}\ln\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L)\right) \\
+\end{equation}
+
+realizando as manipulações algébricas na função de distribuíção em cada região
+\begin{equation*}
+\begin{array}{ccc}
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma},L)\right)}&=&\ln{\left(\frac{L^{mL}|\mathbf{Z}_{k}^{'}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z}_{k}^{'}))\right)}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma},L)\right)}&=&\ln{\left(\frac{L^{mL}|\mathbf{Z}_{k}^{'}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)}\right)}+\ln{\left(\exp(-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z}_{k}^{'}))\right)}, \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma},L)\right)}&=&\ln{\left(L^{mL}|\mathbf{Z}_{k}^{'}|^{L-m}\right)}- \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_m(L)\right)}-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z}_{k}^{'}), \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma},L)\right)}&=&\ln{\left(L^{mL}\right)}+\ln{\left(|\mathbf{Z}_{k}^{'}|^{L-m}\right)}- \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_m(L)\right)}-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z}_{k}^{'}), \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma},L)\right)}&=&mL\ln{\left(L\right)}+(L-m)\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}- L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z}_{k}^{'}), \\
+\end{array}
+\end{equation*}
+
+Substituindo nas duas parcelas da equação (\ref{eqn123}) levando em consideração as duas regiões diferentes teremos
+\begin{equation*}
+\begin{array}{rcl}
+	l(j)&=&\sum_{k=1}^{j}\left[mL\ln{\left(L\right)}+(L-m)\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}- L\ln{\left(|\mathbf{\Sigma_{A}}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'}))\right], \\
+	&+&\sum_{k=j+1}^{N}\left[mL\ln{\left(L\right)}+(L-m)\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}- L\ln{\left(|\mathbf{\Sigma_{B}}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right], \\
+	l(j)&=&\sum_{k=1}^{N}\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-\sum_{k=1}^{j}\left[ L\ln{\left(|\mathbf{\Sigma_{A}}|\right)}-L tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'}))\right], \\
+	&+&\sum_{k=1}^{N}\left[(L-m)\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}\right]- \sum_{k=j+1}^{N}\left[L\ln{\left(|\mathbf{\Sigma_{B}}|\right)}-L tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right], \\
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'})\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-L\left[(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right], \\
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-L\left[\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'})+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right], \\
+\end{array}
+\end{equation*}
+
+Podemos encontrar uma aproximação para $\Sigma$ usando o estimador de máxima verosimilhança denotado por $\widehat{\Sigma}$.
+$$
+\widehat{\Sigma_{I}}(j) = \left\{
+\begin{array}{lc}
+	j^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}  & \mbox{se}\quad I=A,  \\
+        (N-j)^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k} & \mbox{se}\quad I=B. \\
+\end{array}
+\right.
+$$
+
+Com isso a equação acima pode ser reescrita por
+
+\begin{equation*}
+\begin{array}{rcl}
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-L\left[\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'})+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right], \\
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-L\left[tr\left(\sum_{k=1}^{j}\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'}\right)+tr\left( \sum_{k=j+1}^{N}\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'}\right)\right], \\
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-L\left[tr\left(\mathbf{\Sigma_{A}}^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}^{'}\right)+tr\left( \mathbf{\Sigma_{B}}^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k}^{'}\right)\right], \\
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-L\left[mj+(N-j)m\right], \\
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}-LNm, \\
+	l(j)&=&N\left[-mL(1-\ln{\left(L\right)})-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)} +(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}, \\
+\end{array}
+\end{equation*}
+
+Portanto 
+\begin{equation}\label{eqn124}
+\begin{array}{rcl}
+	l(j)&=&N\left[-mL(1-\ln{\left(L\right)})-\ln{\left(\Gamma_m(L)\right)}\right]-L\left[j\ln{\left(|\mathbf{\widehat{\Sigma}}_{A}(j)|\right)} +(N-j)\ln{\left(|\mathbf{\widehat{\Sigma}}_{B}(j)|\right)}\right], \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}, \\
+\end{array}
+\end{equation}
+
+O estimador de máxima verosimilhança $\widehat{j}_{ML}$ do índice de localização onde acontece a transição de região é dado por:
+
+
+\begin{equation}\label{eqn125}
+\begin{array}{rcl}
+	\widehat{j}_{ML}&=&\text{arg}\max\limits_{j}l(j).  \\
+\end{array}
+\end{equation}
+\textcolor{red}{obs: No artigo não existe o último termo da equação acima, entender o motivo. }
+\subsubsection{Gráfico de $l(j)$}
 
 
 \bibliographystyle{unsrt}
