@@ -14,7 +14,7 @@
 
 Este arquivo serve para fazer apontamentos acerca da bibliografia indicada/pesquisada.
 
-\subsection{Estudo do artigo~\cite{lee94}}.
+\subsection{Estudo do artigo~\cite{lee94}}
 
 A matriz de espalhamento complexa {\boldmath S} é definida por
 $$
@@ -25,6 +25,7 @@ $$
 \end{array}
 \right].
 $$
+% % % ACF Dizer o que significam "h" e "v"
 
 Usaremos o caso do meio de propagação ser recíproco, isto é, $S_{hv}=S_{vh}$ tornando a matriz de espalhamento simétrica. Podemos facilitar a notação representando a matriz de espalhamento por um vetor da seguinte forma
 $$
@@ -43,10 +44,9 @@ De acordo com \cite{goodman1963} a distribuição gaussiana complexa multivariad
 
 A função densidade de probabilidade ({\boldmath pdf}) da distribuição gaussiana complexa $p-$variada é dada por
 \begin{equation}\label{eqn1}
-	p(\mathbf{s})=\frac{1}{\pi^p|\Sigma_{\mathbf{s}}|}\exp(-\bar{\mathbf{s}}^{T}\Sigma_{\mathbf{s}}^{-1}\mathbf{s})  \\
+	p(\mathbf{s})=\frac{1}{\pi^p|\Sigma_{\mathbf{s}}|}\exp(-\bar{\mathbf{s}}^{T}\Sigma_{\mathbf{s}}^{-1}\mathbf{s}).
 \end{equation}
-
-Sendo a matriz de covariância definida por:
+O parâmetro que indexa a distribuição é a matriz de covariância, que é definida por:
 \begin{equation}\label{eqn2}
 	\mathbf{ \Sigma_{s}} = E[\mathbf{ss}^H] = \left[
 \begin{array}{cccc}
@@ -109,14 +109,15 @@ independentes de uma mesma cena. Isto resulta na matriz de covariância {\boldma
 \subsubsection{Coeficiente de correlação {\it Multilook}}
 
 O coeficiente de correlação complexo é um importante parâmetro para descrever a função de densidade de probabilidade. 
-Podemos defini-la como
+Podemos defini-lo como
 \begin{equation}\label{eqn8}
 	\rho_c=\frac{E[\mathbf{s_is_j}^H]}{\sqrt{E[|\mathbf{s_i}|^2]E[|\mathbf{s_j}|^2]}} =|\rho_c|e^{i\theta}.
 \end{equation}
 % % % ACF Não complique LaTeX
 em que {\boldmath $s_i$} e {\boldmath $s_j$} 
 % % % ACF Repare que o negrito matemático se faz de outra maneira
-são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico $SAR$. Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $L$ looks intensidade é definida como   
+são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico SAR. 
+Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $L$ looks intensidade é definida como   
 % % % ACF Eram L looks, agora são n. Unificar a notação
 \begin{equation}\label{eqn9}
 	\rho_I^{(n)}=\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
@@ -250,13 +251,13 @@ A $PDF$ diferença de fase é derivafda nesta seção para cada duas componentes
 
 
 \begin{equation}\label{eqn27}
-	\psi_1=Arg(\mathbf{S_iS_j^{H}}). \\
+	\psi_1=\angle(\mathbf{S_iS_j^{H}}). \\
 \end{equation}
 
 A fase {\it multilook} é obtida por 
 
 \begin{equation}\label{eqn28}
-	\psi_n=Arg\left(\frac{1}{n}\sum_{k=1}^{n}\mathbf{S_i(k)S_j^{H}(k)}\right). \\
+	\psi_n=\angle\left(\frac{1}{n}\sum_{k=1}^{n}\mathbf{S_i(k)S_j^{H}(k)}\right). \\
 \end{equation}
 
 A $\psi_n$ são os elementos fora da diagonal principal da matriz de covariança $Z$. Podemos pensar como uma média de {\it 1-looks}.
@@ -442,7 +443,7 @@ Da mesma forma podemos obter $2-look$, $3-look$ e $4-look$,
 	p_{\psi}^{(4)}(\psi)=\frac{35}{64}\frac{(1-|\rho_c|^2)^4\beta}{(1-\beta^2)^{\frac{9}{2}}}+\frac{(1-|\rho_c|^2)^4(1-\beta^2)^{-4}}{96\pi}\left[48+87\beta^2-38\beta^4+8\beta^6+\frac{105\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
 \end{equation}
 
-\begin{figure}[!h]
+\begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{fig1_eq_18_lee_1994.pdf}
 	\caption{Distribuição diferença de fase {\it n-looks}.}
@@ -525,7 +526,7 @@ A discusão será limitada para estatística da razão $\nu$ amplitude normaliza
 
 \textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variação estatística.}
 
-\begin{figure}[!h]
+\begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{fig4_eq_33_lee_1994.pdf}
 	\caption{Distribuição de razão amplitude {\it n-looks}.}
@@ -716,14 +717,12 @@ A distribuição complexa de Wishart descrita no artigo \cite{goodman1963}, defi
 A matriz $\hat{\Sigma}_{\xi}$ é uma "maximum likelihood" para $\Sigma_{\xi}$ sendo uma estatística suficiente para a matriz hermitiana de covariância.
 
 Considerando $A=||A_{jkR}+iA{jkI}||=n\hat{\Sigma}_{\xi}$ chamaremos a matriz $A$ de distribuição complexa de Wishart. A função densidade de probabilidade de $A$ é
-
-
 \begin{equation}\label{eqn81}
 	p_W(A)=\frac{|A|^{n-p}}{I(\Sigma_{\xi})} \exp(-tr(\Sigma_{\xi}^{-1}A)), 
 \end{equation}
 onde
 \begin{equation}\label{eqn82}
-	I(\Sigma_{\xi})=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1)|\Sigma_{\xi}|^n, 
+	I(\Sigma_{\xi})=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\cdots\Gamma(n-p+1)|\Sigma_{\xi}|^n, 
 \end{equation}
 sendo $\Gamma(\cdot)$ a função Gamma.
 
@@ -796,7 +795,7 @@ $$
 		\mathbf{S^{-1}} = \left[
 \begin{array}{cc}
 	 1.18958  & -1.01482   \\
-        -1.01482.  & 0.91028   \\
+        -1.01482  & 0.91028   \\
 \end{array}
 \right].
 $$
@@ -961,20 +960,19 @@ E ainda, A constante de normalização $\Gamma_d(L)$ é a função Gamma multiva
 \end{equation}
 sendo $\Gamma(\cdot)$ a função Gamma.
 
-Seja a distribuíção complexa Wishart (\ref{eqn93}) vamos encontrar a derivada do logaritmo natural desta distribuição em relação ao número de {\it looks}.
-
-
+Seja a distribuição complexa Wishart (\ref{eqn93}) vamos encontrar a derivada do logaritmo natural desta distribuição em relação ao número de {\it looks}.
 \begin{equation}\label{eqn95}
 \begin{array}{ccc}
-	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
+	\ln{p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)} \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(\frac{|\mathbf{Z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_d(L)}\right)}+\ln{\left( \exp(-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&\ln{\left(|\mathbf{Z}|^{L-p}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&(L-p)\ln{\left(|\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf {Z}), \\
 	\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}&=&L\ln{\left(|\mathbf{Z}|\right)}-p\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z}). \\
 \end{array}
 \end{equation}
+% % % ACF Só coloque parênteses necessários, veja a primeira equação
 
-Derivando a o logaritmo da distribuição em relação a $L$ teremos:
+Derivando o logaritmo da densidade em relação a $L$ teremos:
 \begin{equation}\label{eqn96}
 \begin{array}{ccc}
 	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)&=&\frac{\partial}{\partial L}\left(L\ln{\left(|\mathbf{Z}|\right)}-p\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_d(L)\right)}-tr(\mathbf{\Sigma}^{-1}\mathbf{Z})\right). \\
@@ -982,16 +980,15 @@ Derivando a o logaritmo da distribuição em relação a $L$ teremos:
 	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)&=&\ln{\left(\frac{|\mathbf{Z}|}{|\mathbf{\Sigma}|}\right)} - \frac{\Gamma^{'}_d(L)}{\Gamma_d(L)}. \\
 \end{array}
 \end{equation}
-
+% % % ACF Não coloque uma linha adicional quando é o mesmo parágrafo
 isto é, 
-
+% % % ACF
 \begin{equation}\label{eqn97}
 	\frac{\partial}{\partial L}\left(\ln{\left(p_{\mathbf{Z}}(\mathbf{Z};L,\mathbf{\Sigma})\right)}\right)=\ln{\left(\frac{|\mathbf{Z}|}{|\mathbf{\Sigma}|}\right)} - \frac{\Gamma^{'}_d(L)}{\Gamma_d(L)}. \\
 \end{equation}
 \subsubsection{Coeficiente de estimador de variação}
 
- O exemplo da figura (\ref{fig3}) mostra uma distribuíção gamma $g(\sigma, L)$ parametrizada com intensidade média $\sigma=0.0358$ e com múmeros de {\it looks} $L=\{8,10,12\}$.
-
+O exemplo da figura (\ref{fig3}) mostra uma distribuíção gamma $g(\sigma, L)$ parametrizada com intensidade média $\sigma=0.0358$ e com múmeros de {\it looks} $L=\{8,10,12\}$.
 \begin{equation}\label{eqn98}
 	p_{I}(I;\sigma,L)=\frac{1}{\Gamma(L)}\left(\frac{L}{\sigma}\right)^L \exp(-\frac{LI}{\sigma}), 
 \end{equation}
@@ -999,7 +996,7 @@ onde intensidade média $\sigma$ e número de {\it looks} $L$ são parametros de
 
 {\bf obs 1} - Programa {\it proanfinsen2009.r} armazenado no meu computador pessoal.
 
-\begin{figure}[!h]
+\begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{fig_1_anfinsen_2009.pdf}
 	\caption{Distribuição gamma da referência \cite{anfinsen2009} com parametros $\sigma=0.0356$ e $L=\{8,10,12\}$.}
@@ -1296,7 +1293,7 @@ Algumas observações:
 
 \subsubsection{Estudo das imagens Polsar }
 
-\begin{figure}[!h]
+\begin{figure}[hbt]
 \begin{minipage}[b]{0.450\linewidth}
 \includegraphics[width=\linewidth]{polsar_teste.jpeg}
 \caption{Imagem Polsar da Baía de São Francisco.}
@@ -1347,7 +1344,9 @@ O parâmetro $\beta$ é usado para pesar as informações entre as matrizes de c
 %\caption{A really Awesome Image}\label{fig:awesome_image3}
 \end{figure}
 
-As {\it Phantons} foram geradas com o auxílio do método Monte Carlo, que será descrito com mais detalhes na próxima seção.
+As {\it Phantons} foram geradas com o auxílio do método Monte Carlo, 
+% % % Os phantoms são um elemento de um estudo Monte Carlo
+que será descrito com mais detalhes na próxima seção.
 
 \subsubsection{Monte Carlo \cite{odell1966}}
 
@@ -1371,8 +1370,7 @@ Desta forma, o problema fica restrito a gerar uma matriz randômica simétrica $
 
 \subsubsection{Algoritmo de geração das imagens {\it Phantons}} 
 
- No arquivo \begin{verbatim} S_6_classes.m \end{verbatim} há seis matrizes de dados Polsar Wishart, extraídas de uma imagem de dados "inteiramente" Polsar. Por exemplo  
-
+No arquivo \begin{verbatim} S_6_classes.m \end{verbatim} há seis matrizes de dados Polsar Wishart, extraídas de uma imagem de dados "inteiramente" Polsar. Por exemplo  
 $$
 \mathbf{S(:, :, 1)} = \left[
 \begin{array}{lll}
@@ -1533,7 +1531,7 @@ A proposta do artigo extende este procedimento em três sentidos:
 	\item A influência da resolução espacial da imagem é usada. 
 \end{enumerate}
 
-\subsubsection{Detecção de bordas em imagens Polsar}
+\subsubsection{Detecção de bordas em imagens PolSAR}
 
 De uma maneira geral, a ideia se baseia em encontrar um ponto de transição em uma faixa de dados o qual é considerado uma estimativa de posicionamento da borda. O estimador é o máximo de uma função dada. 
 
@@ -1555,16 +1553,14 @@ Vamos assumir que os dados seguem uma distribuição complexa Wishart e com sua 
 \begin{equation}\label{eqn120}
 	f_{\mathbf{Z}}(\mathbf{Z^{'}};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z^{'}}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L tr(\mathbf{\Sigma}^{-1}\mathbf{Z^{'}})), \\
 \end{equation}
-
 onde $\mathbf{Z^{'}}$ é um possível resultado para $\mathbf{Z}$, $\mathbf{\Sigma}$ representa a matriz de covariância, $L$ é o número de visadas, $m$ é o número de canais polarizados.
-
 Sendo ainda, a constante de normalização $\Gamma_m(L)$ é a função Gamma multivariada definida como 
 \begin{equation}\label{eqn121}
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
 \end{equation}
 sendo $\Gamma(\cdot)$ a função Gamma e $|\cdot|$, $tr(\cdot)$ são respectivamente o determinande e o traço de uma matriz. Vamoas denotar a distribuíção Wishart como $W(\Sigma,L)$. 
 
-A faixa de dados coletada no {\it i}-ésimo raio {\bf $s^{i}$} , $i=1,2,\dots S$, contém $N^{(i)}$ pixels. Para cada pixel {\it k} em uma dada faixa {\it i} é assumida que pode ser descrita pelo resultado da matriz $\mathbf{Z_{k}^{(i)}}$ que é um distribuíção de Wishart.  
+A faixa de dados coletada no {\it i}-ésimo raio {\bf $s^{i}$} , $i=1,2,\dots, S$, contém $N^{(i)}$ pixels. Para cada pixel {\it k} em uma dada faixa {\it i} é assumida que pode ser descrita pelo resultado da matriz $\mathbf{Z_{k}^{(i)}}$ que é um distribuíção de Wishart.  
 
 
 \begin{equation}\label{eqn122}
