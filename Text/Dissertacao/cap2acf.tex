@@ -1720,11 +1720,11 @@ Substituindo nas duas parcelas da equação (\ref{eqn127}) levando em consideração
 	&-&\left.\alpha_{B}\ln{(\gamma_{B})} -\ln{(\mathbf{\Gamma}(-\alpha_{B}))}-\ln{(\mathbf{\Gamma}(L))}-(L-\alpha_{B})\ln{(\gamma_{B}+z^2L)}\right]\\
 	l(j)&=&\sum_{k=1}^{j}\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right]+(2L-1)\sum_{k=1}^{N}\ln{(z)} \\
 	&+&\sum_{k=1}^{j}\left[\ln{(\Gamma(L-\alpha_{A}))}-\alpha_{A}\ln{(\gamma_{A})} -\ln{(\mathbf{\Gamma}(-\alpha_{A}))}-(L-\alpha_{A})\ln{(\gamma_{A}+z^2L)}\right]\\
-	&=&\sum_{k=j+1}^{N}\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right] \\
+	&+&\sum_{k=j+1}^{N}\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right] \\
 	&+&\sum_{k=j+1}^{N}\left[\ln{(\mathbf{\Gamma}(L-\alpha_{B}))}-\alpha_{B}\ln{(\gamma_{B})} -\ln{(\mathbf{\Gamma}(-\alpha_{B}))}-(L-\alpha_{B})\ln{(\gamma_{B}+z^2L)}\right]\\
 	l(j)&=&\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right]j+(2L-1)\sum_{k=1}^{N}\ln{(z)} \\
 	&+&\left[\ln{(\Gamma(L-\alpha_{A}))}-\alpha_{A}\ln{(\gamma_{A})} -\ln{(\mathbf{\Gamma}(-\alpha_{A}))}\right]j\\
-	  &=&\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right](N-j) \\
+	  &+&\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right](N-j) \\
 	&+&\left[\ln{(\mathbf{\Gamma}(L-\alpha_{B}))}-\alpha_{B}\ln{(\gamma_{B})} -\ln{(\mathbf{\Gamma}(-\alpha_{B}))}\right](N-j) \\
 	&-&(L-\alpha_{B})\sum_{k=j+1}^{N}\ln{(\gamma_{B}+z^2L)}-(L-\alpha_{A})\sum_{k=1}^{j}\ln{(\gamma_{A}+z^2L)}\\
 	l(j)&=&\left[\ln{(2)}+L\ln{(L)}-\ln{\Gamma(L)}\right]N+(2L-1)\sum_{k=1}^{N}\ln{(z)} \\
@@ -1787,7 +1787,7 @@ Nesta seção, será realizado o processo de maximização da função objetivo $l(j)$ 
 \begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{fig_2_gambini_2006_func_objetivo_eq12.pdf}
-	\caption{Função objetivo $l(j)$.}
+	\caption{Função objetivo $l(j) -  eq127$.}
 \label{fig1}
 \end{figure}
 
@@ -1808,9 +1808,23 @@ Os resultados foram compatíveis com o esperado pelo gráfico acima, isto é, o mét
 
 Nesta seção, será realizado o processo de maximização da função objetivo $l(j)$ conforme a equação (\ref{eqn129}) usando a equação (\ref{eqn128}). Para os testes escolhemos os parametros $(\alpha_r, \gamma_r)=(-9.14, 372294)$ e $(\alpha_b,\gamma_b)=(-3.92,293242)$ que representam os parâmetros estatísticos para a região de interesse da imagem e o seu fundo respectivamente. A figura abaixo mostra o gráfico de $l(j)$ para esses parâmetros.  
 
-%\begin{figure}[hbt]
-%\centering
-%\includegraphics[width=4.0in]{fig_2_gambini_2006_func_objetivo_eq12.pdf}
-%	\caption{Função objetivo $L(j)$.}
-%\label{fig1}
-%\end{figure}
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{func_objetivo_eq128.pdf}
+	\caption{Função objetivo $L(j) - eq128$.}
+\label{fig1}
+\end{figure}
+
+Podemos observar que a função é mesma pois a equção (\ref{eqn128}) foi deduzida da equação (\ref{eqn127}). A forma da função  objetivo mostrada na figura (\ref{eqn128}) apresenta a vantagem de necessitar uma menor quantidade de conta por iteração ajudando a diminuir o custo computacional.
+
+
+Para rodar o programa que encontra o estimador de máxima verosimilhança apresentado na equação (\ref{eqn129}) utilizando a função objetivo (\ref{eqn128}) utilizamos o mesmo procedimento da seção anterior
+
+Para iniciar o processo de otimização foi dado um chute inicial $x_0=200\in[0,2000]$ e uma tolerância de $tol=10^{-8}$ para iterações sucessivas como critério de parada do método. Foi usado o método de otimização BFGS.
+
+Os resultados foram compatíveis com o esperado pelo gráfico acima, isto é, o método mostrou como saída $14$ iterações, o valor de abscissa máxima $x_{max}\in[240,260]$ e $-21323.677236$ para a ordenada do valor máximo estimado pelo algoritmo para a função objetivo.
+
+\textcolor{red}{O resultado da otimização foi sensivelmente diferente do anterior, devo fazer uma validação mais consistente desses algoritmos}
+
+
+
