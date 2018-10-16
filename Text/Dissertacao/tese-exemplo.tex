@@ -45,6 +45,7 @@
 \renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
 \renewcommand{\headrulewidth}{0pt}
 \newtheorem{definition}{Definição}[section]
+\DeclareMathOperator{\traco}{tr}
 
 % ---------------------------------------------------------------------------- %
 \graphicspath{{./figuras/}}             % caminho das figuras (recomendável)
@@ -105,14 +106,14 @@ framexrightmargin=10pt
 \thispagestyle{empty}
 \begin{center}
     \vspace*{2.3cm}
-    \textbf{\Large{Imagens PolSAR}}\\
+    \textbf{\Large{Fusão de evidências na detecção de bordas em Imagens PolSAR}}\\
     
     \vspace*{1.2cm}
     \Large{Anderson Adaime de Borba}
     
     \vskip 2cm
     \textsc{
-    Tese apresentada\\[-0.25cm] 
+    Exame de qualificação apresentado\\[-0.25cm] 
     a\\[-0.25cm]
     Faculadade de Computação e informática\\[-0.25cm]
     da\\[-0.25cm]
@@ -123,7 +124,7 @@ framexrightmargin=10pt
     Doutor em Ciências}
     
     \vskip 1.5cm
-    Programa de Pós graduação em Engenharia Elétrica e Computação\\
+    Programa de Pós graduação em Engenharia Elétrica e Computação - PPGEEC\\
     Orientador: Prof. Dr. Mauricio Marengoni\\
     Coorientador: Prof. Dr. Alejandro César Frery Orgambide
 
@@ -145,23 +146,23 @@ framexrightmargin=10pt
 %   final, corrigida, do trabalho
 %
 %
-\newpage
-\thispagestyle{empty}
-    \begin{center}
-        \vspace*{2.3 cm}
-        \textbf{\Large{Imagens PolSAR}}\\
-        \vspace*{2 cm}
-    \end{center}
-
-    \vskip 2cm
-
-    \begin{flushright}
-	Esta é a versão original da tese elaborada pelo\\
-	candidato anderson Adaime de Borba, tal como \\
-	submetida à Comissão Julgadora.
-    \end{flushright}
-
-\pagebreak
+%\newpage
+%\thispagestyle{empty}
+%    \begin{center}
+%        \vspace*{2.3 cm}
+%        \textbf{\Large{Imagens PolSAR}}\\
+%        \vspace*{2 cm}
+%    \end{center}
+%
+%    \vskip 2cm
+%
+%    \begin{flushright}
+%	Esta é a versão original da tese elaborada pelo\\
+%	candidato Anderson Adaime de Borba, tal como \\
+%	submetida à Comissão Julgadora.
+%    \end{flushright}
+%
+%\pagebreak
 
 
 % ---------------------------------------------------------------------------- %
@@ -177,104 +178,104 @@ framexrightmargin=10pt
 %   à Comissão Julgadora antes da defesa
 %
 %
-\newpage
-\thispagestyle{empty}
-    \begin{center}
-        \vspace*{2.3 cm}
-        \textbf{\Large{Imagens PolSAR}}\\
-        \vspace*{2 cm}
-    \end{center}
-
-    \vskip 2cm
-
-    \begin{flushright}
-	Esta versão da tese contém as correções e alterações sugeridas\\
-	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
-	realizada em **/**/****. Uma cópia da versão original está disponível no\\
-	na faculdade de Computação e informática da Universidade Presbiteriana Mackenzie.
-
-    \vskip 2cm
-
-    \end{flushright}
-    \vskip 4.2cm
-
-    \begin{quote}
-    \noindent Comissão Julgadora:
-    
-    \begin{itemize}
-		\item Profª. Drª. Nome Completo (orientadora) - Mackenzie [sem ponto final]
-		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
-		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
-    \end{itemize}
-      
-    \end{quote}
-\pagebreak
-
-
-\pagenumbering{roman}     % começamos a numerar 
+%\newpage
+%\thispagestyle{empty}
+%    \begin{center}
+%        \vspace*{2.3 cm}
+%        \textbf{\Large{Imagens PolSAR}}\\
+%        \vspace*{2 cm}
+%    \end{center}
+%
+%    \vskip 2cm
+%
+%    \begin{flushright}
+%	Esta versão da tese contém as correções e alterações sugeridas\\
+%	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
+%	realizada em **/**/****. Uma cópia da versão original está disponível no\\
+%	na faculdade de Computação e informática da Universidade Presbiteriana Mackenzie.
+%
+%    \vskip 2cm
+%
+%    \end{flushright}
+%    \vskip 4.2cm
+%
+%    \begin{quote}
+%    \noindent Comissão Julgadora:
+%    
+%    \begin{itemize}
+%		\item Profª. Drª. Nome Completo (orientadora) - Mackenzie [sem ponto final]
+%		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
+%		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
+%    \end{itemize}
+%      
+%    \end{quote}
+%\pagebreak
+%
+%
+%\pagenumbering{roman}     % começamos a numerar 
 
 % ---------------------------------------------------------------------------- %
 % Agradecimentos:
 % Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-\chapter*{Agradecimentos}
-Texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto. Texto opcional.
+%\chapter*{Agradecimentos}
+%Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto. Texto opcional.
 
 
 % ---------------------------------------------------------------------------- %
 % Resumo
-\chapter*{Resumo}
+%\chapter*{Resumo}
 
-\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
-2019. *** f.
-Tese (Doutorado) - Faculadade de Computação e Informática,
-Universidade Presbiteriana Mackenzie, São Paulo, 2019.
-\\
-
-Elemento obrigatório, constituído de uma sequência de frases concisas e
-objetivas, em forma de texto.  Deve apresentar os objetivos, métodos empregados,
-resultados e conclusões.  O resumo deve ser redigido em parágrafo único, conter
-no máximo 500 palavras e ser seguido dos termos representativos do conteúdo do
-trabalho (palavras-chave). 
-Texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto.
-Texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto.
-\\
-
-\noindent \textbf{Palavras-chave:} palavra-chave1, palavra-chave2, palavra-chave3.
+%\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
+%2019. *** f.
+%Tese (Doutorado) - Faculadade de Computação e Informática,
+%Universidade Presbiteriana Mackenzie, São Paulo, 2019.
+%\\
+%
+%Elemento obrigatório, constituído de uma sequência de frases concisas e
+%objetivas, em forma de texto.  Deve apresentar os objetivos, métodos empregados,
+%resultados e conclusões.  O resumo deve ser redigido em parágrafo único, conter
+%no máximo 500 palavras e ser seguido dos termos representativos do conteúdo do
+%trabalho (palavras-chave). 
+%Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto.
+%Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto.
+%\\
+%
+%\noindent \textbf{Palavras-chave:} palavra-chave1, palavra-chave2, palavra-chave3.
 
 % ---------------------------------------------------------------------------- %
 % Abstract
-\chapter*{Abstract}
-\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
-2019. *** f.
-Tese (Doutorado) - Faculadade de Computação e Informática,
-Universidade Presbiteriana Mackenzie, São Paulo, 2019.
-\\
+%\chapter*{Abstract}
+%\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
+%2019. *** f.
+%Tese (Doutorado) - Faculadade de Computação e Informática,
+%Universidade Presbiteriana Mackenzie, São Paulo, 2019.
+%\\
 
 
-Elemento obrigatório, elaborado com as mesmas características do resumo em
-língua portuguesa. De acordo com o Regimento da Pós- Graduação, deve ser redigido em inglês para fins de divulgação. 
-Text text text text text text text text text text text text text text text text
-text text text text text text text text text text text text text text text text
-text text text text text text text text text text text text text text text text
-text text text text text text text text text text text text.
-Text text text text text text text text text text text text text text text text
-text text text text text text text text text text text text text text text text
-text text text.
-\\
-
-\noindent \textbf{Keywords:} keyword1, keyword2, keyword3.
+%Elemento obrigatório, elaborado com as mesmas características do resumo em
+%língua portuguesa. De acordo com o Regimento da Pós- Graduação, deve ser redigido em inglês para fins de divulgação. 
+%Text text text text text text text text text text text text text text text text
+%text text text text text text text text text text text text text text text text
+%text text text text text text text text text text text text text text text text
+%text text text text text text text text text text text text.
+%Text text text text text text text text text text text text text text text text
+%text text text text text text text text text text text text text text text text
+%text text text.
+%\\
+%
+%\noindent \textbf{Keywords:} keyword1, keyword2, keyword3.
 
 % ---------------------------------------------------------------------------- %
 % Sumário
@@ -283,18 +284,24 @@ text text text.
 % ---------------------------------------------------------------------------- %
 \chapter{Lista de Abreviaturas}
 \begin{tabular}{ll}
-         CFT         & Transformada contínua de Fourier (\emph{Continuous Fourier Transform})\\
-         DFT         & Transformada discreta de Fourier (\emph{Discrete Fourier Transform})\\
-        EIIP         & Potencial de interação elétron-íon (\emph{Electron-Ion Interaction Potentials})\\
-        STFT         & Tranformada de Fourier de tempo reduzido (\emph{Short-Time Fourier Transform})\\
+SAR            & Imagens obtidas com radar de abertura sintética\\
+PolSAR         & Imagens obtidas com radar de abertura sintética polarimética\\
+\textbf{p.d.f} & Função densidade de probabilidade\\
+LoG            & Detector de borda usando o laplaciano da gaussiana\\
+\textbf{MMQ}   & Método dos quadrados mínimos\\
+\textbf{MLE}   & Método de estimativa de máxima verossimilhança\\
+\textbf{GenSA} & Método Simullated anneling\\
 \end{tabular}
 
 % ---------------------------------------------------------------------------- %
 \chapter{Lista de Símbolos}
 \begin{tabular}{ll}
-        $\omega$    & Frequência angular\\
-        $\psi$      & Função de análise \emph{wavelet}\\
-        $\Psi$      & Transformada de Fourier de $\psi$\\
+        $L$         & Número de visadas em uma imagem PolSAR\\
+        $\Sigma$    & Matriz de covariância hermitiana e definida positiva \\
+	$E[\cdot]$  & Valor esperado\\
+	$\Gamma$    & Função Gamma \\
+	$\Gamma_m$  & Função Gamma multivariada\\
+	$W(\Gamma, L)$ & Distribuíção Wishart\\
 \end{tabular}
 
 % ---------------------------------------------------------------------------- %
@@ -312,17 +319,18 @@ text text text.
 \singlespacing              % espaçamento simples
 %\onehalfspacing            % espaçamento um e meio
 
-\input cap-introducao        % associado ao arquivo: 'cap-introducao.tex'
-\input cap-conceitos         % associado ao arquivo: 'cap-conceitos.tex'
+%\input cap-introducao        % associado ao arquivo: 'cap-introducao.tex'
+%\input cap-conceitos         % associado ao arquivo: 'cap-conceitos.tex'
 \input cap2acf               % AAB - Arquivo inserido
-\input cap-conclusoes        % associado ao arquivo: 'cap-conclusoes.tex'
+%\input cap-conclusoes        % associado ao arquivo: 'cap-conclusoes.tex'
+%\input apendice
 
 % cabeçalho para os apêndices
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
 \fancyhead[RE,LO]{}
 \appendix
 
-\include{ape-conjuntos}      % associado ao arquivo: 'ape-conjuntos.tex'
+%\include{ape-conjuntos}      % associado ao arquivo: 'ape-conjuntos.tex'
 
 % ---------------------------------------------------------------------------- %
 % Bibliografia

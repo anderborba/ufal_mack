@@ -1,0 +1,18 @@
+\select@language {brazil}
+\contentsline {chapter}{Lista de Abreviaturas}{v}{chapter*.2}
+\contentsline {chapter}{Lista de S\IeC {\'\i }mbolos}{vii}{chapter*.3}
+\contentsline {chapter}{Lista de Figuras}{ix}{chapter*.4}
+\contentsline {chapter}{Lista de Tabelas}{xi}{chapter*.5}
+\contentsline {chapter}{\numberline {1}Fus\~ao de evid\^encias na detec\c c\~ao de bordas em Imagens PolSAR}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Modelagem estat\IeC {\'\i }stica para dados PolSAR}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Detec\c c\~ao de bordas em imagens PolSAR}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Estimativa por M\'axima verossimilhan\c ca (\textbf {MLE})}{4}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Fun\c c\~ao de verossimilhan\c ca}{5}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}Estimativa de m\'axima verossimilhan\c ca aplicada a distribu\IeC {\'\i }\c c\~ao Wishart}{5}{subsection.1.3.2}
+\contentsline {section}{\numberline {1.4}Aplica\c c\~ao em imagens sint\'eticas}{7}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}Aplica\c c\~ao do m\'etodo \text {MLE} para duas classes definidas}{8}{subsection.1.4.1}
+\contentsline {section}{\numberline {1.5}Fus\~ao de evid\^encias de bordas}{11}{section.1.5}
+\contentsline {section}{\numberline {1.6}Conclus\~ao}{13}{section.1.6}
+\contentsline {section}{\numberline {1.7}Objetivos}{13}{section.1.7}
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{15}{appendix*.13}
+\contentsfinish 

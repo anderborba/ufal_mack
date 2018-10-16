@@ -1,0 +1,19 @@
+\select@language {brazil}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Decomposi\c c\~ao de Pauli para a phanton proposta no artigo \cite {nhfc}.\relax }}{7}{figure.caption.6}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Distribu\IeC {\'\i }\c c\~ao Wishart com dados simulados para o canal $I_{HH}$\relax }}{8}{figure.caption.7}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Distribu\IeC {\'\i }\c c\~ao Wishart com dados simulados para o canal $I_{HH}$\relax }}{8}{figure.caption.7}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Fun\c c\~ao $l(j)$ para o canal $I_{HH}$\relax }}{9}{figure.caption.8}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Fun\c c\~ao $l(j)$ para o canal $I_{HV}$\relax }}{9}{figure.caption.8}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Fun\c c\~ao $l(j)$ para o canal $I_{VV}$\relax }}{9}{figure.caption.8}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Evid\^encias de bordas para o canal $I_{HH}$\relax }}{10}{figure.caption.9}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Evid\^encias de bordas para o canal $I_{HV}$\relax }}{10}{figure.caption.9}
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Evid\^encias de bordas para o canal $I_{VV}$\relax }}{10}{figure.caption.9}
+\contentsline {figure}{\numberline {1.10}{\ignorespaces Probabilidade de detec\c c\~ao de borda estimada usando GenSA.\relax }}{11}{figure.caption.10}
+\contentsline {figure}{\numberline {1.11}{\ignorespaces Fus\~ao de evid\^encias para os canais $\left (I_{h,h}, I_{h,v}, I_{v,v}\right )$.\relax }}{12}{figure.caption.11}
+\contentsline {figure}{\numberline {1.12}{\ignorespaces M\'etodo dos quadrados m\IeC {\'\i }nimos aplicado a fus\~ao de imagens.\relax }}{12}{figure.caption.11}
+\contentsline {figure}{\numberline {1.13}{\ignorespaces Probabilidade de detec\c c\~ao de borda com fus\~ao de evid\^encias.\relax }}{12}{figure.caption.12}
+\contentsline {figure}{\numberline {1.14}{\ignorespaces Valor absoluto da diferen\c ca entre o vetor estimado com o m\'etodo de fus\~ao de evid\^encias e a borda real.\relax }}{12}{figure.caption.12}
+\contentsfinish 
