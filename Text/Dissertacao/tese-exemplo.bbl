@@ -1,0 +1,288 @@
+\begin{thebibliography}{30}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anfinsen {\rm{\em et~al.}}(2009)Anfinsen, Doulgeris, e
+  Eltoft]{ade}{\bf Anfinsen {\rm{\em et~al.}}(2009)}
+Stian~Normann Anfinsen, Anthony~P Doulgeris e Torbjón Eltoft.
+\newblock Estimation of the equivalent number of looks in polarimetric
+  synthetic aperture radar imagery.
+\newblock \emph{IEEE Transactions on Geoscience and Remote Sensing},
+  47\penalty0 (11):\penalty0 3795--3809.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Ball {\rm{\em et~al.}}(2017)Ball, Anderson, e Chan]{bac}{\bf Ball
+  {\rm{\em et~al.}}(2017)}
+John~E. Ball, Derek~T. Anderson e Chee~Seng Chan.
+\newblock A comprehensive survey of deep learning in remote sensing: Theories,
+  tools and challenges for the community.
+\newblock \emph{CoRR}, abs/1709.00308.
+\newblock URL \url{http://arxiv.org/abs/1709.00308}.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[Baselice e Ferraioli(2012)]{bf}{\bf Baselice e Ferraioli(2012)}
+F.~Baselice e G.~Ferraioli.
+\newblock Statistical edge detection in urban areas exploiting sar complex
+  data.
+\newblock \emph{IEEE Geoscience and Remote Sensing Letters}, 9\penalty0
+  (2):\penalty0 185--189.
+\newblock ISSN 1545-598X.
+\newblock \doi{10.1109/LGRS.2011.2163295}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Demmel(1997)]{demmel}{\bf Demmel(1997)}
+James Demmel.
+\newblock \emph{Applied Numerical Linear Algebra}.
+\newblock {SIAM}.
+\newblock ISBN 978-0-898713-89-3.
+\newblock URL \url{http://bookstore.siam.org/ot56/}.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[Fjortoft {\rm{\em et~al.}}(1998)Fjortoft, Lopes, Marthon, e
+  Cubero-Castan]{flmc}{\bf Fjortoft {\rm{\em et~al.}}(1998)}
+R.~Fjortoft, A.~Lopes, P.~Marthon e E.~Cubero-Castan.
+\newblock An optimal multiedge detector for sar image segmentation.
+\newblock \emph{IEEE Transactions on Geoscience and Remote Sensing},
+  36\penalty0 (3):\penalty0 793--802.
+\newblock ISSN 0196-2892.
+\newblock \doi{10.1109/36.673672}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Frery {\rm{\em et~al.}}(2011)Frery, Nascimento, e Cintra]{fnc2011}{\bf
+  Frery {\rm{\em et~al.}}(2011)}
+Alejandro~C Frery, Abraao~DC Nascimento e Renato~J Cintra.
+\newblock Information theory and image understanding: An application to
+  polarimetric {SAR} imagery.
+\newblock \emph{Chilean Journal of Statistics}, 2\penalty0 (2):\penalty0
+  81--100.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Frery {\rm{\em et~al.}}(2014)Frery, Nascimento, e Cintra]{fnc}{\bf
+  Frery {\rm{\em et~al.}}(2014)}
+Alejandro~C Frery, Abraao~DC Nascimento e Renato~J Cintra.
+\newblock Analytic expressions for stochastic distances between relaxed complex
+  wishart distributions.
+\newblock \emph{IEEE Transactions on Geoscience and Remote Sensing},
+  52\penalty0 (2):\penalty0 1213--1226.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Frery {\rm{\em et~al.}}(1997)Frery, Muller, Yanasse, e
+  Sant'Anna]{fmcs}{\bf Frery {\rm{\em et~al.}}(1997)}
+Alejandro~C{\'e}sar Frery, H-J Muller, Corina da Costa~Freitas Yanasse e Sidnei
+  Jo{\~a}o~Siqueira Sant'Anna.
+\newblock A model for extremely heterogeneous clutter.
+\newblock \emph{IEEE transactions on geoscience and remote sensing},
+  35\penalty0 (3):\penalty0 648--659.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Frery {\rm{\em et~al.}}(2012)Frery, Jacobo{-}Berlles, Gambini, e
+  Mejail]{fbgm}{\bf Frery {\rm{\em et~al.}}(2012)}
+Alejandro~C{\'{e}}sar Frery, Julio Jacobo{-}Berlles, Juliana Gambini e Marta
+  Mejail.
+\newblock Polarimetric {SAR} image segmentation with b-splines and a new
+  statistical model.
+\newblock \emph{CoRR}, abs/1207.3944.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Fu {\rm{\em et~al.}}(2012)Fu, You, e Fu]{fyf}{\bf Fu {\rm{\em
+  et~al.}}(2012)}
+X.~Fu, H.~You e K.~Fu.
+\newblock A statistical approach to detect edges in sar images based on square
+  successive difference of averages.
+\newblock \emph{IEEE Geoscience and Remote Sensing Letters}, 9\penalty0
+  (6):\penalty0 1094--1098.
+\newblock ISSN 1545-598X.
+\newblock \doi{10.1109/LGRS.2012.2190378}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Gambini {\rm{\em et~al.}}(2006)Gambini, Mejail, Jacobo-Berlles, e
+  Frery]{gmbf}{\bf Gambini {\rm{\em et~al.}}(2006)}
+J.~Gambini, M.~Mejail, J.~Jacobo-Berlles e A.~C. Frery.
+\newblock Feature extraction in speckled imagery using dynamic {B}-spline
+  deformable contours under the {G0} model.
+\newblock \emph{International Journal of Remote Sensing}, 27\penalty0
+  (22):\penalty0 5037--5059.
+\newblock \doi{10.1080/01431160600702616}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Gambini {\rm{\em et~al.}}(2008)Gambini, Mejail, Jacobo{-}Berlles, e
+  Frery]{gmbf_sc}{\bf Gambini {\rm{\em et~al.}}(2008)}
+Juliana Gambini, Marta Mejail, Julio Jacobo{-}Berlles e Alejandro~C{\'{e}}sar
+  Frery.
+\newblock Accuracy of edge detection methods with local information in speckled
+  imagery.
+\newblock \emph{Statistics and Computing}, 18\penalty0 (1):\penalty0 15--26.
+\newblock \doi{10.1007/s11222-007-9034-y}.
+\newblock URL \url{https://doi.org/10.1007/s11222-007-9034-y}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Girón {\rm{\em et~al.}}(2012)Girón, Frery, e Cribari-Neto]{gfn}{\bf
+  Girón {\rm{\em et~al.}}(2012)}
+Edwin Girón, Alejandro~C. Frery e Francisco Cribari-Neto.
+\newblock Nonparametric edge detection in speckled imagery.
+\newblock \emph{Mathematics and Computers in Simulation}, 82\penalty0
+  (11):\penalty0 2182 -- 2198.
+\newblock ISSN 0378-4754.
+\newblock \doi{https://doi.org/10.1016/j.matcom.2012.04.013}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S037847541200136X}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Gomez {\rm{\em et~al.}}(2017)Gomez, Alvarez, Mazorra, e
+  Frery]{gamf}{\bf Gomez {\rm{\em et~al.}}(2017)}
+Luis Gomez, Luis Alvarez, Luis Mazorra e Alejandro~C Frery.
+\newblock Fully polsar image classification using machine learning techniques
+  and reaction-diffusion systems.
+\newblock \emph{Neurocomputing}, 255:\penalty0 52--60.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[Goodman(1963)]{good}{\bf Goodman(1963)}
+N.~R. Goodman.
+\newblock The distribution of the determinant of a complex wishart distributed
+  matrix.
+\newblock \emph{Ann. Math. Statist.}, 34\penalty0 (1):\penalty0 178--180.
+\newblock \doi{10.1214/aoms/1177704251}.
+\newblock URL \url{http://dx.doi.org/10.1214/aoms/1177704251}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Hagedorn {\rm{\em et~al.}}(2006)Hagedorn, Smith, Bones, Millane, e
+  Pairman]{hsbmp}{\bf Hagedorn {\rm{\em et~al.}}(2006)}
+M.~Hagedorn, P.J. Smith, P.J. Bones, R.P. Millane e D.~Pairman.
+\newblock A trivariate chi-squared distribution derived from the complex
+  wishart distribution.
+\newblock \emph{Journal of Multivariate Analysis}, 97\penalty0 (3):\penalty0
+  655 -- 674.
+\newblock ISSN 0047-259X.
+\newblock \doi{https://doi.org/10.1016/j.jmva.2005.05.014}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0047259X05000795}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Horritt(1999)]{horrit}{\bf Horritt(1999)}
+MatthewS. Horritt.
+\newblock A statistical active contour model for sar image segmentation.
+\newblock \emph{Image and Vision Computing}, 17\penalty0 (3):\penalty0 213 --
+  224.
+\newblock ISSN 0262-8856.
+\newblock \doi{https://doi.org/10.1016/S0262-8856(98)00101-2}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0262885698001012}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Lee e Pottier(2009)]{lp}{\bf Lee e Pottier(2009)}
+Jong-Sen Lee e Eric Pottier.
+\newblock \emph{Polarimetric radar imaging: from basics to applications}.
+\newblock CRC press.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[L{\'o}pez-Mart{\'i}nez {\rm{\em et~al.}}(2005)L{\'o}pez-Mart{\'i}nez,
+  F{\`a}bregas, e Pottier]{mfp}{\bf L{\'o}pez-Mart{\'i}nez {\rm{\em
+  et~al.}}(2005)}
+Carlos L{\'o}pez-Mart{\'i}nez, Xavier F{\`a}bregas e Eric Pottier.
+\newblock Multidimensional speckle noise model.
+\newblock \emph{EURASIP Journal on Advances in Signal Processing},
+  2005\penalty0 (20):\penalty0 180956.
+\newblock ISSN 1687-6180.
+\newblock \doi{10.1155/ASP.2005.3259}.
+\newblock URL \url{https://doi.org/10.1155/ASP.2005.3259}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Mitchell(2010)]{mit}{\bf Mitchell(2010)}
+H.B. Mitchell.
+\newblock \emph{Image Fusion: Theories, Techniques and Applications}.
+\newblock Springer Berlin Heidelberg.
+\newblock ISBN 9783642112164.
+\newblock URL \url{https://books.google.com.br/books?id=D7DXAX6eH2oC}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Nascimento {\rm{\em et~al.}}(2014)Nascimento, Horta, Frery, e
+  Cintra]{nhfc}{\bf Nascimento {\rm{\em et~al.}}(2014)}
+Abraão Nascimento, Michelle Horta, Alejandro Frery e Renato Cintra.
+\newblock Comparing edge detection methods based on stochastic entropies and
+  distances for polsar imagery.
+\newblock \emph{Journal of Selected Topics in Applied Earth Observations and
+  Remote Sensing}, 7\penalty0 (2):\penalty0 648--663.   {\scriptsize Citado na
+  p\'{a}g.}
+
+\bibitem[Oliver {\rm{\em et~al.}}(1996)Oliver, Blacknell, e White]{obw}{\bf
+  Oliver {\rm{\em et~al.}}(1996)}
+C.~J. Oliver, D.~Blacknell e R.~G. White.
+\newblock Optimum edge detection in sar.
+\newblock \emph{IEE Proceedings - Radar, Sonar and Navigation}, 143\penalty0
+  (1):\penalty0 31--40.
+\newblock ISSN 1350-2395.
+\newblock \doi{10.1049/ip-rsn:19960219}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Pont-Tuset {\rm{\em et~al.}}(2017)Pont-Tuset, Arbeláez, Barron,
+  Marques, e Malik]{tabmm}{\bf Pont-Tuset {\rm{\em et~al.}}(2017)}
+J.~Pont-Tuset, P.~Arbeláez, J.~T. Barron, F.~Marques e J.~Malik.
+\newblock Multiscale combinatorial grouping for image segmentation and object
+  proposal generation.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 39\penalty0 (1):\penalty0 128--140.
+\newblock ISSN 0162-8828.
+\newblock \doi{10.1109/TPAMI.2016.2537320}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Salentinig e Gamba(2016)]{sg}{\bf Salentinig e Gamba(2016)}
+A.~Salentinig e P.~Gamba.
+\newblock A general framework for urban area extraction exploiting
+  multiresolution sar data fusion.
+\newblock \emph{IEEE Journal of Selected Topics in Applied Earth Observations
+  and Remote Sensing}, 9\penalty0 (5):\penalty0 2009--2018.
+\newblock ISSN 1939-1404.
+\newblock \doi{10.1109/JSTARS.2016.2546553}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Samat {\rm{\em et~al.}}(2018)Samat, Gamba, Liu, Miao, Li, e
+  Abuduwaili]{sglmla}{\bf Samat {\rm{\em et~al.}}(2018)}
+Alim Samat, Paolo Gamba, Sicong Liu, Zelang Miao, Erzhu Li e Jilili Abuduwaili.
+\newblock Quad-polsar data classification using modified random forest
+  algorithms to map halophytic plants in arid areas.
+\newblock \emph{Int. J. Applied Earth Observation and Geoinformation},
+  73:\penalty0 503--521.
+\newblock \doi{10.1016/j.jag.2018.06.006}.
+\newblock URL \url{https://doi.org/10.1016/j.jag.2018.06.006}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Sant'Anna {\rm{\em et~al.}}(2008)Sant'Anna, Da~S.~Lacava, e
+  Fernandes]{slf_2008}{\bf Sant'Anna {\rm{\em et~al.}}(2008)}
+Sidnei J.~S. Sant'Anna, J.~C. Da~S.~Lacava e David Fernandes.
+\newblock From maxwell?s equations to polarimetric sar images: A simulation
+  approach.
+\newblock \emph{Sensors}, 8\penalty0 (11):\penalty0 7380--7409.
+\newblock ISSN 1424-8220.
+\newblock \doi{10.3390/s8117380}.
+\newblock URL \url{http://www.mdpi.com/1424-8220/8/11/7380}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[Touzi {\rm{\em et~al.}}(1988)Touzi, Lopes, e Bousquet]{tlb}{\bf Touzi
+  {\rm{\em et~al.}}(1988)}
+R.~Touzi, A.~Lopes e P.~Bousquet.
+\newblock A statistical and geometrical edge detector for sar images.
+\newblock \emph{IEEE Transactions on Geoscience and Remote Sensing},
+  26\penalty0 (6):\penalty0 764--773.
+\newblock ISSN 0196-2892.
+\newblock \doi{10.1109/36.7708}.   {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Xie e Tu(2017)]{xstz}{\bf Xie e Tu(2017)}
+Saining Xie e Zhuowen Tu.
+\newblock Holistically-nested edge detection.
+\newblock \emph{Int. J. Comput. Vision}, 125\penalty0 (1-3):\penalty0 3--18.
+\newblock ISSN 0920-5691.
+\newblock \doi{10.1007/s11263-017-1004-z}.
+\newblock URL \url{https://doi.org/10.1007/s11263-017-1004-z}.   {\scriptsize
+  Citado na p\'{a}g.}
+
+\bibitem[{Yang Xiang} {\rm{\em et~al.}}(2013){Yang Xiang}, Gubian, Suomela, e
+  Hoeng]{xgsh}{\bf {Yang Xiang} {\rm{\em et~al.}}(2013)}
+{Yang Xiang}, Sylvain Gubian, Brian Suomela e Julia Hoeng.
+\newblock Generalized simulated annealing for efficient global optimization:
+  the {GenSA} package for {R}.
+\newblock \emph{The R Journal Volume 5/1, June 2013}.
+\newblock URL
+  \url{https://journal.r-project.org/archive/2013/RJ-2013-002/index.html}.
+  {\scriptsize Citado na p\'{a}g.}
+
+\bibitem[Zhu {\rm{\em et~al.}}(2017)Zhu, Tuia, Mou, Xia, Zhang, Xu, e
+  Fraundorfer]{ztmxzxf}{\bf Zhu {\rm{\em et~al.}}(2017)}
+X.~X. Zhu, D.~Tuia, L.~Mou, G.~Xia, L.~Zhang, F.~Xu e F.~Fraundorfer.
+\newblock Deep learning in remote sensing: A comprehensive review and list of
+  resources.
+\newblock \emph{IEEE Geoscience and Remote Sensing Magazine}, 5\penalty0
+  (4):\penalty0 8--36.
+\newblock ISSN 2168-6831.
+\newblock \doi{10.1109/MGRS.2017.2762307}.   {\scriptsize Citado na p\'{a}g.}
+
+\end{thebibliography}
