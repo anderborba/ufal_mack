@@ -6,7 +6,8 @@
 
 Neste trabalho estudaremos as imagens \textit{Synthetic Aperture Radar} (SAR) e as imagens \textit{Polarimetric Synthetic Aperture Radar} (PolSAR) estas requerem uma base de dados com múltiplos valores complexos que exigem modelos e algoritmos adequados.
 
-No estudo de imagens PolSAR podemos citar diferentes técnicas, por exemplo, no trabalho de \citet{slf_2008} é usado modelagem eletromagnética para propor uma abordagem de detecção de borda nas simulações de imagens PolSAR. Nas referências \citep{tlb, obw, flmc, fyf} podemos encontrar técnicas de detecção de bordas baseadas em métodos que estimam o gradiente, que funcionam usando uma janela deslizante, destacando através do cálculo do gradiente as bordas das imagens. Em \citet{obw} foi proposto o método de máxima verossimilhança para detectar a presença de bordas, em uma janela pré-definida de pixeis com a tarefa de encontrar bordas acuradas. O estudo de detecção de bordas, usando propriedades físicas das áreas estudadas, pode ser encontrado na referência \citep{bf}, as quais utilizam cadeias de Markov. Em \citep{gfn} é descrito a comparação entre vários detectores de bordas que seguem a ideia deste trabalho. Técnicas baseadas nas modelagens estatísticas têm sido usadas na detecção de bordas em imagens SAR, podemos citar as referências \citep{gmbf, fbgm, horrit, gfn}. 
+No estudo de imagens PolSAR podemos citar diferentes técnicas, por exemplo, no trabalho de \citet{slf_2008} é usado modelagem eletromagnética para propor uma abordagem de detecção de borda nas simulações de imagens PolSAR. 
+Nos trabalhos de \citet{tlb, obw, flmc, fyf} podemos encontrar técnicas de detecção de bordas baseadas em métodos que estimam o gradiente, que funcionam usando uma janela deslizante, destacando através do cálculo do gradiente as bordas das imagens. Em \citet{obw} foi proposto o método de máxima verossimilhança para detectar a presença de bordas, em uma janela pré-definida de pixeis com a tarefa de encontrar bordas acuradas. O estudo de detecção de bordas, usando propriedades físicas das áreas estudadas, pode ser encontrado na referência \citep{bf}, as quais utilizam cadeias de Markov. Em \citep{gfn} é descrito a comparação entre vários detectores de bordas que seguem a ideia deste trabalho. Técnicas baseadas nas modelagens estatísticas têm sido usadas na detecção de bordas em imagens SAR, podemos citar as referências \citep{gmbf, fbgm, horrit, gfn}. 
 %%% ACF A revisão da literatura precisa ser mais informativa. São mencionadas abordagens completamente diferentes, sem que o leitor saiba as suas diferentes hipóteses de partida, nem os seus resultados. Essa parte é central para dar valor ao trabalho de doutorado.
 Atualmente as pesquisas em \textit{Deep Learning} são muito importantes na área de sensoriamento remoto, aplicações são encontradas nas referências \citep{bac, ztmxzxf, tabmm, xstz}. As técnicas de \textit{Deep Learning} são usadas para segmentar ou classificar imagens, podendo auxiliar no processo de detecção de bordas. 
 
@@ -37,7 +38,7 @@ Podemos afirmar que os radares têm fontes próprias de energia, ou seja, as micro
 \begin{itemize}
 \item[(i)] possibilidade de uma antena transmitir um certo impulso eletromagnético (micro-ondas) em uma direção precisa; 
 \item[(ii)] possibilidade de detectar com grande precisão o eco, depois da interação com o alvo, é atenuando com um processo que podemos chamar de espalhamento, onde a onda encontra o material do alvo induzindo uma corrente que gera uma energia eletromagnética irradiada em todas as direções, a maior parte dessa energia irradiada distancia-se do radar causando o espalhamento, não sendo possível detectar;
-\item[(iii)] capacidade de medir o tempo entre a transmissão  e a recepção do impulso eletromagnético e , consequentemente, a distância entre o alvo e a antena;
+\item[(iii)] capacidade de medir o tempo entre a transmissão  e a recepção do impulso eletromagnético e, consequentemente, a distância entre o alvo e a antena;
 \item[(iv)] habilidade de detectar vários alvos em grandes áreas a serem varridas.
 \end{itemize}
 
@@ -295,9 +296,7 @@ Podemos definir uma generalização para a representação de dados PolSAR com visad
 
 A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $m$-variada é dada por
 \begin{equation}\label{cap_acf_4}
-\begin{array}{ccc}
-    p({\bf s})&=&\frac{1}{\pi^m|\bf{\Sigma}_{{\bf s}}|}\exp(-{\bf s}^{H}\bf{\Sigma}_{{\bf s}}^{-1}{\bf s}),  \\
-\end{array}
+    p({\bf s})=\frac{1}{\pi^m|\bf{\Sigma}_{{\bf s}}|}\exp(-{\bf s}^{H}\bf{\Sigma}_{{\bf s}}^{-1}{\bf s}), 
 \end{equation}
 sendo $|\cdot|$ o determinante de uma matriz ou o valor absoluto de um escalar, e $\mathbf{\Sigma}_{\bf{s}}$ é a matriz de covariância associada a $\mathbf{s}$ definida por
 \begin{equation}\label{cap_acf_5}
