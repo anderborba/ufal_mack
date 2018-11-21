@@ -1,1 +1,51 @@
 Diretório repositório de dados
+
+Arquivos:
+Phantom_nhfc_0.000_1_2_1.txt dados referentes ao canal Ihh da imagem.
+Phantom_nhfc_0.000_1_2_2.txt dados referentes ao canal Ihv da imagem.
+Phantom_nhfc_0.000_1_2_3.txt dados referentes ao canal Ivv da imagem.
+
+Imagem gerada de acordo com o artigo nhfc.
+
+@article{nhfc,
+title = {Comparing Edge Detection Methods Based on Stochastic Entropies and Distances for PolSAR Imagery},
+author = {Nascimento, Abraão and Horta, Michelle and Frery, Alejandro and Cintra, Renato},
+journal={Journal of Selected Topics in Applied Earth Observations and Remote Sensing},
+year = {2014},
+pages = {648-663},
+volume = {7},
+number = {2},
+publisher={IEEE}
+}
+
+
+
+Arquivos:
+Phantom_gamf_0.000_1_2_1.txt dados referentes ao canal Ihh da imagem.
+Phantom_gamf_0.000_1_2_2.txt dados referentes ao canal Ihv da imagem.
+Phantom_gamf_0.000_1_2_3.txt dados referentes ao canal Ivv da imagem.
+
+Imagem gerada de acordo com o artigo gamf.
+
+@article{gamf,
+  title={Fully PolSAR image classification using machine learning techniques and reaction-diffusion systems},
+  author={Gomez, Luis and Alvarez, Luis and Mazorra, Luis and Frery, Alejandro C},
+  journal={Neurocomputing},
+  volume={255},
+  pages={52--60},
+  year={2017},
+  publisher={Elsevier}
+}
+
+Arquivos:
+referência \cite{nhfc}
+evidencias_hh_nhfc.txt   evidencias de bordas para 400 amostras no canal hh
+evidencias_hv_nhfc.txt   evidencias de bordas para 400 amostras no canal hv
+evidencias_vv_nhfc.txt   evidencias de bordas para 400 amostras no canal vv
+
+referência \cite{gamf}
+evidencias_hh_gamf.txt   evidencias de bordas para 400 amostras no canal hh
+evidencias_hv_gamf.txt   evidencias de bordas para 400 amostras no canal hv
+evidencias_vv_gamf.txt   evidencias de bordas para 400 amostras no canal vv
+
+

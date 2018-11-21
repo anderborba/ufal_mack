@@ -63,49 +63,40 @@ A generalização do processo SAR é conhecido como sistema polarimétrico SAR (PolS
 
 Os radares são usados de forma massiva desde os anos 40, principalmente para uso militar. Nos anos 50 houve a descoberta da tecnologia SAR, o que impulsionou um grande desenvolvimento na área levando a construção do primeiro radar de abertura sintética (SAR) comercial. O SEASAT foi o primeiro satélite orbital, operacional  e comercial projetado, seu lançamento foi em junho de 1978, a tabela (\ref{cap_acf_tab01}) mostra algumas características do SEASAT. 
 
-%%% ACF Use \centering ao invés de \begin{center}, use o pacote booktabs. Localize todos os elementos flutuantes com [hbt]
 \begin{table}[hbt]
 	\centering
 	\caption{Características do satélite SEASAT(SAR).}\label{cap_acf_tab01}
-\begin{tabular}{ |c|c| } 
-\hline
-	Características&  \\
-\hline
+\begin{tabular}{@{}llr@{}} \toprule
+	Características específicas& Valores operacionais  \\ \midrule
 	Frequência           & \SI{1.275}{\GHz}  \\ 
 	Altitude             & \SI{780}{\km}   \\
 	Peso                 & \SI{2300}{\kilogram}   \\
 	Ângulo de inclinação & \SI{\sim 23}{\degree}   \\
 	Distância {\it range}& \SI{100}{\km}  \\
 	Largura de banda     & \SI{19}{\MHz}   \\
-	banda - L            & \SI{23.5}{\cm} de comprimento de onda\\
-	Polarização          & HH, onda emitida e recebida na direção horizontal \\
-	Resolução            & $25 \times 25$  \\
-	\hline
+	Banda - $L$          & \SI{23.5}{\cm} de comprimento de onda\\
+	Polarização          & $HH$, onda emitida e recebida na direção horizontal \\
+	Resolução            & $25 \times 25$  \\ \bottomrule
+
 \end{tabular}
 \end{table}
-
   
 O projeto do SEASAT foi muito bem sucedido e estabeleceu definitivamente os sistemas SAR como área de pesquisa. Outros projetos de sistema SAR e PolSAR foram lançados e podem ser vistos na tabela (\ref{cap_acf_tab02}).
 
-%%% ACF Use tabelas na vertical com o pacote rotating
-%%% AAB verificar o uso booktabs 
-\begin{table}[hbt]
+\begin{sidewaystable}
 	\centering
-	\caption{Características dos satélites SAR e PolSAR.}\label{cap_acf_tab02}
-	\tiny
-\begin{tabular}{ |l|c|c|c|c|c|c|c|c| } 
-\hline
-Satélite      & 	SEASAT  &AIRSAR &SIR-C& Almaz&ERS-2& JERS-1& RADSAT-1&RADSAT-2 \\
-\hline\hline
-Nacionalidade       &EUA    &EUA&Alamanha-Itália&Rússia&Europa&Japão&Canada&Canada  \\\hline 
-Lançamento          &1978   &1988        &1990  &1992  &1995 &1998  &1995  & 2003\\\hline
-Compr. de onda & 23.5(L)&67(P)/23.5(L)/5.7(C)&23.5(L)/5.7(C)/3.2(X)&10(S)&5.7(C)&23.5(L)&5.6(C)&5.6(C)\\\hline
-Polarização         &$HH$&$HH/HV/VV$&$HH/HV/VV$&$HH$&$VV$&$HH$&$HH$&$HH/HV/VV$\\\hline
-âng. de incidência&23&20-60&15-55&30-60&23&35&20-59&20-60\\\hline
-Distância(Km)           &100&10-17&15-90&350&100&75&50-500&10-500\\\hline
-Resolução(m)         &25&2-8&10-60&10-30&30&18&10-100&3-100\\\hline
+	\caption{Características operacionais dos satélites SAR ou PolSAR.}\label{cap_acf_tab02}
+\begin{tabular}{@{}llllllllr@{}} \toprule
+Satélites      & 	SEASAT  &AIRSAR &SIR-C& Almaz&ERS-2& JERS-1& RADSAT-1&RADSAT-2 \\ \midrule
+Nacionalidade       &EUA    &EUA&Alamanha-Itália&Rússia&Europa&Japão&Canadá&Canadá  \\ 
+Lançamento          &1978   &1988        &1990  &1992  &1995 &1998  &1995  & 2003\\
+C. de onda (\si{\cm}) (Banda) & 23.5 ($L$)&67 ($P$)/23.5 ($L$)/5.7 ($C$)&23.5 ($L$)/5.7 ($C$)/3.2 ($X$)&10 ($S$)&5.7 ($C$)&23.5 ($L$)&5.6 ($C$)&5.6 ($C$)\\
+Polarização         &$HH$&$HH/HV/VV$&$HH/HV/VV$&$HH$&$VV$&$HH$&$HH$&$HH/HV/VV$\\
+Ângulo de incidência&23&20-60&15-55&30-60&23&35&20-59&20-60\\
+Distância (\si{\km})           &100&10-17&15-90&350&100&75&50-500&10-500\\
+Resolução (\si{\m})         &25&2-8&10-60&10-30&30&18&10-100&3-100\\ \bottomrule
 \end{tabular}
-\end{table}
+\end{sidewaystable}
 
 Os símbolos $HH$, $HV$ e $VV$ representam as polarizações disponíveis nos radares, onde a primeira letra é a maneira como a onda é emitida e, a segunda letra é a maneira como a onda é recebida. Desta forma, quando aparece todas as combinações juntas temos um satélite com tecnologia PolSAR.
 
@@ -134,13 +125,11 @@ As aplicações das imagens SAR e PolSAR são intensas na área militar, porém exist
 \item controle de derramamento de petróleo;
 \item e no auxílio de sistemas óticos.
 \end{itemize}
-\begin{center}
-	\begin{table}[h!]
-		\centering
-\begin{tabular}{ |c|c|c| } 
-\hline
-	banda & Frequência$f(Ghz)$ & Freq$\times$Comprimento de onda $\lambda(cm)$. \\
-\hline
+\begin{table}[hbt]
+	\centering
+	\caption{Espectro eletromagnético para a faixa de micro-ondas.}\label{cap_acf_tab03}
+\begin{tabular}{@{}llc@{}} \toprule
+	banda & Frequência $f$(\si{Ghz}) & Freq.$\times$C. de onda $\lambda(cm)$. \\\midrule
 	$P$&$(<0.39, 0.39)$  & $0.3\times 100.0$  \\ 
 	$L$&$(0.39-1.55)$  &  $1.0\times 30.0$\\ 
 	$S$&$(1.55-3.90)$  &  $3.0\times 10.0$\\ 
@@ -149,82 +138,75 @@ As aplicações das imagens SAR e PolSAR são intensas na área militar, porém exist
 	$K$&$(10.9-36.0)$  & $30.0\times 1.0$ \\ 
 	$Q$&$(36.0-46.0)$  & $\sim(40.0\times 0.8 )$ \\ 
 	$V$&$(46.0-56.0)$  & $\sim(50.0\times 0.6)$ \\ 
-	$W$&$(56.0- >56.0)$  & $100.0\times 0.3$ \\ 
-\hline
+	$W$&$(56.0- >56.0)$  & $100.0\times 0.3$ \\ \bottomrule 
 \end{tabular}
-	\caption{Espectro magnético para a faixa de micro-ondas.}
-	\label{cap_acf_tab03}
 \end{table}
-\end{center}
 %
 
 Uma imagem PolSAR pode ser gerada considerando a existência de uma matriz de covariância $\Sigma_{3\times3}$ hermitiana, proveniente do processo de modelagem do sistema PolSAR. A matriz de covariância tem nas entradas da diagonal principal, valores reais adquiridos respectivamente nas polarizações $HH$, $HV$ e $VV$, as outras entradas são números complexos dispostos de maneira que respeite o fato da matriz ser hermitiana. A maneira como a matriz hermitiana é distribuída pode ser analisada na tabela (\ref{cap_acf_tab04}).
-\begin{center}
-	\begin{table}[h!]
-		\centering
-\begin{tabular}{ |c|c|c|c| } 
-\hline
-	Polarização & $HH$  & $HV$ & $VV$ \\
-\hline
+\begin{table}[hbt]
+	\centering
+	\caption{Parâmetros estatísticos da matriz de variância.}\label{cap_acf_tab04}
+\begin{tabular}{@{}lccc@{}} \toprule
+	Polarização & $HH$  & $HV$ & $VV$ \\ \midrule
 	$HH$ & $\sigma_{hh}$ & $\sigma_{hhhv} + \bar{\sigma}_{hhhv}\vec{\jmath}$  & $\sigma_{hhvv} + \bar{\sigma}_{hhvv}\vec{\jmath}$\\ 
 	$HV$ & &$\sigma_{HV}$ & $\sigma_{hvvv} + \bar{\sigma}_{hvvv}\vec{\jmath}$\\ 
-	$VV$ & & &$\sigma_{VV}$ \\ 
-\hline
+	$VV$ & & &$\sigma_{VV}$ \\ \bottomrule 
 \end{tabular}
-	\caption{Parâmetros estatísticos da matriz de variância.}
-	\label{cap_acf_tab04}
 \end{table}
-\end{center}
 
 Para gerar a imagem PolSAR é usado uma matriz tridimensional, onde as primeiras duas indexações da matriz armazenam os valores para o azimute e a distância, de acordo com a resolução do sistema PolSAR. Na terceira indexação, a qual podemos chamar de canal, é armazenado os valores aproximados da  matriz de variância, fixando arbitrariamente um pixel. Os canais estão dispostos conforma tabela (\ref{cap_acf_tab05}),
-\begin{center}
-	\begin{table}[h!]
-		\footnotesize
-		\centering
-\begin{tabular}{ |c|c|c|c|c|c|c|c|c| } 
-\hline
-	 $HH$ &$HV$&$VV$ &$HHHV(\mathbf{Re})$ &$HHHV(\mathbf{Im})$&$HHVV(\mathbf{Re})$&$hhvv(\mathbf{Im})$ &$HVVV(\mathbf{Re})$&  $HVVV(\mathbf{Im})$ \\
-\hline
-	$\overline{\sigma_{hh}}$&$\overline{\sigma_{hv}}$&$\overline{\sigma_{vv}}$&$\overline{\sigma_{hhhv}}$&$\overline{\bar{\sigma}_{hhhv}}$&$\overline{\sigma_{hhvv}}$&$\overline{\bar{\sigma}_{hhvv}}$&$\overline{\sigma_{hvvv}}$&$\overline{\bar{\sigma}_{hvvv}}$\\
-\hline
+\begin{table}[hbt]
+	\footnotesize
+	\centering
+	\caption{Ordem de armazenamento para os canais com um pixel fixo.}\label{cap_acf_tab05}
+\begin{tabular}{@{}lcccccccc@{}} \toprule
+	 $HH$ &$HV$&$VV$ &$HHHV(\mathbf{Re})$ &$HHHV(\mathbf{Im})$&$HHVV(\mathbf{Re})$&$HHVV(\mathbf{Im})$ &$HVVV(\mathbf{Re})$&  $HVVV(\mathbf{Im})$ \\ \midrule
+	$\overline{\sigma_{hh}}$&$\overline{\sigma_{hv}}$&$\overline{\sigma_{vv}}$&$\overline{\sigma_{hhhv}}$&$\overline{\bar{\sigma}_{hhhv}}$&$\overline{\sigma_{hhvv}}$&$\overline{\bar{\sigma}_{hhvv}}$&$\overline{\sigma_{hvvv}}$&$\overline{\bar{\sigma}_{hvvv}}$\\ \bottomrule
 \end{tabular}
-	\caption{Ordem de armazenamento para os canais com um pixel fixo.}
-	\label{cap_acf_tab05}
 \end{table}
-\end{center}
 
 Em imagens sintéticas podemos encontrar a aproximação $\overline{\sigma_{ij}}$, com $i$, $j$ $\in \{HH,HV,VV\}$ usando o método de monte carlo com o auxílio da matriz de covariância $\Sigma$. Em imagens reais teremos que analisar $\overline{\sigma_{ij}}$, dependendo da técnica utilizada para definição dos parâmetros estatísticos nas regiões de interesse, podemos citar os artigos \citep{gmbf} e \citep{nhfc} para analisar os diferentes métodos, reforçando que a descrição do método proposto no segundo artigo será aplicado ao longo deste trabalho.
 
-Um exemplo clássico de imagem PolSAR é da baía de São Francisco (US), com suas respectivas polarizações em tons de cinza, mostradas na figura (\ref{cap_acf_sf_hh_hv_vv}), 
+Um exemplo clássico de imagem PolSAR é da baía de São Francisco (EUA), com suas respectivas polarizações em tons de cinza, mostradas na figura (\ref{cap_acf_sf_hh_hv_vv}), 
 \begin{figure}[hbt]
-\includegraphics[width=\linewidth]{sf_hh_hv_vv.jpg}
-\caption{Imagem PolSAR com polarizações $HH$, $HV$ e $VV$.}
-\label{cap_acf_sf_hh_hv_vv}
+\minipage{0.35\textwidth}
+  \includegraphics[width=\linewidth]{sf_hh.pdf}
+\endminipage
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vh.pdf}
+\endminipage
+\centering
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vv.pdf}
+\endminipage
+        \vspace{-2.0cm}
+	\caption{Imagem PolSAR com polarizações $HH$, $HV$ e $VV$.}\label{cap_acf_sf_hh_hv_vv}
 \end{figure}
 
 A visualização usando a decomposição RBG é mostrado na figura (\ref{cap_acf_sf_pauli}), sendo a maneira clássica como é conhecida a imagem da baía de São Franscisco. As figuras (\ref{cap_acf_sf_hh_blue}), (\ref{cap_acf_sf_hv_green}) e (\ref{cap_acf_sf_vv_red}) são respectivamente a decomposição RBG para cada canal $HH$ (azul), $HV$ (verde) e $VV$ (vermelho) das imagens PolSAR. 
 
 \begin{figure}[hbt]
 \begin{minipage}[b]{0.450\linewidth}
-\includegraphics[width=\linewidth]{polsar_teste.jpeg}
+\includegraphics[width=\linewidth]{polsar_teste.pdf}
 \caption{Baía de São Francisco.}
 \label{cap_acf_sf_pauli}
 \end{minipage}\hfill
 \begin{minipage}[b]{0.450\linewidth}
-\includegraphics[width=\linewidth]{polsar_blue.jpeg}
+\includegraphics[width=\linewidth]{polsar_blue.pdf}
 \caption{Polarização $HH$ .}
 \label{cap_acf_sf_hh_blue}
 \end{minipage}
 \end{figure}
 %
-\begin{figure}[!htb]
+\begin{figure}[hbt]
 \begin{minipage}[b]{0.450\linewidth}
-\includegraphics[width=\linewidth]{polsar_green.jpeg}
+\includegraphics[width=\linewidth]{polsar_green.pdf}
 \caption{Polarização $HV$.}
 \label{cap_acf_sf_hv_green}
 \end{minipage}\hfill
 \begin{minipage}[b]{0.450\linewidth}
-\includegraphics[width=\linewidth]{polsar_red.jpeg}
+\includegraphics[width=\linewidth]{polsar_red.pdf}
 \caption{Polarização $VV$.}
 \label{cap_acf_sf_vv_red}
 \end{minipage}
@@ -552,7 +534,7 @@ O parâmetro $\beta$ é usado para ponderar as informações entre as matrizes de co
 
 \begin{figure}[hbt]
 \centering
-	\includegraphics[width=5.0in]{phanton_nhfc_dec_pauli.jpg}
+	\includegraphics[width=5.0in]{phanton_nhfc_dec_pauli.pdf}
 	\caption{Decomposição de Pauli para a phanton proposta no artigo \citep{nhfc}.}\label{cap_acf_fig01}
 \end{figure}
 %%% ACF A decomposição de Pauli foi definida?
@@ -588,17 +570,13 @@ O primeiro teste numérico será realizado com $\Sigma_u$ e $\Sigma_f$ definidas p
 \end{equation}
 onde os subescritos $u$ e $f$ definem respectivamente área urbana e floresta, extraídas de uma imagem real, podemos encontrar essas informações nos artigos \citep{fbgm, nhfc}.
 
-De acordo com a função densidade de probabilidade (\ref{cap_acf_23}) e usando o canal $(hh)$ em ambas matrizes de covariância com $L=4$, podemos gerar as figurar (\ref{cap_acf_fig02}) e (\ref{cap_acf_fig03}), com a representação gráfica da função de densidade para os respectivos elementos $u$ e $f$ da matriz de covariância, neste caso, $\sigma_{hh}=962892$ e $\sigma_{hh}= 360932$. 
+De acordo com a função densidade de probabilidade (\ref{cap_acf_23}) e usando o canal $(hh)$ em ambas matrizes de covariância com $L=4$, podemos gerar a figura (\ref{cap_acf_fig02}), com a representação gráfica da função de densidade para os respectivos elementos $u$ e $f$ da matriz de covariância, neste caso, $\sigma_{hh}=962892$ e $\sigma_{hh}= 360932$. 
 
-\begin{figure}[!htb]
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{grafico_pdf_nhfc_2014_sigmahh_1.pdf}
-	\caption{Distribuíção Wishart com dados simulados para o canal $I_{HH}$, (lado esquerdo da figura).}\label{cap_acf_fig02}
-\endminipage\hfill
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{grafico_pdf_nhfc_2014_sigmahh_2.pdf}
-	\caption{Distribuíção Wishart com dados simulados para o canal $I_{HH}$, (lado direito da figura).}\label{cap_acf_fig03}
-\endminipage\hfill
+\begin{figure}[hbt]
+	\centering
+	%\includegraphics[scale = 1]{grafico_pdf_gamf_2017_sigma_hh.pdf}
+  \includegraphics[scale = 0.7]{grafico_pdf_nhfc_2014_sigma_hh.pdf}
+	\caption{Funções de densidade para dados simulados.}\label{cap_acf_fig02}
 \end{figure}
 %%% ACF Para fins de comparação, seria interessante ver as densidades no mesmo gráfico
 
@@ -607,7 +585,7 @@ A figura (\ref{cap_acf_fig01}) foi gerada com auxílio das distribuições Wishart 
 A imagem de fato é construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, lembrando que a imagem tem dimensão $400 \times 400$. Cada linha  tem duas amostras diferentes geradas com os parâmetros $\Sigma_{u}$ e $\Sigma_{f}$ respectivamente e ainda $L=4$ para as duas amostras.  
 
 	O valor $200$ é fixado horizontalmente para termos uma linha contendo as duas amostras, para essa linha é calculado $l(j)$ conforme equação (\ref{cap_acf_21}) que deve ser aplicada nos canais $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ e $\mathbf{I_{vv}}$.  
-\begin{figure}[!htb]
+\begin{figure}[hbt]
 \minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{grafico_l_nhfc_2014_sigmahh.pdf}
 	\caption{Função $l(j)$ para o canal $I_{HH}$}\label{cap_acf_fig04}
@@ -636,27 +614,26 @@ A imagem de fato é construída com $400$ linhas distribuídas em duas bandas separ
 onde, $\hat{\jmath}(r)$ é o resultado da maximização de $l(j)$ pelo método GenSA na replicação $r$.
 
 Usaremos frequências relativas para estimar a probabilidade de ter um erro menor que um número de pixeis. Denotando por $H(k)$ o número de replicações para qual o erro é menor que $k$ pixeis, então calculamos uma estimativa desta probabilidade por $f(k)=\frac{H(k)}{400}$. Nos testes realizados nesta seção variamos $k$ entre $1$ e $10$. O algoritmo está descrito em detalhes na referência \citep{fbgm}. 
-\begin{figure}[!htb]
+\begin{figure}[hbt]
 \minipage{0.475\textwidth}
-\fbox{  \includegraphics[width=\linewidth]{ev_hh_nhfc_2014.jpg}}
+\fbox{  \includegraphics[width=\linewidth]{ev_hh_nhfc_2014.pdf}}
 \caption{Evidências de bordas para o canal $I_{HH}$}\label{cap_acf_fig07}
 \endminipage\hfill
 \minipage{0.475\textwidth}
-\fbox{ \includegraphics[width=\linewidth]{ev_hv_nhfc_2014.jpg}}
+\fbox{ \includegraphics[width=\linewidth]{ev_hv_nhfc_2014.pdf}}
 \caption{Evidências de bordas para o canal $I_{HV}$}\label{cap_acf_fig08}
 \endminipage\hfill
 \centering
 \minipage{0.475\textwidth}
-\fbox{ \includegraphics[width=\linewidth]{ev_hv_nhfc_2014.jpg}}
+\fbox{ \includegraphics[width=\linewidth]{ev_vv_nhfc_2014.pdf}}
 \caption{Evidências de bordas para o canal $I_{VV}$}\label{cap_acf_fig09}
 \endminipage\hfill
 \end{figure}
-%%% ACF Nunca use JPG para gerar gráficos; use PDF
 
-	A figure (\ref{cap_acf_fig10}) mostra as probabilidades para a detecção de bordas quando aplicado o método GenSA nos canais $I_{hh}$, $I_{vh}$ e $I_{vv}$ da imagem mostrada na figura (\ref{cap_acf_fig01}). As 400 replicações para cada canal e sua respectiva evidência de borda estão nas figuras (\ref{cap_acf_fig07}),(\ref{cap_acf_fig08}) e (\ref{cap_acf_fig09}).  
+	A figura (\ref{cap_acf_fig10}) mostra as probabilidades para a detecção de bordas quando aplicado o método GenSA nos canais $I_{hh}$, $I_{vh}$ e $I_{vv}$ da imagem mostrada na figura (\ref{cap_acf_fig01}). As 400 replicações para cada canal e sua respectiva evidência de borda estão nas figuras (\ref{cap_acf_fig07}),(\ref{cap_acf_fig08}) e (\ref{cap_acf_fig09}).  
 \begin{figure}[hbt]
 \centering
-	\includegraphics[width=5.0in]{metricas_ihh_ivh_ivv.pdf}
+	\includegraphics[width=5.0in]{metricas_ihh_ivh_ivv_nhfc.pdf}
 	\caption{Probabilidade de detecção de borda estimada usando GenSA.}
 \label{cap_acf_fig10}
 \end{figure}
@@ -674,27 +651,27 @@ Usaremos frequências relativas para estimar a probabilidade de ter um erro menor
  O resultado da técnica de fusão de evidências é mostrado na figura (\ref{cap_acf_fig11}).
 
 Com o intuito de melhorar a detecção de borda propomos aplicar o método de quadrados mínimos (\textbf{MMQ}) nos dados da fusão de evidências, realizando essa aplicação temos o resultado do método dos quadrados mínimos junto com os pontos de fusão de evidências, mostrados na figura (\ref{cap_acf_fig12}).
-\begin{figure}[!htb]
+\begin{figure}[hbt]
 \minipage{0.475\textwidth}
-	\fbox{\includegraphics[width=\linewidth]{fusao_soma_ev_hh_hv_vv.jpg}}
-	\caption{Fusão de evidências para os canais $\left(I_{h,h}, I_{h,v}, I_{v,v}\right)$.}
+	\fbox{\includegraphics[width=\linewidth]{fusao_soma_ev_hh_hv_vv_nhfc.pdf}}
+	\caption{Fusão de evidências para os canais $\left(I_{hh}, I_{hv}, I_{vv}\right)$.}
 \label{cap_acf_fig11}
 \endminipage\hfill
 \minipage{0.475\textwidth}
-\fbox{\includegraphics[width=\linewidth]{fusao_ls.jpg}}	
+\fbox{\includegraphics[width=\linewidth]{fusao_ls_nhfc.pdf}}	
 \caption{Método dos quadrados mínimos aplicado a fusão de imagens.}
 \label{cap_acf_fig12}
 \endminipage\hfill
 \end{figure}
 Observando a figura podemos notar um bom desempenho da aplicação do método dos quadrados mínimos nos dados provenientes da fusão de evidências. Para confirmar a observação vamos calcular a frequência relativa desse método, a qual mostra a probabilidade de detecção de borda estimada como na figura (\ref{cap_acf_fig10}).
-\begin{figure}[!b]
+\begin{figure}[hbt]
 \minipage{0.475\textwidth}
-	\fbox{\includegraphics[width=\linewidth]{metricas_ihh_ivh_ivv_ils.pdf}}
+	\fbox{\includegraphics[width=\linewidth]{metricas_ihh_ivh_ivv_ils_nhfc.pdf}}
 	\caption{Probabilidade de detecção de borda com fusão de evidências.}
 \label{cap_acf_fig13}
 \endminipage\hfill
 \minipage{0.475\textwidth}
-\fbox{\includegraphics[width=\linewidth]{fusao_ls_erro.pdf}}	
+\fbox{\includegraphics[width=\linewidth]{fusao_ls_erro_nhfc.pdf}}	
 	\caption{Valor absoluto da diferença entre o vetor estimado da fusão de evidências e a borda real.}
 \label{cap_acf_fig14}
 \endminipage\hfill
@@ -720,7 +697,145 @@ Propostas para \textit{workshops}, congressos e publicações:
 \item finalizar um artigo para publicar em congresso de relevância internacional (dezembro 2018);
 \item finalizar um artigo para publicar em revista internacional avaliada de acordo com a área de atuação (março 2019);
 \end{itemize}
+\chapter{Testes numéricos}
+\section{Sigmas do artigo }
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=5.0in]{phanton_gamf_dec_pauli.pdf}
+	\caption{Decomposição de Pauli uma das phantons com valores de $\Sigma$ propostos no artigo \citep{gamf}.}\label{cap_acf_fig01}
+\end{figure}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[scale = 0.7]{grafico_pdf_gamf_2017_sigma_hh.pdf}
+	\caption{Funções de densidade para dados simulados.}\label{cap_acf_fig02}
+\end{figure}
 
-
-
-
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{grafico_l_gamf_2017_sigmahh.pdf}
+	\caption{Função $l(j)$ para o canal $I_{HH}$}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{grafico_l_gamf_2017_sigmahv.pdf}
+	\caption{Função $l(j)$ para o canal $I_{HV}$}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{grafico_l_gamf_2017_sigmavv.pdf}
+	\caption{Função $l(j)$ para o canal $I_{VV}$}\label{cap_acf_fig06}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.475\textwidth}
+\fbox{  \includegraphics[width=\linewidth]{ev_hh_gamf_2017.pdf}}
+\caption{Evidências de bordas para o canal $I_{HH}$}\label{cap_acf_fig07}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{ev_hv_gamf_2017.pdf}}
+\caption{Evidências de bordas para o canal $I_{HV}$}\label{cap_acf_fig08}
+\endminipage\hfill
+\centering
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{ev_vv_gamf_2017.pdf}}
+\caption{Evidências de bordas para o canal $I_{VV}$}\label{cap_acf_fig09}
+\endminipage\hfill
+\end{figure}
+%
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=5.0in]{metricas_ihh_ivh_ivv_gamf.pdf}
+	\caption{Probabilidade de detecção de borda estimada usando GenSA.}
+\label{cap_acf_fig10}
+\end{figure}
+%
+\begin{figure}[hbt]
+\minipage{0.475\textwidth}
+	\fbox{\includegraphics[width=\linewidth]{fusao_soma_ev_hh_hv_vv_gamf.pdf}}
+	\caption{Fusão de evidências para os canais $\left(I_{hh}, I_{hv}, I_{vv}\right)$.}
+\label{cap_acf_fig11}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{\includegraphics[width=\linewidth]{fusao_ls_gamf.pdf}}	
+\caption{Método dos quadrados mínimos aplicado a fusão de imagens.}
+\label{cap_acf_fig12}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.475\textwidth}
+	\fbox{\includegraphics[width=\linewidth]{metricas_ihh_ivh_ivv_ils_gamf.pdf}}
+	\caption{Probabilidade de detecção de borda com fusão de evidências.}
+\label{cap_acf_fig13}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{\includegraphics[width=\linewidth]{fusao_ls_erro_gamf.pdf}}	
+	\caption{Valor absoluto da diferença entre o vetor estimado da fusão de evidências e a borda real.}
+\label{cap_acf_fig14}
+\endminipage\hfill
+\end{figure}
+\section{Sigmas do artigo}
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=5.0in]{phanton_vert_dec_pauli.pdf}
+	\caption{Decomposição de Pauli uma das phantons com valores de $\Sigma$ propostos no artigo \citep{gamf}.}\label{cap_acf_fig01}
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{grafico_l_vert_sigmahh.pdf}
+	\caption{Função $l(j)$ para o canal $I_{HH}$}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{grafico_l_vert_sigmahv.pdf}
+	\caption{Função $l(j)$ para o canal $I_{HV}$}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{grafico_l_vert_sigmavv.pdf}
+	\caption{Função $l(j)$ para o canal $I_{VV}$}\label{cap_acf_fig06}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.475\textwidth}
+\fbox{  \includegraphics[width=\linewidth]{ev_hh_vert.pdf}}
+\caption{Evidências de bordas para o canal $I_{HH}$}\label{cap_acf_fig07}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{ev_hv_vert.pdf}}
+\caption{Evidências de bordas para o canal $I_{HV}$}\label{cap_acf_fig08}
+\endminipage\hfill
+\centering
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{ev_vv_vert.pdf}}
+\caption{Evidências de bordas para o canal $I_{VV}$}\label{cap_acf_fig09}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=5.0in]{metricas_ihh_ivh_ivv_vert.pdf}
+	\caption{Probabilidade de detecção de borda estimada usando GenSA.}
+\label{cap_acf_fig10}
+\end{figure}
+%
+\begin{figure}[hbt]
+\minipage{0.475\textwidth}
+	\fbox{\includegraphics[width=\linewidth]{fusao_soma_ev_hh_hv_vv_vert.pdf}}
+	\caption{Fusão de evidências para os canais $\left(I_{hh}, I_{hv}, I_{vv}\right)$.}
+\label{cap_acf_fig11}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{\includegraphics[width=\linewidth]{fusao_ls_vert.pdf}}	
+\caption{Método dos quadrados mínimos aplicado a fusão de imagens.}
+\label{cap_acf_fig12}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.475\textwidth}
+	\fbox{\includegraphics[width=\linewidth]{metricas_ihh_ivh_ivv_ils_vert.pdf}}
+	\caption{Probabilidade de detecção de borda com fusão de evidências.}
+\label{cap_acf_fig13}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{\includegraphics[width=\linewidth]{fusao_ls_erro_vert.pdf}}	
+	\caption{Valor absoluto da diferença entre o vetor estimado da fusão de evidências e a borda real.}
+\label{cap_acf_fig14}
+\endminipage\hfill
+\end{figure}
