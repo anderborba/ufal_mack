@@ -24,7 +24,7 @@ function [phantom] = Generate_PolSAR_two_classes_phantom_flor(S, L, m, n, img, r
 % Coded to Matlab by Luis Gomez, CTIM, Universidad de Las Palmas de Gran
 % Canaria, January 2016
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% AAB - Adaptado para a phantom em coordenadas polares para a flor.                     Data:  21/11/2018
+% AAB - Adaptado para a phantom em coordenadas polares da flor.                     Data:  21/11/2018
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %ns = n/2;
 ns = n;
@@ -70,20 +70,21 @@ aux(1:m,1:n,9) = reshape(imag(S_class_2(2,3,:)),m,n);
 L1 = length(rows);
 L2 = length(cols);
 for i= 1: L1
-	phantom(rows(i), cols(i),1) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),2) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),3) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),4) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),5) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),6) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),7) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),8) = phantom(rows(i), cols(i),1) ;
-	phantom(rows(i), cols(i),9) = phantom(rows(i), cols(i),1) ;
+	phantom(rows(i), cols(i),1) = aux(rows(i), cols(i),1) ;
+	phantom(rows(i), cols(i),2) = aux(rows(i), cols(i),2) ;
+	phantom(rows(i), cols(i),3) = aux(rows(i), cols(i),3) ;
+	phantom(rows(i), cols(i),4) = aux(rows(i), cols(i),4) ;
+	phantom(rows(i), cols(i),5) = aux(rows(i), cols(i),5) ;
+	phantom(rows(i), cols(i),6) = aux(rows(i), cols(i),6) ;
+	phantom(rows(i), cols(i),7) = aux(rows(i), cols(i),7) ;
+	phantom(rows(i), cols(i),8) = aux(rows(i), cols(i),8) ;
+	phantom(rows(i), cols(i),9) = aux(rows(i), cols(i),9) ;
 end
 %imshow(img)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Coded to Matlab by Luis Gomez, CTIM, Universidad de Las Palmas de Gran
 % Canaria, January 2016
+% AAB - Modify in 22/11/2018
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     L. Gomez, L. Alvarez, L. Mazorra and, A.C. Frery
 %     "Fully PolSAR image classification using machine learning techniques and
