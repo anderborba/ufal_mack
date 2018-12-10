@@ -13,7 +13,9 @@ format long;   % Dupla precisão
 cd ..
 cd ..
 cd Data/
-evidencias = load('evidencias_flor_8_103_3_3.txt');
+evidencias_hh = load('evidencias_flor_25_155_5_1.txt');
+evidencias_hv = load('evidencias_flor_25_155_5_2.txt');
+evidencias_vv = load('evidencias_flor_25_155_5_3.txt');
 cd ..
 cd Code/Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,17 +24,30 @@ rmax = 200; % Raio maximo da flor
 %beta  = randi([5,30]);
 %del = randi([50,rmax]);
 %nu    = randi([2,10]);
-beta  = 8;
-del   = 103;
-nu    = 3;
+beta  = 25;
+del   = 155;
+nu    = 5;
 x0 = N / 2;
 y0 = N / 2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-img = zeros(N);
+img       = zeros(N);
+img_aprox = zeros(N);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% incluindo flor na imagem 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+num_radial = 400;
+t = linspace(0, 2 * pi, num_radial + 1);
+r =  (del - nu * cos(beta * t));
+x = x0 + r .* cos(t);
+y = y0 + r .* sin(t);
+xd= round(x);
+yd= round(y);
+for i = 1: 2 * del
+	%img(xr(i), yr(i)) = 1;
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%% incluindo pontos radiais imagem binaria 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-num_radial = 400;
 tr = linspace(0, 2 * pi, num_radial + 1);
 r =  2 * del;
 x = x0 + r .* cos(tr);
@@ -42,6 +57,21 @@ yr= round(y);
 for i = 1: num_radial
 	%img(xr(i), yr(i)) = 1;
 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Fusão de evidências
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+evidencias = zeros(num_radial, 1);
+for i = 1: num_radial
+evidencias(i) = (evidencias_hh(i, 3) + evidencias_hv(i, 3) + evidencias_vv(i, 3)) / 3;
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% Interpolação 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+y = evidencias;
+%x = evidencias_hh(:, 1);
+%p_coef = polyfit(x, y, 3);
+%p = polyval(p_coef, x);
+%yy = splines(x, y, x);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% incluindo as evidencias de bordas na imagem binaria
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,8 +85,11 @@ for i = 1: num_radial
 	       MYT(i, j) = YT1(j);
 	       %img(XT1(j), YT1(j)) = 1;
         end
-	img(XT1(evidencias(i, 3)), YT1(evidencias(i, 3))) = 1;
-	xaux(i) = XT1(evidencias(i, 3));
-	yaux(i) = YT1(evidencias(i, 3));
+	img_aprox(XT1(evidencias(i)), YT1(evidencias(i))) = 1;
+        img      (xd(i), yd(i)) = 1;
 end
-img = 1 - img;
+img_erro = abs(img_aprox - img);
+norma1 = norm(img_erro, 1);
+norma2 = norm(img_erro, 2);
+%img       = 1 - img;
+%img_aprox = 1 - img_aprox;
