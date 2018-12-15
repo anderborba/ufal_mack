@@ -1,0 +1,5 @@
+\select@language {brazil}
+\beamer@sectionintoc {1}{Introdução}{3}{0}{1}
+\beamer@sectionintoc {2}{Metodologia}{8}{0}{2}
+\beamer@sectionintoc {3}{Resultados numéricos}{22}{0}{3}
+\beamer@sectionintoc {4}{Conclusão e trabalhos futuros}{35}{0}{4}
