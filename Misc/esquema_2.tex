@@ -1,0 +1,81 @@
+% System Combination
+% Harish K Krishnamurthy <www.ece.neu.edu/~hkashyap/>
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows}
+\usepackage{amsmath,bm,times}
+%%%<
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+%%%>
+
+\begin{comment}
+:Title: System Combination
+:Author: Harish K Krishnamurthy
+
+A block diagram of system combination technique of combining several Automatic Speech Recognition Systems (ASRs) to determine best word sequence outputs is shown here. The training and validation phase are the important phases.
+
+\end{comment}
+
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% Define block styles used later
+
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+%    minimum height=10em, rounded corners, drop shadow]
+
+% Define distances for bordering
+
+\begin{tikzpicture}
+\node[wa] (wa) at (0.0,0.0) {$M_j$};
+\node[wa1] (wa1) at (4.0,0.0) {$\overline{TP}_j$};
+
+    \path (wa.west)+(2.5,1.5) node (e1) [sensor] {$TP_1$};
+    \path (wa.west)+(2.5,0.5) node (e2)[sensor] {$TP_2$};
+    \path (wa.west)+(2.5,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(2.5,-2.0) node (e3)[sensor] {$TP_N$};    
+%
+	\path [draw, ->] (wa.east) -- node [left] {\tiny{$\overline{\cap E_1}$}} 
+        (e1.180) ;
+	\path [draw, ->] (wa.east) -- node [below] {\tiny{$\overline{\cap E_2}$}} 
+        (e2.180);
+	\path [draw, ->] (wa.east) -- node [right] {\tiny{$\overline{\cap E_3}$}} 
+        (e3.180);
+	\path [draw, ->] (e1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.160);
+	\path [draw, ->] (e2.east) -- node [above] {\tiny{$+$}} 
+        (wa1.180);
+	\path [draw, ->] (e3.east) -- node [right] {\tiny{$+$}} 
+        (wa1.200);
+  
+    \begin{pgfonlayer}{background}
+        \path (wa.west |- wa.north)+(5.25,1.75) node (a) {};
+        \path (e1.south -| e1.north)+(-2.75,-3.75) node (b) {};
+        %\path (wa1.east |- wa1.east)+(+4.0,-0.5) node (c) {};
+       %   
+        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+            (a) rectangle (b);           
+       %     
+    \end{pgfonlayer}
+    
+
+\end{tikzpicture}
+
+\end{document}

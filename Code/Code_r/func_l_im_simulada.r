@@ -29,21 +29,27 @@ source("func_obj_l.r")
 ## Leitura do arquivo *.txt no diretorio /Data 
 setwd("../..")
 setwd("Data")
-#mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
+mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_2.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_4.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_5.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_6.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_7.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_8.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_9.txt')
 #mat <- scan('Phantom_gamf_0.000_1_2_1.txt')
 #mat <- scan('Phantom_gamf_0.000_1_2_2.txt')
 #mat <- scan('Phantom_gamf_0.000_1_2_3.txt')
 #mat <- scan('Phantom_vert_0.000_1_2_1.txt')
 #mat <- scan('Phantom_vert_0.000_1_2_2.txt')
-mat <- scan('Phantom_vert_0.000_1_2_3.txt')
+#mat <- scan('Phantom_vert_0.000_1_2_3.txt')
 setwd("..")
 setwd("Code/Code_r")
 ## retornou ao diretorio de trabalho /Code/Code_r
 mat <- matrix(mat, ncol = 400, byrow = TRUE)
 z  <- matrix(0, 1, 400)
-z <-  mat[200,1:400]
+z <-  mat[200,1:400] 
 pm = 1
 L  = 4
 N  = 400
@@ -56,10 +62,10 @@ df <- data.frame(x, lobj)
 ##### realizar o plot usando o ggplot #######################
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Ponto de transição na $j$ - ésima posição ')) + ylab(TeX('$l(j)$')) + ggtitle(TeX('Função detecção por máxima verossimilhança')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 # escrita no diretorio /Text/Dissertacao/figura
-setwd("../..")
-setwd("Text/Dissertacao/figuras")
-ggsave("grafico_l_vert_sigmavv.pdf")
-setwd("../../..")
-setwd("Code/Code_r")
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave("grafico_l_vert_sigmavv.pdf")
+#setwd("../../..")
+#setwd("Code/Code_r")
 # retornou ao diretorio /Code/Code_r
 print(p)

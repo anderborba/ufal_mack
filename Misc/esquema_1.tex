@@ -1,0 +1,86 @@
+% System Combination
+% Harish K Krishnamurthy <www.ece.neu.edu/~hkashyap/>
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows}
+\usepackage{amsmath,bm,times}
+%%%<
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+%%%>
+
+\begin{comment}
+:Title: System Combination
+:Author: Harish K Krishnamurthy
+
+A block diagram of system combination technique of combining several Automatic Speech Recognition Systems (ASRs) to determine best word sequence outputs is shown here. The training and validation phase are the important phases.
+
+\end{comment}
+
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+
+\begin{document}
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+% Define block styles used later
+
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
+    minimum height=6em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+
+% Define distances for bordering
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+
+\begin{tikzpicture}
+	\node (wa) [wa]  {$V=\sum_{i=1}^{N}E_i$};
+	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$E_1$};
+    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$E_2$};
+    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$E_N$};    
+%   
+    \path (wa.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
+    \path (wa.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
+    \path (wa.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
+%
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (wa.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (wa.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (wa.200);
+	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_1$}} 
+        (m1.west);
+	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_2$}} 
+        (m2.west);
+	\path [draw, ->] (wa.east) -- node [right] {\tiny{$CT_N$}} 
+        (m3.west);
+%               
+    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
+  
+    \begin{pgfonlayer}{background}
+        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+        \path (m3.east |- m3.east)+(+0.5,-0.5) node (c) {};
+       %   
+        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+            (a) rectangle (c);           
+       %     
+    \end{pgfonlayer}
+    
+
+\end{tikzpicture}
+
+\end{document}

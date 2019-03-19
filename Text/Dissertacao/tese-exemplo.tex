@@ -21,17 +21,21 @@
 \usepackage{courier}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
 \usepackage{type1cm}                    % fontes realmente escaláveis
 \usepackage{listings}                   % para formatar código-fonte (ex. em Java)
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
 \usepackage{titletoc}
 \usepackage{amsmath,amssymb}            % AAB inserido
 \usepackage{booktabs}                   % AAB inserido
 \usepackage{siunitx}                    % AAB inserido
 \usepackage{rotating}                   % AAB inserido
+\usepackage{tikz}                       % AAB inserido
+\usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
+%\usepackage{amsmath,bm,times}           % AAB inserido
+%%%<
 %\usepackage[alf,abnt-etal-cite=2]{abntcite} % AAB verificar as citacoes
 %\usepackage[bf,small,compact]{titlesec} % cabeçalhos dos títulos: menores e compactos
 %\usepackage[fixlanguage]{babelbib}
-\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
-\usepackage[usenames,svgnames,dvipsnames]{xcolor}
-\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
 %\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
 \usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
 \usepackage[all]{hypcap}                    % soluciona o problema com o hyperref e capitulos
@@ -325,6 +329,7 @@ LoG            & Detector de borda usando o laplaciano da gaussiana\\
 %\input cap-introducao        % associado ao arquivo: 'cap-introducao.tex'
 %\input cap-conceitos         % associado ao arquivo: 'cap-conceitos.tex'
 \input cap2acf               % AAB - Arquivo inserido
+\input cap3fusao             % AAB - Arquivo inserido
 %\input cap-conclusoes        % associado ao arquivo: 'cap-conclusoes.tex'
 %\input apendice
 

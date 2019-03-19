@@ -120,19 +120,19 @@ end
 % Escreve em arquivo *.txt as informações das retas radiais nas imagens
 % flores phantons nos canais (hh, hv, vv)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-cd ..
-cd ..
-cd Data
-for canal = 1: 3
-	fname = sprintf('radial_flor_%d_%d_%d_%d.txt', beta, del, nu, canal);
-	fid = fopen(fname,'w');
-	for i = 1: num_radial
-		for j = 1: N / 2
-	                fprintf(fid,'%f ',MY(i, j, canal));
-       	end
-    		fprintf(fid,'\n');
-        end
-        fclose(fid);       
-end
-cd ..
-cd Code/Code_matlab
+%cd ..
+%cd ..
+%cd Data
+%for canal = 1: 3
+%	fname = sprintf('radial_flor_%d_%d_%d_%d.txt', beta, del, nu, canal);
+%	fid = fopen(fname,'w');
+%	for i = 1: num_radial
+%		for j = 1: N / 2
+%	                fprintf(fid,'%f ',MY(i, j, canal));
+%       	end
+%    		fprintf(fid,'\n');
+%        end
+%        fclose(fid);       
+%end
+%cd ..
+%cd Code/Code_matlab

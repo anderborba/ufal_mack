@@ -17,9 +17,15 @@ source("func_obj_l.r")
 setwd("../..")
 setwd("Data")
 #  referencia \cite{nhfc}
-#  Phantom_nhfc_0.000_1_2_1.txt referente ao canal hh
-#  Phantom_nhfc_0.000_1_2_2.txt referente ao canal hv
-#  Phantom_nhfc_0.000_1_2_3.txt referente ao canal vv
+#  Phantom_nhfc_0.000_1_2_1.txt referente ao canal Ihh - I11 real
+#  Phantom_nhfc_0.000_1_2_2.txt referente ao canal Ihv - I22 real
+#  Phantom_nhfc_0.000_1_2_3.txt referente ao canal Ivv - I33 real
+#  Phantom_nhfc_0.000_1_2_4.txt referente ao canal I12 - real
+#  Phantom_nhfc_0.000_1_2_5.txt referente ao canal I12 - imag
+#  Phantom_nhfc_0.000_1_2_6.txt referente ao canal I13 - real
+#  Phantom_nhfc_0.000_1_2_7.txt referente ao canal I13 - imag
+#  Phantom_nhfc_0.000_1_2_8.txt referente ao canal I23 - real
+#  Phantom_nhfc_0.000_1_2_9.txt referente ao canal I23 - imag
 #  referencia \cite{gamf}
 #  Phantom_gamf_0.000_1_2_1.txt referente ao canal hh
 #  Phantom_gamf_0.000_1_2_2.txt referente ao canal hv
@@ -28,12 +34,12 @@ setwd("Data")
 #  Phantom_vert_0.000_1_2_1.txt referente ao canal hh
 #  Phantom_vert_0.000_1_2_2.txt referente ao canal hv
 #  Phantom_vert_0.000_1_2_3.txt referente ao canal vv
-mat <- scan('Phantom_vert_0.000_1_2_3.txt')
+mat <- scan('Phantom_nhfc_0.000_1_2_4.txt')
 setwd("..")
 setwd("Code/Code_r")
 mat <- matrix(mat, ncol = 400, byrow = TRUE)
 N  = 400
-tp <- N/2
+#tp <- N/2
 z  <- matrix(0, 1, N)
 pm = 1
 L  = 4
@@ -41,6 +47,7 @@ L  = 4
 evidencias    <- rep(0, N)
 xev  <- seq(1, N, 1 )
 for (j in 1 : N){
+	print(j)
 	z     <-  mat[j,1:N]
 	temp  <- sample(1: N, 1)
 	lower <- 1
@@ -50,10 +57,11 @@ for (j in 1 : N){
 }
 # imprime em arquivo no diretorio  ~/Data/
 dfev <- data.frame(xev, evidencias)
+names(dfev) <- NULL
 setwd("../..")
 setwd("Data")
-sink("evidencias_vv_vert.txt")
-print(dfev)
+sink("evidencias_c_4_nhfc.txt")
+#print(dfev)
 sink()
 setwd("..")
 setwd("Code/Code_r")

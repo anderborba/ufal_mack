@@ -1,1 +1,30 @@
 Diretório repositório de códigos
+
+Rotina para o exemplo da imagem em duas partes
+   - Sigmas da referência \cite{nhfc}
+
+1) Diretório /git_ufal_mack/Data
+       Phantom_nhfc_0.000_1_2_1.txt -- Ihh --> I(11) (real)
+       Phantom_nhfc_0.000_1_2_2.txt -- Ihv --> I(22) (real)
+       Phantom_nhfc_0.000_1_2_3.txt -- Ivv --> I(22) (real)
+       Phantom_nhfc_0.000_1_2_4.txt -- I12 --> (Parte real)
+       Phantom_nhfc_0.000_1_2_5.txt -- I12 --> (Parte complexa)
+       Phantom_nhfc_0.000_1_2_6.txt -- I13 --> (Parte real)
+       Phantom_nhfc_0.000_1_2_7.txt -- I13 --> (Parte complexa)
+       Phantom_nhfc_0.000_1_2_8.txt -- I23 --> (Parte real)
+       Phantom_nhfc_0.000_1_2_9.txt -- I23 --> (Parte complexa)
+referência \cite{gamf}
+
+2) Diretório /git_ufal_mack/Code_r
+   - rodar evidências_im_sim_sa.r
+         Evidências de bordas gravadas em: (canais definidos como acima) 
+                evidencias_hh_nhfc.txt
+                evidencias_hv_nhfc.txt
+                evidencias_vv_nhfc.txt
+                evidencias_c_4_nhfc.txt
+                evidencias_c_5_nhfc.txt
+                evidencias_c_6_nhfc.txt
+                evidencias_c_7_nhfc.txt
+                evidencias_c_8_nhfc.txt
+                evidencias_c_9_nhfc.txt
+

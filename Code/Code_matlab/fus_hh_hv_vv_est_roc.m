@@ -13,6 +13,9 @@ nc = 3; % número de canais considerado
 ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_nhfc.txt');
 ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_nhfc.txt');
 ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_nhfc.txt');
+%ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_flor_25_155_5_1.txt');
+%ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_flor_25_155_5_2.txt');
+%ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_flor_25_155_5_3.txt');
 %ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_gamf.txt');
 %ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_gamf.txt');
 %ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_gamf.txt');
@@ -53,26 +56,17 @@ for(i = 1: m)
 	E1(i, round(ev_hh(i, 3)))      = 1;
 	E2(i, round(ev_hv(i, 3)))      = 1;
 	E3(i, round(ev_vv(i, 3)))      = 1;
-%	if (tev_1(i) > 0)
-%		M1(i, round(tev_1(i)))    = 1;
-%	end
-%	if (tev_2(i) > 0)
-%		M2(i, round(tev_2(i)))    = 1;
-%	end
-%	if (tev_3(i) > 0)
-%		M3(i, round(tev_3(i)))    = 1;
-%	end
 end
 V = E1 + E2 + E3;
 for i= 1: m
 	for j= 1: n
-		if( V(i, j) ==  1 )
+		if( V(i,j) >= 1 & V(i, j) <= 3)
 			M1(i, j) = 1;
 		end
-		if( V(i,j) >= 1 & V(i, j) <= 2)
+		if( V(i,j) >= 2 & V(i, j) <= 3)
 	        	M2(i, j) = 1;
 		end
-		if( V(i,j) >= 1 & V(i, j) <= 3)
+		if( V(i, j) == 3 )
 			M3(i, j) = 1;
 		end
 	end
@@ -302,14 +296,88 @@ for i= 1: m
 	end
 end
 fn(3) = (somae1 + somae2 + somae3)/ dim;
+
+for i = 1: nc
+	tprj(i) =       tp(i) / (tp(i) + fn(i));
+	fprj(i) = 1 -   (tn(i) / (fp(i) + tn(i)));
+	p(i)    = tp(i) + fn(i);
+	q(i)    = tp(i) + fp(i);
+end	
 % grafico ROC
-p = max(tp + fn);
-x =[0:p/100:p];
-y = ((p -1)/p) * x + 1;
+paux = p(1);
+display('Valor do ponto (P,P) para a contruir a reta  diagnóstico no gráfico (ROC)');
+p
+x =[0: paux/100: paux];
+y = ((paux - 1)/paux) * x + 1;
 %y = x;
-plot(fp, tp, 'r*', x, y, 'b-');
+%plot(fprj, tprj, 'r*', x, y, 'b-');
+%%%%%%%%%%%%%%%%%% Calculo do indice kappa %%%%%%%%%%%%
+r = 0.5;
+rlin = (1 - r);
+for i = 1: nc
+	se(i)    = tprj(i);
+	sp(i)    = tn(i) / (fp(i) + tn(i));
+	pj(i)    = p(i);
+	pjlin(i) = 1 - pj(i);
+	qj(i)    = q(i);
+	qjlin(i) = 1 - qj(i);
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+for i = 1: nc
+	k1(i) = (se(i) - qj(i)) / qjlin(i);
+	k0(i) = (sp(i) - qjlin(i)) / qj(i);  
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+for i = 1: nc
+	kaux1 = r    * pj(i)    * qjlin(i) * k1(i);
+	kaux2 = rlin * pjlin(i) * qj(i)    * k0(i);
+	kaux3 = r    * pj(i)    * qjlin(i);
+	kaux4 = rlin * pjlin(i) * qj(i);
+	kr(i) = (kaux1 + kaux2) / (kaux3 + kaux4);
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Ideia geométrica para kappa %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+v(1) = k0(1);
+v(2) = kr(1);
+u(1) = k1(1);
+u(2) = kr(1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+kk0(1) = 0;
+kk1(1) = 0;
+kk0(2) = 1;
+kk1(2) = 1;
+%%%%%%%%%%%%%%%%%%% Funcao identidade %%%%%%%%%%%%%
+nid = 100;
+xid =[0: 1/nid: 1];
+yid = xid;
+%%%%%%%%%%%%%%% Inclinação e linha projeção r %%%%
+for i = 1: nc
+	s(i) = - (pjlin(i) * qj(i) * rlin ) / (pj(i) * qjlin(i) * r);
+end
+yplin1 = s(1) * xid + 1;
+yplin2 = s(2) * xid + 1;
+yplin3 = s(3) * xid + 1;
+%yplin2 = s(2) * xid + 1;
+%yplin3 = s(3) * xid + 1;
+%plot(xid, yid, 'r-', xid, yplin3, 'b-', xid, yplin2, 'b-', xid, yplin3, 'b-');
+plot(xid, yid, 'y-', xid, yplin1, 'b-', xid, yplin2, 'g-', xid, yplin3, 'r-');
+%plot(xid, yid, 'r*', xid, yplin(1), 'b-', xid, yplin(2), 'b-', xid, yplin(3), 'b-');
+%plot(k0,k1)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%plot(v,u, 'r-', kk0, kk1, 'b-');
 %cd ..
 %cd ..
+%cd Data
+%fname = sprintf('curva_roc_3_canais.txt');
+%fid = fopen(fname, 'w');
+%for (i = 1: nc)
+%	fprintf(fid, '%f %f', fprj(i), tprj(i));
+%	fprintf(fid, '\n');
+%end
+%fclose(fid);
+%cd ..
+%cd Code/Code_matlab
 %cd Text/Dissertacao/figuras
 %imshow(im_hh)
 %print(figure(1), '-dpdf', 'ev_hh_vert.pdf')
