@@ -392,10 +392,10 @@ Seja a equação
       FP+TP = Q, \\
 \end{equation}
 
-O detector de bordas ótimo tem a propriedade de ser aquele que identifica como borda todos os pixeis de bordas verdadeiros, ou seja, $FP$ deveria ser zero portanto o detector de borda ideal satisfaz $P=Q$. 
+O detector de bordas ótimo tem a propriedade de ser aquele que identifica como borda todos os pixeis de bordas verdadeiros, ou seja, $FP$ e $FN$ deveriam ser zero portanto o detector de borda ideal satisfaz $P=Q$. 
 
 
-Reescrevendo a equação (\ref{cap_fusao_33}) teremos
+Reescrevendo a equação (\ref{cap_fusao_27}) usando o fato $P=Q$ teremos
 \begin{equation}\label{cap_fusao_34}
      P^{'}FP_{rate}+P TP_{rate} = P. \\
 \end{equation}
@@ -417,7 +417,7 @@ Duas observações podem ser feitas, primeiro, os pontos $(0,1)$ e $(P,P)$ no es
     TP_{rate} = \frac{(P-1)}{P}FP_{rate} + 1. \\
 \end{equation}
 
-Analisando a equação (\ref{cap_fusao_39}) podemos constatar que se $FP_{rate}$ tende para zero então $TP_{rate}$ tende para $1$. Visto que a igualdade (\ref{cap_fusao_34}) é satisfeita confirmamos $P=P$. 
+Analisando a equação (\ref{cap_fusao_39}) podemos constatar que se $FP_{rate}$ tende para zero então $TP_{rate}$ tende para $1$. 
 
 As figuras (\ref{cap_fusao_fig04}), (\ref{cap_fusao_fig05}) e (\ref{cap_fusao_fig06}) mostram as evidências de bordas em cada canal da imagem simulada de duas folhas proposta no capítulo (\ref{cap_acf}), as quais serão usada como imagem de referência para o método de detecção automático. Isto é, mostram $E_1$, $E_2$ e $E_3$.
 \begin{figure}[!hbt]

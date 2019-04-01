@@ -5,9 +5,6 @@
 %     (3) Escrita em arquivo comentada para evitar mudanças nas figuras.
 clear all;
 format long;
-m = 400;
-n = 400;
-nc = 3; % número de canais considerado
 % leitura do arquivos de evidencias de bordas no diretorio ~/Data
 % dados baseados nas referencias \cite{nhfc} e \cite{gamf}
 %ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_nhfc.txt');
@@ -16,35 +13,46 @@ nc = 3; % número de canais considerado
 ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_flor_25_155_5_1.txt');
 ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_flor_25_155_5_2.txt');
 ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_flor_25_155_5_3.txt');
-%ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_gamf.txt');
-%ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_gamf.txt');
-%ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_gamf.txt');
-%ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_vert.txt');
-%ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_vert.txt');
-%ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_vert.txt');
-% vetor x para todos os metodos de quadrados minimos
-%for i = 1: m
-%	x(i) = i;
-%end
-% media de evidencias em cada canal (não é pixel a pixel)
-%soma = (ev_hh(:, 3) + ev_hv(:, 3) + ev_vv(:, 3)) / 3;
-% Plot
-%plot(x, p, x, soma, '.')
-%for i = 1: nc
-%	ct(i) = randi([1, 5]);
-%end
 %
 ev_1 = ev_hh(:, 3);
 ev_2 = ev_hv(:, 3);
 ev_3 = ev_vv(:, 3);
 %
-%tev_1 = ev_1;
-%tev_1((ev_1 < 200 - ct(1)) | (ev_1 > 200 + ct(1))) = 0;
-%tev_2 = ev_2;
-%tev_2((ev_2 < 200 - ct(2)) | (ev_2 > 200 + ct(2))) = 0;
-%tev_3 = ev_3;
-%tev_3((ev_3 < 200 - ct(3)) | (ev_3 > 200 + ct(3))) = 0;
-%
+% processando evidencias para gerar imagens de flor
+N = 800;    % Tamanho da imagem N X N
+m = N;
+n = N;
+nc = 3; % número de canais considerado
+rmax = 200; % Raio maximo da flor
+beta  = 25;
+del   = 155;
+nu    = 5;
+x0 = N / 2;
+y0 = N / 2;
+img_hh = zeros(N); 
+img_hv = zeros(N); 
+img_vv = zeros(N); 
+evidencias_hh = round(ev_hh);
+evidencias_hv = round(ev_hv);
+evidencias_vv = round(ev_vv);
+num_radial = 400;
+tr = linspace(0, 2 * pi, num_radial + 1);
+r =  2 * del;
+x = x0 + r .* cos(tr);
+y = y0 + r .* sin(tr);
+xr= round(x);
+yr= round(y);
+for i = 1: num_radial
+	[myline, mycoords, outmat, XT1_hh, YT1_hh] = bresenham(img_hh, [x0, y0; xr(i), yr(i)], 0);
+	[myline, mycoords, outmat, XT1_hv, YT1_hv] = bresenham(img_hv, [x0, y0; xr(i), yr(i)], 0);
+	[myline, mycoords, outmat, XT1_vv, YT1_vv] = bresenham(img_vv, [x0, y0; xr(i), yr(i)], 0);
+	img_hh(XT1_hh(evidencias_hh(i, 3)), YT1_hh(evidencias_hh(i, 3))) = 1;
+	img_hv(XT1_hv(evidencias_hv(i, 3)), YT1_hv(evidencias_hv(i, 3))) = 1;
+	img_vv(XT1_vv(evidencias_vv(i, 3)), YT1_vv(evidencias_vv(i, 3))) = 1;
+end
+%img_hh = 1 - img_hh;
+%img_hv = 1 - img_hv;
+%img_vv = 1 - img_vv;
 %
 E1 = zeros(m, n);
 E2 = zeros(m, n);
@@ -52,12 +60,11 @@ E3 = zeros(m, n);
 M1 = zeros(m, n);
 M2 = zeros(m, n);
 M3 = zeros(m, n);
-for(i = 1: m)
-	E1(i, round(ev_hh(i, 3)))      = 1;
-	E2(i, round(ev_hv(i, 3)))      = 1;
-	E3(i, round(ev_vv(i, 3)))      = 1;
-end
+E1 = img_hh;
+E2 = img_hv;
+E3 = img_vv;
 V = E1 + E2 + E3;
+% aplicacao dos limiares
 for i= 1: m
 	for j= 1: n
 		if( V(i,j) >= 1 & V(i, j) <= 3)
@@ -72,14 +79,6 @@ for i= 1: m
 	end
 end
 dim = m * n * nc;
-% Endereço das bordas de Mi, i=1,..., nc %%%%%%
-%[m1rows, m1cols, m1vals] = find(M1);
-%[m2rows, m2cols, m2vals] = find(M2);
-%[m3rows, m3cols, m3vals] = find(M3);
-% Endereço das bordas de Ei, i=1,   , nc %%%%%%
-%[e1rows, e1cols, e1vals] = find(E1);
-%[e2rows, e2cols, e2vals] = find(E2);
-%[e3rows, e3cols, e3vals] = find(E3);
 %   Tp1 com M1E
 somae1 = 0;
 somae2 = 0;
@@ -312,7 +311,7 @@ y = ((paux - 1)/paux) * x + 1;
 %y = x;
 %fprj(2)=0;
 %tprj(2)=0;
-plot(fprj, tprj, 'r*', x, y, 'b-');
+%plot(fprj, tprj, 'r*', x, y, 'b-');
 %%%%%%%%%%%%%%%%%% Calculo do indice kappa %%%%%%%%%%%%
 r = 0.5;
 rlin = (1 - r);
@@ -362,7 +361,7 @@ yplin2 = s(2) * xid + 1;
 yplin3 = s(3) * xid + 1;
 %yplin2 = s(2) * xid + 1;
 %yplin3 = s(3) * xid + 1;
-%plot(xid, yid, 'y-', xid, yplin1, 'b-', xid, yplin2, 'g-', xid, yplin3, 'r-');
+plot(xid, yid, 'y-', xid, yplin1, 'b-', xid, yplin2, 'g-', xid, yplin3, 'r-');
 %plot(k0,k1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %plot(v,u, 'r-', kk0, kk1, 'b-');
