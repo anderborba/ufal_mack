@@ -27,34 +27,41 @@ Definido como as instâncias podem ser classificadas a tabela (\ref{cap_fusao_ta
 	\centering
 	\caption{Matriz de confusão.}\label{cap_fusao_tab01}
 \begin{tabular}{@{}cll@{}} \toprule
-	                        & Classes definidas como verdadeiras       &                             \\ \midrule
+	                        & \multicolumn{2}{c}{Classes definidas como verdadeiras}                              \\ \midrule
 	 Classes preditas       & $\mathbf{p}$                       & $\mathbf{n}$                        \\
                          $\mathbf{P}$& Verdadeiros Positivos (TP) & Falsos Positivos (FP)      \\ 
 	                     $\mathbf{N}$& Falsos Negativos (FN)      & Verdadeiros Negativos (TN) \\ \bottomrule 
 \end{tabular}
 \end{table}
 
- Os números da diagonal principal desta matriz representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária representam a classificação incorreta, adicionalmente observamos que a soma de todas as possibilidades de resultados em uma classificação retorna o valor $1$, isto é, $TP+FN+FP+TN=1$.
+Os valores da diagonal principal desta matriz representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária representam a classificação incorreta.
+Adicionalmente, observamos que a soma de todas as possibilidades de resultados em uma classificação retorna o valor $1$, isto é, $TP+FN+FP+TN=1$.
 
+No auxílio para a definição de várias métricas vamos definir dois parâmetros usados, respectivamente o parâmetro $P$ é definido como a prevalência, e pode ser calculado por $P=TP+FN$. Podemos afirmar que a prevalência leva em conta os resultados falsos negativos, assim sendo, idealmente a prevalência deveria aproximar-se de $TP$. 
+O parâmetro $Q$ , chamado de \textit{Nível-Q} pode ser calculado por $Q=TP+FP$. 
+Observando então que o \textit{Nível-Q} leva em conta os resultados falsos positivos, similarmente com a prevalência, 
+o \textit{Nível-Q} deveria aproximar-se de $TP$ em situações ideais. 
+Analisando a definição do parâmetro \textit{Nível-Q} podemos afirmar que  é uma predição de todos os pixel de bordas, mesmo que sejam uma instância negativa e classificada como positiva. 
+Ainda podemos definir $N=FP+TN$, recorrendo ao fato $TP+FN+FP+TN=1$ redefinimos $P+N=1$  
 
-No auxílio para a definição de várias métricas vamos definir dois parâmetros usados, respectivamente o parâmetro $P$ é definido como a prevalência, e pode ser calculado por $P=TP+FN$. Podemos afirmar que a prevalência leva em conta os resultados falsos negativos, assim sendo, idealmente a prevalência deveria aproximar-se de $TP$ . O parâmetro $Q$ , chamado de \textit{Nível-Q} pode ser calculado por $Q=TP+FP$. Observando então que o \textit{Nível - Q} leva em conta os resultados falsos positivos, similarmente com a prevalência, o \textit{Nível - Q} deveria aproximar-se de $TP$ em situações ideais. Analisando a definição do parâmetro \textit{Nível - Q} podemos afirmar que  é uma predição de todos os pixel de bordas, mesmo que sejam uma instância negativa e classificada como positiva. Ainda podemos definir $N=FP+TN$, recorrendo ao fato $TP+FN+FP+TN=1$ redefinimos $P+N=1$  
+Com as definições de prevalência e \textit{Nível-Q} e as tendências observada podemos afirmar que em um detector de bordas ótimo a prevalência e o \textit{Nível-Q} deveriam ser iguais, isto é, $P=Q$.
 
-Com as definições de prevalência e \textit{Nível - Q} e as tendências observada podemos afirma que em um detector de bordas ótimo a prevalência e o \textit{Nível - Q} deveriam ser iguais, isto é, $P=Q$.
-
-A matriz de confusão serve de origem para definirmos métricas como as seguintes,
+A matriz de confusão serve de origem para definirmos métricas como as seguintes:
 \begin{equation}\label{cap_fusao_eq_01}
 	tp_{rate}=\frac{TP}{P},
 \end{equation}
 \begin{equation}\label{cap_fusao_eq_02}
 	fp_{rate}=\frac{FP}{N}
 \end{equation}
-as quais serão usada para a construção da curva ROC, a métrica $tp_{rate}$ pode ser chamada por razão de verdadeiros positivos, taxa de acerto, \textit{recall} ou  sensibilidade. E a $fp_{rate}$ pode ser chamada por razão de falsos positivos.
+as quais serão usada para a construção da curva ROC, a métrica $tp_{rate}$ pode ser chamada por razão de verdadeiros positivos, taxa de acerto, \textit{recall} ou  sensibilidade. 
+E a $fp_{rate}$ pode ser chamada por razão de falsos positivos.
 
 Na métrica chamada $recall= tp_{rate}=\frac{TP}{P}=\frac{TP}{TP+FN}$ podemos notar que se o número de falsos negativos tende a zero o \textit{recall} aproxima-se do valor unitário, mostrando o comportamento da métrica com a variação dos falsos negativos.
 
-A precisão $=\frac{TP}{Q}=\frac{TP}{TP+FP}$ definida desta forma pode medir uma tendência assintótica para o valor unitário quando os falsos positivos  tende para zero.  
+A precisão $\frac{TP}{Q}=\frac{TP}{TP+FP}$ definida desta forma pode medir uma tendência assintótica para o valor unitário quando os falsos positivos  tende para zero.  
 
-A acurácia $= \frac{TP+TN}{P+N}$ definida dessa forma juntamente com o fato de $P+N=1$ resulta que $acuracia=TP+TN$, nos mostrando uma maneira de estudar a acurácia em relação a tendência de verdadeiros positivos. A acurácia é medida pela soma da diagonal principal da matriz de confusão.
+A acurácia $\frac{TP+TN}{P+N}$ definida dessa forma juntamente com o fato de $P+N=1$ resulta que igual a $TP+TN$, nos mostrando uma maneira de estudar a acurácia em relação a tendência de verdadeiros positivos. 
+A acurácia é medida pela soma da diagonal principal da matriz de confusão.
 
 As métricas $recall$, precisão e acurácia nos mostram uma maneira de observar os resultados baseados em diferentes propriedades de classificação, respectivamente vamos analisar as métricas com relação aos comportamentos de falsos negativos, falsos positivos e verdadeiros negativos.  
 
@@ -100,14 +107,15 @@ Alguma observações podem ser realizadas, primeiro, o ponto $(0,0)$ pouco acres
 
 O método baseado na curva ROC consiste em aplicar o classificador proposto em cada canal da imagem PolSAR gerando mapas binários de evidências de bordas nomeados $E_i$ com $i=1,\dots,N$, onde $N$ é o número de canais da imagem PolSAR. Tendo os mapas $E_i$  para cada canal, construímos uma matriz fusão $F$ de mesmo tamanho de $E_i$, tal que em cada pixel é armazenado um valor ao qual corresponde a uma frequência de ocorrências de bordas nos diferentes mapa de evidências de bordas $E_i$. Ou seja, para construir a matriz de fusão $F$ basta fazer a soma pixel a pixel de todas os mapas de evidências $E_i$ retornando assim uma matriz com a frequência de cada evidências de borda. Podemos afirmar que quanto maior a correspondência que um pixel possui, maior sua probabilidade de ser uma borda, ou seja, podemos usar essa correspondência como uma maneira de distinguir entre bordas verdadeira ou falsas.
 
-Desta maneira a matriz de fusão $F$ tem valores variando entre $0$ e $N$. Podemos então definir $N$ limiares variando de $1$ até $N$ com o intuito de obter um limiar correspondente o qual fornece melhor acurácia. Assim, na matriz de fusão $F$ é aplicado um conjunto de limiares variando da seguinte forma  $CT_j=1,\cdots,N$ gerando as matrizes chamadas de mapa de bordas com limiares $M_j$.
+Desta maneira a matriz de fusão $F$ tem valores variando entre $0$ e $N$. Podemos então definir $N$ limiares variando de $1$ até $N$ com o intuito de obter um limiar correspondente o qual fornece melhor acurácia. Assim, na matriz de fusão $F$ é aplicado um conjunto de limiares variando da seguinte forma  $CT_j=1,\dots,N$ gerando as matrizes chamadas de mapa de bordas com limiares $M_j$.
 
 O objetivo do método é estimar automaticamente o limiar correspondente otimizado ($CT$),  proveniente de um conjunto de limiares parciais ($CT_j$) aplicados na matriz de fusão $F$. O limiar encontrado será considerado o limiar otimizado.  
 
 \subsection{Análise ROC}
 	A análise ROC será proposta como um método de fusão de evidências de bordas em diferentes canais da imagem PolSAR. A curva ROC será usada para selecionar o limiar correspondente buscando um fator de equilíbrio ótimo entre a taxa de verdadeiros positivos e a taxa de falsos positivos classificadas.
 
- Inúmeras  definições são propostas para desenvolver o algoritmo e a analisar a teoria envolvida. Então, seja $\{e, ne\}$ respectivamente bordas e não bordas reais na imagem, e $\{E, NE\}$ respectivamente bordas predita e não borda predita. Podemos redefinir a matriz de confusão para a detecção de borda como na tabela (\ref{cap_fusao_tab02})
+Inúmeras  definições são propostas para desenvolver o algoritmo e a analisar a teoria envolvida. Então, seja $\{e, ne\}$ respectivamente bordas e não bordas reais na imagem, e $\{E, NE\}$ respectivamente bordas preditas e preditas. 
+Podemos redefinir a matriz de confusão para a detecção de bordas como na tabela~\ref{cap_fusao_tab02}.
  
 \begin{table}[hbt]
 	\centering
@@ -119,19 +127,20 @@ O objetivo do método é estimar automaticamente o limiar correspondente otimiza
 \end{tabular}
 \end{table}
 
-Com intuito de definir as probabilidades condicionais da matriz de confusão consideramos as dimensões das matrizes de dados que geram $E_i$, $M_j$ e $F$ por $K\times L$. Denotamos respectivamente $p_{k,l}$ como sendo a probabilidade de um pixel ser uma borda verdadeira, e $q_{k,l}$ como sendo a probabilidade de um pixel ser detectado como uma borda, onde $k=1,\dots,K$ e $l=1,\dots,L$. 
+%%% ACF Use sempre \ell ao invés de "l" em modo matemático
+Com intuito de definir as probabilidades condicionais da matriz de confusão consideramos as dimensões das matrizes de dados que geram $E_i$, $M_j$ e $F$ por $K\times L$. 
+Denotamos respectivamente $p_{k,l}$ como sendo a probabilidade de um pixel ser uma borda verdadeira, e $q_{k,l}$ como sendo a probabilidade de um pixel ser detectado como uma borda, onde $k=1,\dots,K$ e $l=1,\dots,L$. 
 
 Tendo em mãos essas definições, a probabilidade de resultados verdadeiros positivos $(TP)$ sobre todos os pixeis da imagem é designado por,
-
 \begin{equation}\label{cap_fusao_eq_03}
 TP=\text{media}(p_{k,l}\cdot q_{k,l}).
 \end{equation}
 
-A definição (\ref{cap_fusao_eq_03}) conduz a seguinte equação  
+A definição (\ref{cap_fusao_eq_03}) conduz a seguinte equação:
 \begin{equation}\label{cap_fusao_eq_04}
 TP=P \cdot Q + \rho \sigma_p \sigma_q,
 \end{equation}
-sendo que $\rho$ significa o coeficiente de  correlação entre as probabilidades $p_{k,l}$ e $q_{k,l}$. E $\sigma_p$ e $\sigma_q$ significam respectivamente o desvio padrão para as respectivas distribuições de probabilidades.
+sendo que $\rho$ denota o coeficiente de  correlação entre as probabilidades $p_{k,l}$ e $q_{k,l}$, e $\sigma_p$ e $\sigma_q$ denotam, respectivamente o desvio padrão das respectivas distribuições de probabilidade.
 
 Sendo $\rho$ o coeficiente de correlação definido acima, e sabendo que quando as probabilidades têm as mesmas tendências, $\rho$ deve ser maior que zero. Portanto, no presente trabalho vamos considerar $\rho > 0$, e que podemos considerar realista pelo fato da detecção de borda ser baseada em métodos que exploram as informações de bordas locais.
 
@@ -303,7 +312,8 @@ A figura (\ref{cap_fusao_fig02}) mostra a comparação entre o $M_j$ fixado arbi
 \label{cap_fusao_fig02}
 \end{figure}
 
-O conceito de acurácia no presente trabalho será a qualidade da informação fornecida pelos mapa de borda resultante do processo de encontrar o limiar otimizado. Com intuito de caracterizar a acurácia definimos a sensibilidade $(SE)$ e a especificidade $(SP)$ que são respectivamente a probabilidade de identificar uma borda verdadeira como um pixel de borda, e, a probabilidade de identificar uma não borda como um pixel de não borda, assim definimos, 
+O conceito de acurácia no presente trabalho será a qualidade da informação fornecida pelo mapa de borda resultante do processo de encontrar o limiar otimizado. 
+Com intuito de caracterizar a acurácia definimos a sensibilidade $(SE)$ e a especificidade $(SP)$ que são respectivamente a probabilidade de identificar uma borda verdadeira como um pixel de borda, e, a probabilidade de identificar uma não borda como um pixel de não borda, assim definimos, 
 
 \begin{equation}\label{cap_fusao_eq_17}
 SE=\frac{TP}{TP+FN},
@@ -323,11 +333,11 @@ O objetivo é calcular $SE_j$ e $SP_j$ como definido acima onde o índice repres
 
 Como já definimos para encontra a curva ROC vamos comparar cada $M_j$, onde $j=1,\dots N$ proveniente de cada limiar $CT_i$ aplicado na matriz de fusão, com o conjunto de imagens de bordas iniciais $E_i$ no intuito de calcular as razões de verdadeiros positivos $(TP_{rate_{j}})$ e a razão de falsos positivos $(TP_{rate_{j}})$. Assim, para cada  mapas de bordas com limiar $M_j$ as razões são definidas como:  
 \begin{equation}\label{cap_fusao_21}
-	TP_{rate_{j}}=\frac{\text{Número médio de pixels de bordas detectado corretamente}}{\text{número total mádio de pixels de bordas}}, \\
+	TP_{rate_{j}}=\frac{\text{Número médio de pixels de bordas detectado corretamente}}{\text{número total médio de pixels de bordas}}, \\
 \end{equation}
 e 
 \begin{equation}\label{cap_fusao_22}
-	FP_{rate_{j}}=\frac{\text{Número médio de pixels de não bordas detectado incorretamente}}{\text{número total mádio de pixels de não bordas}}. \\
+	FP_{rate_{j}}=\frac{\text{Número médio de pixels de não bordas detectado incorretamente}}{\text{número total médio de pixels de não bordas}}. \\
 \end{equation}
 
 Podemos então expressar 
@@ -342,7 +352,9 @@ onde, $\overline{TP}_j+\overline{TN}_j$ representa o número médio de bordas ve
 
 O gráfico ROC como definimos é um gráfico bi-dimensional no qual os valores das razões de falsos positivos $FP_{rate_j}$ são mensurados no eixo horizontal e as razões de verdadeiros positivos $TP_{rate_j}$ são mensurados no eixo vertical. Cada mapa de borda $M_j$ produz um ponto no gráfico $(FP_{rate_j}, TP_{rate_j})$ no plano ROC formando uma curva ROC. É conhecido que o limiar ótimo ocorre na intersecção da curva ROC (ou perto da mesma) com a linha diagnóstico. A linha diagnóstico é formada conectando os pontos $(P,P)$ e $(0,1)$ no plano ROC. 
 
-Escolhemos o limiar ótimo $CT$ como sendo o limiar mais próximo da reta diagnóstico, portanto o valor do limiar ótimo  determina a acurácia da imagem de bordas detectadas. 
+Escolhemos o limiar ótimo $CT$ como sendo o limiar mais próximo da reta diagnóstico, 
+%%% ACF "mais próximo" em que sentido?
+portanto o valor do limiar ótimo  determina a acurácia da imagem de bordas detectadas. 
 
 \begin{figure}[hbt]
 \centering
@@ -350,7 +362,7 @@ Escolhemos o limiar ótimo $CT$ como sendo o limiar mais próximo da reta diagn�
 	\caption{Distribuição diferença de fase {\it n-looks}.}
 \label{cap_fusao_fig03}
 \end{figure}
-
+%%% ACF O que é a linha vermelha?
 
 Podemos definir a prevalencia
 \begin{equation}\label{cap_fusao_25}
@@ -360,7 +372,7 @@ e o $Q-$ nível
 \begin{equation}\label{cap_fusao_26}
 	Q =\overline{TP_j}+\overline{FP_j}, \\
 \end{equation}
-Para cada $j$.
+para cada $j$.
 
 
 As posições dos pontos nas curvas ROC fornecem informações qualitativas sobre a acurácia da detecção para cada mapa de bordas $M_j$. 
@@ -489,7 +501,9 @@ onde os $c_{u,v}$ referem-se as quatro probabilidades acima, porém no caso dete
 	D_{C_w} =\sum_{u=1}^{2}\sum_{v=1}^{2} w_{u,v}d_{u,v}= w_{1,1}c_{1,1}+w_{1,2}c_{1,2}+w_{2,1}c_{2,1}+w_{2,2}c_{2,2}.  \\
 \end{equation}
 
-As probabilidades são descritas  conforme a tabela (\ref{cap_fusao_04}), 
+As probabilidades são descritas  conforme a tabela~\ref{cap_fusao_tab04},
+em que o índice sobrescrito representa o complemento da grandeza representada.
+ 
 \begin{table}[hbt]
 	\centering
 	\caption{Probabilidade para as bordas detectadas e as encontradas randômicamente.}\label{cap_fusao_tab04}
@@ -501,7 +515,7 @@ As probabilidades são descritas  conforme a tabela (\ref{cap_fusao_04}),
 	TN  & $d_{2,2}=P^{'}\cdot SP$     & $c_{2,2}=P^{'}\cdot Q^{'}$  \\ \bottomrule 
 \end{tabular}
 \end{table}
-onde o índice sobrescrito representa o complemento da grandeza representada.
+
 
 Verificando as definições de $d_{u,v}$,
 \begin{equation}\label{cap_fusao_44}
@@ -580,7 +594,7 @@ Ocorrendo assim a verificação,
 
 Baseado na definição do índice $\kappa$ definimos o índice $\kappa$ ponderado como,
 \begin{equation}\label{cap_fusao_48}
-\kappa_w = \frac{D_{0_w} - D_{C_w}}{max(D_{0_w} - D_{C_w})}.
+\kappa_w = \frac{D_{0_w} - D_{C_w}}{\max(D_{0_w} - D_{C_w})}.
 \end{equation}
 
  Usando as definições de $D_{0_w}$ e $D_{C_w}$ mostrada respectivamente na equações (\ref{cap_fusao_40}) e (\ref{cap_fusao_42}) e realizando algumas manipulações algébricas, 
