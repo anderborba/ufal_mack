@@ -1,0 +1,31 @@
+\chapter{Métricas}\label{cap_metricas}
+
+A matriz de confusão serve de origem para definirmos métricas como as seguintes:
+\begin{equation}\label{cap_fusao_eq_01}
+	tp_{rate}=\frac{TP}{P},
+\end{equation}
+\begin{equation}\label{cap_fusao_eq_02}
+	fp_{rate}=\frac{FP}{N}
+\end{equation}
+\begin{equation}\label{cap_fusao_eq_02}
+recall= tp_{rate}=\frac{TP}{P}=\frac{TP}{TP+FN}
+\end{equation}
+\begin{equation}\label{cap_fusao_eq_02}
+precisão = \frac{TP}{Q}=\frac{TP}{TP+FP} 
+\end{equation}
+\begin{equation}\label{cap_fusao_eq_02}
+acurácia = \frac{TP}{Q}=\frac{TP}{TP+FP} 
+\end{equation}
+\begin{equation}\nonumber
+medida-F=\frac{2}{\frac{1}{recall}+\frac{1}{precisao}}
+\end{equation}
+\begin{equation}\nonumber
+	medida-F=\frac{2}{\frac{Q+P}{TP}}
+\end{equation}
+\begin{equation}\nonumber
+	medida-F=\frac{2TP}{Q+P}
+\end{equation}
+\begin{equation}\nonumber
+	medida-F=\frac{2TP}{2TP+FP+FN}
+\end{equation}
+

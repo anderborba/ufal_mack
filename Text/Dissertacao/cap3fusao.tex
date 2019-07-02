@@ -814,3 +814,112 @@ Derivando em relação a $r$ teremos
 \begin{equation}\label{cap_fusao_26}
 	\frac{d}{dr} \kappa_r= \frac{\rho \sigma_p\sigma_q(Q-P)}{(rPQ^{'} +r^{'}P^{'}Q)^2}.
 \end{equation}
+\section{Analise das componentes principais - PCA}
+Considere imagens $I_i$, com $i=1,\cdots,n$ e dimensão $M\times N$, a qual podemos realocar em um vetor $G$ de dimensão $n \times MN$ e construir a matriz de covariância $\Sigma=GG^T$. A ideia é procurar uma combinação linear $Y=W^TG$, onde $W=\left[w_1,w_2,\cdots,w_n\right]$ cuja variância $W^T\Sigma W$ é máxima, com restrições sobre a norma de cada $w_i$ que deve ser unitária. Isto é,
+\begin{equation*}
+\begin{aligned}
+& \underset{w}{\text{maximize}}
+& & W^T\Sigma W \\
+& \text{sujeito a}
+& & ||w_i|| = 1, \; i = 1, \ldots, n.
+\end{aligned}
+\end{equation*}
+
+Observando que $W^T\Sigma W=W^TGG^T=(G^TW)^T(G^TW)=Y^TY$ e $||W||^2=W^TW=1$, desta forma podemos reescrever o problema de otimização 
+\begin{equation*}
+\begin{aligned}
+& \underset{w}{\text{maximize}}
+& & Y^TY \\
+& \text{sujeito a}
+& & w_i^Tw_i - 1 = 0, \; i = 1, \ldots, n.
+\end{aligned}
+\end{equation*}
+
+Aplicando o método dos multiplicadores de lagrange construímos a função de lagrange
+
+\begin{equation}\label{cap_fusao_68}
+	L(w)= w^T\Sigma w -\lambda(w^Tw - 1).
+\end{equation}
+
+Calculando a derivada em relação a cada coordenada de $w$ e igualando a $0$ estamos encontrando os pontos críticos do lagrangeano. A matriz $\Sigma$ é positiva definida (ou definida positiva?) garantindo que para o caso do lagrangeano o ponto crítico seja único.
+
+\textcolor{red}{OBS: Verificar a questão da concavidade do lagrangeano}
+
+\begin{equation}\label{cap_fusao_69}
+\frac{\partial L}{\partial w}= \Sigma w -\lambda w .
+\end{equation}
+
+Portanto o máximo existe para a seguinte igualdade
+\begin{equation}\label{cap_fusao_70}
+\Sigma w =\lambda w,
+\end{equation}
+configurando um autosistema, com autovalores ordenados por $\lambda_1\leq\lambda_2,\ldots,\leq\lambda_n>0$ e seus respectivos autovetores. Os autovetores são ortogonais entre si, devido ao fato da matriz $\Sigma$ ser simétrica.
+
+Os vetores ortogonais $w_i$ são definidos como eixos principais e a correspondente combinação linear $Y_i=w_i^TG$ como a projeção dos vetores das imagens nas direções dos autovetores (eixos principais).
+
+Os $Y_i$ são chamados de componentes principais, tal que,
+
+\begin{equation*}
+\begin{aligned}
+Y_1=w_1^TG&,\ldots, &Y_n=w_n^TG \\
+\end{aligned}
+\end{equation*}
+
+Sendo a matriz $\Sigma^{'}$ definida coma a matriz de covariância das componentes principais $\mathrm{Y}$.
+\begin{equation*}
+\begin{aligned}
+	\Sigma^{'}&= &YY^T&=&(W^TG)(W^TG)^T&=&(W^TG)(G^TW)&=&W^TGG^TW&=&W^T\Sigma^TW&=&\Lambda\\
+\end{aligned}
+\end{equation*}
+ou seja, a matriz $\Sigma^{'}$ é diagonal.
+
+Os autovalores $\lambda_i$ são as variâncias das componentes principais e as covariâncias representadas pelos elementos que não estão na diagonal principal são nulas, implicando que as componentes principais não têm correlação entre si.
+
+A primeira componente principal tem $VAR(Y_1)=\lambda_1$, a segunda componente principal tem $VAR(Y_2)=\lambda_2$, e assim sucessivamente até a $n$-ésima componente principal $VAR(Y_n)=\lambda_n$. 
+
+Se as imagens são altamente correlacionadas, então as primeiras componentes principais contribuem para uma alta porcentagem do total da variância das imagens.
+
+\subsection{Fusão usando o PCA}
+A fusão das imagens foi realizada da seguinte maneira 
+\begin{equation*}
+\begin{aligned}
+	I_f&=&pca_i(1) I_1 + pca_i(2) I_2 + pca_i(3) I_3. \\
+\end{aligned}
+\end{equation*}
+ Os coeficientes da combinação linear (combinação convexa) são $pca_i=\frac{w_i}{w_i(1)+w_i(2)+w_i(3)}$, onde o $w_i$ é o autovetor unitário associado com o maior autolavor $\lambda_i$.
+
+\subsection{Fusão de canais usando o PCA}
+
+\begin{figure}[!hbt]
+\minipage{0.475\textwidth}
+\fbox{  \includegraphics[width=\linewidth]{pca_fusao_hh_hv_vv_autovalor_1.pdf}}
+\caption{Fusão com o menor autovalor $\lambda_1$}\label{cap_fusao_fig11}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{pca_fusao_hh_hv_vv_autovalor_2.pdf}}
+\caption{Fusão com o autovalor $\lambda_2$}\label{cap_fusao_fig12}
+\endminipage\hfill
+\centering
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{pca_fusao_hh_hv_vv_autovalor_3.pdf}}
+\caption{Fusão com o maior autovalor $\lambda_3$}\label{cap_fusao_fig13}
+\endminipage\hfill
+\end{figure}
+
+O método PCA aplicado nas imagens simuladas, 
+
+\begin{figure}[!hbt]
+\minipage{0.475\textwidth}
+\fbox{  \includegraphics[width=\linewidth]{pca_fusao_hh_hv_vv_autovalor_1_flor.pdf}}
+\caption{Fusão com o menor autovalor $\lambda_1$}\label{cap_fusao_fig14}
+\endminipage\hfill
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{pca_fusao_hh_hv_vv_autovalor_2_flor.pdf}}
+\caption{Fusão com o autovalor $\lambda_2$}\label{cap_fusao_fig15}
+\endminipage\hfill
+\centering
+\minipage{0.475\textwidth}
+\fbox{ \includegraphics[width=\linewidth]{pca_fusao_hh_hv_vv_autovalor_3_flor.pdf}}
+\caption{Fusão com o maior autovalor $\lambda_3$}\label{cap_fusao_fig16}
+\endminipage\hfill
+\end{figure}

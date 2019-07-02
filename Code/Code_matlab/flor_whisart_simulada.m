@@ -82,22 +82,22 @@ end
 %%%%%%%%%%%%%%%%%%%%%% incluindo pontos radiais imagem flor 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1: num_radial
-%	II(xr(i), yr(i)) = 1;
+%	II(xr(i), yr(i)) = 100;
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% incluindo retas radiais imagem flor II, Ihh, Ihv e Ivv 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%const =  5 * max(max(max(II)));
-%for i = 1: num_radial
-%	[myline, mycoords, outmat, XT2, YT2] = bresenham(II, [x0, y0; xr(i), yr(i)], 0);
-%	dim = length(XT2);
-%	for j = 1: dim
-%	       II (XT2(j), YT2(j)) = const;
-%	       Ihh(XT2(j), YT2(j)) = const;
-%	       Ihv(XT2(j), YT2(j)) = const;
-%	       Ivv(XT2(j), YT2(j)) = const;
-%        end
-%end
+const =  5 * max(max(max(II)));
+for i = 1: num_radial
+	[myline, mycoords, outmat, XT2, YT2] = bresenham(II, [x0, y0; xr(i), yr(i)], 0);
+	dim = length(XT2);
+	for j = 1: dim
+	       II (XT2(j), YT2(j)) = const;
+	       Ihh(XT2(j), YT2(j)) = const;
+	       Ihv(XT2(j), YT2(j)) = const;
+	       Ivv(XT2(j), YT2(j)) = const;
+        end
+end
 escala=mean2(II)*3;figure(1),imshow(II,[0,escala]);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extrai retas radiais e as distribuicoes nas imagens flores phantons nos canais (hh, hv, vv)
@@ -108,6 +108,7 @@ escala=mean2(II)*3;figure(1),imshow(II,[0,escala]);
 MY = zeros(num_radial, N / 2, 3);
 for canal = 1 : 3
 	for i = 1: num_radial
+		% verificar esse se no lugar de 1 não é canal
 		Iaux = phantom(:, :, 1);
 		[myline, mycoords, outmat, XC, YC] = bresenham(Iaux, [x0, y0; xr(i), yr(i)], 0);
 		dimc = length(XC);

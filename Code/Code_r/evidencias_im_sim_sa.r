@@ -34,7 +34,7 @@ setwd("Data")
 #  Phantom_vert_0.000_1_2_1.txt referente ao canal hh
 #  Phantom_vert_0.000_1_2_2.txt referente ao canal hv
 #  Phantom_vert_0.000_1_2_3.txt referente ao canal vv
-mat <- scan('Phantom_nhfc_0.000_1_2_4.txt')
+mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
 setwd("..")
 setwd("Code/Code_r")
 mat <- matrix(mat, ncol = 400, byrow = TRUE)
@@ -44,7 +44,8 @@ z  <- matrix(0, 1, N)
 pm = 1
 L  = 4
 # Loop para toda a imagem
-evidencias    <- rep(0, N)
+evidencias          <- rep(0, N)
+evidencias_valores  <- rep(0, N)
 xev  <- seq(1, N, 1 )
 for (j in 1 : N){
 	print(j)
@@ -54,14 +55,15 @@ for (j in 1 : N){
 	upper <- N
 	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l, control=list( maxit =100, temperature = temp))
 	evidencias[j] <- out$par
+	evidencias_valores[j] <- out$value
 }
 # imprime em arquivo no diretorio  ~/Data/
-dfev <- data.frame(xev, evidencias)
-names(dfev) <- NULL
-setwd("../..")
-setwd("Data")
-sink("evidencias_c_4_nhfc.txt")
-#print(dfev)
-sink()
-setwd("..")
-setwd("Code/Code_r")
+#dfev <- data.frame(xev, evidencias)
+#names(dfev) <- NULL
+#setwd("../..")
+#setwd("Data")
+#sink("evidencias_c_4_nhfc.txt")
+##print(dfev)
+#sink()
+#setwd("..")
+#setwd("Code/Code_r")
