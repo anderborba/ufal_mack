@@ -29,11 +29,11 @@ source("func_obj_l.r")
 ## Leitura do arquivo *.txt no diretorio /Data 
 setwd("../..")
 setwd("Data")
-mat <- scan('real_flevoland_2.txt')
+mat <- scan('real_flevoland_1.txt')
 setwd("..")
 setwd("Code/Code_r")
 ## retornou ao diretorio de trabalho /Code/Code_r
-num_radial <- 200
+num_radial <- 100
 r          <- 120
 nc         <- 3
 mat <- matrix(mat, ncol = r, byrow = TRUE)
@@ -41,10 +41,10 @@ pm = 1
 L  = 4
 N  = r
 zaux <- matrix(0, 1, N)
-zaux <-  mat[30, 1: N] 
+zaux <-  mat[6, 1: N] 
 indx <- which(zaux != 0)
-N <- round(max(indx))
-z <-  mat[7, 1: N] 
+N <- max(indx)
+z <-  mat[6, 1: N] 
 x  = seq(1, N - 1, 1 )
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){

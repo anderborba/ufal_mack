@@ -5,7 +5,7 @@ end
 C = cov(COVAR);
 whos C
 [V, D] = eig(C);
-p = V(:, 6)./ sum(V(:, 6));
+p = V(:, nc)./ sum(V(:, nc));
 p
 F = zeros(m, n);
 aux = zeros(m, n);

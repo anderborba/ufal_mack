@@ -15,15 +15,15 @@ for i= 1: m
 		if( V(i,j) >= 3 & V(i, j) <= nc)
 			M(i, j, 3) = 1;
 		end
-		if( V(i,j) >= 4 & V(i, j) <= nc)
-			M(i, j, 4) = 1;
-		end
-		if( V(i,j) >= 5 & V(i, j) <= nc)
-			M(i, j, 5) = 1;
-		end
-		if( V(i, j) == nc )
-			M(i, j, 6) = 1;
-		end
+	%	if( V(i,j) >= 4 & V(i, j) <= nc)
+	%		M(i, j, 4) = 1;
+	%	end
+	%	if( V(i,j) >= 5 & V(i, j) <= nc)
+	%		M(i, j, 5) = 1;
+	%	end
+	%	if( V(i, j) == nc )
+	%		M(i, j, 6) = 1;
+	%	end
 	end
 end
 dim = m * n * nc;
@@ -199,4 +199,4 @@ plot(fprj, tprj, 'r*', x, y, 'b-');
 %fclose(fid_errop);
 %cd ..
 %cd Code/Code_matlab
-F = M(:,:, 4);
+F = M(:,:, 2);

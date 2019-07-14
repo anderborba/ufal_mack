@@ -10,7 +10,7 @@ require(latex2exp)
 require(GenSA)
 #
 source("func_soma_1_to_j.r")
-#source("func_soma_j_to_n.r")
+source("func_soma_j_to_n.r")
 source("fpmgamma.r")
 source("func_obj_l_gauss.r")
 # Programa principal
@@ -18,30 +18,46 @@ setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
 # canais para a + bi 
-mat <- scan('real_flevoland_4.txt')
+mat <- scan('real_flevoland_produto_3.txt')
+mat1 <- scan('real_flevoland_2.txt')
+mat2 <- scan('real_flevoland_3.txt')
 setwd("..")
 setwd("Code/Code_r")
 mat <- matrix(mat, ncol = 120, byrow = TRUE)
+mat1 <- matrix(mat1, ncol = 120, byrow = TRUE)
+mat2 <- matrix(mat2, ncol = 120, byrow = TRUE)
 d <- dim(mat)
 nrows <- d[1]
 ncols <- d[2]
-N  = ncols
-z  <- matrix(0, 1, N)
-#sig <- 0.5
 sig <- 0.5
+rho <- 0.01
 pm = 1
 L  = 4
+h  = 1
 # Loop para toda a imagem
 evidencias          <- rep(0, nrows)
 evidencias_valores  <- rep(0, nrows)
 xev  <- seq(1, nrows, 1 )
 for (j in 1 : nrows){
-	print(j)
 	N <- ncols
+	z     <- rep(0, N)
+	z1    <- rep(0, N)
+	z2    <- rep(0, N)
+	zaux  <- rep(0, N)
+        zaux1 <- rep(0, N)
 	zaux  <-  mat[j,1:N]
-	indx  <- which(zaux != 0)
-	N <- round(max(indx))
-	z     <-  mat[j,1:N]
+	z1  <-  mat1[j,1:N]
+	z2  <-  mat2[j,1:N]
+	conta = 0
+        for (i in 1 : N){
+	       if (zaux[i] > 0){
+		       conta <- conta + 1
+		       zaux1[conta] = zaux[i]
+	       }
+        }
+	indx  <- which(zaux1 != 0)
+	N <- floor(max(indx))
+	z     <-  zaux1[1:N]
 	temp  <- sample(1: N, 1)
 	lower <- 1 
 	upper <- N
@@ -54,7 +70,7 @@ dfev <- data.frame(xev, evidencias)
 names(dfev) <- NULL
 setwd("../..")
 setwd("Data")
-sink("evid_real_flevoland_3.txt")
+sink("evid_real_flevoland_produto_3.txt")
 print(dfev)
 sink()
 setwd("..")

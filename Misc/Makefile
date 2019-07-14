@@ -3,7 +3,7 @@
 #
 #
 
-BASE_NAME = rasc_prod_gauss
+BASE_NAME = rasc_tencon_2019_port
 
 LATEX     = latex
 PDFLATEX  = pdflatex

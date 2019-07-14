@@ -25,7 +25,9 @@ d <- dim(mat)
 nrows <- d[1]
 ncols <- d[2]
 N  = ncols
-z  <- matrix(0, 1, N)
+#z  <- rep(0, N)
+#zaux  <- rep(0, N)
+#zaux1  <- rep(0, N)
 pm = 1
 L  = 4
 # Loop para toda a imagem
@@ -33,12 +35,21 @@ evidencias          <- rep(0, nrows)
 evidencias_valores  <- rep(0, nrows)
 xev  <- seq(1, nrows, 1 )
 for (j in 1 : nrows){
-	print(j)
 	N <- ncols
+	z     <- rep(0, N)
+	zaux  <- rep(0, N)
+        zaux1 <- rep(0, N)
 	zaux  <-  mat[j,1:N]
-	indx  <- which(zaux != 0)
-	N <- round(max(indx))
-	z     <-  mat[j,1:N]
+	conta = 0
+        for (i in 1 : N){
+	       if (zaux[i] > 0){
+		       conta <- conta + 1
+		       zaux1[conta] = zaux[i]
+	       }
+        }
+	indx  <- which(zaux1 != 0)
+	N <- floor(max(indx))
+	z     <-  zaux1[1:N]
 	temp  <- sample(1: N, 1)
 	lower <- 1 
 	upper <- N

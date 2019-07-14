@@ -4,6 +4,7 @@
 # N como o tamanho da imagem e z como valores da imagem (dist Wishart),
 # assim a subrotina define a funcão objetivo l(j) descrita na eq(5) do artigo NHFC_2014
 func_obj_l <- function(param){
+	#print(j)
 	j <- param
 	aux1 = j * log(abs(func_soma_1_to_j(j, z))) + (N - j) * log(abs(func_soma_j_to_n(j, N, z))) 
 	aux2 =  pm * L * (log(L) - 1) - log(fpmgamma(L, pm)) 
