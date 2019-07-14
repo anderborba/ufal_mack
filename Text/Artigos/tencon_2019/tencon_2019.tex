@@ -26,10 +26,10 @@ g}
 \graphicspath{{../../Dissertacao/figuras/}}
 \begin{document}
 
-\title{Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Bolsista Capes.}
+\title{Fusion of edge evidence for intensity channels in PolSAR images\\
+%{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
+%should not be used}
+\thanks{Grantee Capes/PROSUP/Mackenzie.}
 }
 
 \author{\IEEEauthorblockN{Anderson A. de Borba}
@@ -46,8 +46,8 @@ São Paulo, Brazil \\
 mauricio.marengoni@mackenzie.br}
 \and
 \IEEEauthorblockN{\hspace{6cm} Alejandro C. Frery}
-\IEEEauthorblockA{\textit{\hspace{6cm}Laboratório de Computação Científica e Análise Numérica} \\
-\hspace{6cm}\textit{UFAL - Universidade Federal de Alagoas)}\\
+\IEEEauthorblockA{\textit{\hspace{6cm}Laboratório de Computação Científica e Análise Numérica - LACCAN} \\
+\hspace{6cm}\textit{UFAL - Universidade Federal de Alagoas}\\
 \hspace{6cm} Maceió, Brazil \\
 \hspace{6cm}acfrery@gmail.com}
 }
@@ -55,13 +55,11 @@ mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
+Currently, in the area of remote sensing, you can find different methods for detection and fusion of edge evidence. However, some of these methods, when applied to PolSAR images, produce inadequate results. In order to improve signal noise, there has been an investment in research with the use of statistical modeling. The present study proposes a method of detection and fusion of evidence edges based on the method of maximum likelihood, using a fusion of information by average, SWT, PCA, and ROC statistics. The precedents were applied to the intensity channels of a PolSAR real image. The results indicate a good performance of the method in detecting edges with possible paths for future research.
 \end{abstract}
 
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert
+PolSAR, edge detection, Maximum likelihood estimation, fusion methods
 \end{IEEEkeywords}
 
 \section{Introduction}\label{sec_01}
@@ -269,7 +267,7 @@ This section is again based on the reference \cite{n_r}. The SWT fusion method c
 \begin{itemize}
 \item[-] calculate the SWT decomposition by getting $L_{HH}$, $L_{HL}$, $L_{LH}$ and $L_{LL}$ for each channel;
 \item[-] in the decompositions $L_{HH}$ the arithmetic mean of all channels, pixel by pixel, and in the decompositions $L_{HL}$, $L_{LH}$ and $L_{LL}$ is performed, is found the maximum between each channel, pixel by pixel, leaving a new decomposition $\bar{L}_{HH}$, $\bar{L}_{HL}$, $\bar{L}_{LH}$ and $\bar{L}_{LL}$;
-\item[-] performing the reverse transformation of SWT, we get the image by merging the edge evidence $IF(x,y)$.  
+\item[-] performing the reverse transformation of SWT, we get the image by fusing the edge evidence $IF(x,y)$.  
 \end{itemize}
 
 \subsection{Pincipal component analysis - (PCA) }
@@ -366,7 +364,11 @@ The ROC statistics method does not use all pixels of the channels, because the m
 \end{figure}
 
 \section{Conclusão}\label{sec_08}
+In this study, the statistical modelling approach was applied to real PolSAR data imaging. Seeking to understand the importance of information from each of these channels in the fusion of evidence of edges. The proposed algorithm was applied in three intensity channels (hh), (hv) and (vv). Initially, we found the evidence of edges, using the method of maximum likelihood in each of the channels, obtaining good results. When analysing the results obtained in the three channels, it was observed that the method for the detection of edges worked well in the channels (hh) and (hv) achieving better accuracy in relation to the channel (vv).
 
+Subsequently, the fusion of evidence of edges was performed with the methods of simple mean, SWT, PCA and ROC statistics. The first three methods performed well as shown in the results. The ROC statistics method suppressed several edge points, a behaviour expected because it is a method that uses thresholds; however, when applied in a larger number of channels, its performance tends to improve. 
+
+Based on these results, a possible way to improve them would be to increase the number of channels studied. Making room for future research by applying other methods of fusing edge evidence.
 \bibliographystyle{IEEEtran}
 \bibliography{bibliografia}
 \end{document}
