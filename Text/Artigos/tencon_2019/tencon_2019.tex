@@ -10,12 +10,13 @@
 \usepackage{booktabs}                        % AAB inserido
 \usepackage[utf8]{inputenc}                  % AAB inserido
 \usepackage{rotating}                        % AAB inserido
+%\usepackage{subfigure}                       % AAB inserido
+%\usepackage[export]{adjustbox}               % AAB inserido
+
 \ifCLASSOPTIONcompsoc                        % AAB inserido
-\usepackage[caption=false,font=normalsize,labelfon
-t=sf,textfont=sf]{subfig}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \else
-\usepackage[caption=false,font=footnotesize]{subfi
-g}
+\usepackage[caption=false,font=footnotesize]{subfig}
 \fi
 %\usepackage[round,sort,nonamebreak]{natbib}  % AAB inserido
 %\usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual
@@ -26,7 +27,8 @@ g}
 \graphicspath{{../../Dissertacao/figuras/}}
 \begin{document}
 
-\title{Fusion of edge evidence for intensity channels in PolSAR images\\
+\title{The edges evidence fusion to intensity channels in
+PolSAR image\\
 %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
 %should not be used}
 \thanks{Grantee Capes/PROSUP/Mackenzie.}
@@ -55,7 +57,7 @@ mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-Currently, in the area of remote sensing, you can find different methods for detection and fusion of edge evidence. However, some of these methods, when applied to PolSAR images, produce inadequate results. In order to improve signal noise, there has been an investment in research with the use of statistical modeling. The present study proposes a method of detection and fusion of evidence edges based on the method of maximum likelihood, using a fusion of information by average, SWT, PCA, and ROC statistics. The precedents were applied to the intensity channels of a PolSAR real image. The results indicate a good performance of the method in detecting edges with possible paths for future research.
+Currently, it can be found several different methods for detection and fusion of edge evidence in the remote sensing research area. However, some of these methods, when applied to PolSAR images, produce inadequate results. In order to improve signal noise, there has been an investment in research with the use of statistical modeling. The present study proposes a method of detection and fusion of evidence edges based on the method of maximum likelihood, using a fusion of information by average, SWT, PCA, and ROC statistics. The precedents were applied to the intensity channels of a PolSAR real image. The results indicate a good performance of the method in detecting edges with possible paths for future research.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -64,20 +66,19 @@ PolSAR, edge detection, Maximum likelihood estimation, fusion methods
 
 \section{Introduction}\label{sec_01}
 
-This paper will present research on the detection and fusion of edge evidence, in synthetic aperture radar images (\textit{Synthetic Aperture Radar} -- SAR) and in synthetic aperture polarimetric radar images (\textit{Polarimetric Synthetic Aperture Radar} -- PolSAR), both require appropriate models and algorithms for the treatment of their special characteristics.
+The paper presents some interring results on the detection and fusion of edge evidence, related to Synthetic Aperture Radar images (SAR) and in Synthetic Aperture Polarimetric radar images (PolSAR). In both cases, models and algorithms are required for appropriate treatment of their special characteristics.
 
-We can cite different edge detection techniques, as in the work of \cite{slf_2008} where electromagnetic modeling is used, or the work of \cite{tlb, obw, flmc, fyf} which find techniques based on methods that estimate the gradient. As well as in the work of \cite{bf}, techniques based on Markov's chains are used. 
+There are several different edge detection techniques as electromagnetic modeling usage (\cite{slf_2008}), estimate gradient based methods (\cite{tlb, obw, flmc, fyf}) and Markov's chains based technics (\cite{bf}) as well.
 
-In \cite{gfn} the comparison between several edge detectors that follow the idea of this work is described. Techniques based on statistical modeling have been used in edge detection in SAR images, such as \cite{gmbf, fbgm, horrit, gfn}.. And, Currently, the research in \textit{Deep Learning} has been widely used in the area of remote sensing, we can find applications in references \cite{bac, ztmxzxf, tabmm, xstz}. 
+In \cite{gfn} presents the comparison between several edge detectors, in wich some ideas of this work are described. Alternativelly, techniques based on statistical modeling have been used in edge detection in SAR images (\cite{gmbf, fbgm, horrit, gfn}) and, currently, \textit{Deep Learning} has been widely used in the remote sensing area (\cite{bac, ztmxzxf, tabmm, xstz}).
 
-The image fusion area is also explored in this work. 
-A recent article, whose authors are \cite{sglmla}, and, \cite{sg} show  information about fusion techniques.  
+The image fusion area is also explored in this work. A recent article, whose authors are \cite{sglmla}, and, \cite{sg} show  information about fusion techniques. 
 
 This paper will follow the statistical modeling approach, mainly the techniques described in \cite{fbgm, nhfc} using the Wishart distribution. To perform the fusion of information we have as a basis the references \cite{mit, sg}. 
 
 The objective of this work is to detect edges in each channel of a PolSAR image and perform the fusion of the edge evidence, with the task of understanding the importance of the information of each one of these channels. 
 
-The article is structured as follows. The section {\ref{sec_02} is described the statistical modelling for PolSAR data, we show the modelling used in the sections {\ref{sec_03}, {\ref{sec_04} and {\ref{sec_05}. In the \ref{sec_06} section we describe methods of fusion of border evidence with an emphasis on the ROC statistics-based method. The numerical results are described in section \ref{sec_07} and finally, in section \ref{sec_08} the conclusions of the work will be presented. 
+The article is structured as follows: in the section {\ref{sec_02} describes the statistical modeling for PolSAR data, the modeling usage is presented in the sections {\ref{sec_03}, {\ref{sec_04} and {\ref{sec_05}, in the section \ref{sec_06}  the edge evidence methods with an emphasis on the ROC statistics-based method is described, some numerical results are shown and analyzed in section \ref{sec_07} and, finally, in section \ref{sec_08} the concluding remarks are presented.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
 Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. For each pixel, we have a matrix of scattering coefficients, which are complex numbers and describe the transformation from the transmitted electromagnetic field to the received electromagnetic field.
@@ -125,14 +126,14 @@ and if the means of propagation of waves is reciprocal, then we will use the rec
 \right].
 \end{equation}
 
+And considering the hypothesis that the distribution is circular Gaussian complex multivariate zero mean $N^C_3(0,\Sigma)$ (\cite{good, lee}), whose the probability density function (pdf) is:
 
-And yet, according to the references \cite{good} and \cite{lee} we can consider the hypothesis that the distribution is circular Gaussian complex multivariate zero mean $N^C_3(0,\Sigma)$, whose probability density function (pdf) is:
 \begin{equation}\label{eq_03}
     f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}), \\
 \end{equation}
 where $||cdot|$ is the determining matrix, the superscript index $H$ denotes the conjugated complex number and $\mathbf{\Sigma}$ is the covariance matrix of the sample $\mathbf{s}$ such that $\mathbf{\Sigma}=E(\mathbf{ss}^H)$. 
 
-As a result of the distribution being circular complex multivariate Gaussian with zero mean, and the entries for the $\mathbf{s}$ vector are $\mathbf{s}_{ij}= R_{ij}+ i I_{ij}$, then for hypothesis it is required that $R_{ij}$ and $I_{ij}$ with $j=h,v$ satisfy 
+As a result of the distribution being circular complex multivariate Gaussian with zero mean, and the entries for the $\mathbf{s}$ vector are $\mathbf{s}_{ij}= R_{ij}+ i I_{ij}$, then due hypothesis it is required that $R_{ij}$ and $I_{ij}$ with $j=h,v$ satisfy 
 \begin{itemize}
 	\item[I-] $E[R_{ij}]=E[I_{ij}]=0,$
 	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2],$ 
@@ -161,40 +162,36 @@ where, $\traco(\cdot)$ is the trace operator of an array, $\Gamma_m(L)$ is a mul
 \begin{equation*}
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
 \end{equation*}
-and $\Gamma(\cdot)$ is the Gamma function and $m=3$ for the present article. We can say that $\mathbf{Z}$ is distributed as a Wishart distribution denoting for $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ and satisfying $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Without loss of generality to the text, let is use the symbol $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ to represent the covariance matrix associated with $\mathbf{S}$.
+and $\Gamma(\cdot)$ is the Gamma function and $m=3$ for the present article. It can be said that $\mathbf{Z}$ is distributed as a Wishart distribution denoting for $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ and satisfying $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Without loss of generality to the text, let is use the symbol $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ to represent the covariance matrix associated with $\mathbf{S}$.
 
 \section{Edge Detection}\label{sec_04}
+In the specialized literature, it is found a large offer of classical methods to detect edge, for example, Sobel, Canny, Laplacian da Gaussian (LoG) and LoG pyramidal. The classical edge detection methods are constructed assuming that noise is additive, which makes these methods inefficient for application in PolSAR images.
 
-In the literature, we find a large offer of classical methods to detect borders, for example, Sobel, Canny, Laplacian da Gaussian (LoG) and LoG pyramidal. The classical edge detection methods are constructed assuming that noise is additive, which makes these methods inefficient for application in PolSAR images.
+Based on the articles \cite{nhfc, gmbf}, it is possible to propose an edge detection method for PolSAR images with multiple targets.The main idea is to detect the transition point in a thin a range, as possible, between two regions of the image. The transition point is defined as edge evidence. The noise in these types of images is the \textit{speckle} type, and has multiplicative nature, making edge detection in SAR images a challenging task.
 
-By introducing concepts based on the articles \cite{nhfc, gmbf} it is possible to propose an edge detection method for PolSAR images with multiple targets. The main idea is to detect the transition point in as thin a range as possible between two regions of the image. The transition point is defined as edge evidence. The noise in these types of images is of the \textit{speckle} type, and is multiplicative in nature, making edge detection in SAR images a challenging task.
-
-Edge detection methodologies occur in several stages, below we list the stages:
-
+Edge detection methodologies occur in several stages, as follows:
 \begin{enumerate}
 	\item identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
-	
 	\item to build centroid rays out of the area of interest;
 	\item to collect data on a neighbourhood around the rays using the {\it Bresenham's midpoint line algorithm}, ideally the size of a pixel;
-
 	\item detect points in the data range, which provide evidence of statistical property changes, i.e., a transition point that defines border evidence;
 	\item use the Generalized Simulated Anneling (GenSA) method, reference \cite{xgsh}, to find maximum points in functions of interest;
 	\item fusion of evidence of detected edges in $(hh)$, $(hv)$ and $vv$ channels.
 \end{enumerate}
 
 \section{Maximum Likelihood Method}\label{sec_05}
-Maximum Likelihood Estimation (MLE) is a method that, having a data set and a statistical model, estimates the values of the parameters of the model maximizing a probability function of the data. The concept of likelihood can be found in articles \cite{nhfc, gmbf}.
+The Maximum Likelihood Estimation (MLE) is a method estimates the parameters values of the model maximizing the data probability function, considering as known a data set and a statistical model. More details on the likelihood concept can be found in \cite{nhfc, gmbf}.
 
-Suppose $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ a random vector distributed according to the probability density function (pdf) $f(\mathbf{x},\mathbf{\theta})$ with parameters $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ in the parameter space $\Theta$. We have defined the likelihood function
+Suppose $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ a random vector distributed according to the probability density function (pdf) $f(\mathbf{x},\mathbf{\theta})$ with parameters $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ in the parameter space $\Theta$, it is defined the likelihood function  
 \begin{equation*}
     L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta), \\
 \end{equation*}
-and the logarithmic likelihood function which we can call the log-likelihood function
+and the logarithmic likelihood function, which is also called the log-likelihood function
 \begin{equation}\label{eq_09}
 	l(\theta;\mathbf{X})= \ln(L(\theta;\mathbf{X})) = \sum_{i=1}^{n}\ln(f(x_i;\theta)). \\
 \end{equation}
 
-In a simplified way the estimate of maximum likelihood can be written by 
+In a simplified form, the estimate of maximum likelihood can be written by 
 \begin{equation*}
     \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x}),\\
 \end{equation*}
@@ -203,15 +200,15 @@ and similarly
     \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x}).\\
 \end{equation*}
 
-Let's use the maximum likelihood method applied to the Wishart distribution. Suppose $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ a random vector distributed according to the probability density function (pdf) (\ref{eq_05}) with parameters $\Sigma=\{\mathbf{\Sigma_A}, \mathbf{\Sigma_B}\}$ and $L$. The parameters $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ belong to two different samples $A$ and $B$, our goal is to detect the border between the two samples.
+Using the maximum likelihood method applied to the Wishart distribution, suppose $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ a random vector distributed according to the probability density function (pdf) (\ref{eq_05}) with parameters $\Sigma=\{\mathbf{\Sigma_A}, \mathbf{\Sigma_B}\}$ and $L$. The parameters $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ belong to two different samples $A$ and $B$, and the goal is to detect the border between the two samples.
 
-The likelihood function of the sample described by (\ref{eq_09}) is given by the production equation of the density functions, respectively associated with each sample.
+The likelihood function of the sample described by (\ref{eq_09}) is given by the production equation of the density functions, respectively associated to each sample.
 \begin{equation}\label{eq_10}
 	L(j)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L) \prod_{k=j+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L), \\
 \end{equation}
 where $\mathbf{Z}_{k}^{'}$ is a possible approximation of the random matrix described in (\ref{eq_04}).
 
-Using the equation (\ref{eq_09}), we have the log-likelihood function.
+Using the equation (\ref{eq_09}), one has the log-likelihood function.
 \begin{equation}
 \begin{array}{rcl}\label{eq_11}
 	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
@@ -220,7 +217,6 @@ Using the equation (\ref{eq_09}), we have the log-likelihood function.
 \end{equation}
 
 At this moment, we can perform algebraic manipulations in the probability density function in each term of the summation and replace in the two parts of the equation (\ref{eq_09}) resulting in
-
 \begin{equation}
 \begin{array}{lll}\label{eq_12}
 	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]\\
@@ -257,7 +253,7 @@ The maximum argument $\widehat{\jmath}_{ML}$ is edge evidence that will be used 
 \end{equation*}
 \section{Methods of fusion of border evidence}\label{sec_06}
 \subsection{Simple mean}
-The simple mean fusion method proposes the arithmetic mean of the edge evidence in each channel. Fusion of edge evidence can be calculated by
+The simple mean fusion method proposes the arithmetic mean of the edge evidence in each channel. The edge evidence fusion can be calculated by
 \begin{equation}
 	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
 \end{equation}
@@ -271,7 +267,7 @@ This section is again based on the reference \cite{n_r}. The SWT fusion method c
 \end{itemize}
 
 \subsection{Pincipal component analysis - (PCA) }
-This section is based on the reference \cite{n_r} and \cite{mit}. The PCA-based fusion method can be described by the following steps:
+This section is based on \cite{n_r} and \cite{mit}, where the PCA-based fusion method can be described by the following steps:
 \begin{itemize}
 \item[-] organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m\cdot n$, represents the multiplication of $m$ lines and $n$ columns of the matrices to be used in the fusion;
 \item[-] calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
@@ -283,7 +279,7 @@ This section is based on the reference \cite{n_r} and \cite{mit}. The PCA-based 
 \end{itemize}
 
 \subsection{ROC statistics}
-The ROC statistical method was proposed and described in detail in the references \cite{gs} and \cite{fawcett}. The method describes a statistical model to obtain information automatically, from several images, or, in several channels. The method can be described in the following procedure:
+The ROC statistical method was proposed and described in detail in the references \cite{gs} and \cite{fawcett}. The method describes a statistical model to obtain information automatically, from several images, or in several channels. The method can be described in the following procedures:
 \begin{itemize}
 \item[-] obtain the evidence of edges in the channels, applying the method described in this article. Store this edge evidence in $E_i$ matrices, with $i=1,\cdots,nc$ in a binary way;
 \item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ borders;
@@ -293,9 +289,9 @@ The ROC statistical method was proposed and described in detail in the reference
 \end{itemize}
 
 \section{Numerical results}\label{sec_07}
-The PolSAR image, with 4 looks of the Flevoland region in the Netherlands, was used for the numerical tests. The figure (\ref{fig_01}) shows the region of interest, where we built the radial lines for edge detection.
+The PolSAR image, with 4 looks of the Flevoland region in the Netherlands, was used for the numerical tests. The figure (\ref{fig_01}) shows the region of interest, where it was built the radial lines for edge detection.
 
- Edge detection and subsequent evidence fusion were performed in this region of interest in order to understand the weighting of each channel in the image formation.
+ Edge detection and subsequent evidence fusion were performed in this region of interest, in order to understand the weighting of each channel in the image formation.
 
 In this study, edge detection was performed in the intensity channels (hh), (hv) and (vv), and subsequently, used for information fusion. 
 
@@ -309,66 +305,76 @@ In this study, edge detection was performed in the intensity channels (hh), (hv)
 \begin{figure}[hbt]
 \centering
 	\includegraphics[scale=0.3]{flevoland_radial_4_look.pdf}
+	%	\includegraphics[scale=0.3]{flevoland_radial_4_look.ps}
 			\vspace{-1.0cm}
 	\caption{Region of interest (ROI) in the image of Flavoland.}
 \label{fig_01}
 \end{figure}
-The figures (\ref{fig_02}), (\ref{fig_03}) and (\ref{fig_04}) show, respectively, the edge evidence detection algorithms, applied to (hh), (hv) and (vv) channels. 
+The figures \ref{fig_02} \subref{fig:1a}, \subref{fig:1b} and \subref{fig:1c} show, respectively, the edge evidence detection algorithms, applied to (hh), (hv) and (vv) channels. 
 
 The algorithm to detect evidence of edges worked well in the channels (hh) and (hv), achieving better accuracy in relation to the channel (vv).  
 
 In the canal (vv), edges that are not part of the homogeneous region of interest were detected, but are part of other edges of the image, researching the reason for this fact, we analyzed the function $l(j)$ and found that the function presents two peaks, representing possible evidence of edges, in which the largest was correctly detected. 
 
-\begin{figure}[hbt]
-	\includegraphics[scale=0.75]{flevoland_hh_evid_crop.pdf}
-		\vspace{-6.0cm}
-	\caption{Evidence of edges detected in the channel (hh).}
-\label{fig_02}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.75]{flevoland_hv_evid_crop.pdf}
-	\vspace{-6.0cm}
-	\caption{Evidence of edges detected in the channel (hv).}	
-\label{fig_03}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.75]{flevoland_vv_evid_crop.pdf}
-	\vspace{-6.0cm}
-	\caption{Evidence of edges detected in the channel (vv).}
-\label{fig_04}
-\end{figure}
-The figures (\ref{fig_05}) to (\ref{fig_08}) show, respectively, the fusion of evidence for the methods described in this article. In order, we list the method that shows the average of edge evidence, the method that uses the Stationary wavelet transform (SWT), the method that uses the Principal component analysis (PCA), and finally, the method based on ROC statistics.
 
-The methods shown in the figures (\ref{fig_05}), (\ref{fig_06}) and (\ref{fig_07}) use all the pixels detected in the different channels. Each method weighs the pixels in the different channels with their characteristics. The average also weighs the pixels. The (SWT) finds the coefficients of the linear combination of its wavelet bases, and the (PCA) weights the autovectors of the covariance matrix.
 
-The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds discarding pixels. This was observed in the figure (\ref{fig_08}).
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusion of edge evidence using the media method.}
-\label{fig_05}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusion of edge evidence using the SWT method.}
-\label{fig_06}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusion of edge evidence using the PCA method.}
-\label{fig_07}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusion of edge evidence using the ROC method.}
-\label{fig_08}
-\end{figure}
+   \begin{figure}[!ht]
+     \subfloat[Evidence in channel (hh) \label{fig:1a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{flevoland_hh_evid_crop_teste.pdf}       
+     }
+     \hfill
+     \subfloat[Evidence in channel (hv) \label{fig:1b}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_hv_evid_crop_teste.pdf}
+     }
+     \\
+     \centering
+     \subfloat[Evidence in channel (vv) \label{fig:1c}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_vv_evid_crop_teste.pdf}
+     }
+     \caption{Dummy figure}
+     \label{fig_02}
+   \end{figure}
 
-\section{Conclusão}\label{sec_08}
-In this study, the statistical modelling approach was applied to real PolSAR data imaging. Seeking to understand the importance of information from each of these channels in the fusion of evidence of edges. The proposed algorithm was applied in three intensity channels (hh), (hv) and (vv). Initially, we found the evidence of edges, using the method of maximum likelihood in each of the channels, obtaining good results. When analysing the results obtained in the three channels, it was observed that the method for the detection of edges worked well in the channels (hh) and (hv) achieving better accuracy in relation to the channel (vv).
+The figures \ref{fig_03} \subref{d} to \subref{g} show, respectively, the fusion of evidence for the methods described in this article. In order, we list the method that shows the average of edge evidence, the method that uses the Stationary wavelet transform (SWT), the method that uses the Principal component analysis (PCA), and finally, the method based on ROC statistics.
+
+The methods shown in the figures \ref{fig_03} \subref{d}, \subref{e} and \subref{f} use all the pixels detected in the different channels. Each method weighs the pixels in the different channels with their characteristics. The average also weighs the pixels. The (SWT) finds the coefficients of the linear combination of its wavelet bases, and the (PCA) weights the auto-vectors of the covariance matrix.
+
+The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds discarding pixels. This was observed in the figure \ref{fig_03}\subref{g}.
+
+\begin{figure}[!ht]
+     \subfloat[Fusion media\label{d}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_media_crop_teste.pdf}       
+     }
+     \hfill
+     \subfloat[Fusion SWT\label{e}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_swt_crop_teste.pdf}
+     }
+     \\
+     \subfloat[Fusion PCA\label{f}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_pca_crop_teste.pdf}       
+     }
+     \hfill
+     \subfloat[Fusion ROC\label{g}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_roc_crop_teste.pdf}
+     }
+     \\
+     %\centering
+     %\subfloat[First sub-figure\label{flevoland_vv_evid_crop.pdf}]{%
+     %  \includegraphics[width=0.2\textwidth]{flevoland_hv_evid_crop_teste.pdf}
+     %}
+     \caption{Dummy figure}
+     \label{fig_03}
+   \end{figure}
+
+\section{Conclusion}\label{sec_08}
+In this study, the statistical modelling approach was applied to real PolSAR data imaging. Aiming to understand the importance of information from each channel in the edge evidence fusions, the proposed algorithm was applied in three intensity channels (hh), (hv) and (vv). Initially, it was found the evidence of edges, using the maximum likelihood  method in each channel, obtaining good results. After analyzed the results obtained in the three channels, it was observed that the method for the edge detections worked better in the channels (hh) and (hv) than the channel (vv), achieving a suitable accuracy.
 
 Subsequently, the fusion of evidence of edges was performed with the methods of simple mean, SWT, PCA and ROC statistics. The first three methods performed well as shown in the results. The ROC statistics method suppressed several edge points, a behaviour expected because it is a method that uses thresholds; however, when applied in a larger number of channels, its performance tends to improve. 
 
-Based on these results, a possible way to improve them would be to increase the number of channels studied. Making room for future research by applying other methods of fusing edge evidence.
+Based on these results, a possible way to improve them would be to increase the number of channels studied. This analysis open a way for future researches with application of different methods for edge evidence fusing.
 \bibliographystyle{IEEEtran}
 \bibliography{bibliografia}
 \end{document}
