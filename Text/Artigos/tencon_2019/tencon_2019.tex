@@ -35,21 +35,21 @@ PolSAR image\\
 }
 
 \author{\IEEEauthorblockN{Anderson A. de Borba}
-\IEEEauthorblockA{\textit{Dept. Engenharia Elétrica e Computação} \\
-\textit{UPM - Universidade Presbiteriana Mackenzie}\\
-IBMEC-SP\\
+\IEEEauthorblockA{\textit{Dept.\ Engenharia Elétrica e Computação} \\
+\textit{UPM -- Universidade Presbiteriana Mackenzie}\\
+IBMEC, SP\\
 São Paulo, Brazil \\
 anderson.borba@ibmec.edu.br}
 \and
 \IEEEauthorblockN{Maurício Marengoni}
-\IEEEauthorblockA{\textit{Dept. Engenharia Elétrica e Computação} \\
-\textit{UPM - Universidade Presbiteriana Mackenzie}\\
+\IEEEauthorblockA{\textit{Dept.\ Engenharia Elétrica e Computação} \\
+\textit{UPM -- Universidade Presbiteriana Mackenzie}\\
 São Paulo, Brazil \\
 mauricio.marengoni@mackenzie.br}
 \and
 \IEEEauthorblockN{\hspace{6cm} Alejandro C. Frery}
-\IEEEauthorblockA{\textit{\hspace{6cm}Laboratório de Computação Científica e Análise Numérica - LACCAN} \\
-\hspace{6cm}\textit{UFAL - Universidade Federal de Alagoas}\\
+\IEEEauthorblockA{\textit{\hspace{6cm}Laboratório de Computação Científica e Análise Numérica -- LACCAN} \\
+\hspace{6cm}\textit{UFAL -- Universidade Federal de Alagoas}\\
 \hspace{6cm} Maceió, Brazil \\
 \hspace{6cm}acfrery@gmail.com}
 }
@@ -57,101 +57,124 @@ mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-Currently, it can be found several different methods for detection and fusion of edge evidence in the remote sensing research area. However, some of these methods, when applied to PolSAR images, produce inadequate results. In order to improve signal noise, there has been an investment in research with the use of statistical modeling. The present study proposes a method of detection and fusion of evidence edges based on the method of maximum likelihood, using a fusion of information by average, SWT, PCA, and ROC statistics. The precedents were applied to the intensity channels of a PolSAR real image. The results indicate a good performance of the method in detecting edges with possible paths for future research.
+There are different methods for detection and fusion of edge evidences in remote sensing. 
+However, some of them, when applied to PolSAR images, produce inadequate results. 
+%In order to improve the signal-to-noise ratio, there has been an investment in research with the use of statistical modeling. 
+%%% ACF Junção de coisas inconexas
+The present study proposes a method of detection and fusion of evidence edges based on the method of maximum likelihood, followed by fusion of information by average, SWT, PCA, and ROC statistics. 
+We applied these techniques to the intensity channels of a PolSAR image. 
+The results indicate a good performance of the method in detecting edges with possible paths for future research.
 \end{abstract}
 
 \begin{IEEEkeywords}
-PolSAR, edge detection, Maximum likelihood estimation, fusion methods
+PolSAR, edge detection, maximum likelihood estimation, fusion
 \end{IEEEkeywords}
 
 \section{Introduction}\label{sec_01}
 
-The paper presents some interring results on the detection and fusion of edge evidence, related to Synthetic Aperture Radar images (SAR) and in Synthetic Aperture Polarimetric radar images (PolSAR). In both cases, models and algorithms are required for appropriate treatment of their special characteristics.
+We present results on the detection and fusion of edge evidence applied to Polarimetric Synthetic Aperture Radar images (PolSAR). 
+We employ models and algorithms as required for an appropriate treatment of their special characteristics~\cite{slf_2008}.
 
-There are several different edge detection techniques as electromagnetic modeling usage (\cite{slf_2008}), estimate gradient based methods (\cite{tlb, obw, flmc, fyf}) and Markov's chains based technics (\cite{bf}) as well.
+Among the available edge detection techniques for SAR imagery, it is worth mentioning those based on the gradient~\cite{tlb, obw, flmc, fyf}, and on Markov chains~\cite{bf}.
+The former suffer from the effect of speckle noise, and the latter lead to computer intensive methods.
 
-In \cite{gfn} presents the comparison between several edge detectors, in wich some ideas of this work are described. Alternativelly, techniques based on statistical modeling have been used in edge detection in SAR images (\cite{gmbf, fbgm, horrit, gfn}) and, currently, \textit{Deep Learning} has been widely used in the remote sensing area (\cite{bac, ztmxzxf, tabmm, xstz}).
+Ref.~\cite{gfn} presents a comparison between several edge detectors. 
+Alternatively, techniques based on statistical modeling have been used in edge detection~\cite{gmbf, fbgm, horrit, gfn} and, more recently, by means of \textit{Deep Learning}~\cite{bac, ztmxzxf, tabmm, xstz}.
 
-The image fusion area is also explored in this work. A recent article, whose authors are \cite{sglmla}, and, \cite{sg} show  information about fusion techniques. 
+This work relies on ideas stemming from \textit{Information Fusion}.
+This approach has been followed by Refs.~\cite{sglmla,sg} in order to extract valuable knowledge from remotely sensed data.
 
-This paper will follow the statistical modeling approach, mainly the techniques described in \cite{fbgm, nhfc} using the Wishart distribution. To perform the fusion of information we have as a basis the references \cite{mit, sg}. 
+This paper will follow the statistical modeling approach, mainly the techniques described by~\cite{fbgm, nhfc} using the Wishart distribution. 
+To perform the fusion of information we have as a basis Refs.~\cite{mit, sg}. 
 
-The objective of this work is to detect edges in each channel of a PolSAR image and perform the fusion of the edge evidence, with the task of understanding the importance of the information of each one of these channels. 
+The objective of this work is to detect edges in each channel of a PolSAR image and to perform the fusion of the edge evidence, with the task of understanding and of quantifying the importance of the information provided by each channel. 
 
-The article is structured as follows: in the section {\ref{sec_02} describes the statistical modeling for PolSAR data, the modeling usage is presented in the sections {\ref{sec_03}, {\ref{sec_04} and {\ref{sec_05}, in the section \ref{sec_06}  the edge evidence methods with an emphasis on the ROC statistics-based method is described, some numerical results are shown and analyzed in section \ref{sec_07} and, finally, in section \ref{sec_08} the concluding remarks are presented.
+The article is structured as follows: 
+Section~\ref{sec_02} describes the statistical modeling for PolSAR data, 
+it use is presented in Sections~\ref{sec_03}, \ref{sec_04} and~\ref{sec_05}.
+Section~\ref{sec_06} describes the fusion of edge evidence approaches with an emphasis on the ROC statistics-based method.
+Numerical results are shown and analyzed in Section~\ref{sec_07} and, finally, Section~\ref{sec_08} concludes the paper with remarks and future research directions.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
-Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. For each pixel, we have a matrix of scattering coefficients, which are complex numbers and describe the transformation from the transmitted electromagnetic field to the received electromagnetic field.
+
+Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. 
+For each pixel, we have a matrix of scattering coefficients, which are complex numbers and describe the transformation from the transmitted electromagnetic field to the received electromagnetic field.
 
 The transformation can be represented as
 \begin{equation*}
  \left[
 \begin{array}{c}
 	E_{h}^{r}   \\
-	E_{v}^{r}    \\
+	E_{v}^{r}    
 \end{array}
 \right]
  = \frac{e^{\hat{\imath} kr}}{r}\left[
 \begin{array}{cc}
 	S_{hh}   & S_{hv}   \\
-	S_{vh}   & S_{vv}   \\
+	S_{vh}   & S_{vv}   
 \end{array}
 \right]
  \left[
 \begin{array}{c}
 	E_{h}^{t}   \\
-	E_{v}^{t}    \\
+	E_{v}^{t}    
 \end{array}
 \right],
 \end{equation*}
-where $k$ denotes the wave number, $\hat{\imath}$ is a complex number and $r$ is the distance between the radar and the target. The electromagnetic field with components $E_{i}^{j}$ has a subscribed index denoting horizontal ($h$) or vertical ($v$) polarization, while the superscript index indicates the received ($r$) or transmitted ($t$) wave. Defining $S_{i,j}$ as the complex scattering coefficients, such that the index $i$ and $j$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_{hv}$ is associated with wave transmitted in the vertical direction ($v$) and received in the horizontal direction ($h$).
+where $k$ denotes the wave number, $\hat{\imath}$ is the complex unit, and $r$ is the distance between the radar and the target. 
+The electromagnetic field with components $E_{i}^{j}$ has a subscribed index denoting horizontal ($h$) or vertical ($v$) polarization, while the superscript index indicates the received ($r$) or transmitted ($t$) wave. 
+Defining $S_{i,j}$ as the complex scattering coefficients, such that the indexes $i$ and $j$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_{hv}$ is associated with wave transmitted in the vertical direction ($v$) and received in the horizontal direction ($h$).
 
-Being known each coefficient, the complex scattering matrix $\mathbf{S}$ is defined by
+Knowing each coefficient, the complex scattering matrix $\mathbf{S}$ is defined by
 \begin{equation}\label{eq_01}
 \mathbf{S} = \left[
 \begin{array}{cc}
 	S_{hh}   & S_{hv}   \\
-	S_{vh}   & S_{vv}   \\
+	S_{vh}   & S_{vv}   
 \end{array}
 \right],
 \end{equation}
-and if the means of propagation of waves is reciprocal, then we will use the reciprocity theorem \cite{lp} to define the scattering matrix as being Hermitian. In this way, the scattering matrix can be represented by the vector
+and if the means of propagation of waves is reciprocal, then we will use the reciprocity theorem~\cite{lp} to define the scattering matrix as being Hermitian. 
+In this way, the scattering matrix can be represented by the vector
 \begin{equation}\label{eq_02}
 \mathbf{s} = \left[
 \begin{array}{c}
 	S_{hh}     \\
     S_{hv}     \\
-	S_{vv}     \\
+	S_{vv}    
 \end{array}
 \right].
 \end{equation}
 
-And considering the hypothesis that the distribution is circular Gaussian complex multivariate zero mean $N^C_3(0,\Sigma)$ (\cite{good, lee}), whose the probability density function (pdf) is:
-
-\begin{equation}\label{eq_03}
-    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}), \\
+Following Refs.~\cite{good, lee}, we will assume that the distribution of $\mathbf{s}$ is circular Gaussian complex multivariate with zero mean $N^C_3(0,\Sigma)$, with probability density function (pdf) given by:
+\begin{equation}
+    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}),
+    \label{eq_03}
 \end{equation}
-where $||cdot|$ is the determining matrix, the superscript index $H$ denotes the conjugated complex number and $\mathbf{\Sigma}$ is the covariance matrix of the sample $\mathbf{s}$ such that $\mathbf{\Sigma}=E(\mathbf{ss}^H)$. 
+where $|\cdot|$ is the determinant, 
+the superscript index $H$ denotes the conjugate complex number, 
+and $\mathbf{\Sigma}$ is the covariance matrix of the sample $\mathbf{s}$ such that $\mathbf{\Sigma}=E(\mathbf{ss}^H)$. 
 
-As a result of the distribution being circular complex multivariate Gaussian with zero mean, and the entries for the $\mathbf{s}$ vector are $\mathbf{s}_{ij}= R_{ij}+ i I_{ij}$, then due hypothesis it is required that $R_{ij}$ and $I_{ij}$ with $j=h,v$ satisfy 
+As a result of the distribution being circular complex multivariate Gaussian with zero mean, and being the entries of $\mathbf{s}$ complex values $\mathbf{s}_{ij}= R_{ij}+ \hat{\imath} I_{ij}$, then $R_{ij}$ and $I_{ij}$ with $j=h,v$ satisfy:
 \begin{itemize}
-	\item[I-] $E[R_{ij}]=E[I_{ij}]=0,$
-	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2],$ 
-	\item[II-] $E[R_{ij}I_{ij}]=0,$  
-	\item[IV-] $E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}],$ 
-	\item[V-] $E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}].$
+	\item[I-] $E[R_{ij}]=E[I_{ij}]=0$,
+	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2]$, 
+	\item[II-] $E[R_{ij}I_{ij}]=0$,  
+	\item[IV-] $E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}]$, 
+	\item[V-] $E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}]$,
 \end{itemize}
-where, $E[cdot]$ denotes the expected value. 
+where $E[cdot]$ denotes the expected value. 
 
-The statistic modeling described was proven for polarimetric SAR data, confirming that it contains all the necessary information to characterize the backscatter, we found more information in \cite{sarabendi} and \cite{mfp}.
+This statistical modeling has been confirmed for a variety of targets for polarimetric SAR data, and it contains all the necessary information to characterize the backscatter~\cite{sarabendi,mfp}.
  
-The statistical modeling described so far deals only with single-sight modeling; however, polarimetric images are usually subjected to a multi-sighting process in order to improve the ratio between the signal and its noise. For this purpose, estimated positive hermitian defined matrices are obtained by computing the average of $L$ independent targets of the same scene. Resulting in the estimated sample covariance matrix {\bf Z} as \cite{good, ade}
-\begin{equation}\label{eq_04}
-\begin{array}{ccc}
-    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{l=1}^{L} {\mathbf{s}_l}{\mathbf{s}_l}^H}, \\
-\end{array}
+The statistical modeling described so far deals only with single-look modeling.
+However, polarimetric images are usually subject to a multi-look processing in order to improve the ratio between the signal and the noise. 
+For this purpose~\cite{good, ade}, estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent targets of the same scene, resulting in the estimated sample covariance matrix as:
+\begin{equation}
+    \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^H,
+    \label{eq_04}
 \end{equation}
-where $\mathbf{s}_l$ with $l = 1, \dots, L$ samples of $\mathit{L}$ complex vectors distributed as $\mathbf{s}$, so the sample covariance matrix associated with $\mathbf{s}_l$ denotes scattering for each sight $L$.
+where $\mathbf{s}_\ell$ with $\ell = 1, \dots, L$ are $L$ samples of complex vectors distributed as $\mathbf{s}$, so the sample covariance matrix associated with $\mathbf{s}_\ell$ denotes the scattering for each of the $L$ looks.
 
 \section{Multi-look Wishart density function}\label{sec_03}
 The multi-look process has the Wishart probability density function (pdf) defined by,
@@ -239,9 +262,9 @@ The $\Sigma$ matrix can be found using the maximum likelihood estimator denoted 
 In the equation (\ref{eq_12}) we can replace the equation (\ref{eq_13}) and continue the algebraic manipulation, resulting in 
 \begin{equation}\label{eq_14}
 \begin{array}{rcl}
-	l(j)&=&N\left[-mL(1-\ln{\left(L\right)})-\ln{\left(\Gamma_m(L)\right)}\right]\\
-	&-&L\left[j\ln{\left(|\mathbf{\widehat{\Sigma}}_{A}(j)|\right)} +(N-j)\ln{\left(|\mathbf{\widehat{\Sigma}}_{B}(j)|\right)}\right]\\
-	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}. \\
+	l(j)&=&N\left[-mL(1-\ln{L)})-\ln{\left(\Gamma_m(L)\right)}\right]\\
+	&-&L\left[j\ln{|\mathbf{\widehat{\Sigma}}_{A}(j)|} +(N-j)\ln{|\mathbf{\widehat{\Sigma}}_{B}(j)|}\right]\\
+	&+&(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}^{'}|}. \\
 \end{array}
 \end{equation}
 
