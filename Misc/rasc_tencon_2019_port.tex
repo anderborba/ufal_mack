@@ -11,11 +11,9 @@
 \usepackage[utf8]{inputenc}                  % AAB inserido
 \usepackage{rotating}                        % AAB inserido
 \ifCLASSOPTIONcompsoc                        % AAB inserido
-\usepackage[caption=false,font=normalsize,labelfon
-t=sf,textfont=sf]{subfig}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \else
-\usepackage[caption=false,font=footnotesize]{subfi
-g}
+\usepackage[caption=false,font=footnotesize]{subfig}
 \fi
 %\usepackage[round,sort,nonamebreak]{natbib}  % AAB inserido
 %\usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual
@@ -181,23 +179,14 @@ As metodologias de detecção de bordas ocorrem em diversos estágios, abaixo en
 
  A estimativa por máxima verossimilhança (MLE) é um método que, tendo um conjunto de dados e um modelo estatístico, estima os valores dos parâmetros do modelo maximizando uma função de probabilidade dos dados. O conceito de verossimilhança pode ser encontrado nos artigos \cite{nhfc, gmbf}.
 
-Suponha $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ um vetor randômico distribuído de acordo com a função densidade de probabilidade (pdf) $f(\mathbf{x},\mathbf{\theta})$ com parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ no espaço dos parâmetros $\Theta$. Definimos  a função de verossimilhança
-\begin{equation*}
-    L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta), \\
-\end{equation*}
-e a função logarítmica de verossimilhança a qual podemos chamar de função de log-verossimilhança
+Suponha $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ um vetor randômico distribuído de acordo com a função densidade de probabilidade (pdf) $f(\mathbf{x},\mathbf{\theta})$ com parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ no espaço dos parâmetros $\Theta$. Definimos  a função de verossimilhança $L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta)$,
+e a função logarítmica de verossimilhança a qual chamamos de função de log-verossimilhança
 \begin{equation}\label{eq_09}
 	l(\theta;\mathbf{X})= \ln(L(\theta;\mathbf{X})) = \sum_{i=1}^{n}\ln(f(x_i;\theta)). \\
 \end{equation}
 
-De maneira simplificada a estimativa de máxima verossimilhança pode ser escrita por 
-\begin{equation*}
-    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x}),\\
-\end{equation*}
-e de maneira similar 
-\begin{equation*}
-    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x}).\\
-\end{equation*}
+De maneira simplificada a estimativa de máxima verossimilhança pode ser escrita por $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$,
+e de maneira similar $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x})$.
 
 Vamos usar o método de máxima verossimilhança aplicado na distribuição Wishart. Suponha $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ um vetor randômico distribuído de acordo com a função densidade de probabilidade (pdf) (\ref{eq_05}) com parâmetros $\Sigma=\{\mathbf{\Sigma_A}, \mathbf{\Sigma_B\}}$ e $L$. Os parâmetros $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ pertencem a duas amostras diferentes $A$ e $B$, nosso objetivo é detectar a fronteira entre as duas amostras.
 
@@ -250,6 +239,111 @@ O argumento máximo  $\widehat{\jmath}_{ML}$ é uma evidência de borda que ser�
 	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}l(j).  \\
 \end{array}
 \end{equation*}
+
+\section{Aplicação em imagens sintéticas}\label{cap_acf_sec4}
+
+A metodologia (MLE) para detecção de evidências de bordas será aplicada em uma imagem simulada baseada nos artigos \cite{nhfc,gamf}. A imagem tem dimensão $400\times400$  e é compostas por duas amostras obdecendo a ditribuíção Wishart. A figura é mostrada  (\ref{cap_acf_fig01}).
+
+Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ será gerado uma imagem PolSAR $P_{k_1,k_2}$ da seguinte maneira, em cada pixel branco da imagem simulada será agregado a amostra proveniente de $W_G(\Sigma_{k_1}, L)$ e de cada pixel preto da imagem sintética será agregado a amostra proveniente de $W_G(\Sigma_{k_2},L)$, sendo que nos experimentos apresentados usam número de visadas $L=4$.
+ \begin{figure}[!ht]
+     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
+       \includegraphics[width=0.23\textwidth]{phanton_nhfc_dec_pauli.pdf}       
+     }
+     \hfill
+     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
+       \includegraphics[width=0.23\textwidth]{grafico_pdf_nhfc_2014_sigma_hh.pdf}
+     }
+    \caption{Edges evidences}
+     \label{fig_01}
+   \end{figure}
+
+A decomposição de Pauli é baseada na representação vetorial na combinação linear dos canais do intensidade $(\mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hv}})$. A decomposição é mostrada na figura (\ref{cap_acf_fig01}). 
+
+De acordo com a função densidade de probabilidade (\ref{eq_05}) e definindo o número de visada $L=4$, podemos gerar a figura (\ref{fig:1b}). A figura mostar a função densidade para valores de $\sigma_{hh}$ extraídos de dados reais para áreas florestais e urbanas dadas respectimavente por $\sigma_{hh}=962892$ e $\sigma_{hh}= 360932$. 
+
+A imagem simulada foi construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, configurando a borda; A imagem tem dimensão $400 \times 400$ onde, cada linha  tem dois conjuntos amostrais diferentes geradas com os parâmetros os parametros $\Sigma$ definidos acima.  
+
+	Fixamos arbitrariamente a linha que corta horizontalmente a figura (\ref{fig:1a}) em duas partes, isto é a linha de número $200$. Teremos então uma linha com dois conjuntos amostrais como base de dados para calcular a função de verossmilhança $l(j)$ conforme equação (\ref{eq_08}) que deve ser aplicada nos canais $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ e $\mathbf{I_{vv}}$ gerando as figuras (\ref{fig:02}).  
+ \begin{figure}[!ht]
+     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahh.pdf}       
+     }
+     \hfill
+     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
+       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahv.pdf}
+     }
+     \\
+     \centering
+     \subfloat[Evidences in channel $(vv)$ \label{fig:1c}]{%
+       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmavv.pdf}
+     }
+     \caption{Edges evidences}
+     \label{fig_02}
+   \end{figure}	
+	
+	Podemos notar que as funções mostram um pico indicando as evidências de bordas que devem ser captadas, porém claramente as funções não são deriváveis em muitos pontos, prejudicando o uso de métodos de otimização que necessitam do cálculo da derivada, comisso desempenho dos métodos ficam prejudicados. O problema foi resolvido usando o método Simulated Anneling Generalizado (GenSA) que podemos encontrar na referência \cite{xgsh} e trabalha bem em funções não diferenciáveis.
+	
+	A métrica para o erro usada neste trabalho segue o seguinte procedimento, são realizadas $400$ replicações da distribuição Wishart com dois conjuntos amostrais, isto é, realizamos um processo de gerar $400$ imagens simuladas. Para cada replicação é calculado a função $l(j)$ em uma linha horizontal fixa arbitráriamente. O intuito é encontrar o argumento do ponto de máximo pelo método {\it Generalized Simulated annealing} (GenSA), encontrando desta maneira as evidências de bordas.
+	
+	 Por construção, consideramos nas imagens a linha vertical $200$ como borda real em cada replicação, então o erro para esta replicação é o valor absoluto da diferença entre o ponto de borda real e o valor estimado pelo método GenSA. Assim, calculamos o erro para cada replicação por   
+\begin{equation}\label{eq_12}
+\begin{array}{llll}
+	E(r) &=& |200 - \hat{\jmath}(r)|, & 1\leq r \leq 400,  \\
+\end{array}
+\end{equation}
+onde, $\hat{\jmath}(r)$ é o resultado da maximização de $l(j)$ pelo método GenSA na replicação $r$.
+
+Usaremos frequências relativas para estimar a probabilidade de ter um erro menor que um número de pixeis. Denotando por $H(k)$ o número de replicações para qual o erro é menor que $k$ pixeis calculamos uma estimativa desta probabilidade por $f(k)=\frac{H(k)}{400}$. Nos testes realizados nesta seção variamos $k$ entre $1$ e $10$. O algoritmo está descrito em detalhes na referência \cite{fbgm}. 
+
+\begin{figure}[!ht]
+     %\subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+     %  \includegraphics[width=0.2\textwidth]{ev_hh_nhfc_2014.pdf}       
+     %}
+     %\hfill
+     %\subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
+      % \includegraphics[width=0.2\textwidth]{ev_hv_nhfc_2014.pdf}
+     %}
+     %\\
+     %\centering
+     %\subfloat[Evidences in channel $(vv)$ \label{fig:1c}]{%
+     %  \includegraphics[width=0.2\textwidth]{ev_vv_nhfc_2014.pdf}
+     %}
+     %\hfill
+     \centering
+     \subfloat[Evidences in channel $(hv)$ \label{fig:3}]{%
+       \includegraphics[width=0.2\textwidth]{metricas_ihh_ivh_ivv_nhfc.pdf}
+     }
+     \caption{Edges evidences}
+     \label{fig_03}
+   \end{figure}	
+
+
+%\begin{figure}[hbt]
+%\minipage{0.475\textwidth}
+%\fbox{  \includegraphics[width=\linewidth]{ev_hh_nhfc_2014.pdf}}
+%\caption{Evidências de bordas para o canal $I_{HH}$}\label{cap_acf_fig07}
+%\endminipage\hfill
+%\minipage{0.475\textwidth}
+%\fbox{ \includegraphics[width=\linewidth]{ev_hv_nhfc_2014.pdf}}
+%\caption{Evidências de bordas para o canal $I_{HV}$}\label{cap_acf_fig08}
+%\endminipage\hfill
+%\centering
+%\minipage{0.475\textwidth}
+%\fbox{ \includegraphics[width=\linewidth]{ev_vv_nhfc_2014.pdf}}
+%\caption{Evidências de bordas para o canal $I_{VV}$}\label{cap_acf_fig09}
+%\endminipage\hfill
+%\end{figure}
+
+	A figura (\ref{cap_acf_fig10}) mostra as probabilidades para a detecção de bordas quando aplicado o método GenSA nos canais $I_{hh}$, $I_{vh}$ e $I_{vv}$ da imagem mostrada na figura (\ref{cap_acf_fig01}).  
+%\begin{figure}[hbt]
+%\centering
+%	\includegraphics[width=5.0in]{metricas_ihh_ivh_ivv_nhfc.pdf}
+%	\caption{Probabilidade de detecção de borda estimada usando GenSA.}
+%\label{cap_acf_fig10}
+%\end{figure}
+
 \section{Métodos de fusão de evidências de bordas}\label{sec_06}
 \subsection{Média simples}
 O método de fusão com média simples propõe a média aritmética das evidências de bordas, em cada canal. A fusão das evidências de bordas pode ser calculada por
@@ -312,50 +406,97 @@ As figuras (\ref{fig_02}), (\ref{fig_03}) e (\ref{fig_04}) mostram, respectivame
 O algoritmo para detectar as evidências de bordas funcionou bem nos canais (hh) e (hv), atingindo uma melhor acurácia em relação ao canal (vv).  
 
 No canal (vv) foi detectado bordas que não fazem parte da região homogênea de interesse, porém, fazem parte de outras bordas da imagem, pesquisando o motivo desse fato, foi analisado a função $l(j)$ e constatado que a função apresenta dois picos, representando possíveis evidências de bordas, no qual o maior foi detectado corretamente. 
-\begin{figure}[hbt]
-	\includegraphics[scale=0.75]{flevoland_hh_evid_crop.pdf}
-		\vspace{-6.0cm}
-	\caption{Evidências de bordas detectadas no canal (hh).}
-\label{fig_02}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.75]{flevoland_hv_evid_crop.pdf}
-	\vspace{-6.0cm}
-	\caption{Evidências de bordas detectadas no canal (hv).}	
-\label{fig_03}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.75]{flevoland_vv_evid_crop.pdf}
-	\vspace{-6.0cm}
-	\caption{Evidências de bordas detectadas no canal (vv).}
-\label{fig_04}
-\end{figure}
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.75]{flevoland_hh_evid_crop.pdf}
+%		\vspace{-6.0cm}
+%	\caption{Evidências de bordas detectadas no canal (hh).}
+%\label{fig_02}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.75]{flevoland_hv_evid_crop.pdf}
+%	\vspace{-6.0cm}
+%	\caption{Evidências de bordas detectadas no canal (hv).}	
+%\label{fig_03}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.75]{flevoland_vv_evid_crop.pdf}
+%	\vspace{-6.0cm}
+%	\caption{Evidências de bordas detectadas no canal (vv).}
+%\label{fig_04}
+%\end{figure}
+ \begin{figure}[!ht]
+     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{flevoland_hh_evid_crop_teste.pdf}       
+     }
+     \hfill
+     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_hv_evid_crop_teste.pdf}
+     }
+     \\
+     \centering
+     \subfloat[Evidences in channel $(vv)$ \label{fig:1c}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_vv_evid_crop_teste.pdf}
+     }
+     \caption{Edges evidences}
+     \label{fig_02}
+   \end{figure}
+
 
 As figuras (\ref{fig_05}) até (\ref{fig_08}) mostram, respectivamente, a fusão de evidências para os métodos descritos neste artigo. Em ordem, listamos o método que mostra a média de evidências de bordas, o método que usa a Stationary wavelet transform (SWT), o método que usa a Principal component analysis (PCA) e finalmente, o método baseado na estatística ROC.
 
 Os métodos mostrados nas figuras (\ref{fig_05}), (\ref{fig_06}) e (\ref{fig_07}) usam todos os pixeis detectados nos diferentes canais. Cada método pondera os pixeis nos diferentes canais com suas características. A média pondera, igualmente, os pixeis. O (SWT) encontra os coeficientes da combinação linear das suas bases de wavelets, e o (PCA) pondera os autovetores da matriz de covariância.
 
 O método da estatística ROC não usa todos os pixeis dos canais, pois o método é baseado em limiares descartando pixeis. Isso se observou na na figura (\ref{fig_08}).
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusão de evidências de bordas usando o método da média.}
-\label{fig_05}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusão de evidências de bordas usando o método swt.}
-\label{fig_06}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusão de evidências de bordas usando o método pca.}
-\label{fig_07}
-\end{figure}
-\begin{figure}[hbt]
-	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
-	\caption{Fusão de evidências de bordas usando o método ROC.}
-\label{fig_08}
-\end{figure}
+
+\begin{figure}[!ht]
+     \subfloat[Averege fusion\label{d}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_media_crop_teste.pdf}       
+     }
+     \hfill
+     \subfloat[SWT fusion\label{e}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_swt_crop_teste.pdf}
+     }
+     \\
+     \subfloat[PCA fusion \label{f}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_pca_crop_teste.pdf}       
+     }
+     \hfill
+     \subfloat[ROC fusion\label{g}]{%
+       \includegraphics[width=0.2\textwidth]{flevoland_fusao_roc_crop_teste.pdf}
+     }
+     \\
+     %\centering
+     %\subfloat[First sub-figure\label{flevoland_vv_evid_crop.pdf}]{%
+     %  \includegraphics[width=0.2\textwidth]{flevoland_hv_evid_crop_teste.pdf}
+     %}
+     \caption{Fusion methods}
+     \label{fig_03}
+   \end{figure}
+
+
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
+%	\caption{Fusão de evidências de bordas usando o método da média.}
+%\label{fig_05}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
+%	\caption{Fusão de evidências de bordas usando o método swt.}
+%\label{fig_06}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
+%	\caption{Fusão de evidências de bordas usando o método pca.}
+%\label{fig_07}
+%\end{figure}
+%\begin{figure}[hbt]
+%	\includegraphics[scale=0.5]{flevoland_fusao_swt_crop.pdf}
+%	\caption{Fusão de evidências de bordas usando o método ROC.}
+%\label{fig_08}
+%\end{figure}
 
 \section{Conclusão}\label{sec_08}
 Nesse estudo, a abordagem de modelagem estatística foi aplicada em imagem de dados PolSAR real. Buscando-se entender a importância da informação de cada um desses canais na fusão de evidências de bordas. Foi aplicado o algoritmi proposto em três canais de intendidade (hh), (hv) e (vv). Inicialmente, encontramos as evidências de bordas, usando o método da máxima verosimilhança em cada um dos canais, obtendo-se bons resultados. Ao analisar os resultados obtidos nos três canais, observou-se que o método para a detecção de bordas funcionou bem nos canais (hh) e (hv) atingindo melhor acurácia em relação ao canal (vv).

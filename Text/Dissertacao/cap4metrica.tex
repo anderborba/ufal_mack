@@ -11,10 +11,10 @@ A matriz de confusão serve de origem para definirmos métricas como as seguinte
 recall= tp_{rate}=\frac{TP}{P}=\frac{TP}{TP+FN}
 \end{equation}
 \begin{equation}\label{cap_fusao_eq_02}
-precisão = \frac{TP}{Q}=\frac{TP}{TP+FP} 
+\text{precisão} = \frac{TP}{Q}=\frac{TP}{TP+FP} 
 \end{equation}
 \begin{equation}\label{cap_fusao_eq_02}
-acurácia = \frac{TP}{Q}=\frac{TP}{TP+FP} 
+\text{acurácia} = \frac{TP}{Q}=\frac{TP}{TP+FP} 
 \end{equation}
 \begin{equation}\nonumber
 medida-F=\frac{2}{\frac{1}{recall}+\frac{1}{precisao}}
@@ -28,4 +28,98 @@ medida-F=\frac{2}{\frac{1}{recall}+\frac{1}{precisao}}
 \begin{equation}\nonumber
 	medida-F=\frac{2TP}{2TP+FP+FN}
 \end{equation}
+\subsection{RMSE - Root mean square}
+\begin{equation}
+	RMSE=\sqrt{\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}.  \\
+\end{equation}
+\subsection{MAE - Root Mean absolute}
+\begin{equation}
+	MAE=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N\left|I_r(i,j)-I_f(i,j)\right|.  \\
+\end{equation}
+\subsection{Percent fit error}
+\begin{equation}
+	PFE=\frac{norm(I_r-I_f)}{norm(I_r)}*100.  \\
+\end{equation}
+\subsection{Signal to noise ratio}
+\begin{equation}
+SRN = 20log_{10}\left(\frac{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2}{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}\right)
+\end{equation}
+\subsection{Peak signal to noise ratio}
+\begin{equation}
+PSRN = 20log_{10}\left(\frac{L^2}{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}\right)
+\end{equation}
+Aqui $L$ é o número de níveis de cinza na imagem. 
+\subsection{Correlaçao}
+\begin{equation}
+CORR = \frac{2C_{rf}}{C_r+Cf}
+\end{equation}
+Onde $$C_r= \sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$ $$C_f=\sum_{i=1}^M\sum_{j=1}^N(I_f(i,j))^2,$$ $$C_{rf}=\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)I_f(i,j)),$$
+Aqui $L$ é o número de níveis de cinza na imagem. 
+
+\subsection{Mutual information}
+\begin{equation}
+MI = \sum_{i=1}^M\sum_{j=1}^N h_{I_rI_f}(i,j){log_2\left(\frac{h_{I_rI_f}(i,j)}{h_{I_r}(i,j)h_{I_f}(i,j)}\right)}
+\end{equation}
+\subsection{Universal quality index}
+\begin{equation}
+QI=\frac{4\sigma_{I_rI_f}(\nu_{I_r}+\nu_{I_f})}{(\sigma_{I_r}^2+\sigma_{I_f}^2)(\nu_{I_r}^2+\nu_{I_f}^2)}
+\end{equation}
+onde 
+$$\nu_{I_r}=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$
+$$\nu_{I_f}=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$ $$\sigma_{I_r}^2=\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-\mu_{I_r})^2,$$
+$$\sigma_{I_f}^2   =\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_f(i,j)-\mu_{I_f})^2$$ e
+$$\sigma_{I_rI_f}^2=\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-\mu_{I_r})(I_f(i,j)-\mu_{I_f})$$ 
+\subsection{Measure of structural similarity}
+\begin{equation}
+SSIM=\frac{(2\nu_{I_r}\nu_{I_r}+C_1)(2\sigma_{I_rI_f}+C_2)}{(\mu_{I_r}^2+\nu_{I_f}^2+C_1)(\sigma_{I_r}^2+\sigma_{I_f}^2+C_2)}
+\end{equation}
+onde $C_1$ é uma constante que é incluída para evitar a instabilidade quando $(\mu_{I_r}^2+\nu_{I_f}^2+C_1)$ e $C_2$ é uma constante que é incluída para evitar a instabilidade quando $(\sigma_{I_r}^2+\sigma_{I_f}^2+C_2)$ é perto de zero.
+\subsection{Standard deviation}
+\begin{equation}
+\sigma=\sqrt{\sum_{i=1}^L(i-\bar{i})^2h_{I_f}(i)}
+\end{equation}
+onde $\bar{i}=\sum_{i=0}^Lih_{I_f}$, sendo $h_{I_f}$ o histograma normalizado da imagem proveniente da fusão $I_f(i,j)$, e $L$ o número de frequência existente no histograma.
+\subsection{Entropy}
+\begin{equation}
+He=-\sum_{i=1}^Lh_{I_f}(i)\log_2 h_{I_f}(i)
+\end{equation}
+\subsection{Cross Entropy}
+A entropia cruzada das imagens fontes $I_1$ e $I_2$ e a imagem fundida $I_f$ é:
+\begin{equation}
+CE(I_1,I_2;I_f)=\frac{CE(I_1;I_f)+CE(I_2;I_f)}{2}
+\end{equation}
+onde $CE(I_1;I_f)=\sum_{i=1}^Lh_{I_f}(i)\log_2\left( \frac{h_{I_1}(i)}{h_{I_f}(i)}\right)$ e $CE(I_1;I_f)=\sum_{i=1}^Lh_{I_f}(i)\log_2\left( \frac{h_{I_1}(i)}{h_{I_f}(i)}\right)$
+\subsection{Spatial frequency}
+\begin{equation}
+SF=\sqrt{RF^2+CF^2}
+\end{equation}
+onde, $RF=\sqrt{\frac{1}{MN}\sum_{x=1}^M\sum_{y=2}^N[I_f(x,y)-I_f(x,y-1)]^2}$ e $RF=\sqrt{\frac{1}{MN}\sum_{y=1}^N\sum_{x=2}^M[I_f(x,y)-I_f(x-1,y)]^2}$
+\subsection{Fusion mutual information}
+Se o histograma conjunto entre $I_1(x,y)$ e $I_f(x,y)$ é definido como $h_{I_1I_f}$ e entre $I_2(x,y)$ e $I_f(x,y)$ é definido como $h_{I_2I_f}$ então
+\begin{equation}
+FMI = MI_{I_1I_f}+MI_{I_2I_f}
+\end{equation}
+$$MI_{I_1I_f}= \sum_{i=1}^M\sum_{j=1}^N h{I_1I_f}(i,j)\log_2\left(\frac{h_{I_1I_f}(i,j)}{h_{I_1}(i,j)h_{I_f}(i,j)} \right)$$
+$$MI_{I_2I_f}= \sum_{i=1}^M\sum_{j=1}^N h{I_2I_f}(i,j)\log_2\left(\frac{h_{I_2I_f}(i,j)}{h_{I_2}(i,j)h_{I_f}(i,j)} \right)$$
+\subsection{Fusion quality index}
+\begin{equation}
+FQI = \sum_{w\in W}c(w)[\lambda(w)QI(I_1,I_f|w)+(1-\lambda(w))QI(I_2,I_f|w)] 
+\end{equation}
+
+Onde $\lambda(w)=\frac{\sigma_{I_1}^2}{\sigma_{I_1}^2+\sigma_{I_w}^2}$ computado sobre uma janela definida; $C(w)=max(\sigma_{I_1}^2,\sigma_{I_2}^2)$ sobre uma janela onde $c(x)$ é a normalização de $C(w)$ e $QI(I_1,I_f|w)$ é o índice de qualidade sobre a janela dado a imagem fonte e a imagem fundida.
+\subsection{Fusion similarity metric}
+\begin{equation}
+FSM = \sum_{w\in W} sim(I_1,I_2,I_f|w)[QI(I_1,I_f|w)-QI(I_2,I_f|w)]+QI(I_2,I_f|w) 
+\end{equation}
+Onde
+\begin{equation}
+\text{sim}(I_1,I_2,I_f|w) = \left\{
+\begin{array}{ccc}
+    0   & \text{if} &  \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}} > 0  \\
+    \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}}  & \text{if} &  0\le \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}} \le 1  \\
+        1   & \text{if} &  \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}} > 1  \\
+\end{array}
+\right.,
+\end{equation}
+
 

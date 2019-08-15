@@ -57,8 +57,12 @@ mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-Polarimetric synthetic aperture radar (PolSAR) has achieved an important position as a remote sensing imaging method. However, PolSAR images have speckle noise, making its processing and analysis challenger tasks. The present study discusses an edges evidence detection method and four fusion evidence methods in intensities channels to multilook PolSAR images.  The edges evidence detection method consists of detecting transition points in the finest strip of data which spans two regions using the method of maximum likelihood, it is realized in each intensities channels (hh), (hv) and (vv). After,  the fusion methods,  simple average, stationary wavelet transform (SWT), principal component analysis (PCA) and ROC statistics are applied to make the fusion of the edges evidence in each channel.  
-%%% Esperar o artigo ficar pronto e pontuar o que foi feito
+There are different methods for detection and fusion of edge evidences in remote sensing. 
+However, some of them, when applied to PolSAR images, produce inadequate results. 
+%In order to improve the signal-to-noise ratio, there has been an investment in research with the use of statistical modeling. 
+%%% ACF Junção de coisas inconexas
+The present study proposes a method of detection and fusion of evidence edges based on the method of maximum likelihood, followed by fusion of information by average, SWT, PCA, and ROC statistics. 
+We applied these techniques to the intensity channels of a PolSAR image. 
 The results indicate a good performance of the method in detecting edges with possible paths for future research.
 \end{abstract}
 
@@ -131,16 +135,16 @@ Knowing each coefficient, the complex scattering matrix $\mathbf{S}$ is defined 
 \right],
 \end{equation}
 and if the means of propagation of waves is reciprocal, then we will use the reciprocity theorem by Ref.~\cite{lp} to define the scattering matrix as being Hermitian. 
-In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_{hh},S_{hv},S_{vv}]^T$.
-%\begin{equation}\label{eq_02}
-%\mathbf{s} = \left[
-%\begin{array}{c}
-%	S_{hh}     \\
-%    S_{hv}     \\
-%	S_{vv}    
-%\end{array}
-%\right].
-%\end{equation}
+In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector
+\begin{equation}\label{eq_02}
+\mathbf{s} = \left[
+\begin{array}{c}
+	S_{hh}     \\
+    S_{hv}     \\
+	S_{vv}    
+\end{array}
+\right].
+\end{equation}
 
 Following Refs.~\cite{good, lee}, we will assume that the distribution of $\mathbf{s}$ is circular Gaussian complex multivariate with zero mean $N^C_3(0,\Sigma)$, with probability density function (pdf) given by:
 \begin{equation}
@@ -149,11 +153,21 @@ Following Refs.~\cite{good, lee}, we will assume that the distribution of $\math
 \end{equation}
 where $|\cdot|$ is the determinant, 
 the superscript index $H$ denotes the conjugate complex number, 
-and $\mathbf{\Sigma}$ is the covariance matrix of the sample $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^H]$, where $E[\cdot]$ denotes the expected value. These distribution is circular complex multivariate Gaussian with zero mean.
+and $\mathbf{\Sigma}$ is the covariance matrix of the sample $\mathbf{s}$ such that $\mathbf{\Sigma}=E(\mathbf{ss}^H)$. 
+
+The distribution is circular complex multivariate Gaussian with zero mean, then the entries of $\mathbf{s}$ are complex values $\mathbf{s}_{ij}= R_{ij}+ \hat{\imath} I_{ij}$, where $R_{ij}$ and $I_{ij}$ with $j=h,v$ satisfy:
+\begin{itemize}
+	\item[I-] $E[R_{ij}]=E[I_{ij}]=0$,
+	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2]$, 
+	\item[II-] $E[R_{ij}I_{ij}]=0$,  
+	\item[IV-] $E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}]$, 
+	\item[V-] $E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}]$,
+\end{itemize}
+where $E[\cdot]$ denotes the expected value. 
 
 This statistical modeling has been confirmed for a variety of targets for polarimetric SAR data, and it contains all the necessary information to characterize the backscatter according to Refs.~\cite{sarabendi,mfp}.
  
-The statistical modelling described so far deals only with single-look modelling.
+The statistical modeling described so far deals only with single-look modeling.
 However, polarimetric images are usually subject to a multi-look processing in order to improve the ratio between the signal and the noise. For this purpose, the references~\cite{good, ade} show that estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent samples of the same scene, resulting in the estimated sample covariance matrix:
 \begin{equation}
     \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^H,
@@ -199,8 +213,15 @@ and the logarithmic likelihood function, which is also called the log-likelihood
 	l(\theta;\mathbf{X})= \ln(L(\theta;\mathbf{X})) = \sum_{i=1}^{n}\ln(f(x_i;\theta)). \\
 \end{equation}
 
-In a simplified form, the estimate of maximum likelihood can be written by $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$,
-and similarly $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x})$.
+In a simplified form, the estimate of maximum likelihood can be written by 
+\begin{equation*}
+    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x}),\\
+\end{equation*}
+and similarly
+\begin{equation*}
+    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x}).\\
+\end{equation*}
+
 Using the maximum likelihood method applied to the Wishart distribution, suppose $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ a random vector distributed according to the probability density function (pdf)~(\ref{eq_05}) with parameters $\Sigma=\{\mathbf{\Sigma_A}, \mathbf{\Sigma_B}\}$ and $L$. The parameters $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ belong to two different samples $A$ and $B$, and the goal is to detect the border between the two samples.
 
 The likelihood function of the sample described by~(\ref{eq_09}) is given by equation of the density functions, respectively associated to each sample.
@@ -252,74 +273,6 @@ The maximum argument $\widehat{\jmath}_{ML}$ is edge evidence that will be used 
 	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}l(j).  \\
 \end{array}
 \end{equation*}
-\section{}
-\section{Application in synthetic images}\label{cap_acf_sec4}
-
-The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on the articles \cite{nhfc,gamf}. The image is $400\times400$ and is composed of two samples obeying the Wishart distribution. The picture is shown (\ref{cap_acf_fig01}).
-
-For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ will be generated a PolSAR image $P_{k_1,k_2}$ as follows, in each write pixel of the simulated image the sample from  $W_G(\Sigma_{k_1}, L)$will be added,  and for each black pixel of the synthetic image the sample from $W_G(\Sigma_{k_2},L)$ will be added, and in the experiments presented they use the number of targets $L=4$
-\begin{figure}[!ht]
-     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
-       \includegraphics[width=0.23\textwidth]{phanton_nhfc_dec_pauli.pdf}       
-     }
-     \hfill
-     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
-       \includegraphics[width=0.23\textwidth]{grafico_pdf_nhfc_2014_sigma_hh.pdf}
-     }
-    \caption{Edges evidences}
-     \label{fig_01}
-\end{figure}
-
-Pauli's decomposition is based on vector representation in the linear combination of channels of intensity $(\mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hv}})$. The decomposition is shown in the figure (\ref{cap_acf_fig01}). 
-
-According to the probability density function (\ref{eq_05}) and defining the number of object $L=4$, we can generate the figure (\ref{fig{1b}}). The figure shows the density function for values of $\sigma_{hh}$ extracted from real data for forest and urban areas given respectively by $\sigma_{hh}=962892$ and $\sigma_{hh}= 360932$. 
-%
-The simulated image was constructed with $400$ lines distributed in two vertically separated bands around the $200$ pixel, configuring the border; The image has dimension $400 \times 400$ where each line has two different sample sets generated with the parameters the $\Sigma$ parameters defined above.  
-
-    We arbitrarily fix the line that cuts the figure horizontally (\ref{fig:1a}) in two parts, that is, the $200$ number line. We will then have a line with two sample sets as a database to calculate the probability function $l(j)$ according to equation (\ref{eq_08}) which should be applied to the channels $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ and $\mathbf{I_{vv}}$ generating the figures (\ref{fig:02}).  
-\begin{figure}[!ht]
-     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahh.pdf}       
-     }
-     \hfill
-     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
-       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahv.pdf}
-     }
-     \\
-     \centering
-     \subfloat[Evidences in channel $(vv)$ \label{fig:1c}]{%
-       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmavv.pdf}
-     }
-     \caption{Edges evidences}
-     \label{fig_02}
-   \end{figure}	
-
-We can notice that the functions show a peak indicating the evidence of edges that should be captured, but the functions are not derived at many points, hindering the use of optimization methods that require the calculation of the derivative, with this performance of the methods are impaired. The problem has been solved using the Generalized Simulated Annealing (GenSA) method that we can find in the reference \cite{xgsh} and works well in non-differentiable functions.
-    
-    The metric for the error used in this work follows the following procedure, we perform $400$ replications of the Wishart distribution with two sample sets, that is, we perform a process to generate $400$ simulated images. For each replication, the function $l(j)$ is calculated in a fixed horizontal line arbitrarily. The purpose is to find the argument of the maximum point by the method {\it Generalized Simulated annealing}. (GenSA), thus finding the evidence of borders.
-    
-     By construction, we consider the vertical line $200$ as the real border in each replication, so the error for this replication is the absolute value of the difference between the real border point and the value estimated by the GenSA method. Thus, we calculate the error for each replication by
-\begin{equation}\label{eq_12}
-\begin{array}{llll}
-	E(r) &=& |200 - \hat{\jmath}(r)|, & 1\leq r \leq 400,  \\
-\end{array}
-\end{equation}
-where, $\hat{\jmath}(r)$ is the result of maximizing $l(j)$ by the GenSA method on $r$ replication.
-
-We will use relative frequencies to estimate the probability of having an error smaller than a number of pixels. Denoting for $H(k)$ the number of replications for which the error is less than $k$ pixels we calculate an estimate of this probability by $f(k)=\frac{H(k)}{400}$. In the tests performed in this section, we vary $k$ between $1$ and $10$. The algorithm is described in detail in the reference \cite{fbgm}. 
-\begin{figure}[!ht]
-     \centering
-     \subfloat[Evidences in channel $(hv)$ \label{fig:3}]{%
-       \includegraphics[width=0.2\textwidth]{metricas_ihh_ivh_ivv_nhfc.pdf}
-     }
-     \caption{Edges evidences}
-     \label{fig_03}
-   \end{figure}	
-   
-   The figure (\ref{cap_acf_fig10}) shows the probabilities for edge detection when applying the GenSA method to the channels $I_{hh}$, $I_{vh}$ and $I_{vvv}$ of the image shown in the figure (\ref{cap_acf_fig01}). 
-
-
 \section{Methods of fusion of border evidence}\label{sec_06}
 \subsection{Simple average}
 The simple average fusion method proposes the arithmetic mean of the edge evidence in each channel. The edge evidence fusion can be calculated by
@@ -335,7 +288,7 @@ This section is based on the reference~\cite{n_r}. The SWT fusion method can be 
 \item[-] performing the reverse transformation of SWT. We get the image by fusing the edge evidence $IF(x,y)$.  
 \end{itemize}
 
-\subsection{Principal component analysis - (PCA) }
+\subsection{Pincipal component analysis - (PCA) }
 This section is based on Refs.~\cite{n_r} and~\cite{mit}, where the PCA-based fusion method can be described by the following steps:
 \begin{itemize}
 \item[-] organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m\cdot n$, represents the multiplication of $m$ lines and $n$ columns of the matrices to be used in the fusion;

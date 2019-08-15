@@ -295,6 +295,385 @@ A distribuição gaussiana circular complexa multivariada com média zero pode s
 	\item[-] $E[y_jx_k]=-E[x_jy_k]$,
 \end{itemize}
 onde, $E[\cdot]$ é o valor esperado.
+%%%%%%%%%%%%%%%%%%%%%% Editar - Texto feito em maceio %%%%%%%%
+utra forma de representar o vetor $\mathbf{S}$ é realocar as partes reais e complexas de cada elemento em um vetor de dimensão $6$ onde cada entrada é representado por
+\begin{equation}
+\mathbf{S} = \left[
+\begin{array}{c}
+	R_{hh}     \\
+    I_{hh}     \\
+	R_{hv}     \\
+	I_{hv}     \\
+    R_{vv}     \\
+	I_{vv}     \\
+\end{array}
+\right]
+\end{equation}
+e respeitam uma distribuição gaussiana complexa de média 0, a qual representamos 
+
+A matriz de covariância considerando as 3 amostras $(S_{hh}, S_{hv}, S_{vv})$ complexas, por definição tem dimensão $6 \times 6$, e por hipótese é uma distribuição gaussiana circular complexa multivariada com média zero assumindo a forma de matricial,  
+\begin{equation*}
+\tiny
+\mathbf{S} \mathbf{S}^H= \left[
+\begin{array}{rrrrrr}
+	R_{hh}^2       & 0            &R_{hh}R_{hv}  &-R_{hh}I_{hv} &R_{hh}R_{vv} &-R_{hh}I_{vv}    \\
+    0              & I_{hh}^2     &I_{hh}        &I_{hv}I_{hv}  &I_{hh}R_{vv}  &I_{hh}I_{vv}   \\
+	R_{hv}R_{hh}   & R_{hv}I_{hh} &R_{hv}^2      & 0            &R_{hv}R_{vv}  &-R_{hv}I_{vv}     \\
+	-I_{hv}R_{hh}  & I_{hv}I_{hh} &0             &I_{hv}^2      &I_{hv}R_{vv}  &I_{hh}I_{vv} \\
+    R_{vv}I_{vv}   & R_{vv}I_{vv} &R_{vv}R_{hv}  &R_{vv}I_{hv}  &R_{vv}^2      &0            \\
+	-I_{vv}R_{hh}  & I_{vv}I_{vv} &-I_{vv}R_{hv} &I_{vv}I_{hv}  &0             &I_{vv}^2     \\
+\end{array}
+\right].
+\end{equation*}
+
+Na referência \cite{good} foi descrito a hipótese de ser uma distribuição gaussiana circular complexa multivariada com média zero , portanto, sendo $\mathbf{S}_{ij}= R_{ij}+ i I_{ij}$ é exigido que $R_{ij}$ e $I_{ij}$ com $j=h,v$ satisfaçam a hipótese descritas detalhadamente por 
+\begin{itemize}
+	\item[I-] $E[R_{ij}]=E[I_{ij}]=0,$
+	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2],$ 
+	\item[II-] $E[R_{ij}I_{ij}]=0,$  
+	\item[IV-] $E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}],$ 
+	\item[V-] $E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}],$
+\end{itemize}
+onde, $E[\cdot]$ denota o valor esperado. 
+
+As hipóteses explicam o formato da matriz de covariância e veremos a analise das condições acima detalhadamente,
+\begin{itemize}
+	\item[I-] A condição $$E[R_{ij}]=E[I_{ij}]=0,$$ pode ser escrita por, 
+	$$E[R_{hh}]=E[I_{hh}]=0,$$ 
+	$$E[R_{hv}]=E[I_{hv}]=0,$$ 
+  e $$E[R_{vv}]=E[I_{vv}]=0.$$	                               
+	\item[II-] A condição (II) $$E[R_{ij}^2]=E[I_{ij}^2],$$ pode ser escrita,      $$R_{hh}^2=I_{hh}^2,$$ 
+	$$R_{hh}^2=I_{hh}^2,$$ 
+	e $$R_{vv}^2=I_{v}^2.$$
+	\item[III-]A condição (III) $$E[R_{ij}I_{ij}]=0,$$ pode ser escrita, $$R_{hh}I_{hh}=0,
+$$ $$R_{hv}I_{hv}=0,$$
+e $$R_{vv}I_{vv}=0.$$ 
+	\item[IV-] A condição (IV) $$E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}],$$ pode ser escrita, $$R_{hh}R_{hv}=I_{hh}I_{hv},$$
+	     $$R_{hh}R_{vv}=I_{hh}I_{vv},$$
+	     $$R_{hv}R_{vv}=I_{hv}I_{vv},$$
+	     $$R_{hv}R_{hv}=I_{hv}I_{hv},$$ 
+	     $$R_{vv}R_{hv}=I_{vv}I_{hv},$$
+	  e  $$R_{vv}R_{hv}=I_{vv}I_{hv}.$$ 
+	\item[V-] A condição (V) 
+	$$E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}],$$ pode ser escrita,
+    $$I_{hv}R_{hv}=-R_{hh}I_{hv},$$
+    $$I_{vv}R_{hh}=-R_{hh}I_{vv},$$
+    $$I_{vv}R_{hv}=-R_{vv}I_{hv},$$
+    $$I_{hv}R_{hh}=-R_{hh}I_{hv},$$
+    $$I_{hh}R_{vv}=-R_{hh}I_{vv},$$
+  e $$I_{hv}R_{vv}=-R_{hv}I_{vv}.$$ 
+\end{itemize}
+$S_{hh},S_{vh},S_{vv}]^T$ e a multiplicação de $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]$ pelo seu conjugado transposto $\mathbf{S}=[S_{hh},S_{vh},S_{vv}]^H$, isto é, a hermitiana do vetor, 
+
+\begin{equation}
+\mathbf{s}\mathbf{s}^H = \left[
+\begin{array}{c}
+	S_{hh}      \\
+        S_{vh}     \\
+	S_{vv}      \\
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+	S_{hh}  & S_{vh}  & S_{vv}      \\
+\end{array}
+\right]^H = \left[S_{ij} \right]_{i,j=h,v}
+\end{equation}
+
+De acordo com \cite{good} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{S}=[S_{hh},S_{hv},S_{vv}]^H$. 
+
+Dados polarimétricos são usualmente sujeitados a um processo de várias visadas com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme \cite{good, ade}
+\begin{equation}
+\begin{array}{ccc}
+    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{l=1}^{L} {\mathbf{s}_l}{\mathbf{s}_l}^H}, \\
+\end{array}
+\end{equation}
+onde $\mathbf{s}_l$ com $l = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{S}$, assim a matriz de covariância amostral associada a $\mathbf{S}_l$, com $l=1,\dots,L$ denotam o espalhamento para cada visada $L$
+
+Sendo $i=j$
+\begin{equation}
+\begin{array}{ccc}
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& (R_{ii}+iI_{ii})\overline{(R_{ii}+iI_{jj})} \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& (R_{ii}+iI_{ii})(R_{ii}-iI_{ii}) \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& R_{ii}^2+I_{ii}^2 \\
+\end{array}
+\end{equation}
+e considerando $i \neq j$
+\begin{equation}
+\begin{array}{ccc}
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}+iI_{ii})\overline{(R_{ij}+iI_{ij})} \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}+iy_{ii})(I_{ij}-iI_{ij}) \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}R_{ij}+I_{ii}I_{ij})+i(R_{ij}I_{ii}-R_{ii}I_{ij}) \\
+\end{array}
+\end{equation}
+ Definindo,
+ \begin{equation}
+\begin{array}{ccc}
+	  RC_{ij}&=&  R_{ii}R_{ij}+I_{ii}I_{ij} 
+\end{array}
+\end{equation}
+e
+\begin{equation}
+\begin{array}{ccc}
+	  IC_{ij}&=& R_{ij}I_{ii}-R_{ij}I_{ii}
+\end{array}
+\end{equation}
+
+Sendo a variável randômica gaussiana complexa $\mathbf{C_{i,j}}=RC_{ij} + i IC_{ij}$, ou ainda, $\mathbf{C_{i,j}}=(R_{ii}R_{ij}+I_{ii}I_{ij}) + i(R_{ij}I_{ii}-R_{ij}I_{ii})$. Podemos escrever uma variável randômica gaussiana complexa $4-$variada $(R_{ii},R_{ij},I{ii},I_{ij})$.
+
+De acordo com (\cite{good})
+\begin{equation}
+\mathbf{C} = \left[
+\begin{array}{cc}
+	E(X_iX_j)  & E(X_iY_j)  \\
+	E(Y_iX_j)  & E(Y_iY_j)  \\
+\end{array}
+\right].
+\end{equation}
+Tal que
+\begin{equation}
+\mathbf{C} =
+\left\{
+\begin{array}{cc}
+	\frac{1}{2}\left[
+\begin{array}{cc}
+	 1 & 0  \\
+	 0 & 1  \\
+\end{array}
+	\right]\sigma^{2}_{j}  & \mbox{se}\quad i=j, \\
+	& \\
+	\frac{1}{2}\left[
+\begin{array}{cc}
+	\alpha_{ij} & -\beta_{ij}  \\
+	 \beta_{ij} & \alpha_{ij}  \\
+\end{array}
+	\right]\sigma_j\sigma_k  & \mbox{se}\quad i\neq j.   \\
+\end{array}
+\right.
+\end{equation}
+
+\begin{sidewaystable}
+	\centering
+	\caption{Tabela}
+\begin{tabular}{@{}lcccccc@{}} \toprule
+	     &$R_{hh}$        & $I_{hh}$ & $R_{hv}$&$I_{hv}$                            &$R_{vv}$                           &$I_{vv}$ \\ \midrule
+$R_{hh}$ &$\sigma_{hh}^2$ & 0                  &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$ & $\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$&$\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$  \\ 
+	$I_{hh}$ & 0 & $\sigma_{hh}^2$ &$-\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$-\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$ &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  \\ 
+	$R_{hv}$ &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$   &$-\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$  &$\sigma_{hv}^2$ &0 &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$  \\ 
+	$I_{hv}$ &$\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$  &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$  &0 &$\sigma_{hv}^2$ &$-\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ \\ 
+	$R_{vv}$ &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$-\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$-\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ & $\sigma_{vv}^2$ &0 \\ 
+    $I_{vv}$ &$\eta_{hh,vv}\sigma_{hh}\sigma_{hv}$  &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ & 0 &$\sigma_{vv}^2$ \\ 	 \bottomrule
+\end{tabular}
+\end{sidewaystable}
+\section{Funções de densidade}
+\subsection{Função de densidade Wishart}
+Para os canais $(hh)$, $(hv)$ e $(vv)$ vamos usar a distribuição Wishart (PDF) descrita por
+
+\begin{equation}
+    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
+\end{equation} 
+
+onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
+\begin{equation}\label{cap_acf_10}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+\end{equation}
+e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart denotando por $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Sem perda de generalidade para o texto vamos usar o simbolo $\mathbf{\Sigma}$ em detrimento a $\mathbf{\Sigma_{s}}$ para representar a matriz de covariância associada a $\mathbf{S}$.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
+	\caption{Distribuição intensidade multiplas visadas com $\sigma=0.01$.}
+\label{fig2}
+\end{figure}
+
+
+\subsection{Função de densidade para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+
+\begin{equation}
+	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+\end{equation}
+onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+
+A PDF de $\xi$
+
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{dist_interferograma_multi_visadas.pdf}
+	\caption{Distribuição interferograma multiplas visadas.}
+\label{fig2}
+\end{figure}
+
+
+A PDF para a magnitude não normalizada $g$ pode ser obtida pelas equações acima:
+\begin{equation}
+\begin{array}{ccc}
+	f(g)&=&\frac{4L^{L+1}g^L}{\Gamma(L)(1-|\rho|^2)h^{L+1}}I_0\left(\frac{2|\rho|Lg}{(1-|\rho|^2)h}\right)K_{L-1}\left(\frac{2Lg}{(1-|\rho|^2)h}\right).
+		\end{array}
+\end{equation}
+
+
+
+
+\subsection{Função de densidade para cada canal complexo}
+
+Sendo $(R_{ii}, R_{ij})\sim N2(0, C_{ij})$ podemos observar na tabela anterior que 
+\begin{equation}
+C_{ij}=\left[
+\begin{array}{cc}
+	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij}  \\
+	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2   \\
+\end{array}
+\right],
+\end{equation}
+
+A pdf para esta distribuição normal é:
+
+\begin{equation}
+\begin{array}{ccc}
+	f_{Z_{R_{ii}R_{ij}}}(z)&=&\frac{1}{\pi\sigma_{ii}\sigma_{ij}\sqrt{1-\rho_{ii,ij}^2}}\exp\left(\frac{\rho_{ii,ij}z}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right)\\
+	&&K_0\left(\frac{|z|}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right).
+\end{array}
+\end{equation}
+
+
+Sendo $(I_{ii}, I_{ij})\sim N2(0, C_{ij})$ podemos observar na tabela anterior que 
+\begin{equation}
+C_{ij}=\left[
+\begin{array}{cc}
+	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij}  \\
+	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2   \\
+\end{array}
+\right],
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}
+	f_{Z_{R_{ii}R_{ij}}}(z)&=&\frac{1}{\pi\sigma_{ii}\sigma_{ij}\sqrt{1-\rho_{ii,ij}^2}}\exp\left(\frac{\rho_{ii,ij}z}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right)\\
+	&&K_0\left(\frac{|z|}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right).
+\end{array}
+\end{equation}
+
+Definindo o funcional $\Theta(z;\sigma_p,\sigma_q,\gamma)$
+\begin{equation}
+\begin{array}{ccc}
+	\Theta(z;\sigma_p,\sigma_q,\gamma)&=&\frac{1}{\pi\sigma_p\sigma_q\sqrt{1-\gamma^2}}\exp\left(\frac{\gamma z}{\sigma_p\sigma_q(1-\gamma)^2}\right)\\
+	&&K_0\left(\frac{|z|}{\sigma_p\sigma_q(1-\gamma)^2}\right).
+\end{array}
+\end{equation}
+onde,  $\sigma_p,\sigma_q,\gamma$ são  parâmetros da função.
+\subsection{distribuição conjunta para  $(R_{ii}, R_{ij})\sim N2(0, C_{ij})$}
+Sendo $(R_{ii}, R_{ij},I_{ii}, I_{ij})\sim N4(0, C_{ii,ij})$ podemos observar na tabela anterior que 
+\begin{equation}
+C_{ii,ij}=\left[
+\begin{array}{cccc}
+	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij} & 0&\eta_{ii,ij}\sigma_{ii}\sigma_{ij}\\
+	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2  & -\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&0 \\
+	0&-\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&\sigma_{ii}^2&\rho_{ii,ij}\sigma_{ii}\sigma_{ij}\\
+	\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&0&\rho_{ii,ij}\sigma_{ii}\sigma_{ij}&\sigma_{ij}^2\\
+\end{array}
+\right],
+\end{equation}
+Realizar a transformação 
+\begin{equation}
+\left[
+\begin{array}{ccc}
+	 Z = R_{ii}R_{ij}+I_{ii}I_{ij} \\
+	 U_1 = R_{ii}\\
+	 U_2 = R_{ij}\\
+	 U_3 = I_{ii}\\
+\end{array}
+\right],
+\end{equation}
+\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+A \textbf{função de verossimilhança} da amostra descrita por (\ref{}) é dada pela produtório das funções de densidade respectivamente associadas a cada amostra gerando a a função $L$
+\begin{equation}
+	L(j)=\prod_{k=1}^{j}p(\mathbf{Z}_{k}^{'}) \prod_{k=j+1}^{N}p(\mathbf{Z}_{k}^{'}), \\
+\end{equation}
+onde $\mathbf{Z}_{k}^{'}$ é uma possível aproximação da matriz randômica descrita em (ref).
+Usando a equação (\ref) e propriedades de logaritmos natural teremos para cada termo do produtório (\ref{cap_acf_18}) uma \textbf{função de log-verossimilhança}. Assim, encontramos uma função dependente de $j$
+\begin{equation}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln p(\mathbf{Z}_{k}^{'})\\
+	             &+&\sum_{k=j+1}^{N}\ln p(\mathbf{Z}_{k}^{'}).
+\end{array}
+\end{equation}
+
+Substituindo a função de densidade e realizando as operações algébricas teremos
+\begin{equation}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&N\ln(4)+N(L+1)\ln(L)\\
+	             &-&N\ln(\Gamma(L))-N\ln(1-|\rho|^2)\\
+	             &+&\sum_{k=1}^{j}\ln(\xi)+\sum_{k=j+1}^{N}\ln(\xi) \\
+	             &+&\sum_{k=1}^{j}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)        \\
+	             &+&\sum_{k=1}^{j}K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)         \\
+\end{array}
+\end{equation}
+
+
+
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+\subsection{Função de densidade para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+
+\begin{equation}\label{eq_06}
+	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+\end{equation}
+onde é definimos $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+
+A PDF para a variável  $\xi$ foi obtida no artigo (\cite{lee})
+\begin{equation}\label{eq_07}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas.
+
+A PDF para a magnitude não normalizada $g$ pode ser obtida pelas equações (\ref{eq_07}) usando (\ref{eq_06}),
+\begin{equation}
+\begin{array}{ccc}\label{eq_08}
+	f(g)&=&\frac{4L^{L+1}g^L}{\Gamma(L)(1-|\rho|^2)h^{L+1}}I_0\left(\frac{2|\rho|Lg}{(1-|\rho|^2)h}\right)K_{L-1}\left(\frac{2Lg}{(1-|\rho|^2)h}\right).
+		\end{array}
+\end{equation}
+
+\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+As funções de verossimilhança das amostras descritas por (\ref{eq_10}) e (\ref{eq_11}) serão usadas juntamente com a função de densidade (pdf) para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$. Partindo de 
+\begin{equation*}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
+	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
+\end{array}
+\end{equation*}
+e usando a distribuição (\ref{eq_08}) para duas amostras diferentes $A$ e $B$ teremos,
+\begin{equation}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&N\ln(4)+N(L+1)\ln(L)\\
+	             &-&N\ln(\Gamma(L))-N\ln(1-|\rho|^2)\\
+	             &+&L\sum_{k=1}^{j}\ln(g_k)+L\sum_{k=j+1}^{N}\ln(g_k) \\
+	             &-&(L+1)\sum_{k=1}^{j}\ln(h_k)\\
+	             &-&(L+1)\sum_{k=j+1}^{N}\ln(h_k) \\
+	             &+&\sum_{k=1}^{j}\ln \left(I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\right)\\ 
+	             &+&\sum_{k=j+1}^{N} \ln \left(I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\right)        \\
+	             &+&\sum_{k=1}^{j}\ln \left(K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right)\\
+	             &+&\sum_{k=j+1}^{N}\ln \left( K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right)         \\
+	             
+\end{array}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 De acordo com \citet{good} e \citet{lee} esta distribuição pode modelar adequadamente o comportamento estatístico de $\mathbf{s}$. A hipotêse de ser gaussiana e circular foi comprovada para dados SAR polarimétricos no artigo \citet{sarabendi}.   
 
@@ -1125,6 +1504,7 @@ A decomposição de Pauli foi usada na imagem mostrada na figura (\ref{cap_acf_f
 \section{Aplicação do método \text{MLE} para duas classes definidas}
 
 As informações sobre a imagem PolSAR podem ser obtidas de forma relativa pelos dados polarimétricos com respeito a um canal de dados, com intuito de resolver o problema de detecção bordas. Assumindo que o número de visadas $L$ e a matriz de covariância  $\Sigma$ são parâmetros na distribuição de Wishart, podemos descrever a distribuição gamma em cada canal, com densidade dada por 
+\subsection{Distribuição intensidade multi visadas unidimensional }
 \begin{equation}\label{cap_acf_23}
 	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
 \end{equation}
@@ -1218,6 +1598,17 @@ Usaremos frequências relativas para estimar a probabilidade de ter um erro meno
 	\caption{Probabilidade de detecção de borda estimada usando GenSA.}
 \label{cap_acf_fig10}
 \end{figure}
+
+
+\subsection{Distribuição multi visada para o interferograma}
+
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+
 
 \section{Fusão de evidências de bordas}
 
