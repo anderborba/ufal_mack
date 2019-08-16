@@ -12,6 +12,7 @@
 \usepackage{rotating}                        % AAB inserido
 %\usepackage{subfigure}                       % AAB inserido
 %\usepackage[export]{adjustbox}               % AAB inserido
+\usepackage{bbm}
 
 \ifCLASSOPTIONcompsoc                        % AAB inserido
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
@@ -27,8 +28,7 @@
 \graphicspath{{../../Dissertacao/figuras/}}
 \begin{document}
 
-\title{The edges evidence fusion to intensity channels in
-PolSAR image\\
+\title{Fusion of Evidences for Edge Detection in PolSAR Images\\
 %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
 %should not be used}
 \thanks{Grantee Capes/PROSUP/Mackenzie.}
@@ -57,9 +57,14 @@ mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-Polarimetric synthetic aperture radar (PolSAR) has achieved an important position as a remote sensing imaging method. However, PolSAR images have speckle noise, making its processing and analysis challenger tasks. The present study discusses an edges evidence detection method and four fusion evidence methods in intensities channels to multilook PolSAR images.  The edges evidence detection method consists of detecting transition points in the finest strip of data which spans two regions using the method of maximum likelihood, it is realized in each intensities channels (hh), (hv) and (vv). After,  the fusion methods,  simple average, stationary wavelet transform (SWT), principal component analysis (PCA) and ROC statistics are applied to make the fusion of the edges evidence in each channel.  
+Polarimetric Synthetic Aperture Radar (PolSAR) has achieved an important position as a remote sensing imaging method. 
+However, PolSAR images are contaminated with speckle, making its processing and analysis challenging tasks. 
+The present study discusses an detection method based on the fusion of evidences obtained in the intensities channels of multilook PolSAR images.
+The method consists of detecting transition points in the finest strip of data which spans two regions using the maximum likelihood.
+This is applied to each of the three intensity channels (hh), (hv) and (vv). 
+The fusion methods are simple average, stationary wavelet transform (SWT), principal component analysis (PCA) and ROC statistics.  
 %%% Esperar o artigo ficar pronto e pontuar o que foi feito
-The results indicate a good performance of the method in detecting edges with possible paths for future research.
+The results indicate a good performance of the approach in detecting edges with possible paths for future research.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -69,25 +74,25 @@ PolSAR, edge detection, maximum likelihood estimation, fusion
 \section{Introduction}\label{sec_01}
 
 We present results on the detection and fusion of edge evidence applied to Polarimetric Synthetic Aperture Radar images (PolSAR). 
-We employ models and algorithms as required for an appropriate treatment of their special characteristics~\cite{slf_2008}.
+We employ models and algorithms as required for an appropriate treatment of their special statistical characteristics~\cite{slf_2008}.
 
 Among the available edge detection techniques for SAR imagery, it is worth mentioning those based on the gradient~\cite{tlb, obw, flmc, fyf}, and on Markov chains~\cite{bf}.
-The former suffer from the effect of speckle noise, and the latter lead to computer intensive methods.
-
+The former suffer from the effect of speckle, and the latter lead to computer intensive methods.
 Ref.~\cite{gfn} presents a comparison between several edge detectors. 
+
 Alternatively, techniques based on statistical modeling have been used in edge detection~\cite{gmbf, fbgm, horrit, gfn} and, more recently, by means of \textit{Deep Learning}~\cite{bac, ztmxzxf, tabmm, xstz}.
 
 This work relies on ideas stemming from \textit{Information Fusion}.
 This approach has been followed by Refs.~\cite{sglmla,sg} in order to extract valuable knowledge from remotely sensed data.
 
-This paper will follow the statistical modeling approach, mainly the techniques described by~\cite{fbgm, nhfc} using the Wishart distribution. 
-To perform the fusion of information we have as a basis Refs.~\cite{mit, sg}. 
+This paper follows the statistical modeling approach, mainly the techniques described by~\cite{fbgm, nhfc} using the Wishart distribution.
+The basis for the fusion of information is described in Refs.~\cite{mit, sg}. 
 
-The objective of this work is to detect edges in each channel of a PolSAR image and to perform the fusion of the edge evidence, with the task of understanding and of quantifying the importance of the information provided by each channel. 
+The objective of this work is to detect edges in each channel of a PolSAR image and to perform the fusion of the edge evidence, with the task of understanding and of quantifying the importance of the information provided by each channel in order to provide a better detection.
 
 The article is structured as follows: 
 Section~\ref{sec_02} describes the statistical modeling for PolSAR data, 
-it use is presented in Sections~\ref{sec_03}, \ref{sec_04} and~\ref{sec_05}.
+its use is presented in Sections~\ref{sec_03}, \ref{sec_04} and~\ref{sec_05}.
 Section~\ref{sec_06} describes the fusion of edge evidence approaches with an emphasis on the ROC statistics-based method.
 Numerical results are shown and analyzed in Section~\ref{sec_07} and, finally, Section~\ref{sec_08} concludes the paper with remarks and future research directions.
 
@@ -100,162 +105,179 @@ The transformation can be represented as
 \begin{equation*}
  \left[
 \begin{array}{c}
-	E_{h}^{r}   \\
-	E_{v}^{r}    
+	E_{\text{h}}^{\text{r}}   \\
+	E_{\text{v}}^{\text{r}}    
 \end{array}
 \right]
  = \frac{e^{\hat{\imath} kr}}{r}\left[
 \begin{array}{cc}
-	S_{hh}   & S_{hv}   \\
-	S_{vh}   & S_{vv}   
+	S_\text{hh}   & S_\text{hv}   \\
+	S_\text{vh}   & S_{\text{vv}}   
 \end{array}
 \right]
  \left[
 \begin{array}{c}
-	E_{h}^{t}   \\
-	E_{v}^{t}    
+	E_{\text{h}}^{\text{t}}   \\
+	E_{\text{v}}^{\text{t}}    
 \end{array}
 \right],
 \end{equation*}
 where $k$ denotes the wave number, $\hat{\imath}$ is the complex unit, and $r$ is the distance between the radar and the target. 
-The electromagnetic field with components $E_{i}^{j}$ has a subscribed index denoting horizontal ($h$) or vertical ($v$) polarization, while the superscript index indicates the received ($r$) or transmitted ($t$) wave. 
-Defining $S_{i,j}$ as the complex scattering coefficients, such that the indexes $i$ and $j$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_{hv}$ is associated with wave transmitted in the vertical direction ($v$) and received in the horizontal direction ($h$).
+The electromagnetic field with components $E_{i}^{j}$ has a subscribed index denoting horizontal ($\text{h}$) or vertical ($\text{v}$) polarization, while the superscript index indicates the received ($\text{r}$) or transmitted ($\text{t}$) wave. 
+Defining $S_{i,j}$ as the complex scattering coefficients, such that the indexes $i$ and $j$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with wave transmitted in the vertical direction ($\text{v}$) and received in the horizontal direction ($\text{h}$).
 
-Knowing each coefficient, the complex scattering matrix $\mathbf{S}$ is defined by
+The complex scattering matrix $\mathbf{S}$ is defined by
 \begin{equation}\label{eq_01}
 \mathbf{S} = \left[
 \begin{array}{cc}
-	S_{hh}   & S_{hv}   \\
-	S_{vh}   & S_{vv}   
+	S_\text{hh}   & S_\text{hv}   \\
+	S_{\text{vv}}   & S_{\text{vv}}   
 \end{array}
 \right],
 \end{equation}
-and if the means of propagation of waves is reciprocal, then we will use the reciprocity theorem by Ref.~\cite{lp} to define the scattering matrix as being Hermitian. 
-In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_{hh},S_{hv},S_{vv}]^T$.
+and if the means of propagation of waves is reciprocal, then the reciprocity theorem~\cite{lp} allows us to state the scattering matrix as being Hermitian. 
+In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
 %\begin{equation}\label{eq_02}
 %\mathbf{s} = \left[
 %\begin{array}{c}
-%	S_{hh}     \\
-%    S_{hv}     \\
-%	S_{vv}    
+%	S_\text{hh}     \\
+%    S_\text{hv}     \\
+%	S_{\text{vv}}    
 %\end{array}
 %\right].
 %\end{equation}
 
-Following Refs.~\cite{good, lee}, we will assume that the distribution of $\mathbf{s}$ is circular Gaussian complex multivariate with zero mean $N^C_3(0,\Sigma)$, with probability density function (pdf) given by:
+Following Refs.~\cite{good, lee}, we will assume that the distribution of $\mathbf{s}$ is circular Gaussian complex multivariate with zero mean $N^{\mathbbm C}_3(0,\mathbf{\Sigma})$, with probability density function (pdf) given by:
 \begin{equation}
     f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}),
     \label{eq_03}
 \end{equation}
 where $|\cdot|$ is the determinant, 
 the superscript index $H$ denotes the conjugate complex number, 
-and $\mathbf{\Sigma}$ is the covariance matrix of the sample $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^H]$, where $E[\cdot]$ denotes the expected value. These distribution is circular complex multivariate Gaussian with zero mean.
+and $\mathbf{\Sigma}$ is the covariance matrix of $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^H]$, where $E[\cdot]$ denotes the expected value. 
+This is the circular complex multivariate Gaussian distribution with zero mean.
 
 This statistical modeling has been confirmed for a variety of targets for polarimetric SAR data, and it contains all the necessary information to characterize the backscatter according to Refs.~\cite{sarabendi,mfp}.
  
 The statistical modelling described so far deals only with single-look modelling.
-However, polarimetric images are usually subject to a multi-look processing in order to improve the ratio between the signal and the noise. For this purpose, the references~\cite{good, ade} show that estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent samples of the same scene, resulting in the estimated sample covariance matrix:
+However, polarimetric images are usually subjected to a multi-look processing in order to improve the signal-to-noise ratio. 
+For this purpose, Refs.~\cite{good, ade} show that estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent samples of the same scene, resulting in the estimated sample covariance matrix:
 \begin{equation}
     \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^H,
     \label{eq_04}
 \end{equation}
-where $\mathbf{s}_\ell$ with $\ell = 1, \dots, L$ are $L$ samples of complex vectors distributed as $\mathbf{s}$. The sample covariance matrix associated with $\mathbf{s}_\ell$ denotes the scattering for each of the $L$ looks.
+where $\mathbf{s}_\ell$, $\ell = 1, \dots, L$, are $L$ independent samples of complex vectors distributed as $\mathbf{s}$. 
+The sample covariance matrix associated with $\mathbf{s}_\ell$ denotes the scattering for each of the $L$ looks.
 
 \section{Multi-look Wishart density function}\label{sec_03}
-The multi-look process has the Wishart probability density function (pdf) defined by,
-\begin{equation}\label{eq_05}
-    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
+
+Multi-looked data follow a Wishart distribution with probability density function (pdf) defined by:
+\begin{equation}
+    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})),
+    \label{eq_05}
 \end{equation} 
 where, $\traco(\cdot)$ is the trace operator of an array, $\Gamma_m(L)$ is a multivariate Gamma function defined by
 \begin{equation*}
-	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
 \end{equation*}
-and $\Gamma(\cdot)$ is the Gamma function and $m=3$ for the present article. It can be said that $\mathbf{Z}$ is distributed as a Wishart distribution denoting for $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ and satisfying $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Without loss of generality to the text, we use the symbol $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ to represent the covariance matrix associated with $\mathbf{S}$.
+and $\Gamma(\cdot)$ is the Gamma function.
+In our study we will consider $m=3$. 
+We denote this situation $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. 
+Since thre is no ambiguity, we will use $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ to represent the covariance matrix associated with $\mathbf{S}$.
 
 \section{Edge Detection}\label{sec_04}
-In the literature, there are different methods to detect edge, for example, Sobel, Canny, Laplacian da Gaussian (LoG) and LoG pyramidal. These edge detection methods are constructed assuming that noise is additive, which makes these methods inefficient for application in PolSAR images.
 
-Based on the references~\cite{nhfc, gmbf}, it is possible to propose an edge detection method for PolSAR images. The main idea is to detect the transition point in a thin strip, as possible as, between two regions of the image. The transition point is defined as edge evidence. The noise in these types of images is the \textit{speckle} type, and has multiplicative nature, making edge detection in SAR images a challenging task.
+Most of the usual techniques for edge detection, e.g., 
+Sobel, Canny, Laplacian of Gaussian (LoG) and pyramidal LoG, assume additive Gaussian noise and, thus, are ineffective for PolSAR imagery.
+The noise in these kind of images is multiplicative and non-Gaussian, making edge detection in SAR images a challenging task.
 
-Edge detection methodologies occur in several stages, as follows:
+Ref.~\cite{nhfc, gmbf} propose a different approach.
+The main idea is to detect the transition point in a thin strip between two regions of the image. 
+The transition point is considered as edge evidence. 
+
+We propose a different view to edge based on the following steps:
 \begin{enumerate}
-	\item to identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
-	\item casting rays from the centroid to the outside of the area;
-	\item collecting data around the rays using the {\it Bresenham's midpoint line algorithm}, ideally the size of a pixel;
-	\item detect points in the data strips, which provide evidence of statistical property changes, i.e., a transition point that defines border evidence;
-	\item use the Generalized Simulated Anneling (GenSA) method, reference~\cite{xgsh}, to find maximum points in functions of interest;
-	\item fusion of evidence of detected edges in $(hh)$, $(hv)$ and $(vv)$ channels.
+	\item identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
+	\item cast rays from the centroid to the outside of the area;
+	\item collect data around the rays using the  Bresenham's midpoint line algorithm, ideally the size of a pixel;
+	\item detect points in the data strips which provide evidence of changes in their statistical properties, i.e., a transition point that defines edge evidence;
+	\item use the Generalized Simulated Anneling (GenSA) method~\cite{xgsh}, to find maximum points in the functions of interest;
+	\item fuse the evidence of detected edges in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels.
 \end{enumerate}
+With this, we do not require fully polarized data, only the intensity channels.
 
 \section{Maximum Likelihood Method}\label{sec_05}
-The Maximum Likelihood Estimation (MLE) is a method estimates the parameters values of the model, maximizing the data probability function, considering as known a samples and a statistical model. More details on the likelihood concept can be found in Refs.~\cite{nhfc, gmbf}.
 
-Suppose $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ a random vector distributed according to the probability density function (pdf) $f(\mathbf{x},\mathbf{\theta})$ with parameters $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ in the parameter space $\Theta$, it is defined the likelihood function  
+%The Maximum Likelihood Estimation (MLE) is a method estimates the parameters values of the model, maximizing the data probability function, considering as known a samples and a statistical model. More details on the likelihood concept can be found in Refs.~\cite{nhfc, gmbf}.
+%
+Suppose $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ is a random vector distributed according to the probability density function (pdf) $f(\mathbf{x},\mathbf{\theta})$ with parameters $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ in the parameter space $\Theta$.
+The likelihood function is
 \begin{equation*}
-    L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta), \\
+    L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta),
 \end{equation*}
-and the logarithmic likelihood function, which is also called the log-likelihood function
+and the logarithmic likelihood function, which is also called the log-likelihood function is
 \begin{equation}\label{eq_09}
-	l(\theta;\mathbf{X})= \ln(L(\theta;\mathbf{X})) = \sum_{i=1}^{n}\ln(f(x_i;\theta)). \\
+	\ell(\theta;\mathbf{X})= \ln L(\theta;\mathbf{X}) = \sum_{i=1}^{n}\ln f(x_i;\theta).
 \end{equation}
 
-In a simplified form, the estimate of maximum likelihood can be written by $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$,
-and similarly $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x})$.
-Using the maximum likelihood method applied to the Wishart distribution, suppose $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ a random vector distributed according to the probability density function (pdf)~(\ref{eq_05}) with parameters $\Sigma=\{\mathbf{\Sigma_A}, \mathbf{\Sigma_B}\}$ and $L$. The parameters $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ belong to two different samples $A$ and $B$, and the goal is to detect the border between the two samples.
+A maximum likelihood estimator is any point in $\Theta$ satisfying $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$ or, equivalently, $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}\ell(\theta;\mathbf{x})$.
 
-The likelihood function of the sample described by~(\ref{eq_09}) is given by equation of the density functions, respectively associated to each sample.
+Consider now that the sample $\mathbf{Z}^T=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)$ is split in two: $\mathbf{Z}_1,\dots,\mathbf{Z}_j$ and $\mathbf{Z}_{j+1},\dots,\mathbf{Z}_j$.
+These parts may belong to two different Wishart distributions: those characterized by  $\mathbf{\Sigma_A}$, and $\mathbf{\Sigma_B}$, both with the same number of looks $L$.
+Finding the edge consists in finding the point $j$ (or $j+1$) that separates them.
+
+%Using the maximum likelihood method applied to the Wishart distribution, suppose $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ a random vector distributed according to the probability density function (pdf)~(\ref{eq_05}) with parameters  The parameters $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ belong to two different samples $A$ and $B$, and the goal is to detect the border between the two samples.
+
+Finding the edge $j$ by maximum likelihood can be achieved by looking for the position $\widehat\jmath$ that maximizes the likelihood equation of the two samples:
+%
+%The likelihood function of the sample described by~(\ref{eq_09}) is given by equation of the density functions, respectively associated to each sample.
 \begin{equation}\label{eq_10}
-	L(j)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L) \prod_{k=j+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L), \\
+	L(\widehat\jmath)=\prod_{k_1=1}^{\widehat\jmath}f_{\mathbf{Z}}(\mathbf{Z}_{k_1};\mathbf{\widehat\Sigma_{A}},L) \prod_{k_2=\widehat\jmath+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k_2};\mathbf{\widehat\Sigma_{B}},L),
 \end{equation}
-where $\mathbf{Z}_{k}^{'}$ is a possible approximation of the random matrix described in~(\ref{eq_04}).
-
-Using the equation~(\ref{eq_09}), one has the log-likelihood function.
+where $\mathbf{\widehat\Sigma_{A}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{A}}$ based on the sample $\mathbf{Z}_1,\dots,\mathbf{Z}_{\widehat\jmath}$, 
+and $\mathbf{\widehat\Sigma_{B}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{B}}$ based on the sample $\mathbf{Z}_{\widehat\jmath+1},\dots,\mathbf{Z}_{N}$.
+Analogously, one may optimize the log-likely function, i.e.,
 \begin{equation}
-\begin{array}{rcl}\label{eq_11}
-	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
-	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
-\end{array}
+\ell(\widehat\jmath) =
+	\sum_{k_1=1}^{\widehat\jmath}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_1}; \mathbf{\widehat\Sigma_{A}},L) + \sum_{k_2=\widehat\jmath+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_2};\widehat{\mathbf{\Sigma_{B}}},L).
+	\label{eq_11}
 \end{equation}
+is maximum with respect to $1\leq j\leq N$.
 
-At this moment, we can perform algebraic manipulations in the probability density function in each term of the summation and replace in the two parts of the equation~(\ref{eq_09}) resulting in
-\begin{equation}
-\begin{array}{lll}\label{eq_12}
-	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]\\
-	&-& L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)}+(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right] \\
-	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}\\
-	&-&L\left[\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'})+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right]. \\
-\end{array}
-\end{equation}
+After algebraic manipulations on each term of the summation, and using~\eqref{eq_05}, we obtain
+%%% ACF Por favor revise esta equação
+\begin{align}\label{eq_12}
+	\ell(j)&=N\left[mL\ln{L}-\ln{\Gamma_m(L)}\right]\\
+	&- L\left[j\ln{|\mathbf{\Sigma_{A}}|}+(N-j)\ln{|\mathbf{\Sigma_{B}}|}\right] \\
+	&+(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}|}\\
+	&-L\left[\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k})+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k})\right].
+\end{align}
 
-The $\Sigma$ matrix can be found using the maximum likelihood estimator denoted by $\widehat{\Sigma}$ according to the reference~\cite{good}. The equation~(\ref{eq_13}) represents two estimates for the covariance matrix $\Sigma$ that depend on the $j$ position.
+The estimates for the covariance matrices can be found using the maximum likelihood estimator denoted by $\widehat{\Sigma}$~\cite{good}: 
 \begin{equation}\label{eq_13}
-\widehat{\Sigma_{I}}(j) = \left\{
+\widehat{\mathbf\Sigma_{I}}(j) = \left\{
 \begin{array}{lc}
-	j^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}  & \mbox{se}\quad I=A,  \\
-        (N-j)^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k} & \mbox{se}\quad I=B. \\
+	j^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}  & \mbox{if}\quad I=A,  \\
+        (N-j)^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k} & \mbox{if}\quad I=B.
 \end{array}
 \right.
 \end{equation}
 
-In the equation~(\ref{eq_12}) we can replace the equation~(\ref{eq_13}) and continue the algebraic manipulation, resulting in 
+Finally, we obtain:
 \begin{equation}\label{eq_14}
 \begin{array}{rcl}
-	l(j)&=&N\left[-mL(1-\ln{L)})-\ln{\left(\Gamma_m(L)\right)}\right]\\
+	\ell(j)&=&N\left[-mL(1-\ln{L)})-\ln{\Gamma_m(L)}\right]\\
 	&-&L\left[j\ln{|\mathbf{\widehat{\Sigma}}_{A}(j)|} +(N-j)\ln{|\mathbf{\widehat{\Sigma}}_{B}(j)|}\right]\\
-	&+&(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}^{'}|}. \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}|}. \\
 \end{array}
 \end{equation}
 
-The maximum argument $\widehat{\jmath}_{ML}$ is edge evidence that will be used in fusion methods.
-\begin{equation*}
-\begin{array}{rcl}
-	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}l(j).  \\
-\end{array}
-\end{equation*}
-\section{}
-\section{Application in synthetic images}\label{cap_acf_sec4}
+The argument of the maximum $\widehat{\jmath}$ is the edge evidence that will be used in our fusion methods.
 
-The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on the articles \cite{nhfc,gamf}. The image is $400\times400$ and is composed of two samples obeying the Wishart distribution. The picture is shown (\ref{cap_acf_fig01}).
+\section{Application in simulated images}\label{cap_acf_sec4}
+
+The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on the articles \cite{nhfc,gamf}. 
+The image is $400\times400$ and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_01}.
 
 For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ will be generated a PolSAR image $P_{k_1,k_2}$ as follows, in each write pixel of the simulated image the sample from  $W_G(\Sigma_{k_1}, L)$will be added,  and for each black pixel of the synthetic image the sample from $W_G(\Sigma_{k_2},L)$ will be added, and in the experiments presented they use the number of targets $L=4$
 \begin{figure}[!ht]
@@ -270,13 +292,13 @@ For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ will be gene
      \label{fig_01}
 \end{figure}
 
-Pauli's decomposition is based on vector representation in the linear combination of channels of intensity $(\mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hv}})$. The decomposition is shown in the figure (\ref{cap_acf_fig01}). 
+Pauli's decomposition is based on vector representation in the linear combination of channels of intensity $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hv}})$. The decomposition is shown in the figure (\ref{cap_acf_fig01}). 
 
-According to the probability density function (\ref{eq_05}) and defining the number of object $L=4$, we can generate the figure (\ref{fig{1b}}). The figure shows the density function for values of $\sigma_{hh}$ extracted from real data for forest and urban areas given respectively by $\sigma_{hh}=962892$ and $\sigma_{hh}= 360932$. 
+According to the probability density function (\ref{eq_05}) and defining the number of object $L=4$, we can generate the figure (\ref{fig{1b}}). The figure shows the density function for values of $\sigma_\text{hh}$ extracted from real data for forest and urban areas given respectively by $\sigma_\text{hh}=962892$ and $\sigma_\text{hh}= 360932$. 
 %
 The simulated image was constructed with $400$ lines distributed in two vertically separated bands around the $200$ pixel, configuring the border; The image has dimension $400 \times 400$ where each line has two different sample sets generated with the parameters the $\Sigma$ parameters defined above.  
 
-    We arbitrarily fix the line that cuts the figure horizontally (\ref{fig:1a}) in two parts, that is, the $200$ number line. We will then have a line with two sample sets as a database to calculate the probability function $l(j)$ according to equation (\ref{eq_08}) which should be applied to the channels $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ and $\mathbf{I_{vv}}$ generating the figures (\ref{fig:02}).  
+    We arbitrarily fix the line that cuts the figure horizontally (\ref{fig:1a}) in two parts, that is, the $200$ number line. We will then have a line with two sample sets as a database to calculate the probability function $l(j)$ according to equation (\ref{eq_08}) which should be applied to the channels $\mathbf{I_\text{hh}}$, $\mathbf{I_\text{vv}}$ and $\mathbf{I_{\text{vv}}}$ generating the figures (\ref{fig:02}).  
 \begin{figure}[!ht]
      \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
@@ -317,7 +339,7 @@ We will use relative frequencies to estimate the probability of having an error 
      \label{fig_03}
    \end{figure}	
    
-   The figure (\ref{cap_acf_fig10}) shows the probabilities for edge detection when applying the GenSA method to the channels $I_{hh}$, $I_{vh}$ and $I_{vvv}$ of the image shown in the figure (\ref{cap_acf_fig01}). 
+Figure~\ref{fig_03} shows the probabilities for edge detection when applying the GenSA method to channels $I_\text{hh}$, $I_\text{vv}$ and $I_{vvv}$ of the image shown in Figure~\ref{fig_01}. 
 
 
 \section{Methods of fusion of border evidence}\label{sec_06}
@@ -330,8 +352,8 @@ where $nc$ is the number of channels to be used in the fusion. We can get more d
 \subsection{Stationary wavelet transform- SWT} 
 This section is based on the reference~\cite{n_r}. The SWT fusion method can be described by the following steps:
 \begin{itemize}
-\item[-] calculate the SWT decomposition by getting $L_{HH}$, $L_{HL}$, $L_{LH}$ and $L_{LL}$ for each channel;
-\item[-] in the decompositions $L_{HH}$, the arithmetic media of all channels is realized, pixel by pixel. And in the decompositions $L_{HL}$, $L_{LH}$ and $L_{LL}$, is found the maximum between each channel, pixel by pixel, leaving a new decomposition $\bar{L}_{HH}$, $\bar{L}_{HL}$, $\bar{L}_{LH}$ and $\bar{L}_{LL}$;
+\item[-] calculate the SWT decomposition by getting $L_\text{hh}$, $L_{HL}$, $L_{LH}$ and $L_{LL}$ for each channel;
+\item[-] in the decompositions $L_\text{hh}$, the arithmetic media of all channels is realized, pixel by pixel. And in the decompositions $L_{HL}$, $L_{LH}$ and $L_{LL}$, is found the maximum between each channel, pixel by pixel, leaving a new decomposition $\bar{L}_\text{hh}$, $\bar{L}_{HL}$, $\bar{L}_{LH}$ and $\bar{L}_{LL}$;
 \item[-] performing the reverse transformation of SWT. We get the image by fusing the edge evidence $IF(x,y)$.  
 \end{itemize}
 
