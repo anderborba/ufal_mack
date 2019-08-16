@@ -127,13 +127,14 @@ The electromagnetic field with components $E_{i}^{j}$ has a subscribed index den
 Defining $S_{i,j}$ as the complex scattering coefficients, such that the indexes $i$ and $j$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with wave transmitted in the vertical direction ($\text{v}$) and received in the horizontal direction ($\text{h}$).
 
 The complex scattering matrix $\mathbf{S}$ is defined by
-\begin{equation}\label{eq_01}
+\begin{equation}
 \mathbf{S} = \left[
 \begin{array}{cc}
 	S_\text{hh}   & S_\text{hv}   \\
 	S_{\text{vv}}   & S_{\text{vv}}   
 \end{array}
 \right],
+\label{eq_01}
 \end{equation}
 and if the means of propagation of waves is reciprocal, then the reciprocity theorem~\cite{lp} allows us to state the scattering matrix as being Hermitian. 
 In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
@@ -216,8 +217,9 @@ The likelihood function is
     L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta),
 \end{equation*}
 and the logarithmic likelihood function, which is also called the log-likelihood function is
-\begin{equation}\label{eq_09}
+\begin{equation}
 	\ell(\theta;\mathbf{X})= \ln L(\theta;\mathbf{X}) = \sum_{i=1}^{n}\ln f(x_i;\theta).
+	\label{eq_09}
 \end{equation}
 
 A maximum likelihood estimator is any point in $\Theta$ satisfying $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$ or, equivalently, $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}\ell(\theta;\mathbf{x})$.
@@ -231,8 +233,9 @@ Finding the edge consists in finding the point $j$ (or $j+1$) that separates the
 Finding the edge $j$ by maximum likelihood can be achieved by looking for the position $\widehat\jmath$ that maximizes the likelihood equation of the two samples:
 %
 %The likelihood function of the sample described by~(\ref{eq_09}) is given by equation of the density functions, respectively associated to each sample.
-\begin{equation}\label{eq_10}
+\begin{equation}
 	L(\widehat\jmath)=\prod_{k_1=1}^{\widehat\jmath}f_{\mathbf{Z}}(\mathbf{Z}_{k_1};\mathbf{\widehat\Sigma_{A}},L) \prod_{k_2=\widehat\jmath+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k_2};\mathbf{\widehat\Sigma_{B}},L),
+	\label{eq_10}
 \end{equation}
 where $\mathbf{\widehat\Sigma_{A}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{A}}$ based on the sample $\mathbf{Z}_1,\dots,\mathbf{Z}_{\widehat\jmath}$, 
 and $\mathbf{\widehat\Sigma_{B}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{B}}$ based on the sample $\mathbf{Z}_{\widehat\jmath+1},\dots,\mathbf{Z}_{N}$.
@@ -246,50 +249,50 @@ is maximum with respect to $1\leq j\leq N$.
 
 After algebraic manipulations on each term of the summation, and using~\eqref{eq_05}, we obtain
 %%% ACF Por favor revise esta equação
-\begin{align}\label{eq_12}
+\begin{align}
 	\ell(j)&=N\left[mL\ln{L}-\ln{\Gamma_m(L)}\right]\\
 	&- L\left[j\ln{|\mathbf{\Sigma_{A}}|}+(N-j)\ln{|\mathbf{\Sigma_{B}}|}\right] \\
 	&+(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}|}\\
 	&-L\left[\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k})+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k})\right].
+	\label{eq_12}
 \end{align}
 
 The estimates for the covariance matrices can be found using the maximum likelihood estimator denoted by $\widehat{\Sigma}$~\cite{good}: 
-\begin{equation}\label{eq_13}
+\begin{equation}
 \widehat{\mathbf\Sigma_{I}}(j) = \left\{
 \begin{array}{lc}
 	j^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}  & \mbox{if}\quad I=A,  \\
         (N-j)^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k} & \mbox{if}\quad I=B.
 \end{array}
-\right.
+\right.\label{eq_13}
 \end{equation}
 
 Finally, we obtain:
-\begin{equation}\label{eq_14}
-\begin{array}{rcl}
-	\ell(j)&=&N\left[-mL(1-\ln{L)})-\ln{\Gamma_m(L)}\right]\\
-	&-&L\left[j\ln{|\mathbf{\widehat{\Sigma}}_{A}(j)|} +(N-j)\ln{|\mathbf{\widehat{\Sigma}}_{B}(j)|}\right]\\
-	&+&(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}|}. \\
-\end{array}
-\end{equation}
+\begin{align}
+	\ell(j)&=N\left[-mL(1-\ln{L)})-\ln{\Gamma_m(L)}\right] \nonumber\\
+	&-L\left[j\ln{|\mathbf{\widehat{\Sigma}}_{A}(j)|} +(N-j)\ln{|\mathbf{\widehat{\Sigma}}_{B}(j)|}\right]\nonumber\\
+	&+(L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}|}.
+\label{eq_14}
+\end{align}
 
 The argument of the maximum $\widehat{\jmath}$ is the edge evidence that will be used in our fusion methods.
 
 \section{Application in simulated images}\label{cap_acf_sec4}
 
-The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on the articles \cite{nhfc,gamf}. 
-The image is $400\times400$ and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_01}.
+The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on Refs.~\cite{nhfc,gamf}. 
+The image has $400\times400$ pixels and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_Edges-Evidence}.
 
 For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ will be generated a PolSAR image $P_{k_1,k_2}$ as follows, in each write pixel of the simulated image the sample from  $W_G(\Sigma_{k_1}, L)$will be added,  and for each black pixel of the synthetic image the sample from $W_G(\Sigma_{k_2},L)$ will be added, and in the experiments presented they use the number of targets $L=4$
-\begin{figure}[!ht]
-     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
-       \includegraphics[width=0.23\textwidth]{phanton_nhfc_dec_pauli.pdf}       
+
+\begin{figure}[hbt]
+     \subfloat[Pauli decomposition \label{fig:1a}]{%
+       \fbox{\includegraphics[viewport= 80 50 490 460, clip=true, width=0.23\textwidth]{phanton_nhfc_dec_pauli}}      
      }
-     \hfill
-     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
-       \includegraphics[width=0.23\textwidth]{grafico_pdf_nhfc_2014_sigma_hh.pdf}
+     \fbox{\subfloat[Marginal densities of the $\text{hh}$ channel\label{fig:1b}]{%
+       \includegraphics[width=0.24\textwidth]{grafico_pdf_nhfc_2014_sigma_hh}}
      }
     \caption{Edges evidences}
-     \label{fig_01}
+     \label{fig_Edges-Evidence}
 \end{figure}
 
 Pauli's decomposition is based on vector representation in the linear combination of channels of intensity $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hv}})$. The decomposition is shown in the figure (\ref{cap_acf_fig01}). 
@@ -298,19 +301,20 @@ According to the probability density function (\ref{eq_05}) and defining the num
 %
 The simulated image was constructed with $400$ lines distributed in two vertically separated bands around the $200$ pixel, configuring the border; The image has dimension $400 \times 400$ where each line has two different sample sets generated with the parameters the $\Sigma$ parameters defined above.  
 
-    We arbitrarily fix the line that cuts the figure horizontally (\ref{fig:1a}) in two parts, that is, the $200$ number line. We will then have a line with two sample sets as a database to calculate the probability function $l(j)$ according to equation (\ref{eq_08}) which should be applied to the channels $\mathbf{I_\text{hh}}$, $\mathbf{I_\text{vv}}$ and $\mathbf{I_{\text{vv}}}$ generating the figures (\ref{fig:02}).  
-\begin{figure}[!ht]
-     \subfloat[Evidences in channel $(hh)$ \label{fig:1a}]{%
+We arbitrarily fix the line that cuts the figure horizontally (\ref{fig:1a}) in two parts, that is, the $200$ number line. We will then have a line with two sample sets as a database to calculate the probability function $l(j)$ according to equation (\ref{eq_08}) which should be applied to the channels $\mathbf{I_\text{hh}}$, $\mathbf{I_\text{vv}}$ and $\mathbf{I_{\text{vv}}}$ generating the figures (\ref{fig:02}).  
+    
+\begin{figure}[hbt]
+     \subfloat[Evidences in channel $\text{hh}$ \label{fig:1a}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
        \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahh.pdf}       
      }
      \hfill
-     \subfloat[Evidences in channel $(hv)$ \label{fig:1b}]{%
+     \subfloat[Evidences in channel $\text{hv}$ \label{fig:1b}]{%
        \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahv.pdf}
      }
      \\
      \centering
-     \subfloat[Evidences in channel $(vv)$ \label{fig:1c}]{%
+     \subfloat[Evidences in channel $\text{vv}$ \label{fig:1c}]{%
        \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmavv.pdf}
      }
      \caption{Edges evidences}
