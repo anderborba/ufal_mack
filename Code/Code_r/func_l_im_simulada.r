@@ -29,9 +29,9 @@ source("func_obj_l.r")
 ## Leitura do arquivo *.txt no diretorio /Data 
 setwd("../..")
 setwd("Data")
-mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_2.txt')
-#mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
+mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_4.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_5.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_6.txt')
@@ -60,12 +60,14 @@ for (j in 1 : (N - 1) ){
 }
 df <- data.frame(x, lobj)
 ##### realizar o plot usando o ggplot #######################
-p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Ponto de transição na $j$ - ésima posição ')) + ylab(TeX('$l(j)$')) + ggtitle(TeX('Função detecção por máxima verossimilhança')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
+#### Retirei esse comando para gerar figuras para artigo em inglês 
+#p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Position $j$ - ésima posição ')) + ylab(TeX('$l(j)$')) + ggtitle(TeX('Função detecção por máxima verossimilhança')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
+p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 # escrita no diretorio /Text/Dissertacao/figura
-#setwd("../..")
-#setwd("Text/Dissertacao/figuras")
-#ggsave("grafico_l_vert_sigmavv.pdf")
-#setwd("../../..")
-#setwd("Code/Code_r")
+setwd("../..")
+setwd("Text/Dissertacao/figuras")
+ggsave("grafico_l_nhfc_2014_sigmavv_artigos.pdf")
+setwd("../../..")
+setwd("Code/Code_r")
 # retornou ao diretorio /Code/Code_r
-print(p)
+#print(p)
