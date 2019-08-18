@@ -33,7 +33,7 @@
 %should not be used}
 \thanks{Grantee Capes/PROSUP/Mackenzie.}
 }
-\author{\IEEEauthorblockN{Anderson A. de Borba}
+\author{\IEEEauthorblockN{Anderson A.\ de Borba}
 \IEEEauthorblockA{\textit{Dept.\ Engenharia Elétrica e Computação} \\
 \textit{UPM -- Universidade Presbiteriana Mackenzie}\\
 IBMEC-SP\\
@@ -46,12 +46,11 @@ anderson.borba@ibmec.edu.br}
 São Paulo, Brazil \\
 mauricio.marengoni@mackenzie.br}
 \and
-\IEEEauthorblockN{\hspace{6cm} Alejandro C. Frery}
-\IEEEauthorblockA{\textit{\hspace{6cm}Laboratório de Computação Científica e Análise Numérica -- LACCAN} \\
-\hspace{6cm}\textit{UFAL -- Universidade Federal de Alagoas}\\
-\hspace{6cm} Maceió, Brazil \\
-\hspace{6cm}acfrery@gmail.com}
-}
+\IEEEauthorblockN{Alejandro C.\ Frery}
+\IEEEauthorblockA{Laboratório de Computação Científica e Análise Numérica -- LACCAN} \\
+\textit{UFAL -- Universidade Federal de Alagoas}\\
+Maceió, Brazil \\
+acfrery@laccan.ufal.br}
 \maketitle
 \begin{abstract}
 Polarimetric Synthetic Aperture Radar (PolSAR) has achieved an important position as a remote sensing imaging method. 
@@ -208,37 +207,38 @@ Consider now that the sample $\mathbf{Z}^T=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mat
 These parts may belong to two different Wishart distributions: those characterized by  $\mathbf{\Sigma_A}$, and $\mathbf{\Sigma_B}$, both with the same number of looks $L$.
 Finding the edge consists in finding the point $j$ (or $j+1$) that separates them.
 
-Finding the edge $j$ by maximum likelihood can be achieved by looking for the position $\widehat\jmath$ estimated  that maximizes the likelihood equation of the two samples:
+Finding the edge $j$ by maximum likelihood can be achieved by looking for the position $\widehat\jmath$  that maximizes the likelihood equation of the two samples:
 %
 \begin{equation}
-	L(\widehat\jmath)=\prod_{k_1=1}^{\widehat\jmath}f_{\mathbf{Z}}(\mathbf{Z}_{k_1};\mathbf{\widehat\Sigma_{A}},L) \prod_{k_2=\widehat\jmath+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k_2};\mathbf{\widehat\Sigma_{B}},L),
+	L(j)=\prod_{k_1=1}^{j}f_{\mathbf{Z}}(\mathbf{Z}_{k_1};\mathbf{\widehat\Sigma_{A}},L) \prod_{k_2=j+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k_2};\mathbf{\widehat\Sigma_{B}},L),
 	\label{eq_06}
 \end{equation}
-where $\mathbf{\widehat\Sigma_{A}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{A}}$ based on the sample $\mathbf{Z}_1,\dots,\mathbf{Z}_{\widehat\jmath}$, 
-and $\mathbf{\widehat\Sigma_{B}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{B}}$ based on the sample $\mathbf{Z}_{\widehat\jmath+1},\dots,\mathbf{Z}_{N}$.
-Analogously, one may optimize the log-likely function, i.e.,
+where $\mathbf{\widehat\Sigma_{A}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{A}}$ based on the sample $\mathbf{Z}_1,\dots,\mathbf{Z}_{j}$, 
+and $\mathbf{\widehat\Sigma_{B}}$ is the maximum likelihood estimator of $\mathbf{\Sigma_{B}}$ based on the sample $\mathbf{Z}_{j+1},\dots,\mathbf{Z}_{N}$.
+Analogously, one may optimize with respect to $j$ the log-likely function, i.e., finding where
 \begin{equation}
-\ell(\widehat\jmath) =
-	\sum_{k_1=1}^{\widehat\jmath}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_1}; \mathbf{\widehat\Sigma_{A}},L) + \sum_{k_2=\widehat\jmath+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_2};     \mathbf{\widehat\Sigma_{B}},L).
+\ell(j) =
+	\sum_{k_1=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_1}; \mathbf{\widehat\Sigma_{A}},L) + \sum_{k_2=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_2};     \mathbf{\widehat\Sigma_{B}},L).
 	\label{eq_07}
 \end{equation}
-is maximum with respect to $1\leq \jmath \leq N$.
+is maximum with respect to $1\leq j \leq N$.
+The point that solves this optimization problem is denoted $\widehat{\jmath}$.
 %$\widehat\jmath = \arg\max\limits_{1\leq \jmath\leq N}\ell(\jmath)$
 
 The estimates for the covariance matrices can be found using the maximum likelihood estimator denoted by $\widehat{\Sigma}$, Ref.~\cite{good}: 
 \begin{equation}
-\widehat{\mathbf\Sigma_{I}}(\widehat\jmath) = \left\{
+\widehat{\mathbf\Sigma_{I}}(j) = \left\{
 \begin{array}{lc}
-	\widehat\jmath^{-1}\sum_{k=1}^{\widehat\jmath}\mathbf{Z}_{k}  & \mbox{if}\quad I=A,  \\
-        (N-\widehat\jmath)^{-1}\sum_{k=\widehat\jmath+1}^{N}\mathbf{Z}_{k} & \mbox{if}\quad I=B.
+	j^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}  & \mbox{if}\quad I=A,  \\
+        (N-j)^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k} & \mbox{if}\quad I=B.
 \end{array}
 \right.\label{eq_08}
 \end{equation}
 
 After algebraic manipulations on each term of the summation using the equation~\eqref{eq_08}, we obtain
 \begin{align}\nonumber
-	\ell(\widehat\jmath)&=N\left[mL(\ln{L}-1)-\ln{\Gamma_m(L)}\right]\\\nonumber
-	&- L\left[\widehat\jmath\ln{|\mathbf{\widehat{\Sigma}}_{A}(\widehat\jmath)|} +(N-\widehat\jmath)\ln{|\mathbf{\widehat{\Sigma}}_{B}(\widehat\jmath)|}\right] \\
+	\ell(j)&=N\left[mL(\ln{L}-1)-\ln{\Gamma_m(L)}\right]\\\nonumber
+	&- L\left[j\ln{|\mathbf{\widehat{\Sigma}}_{A}(j)|} +(N-j)\ln{|\mathbf{\widehat{\Sigma}}_{B}(j)|}\right] \\
 	&+ (L-m)\sum_{k=1}^{N}\ln{|\mathbf{Z}_{k}|}.\label{eq_09}
 \end{align}
 
@@ -247,171 +247,175 @@ The argument of the maximum $\widehat{\jmath}$ is the edge evidence that will be
 \section{Application in simulated images}\label{sec_06}
 
 The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on Refs.~\cite{nhfc,gamf}. 
-The image has $400\times400$ pixels and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a}.
+The image has $400\times400$ pixels and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}.
 
-For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ a PolSAR image $I_{k_1,k_2}$ will be generated as follows: in each write pixel of the simulated image the sample from  $W_G(\Sigma_{k_1}, L)$will be added,  and for each black pixel of the synthetic image the sample from $W_G(\Sigma_{k_2},L)$ will be added, and in the experiments presented the number of multilook $L=4$ were used.
+For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ we simulate a PolSAR image $I_{k_1,k_2}$: 
+samples of $W_G(\Sigma_{k_1}, 4)$ in the left half, and 
+samples of $W_G(\Sigma_{k_2}, 4)$ in the right half.
+The image has $400 \times 400$ pixels.
 
 \begin{figure}[hbt]
      \subfloat[Pauli decomposition \label{fig_Edges-Evidence:a}]{%
-       \fbox{\includegraphics[viewport= 80 50 490 460, clip=true, width=0.23\textwidth]{phanton_nhfc_dec_pauli}}      
-     }
-     \fbox{\subfloat[Marginal densities of the $\text{hh}$ channel\label{fig_Edges-Evidence:b}]{%
-       \includegraphics[width=0.24\textwidth]{grafico_pdf_nhfc_2014_sigma_hh_artigos}}
+       \includegraphics[viewport= 80 50 490 460, clip=true, width=0.23\textwidth]{phanton_nhfc_dec_pauli}}      
+     \subfloat[Marginal densities of the $\text{hh}$ channel\label{fig_Edges-Evidence:b}]{%
+       \includegraphics[width=0.24\textwidth]{grafico_pdf_nhfc_2014_sigma_hh_artigos}
      }
     \caption{Edges evidences}
      \label{fig_Edges-Evidence}
 \end{figure}
 
-Pauli's decomposition is based on vector representation in the linear combination of channels of intensity $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hv}})$. The decomposition is shown in Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a}. 
+The Pauli decomposition is based on the linear combination of intensity channels: $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}-I_{\text{vv}}}, \mathbf{I_\text{hv}})$. 
+This decomposition is shown in Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}. 
 
-According to the probability density function (\ref{eq_04}) and defining the number of object $L=4$, we Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:b} is generated. The figure shows the density function for values of $\sigma_\text{hh}$ extracted from real data for forest and urban areas given respectively by $\sigma_\text{hh}=962892$ and $\sigma_\text{hh}= 360932$.  These constants are the same used in figure Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a}.
-%
-The simulated image was constructed with $400$ lines distributed in two vertically separated bands around the $200$ pixel, configuring the border; The image has dimension $400 \times 400$ where each line has two different sample sets generated with $\Sigma$ parameters defined above.  
+Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:b}. 
+shows the density function of $\sigma_\text{hh}$ with parameters extracted from real data for forest and urban areas: $\sigma_\text{hh}=962892$ and $\sigma_\text{hh}= 360932$.  
 
-The line that cuts the figure horizontally Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a} into two parts, that is, the $200$ number line is arbitrarily fixed. A line with two sample sets as a database is used to calculate the probability function $l(\widehat\jmath)$ according to equation (\ref{eq_09}) which should be applied to the channels $\mathbf{I_\text{hh}}$, $\mathbf{I_\text{vv}}$ and $\mathbf{I_{\text{vv}}}$ generating Fig.~\ref{fig_evid_bordas}.  
+Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a} shows the evidence of edge in the middle line.
     
 \begin{figure}[hbt]
-     \subfloat[Evidences in channel $\text{hh}$ \label{fig_evid_bordas:1a}]{%
+	\centering
+     \subfloat[Band $\text{hh}$ \label{fig_evid_bordas:1a}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahh_artigos.pdf}       
-     }
-     \hfill
-     \subfloat[Evidences in channel $\text{hv}$ \label{fig_evid_bordas:1b}]{%
-       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmahv_artigos.pdf}
-     }
-     \\
-     \centering
-     \subfloat[Evidences in channel $\text{vv}$ \label{fig_evid_bordas:1c}]{%
-       \includegraphics[width=0.2\textwidth]{grafico_l_nhfc_2014_sigmavv_artigos.pdf}
-     }
+       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahh_artigos}}
+     \subfloat[Band $\text{hv}$ \label{fig_evid_bordas:1b}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahv_artigos}}
+     \subfloat[Band $\text{vv}$ \label{fig_evid_bordas:1c}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmavv_artigos}}
      \caption{Edges evidences}
      \label{fig_evid_bordas}
    \end{figure}	
 
-One can notice that the functions show a peak indicating the evidence of edges that should be captured, but the functions are not differentiable at many points, hindering the use of optimization methods that require the calculation of the derivative, with this performance of the methods are impaired. The problem has been solved using the Generalized Simulated Annealing (GenSA) method as presented in Ref.~\cite{xgsh} and works well in non-differentiable functions.
+The functions has a peak indicating the evidence of the edge that should be captured, but the functions are not smooth, hindering the use of optimization methods that require the calculation of the derivative.
+This problem was solved using Generalized Simulated Annealing (GenSA)~\cite{xgsh}, suitable for non-differentiable functions.
     
-    The metric for the error used in this work follows the following procedure, we perform $400$ replications of the Wishart distribution with two sample sets, that is, we perform a process to generate $400$ simulated images. For each replication, the function $l(\widehat\jmath)$ is calculated in a fixed horizontal line arbitrary. The purpose is to find the argument of the maximum point by the method {\it Generalized Simulated annealing} (GenSA), thus finding the evidence of borders.
-    
-     By construction, we consider the vertical line $200$ as the real border in each replication, so the error for this replication is the absolute value of the difference between the real border point and the value estimated by the GenSA method. Thus, the error for each replication is computed by
-\begin{equation*}
-\begin{array}{llll}
-	E(r) &=& |200 - \hat{\jmath}(r)|, & 1\leq r \leq 400,  \\
-\end{array}
-\end{equation*}
-where, $\hat{\jmath}(r)$ is the result of maximizing $l(\widehat\jmath)$ by the GenSA method on $r$ replication.
+We measured the error simulating $400$ independent images and finding $\widehat\jmath$ in each line.
+By construction, we consider the vertical line $200$ as the true edge in each replication, so the error for this replication is the absolute value of the difference between this point and the estimated value. 
+Thus, the error for each replication is computed by $E(r) = |200 - \widehat{\jmath}(r)|$, $1\leq r \leq 400$.
 
-Relative frequencies are used to estimate the probability of having an error smaller than a number of pixels. Denoting for $H(k)$ the number of replications for which the error is less than $k$ pixels an estimate of this probability is calculated by $f(k)=\frac{H(k)}{400}$. In the tests performed in this section, $k$ varys between $1$ and $10$. The algorithm is described in detail in Ref.~\cite{fbgm}.  
-   \begin{figure}[hbt]
-\centering
-	\includegraphics[scale=0.4]{metricas_ihh_ivh_ivv_nhfc_artigos.pdf}%
-			%\vspace{-1.0cm}
+We used relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
+Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)=\frac{H(k)}{400}$. 
+In the tests performed in this section, $k$ varies between $1$ and $10$. 
+The algorithm is described in detail in Ref.~\cite{fbgm}.
+Fig.~\ref{probability_edge_detc} shows these probabilities as computed in each channel $I_\text{hh}$, $I_\text{vv}$ and $I_{vvv}$ of the image. 
+  
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
 	\caption{Probability of detecting edges evidences.}
 \label{probability_edge_detc}
 \end{figure}
 
-Fig.~\ref{probability_edge_detc} shows the probabilities for edge detection when applying the GenSA method to channels $I_\text{hh}$, $I_\text{vv}$ and $I_{vvv}$ of the image. 
-\section{Methods of fusion of border evidence}\label{sec_07}
+\section{Methods of fusion of edge evidence}\label{sec_07}
+
 \subsection{Simple average}
-The simple average fusion method proposes the arithmetic mean of the edge evidence in each channel. The edge evidence fusion can be calculated by
+The simple average fusion method proposes the arithmetic mean of the edge evidence in each channel. 
+The edge evidence fusion can be calculated by
 \begin{equation}
 	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
 \end{equation}
-where $nc$ is the number of channels to be used in the fusion. More details are presented in Ref.~\cite{mit}.
-\subsection{Stationary wavelet transform- SWT} 
-This section is based on the Ref.~\cite{n_r}. The SWT fusion method can be described by the following steps:
+where $nc$ is the number of channels to be used in the fusion. 
+More details are presented in Ref.~\cite{mit}.
+
+\subsection{Stationary wavelet transform -- SWT} 
+
+This section is based on the Ref.~\cite{n_r}. 
+The SWT fusion method can be described by the following steps:
 \begin{itemize}
-\item[-] calculate the SWT decomposition by getting $L_\text{HH}$, $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$ for each channel;
-\item[-] in the decompositions $L_\text{HH}$, the arithmetic media of all channels is processed, pixel by pixel. In the decompositions $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$, the maximum between each channel is found, pixel by pixel, leaving a new decomposition $\bar{L}_\text{HH}$, $\bar{L}_\text{HL}$, $\bar{L}_\text{LH}$ and $\bar{L}_\text{LL}$;
-\item[-] performing the reverse transformation of SWT. The image is obtained by fusing the edge evidence $IF(x,y)$.  
+\item[-] calculate the SWT decomposition by getting $L_\text{HH}$, $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$ for each channel; %%% ACF O que é cada uma dessas L?
+\item[-] in the decompositions $L_\text{HH}$, obtain the arithmetic mean of all channels, pixel by pixel. In the decompositions $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$, the maximum between each channel is found, pixel by pixel, leaving a new decomposition $\bar{L}_\text{HH}$, $\bar{L}_\text{HL}$, $\bar{L}_\text{LH}$ and $\bar{L}_\text{LL}$;
+\item[-] perform the inverse SWT transformation. The image is obtained by fusing the edge evidence $IF(x,y)$.  
 \end{itemize}
 
-\subsection{Principal component analysis - (PCA) }
-This section is based on Refs.~\cite{n_r} and~\cite{mit}, where the PCA-based fusion method can be described by the following steps:
+\subsection{Principal component analysis -- PCA}
+
+This section is based on Refs.~\cite{n_r,mit}.
+The method is comprised of the following steps:
 \begin{itemize}
-\item[-] organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m\cdot n$, represents the multiplication of $m$ lines and $n$ columns of the matrices to be used in the fusion;
+\item[-] organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m n$, the lines times the columns of the matrices to be used in the fusion;
 \item[-] calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
-\item[-] subtract the average of each column from the $Y$ matrix. Resulting in a $X$ matrix of the same dimension of $Y$; 
-\item[-] find the $C$ covariance matrix from $X$, calculating $C=XX^T$;
-\item[-] calculate the eigenvalues $\Lambda$ and the eigenvectors $D$, and sort the eigenvalues and eigenvectors in descending order. The matrices generated by the eigenvalues, on the main diagonal, and the eigenvectors placed in column, have dimensions $nc\times nc$;
-\item[-] compute the components $P_i=\frac{V_i}{\sum_{i=1}^l V_i}$ with $i=1,\dots,nc$;
-\item[-] fuse $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$. Remembering that the $\sum_{i=1}^{nc}P_i=1$.
+\item[-] subtract the average of each column from the $Y$ matrix, resulting in $X$, a matrix of the same dimension of $Y$; 
+\item[-] find $C$, the covariance matrix of $X$;
+\item[-] calculate its eigenvalues $\Lambda$ and eigenvectors $D$, and sort the eigenvalues and eigenvectors in descending order. The matrices generated by the eigenvalues, on the main diagonal, and the eigenvectors placed in column, have dimensions $nc\times nc$;
+\item[-] compute the components $P_i={V_i}^{-1}{\sum_{i=1}^l V_i}$ with $i=1,\dots,nc$;
+\item[-] fuse $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$, recalling that $\sum_{i=1}^{nc}P_i=1$.
 \end{itemize}
 
 \subsection{ROC statistics}
-The ROC statistical method was proposed and described in detail in Refs.~\cite{gs} and~\cite{fawcett}. The method describes a statistical model to obtain information automatically, from several images, or in several channels. The method can be described in the following procedure:
+
+The ROC method was proposed and described in detail in~\cite{gs,fawcett}:
 \begin{itemize}
-\item[-] obtain the evidence of edges in the channels, applying the method described in this article. Store this edge evidence in $E_i$ matrices, with $i=1,\cdots,nc$ in a binary way;
-\item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ borders;
+\item[-] obtain the evidence of edges in the channels, and store it in $E_i$ matrices, with $i=1,\dots,nc$ in a binary way;
+\item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ edges;
 \item[-] use thresholds ranging from $t=1,\dots,nc$ generating $M_t$ matrices;
-\item[-] compare each $M_t$, fixed with all $E_i$, find the confusion matrix to generate the ROC curve. The point of the ROC curve that approaches (in the sense of the Euclidean distance) the diagnostic line will have its threshold considered optimal;
-\item[-] the $M_t$ matrix, which corresponds to the threshold closest to the diagnostic line, is the fusion of edge evidence.
+\item[-] compare each $M_t$, fixed with all $E_i$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
+\item[-] the $M_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
 \end{itemize}
 
 \section{Numerical results}\label{sec_08}
-The PolSAR image, with 4 looks of the Flevoland region in the Netherlands, was used for the numerical tests. Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, where it was built the radial lines for edge detection.
 
- Edge detection and subsequent evidence fusion were performed in this region of interest, in order to understand the weighting of each channel in the image formation.
+We used the PolSAR image of the Flevoland region in the Netherlands, with $4$ looks, for the numerical tests. 
+Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radial lines for edge detection.
 
-In this study, edge detection was performed in the intensity channels $(hh)$, $(hv)$ and $(vv)$, and subsequently, used for information fusion. 
 \begin{figure}[hbt]
 \centering
-	\includegraphics[scale=0.4]{flevoland_radial_4_look.pdf}
-			\vspace{-1.0cm}
-	\caption{Region of interest (ROI) in the image of Flavoland.}
+	\includegraphics[width=\linewidth]{flevoland_radial_4_look}
+	\caption{Region of interest (ROI) in the image of Flevoland.}
 \label{flevoland_radial_4look}
 \end{figure}
-Figs.~\ref{evidencias_hh_hv_vv}~\subref{evidencias_hh_hv_vv:a},~\subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence detection algorithms, applied to $\text{(hh)}$, $\text{(hv)}$ and $\text{(vv)}$ channels. 
 
-The algorithm to detect evidence of edges worked well in the channels $\text{(hh)}$ and $\text{(hv)}$, achieving better accuracy in relation to the channel $\text{(vv)}$.  
+Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels. 
+The algorithm achieves better accuracy in channels $\text{hh}$ and $\text{hv}$ than in channel $\text{vv}$.  
 
-In the channel $\text{(vv)}$, edges that are not part of the homogeneous region of interest were detected, but they are part of other edges of the image, researching the reason for this fact, the function $l(\widehat\jmath)$ was analysed and found that the function presents two peaks, representing possible evidence of edges, in which the largest was correctly detected. 
-   \begin{figure}[!ht]
-     \subfloat[Evidences in channel $(hh)$ \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.2\textwidth]{flevoland_hh_evid_crop_teste.pdf}       
+It is noteworthy that GSaM correctly identified the maximum evidence, even in the presence of multiple local maxima as in the case of the $\text{vv}$ channel.
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_crop_teste}
      }
-     \hfill
-     \subfloat[Evidences in channel $(hv)$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.2\textwidth]{flevoland_hv_evid_crop_teste.pdf}
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_crop_teste}
      }
-     \\
-     \centering
-     \subfloat[Evidences in channel $(vv)$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.2\textwidth]{flevoland_vv_evid_crop_teste.pdf}
+     \subfloat[Evidences in channel $text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_crop_teste}
      }
      \caption{Edges evidences}
      \label{evidencias_hh_hv_vv}
-   \end{figure}
+   \end{figure*}
 
-Figs.~\ref{fusion_met}~\subref{fusion_met:a},~\subref{fusion_met:b},~\subref{fusion_met:c} and~\subref{fusion_met:d} show, respectively, the fusion of evidence for the methods described in this article. The average of edges evidences, the method that uses the stationary wavelet transform (SWT), the method that uses the principal component analysis (PCA), and finally, the method based on ROC statistics.
+Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. 
 
-The methods shown in Figs.~\ref{fusion_met}~\subref{fusion_met:a},~\subref{fusion_met:b},~\subref{fusion_met:c} and~\subref{fusion_met:d} use all the pixels detected in the different channels. Each method weighs the pixels in the different channels with their characteristics. The average weighs the pixels in an equal manner. The (SWT) finds the coefficients of the linear combination of its wavelet bases, and the (PCA) weights the auto-vectors of the covariance matrix.
+The methods shown in Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c} and~\subref{fusion_met:d} use all the pixels detected in the three channels by using different weights: 
+the average weights the pixels equally, SWT finds the coefficients of the linear combination of its wavelet bases, and PCA weights by the eigenvalues of the covariance matrix.
 
-The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds discarding pixels. This was observed in the Fig.~\ref{fusion_met}~\subref{fusion_met:d}.
+The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds for discarding pixels. 
+This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
 
-\begin{figure}[!ht]
-     \subfloat[Averege fusion\label{fusion_met:a}]{%
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Average fusion\label{fusion_met:a}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.2\textwidth]{flevoland_fusao_media_crop_teste.pdf}       
+       \includegraphics[width=0.32\linewidth]{flevoland_fusao_media_crop_teste}
      }
-     \hfill
      \subfloat[SWT fusion\label{fusion_met:b}]{%
-       \includegraphics[width=0.2\textwidth]{flevoland_fusao_swt_crop_teste.pdf}
+       \includegraphics[width=0.32\linewidth]{flevoland_fusao_swt_crop_teste}
      }
-     \\
      \subfloat[PCA fusion \label{fusion_met:c}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.2\textwidth]{flevoland_fusao_pca_crop_teste.pdf}       
-     }
-     \hfill
+       \includegraphics[width=0.32\linewidth]{flevoland_fusao_pca_crop_teste}       
+     }\\
      \subfloat[ROC fusion\label{fusion_met:d}]{%
-       \includegraphics[width=0.2\textwidth]{flevoland_fusao_roc_crop_teste.pdf}
+       \includegraphics[width=0.32\linewidth]{flevoland_fusao_roc_crop_teste.pdf}
      }
      \caption{Fusion methods}
      \label{fusion_met}
-   \end{figure}
+\end{figure*}
 
 \section{Conclusion}\label{sec_09}
-In this study, the statistical modelling approach was applied to real PolSAR data imaging. Aiming to understand the importance of information from each channel in the edge evidence fusions. The proposed algorithms were applied in intensity channels $(hh)$, $(hv)$ and $(vv)$, it was found the evidence of edges, using the maximum likelihood  method in each channel, obtaining good results. Upon analysis obtained in the intensity channels, it was observed that the method for the edge detections worked better in the channels $(hh)$ and $(hv)$ than the channel $(vv)$.
+
+In this study, the statistical modelling approach was applied to real PolSAR data imaging. 
+Aiming to understand the importance of information from each channel in the edge evidence fusions. 
+The proposed algorithms were applied in intensity channels $(hh)$, $(hv)$ and $(vv)$, it was found the evidence of edges, using the maximum likelihood  method in each channel, obtaining good results. Upon analysis obtained in the intensity channels, it was observed that the method for the edge detections worked better in the channels $(hh)$ and $(hv)$ than the channel $(vv)$.
 
 Subsequently, the fusion of evidence of edges was performed with the methods of simple average, SWT, PCA and ROC statistics. The first three methods performed well as shown in the results. The ROC statistics method suppressed several edge points, a behaviour expected because it is a method that uses thresholds; however, when applied in a larger number of channels, its performance tends to improve. 
 
