@@ -318,11 +318,11 @@ More details are presented in Ref.~\cite{mit}.
 
 \subsection{Stationary wavelet transform -- SWT} 
 
-This section is based on the Ref.~\cite{n_r}. 
+This section is based on the Ref.~\cite{n_r}. SWT filters are applied separately in vertical and horizontal directions and downsampled by a factor of two in the image $I$. In this way, the image is filtered by the low pass filter $\text{L}$ and the high pass filter $\text{H}$ in the horizontal direction and then downsampled by a factor of two to create the coefficients matrices $I_\text{L}$ and $I_\text{H}$. After this, the coefficients matrices $I_\text{L}$ and $I_\text{H}$ are again subjected to the low pass and high pass filters in the vertical direction and newly downsampled by a factor of two to create sub-images. $ I_\text{LL}$,$I_\text{LH}$, $I_\text{HL}$ and $I_\text{HH}$.
 The SWT fusion method can be described by the following steps:
 \begin{itemize}
-\item[-] calculate the SWT decomposition by getting $L_\text{HH}$, $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$ for each channel; %%% ACF O que é cada uma dessas L?
-\item[-] in the decompositions $L_\text{HH}$, obtain the arithmetic mean of all channels, pixel by pixel. In the decompositions $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$, the maximum between each channel is found, pixel by pixel, leaving a new decomposition $\bar{L}_\text{HH}$, $\bar{L}_\text{HL}$, $\bar{L}_\text{LH}$ and $\bar{L}_\text{LL}$;
+\item[-] calculate the SWT decomposition by getting $I_\text{HH}$, $I_\text{HL}$, $I_\text{LH}$ and $I_\text{LL}$ for each channel (image); %%% ACF O que é cada uma dessas L?
+\item[-] in the decompositions $I_\text{HH}$, obtain the arithmetic mean of all channels, pixel by pixel. In the decompositions $I_\text{HL}$, $I_\text{LH}$ and $I_\text{LL}$, the maximum between each channel is found, pixel by pixel, leaving a new decomposition $\bar{L}_\text{HH}$, $\bar{I}_\text{HL}$, $\bar{I}_\text{LH}$ and $\bar{I}_\text{LL}$;
 \item[-] perform the inverse SWT transformation. The image is obtained by fusing the edge evidence $IF(x,y)$.  
 \end{itemize}
 
