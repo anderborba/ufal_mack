@@ -413,15 +413,20 @@ This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
 
 \section{Conclusion}\label{sec_09}
 
+In this article, we analyzed methods of fusion of edges evidence in Polsar images. 
+First, we found the edges evidence using the method of maximum likelihood in the three intensities channels. 
+Secondly, we applied fusion methods: simple average, SWT, PCA, and ROC curve. 
+We used a simulated image to quantify and compare the results. 
 
-In this article, we analyzed the methods of fusion of edges evidence in Polsar images. First, we found the edges evidence using the method of maximum likelihood in the intensities channels. Secondly, fusion methods simple average, SWT, PCA, and ROC curve were applied. 
+The detection was performed by maximum likelihood, in which the function is not smooth and presents many local minima.
+Therefore, we stress the difficulty of using classical optimization methods. 
+To solve the problem, we applied Simulated Annealing because it is appropriate to optimize non-differentiable functions.
 
-To quantify and compare the performance of the edge detection process, we use a simulated image. In this image, we apply the method to get the $\ell{\jmath}$ function, which has the characteristic of not being differential in many places. Therefore, we recognize the difficulties of using classical optimization methods. To solve the problem, we apply the Simulated Annealing approach because it works correctly in non-differentiable functions.
+We measured the quality of the fusion with the probability of detecting correctly the edge.
+We observed excellent performance in detecting evidence of edges in the intensity channels.
 
- The metric, based on the probability of detecting the edge, was applied to the proposed method by showing excellent performance in detecting evidence of edges in the intensity channels.
- 
 From the obtained results, we identified the viability of increasing the number of channels used for edge evidence detection, paving the way to research new fusion methods in PolSAR image.
 
 \bibliographystyle{IEEEtran}
-\bibliography{bibliografia}
+\bibliography{../../../Misc/bibliografia}
 \end{document}
