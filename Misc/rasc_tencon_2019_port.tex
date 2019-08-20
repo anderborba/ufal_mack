@@ -499,11 +499,21 @@ O método da estatística ROC não usa todos os pixeis dos canais, pois o métod
 %\end{figure}
 
 \section{Conclusão}\label{sec_08}
-Nesse estudo, a abordagem de modelagem estatística foi aplicada em imagem de dados PolSAR real. Buscando-se entender a importância da informação de cada um desses canais na fusão de evidências de bordas. Foi aplicado o algoritmi proposto em três canais de intendidade (hh), (hv) e (vv). Inicialmente, encontramos as evidências de bordas, usando o método da máxima verosimilhança em cada um dos canais, obtendo-se bons resultados. Ao analisar os resultados obtidos nos três canais, observou-se que o método para a detecção de bordas funcionou bem nos canais (hh) e (hv) atingindo melhor acurácia em relação ao canal (vv).
 
-Posteriormente, foi realizado a fusão de evidências de bordas com os métodos de média simples, SWT, PCA e estatística ROC. Os três primeiros métodos tiveram bom desempenho como mostram os resultados. O método de estatística ROC suprimiu vários pontos de bordas, comportamento esperado por ser um método que usa limiares, entretanto, ao ser aplicado em maior número de canais, seu desempenho tende a melhorar. 
+Neste artigo, Métodos de fusão de evidências de bordas em imagens Polsar foram analisados. Primeiramente, encontramos as evidências de bordas usando o método de máxima verossimilhança nos canais de intesidades $\text{(hh)}$, $\text{(hv)}$ e $\text{(vv)}$. Posteriormente realizamos a fusão das evidências de bordas nos diferentes canais por meio dos métodos fusão por média simples, SWT, PCA e curva ROC.
 
-Com base nesses resultados um possível caminho para melhorá-los seria aumentar o número de canais estudados. Abrindo espaço para futuras pesquisa aplicando-se outros métodos de fusão de evidências de bordas.
+Com intuito de quantificar e comparar a performance do processo de detecção de bordas é usado uma imagem simulada. Na imagem simulada que foi gerada é aplicado o método para obtenção  da função $\ell(\jmath)$, a qual tem a característica de não ser diferenciável em vários pontos do domínio, portanto teromos problemas na utilizaão de métodos clássicos de otimização. O problema foi resolvido com aplicação de um método baseado no {\it Simulated annealing} conhecido por trabalhar adequadamente em funções não diferenciáveis.
+
+ A métrica, baseada na probabilidade de detectar a borda corretamente, é aplicada para o método proposto mostrando bom desempenho na detecção de evidências de bordas no canais de intensidade.
+  
+  Para dados reais usamos a imagem de Flevoland com a região de interesse destacada na forma de linhas radiais como mostra a figura. Além disso, temos a intenção de analisar o comportamento dos métodos de detecção de bordas nessas imagens. Inicialmente, notou-se o bom desempenho para detectar as evidências de bordas nos canais de intensidade.   
+   
+  
+%Nesse estudo, a abordagem de modelagem estatística foi aplicada em imagem de dados PolSAR real. Buscando-se entender a importância da informação de cada um desses canais na fusão de evidências de bordas. Foi aplicado o algoritmi proposto em três canais de intendidade (hh), (hv) e (vv). Inicialmente, encontramos as evidências de bordas, usando o método da máxima verosimilhança em cada um dos canais, obtendo-se bons resultados. Ao analisar os resultados obtidos nos três canais, observou-se que o método para a detecção de bordas funcionou bem nos canais (hh) e (hv) atingindo melhor acurácia em relação ao canal (vv).
+
+%Posteriormente, foi realizado a fusão de evidências de bordas com os métodos de média simples, SWT, PCA e estatística ROC. Os três primeiros métodos tiveram bom desempenho como mostram os resultados. O método de estatística ROC suprimiu vários pontos de bordas, comportamento esperado por ser um método que usa limiares, entretanto, ao ser aplicado em maior número de canais, seu desempenho tende a melhorar. 
+
+%Com base nesses resultados um possível caminho para melhorá-los seria aumentar o número de canais estudados. Abrindo espaço para futuras pesquisa aplicando-se outros métodos de fusão de evidências de bordas.
 
 \bibliographystyle{IEEEtran}
 \bibliography{bibliografia}

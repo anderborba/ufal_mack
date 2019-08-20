@@ -376,7 +376,7 @@ It is noteworthy that GSaM correctly identified the maximum evidence, even in th
      \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_crop_teste}
      }
-     \subfloat[Evidences in channel $text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_crop_teste}
      }
      \caption{Edges evidences}
@@ -413,13 +413,15 @@ This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
 
 \section{Conclusion}\label{sec_09}
 
-In this study, the statistical modelling approach was applied to real PolSAR data imaging. 
-Aiming to understand the importance of information from each channel in the edge evidence fusions. 
-The proposed algorithms were applied in intensity channels $(hh)$, $(hv)$ and $(vv)$, it was found the evidence of edges, using the maximum likelihood  method in each channel, obtaining good results. Upon analysis obtained in the intensity channels, it was observed that the method for the edge detections worked better in the channels $(hh)$ and $(hv)$ than the channel $(vv)$.
 
-Subsequently, the fusion of evidence of edges was performed with the methods of simple average, SWT, PCA and ROC statistics. The first three methods performed well as shown in the results. The ROC statistics method suppressed several edge points, a behaviour expected because it is a method that uses thresholds; however, when applied in a larger number of channels, its performance tends to improve. 
+In this article, we analyzed the methods of fusion of edges evidence in Polsar images. First, we found the edges evidence using the method of maximum likelihood in the intensities channels. Secondly, fusion methods simple average, SWT, PCA, and ROC curve were applied. 
 
-Based on these results, a possible way to improve the results would be to increase the number of channels used. This analysis open a path for future researches with application of different methods for the fusion of evidences for edges detection in PolSAR images.
+To quantify and compare the performance of the edge detection process, we use a simulated image. In this image, we apply the method to get the $\ell{\jmath}$ function, which has the characteristic of not being differential in many places. Therefore, we recognize the difficulties of using classical optimization methods. To solve the problem, we apply the Simulated Annealing approach because it works correctly in non-differentiable functions.
+
+ The metric, based on the probability of detecting the edge, was applied to the proposed method by showing excellent performance in detecting evidence of edges in the intensity channels.
+ 
+From the obtained results, we identified the viability of increasing the number of channels used for edge evidence detection, paving the way to research new fusion methods in PolSAR image.
+
 \bibliographystyle{IEEEtran}
 \bibliography{bibliografia}
 \end{document}
