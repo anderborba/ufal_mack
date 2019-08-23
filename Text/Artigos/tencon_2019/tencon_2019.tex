@@ -59,7 +59,6 @@ The present study discusses a detection method based on the fusion of evidences 
 The method consists of detecting transition points in the finest strip of data which spans two regions using the maximum likelihood.
 This is applied to each of the three intensity channels (hh), (hv) and (vv). 
 The fusion methods are simple average, stationary wavelet transform (SWT), principal component analysis (PCA), and ROC statistics.  
-%%% Esperar o artigo ficar pronto e pontuar o que foi feito
 The results indicate improvement performance of the approach in detecting edges with possible paths for future research.
 \end{abstract}
 
@@ -81,7 +80,8 @@ This approach has been followed by Refs.~\cite{sglmla,sg} in order to extract va
 This paper follows the statistical modeling approach, mainly the techniques described in Refs.~\cite{fbgm, nhfc} using the Wishart distribution.
 The basis for the fusion of information is described in Refs.~\cite{mit, sg}. 
 
-The objective of this work shows the viability of a procedure to detect edges in each channel of a PolSAR image and to perform the fusion of evidences for edge detection. The intent is understanding and quantifying the importance of the information provided by each channel in order to provide better edge detection.
+
+The objective of this work shows the viability of a procedure for edge detection in each channel of a PolSAR image and then performed the fusion of evidences. The intent is understanding and quantifying the importance of the information provided by each channel in order to better edge detection.
 
 The article is structured as follows: 
 Section~\ref{sec_02} describes the statistical modeling for PolSAR data, 
@@ -92,7 +92,7 @@ Numerical results are shown and analyzed in Section~\ref{sec_08} and, finally, S
 \section{Statistical modeling for PolSAR data}\label{sec_02}
 
 Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. 
-For each pixel, we have a matrix of scattering coefficients, which are complex numbers and describe the transformation from the transmitted electromagnetic field to the received electromagnetic field.
+For each pixel, there is a matrix of scattering coefficients, which are complex numbers and describe the transformation from the transmitted electromagnetic field to the received electromagnetic field.
 
 The transformation can be represented as
 \begin{equation*}
@@ -117,7 +117,7 @@ The transformation can be represented as
 \end{equation*}
 where $k$ denotes the wave number, $\hat{\imath}$ is the complex unit, and $\text{r}$ is the distance between the radar and the target. 
 The electromagnetic field with components $E_{\text{i}}^{\text{j}}$ has a subscribed index denoting horizontal ($\text{h}$) or vertical ($\text{v}$) polarization, while the superscript index indicates the received ($\text{r}$) or transmitted ($\text{t}$) wave. 
-Defining $S_\text{ij}$ as the complex scattering coefficients, such that the indexes $\text{i}$ and $\text{j}$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with wave transmitted in the vertical direction ($\text{v}$) and received in the horizontal direction ($\text{h}$).
+Defining $S_\text{ij}$ as the complex scattering coefficients, such that the indexes $\text{i}$ and $\text{j}$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with the wave transmitted in the vertical direction ($\text{v}$) and received in the horizontal direction ($\text{h}$).
 
 The complex scattering matrix $\mathbf{S}$ is defined by
 \begin{equation}
@@ -129,10 +129,10 @@ The complex scattering matrix $\mathbf{S}$ is defined by
 \right],
 \label{eq_01}
 \end{equation}
-and if the means of propagation of waves is reciprocal, then the reciprocity theorem, Ref.~\cite{lp}, allows us to state the scattering matrix as being Hermitian. 
+and if the medium of propagation of waves is reciprocal, then the reciprocity theorem, Ref.~\cite{lp}, allows to state the scattering matrix as being Hermitian. 
 In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
 
-Following Refs.~\cite{good, lee}, we will assume that the distribution of $\mathbf{s}$ is Gaussian circular complex multivariate with zero mean $N^{\mathbbm C}_3(0,\mathbf{\Sigma})$, and probability density function (pdf) given by:
+Following Refs.~\cite{good, lee}, the distribution of $\mathbf{s}$ is assumed to be  Gaussian circular complex multivariate with zero mean $N^{\mathbbm C}_3(0,\mathbf{\Sigma})$, and probability density function (pdf) given by:
 \begin{equation}
     f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}),
     \label{eq_02}
@@ -165,14 +165,13 @@ where, $\traco(\cdot)$ is the trace operator of an array, $\Gamma_m(L)$ is a mul
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
 \end{equation*}
 and $\Gamma(\cdot)$ is the Gamma function.
-In our study, we will consider $m=3$. 
-We denote this situation $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. 
-Since there is no ambiguity, we will use $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ to represent the covariance matrix associated with $\mathbf{S}$.
+In this study, $m=3$ is considered. This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. 
+Since there is no ambiguity, $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ is used  to represent the covariance matrix associated with $\mathbf{S}$.
 
 \section{Edge Detection}\label{sec_04}
 
 Most of the usual techniques for edge detection, e.g., 
-Sobel, Canny, Laplacian of Gaussian (LoG) and pyramidal LoG, assume additive Gaussian noise and, thus, are ineffective for PolSAR imagery.
+Sobel, Canny, Laplacian of Gaussian (LoG) and pyramidal LoG, assume additive Gaussian noise and, thus, they are ineffective for PolSAR imagery.
 The noise in these kinds of images is multiplicative, making edge detection in SAR images a challenging task.
 
 The main idea for edge detection is based on Ref.~\cite{nhfc, gmbf} and show how to detect the transition point in a thin strip between two regions of the image. The transition point is considered as edge evidence. 
@@ -203,7 +202,7 @@ and the logarithmic likelihood function, which is also called the log-likelihood
 
 A maximum likelihood estimator is any point in $\Theta$ satisfying $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$ or, equivalently, $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}\ell(\theta;\mathbf{x})$.
 
-Consider now that the sample $\mathbf{Z}^T=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)$ is split in two: $\mathbf{Z}_1,\dots,\mathbf{Z}_j$ and $\mathbf{Z}_{j+1},\dots,\mathbf{Z}_j$.
+Consider now that the sample $\mathbf{Z}^T=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)$ is split into two: $\mathbf{Z}_1,\dots,\mathbf{Z}_j$ and $\mathbf{Z}_{j+1},\dots,\mathbf{Z}_j$.
 These parts may belong to two different Wishart distributions: those characterized by  $\mathbf{\Sigma_A}$, and $\mathbf{\Sigma_B}$, both with the same number of looks $L$.
 Finding the edge consists of finding the point $j$ (or $j+1$) that separates them.
 
@@ -235,7 +234,7 @@ The estimates for the covariance matrices can be found using the maximum likelih
 \right.\label{eq_08}
 \end{equation}
 
-After algebraic manipulations on each term of the summation using the equation~\eqref{eq_08}, we obtain
+After algebraic manipulations on each term of the summation using the equation~\eqref{eq_08}, it is obtained:
 \begin{align}\nonumber
 	\ell(j)&=N\left[mL(\ln{L}-1)-\ln{\Gamma_m(L)}\right]\\\nonumber
 	&- L\left[j\ln{|\mathbf{\widehat{\Sigma}}_{A}(j)|} +(N-j)\ln{|\mathbf{\widehat{\Sigma}}_{B}(j)|}\right] \\
@@ -249,7 +248,7 @@ The argument of the maximum $\widehat{\jmath}$ is the edge evidence that will be
 The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on Refs.~\cite{nhfc,gamf}. 
 The image has $400\times400$ pixels and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}.
 
-For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ we simulate a PolSAR image $I_{k_1,k_2}$: 
+For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ a PolSAR image $I_{k_1,k_2}$ is simulated: 
 samples of $W_G(\Sigma_{k_1}, 4)$ in the left half, and 
 samples of $W_G(\Sigma_{k_2}, 4)$ in the right half.
 The image has $400 \times 400$ pixels.
@@ -264,13 +263,10 @@ The image has $400 \times 400$ pixels.
      \label{fig_Edges-Evidence}
 \end{figure}
 
-The Pauli decomposition is based on the linear combination of intensity channels: $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}-I_{\text{vv}}}, \mathbf{I_\text{hv}})$. 
-This decomposition is shown in Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}. 
+The Pauli decomposition is based on the linear combination of intensity channels: $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}-I_{\text{vv}}}, \mathbf{I_\text{hv}})$. This decomposition shows the evidence of edge in the middle line, as presented in Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}. 
 
 Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:b}. 
 shows the density function of $\sigma_\text{hh}$ with parameters extracted from real data for forest and urban areas: $\sigma_\text{hh}=962892$ and $\sigma_\text{hh}= 360932$.  
-
-Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a} shows the evidence of edge in the middle line.
     
 \begin{figure}[hbt]
 	\centering
@@ -288,11 +284,10 @@ Fig.~\ref{fig_Edges-Evidence}~\subref{fig_Edges-Evidence:a} shows the evidence o
 The functions have a peak indicating the evidence of the edge that should be captured, but the functions are not smooth, hindering the use of optimization methods that require the calculation of the derivative.
 This problem was solved using Generalized Simulated Annealing (GenSA)~\cite{xgsh}, suitable for non-differentiable functions.
     
-We measured the error simulating $400$ independent images and finding $\widehat\jmath$ in each line.
-By construction, we consider the vertical line $200$ as the real edge in each replication, so the error for this replication is the absolute value of the difference between this point and the estimated value. 
-Thus, the error for each replication is computed by $E(r) = |200 - \widehat{\jmath}(r)|$, $1\leq r \leq 400$.
+The error is measured simulating $400$ independent images and finding $\widehat\jmath$ in each line.
+By construction, the vertical line $200$ is considered as the real edge in each replication, so the error for this replication is the absolute value of the difference between this point and the estimated value, and it is computed by $E(r) = |200 - \widehat{\jmath}(r)|$, $1\leq r \leq 400$.
 
-We used relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
+Relative frequencies to estimate the probability of having an error smaller than a number of pixels is used. 
 Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)=\frac{H(k)}{400}$. 
 In the tests performed in this section, $k$ varies between $1$ and $10$. 
 The algorithm is described in Ref.~\cite{fbgm}.
@@ -353,12 +348,12 @@ The ROC method was proposed and described in~\cite{gs,fawcett}:
 
 \section{Numerical results}\label{sec_08}
 
-We used the PolSAR image of the Flevoland region in the Netherlands, with $4$ looks, for the numerical tests. 
+The PolSAR image of the Flevoland region in the Netherlands is used, with $4$ looks, for the numerical tests. 
 Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radial lines for edge detection.
 
 \begin{figure}[hbt]
 \centering
-	\includegraphics[width=\linewidth]{flevoland_radial_4_look}
+	\includegraphics[width=\linewidth]{flevoland_radial_4_look_black}
 	\caption{Region of interest (ROI) in the image of Flevoland.}
 \label{flevoland_radial_4look}
 \end{figure}
@@ -383,9 +378,7 @@ It is noteworthy that GenSA identified the maximum evidence correctly, even in t
      \label{evidencias_hh_hv_vv}
    \end{figure*}
 
-Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. 
-
-The methods shown in Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c} and~\subref{fusion_met:d} use all the pixels detected in the three channels by using different weights: 
+Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. The methods use all the pixels detected in the three channels by using different weights: 
 the average weights the pixels equally, SWT finds the coefficients of the linear combination of its wavelet bases, and PCA weights by the eigenvalues of the covariance matrix.
 
 The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds for discarding pixels. 
@@ -413,19 +406,17 @@ This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
 
 \section{Conclusion}\label{sec_09}
 
-In this article, we analyzed methods of fusion of edges evidence in Polsar images. 
-First, we found the edges evidence using the method of maximum likelihood in the three intensities channels. 
-Secondly, we applied fusion methods: simple average, SWT, PCA, and ROC curve. 
-We used a simulated image to quantify and compare the results. 
+In this article, methods for fusion of edges evidence in PolSAR images. 
+First, edges evidence were found using the method of maximum likelihood in the three intensities channels. 
+Second, fusion methods were applied, simple average, SWT, PCA, and ROC curve. A simulated image was used to quantify and compare the results. 
 
 The detection was performed by maximum likelihood, in which the function is not smooth and presents many local minima.
-Therefore, we stress the difficulty of using classical optimization methods. 
-To solve the problem, we applied Simulated Annealing because it is appropriate to optimize non-differentiable functions.
+Therefore, the difficulty of using classical optimization methods was stressed. 
+To solve this problem, Simulated Annealing was applied because it is appropriate to optimize non-differentiable functions.
 
-We measured the quality of the fusion with the probability of detecting the edge correctly.
-We observed excellent performance in detecting evidence of edges in the intensity channels.
+The quality of the fusion with the probability of detecting the edge was correctly measured. There is an improvement in detecting evidence of edges in the intensity channels.
 
-From the obtained results, we identified the viability of increasing the number of channels used for edge evidence detection, paving the way to research new fusion methods in PolSAR image.
+From the obtained results, the viability of increasing the number of channels used for edge evidence detection was identified, paving the way to research new fusion methods in PolSAR image.
 
 \bibliographystyle{IEEEtran}
 \bibliography{../../../Misc/bibliografia}
