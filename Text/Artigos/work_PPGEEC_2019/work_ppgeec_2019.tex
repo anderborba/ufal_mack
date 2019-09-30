@@ -57,7 +57,7 @@
 	\begin{abstract}
 Polarimetric Synthetic Aperture Radar (PolSAR) has achieved an important position as a remote sensing imaging method. 
 However, PolSAR images are contaminated with speckle noise, making its processing and analysis challenging tasks. 
-The present study discusses a detection method based on the fusion of evidences obtained in the intensity channels of multilook PolSAR images.
+The present study discusses an edge detection method based on the fusion of evidences obtained in the intensity channels of multilook PolSAR images.
 The method consists of detecting transition points in the finest strip of data which spans two regions using the maximum likelihood.
 This is applied to each of the three intensity channels (hh), (hv) and (vv). 
 The fusion methods are simple average, stationary wavelet transform (SWT), principal component analysis (PCA), and ROC statistics.  
@@ -72,34 +72,38 @@ Among the available edge detection techniques for SAR imagery, it is worth menti
 
 Alternatively, techniques based on statistical modeling have been used in edge detection, Refs.~\cite{gmbf, fbgm, horrit, gfn} and, more recently,  utilizing \textit{Deep Learning}, Refs.~\cite{bac, ztmxzxf, tabmm, xstz}.
 
-This work relies on ideas stemming from information fusion.
+This work relies on ideas stemming from Information Fusion.
 This approach has been followed by Refs.~\cite{sglmla,sg} in order to extract valuable knowledge from remotely sensed data.
 
 This work follows the statistical modeling approach, mainly the techniques described in Refs.~\cite{fbgm, nhfc} using the Wishart distribution.
-The basis for the fusion of information is described in Refs.~\cite{mit, sg}. 
+The basis for the fusion of information is described in Refs.~\cite{sg,mit}. 
 
+This work is shows the viability of a procedure for edge detection in each channel of a PolSAR image, followed by the fusion of evidences. 
+The intent is understanding and quantifying the importance of the information provided by each channel in order to obtain better edge detection.
 
-The objective of this work shows the viability of a procedure for edge detection in each channel of a PolSAR image and then performed the fusion of evidences. The intent is understanding and quantifying the importance of the information provided by each channel in order to better edge detection.
+\section{METHODS} \label{sec:method}
 
-	\section{METHODS} \label{sec:method}
-Most of the usual techniques for edge detection, e.g., 
+Most of usual techniques for edge detection, e.g., 
 Sobel, Canny, Laplacian of Gaussian (LoG) and pyramidal LoG, assume additive Gaussian noise and, thus, they are ineffective for PolSAR imagery.
-The noise in these kinds of images is multiplicative, making edge detection in SAR images a challenging task.
+The noise in this kind of images is multiplicative, making edge detection a challenging task.
 
-The main idea for edge detection is based on Ref.~\cite{nhfc, gmbf} and show how to detect the transition point in a thin strip between two regions of the image. The transition point is considered as edge evidence. 
+The main idea for edge detection is based on Ref.~\cite{nhfc, gmbf} which shows how to detect the transition point in a thin strip between two regions of the image. 
+The transition point is considered as edge evidence. 
 
 The following procedure is proposed:
 \begin{enumerate}
 	\item identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
 	\item cast rays from the centroid to the outside of the area;
-	\item collect data around the rays using the  Bresenham's midpoint line algorithm, ideally the size of a pixel;
+	\item collect data around the rays using the  Bresenham's midpoint line algorithm, ideally one pixel width;
 	\item detect points in the data strips which provide evidence of changes in their statistical properties, i.e., a transition point that defines edge evidence;
 	\item use the Generalized Simulated Annealing (GenSA) method, Ref.~\cite{xgsh}, to find maximum points in the functions of interest;
-	\item fuse the evidence of detected edges in the $(hh)$, $(hv)$ and $(vv)$ channels using simple average, PCA, SWT and ROC curve.
+	\item fuse the evidence of detected edges in the hh, hv and vv channels using simple average, PCA, SWT and ROC curve.
 \end{enumerate}
 With this, fully polarized data is not required, only the intensity channels.
-	\section{PARTIALS RESULTS} \label{sec:part_result}
-The PolSAR image of the Flevoland region in the Netherlands is used, with $4$ looks, for the numerical tests. 
+	
+\section{PARTIALS RESULTS} \label{sec:part_result}
+
+We used the PolSAR image from the Flevoland region, Netherlands, with $4$ looks, for the numerical tests. 
 Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radial lines for edge detection.
 
 \begin{figure}[hbt]
@@ -109,10 +113,10 @@ Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radia
 \label{flevoland_radial_4look}
 \end{figure}
 
-Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $hh$, $hv$ and $vv$ channels. 
-The algorithm achieves better accuracy in channels $hh$ and $hv$ than in channel $vv$.  
+Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the hh, hv and vv channels. 
+The algorithm achieves better accuracy in channels hh and hv than in channel vv.  
 
-It is noteworthy that GenSA identified the maximum evidence correctly, even in the presence of multiple local maxima as in the case of the $vv$ channel.
+It is noteworthy that GenSA identified the maximum evidence correctly, even in the presence of multiple local maxima as in the case of the vv channel.
 
 \begin{figure*}[hbt]
 	\centering
@@ -129,8 +133,11 @@ It is noteworthy that GenSA identified the maximum evidence correctly, even in t
      \label{evidencias_hh_hv_vv}
    \end{figure*}
 
-Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. The methods use all the pixels detected in the three channels by using different weights: 
-the average weights the pixels equally, SWT finds the coefficients of the linear combination of its wavelet bases, and PCA weights by the eigenvalues of the covariance matrix.
+Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. 
+The methods use all the pixels detected in the three channels by using different weights: 
+the average weights the pixels equally, 
+SWT finds the coefficients of the linear combination of its wavelet bases, and 
+PCA weights by the eigenvalues of the covariance matrix.
 
 The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds for discarding pixels. 
 This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
@@ -155,18 +162,19 @@ This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
      \label{fusion_met}
 \end{figure*}
 
+\section{CONCLUSION}
 
-
-	\section{CONCLUSION}
-In this article, methods for fusion of edges evidence in PolSAR images. 
-First, edges evidence were found using the method of maximum likelihood in the three intensities channels. 
-Second, fusion methods were applied, simple average, SWT, PCA, and ROC curve. A simulated image was used to quantify and compare the results. 
+We presented methods for fusion of edges evidence in PolSAR images. 
+First, we found edges evidence using the method of maximum likelihood in the three intensities channels. 
+Second, we applied fusion methods: simple average, SWT, PCA, and ROC curve. 
+A simulated image was used to quantify and compare the results. 
 
 The detection was performed by maximum likelihood, in which the function is not smooth and presents many local maximal.
 Therefore, the difficulty of using classical optimization methods was stressed. 
 To solve this problem, Simulated Annealing was applied because it is appropriate to optimize non-differentiable functions.
 
-The quality of the fusion with the probability of detecting the edge was correctly measured. There is an improvement in detecting evidence of edges in the intensity channels.
+We were able to quantify the quality of the fusion with the probability of detecting correctly the edge. 
+There is an improvement in detecting evidence of edges in the intensity channels.
 
 From the obtained results, the viability of increasing the number of channels used for edge evidence detection was identified, paving the way to research new fusion methods in PolSAR image.
 
