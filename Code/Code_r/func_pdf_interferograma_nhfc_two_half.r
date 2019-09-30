@@ -24,14 +24,16 @@ require(latex2exp)
 source("func_soma_1_to_j.r")
 source("func_soma_j_to_n.r")
 source("fpmgamma.r")
-source("func_obj_l.r")
+source("func_obj_l_gauss.r")
 # Programa principal
 ## Leitura do arquivo *.txt no diretorio /Data 
 setwd("../..")
 setwd("Data")
-#mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
+mat <- scan('Phantom_nhfc_prod_0.000_1_2_1.txt')
+mat1 <- scan('Phantom_nhfc_0.000_1_2_1.txt')
+mat2 <- scan('Phantom_nhfc_0.000_1_2_2.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_2.txt')
-mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_4.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_5.txt')
 #mat <- scan('Phantom_nhfc_0.000_1_2_6.txt')
@@ -47,22 +49,53 @@ mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
 setwd("..")
 setwd("Code/Code_r")
 ## retornou ao diretorio de trabalho /Code/Code_r
-mat <- matrix(mat, ncol = 400, byrow = TRUE)
-z  <- matrix(0, 1, 400)
-z <-  mat[200,1:400] 
+mat  <- matrix(mat,  ncol = 400, byrow = TRUE)
+mat1 <- matrix(mat1, ncol = 400, byrow = TRUE)
+mat2 <- matrix(mat2, ncol = 400, byrow = TRUE)
+z   <- matrix(0, 1, 400)
+z1  <- matrix(0, 1, 400)
+z2  <- matrix(0, 1, 400)
+z  <-  mat[200,1:400] 
+z1 <-  mat1[200,1:400] 
+z2 <-  mat2[200,1:400] 
 pm = 1
 L  = 4
 N  = 400
 x  = seq(1, N - 1, 1 )
 lobj <- rep(0, (N - 1))
-for (j in 1 : (N - 1) ){
-	lobj[j] <- -func_obj_l(j)
+ksi <- rep(0, N)
+for (j in 1 : N ){
+	ksi[j] = z[j] / sqrt(z1[j] * z2[j])
 }
-df <- data.frame(x, lobj)
+#z <- ksi
+#rho <-  sum( z[1:200]) / 200
+#rho2 <- rho^2
+#rho1 <- sum( z[201:400]) / 400
+#rho12 <- rho1^2
+aux1 <- sum(z[1:200])  / 200
+aux2 <- sum(z1[1:200]) / 200
+aux3 <- sum(z2[1:200]) / 200
+rho <- aux1 / sqrt(aux2 * aux3)
+rho2 <- rho^2
+aux4 <- sum(z[201:400])  / 200
+aux5 <- sum(z1[201:400]) / 200
+aux6 <- sum(z2[201:400]) / 200
+rho1 <- aux4 / sqrt(aux5 * aux6)
+rho12 <- rho1^2
+z <- ksi
+look1 <- (4 * L^(L + 1) * z[1:  200]^L)/(gamma(L) * (1 - rho2 )) * besselI((2 * rho  * L * z[1:200]  ) / (1 - rho2 ), 0) * besselK((2 * L * z[1:  200]) / (1 - rho2)  , L - 1) 
+look2 <- (4 * L^(L + 1) * z[201:400]^L)/(gamma(L) * (1 - rho12)) * besselI((2 * rho1 * L * z[201:400]) / (1 - rho12), 0) * besselK((2 * L * z[201:400]) / (1 - rho12) , L - 1) 
+df1 <- data.frame(z[1  :200], look1, fix.empty.names = TRUE)
+df2 <- data.frame(z[201:400], look2, fix.empty.names = TRUE)
 ##### realizar o plot usando o ggplot #######################
 #### Retirei esse comando para gerar figuras para artigo em inglês 
 #p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Position $j$ - ésima posição ')) + ylab(TeX('$l(j)$')) + ggtitle(TeX('Função detecção por máxima verossimilhança')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
-p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
+p1 <- ggplot(df1, aes()) + 
+     geom_line(aes(x = z[1:200] , y = look1))
+p2 <- ggplot(df2, aes()) + 
+     geom_line(aes(x = z[201:400] , y = look2))
+ #    geom_line(aes(x = z[201:400] , y = look2)) 
+#   + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 # escrita no diretorio /Text/Dissertacao/figura
 #setwd("../..")
 #setwd("Text/Dissertacao/figuras")
@@ -70,4 +103,4 @@ p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(Te
 #setwd("../../..")
 #setwd("Code/Code_r")
 # retornou ao diretorio /Code/Code_r
-print(p)
+print(p1)

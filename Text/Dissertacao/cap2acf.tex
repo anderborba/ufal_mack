@@ -466,7 +466,7 @@ $R_{hh}$ &$\sigma_{hh}^2$ & 0                  &$\rho_{hh,hv}\sigma_{hh}\sigma_{
 \end{tabular}
 \end{sidewaystable}
 \section{Funções de densidade}
-\subsection{Função de densidade Wishart}
+\subsection{Função de densidade Wishart para os canais de intensidade}
 Para os canais $(hh)$, $(hv)$ e $(vv)$ vamos usar a distribuição Wishart (PDF) descrita por
 
 \begin{equation}
@@ -591,84 +591,7 @@ Realizar a transformação
 \end{array}
 \right],
 \end{equation}
-\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
-A \textbf{função de verossimilhança} da amostra descrita por (\ref{}) é dada pela produtório das funções de densidade respectivamente associadas a cada amostra gerando a a função $L$
-\begin{equation}
-	L(j)=\prod_{k=1}^{j}p(\mathbf{Z}_{k}^{'}) \prod_{k=j+1}^{N}p(\mathbf{Z}_{k}^{'}), \\
-\end{equation}
-onde $\mathbf{Z}_{k}^{'}$ é uma possível aproximação da matriz randômica descrita em (ref).
-Usando a equação (\ref) e propriedades de logaritmos natural teremos para cada termo do produtório (\ref{cap_acf_18}) uma \textbf{função de log-verossimilhança}. Assim, encontramos uma função dependente de $j$
-\begin{equation}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln p(\mathbf{Z}_{k}^{'})\\
-	             &+&\sum_{k=j+1}^{N}\ln p(\mathbf{Z}_{k}^{'}).
-\end{array}
-\end{equation}
 
-Substituindo a função de densidade e realizando as operações algébricas teremos
-\begin{equation}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&N\ln(4)+N(L+1)\ln(L)\\
-	             &-&N\ln(\Gamma(L))-N\ln(1-|\rho|^2)\\
-	             &+&\sum_{k=1}^{j}\ln(\xi)+\sum_{k=j+1}^{N}\ln(\xi) \\
-	             &+&\sum_{k=1}^{j}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)        \\
-	             &+&\sum_{k=1}^{j}K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)         \\
-\end{array}
-\end{equation}
-
-
-
-\begin{equation}
-\begin{array}{ccc}
-	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-\subsection{Função de densidade para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
-A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
-
-\begin{equation}\label{eq_06}
-	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
-\end{equation}
-onde é definimos $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
-
-A PDF para a variável  $\xi$ foi obtida no artigo (\cite{lee})
-\begin{equation}\label{eq_07}
-\begin{array}{ccc}
-	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas.
-
-A PDF para a magnitude não normalizada $g$ pode ser obtida pelas equações (\ref{eq_07}) usando (\ref{eq_06}),
-\begin{equation}
-\begin{array}{ccc}\label{eq_08}
-	f(g)&=&\frac{4L^{L+1}g^L}{\Gamma(L)(1-|\rho|^2)h^{L+1}}I_0\left(\frac{2|\rho|Lg}{(1-|\rho|^2)h}\right)K_{L-1}\left(\frac{2Lg}{(1-|\rho|^2)h}\right).
-		\end{array}
-\end{equation}
-
-\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
-As funções de verossimilhança das amostras descritas por (\ref{eq_10}) e (\ref{eq_11}) serão usadas juntamente com a função de densidade (pdf) para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$. Partindo de 
-\begin{equation*}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
-	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
-\end{array}
-\end{equation*}
-e usando a distribuição (\ref{eq_08}) para duas amostras diferentes $A$ e $B$ teremos,
-\begin{equation}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&N\ln(4)+N(L+1)\ln(L)\\
-	             &-&N\ln(\Gamma(L))-N\ln(1-|\rho|^2)\\
-	             &+&L\sum_{k=1}^{j}\ln(g_k)+L\sum_{k=j+1}^{N}\ln(g_k) \\
-	             &-&(L+1)\sum_{k=1}^{j}\ln(h_k)\\
-	             &-&(L+1)\sum_{k=j+1}^{N}\ln(h_k) \\
-	             &+&\sum_{k=1}^{j}\ln \left(I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\right)\\ 
-	             &+&\sum_{k=j+1}^{N} \ln \left(I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\right)        \\
-	             &+&\sum_{k=1}^{j}\ln \left(K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right)\\
-	             &+&\sum_{k=j+1}^{N}\ln \left( K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right)         \\
-	             
-\end{array}
-\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -916,6 +839,56 @@ O estimador de máxima verossimilhança $\widehat{\jmath}_{ML}$ é uma evidênci
 	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}l(j).  \\
 \end{array}
 \end{equation}
+
+\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+A \textbf{função de verossimilhança} da amostra descrita por (\ref{}) é dada pela produtório das funções de densidade respectivamente associadas a cada amostra gerando a a função $L$
+\begin{equation}
+	L(j)=\prod_{k=1}^{j}p(\mathbf{Z}_{k}^{'}) \prod_{k=j+1}^{N}p(\mathbf{Z}_{k}^{'}), \\
+\end{equation}
+onde $\mathbf{Z}_{k}^{'}$ é uma possível aproximação da matriz randômica descrita em (ref).
+Usando a equação (\ref) e propriedades de logaritmos natural teremos para cada termo do produtório (\ref{cap_acf_18}) uma \textbf{função de log-verossimilhança}. Assim, encontramos uma função dependente de $j$
+\begin{equation}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln p(\mathbf{Z}_{k}^{'})\\
+	             &+&\sum_{k=j+1}^{N}\ln p(\mathbf{Z}_{k}^{'}).
+\end{array}
+\end{equation}
+
+Substituindo a função de densidade e realizando as operações algébricas teremos
+\begin{equation}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&N\ln 4+N(L+1)\ln L\\
+	             &-&N\ln\Gamma(L)-N\ln(1-|\rho|^2)\\
+	             &+&L\sum_{k=1}^{j}\ln\xi +L\sum_{k=j+1}^{N}\ln\xi \\
+	             &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} \ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)        \\
+	             &+&\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)         \\
+\end{array}
+\end{equation}
+
+
+\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+As funções de verossimilhança das amostras descritas por (\ref{eq_10}) e (\ref{eq_11}) serão usadas juntamente com a função de densidade (pdf) para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$. Partindo de 
+\begin{equation*}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
+	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
+\end{array}
+\end{equation*}
+e usando a distribuição (\ref{eq_08}) para duas amostras diferentes $A$ e $B$ teremos,
+\begin{equation}
+\begin{array}{rcl}
+	l(j)=\ln L(j)&=&N\ln 4+N(L+1)\ln L\\
+	             &-&N\ln\Gamma(L)-N\ln(1-|\rho|^2)\\
+	             &+&L\sum_{k=1}^{j}\ln g_k+L\sum_{k=j+1}^{N}\ln g_k \\
+	             &-&(L+1)\sum_{k=1}^{j}\ln h_k\\
+	             &-&(L+1)\sum_{k=j+1}^{N}\ln h_k \\
+	             &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\\ 
+	             &+&\sum_{k=j+1}^{N} \ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\\
+	             &+&\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\\
+	             &+&\sum_{k=j+1}^{N}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\\
+	             
+\end{array}
+\end{equation}
 \section{Modelos para dados dados PolSAR bivariados}
 
 A matriz de espalhamento complexa {\boldmath S} é definida por
@@ -988,7 +961,7 @@ ainda,
 	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)+i(x_ky_j-x_jy_k) \\
 \end{array}
 \end{equation}
-Portanto
+Portanto1
 \begin{equation}\label{eqn6}
 \begin{array}{ccc}
 	\mathbf{S}_j\overline{\mathbf{S}}_j&=&\overline{\mathbf{S}_j\overline{\mathbf {S}}}_j \\
@@ -1542,8 +1515,9 @@ De acordo com a função densidade de probabilidade (\ref{cap_acf_23}) e usando 
 %%% ACF Para fins de comparação, seria interessante ver as densidades no mesmo gráfico
 
 A figura (\ref{cap_acf_fig01}) foi gerada com auxílio das distribuições Wishart descritas nas equações (\ref{cap_acf_13}) para $L=4$ e matrizes de covariância com $\Sigma_{u}$ e $\Sigma_{f}$ definidos em (\ref{cap_acf_24}) e (\ref{cap_acf_25}).
+
 	
-A imagem de fato é construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, lembrando que a imagem tem dimensão $400 \times 400$. Cada linha  tem duas amostras diferentes geradas com os parâmetros $\Sigma_{u}$ e $\Sigma_{f}$ respectivamente e ainda $L=4$ para as duas amostras.  
+A imagem é construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, lembrando que a imagem tem dimensão $400 \times 400$. Cada linha  tem duas amostras diferentes geradas com os parâmetros $\Sigma_{u}$ e $\Sigma_{f}$ respectivamente e ainda $L=4$ para as duas amostras.  
 
 	O valor $200$ é fixado horizontalmente para termos uma linha contendo as duas amostras, para essa linha é calculado $l(j)$ conforme equação (\ref{cap_acf_21}) que deve ser aplicada nos canais $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ e $\mathbf{I_{vv}}$.  
 \begin{figure}[hbt]
@@ -1608,7 +1582,12 @@ Usaremos frequências relativas para estimar a probabilidade de ter um erro meno
 		\end{array}
 \end{equation}
 
-
+\begin{figure}[hbt]
+	\centering
+	%\includegraphics[scale = 1]{grafico_pdf_gamf_2017_sigma_hh.pdf}
+  \includegraphics[scale = 0.7]{grafico_pdf_nhfc_2014_sigma_hh.pdf}
+	\caption{Funções de densidade para dados simulados.}\label{cap_acf_fig02}
+\end{figure}
 
 \section{Fusão de evidências de bordas}
 

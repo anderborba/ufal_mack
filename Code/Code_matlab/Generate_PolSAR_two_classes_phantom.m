@@ -97,6 +97,8 @@ phantom(1:m,1:ns,7) = reshape(imag(S_class_2(1,3,:)),m,ns);
 phantom(1:m,1:ns,8) = reshape(real(S_class_2(2,3,:)),m,ns);
 phantom(1:m,1:ns,9) = reshape(imag(S_class_2(2,3,:)),m,ns);
 
+whos phantom
+
 % Representative should be the one used to generate the variables
 %R(:,:,1) = R_class_1(:,:);
 %R(:,:,2) = R_class_2(:,:); 

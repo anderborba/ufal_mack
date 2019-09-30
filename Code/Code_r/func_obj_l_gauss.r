@@ -5,26 +5,26 @@
 # assim a subrotina define a funcão objetivo l(j) descrita na eq(5) do artigo NHFC_2014
 # Distribuicao de gauss
 func_obj_l_gauss <- function(param){
-	j <- param
-	#print(j)
-	aux1      = N * log(4) + N * (L + 1) * log(L) - N * log(gamma(L)) - N * log(1 - rho^2)
-	cons1 = (2 * abs(rho) * L) / (1 - rho^2) 
-	cons2 = (2 * L) / (1 - rho^2) 
-	#h1 <- func_soma_1_to_j(j, vh)
-	#h2 <- func_soma_j_to_n(j, N, vh )
-	h1 <- vh[j]
-	h2 <- vh[j]
-        soma1 = L * sum(log(z[1: j]))
-        soma2 = (L + 1) * sum(log(vh[1:j])) 
-	soma3 = sum(log(besselI(cons1 * z[1:j] / h1, 0)))
-        soma4 = sum(log(besselK(cons2 * z[1:j]/ h1, (L - 1))))
-        soma5 = L * sum(log(z[(j+1): N]))
-        soma6 = (L + 1) *  sum(log(vh[(j+1): N])) 
-	soma7 = sum(log(besselI( cons1 * z[(j+1):N] / h2 , 0)))
-	soma8 = sum(log(besselK( cons2 * z[(j+1):N] / h2, L - 1)))
-	func_obj_l_gauss <- aux1+soma1-soma2+soma3+soma4+soma5-soma6+soma7+soma8
-	#func_obj_l_gauss <- aux1+soma1+soma2 
+	soma1 <- 0.0
+        for (i in 1: j){
+		look <-  (4 * L^(L + 1) * z[i]^L) / (gamma(L) * (1 - r1s)) * besselI((2 * rho1 * L * z[i]) / (1 - r1s), 0) * besselK((2 * L * z[i]) / (1 - r1s) , L - 1) 
 
+		soma1 <- soma1 + log(look)
+	}
+	soma2 <- 0.0
+        for (i in (j + 1) : N){
+		look <-  (4 * L^(L + 1) * z[i]^L) / (gamma(L) * (1 - r2s)) * besselI((2 * rho2 * L * z[i]) / (1 - r2s), 0) * besselK((2 * L * z[i]) / (1 - r2s) , L - 1) 
+
+		soma2 <- soma2 + log(look)
+	}
+	#aux1      = N * log(4) + N * (L + 1) * log(L) - N * log(gamma(L)) - N * log(1 - rho^2)
+	#cons1 = (2 * abs(rho) * L) / (1 - rho^2) 
+	#cons2 = (2 * L) / (1 - rho^2) 
+        #soma1 = L * N * log(z[j])
+	#soma2 = N * log(besselI(cons1 * z[j], 0))
+        #soma3 = N * log(besselK(cons2 * z[j], (L - 1)))
+	#func_obj_l_gauss <- aux1 + soma1 + soma2 + soma3
+	func_obj_l_gauss <- soma1 + soma2 
 	return(func_obj_l_gauss)
 }
 

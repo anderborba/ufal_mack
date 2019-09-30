@@ -47,7 +47,7 @@ São Paulo, Brazil \\
 mauricio.marengoni@mackenzie.br}
 \and
 \IEEEauthorblockN{Alejandro C.\ Frery}
-\IEEEauthorblockA{Laboratório de Computação Científica e Análise Numérica -- LACCAN} \\
+\IEEEauthorblockA{Laboratório de Computação Científica e Análise Numérica- LACCAN}
 \textit{UFAL -- Universidade Federal de Alagoas}\\
 Maceió, Brazil \\
 acfrery@laccan.ufal.br}
@@ -284,14 +284,14 @@ shows the density function of $\sigma_\text{hh}$ with parameters extracted from 
 The functions have a peak indicating the evidence of the edge that should be captured, but the functions are not smooth, hindering the use of optimization methods that require the calculation of the derivative.
 This problem was solved using Generalized Simulated Annealing (GenSA)~\cite{xgsh}, suitable for non-differentiable functions.
     
-The error is measured simulating $400$ independent images and finding $\widehat\jmath$ in each line.
+The error is measured simulating $400$ independent images and finding $\widehat\jmath$ in a line fixed.
 By construction, the vertical line $200$ is considered as the real edge in each replication, so the error for this replication is the absolute value of the difference between this point and the estimated value, and it is computed by $E(r) = |200 - \widehat{\jmath}(r)|$, $1\leq r \leq 400$.
 
 Relative frequencies to estimate the probability of having an error smaller than a number of pixels is used. 
 Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)=\frac{H(k)}{400}$. 
 In the tests performed in this section, $k$ varies between $1$ and $10$. 
 The algorithm is described in Ref.~\cite{fbgm}.
-Fig.~\ref{probability_edge_detc} shows these probabilities as computed in each channel $I_\text{hh}$, $I_\text{vv}$ and $I_{vvv}$ of the image. 
+Fig.~\ref{probability_edge_detc} shows these probabilities as computed in each channel $I_\text{hh}$, $I_\text{hv}$ and $I_{vv}$ of the image. 
   
 \begin{figure}[hbt]
 	\centering
@@ -308,7 +308,7 @@ The edge evidence fusion can be calculated by
 \begin{equation}
 	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
 \end{equation} 
-where $nc$ is the number of channels to be used in the fusion, $IE$ image with edges evidences in each channel, and $IF$ image fusion.
+where $nc$ is the number of channels to be used in the fusion, $IE$ is image with edges evidences in each channel, and $IF$ is image fusion.
 More details are presented in Ref.~\cite{mit}.
 
 \subsection{Stationary wavelet transform -- SWT} 
@@ -410,7 +410,7 @@ In this article, methods for fusion of edges evidence in PolSAR images.
 First, edges evidence were found using the method of maximum likelihood in the three intensities channels. 
 Second, fusion methods were applied, simple average, SWT, PCA, and ROC curve. A simulated image was used to quantify and compare the results. 
 
-The detection was performed by maximum likelihood, in which the function is not smooth and presents many local minima.
+The detection was performed by maximum likelihood, in which the function is not smooth and presents many local maximal.
 Therefore, the difficulty of using classical optimization methods was stressed. 
 To solve this problem, Simulated Annealing was applied because it is appropriate to optimize non-differentiable functions.
 
@@ -419,5 +419,5 @@ The quality of the fusion with the probability of detecting the edge was correct
 From the obtained results, the viability of increasing the number of channels used for edge evidence detection was identified, paving the way to research new fusion methods in PolSAR image.
 
 \bibliographystyle{IEEEtran}
-\bibliography{../../../Misc/bibliografia}
+\bibliography{../../../Text/bibliografia}
 \end{document}

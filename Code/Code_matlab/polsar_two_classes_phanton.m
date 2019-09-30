@@ -59,7 +59,7 @@
 % 
 % S1 = S(:,:,3);
 % S2 = S(:,:,2);
-% clase_1 = 3;
+% clase_1 = 1;
 % clase_2 = 2;
 % 
 % Output: 
@@ -103,8 +103,8 @@ d_alpha = 0.1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Geometry of the phantom: do not change these values.
-Height= 400;
-Width = 400;
+Height= 400
+Width = 400
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Load representative of each class: 
 load S_2_classes.mat
@@ -123,18 +123,22 @@ clase_2 = 2;
 ii = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 tic                         % to measure computational cost
-%for alpha = 0: d_alpha: 0
+for alpha = 0: d_alpha: 0
     alpha = 0.0; % print the value on screen 
-    
-    % Generate PolSAR phantom with 2 classes
-    % phantom: the 2 classes data for each class (each region)
-    % R is the representative of each class
-    % Convex sum of classes:
-    %S2 =  alpha * S1 + (1-alpha)*S2;
-    %S(:,:,1) = S1;
-    %S(:,:,2) = S2;
+Height
+Width
     [phantom(:,:,:)] =  Generate_PolSAR_two_classes_phantom(S,L,Height, Width);
-    
+Height
+Width
+
+    % geração de canais interferometricos
+    for i = 1: Height
+	for j = 1: Width
+	     	SS(i, j, 1)  = sqrt(phantom(i, j, 4)^2 + phantom(i, j, 5)^2);
+     		SS(i, j, 2)  = sqrt(phantom(i, j, 6)^2 + phantom(i, j, 7)^2);
+     		SS(i, j, 3)  = sqrt(phantom(i, j, 8)^2 + phantom(i, j, 9)^2);
+	end
+    end
     
     % Activate to visualize the Monte Carlo phantom generated
     % Visualize Pauli's representation of phantom generated
@@ -174,7 +178,24 @@ tic                         % to measure computational cost
 %    end    
 %    ii = ii + 1;
 %    cd ..
-%end
+end
+cd ..
+cd ..
+cd Data
+    for j = 1: 3
+        fname = sprintf('Phantom_nhfc_prod_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
+        fid = fopen(fname,'w');
+        fprintf(fid,'%d %d\r\n', Height, Width);
+        for ii = 1: Height
+            for jj = 1: Width
+                fprintf(fid,'%f ', SS(ii,jj,j));
+            end
+            fprintf(fid,'\r\n');
+        end
+        fclose(fid);       
+    end
+cd ..
+cd Code/Code_matlab
 toc  %stop measuring time
 
 

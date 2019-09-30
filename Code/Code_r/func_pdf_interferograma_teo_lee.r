@@ -25,9 +25,7 @@ look_3 <- (4 * L4^(L4 + 1) * x^L4)/(gamma(L4) * (1 - rho2)) * besselI((2 * rho *
 look_4 <- (4 * L8^(L8 + 1) * x^L8)/(gamma(L8) * (1 - rho2)) * besselI((2 * rho * L8 * x) / (1 - rho2), 0) * besselK((2 * L8 * x) / (1 - rho2) , L8 - 1)  
 ##### realizar o plot usando o ggplot #######################
 df <- data.frame(x, look_1, look_2, look_3, look_4, fix.empty.names = TRUE)
-#data_look <- data.frame(x, look_1, look_2, look_3,fix.empty.names = TRUE)
 pp <- ggplot(df, aes(x = x, color = Visadas) )                 +
-       # geom_histogram(position = 'stack', stat = 'bin', binwidth = 0.0005, alpha = 0.7, color = "lightblue", fill = "darkblue")                 +
      	geom_line(aes(y = look_1, col= "Visada 2"), size = 1)    +
      	geom_line(aes(y = look_2, col= "Visada 3"), size = 1)    +
      	geom_line(aes(y = look_3, col= "Visada 4"), size = 1)    +
@@ -37,10 +35,10 @@ pp <- ggplot(df, aes(x = x, color = Visadas) )                 +
        	ggtitle(TeX('Distribuição interferograma multiplas visadas'))+
        	coord_cartesian(ylim=c(0, 1.3))
 # escrita no diretorio /Text/Dissertacao/figura
-setwd("../..")
-setwd("Text/Dissertacao/figuras")
-ggsave("dist_interferograma_multi_visadas.pdf")
-setwd("../../..")
-setwd("Code/Code_r")
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave("dist_interferograma_multi_visadas.pdf")
+#setwd("../../..")
+#setwd("Code/Code_r")
 # retornou ao diretorio /Code/Code_r
 print(pp)
