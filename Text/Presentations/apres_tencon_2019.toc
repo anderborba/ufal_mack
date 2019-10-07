@@ -1,0 +1,4 @@
+\select@language {brazil}
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Introduction}{4}{0}{2}
+\beamer@sectionintoc {3}{Estudo de cores}{26}{0}{3}
