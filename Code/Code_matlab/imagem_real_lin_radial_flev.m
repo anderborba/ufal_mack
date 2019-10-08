@@ -106,6 +106,9 @@ for i = 1: num_radial
 	end
 end
 imshow(II);
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extrai retas radiais e as distribuicoes nas imagens reais nos canais (hh, hv, vv)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,20 +130,20 @@ imshow(II);
 % Escreve em arquivo *.txt as informações das retas radiais nas imagens
 % reais nos canais 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-cd ..
-cd ..
-cd Data
-for canal = 1: nc 
-	fname = sprintf('real_flevoland_%d.txt', canal);
-	fid = fopen(fname,'w');
-	for i = 1: num_radial
-		for j = 1: r
-                fprintf(fid,'%f ',MY(i, j, canal));
-	      	end
-    		fprintf(fid,'\n');
-        end
-        fclose(fid);       
-end
+%cd ..
+%cd ..
+%cd Data
+%for canal = 1: nc 
+%	fname = sprintf('real_flevoland_%d.txt', canal);
+%	fid = fopen(fname,'w');
+%	for i = 1: num_radial
+%		for j = 1: r
+%                fprintf(fid,'%f ',MY(i, j, canal));
+%	      	end
+%    		fprintf(fid,'\n');
+%        end
+%        fclose(fid);       
+%end
 %for canal = 1: 3 
 %	fname = sprintf('real_flevoland_produto_%d.txt', canal);
 %	fid = fopen(fname,'w');
@@ -153,19 +156,19 @@ end
 %        fclose(fid);       
 %end
 %%%%%%%%%%% cuidar
-	fnamexc = sprintf('xc_flevoland.txt');
-	fnameyc = sprintf('yc_flevoland.txt');
-	fidxc = fopen(fnamexc,'w');
-	fidyc = fopen(fnameyc,'w');
-        for i = 1: num_radial
-		for j = 1: r
-	                fprintf(fidxc,'%f ', MXC(i,j));
-	                fprintf(fidyc,'%f ', MYC(i,j));
-	      	end
-    		fprintf(fidxc,'\n');
-    		fprintf(fidyc,'\n');
-	end
-	fclose(fidxc);       
-	fclose(fidyc);       
-cd ..
-cd Code/Code_matlab
+%	fnamexc = sprintf('xc_flevoland.txt');
+%	fnameyc = sprintf('yc_flevoland.txt');
+%	fidxc = fopen(fnamexc,'w');
+%	fidyc = fopen(fnameyc,'w');
+%        for i = 1: num_radial
+%		for j = 1: r
+%	                fprintf(fidxc,'%f ', MXC(i,j));
+%	                fprintf(fidyc,'%f ', MYC(i,j));
+%	      	end
+%    		fprintf(fidxc,'\n');
+%    		fprintf(fidyc,'\n');
+%	end
+%	fclose(fidxc);       
+%	fclose(fidyc);       
+%cd ..
+%cd Code/Code_matlab

@@ -20,6 +20,41 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+IT = zeros(nrows, ncols); 
+
+
+
+x0 = nrows / 2 - 140;
+y0 = ncols / 2 - 200;
+r = 120;
+num_radial = 100;
+t = linspace(0, 2 * pi, num_radial) ;
+x = x0 + r .* cos(t);
+y = y0 + r .* sin(t);
+xr= round(x);
+yr= round(y);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+const =  5 * max(max(max(II)));
+MXC = zeros(num_radial, r);
+MYC = zeros(num_radial, r);
+MY = zeros(num_radial, r, nc);
+%const =  1
+for i = 1:4: num_radial
+	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
+	for canal = 1 :nc
+		Iaux = S(:, :, canal);
+		dim = length(XC);
+		for j = 1: dim
+			MXC(i, j) = YC(j);
+			MYC(i, j) = XC(j);
+			MY(i, j, canal)  = Iaux( XC(j), YC(j)) ;
+	       		IT(XC(j), YC(j)) = const;
+	       		II(XC(j), YC(j)) = const;
+        	end
+	end
+end
+%imshow(II);
+%%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ev_hh = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_1.txt');
 ev_hv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_2.txt');
 ev_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_3.txt');
@@ -28,7 +63,7 @@ ev_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_3.txt');
 %ev_hv_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_3.txt');
 xc = load('/home/aborba/git_ufal_mack/Data/xc_flevoland.txt');
 yc = load('/home/aborba/git_ufal_mack/Data/yc_flevoland.txt');
-num_radial = 100;
+%num_radial = 100;
 for i = 1: num_radial 
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
@@ -48,7 +83,7 @@ for i = 1: nc
 	IM = zeros(m, n, nc);
 end
 for canal = 1 : nc
-	for i = 1: num_radial
+	for i = 1:4: num_radial
         		ik =  ev(i, canal); 
 			IM( yc(i, ik), xc(i, ik), canal) = 1;
 	end
@@ -78,7 +113,8 @@ hold on;
 
 for i=1: nrows
 	for j=1: ncols
-		if IF(i, j) ~= 0
+%		if IF(i, j) ~= 0
+		if IM(i, j, 1) ~= 0
 			plot(j,i,'ro',...
     				'LineWidth',1,...
     				'MarkerSize',3.5,...
