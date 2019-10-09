@@ -21,8 +21,7 @@ end
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 IT = zeros(nrows, ncols); 
-
-
+IF = zeros(nrows, ncols); 
 
 x0 = nrows / 2 - 140;
 y0 = ncols / 2 - 200;
@@ -38,21 +37,22 @@ const =  5 * max(max(max(II)));
 MXC = zeros(num_radial, r);
 MYC = zeros(num_radial, r);
 MY = zeros(num_radial, r, nc);
+%  Insere as linhas radiais
 %const =  1
-for i = 1:4: num_radial
-	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
-	for canal = 1 :nc
-		Iaux = S(:, :, canal);
-		dim = length(XC);
-		for j = 1: dim
-			MXC(i, j) = YC(j);
-			MYC(i, j) = XC(j);
-			MY(i, j, canal)  = Iaux( XC(j), YC(j)) ;
-	       		IT(XC(j), YC(j)) = const;
-	       		II(XC(j), YC(j)) = const;
-        	end
-	end
-end
+%for i = 1:4: num_radial
+%	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
+%	for canal = 1 :nc
+%		Iaux = S(:, :, canal);
+%		dim = length(XC);
+%		for j = 1: dim
+%			MXC(i, j) = YC(j);
+%			MYC(i, j) = XC(j);
+%			MY(i, j, canal)  = Iaux( XC(j), YC(j)) ;
+%	       		IT(XC(j), YC(j)) = const;
+%	       		II(XC(j), YC(j)) = const;
+%        	end
+%	end
+%end
 %imshow(II);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ev_hh = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_1.txt');
@@ -83,7 +83,7 @@ for i = 1: nc
 	IM = zeros(m, n, nc);
 end
 for canal = 1 : nc
-	for i = 1:4: num_radial
+	for i = 1: num_radial
         		ik =  ev(i, canal); 
 			IM( yc(i, ik), xc(i, ik), canal) = 1;
 	end
@@ -92,8 +92,8 @@ end
 %figure(2), imshow(IG);
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
-%[IF] = fus_swt(IM, m, n, nc);
-[IF] = fus_roc(IM, m, n, nc);
+[IF] = fus_swt(IM, m, n, nc);
+%[IF] = fus_roc(IM, m, n, nc);
 %%%%%%%%%%% ROIs %%%%%%%%%%%%%%%%%%
 x0 = m / 2 - 140;
 y0 = n / 2 - 200;
@@ -113,11 +113,11 @@ hold on;
 
 for i=1: nrows
 	for j=1: ncols
-%		if IF(i, j) ~= 0
-		if IM(i, j, 1) ~= 0
+		if IF(i, j) ~= 0
+%		if IM(i, j, 3) ~= 0
 			plot(j,i,'ro',...
-    				'LineWidth',1,...
-    				'MarkerSize',3.5,...
+    				'LineWidth',0.5,...
+    				'MarkerSize',0.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
 		end
