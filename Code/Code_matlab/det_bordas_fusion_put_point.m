@@ -102,24 +102,35 @@ lrx = x0 + 180;
 hty = y0 - 210;
 hby = y0 + 60;
 
-IM_hh = IM(lex: lrx, hty: hby ,1);
-IM_hv = IM(lex: lrx, hty: hby ,2);
-IM_vv = IM(lex: lrx, hty: hby ,3);
-IF_crop = IF(lex: lrx, hty: hby);
+%IM_hh = IM(lex: lrx, hty: hby ,1);
+%IM_hv = IM(lex: lrx, hty: hby ,2);
+%IM_vv = IM(lex: lrx, hty: hby ,3);
+%IF_crop = IF(lex: lrx, hty: hby);
 
 imshow(II)
+[xpixel, ypixel, valor] = find(IF > 0);
+%
 axis on
 hold on;
 
-for i=1: nrows
-	for j=1: ncols
-		if IF(i, j) ~= 0
-%		if IM(i, j, 3) ~= 0
-			plot(j,i,'ro',...
-    				'LineWidth',0.5,...
-    				'MarkerSize',0.5,...
+dpixel = size(xpixel);
+for i= 1: dpixel(1)
+			plot(ypixel(i), xpixel(i),'ro',...
+    				'LineWidth',1.0,...
+    				'MarkerSize',3.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
-		end
-	end
-end
+end	
+
+%for i=1: nrows
+%	for j=1: ncols
+%%		if IF(i, j) ~= 0
+%%%		if IM(i, j, 3) ~= 0
+%			plot(xpixel(j), ypixel(i),'ro',...
+%    				'LineWidth',1,...
+%    				'MarkerSize',3.5,...
+%    				'MarkerEdgeColor',[0.85 0.325 0.089],...
+%    				'MarkerFaceColor', [0.85 0.325 0.089])
+%%		end
+%	end
+%end
