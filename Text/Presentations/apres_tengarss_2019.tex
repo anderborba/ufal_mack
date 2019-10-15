@@ -15,6 +15,8 @@
 %\usepackage[brazil]{babel}  % AAB
 \usepackage{bibentry}       % AAB
 \usepackage{amsmath, bm}    % AAB
+\usepackage{tikz}           % AAB    
+\usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
 %\usepackage[utf8]{inputenc}                  % AAB inserido
                                               % AAB inserido
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
@@ -280,27 +282,126 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 
 
 \begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{Application in simulated images}
-\begin{itemize}
-	\item 
+\begin{alertblock}{Application in simulated images} 
 	\begin{figure}[hbt]
 	\centering
 	\includegraphics[width=.5\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
 	\caption{Probability of detecting edges evidences.}
 \label{probability_edge_detc}
 \end{figure}
-\end{itemize}
 \end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]{PolSAR Image}
 \begin{alertblock}{Average Fusion}
-\begin{itemize}
-	\item 
-	\begin{equation}
-	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
-\end{equation} 	
-\end{itemize}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
+    minimum height=6em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\centering
+\begin{tikzpicture}
+	\node (wa) [wa]  {$F=\frac{1}{nc}\sum_{i=1}^{nc}IE_i$};
+	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_{nc}$};    
+%
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (wa.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (wa.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (wa.200);
+%  
+    \begin{pgfonlayer}{background}
+        \path (e1.west |- e1.north)+(-0.5, 0.5) node (a) {};
+        \path (wa.south -| wa.east)+(+1.0,-2.0) node (b) {};
+       %   
+        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+            (a) rectangle (b);           
+       %     
+    \end{pgfonlayer}   
+\end{tikzpicture}
+	\caption{Average Fusion.}
+\label{cap_fusao_fig01}
+\end{figure}
+\end{alertblock}
+\end{frame}
+
+
+
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{Average Fusion}
+%\begin{itemize}
+%	\item 
+%	\begin{equation}
+%	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
+%\end{equation} 	
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+
+\begin{frame}[fragile]{PolSAR Image}
+\begin{alertblock}{PCA Fusion}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-2.0,0.0) node (pcanode) [wa] {$\text{PCA}$};
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    \path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+                                                      \\$p=V_m(i)/||V_m||$
+                                                      \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+    \path [draw, ->] (pcanode.east) -- node [above] {} 
+        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{PCA Fusion.}
+\label{cap_fusao_fig01}
+\end{figure}
 \end{alertblock}
 \end{frame}
 
@@ -315,19 +416,20 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %\end{alertblock}
 %\end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{Principal component analysis -- PCA}
-\begin{itemize}
-	\item organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m n$;
-\item calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
-\item subtract the average of each column from the $Y$ matrix, resulting in $X$, a matrix of the same dimension of $Y$; 
-\item find $C$, the covariance matrix of $X$;
-\item calculate its eigenvalues $\Lambda$ and eigenvectors $V$, and sort the eigenvalues and eigenvectors in descending order.
-\item compute the components $P_i=V_i/{\sum_{i=1}^l V_i}$ with $i=1,\dots,nc$;
-\item fuse $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$, recalling that $\sum_{i=1}^{nc}P_i=1$.
-\end{itemize}
-\end{alertblock}
-\end{frame}
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{Principal component analysis -- PCA}
+%\begin{itemize}
+%	\item organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m n$;
+%\item calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
+%\item subtract the average of each column from the $Y$ matrix, resulting in $X$, a matrix of the same dimension of $Y$; 
+%\item find $C$, the covariance matrix of $X$;
+%\item calculate its eigenvalues $\Lambda$ and eigenvectors $V$, and sort the eigenvalues and eigenvectors in descending order.
+%\item compute the components $P_i=V_i/{\sum_{i=1}^l V_i}$ with $i=1,\dots,nc$;
+%\item fuse $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$, recalling that $\sum_{i=1}^{nc}P_i=1$.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+
 
 
 \begin{frame}[fragile]{PolSAR Image}
@@ -342,6 +444,73 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{itemize}
 \end{alertblock}
 \end{frame}
+
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{ROC statistics}
+%\begin{itemize}
+%	\item ROC statistics
+%	\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
+%    minimum height=6em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+%    minimum height=10em, rounded corners, drop shadow]
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+%	\begin{figure}[htb!]
+%\centering
+%\begin{tikzpicture}
+%	\node (wa) [wa]  {$V=\sum_{i=1}^{N}E_i$};
+%	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$E_1$};
+%    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$E_2$};
+%    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$E_N$};    
+%%   
+%    \path (wa.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
+%    \path (wa.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
+%    \path (wa.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
+%%
+%    \path [draw, ->] (e1.east) -- node [above] {} 
+%        (wa.160) ;
+%    \path [draw, ->] (e2.east) -- node [above] {} 
+%        (wa.180);
+%    \path [draw, ->] (e3.east) -- node [above] {} 
+%        (wa.200);
+%	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_1$}} 
+%        (m1.west);
+%	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_2$}} 
+%        (m2.west);
+%	\path [draw, ->] (wa.east) -- node [right] {\tiny{$CT_N$}} 
+%        (m3.west);
+%               
+%%    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+%\end{tikzpicture}
+%	\caption{Estrutura geral da fusão de evidência proposta.}
+%\label{cap_fusao_fig01}
+%\end{figure}
+
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+
+
+
 
 \begin{frame}[fragile]{PolSAR Image}
 \begin{alertblock}{Numerical results}
