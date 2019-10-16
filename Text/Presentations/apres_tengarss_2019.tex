@@ -52,37 +52,53 @@
 %\end{frame}
 
 \begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{PolSAR characteristics}
+\begin{alertblock}{PolSAR important characteristics}
 \begin{itemize}
-\item[-] can be on raised platforms, crewed aircraft or not, satellites orbiting the  earth or other planets;
-\item[-] it is a viable and practical imaging technique;
-\item[-] has a high resolution;
-\item[-] synthesizes long antenna openings;
+%\item[-] can be on raised platforms, crewed aircraft or not, satellites orbiting the  earth or other planets;
+%\item[-] it is a viable and practical imaging technique;
+\item[-] PolSAR images has a high resolution;
+%\item[-] synthesizes long antenna openings;
 \item[-] radars produce images day and night;
 \item[-] climate does not interfere in image capture;
-\item[-] SAR imaging systems operate in the microwave region of the electromagnetic spectrum, usually between the P-band - and the K-band.
+%\item[-] SAR imaging systems operate in the microwave region of the electromagnetic spectrum, usually between the P-band - and the K-band.
+\end{itemize}
+\end{alertblock}
+\begin{alertblock}{PolSAR Applications}
+\begin{itemize}
+\item[-] Remote sensing;
+\item[-] economy;
+\item[-] topography;
+\item[-] oceanography;
+%\item[-] glaciology;
+\item[-] agriculture
+%\item[-] geology;
+\item[-] forests;
+\item[-] fixed or moving targets;
+\item[-] environmental monitoring;
+%\item[-] oil spill control;
+%\item[-] moreover, the aid of optical systems.
 \end{itemize}
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{PolSAR Applications}
-\begin{itemize}
-\item[-] Remote sensing;
-\item[-] economy
-\item[-] topography;
-\item[-] oceanography;
-\item[-] glaciology;
-\item[-] agriculture
-\item[-] geology;
-\item[-] forests;
-\item[-] fixed or moving targets;
-\item[-] environmental monitoring;
-\item[-] oil spill control;
-\item[-] moreover, the aid of optical systems.
-\end{itemize}
-\end{alertblock}
-\end{frame}
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{PolSAR Applications}
+%\begin{itemize}
+%\item[-] Remote sensing;
+%\item[-] economy
+%\item[-] topography;
+%\item[-] oceanography;
+%\item[-] glaciology;
+%\item[-] agriculture
+%\item[-] geology;
+%\item[-] forests;
+%\item[-] fixed or moving targets;
+%\item[-] environmental monitoring;
+%\item[-] oil spill control;
+%\item[-] moreover, the aid of optical systems.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
 
 \begin{frame}[fragile]{PolSAR Image}
 \begin{alertblock}{Statistical modeling for PolSAR data (1 - Look)}
@@ -96,8 +112,8 @@
 \end{array}
 \right].
 \end{equation}\label{eq_01}
-\item The medium of propagation of waves is reciprocal.
-$$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$$.
+\item The medium of propagation of waves is reciprocal
+$$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T.$$
 \end{itemize}
 \end{alertblock}
 \end{frame}
@@ -185,24 +201,24 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{Maximum Likelihood Estimator (MLE)}
-\begin{itemize}
-	\item Suppose $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ is a random vector distributed according to the probability density function $f(\mathbf{x},\mathbf{\theta})$ with parameters $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ in the parameter space $\Theta$.
-%    \item The likelihood function is
-%\begin{equation*}
-%    L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta),
-%\end{equation*}
-    \item log-likelihood function is
-\begin{equation}
-	\ell(\theta;\mathbf{X})= \ln L(\theta;\mathbf{X}) = \sum_{i=1}^{n}\ln f(x_i;\theta),
-	\label{eq_05}
-\end{equation}
-     %\item $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$,
-     \item $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}\ell(\theta;\mathbf{x})$.
-\end{itemize}
-\end{alertblock}
-\end{frame}
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{Maximum Likelihood Estimator (MLE)}
+%\begin{itemize}
+%	\item Suppose $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ is a random vector distributed according to the probability density function $f(\mathbf{x},\mathbf{\theta})$ with parameters $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ in the parameter space $\Theta$.
+%%    \item The likelihood function is
+%%\begin{equation*}
+%%    L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta),
+%%\end{equation*}
+%    \item log-likelihood function is
+%\begin{equation}
+%	\ell(\theta;\mathbf{X})= \ln L(\theta;\mathbf{X}) = \sum_{i=1}^{n}\ln f(x_i;\theta),
+%	\label{eq_05}
+%\end{equation}
+%     %\item $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$,
+%     \item $\widehat{\theta}= \arg\max\limits_{\theta\in\Theta}\ell(\theta;\mathbf{x})$.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
 
 \begin{frame}[fragile]{PolSAR Image}
 \begin{alertblock}{Maximum Likelihood Estimator (MLE) for two regions A and B}
@@ -405,7 +421,6 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-
 %\begin{frame}[fragile]{PolSAR Image}
 %\begin{alertblock}{Stationary wavelet transform -- SWT}
 %\begin{itemize}
@@ -415,6 +430,81 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %\end{itemize}
 %\end{alertblock}
 %\end{frame}
+
+
+\begin{frame}[fragile]{PolSAR Image}
+\begin{alertblock}{Stationary wavelet transform -- SWT Fusion} 
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SWT}_N$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavalets\\
+                                                       coefficient};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Image fusion};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);        
+        
+%        %
+%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{SWT Fusion.}
+\label{cap_fusao_fig01}
+\end{figure}
+\begin{itemize}
+\vspace{-0.8cm}
+\item $W$ is wavelet transformed.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+
+
 
 %\begin{frame}[fragile]{PolSAR Image}
 %\begin{alertblock}{Principal component analysis -- PCA}
@@ -432,61 +522,75 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 
 
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{ROC statistics}
-\begin{itemize}
-	\item ROC statistics
-	\item[-] obtain the evidence of edges in the channels, and store it in $E_i$ matrices, with $i=1,\dots,nc$ in a binary way;
-\item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ edges;
-\item[-] use thresholds ranging from $t=1,\dots,nc$ generating $M_t$ matrices;
-\item[-] compare each $M_t$, fixed with all $E_i$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
-\item[-] the $M_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
-\end{itemize}
-\end{alertblock}
-\end{frame}
-
 %\begin{frame}[fragile]{PolSAR Image}
 %\begin{alertblock}{ROC statistics}
 %\begin{itemize}
 %	\item ROC statistics
-%	\pgfdeclarelayer{background}
-%\pgfdeclarelayer{foreground}
-%\pgfsetlayers{background,main,foreground}
-%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
-%    text centered, minimum height=2.5em,drop shadow]
-%\tikzstyle{ann} = [above, text width=5em, text centered]
-%\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
-%    minimum height=6em, rounded corners, drop shadow]
-%\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
-%    minimum height=10em, rounded corners, drop shadow]
-%\def\blockdist{2.3}
-%\def\edgedist{2.5}
-%	\begin{figure}[htb!]
-%\centering
-%\begin{tikzpicture}
-%	\node (wa) [wa]  {$V=\sum_{i=1}^{N}E_i$};
-%	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$E_1$};
-%    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$E_2$};
-%    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
-%    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$E_N$};    
+%	\item[-] obtain the evidence of edges in the channels, and store it in $E_i$ matrices, with $i=1,\dots,nc$ in a binary way;
+%\item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ edges;
+%\item[-] use thresholds ranging from $t=1,\dots,nc$ generating $M_t$ matrices;
+%\item[-] compare each $M_t$, fixed with all $E_i$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
+%\item[-] the $M_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+
+\begin{frame}[fragile]{PolSAR Image}
+\begin{alertblock}{ROC statistics Fusion}
+\begin{itemize}
+\item Part I
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=5em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+\path (wa.west)+(-3.0,0.0) node (pcanode) [wa] {$V=\sum_{i=1}^{N}IE_i$};
+	\path (wa.west)+(-7.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-7.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-7.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-7.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    %\path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+    %                                                  \\$p=V_m(i)/||V_m||$
+    %                                                  \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+	%\node (wa) [wa]  {$V=\sum_{i=1}^{N}IE_i$};
+	%\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+    %\path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+    %\path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    %\path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_N$};    
 %%   
-%    \path (wa.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
-%    \path (wa.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
-%    \path (wa.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
-%    \path (wa.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
+    \path (pcanode.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
+    \path (pcanode.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
+    \path (pcanode.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (pcanode.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
 %%
-%    \path [draw, ->] (e1.east) -- node [above] {} 
-%        (wa.160) ;
-%    \path [draw, ->] (e2.east) -- node [above] {} 
-%        (wa.180);
-%    \path [draw, ->] (e3.east) -- node [above] {} 
-%        (wa.200);
-%	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_1$}} 
-%        (m1.west);
-%	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_2$}} 
-%        (m2.west);
-%	\path [draw, ->] (wa.east) -- node [right] {\tiny{$CT_N$}} 
-%        (m3.west);
+    %\path [draw, ->] (e1.east) -- node [above] {} 
+    %    (wa.160) ;
+    %\path [draw, ->] (e2.east) -- node [above] {} 
+    %    (wa.180);
+    %\path [draw, ->] (e3.east) -- node [above] {} 
+    %    (wa.200);
+	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_1$}} 
+        (m1.west);
+	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_2$}} 
+        (m2.west);
+	\path [draw, ->] (pcanode.east) -- node [right] {\tiny{$CT_N$}} 
+        (m3.west);
 %               
 %%    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
 %  
@@ -500,17 +604,66 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %       %     
 %    \end{pgfonlayer}
    
-%\end{tikzpicture}
-%	\caption{Estrutura geral da fusão de evidência proposta.}
-%\label{cap_fusao_fig01}
-%\end{figure}
-
-%\end{itemize}
-%\end{alertblock}
-%\end{frame}
-
+\end{tikzpicture}
+	\caption{Fusion based in ROC statistics - Part I.}
+\label{cap_fusao_fig01}
+\end{figure}
+\end{itemize}
+\end{alertblock}
+\end{frame}
 
 
+\begin{frame}[fragile]{PolSAR Image}
+\begin{alertblock}{ROC statistics Fusion}
+\begin{itemize}
+\item Part II - for each $M_j$
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\begin{figure}[hbt]
+\begin{tikzpicture}
+\node[wa] (wa) at (0.0,0.0) {$M_j$};
+\node[wa1] (wa1) at (4.0,0.0) {$\overline{TP}_j$};
+
+    \path (wa.west)+(2.5,1.5) node (e1_1) [sensor] {$TP_1$};
+    \path (wa.west)+(2.5,0.5) node (e2_1)[sensor] {$TP_2$};
+    \path (wa.west)+(2.5,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(2.5,-2.0) node (e3_1)[sensor] {$TP_N$};    
+%
+	\path [draw, ->] (wa.east) -- node [left] {\tiny{$\overline{\cap E_1}$}} 
+        (e1_1.180) ;
+	\path [draw, ->] (wa.east) -- node [below] {\tiny{$\overline{\cap E_2}$}} 
+        (e2_1.180);
+	\path [draw, ->] (wa.east) -- node [right] {\tiny{$\overline{\cap E_3}$}} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {\tiny{$+$}} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.200);
+  
+ %   \begin{pgfonlayer}{background}
+ %       \path (wa_1.west |- wa_1.north)+(5.25,1.75) node (a) {};
+ %       \path (e1_1.south -| e1_1.north)+(-2.75,-3.75) node (b) {};
+ %       %\path (wa1.east |- wa1.east)+(+4.0,-0.5) node (c) {};
+ %      %   
+ %       \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+ %           (a) rectangle (b);           
+ %      %     
+ %   \end{pgfonlayer}
+    
+\end{tikzpicture}
+\caption{ROC Fusion for each $j$. It is true to $\overline{TN}_j$,$\overline{FP}_j$ and, $\overline{FN}_j$. }
+\end{figure}
+\item To generate the confusion matrix, and calculate the ROC statistics.
+\end{itemize}
+\end{alertblock}
+\end{frame}
 
 \begin{frame}[fragile]{PolSAR Image}
 \begin{alertblock}{Numerical results}
@@ -570,7 +723,8 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \begin{alertblock}{Conclusion}
 \begin{itemize}
 	\item Simulated Annealing works very well;
-	\item Increase the number of channels to improve fusion;
+	\item The method to compute edges evidence in each channel works very well;
+	\item Increase the number of channels to improve the fusion;
 	\item Investigate new fusion methods.
 \end{itemize}
 \end{alertblock}
