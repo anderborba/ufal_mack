@@ -100,7 +100,7 @@
 %\end{alertblock}
 %\end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Statistical Modeling}
 \begin{alertblock}{Statistical modeling for PolSAR data (1 - Look)}
 \begin{itemize}
 \item The complex scattering matrix $\mathbf{S}$:
@@ -118,7 +118,7 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T.$$
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Statistical Modeling}
 \begin{alertblock}{Statistical modeling for PolSAR data (1 - Look)}
 \begin{itemize}
 \item The probability density function (pdf):
@@ -137,7 +137,7 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T.$$
 \end{alertblock}
 \end{frame}
 %
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Statistical Modeling}
 \begin{alertblock}{Statistical modeling for PolSAR data (L - Looks)}
 \begin{itemize}
 \item The estimated sample covariance matrix:
@@ -153,7 +153,7 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T.$$
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Statistical Modeling}
 \begin{alertblock}{Statistical modeling for PolSAR data (L - Looks)}
 \begin{itemize}
 \item Multilooked Wishart distribution with probability density function:
@@ -176,8 +176,8 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T.$$
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{Edges detection}
+\begin{frame}[fragile]{Edges detection}
+\begin{alertblock}{Method}
 The following procedure is proposed to detected edges in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels:
 \begin{itemize}
 	\item identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
@@ -190,8 +190,8 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{Edges detection - ROI Flevoland Example} 
+\begin{frame}[fragile]{Edges detection}
+\begin{alertblock}{ROI Flevoland Example} 
 \begin{figure}[hbt]
 \centering
 	\includegraphics[width=.7\linewidth]{flevoland_radial_25_point_hh_crop}
@@ -220,7 +220,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %\end{alertblock}
 %\end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Edges detection}
 \begin{alertblock}{Maximum Likelihood Estimator (MLE) for two regions A and B}
 \begin{itemize}
 \item The estimates for the covariance matrices can be found using the maximum likelihood estimator denoted by $\widehat{\Sigma}$, Ref.~\cite{good}: 
@@ -248,7 +248,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{frame}
 
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Edges detection}
 \begin{alertblock}{Maximum Likelihood Estimator (MLE)}
 \begin{itemize}
 	\item After algebraic manipulations on each term of the summation, it is obtained:
@@ -263,7 +263,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Edges detection}
 \begin{alertblock}{Application in simulated images}
 	\begin{figure}[hbt]
      \subfloat[Pauli decomposition \label{fig2:a}]{%
@@ -280,7 +280,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 
 
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Edges detection}
 \begin{alertblock}{Application in simulated images}
 	\begin{figure}[hbt]
 	\centering
@@ -297,7 +297,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{frame}
 
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Edges detection}
 \begin{alertblock}{Application in simulated images} 
 	\begin{figure}[hbt]
 	\centering
@@ -308,7 +308,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Evidence Fusion}
 \begin{alertblock}{Average Fusion}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -329,7 +329,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 	\begin{figure}[htb!]
 \centering
 \begin{tikzpicture}
-	\node (wa) [wa]  {$F=\frac{1}{nc}\sum_{i=1}^{nc}IE_i$};
+	\node (wa) [wa]  {$IF=\frac{1}{nc}\sum_{i=1}^{nc}IE_i$};
 	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
     \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
     \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
@@ -342,14 +342,14 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
     \path [draw, ->] (e3.east) -- node [above] {} 
         (wa.200);
 %  
-    \begin{pgfonlayer}{background}
-        \path (e1.west |- e1.north)+(-0.5, 0.5) node (a) {};
-        \path (wa.south -| wa.east)+(+1.0,-2.0) node (b) {};
-       %   
-        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
-            (a) rectangle (b);           
-       %     
-    \end{pgfonlayer}   
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5, 0.5) node (a) {};
+%        \path (wa.south -| wa.east)+(+1.0,-2.0) node (b) {};
+%       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (b);           
+%       %     
+%    \end{pgfonlayer}   
 \end{tikzpicture}
 	\caption{Average Fusion.}
 \label{fig5}
@@ -370,7 +370,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %\end{alertblock}
 %\end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Evidence Fusion}
 \begin{alertblock}{PCA Fusion}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -432,7 +432,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %\end{frame}
 
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Evidence Fusion}
 \begin{alertblock}{Stationary wavelet transform -- SWT Fusion} 
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -535,7 +535,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 %\end{alertblock}
 %\end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Evidence Fusion}
 \begin{alertblock}{ROC statistics Fusion}
 \begin{itemize}
 \item Part I
@@ -608,12 +608,13 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 	\caption{Fusion based in ROC statistics - Part I.}
 \label{fig8}
 \end{figure}
+\item $CT_i$ is a threshold.
 \end{itemize}
 \end{alertblock}
 \end{frame}
 
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Evidence Fusion}
 \begin{alertblock}{ROC statistics Fusion}
 \begin{itemize}
 \item Part II - for each $M_j$
@@ -666,7 +667,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Results}
 \begin{alertblock}{Results}
 	\begin{figure}[hbt]
 \centering
@@ -678,7 +679,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{frame}
 
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Results}
 \begin{alertblock}{Results}
 	\begin{figure}[hbt]
 	\centering
@@ -698,7 +699,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Results}
 \begin{alertblock}{Results}
 	\begin{figure}[hbt]
 	\centering
@@ -720,12 +721,13 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
+\begin{frame}[fragile]{Conclusion}
 \begin{alertblock}{Conclusion}
 \begin{itemize}
 	\item Simulated Annealing works very well in non differentiable function. Figure~(\ref{fig4}) shows the probability of detecting edges evidences;
 	\item The method to detect edges evidence in each channel works very well. See Figure~(\ref{fig11}). Similar ideas can be found in  Refs.~\cite{fbgm,nhfc};
 	\item The fusion of evidence in intensity channels shows that these channels can be complementary and, therefore, suitable for edge detection in PolSAR images. See Figure~(\ref{fig12}).
+	\item The article shows the viability of these methods and your extension to more channels.
 \end{itemize}
 \end{alertblock}
 \begin{alertblock}{Future researches}	
@@ -740,5 +742,4 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \bibliographystyle{IEEEtran}
 \bibliography{../bibliografia}
 \end{frame}
-
 \end{document}
