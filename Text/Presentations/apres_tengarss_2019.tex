@@ -51,35 +51,35 @@
 %  \tableofcontents[hideallsubsections]
 %\end{frame}
 
-\begin{frame}[fragile]{PolSAR Image}
-\begin{alertblock}{PolSAR important characteristics}
-\begin{itemize}
-%\item[-] can be on raised platforms, crewed aircraft or not, satellites orbiting the  earth or other planets;
-%\item[-] it is a viable and practical imaging technique;
-\item[-] PolSAR images has a high resolution;
-%\item[-] synthesizes long antenna openings;
-\item[-] radars produce images day and night;
-\item[-] climate does not interfere in image capture.
-%\item[-] SAR imaging systems operate in the microwave region of the electromagnetic spectrum, usually between the P-band - and the K-band.
-\end{itemize}
-\end{alertblock}
-\begin{alertblock}{PolSAR Applications}
-\begin{itemize}
-\item[-] remote sensing;
-\item[-] economy;
-\item[-] topography;
-\item[-] oceanography;
-%\item[-] glaciology;
-\item[-] agriculture
-%\item[-] geology;
-\item[-] forests;
-\item[-] fixed or moving targets;
-\item[-] environmental monitoring.
-%\item[-] oil spill control;
-%\item[-] moreover, the aid of optical systems.
-\end{itemize}
-\end{alertblock}
-\end{frame}
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{PolSAR important characteristics}
+%\begin{itemize}
+%%\item[-] can be on raised platforms, crewed aircraft or not, satellites orbiting the  earth or other planets;
+%%\item[-] it is a viable and practical imaging technique;
+%\item[-] PolSAR images has a high resolution;
+%%\item[-] synthesizes long antenna openings;
+%\item[-] radars produce images day and night;
+%\item[-] climate does not interfere in image capture.
+%%\item[-] SAR imaging systems operate in the microwave region of the electromagnetic spectrum, usually between the P-band - and the K-band.
+%\end{itemize}
+%\end{alertblock}
+%\begin{alertblock}{PolSAR Applications}
+%\begin{itemize}
+%\item[-] remote sensing;
+%\item[-] economy;
+%\item[-] topography;
+%\item[-] oceanography;
+%%\item[-] glaciology;
+%\item[-] agriculture
+%%\item[-] geology;
+%\item[-] forests;
+%\item[-] fixed or moving targets;
+%\item[-] environmental monitoring.
+%%\item[-] oil spill control;
+%%\item[-] moreover, the aid of optical systems.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
 
 %\begin{frame}[fragile]{PolSAR Image}
 %\begin{alertblock}{PolSAR Applications}
@@ -232,12 +232,12 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \end{array}
 \right.\label{eq_08}
 \end{equation}
-%	\item likely function
+%	\item likelihood function
 %	 \begin{equation}
 %	L(j)=\prod_{k_1=1}^{j}f_{\mathbf{Z}}(\mathbf{Z}_{k_1};\widehat\Sigma_{A},L) \prod_{k_2=j+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k_2};\widehat\Sigma_{B},L),
 %	\label{eq_06}
 %\end{equation}
-    \item log-likely function
+    \item log-likelihood function
 \begin{equation}
 \ell(j) =
 	\sum_{k_1=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_1}; \widehat\Sigma_{A},L) + \sum_{k_2=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k_2}; \widehat\Sigma_{B},L).
@@ -268,11 +268,11 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 	\begin{figure}[hbt]
      \subfloat[Pauli decomposition \label{fig2:a}]{%
        %\includegraphics[viewport= 80 50 490 460, clip=true, width=0.23\textwidth]{phanton_nhfc_dec_pauli}}      
-       \includegraphics[viewport= 80 50 490 460, clip=true, width=0.35\textwidth]{phanton_nhfc_dec_pauli}}  
+       \includegraphics[viewport= 80 50 490 460, clip=true, width=0.45\textwidth]{phanton_nhfc_dec_pauli}}  
      \subfloat[Marginal densities of the $\text{hh}$ channel\label{fig2:b}]{%
-       \includegraphics[width=0.34\textwidth]{grafico_pdf_nhfc_2014_sigma_hh_artigos}
+       \includegraphics[width=0.45\textwidth]{grafico_pdf_nhfc_2014_sigma_hh_artigos}
      }
-    \caption{}
+    \caption{Model and observations}
      \label{fig2}
 \end{figure}
 \end{alertblock}
@@ -290,7 +290,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
        \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahv_artigos}}
      \subfloat[Channel $\text{vv}$ \label{fig3:c}]{%
        \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmavv_artigos}}
-     \caption{$l(j)$ log-likely function}
+     \caption{$l(j)$ log-likelihood function}
      \label{fig3}
    \end{figure}	
 \end{alertblock}
@@ -301,7 +301,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \begin{alertblock}{Application in simulated images} 
 	\begin{figure}[hbt]
 	\centering
-	\includegraphics[width=.5\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
+	\includegraphics[width=.6\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
 	\caption{Probability of detecting edges evidences.}
 \label{fig4}
 \end{figure}
@@ -684,41 +684,39 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 	\begin{figure}[hbt]
 	\centering
      \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
-     \includegraphics[width=0.3\textwidth]{flevoland_100_point_hh_crop}              
+     \includegraphics[width=0.45\textwidth]{flevoland_100_point_hh_crop}              
       % \includegraphics[viewport= 100 0 490 460, clip=true, width=0.3\linewidth]               {flevoland_100_point_hh_crop}
      }\qquad
      \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.3\linewidth]{flevoland_100_point_hv_crop}
+       \includegraphics[width=0.45\linewidth]{flevoland_100_point_hv_crop}
      }\qquad
      \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.3\linewidth]{flevoland_100_point_vv_crop}
+       \includegraphics[width=0.45\linewidth]{flevoland_100_point_vv_crop}
      }
-    \caption{}
+    \caption{Evidence by channel}
      \label{fig11}
    \end{figure}	
 \end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]{Results}
-\begin{alertblock}{Results}
 	\begin{figure}[hbt]
 	\centering
      \subfloat[Average Fusion \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.3\linewidth]{flevoland_100_media_crop}
+       \includegraphics[width=0.45\linewidth]{flevoland_100_media_crop}
      }\quad
      \subfloat[PCA Fusion\label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.3\linewidth]{flevoland_100_pca_crop}
+       \includegraphics[width=0.45\linewidth]{flevoland_100_pca_crop}
      }\\
      \subfloat[SWT Fusion \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.3\linewidth]{flevoland_100_swt_crop}
+       \includegraphics[width=0.45\linewidth]{flevoland_100_swt_crop}
      }\quad
      \subfloat[ROC Fusion \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.3\linewidth]{flevoland_100_roc_crop}
+       \includegraphics[width=0.45\linewidth]{flevoland_100_roc_crop}
      }
-     \caption{}
+     \caption{Evidence after fusion}
      \label{fig12}
    \end{figure}	
-\end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]{Conclusion}
