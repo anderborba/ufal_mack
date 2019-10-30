@@ -92,8 +92,11 @@ end
 %figure(2), imshow(IG);
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
-[IF] = fus_swt(IM, m, n, nc);
+%[IF] = fus_swt(IM, m, n, nc);
+[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
+%[IF] = fus_maior_voto(IM, m, n, nc);
+%[IF] = fus_svd(IM, m, n, nc);
 %%%%%%%%%%% ROIs %%%%%%%%%%%%%%%%%%
 x0 = m / 2 - 140;
 y0 = n / 2 - 200;

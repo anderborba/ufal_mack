@@ -1,0 +1,818 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}                        % AAB inserido
+\usepackage[utf8]{inputenc}                  % AAB inserido
+\usepackage{rotating}                        % AAB inserido
+\usepackage{tikz}                            % AAB    
+\usetikzlibrary{shapes,arrows,shadows}       % AAB inserido
+\ifCLASSOPTIONcompsoc                        % AAB inserido
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+\usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+%\usepackage[round,sort,nonamebreak]{natbib}  % AAB inserido
+%\usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%AAB
+\DeclareMathOperator{\traco}{tr}
+\graphicspath{{../Text/Dissertacao/figuras/}}
+\begin{document}
+
+\title{Fusão de evedência de bordas para canais de intensidade em imagens PolSAR\\
+%{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and should not be used}
+\thanks{Bolsista Capes/PROSUP.}
+}
+
+\author{\IEEEauthorblockN{Anderson A. de Borba}
+\IEEEauthorblockA{\textit{Dept. Engenharia Elétrica e Computação} \\
+\textit{UPM - Universidade Presbiteriana Mackenzie}\\
+IBMEC-SP\\
+São Paulo, Brazil \\
+anderson.borba@ibmec.edu.br}
+\and
+\IEEEauthorblockN{Maurício Marengoni}
+\IEEEauthorblockA{\textit{Dept. Engenharia Elétrica e Computação} \\
+\textit{UPM - Universidade Presbiteriana Mackenzie}\\
+São Paulo, Brazil \\
+mauricio.marengoni@mackenzie.br}
+\and
+\IEEEauthorblockN{\hspace{6cm} Alejandro C. Frery}
+\IEEEauthorblockA{\textit{\hspace{6cm}Laboratório de Computação Científica e Análise Numérica - LACCAN} \\
+\hspace{6cm}\textit{UFAL - Universidade Federal de Alagoas}\\
+\hspace{6cm} Maceió, Brazil \\
+\hspace{6cm}acfrery@gmail.com}
+}
+
+\maketitle
+
+\begin{abstract}
+Atualmente, na área de sensoriamento remoto, pode-de encontrar diferentes métodos para detecção e fusão de evidências de bordas. Entretanto, alguns desses  métodos, ao serem aplicados em imagens PolSAR, produzem resultados inadequados. Com intuito de melhorar sinal ruído, se tem investido em pesquisas com a utilização de modelagem estatística. O presente estudo, propõe um método de detecção e fusão de evidências bordas baseado no método da máxima verossimilhança, utilisando fusão de informações por média, SWT, PCA, e estatística ROC. Os precedimentos foram aplicados para os canais de intensidade de uma imagem real PolSAR. Os resultados indicam um bom desempenho do método na detecção de bordas com possíveis caminhos para pesquisas futuras .
+\end{abstract}
+
+\begin{IEEEkeywords}
+PolSAR, detecção de bordas, Estimativa de máxima verossimilhança, Métodos de Fusão.
+\end{IEEEkeywords}
+
+\section{Introduction}\label{sec_01}
+Neste trabalho será apresentado uma pesquisa sobre detecção e fusão de evidências de bordas, em imagens de radar de abertura sintética (\textit{Synthetic Aperture Radar} -- SAR) e nas imagens de radar polarimétrico de abertura sintética (\textit{Polarimetric Synthetic Aperture Radar} -- PolSAR), ambas requerem modelos e algoritmos adequados para o tratamento das suas características especiais.
+
+Podemos citar diferentes técnicas de detecção de bordas, como no trabalho de \cite{slf_2008} onde é usado modelagem eletromagnética, ou os trabalhos de \cite{tlb, obw, flmc, fyf} os quais encontramos técnicas baseadas em métodos que estimam o gradiente. Assim como, no trabalho de \cite{bf}, são utilizadas técnicas baseadas nas cadeias de Markov. 
+
+Em \cite{gfn} é descrita a comparação entre vários detectores de bordas que seguem a ideia deste trabalho. Técnicas baseadas nas modelagens estatísticas têm sido usadas na detecção de bordas em imagens SAR, podemos citar os trabalhos de \cite{gmbf, fbgm, horrit, gfn}. 
+
+Atualmente as pesquisas em \textit{Deep Learning} têm sido largamente usadas na área de sensoriamento remoto, podemos encontrar aplicações nas referências \cite{bac, ztmxzxf, tabmm, xstz}. 
+
+A área de fusão de imagens também é explorada neste trabalho. 
+Um recente artigo, cujo autores são \cite{sglmla}, usa ideias do método \textit{random forest} aplicado em fusão de imagens PolSAR, adicionalmente, o artigo de \cite{sg} mostra outras técnicas de fusão de informação.  
+
+O presente trabalho seguirá a abordagem de modelagem estatística, principalmente as técnicas descritas em \cite{fbgm, nhfc} usando a distribuição Wishart. Para realizar a fusão de informações temos como base as referências \cite{mit, sg}. 
+
+O objetivo deste trabalho é detectar bordas em cada canal de uma imagem PolSAR e realizar a fusão das evidências de bordas, com a tarefa de entender a importância da informação de cada um desses canais. 
+
+O artigo está estruturado da seguinte forma. A seção \ref{sec_02} é descrito a modelagem estatística para dados PolSAR, mostramos a modelagem usada nas seções \ref{sec_03}, \ref{sec_04} e \ref{sec_05}. Na seção \ref{sec_06} descrevemos os métodos de evidências de bordas com destaque ao método baseado em estatística ROC. Os resultdos numéricos estão descritos na seção \ref{sec_07} e finalmente na seção \ref{sec_08} serão apresentadas as conclusões do trabalho. 
+\section{Modelagem estatística para dados PolSAR}\label{sec_02}
+Os sistemas SAR, totalmente polarimétricos, transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel temos uma matriz de coeficientes de espalhamento, que são números complexos e descrevem a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
+
+A transformação pode ser representada como
+\begin{equation*}
+ \left[
+\begin{array}{c}
+	E_{h}^{r}   \\
+	E_{v}^{r}    \\
+\end{array}
+\right]
+ = \frac{e^{\hat{\imath} kr}}{r}\left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right]
+ \left[
+\begin{array}{c}
+	E_{h}^{t}   \\
+	E_{v}^{t}    \\
+\end{array}
+\right],
+\end{equation*}
+onde $k$ denota o número de onda, $\hat{\imath}$ é um número complexo e $r$ é a distância entre o radar e o alvo. O campo eletromagnético com componentes $E_{i}^{j}$ tem índice subscrito denotando a polarização horizontal ($h$) ou vertical ($v$),  enquanto o índice sobrescrito indica a onda recebida ($r$) ou transmitida ($t$). Definindo $S_{i,j}$ como os coeficientes de espalhamento complexo, tal que o índice $i$ e $j$ são associados com o recebimento e com a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_{hv}$ está associado a onda transmitida na direção vertical ($v$) e recebida na direção horizontal ($h$).
+
+Sendo conhecido cada coeficiente, a matriz de espalhamento complexa $\mathbf{S}$ é definida por
+\begin{equation}\label{eq_01}
+\mathbf{S} = \left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right],
+\end{equation}
+e se o meio de propagação das ondas é recíproco, então usaremos o teorema da reciprocidade \cite{lp} para definir a matriz de espalhamento como sendo hermitiana. Desta forma, a matriz de espalhamento pode ser representada pelo vetor
+\begin{equation}\label{eq_02}
+\mathbf{s} = \left[
+\begin{array}{c}
+	S_{hh}     \\
+    S_{hv}     \\
+	S_{vv}     \\
+\end{array}
+\right].
+\end{equation}
+
+E ainda, de acordo com as referências \cite{good} e \cite{lee} podemos considerar a hipótese da distribuição ser circular gaussiana multivariada complexa de média zero $N^C_3(0,\Sigma)$, cuja função densidade de probabilidade (pdf) é:
+\begin{equation}\label{eq_03}
+    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}), \\
+\end{equation}
+onde $|\cdot|$ é a matriz determinante, o índice sobrescrito $H$ denota o número complexo conjugado e $\mathbf{\Sigma}$ é a matriz de covariância da amostra $\mathbf{s}$ tal que $\mathbf{\Sigma}=E(\mathbf{ss}^H)$. 
+
+Por consequência da distribuição ser circular gaussiana multivariada complexa com média zero, e as entradas do vetor $\mathbf{s}$ são $\mathbf{s}_{ij}= R_{ij}+ i I_{ij}$, então por hipótese é exigido que $R_{ij}$ e $I_{ij}$ com $j=h,v$ satisfaçam 
+\begin{itemize}
+	\item[I-] $E[R_{ij}]=E[I_{ij}]=0,$
+	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2],$ 
+	\item[II-] $E[R_{ij}I_{ij}]=0,$  
+	\item[IV-] $E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}],$ 
+	\item[V-] $E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}].$
+\end{itemize}
+onde, $E[\cdot]$ denota o valor esperado. 
+
+A modelagem estatistística descrita foi comprovada para dados SAR polarimétricos, confirmando-se que contém todas as informações necessárias para caracterizar o retroespalhamento, encontramos mais informações em \cite{sarabendi} e \cite{mfp}.
+ 
+A modelagem estatística descrita, até aqui, trata apenas a modelagem de visada simples, porém, imagens polarimétricas são usualmente sujeitadas a um processo de múltiplas visadas, com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme \cite{good, ade}
+\begin{equation}\label{eq_04}
+\begin{array}{ccc}
+    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{l=1}^{L} {\mathbf{s}_l}{\mathbf{s}_l}^H}, \\
+\end{array}
+\end{equation}
+onde $\mathbf{s}_l$ com $l = 1, \dots, L$ amostras de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{s}$, assim a matriz de covariância amostral associada a $\mathbf{s}_l$ denotam o espalhamento para cada visada $L$.
+
+\section{Função de densidade Wishart múltiplas visadas}\label{sec_03}
+O processo de múltiplas visadas tem a função densidade de probabilidade (pdf) Wishart  definida por,
+\begin{equation}\label{eq_05}
+    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
+\end{equation} 
+onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
+\begin{equation*}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+\end{equation*}
+e $\Gamma(\cdot)$ é a função Gamma e $m=3$ para o presente artigo. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart denotando por $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Sem perda de generalidade para o texto, vamos usar o símbolo $\mathbf{\Sigma}$ em detrimento a $\mathbf{\Sigma_{s}}$ para representar a matriz de covariância associada a $\mathbf{S}$.
+
+\section{Deteção de Bordas}\label{sec_04}
+
+Na literatura encontramos uma grande oferta de métodos clássicos para detectar bordas, por exemplo Sobel, Canny, Laplaciano da gaussiana(LoG) e LoG piramidal. Os métodos clássicos de detecção de bordas são construídos assumindo que o ruído é aditivo, o que torna esses métodos ineficientes para aplicação em imagens PolSAR.
+
+Ao introduzir conceitos baseados nos artigos \cite{nhfc, gmbf} é possível propor um método de detecção de borda em imagens PolSAR com múltiplas visadas. A ideia principal é detectar o ponto de transição em uma faixa tão fina quanto possível entre duas regiões da imagem. O ponto de transição é definido como uma evidência de borda. Os ruídos nesse tipo de imagens são do tipo \textit{speckle}, os mesmos têm natureza multiplicativa, tornando a detecção de bordas em imagens SAR uma tarefa desafiadora.
+
+As metodologias de detecção de bordas ocorrem em diversos estágios, abaixo enumeramos os estágios:
+\begin{enumerate}
+	\item identificar o centroide de uma região de interesse (ROI) de maneira automática, semiautomática ou manual;
+	\item construir raios do centroide para fora da área de interesse;
+	\item coletar dados em uma vizinhança em torno dos raios usando o algoritmo {\it Bresenham's midpoint line algorithm}, idealmente do tamanho de um pixel;
+	\item detectar pontos na faixa de dados, os quais fornecem evidências de mudanças de propriedades estatísticas, ou seja, um ponto de transição que define uma evidência de borda;
+	\item usar o método Simulated Anneling Generalizado (GenSA), referência \cite{xgsh}, para encontra pontos de máximo em funções de interesse;
+	\item fusão de evidências de bordas detectadas nos canais $(hh)$, $(hv)$ e $vv$.
+\end{enumerate}
+
+\section{Método da máxima verosimilhança}\label{sec_05}
+
+ A estimativa por máxima verossimilhança (MLE) é um método que, tendo um conjunto de dados e um modelo estatístico, estima os valores dos parâmetros do modelo maximizando uma função de probabilidade dos dados. O conceito de verossimilhança pode ser encontrado nos artigos \cite{nhfc, gmbf}.
+
+Suponha $\mathbf{X}=(X_1,X_2,\dots,X_n)^T$ um vetor randômico distribuído de acordo com a função densidade de probabilidade (pdf) $f(\mathbf{x},\mathbf{\theta})$ com parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ no espaço dos parâmetros $\Theta$. Definimos  a função de verossimilhança $L(\theta;\mathbf{X}) = \prod_{i=1}^{n}f(x_i;\theta)$,
+e a função logarítmica de verossimilhança a qual chamamos de função de log-verossimilhança
+\begin{equation}\label{eq_09}
+	l(\theta;\mathbf{X})= \ln(L(\theta;\mathbf{X})) = \sum_{i=1}^{n}\ln(f(x_i;\theta)). \\
+\end{equation}
+
+De maneira simplificada a estimativa de máxima verossimilhança pode ser escrita por $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}L(\theta;\mathbf{x})$,
+e de maneira similar $\widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}l(\theta;\mathbf{x})$.
+
+Vamos usar o método de máxima verossimilhança aplicado na distribuição Wishart. Suponha $\mathbf{Z}=(\mathbf{Z}_1,\mathbf{Z}_2,\dots,\mathbf{Z}_N)^T$ um vetor randômico distribuído de acordo com a função densidade de probabilidade (pdf) (\ref{eq_05}) com parâmetros $\Sigma=\{\mathbf{\Sigma_A}, \mathbf{\Sigma_B\}}$ e $L$. Os parâmetros $\mathbf{\Sigma_A}$, $\mathbf{\Sigma_B}$ pertencem a duas amostras diferentes $A$ e $B$, nosso objetivo é detectar a fronteira entre as duas amostras.
+
+A função de verossimilhança da amostra descrita por (\ref{eq_09}) é dada pela equação do produtório das funções de densidade, respectivamente associadas a cada amostra
+\begin{equation}\label{eq_10}
+	L(j)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L) \prod_{k=j+1}^{N}f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L), \\
+\end{equation}
+onde $\mathbf{Z}_{k}^{'}$ é uma possível aproximação da matriz randômica descrita em (\ref{eq_04}).
+
+Usando a equação (\ref{eq_09}), teremos a  função de log-verossimilhança.
+\begin{equation}
+\begin{array}{rcl}\label{eq_11}
+	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
+	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
+\end{array}
+\end{equation}
+
+Nesse momento, podemos realizar  manipulações algébricas na função densidade de probabilidade em cada termo do somatório e substituir nas duas parcelas da equação (\ref{eq_09}) resultando em
+\begin{equation}
+\begin{array}{lll}\label{eq_12}
+	l(j)&=&N\left[mL\ln{\left(L\right)}-\ln{\left(\Gamma_m(L)\right)}\right]\\
+	&-& L\left[j\ln{\left(|\mathbf{\Sigma_{A}}|\right)}+(N-j)\ln{\left(|\mathbf{\Sigma_{B}}|\right)}\right] \\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}\\
+	&-&L\left[\sum_{k=1}^{j}tr(\mathbf{\Sigma_{A}}^{-1}\mathbf{Z}_{k}^{'})+ \sum_{k=j+1}^{N}tr(\mathbf{\Sigma_{B}}^{-1}\mathbf{Z}_{k}^{'})\right]. \\
+\end{array}
+\end{equation}
+
+A matriz $\Sigma$ pode ser encontrada usando o estimador de máxima verossimilhança denotado por $\widehat{\Sigma}$ de acordo com a referência \cite{good}. A equação (\ref{eq_13}) representa duas estimativas para a matriz de covariância $\Sigma$ que dependem da posição $j$
+\begin{equation}\label{eq_13}
+\widehat{\Sigma_{I}}(j) = \left\{
+\begin{array}{lc}
+	j^{-1}\sum_{k=1}^{j}\mathbf{Z}_{k}  & \mbox{se}\quad I=A,  \\
+        (N-j)^{-1}\sum_{k=j+1}^{N}\mathbf{Z}_{k} & \mbox{se}\quad I=B. \\
+\end{array}
+\right.
+\end{equation}
+
+Na equação (\ref{eq_12}) podemos substituir a equação (\ref{eq_13}) e continuar a manipulação algébrica, tendo como resultado 
+\begin{equation}\label{eq_14}
+\begin{array}{rcl}
+	l(j)&=&N\left[-mL(1-\ln{\left(L\right)})-\ln{\left(\Gamma_m(L)\right)}\right]\\
+	&-&L\left[j\ln{\left(|\mathbf{\widehat{\Sigma}}_{A}(j)|\right)} +(N-j)\ln{\left(|\mathbf{\widehat{\Sigma}}_{B}(j)|\right)}\right]\\
+	&+&(L-m)\sum_{k=1}^{N}\ln{\left(|\mathbf{Z}_{k}^{'}|\right)}. \\
+\end{array}
+\end{equation}
+
+O argumento máximo  $\widehat{\jmath}_{ML}$ é uma evidência de borda que será usada nos métodos de fusão.
+\begin{equation*}
+\begin{array}{rcl}
+	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}l(j).  \\
+\end{array}
+\end{equation*}
+
+\section{Aplicação em imagens sintéticas}\label{cap_acf_sec4}
+
+A metodologia (MLE) para detecção de evidências de bordas será aplicada em uma imagem simulada baseada nos artigos \cite{nhfc,gamf}. A imagem tem dimensão $400\times400$  e é compostas por duas amostras obdecendo a ditribuíção Wishart. A figura é mostrada  (\ref{cap_acf_fig01}).
+
+Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ será gerado uma imagem PolSAR $P_{k_1,k_2}$ da seguinte maneira, em cada pixel branco da imagem simulada será agregado a amostra proveniente de $W_G(\Sigma_{k_1}, L)$ e de cada pixel preto da imagem sintética será agregado a amostra proveniente de $W_G(\Sigma_{k_2},L)$, sendo que nos experimentos apresentados usam número de visadas $L=4$.
+
+\begin{figure}[hbt]
+     \subfloat[Pauli decomposition \label{fig_Edges-Evidence:a}]{%
+       \includegraphics[viewport= 80 50 490 460, clip=true, width=0.23\textwidth]{phanton_nhfc_dec_pauli}}      
+     \subfloat[Marginal densities of the $\text{hh}$ channel\label{fig_Edges-Evidence:b}]{%
+       \includegraphics[width=0.24\textwidth]{grafico_pdf_nhfc_2014_sigma_hh_artigos}
+     }
+    \caption{Edges evidences}
+     \label{fig_Edges-Evidence}
+\end{figure}   
+   
+   
+
+A decomposição de Pauli é baseada na representação vetorial na combinação linear dos canais do intensidade $(\mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hv}})$. A decomposição é mostrada na figura (\ref{cap_acf_fig01}). 
+
+De acordo com a função densidade de probabilidade (\ref{eq_05}) e definindo o número de visada $L=4$, podemos gerar a figura (\ref{fig:1b}). A figura mostar a função densidade para valores de $\sigma_{hh}$ extraídos de dados reais para áreas florestais e urbanas dadas respectimavente por $\sigma_{hh}=962892$ e $\sigma_{hh}= 360932$. 
+
+A imagem simulada foi construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, configurando a borda; A imagem tem dimensão $400 \times 400$ onde, cada linha  tem dois conjuntos amostrais diferentes geradas com os parâmetros os parametros $\Sigma$ definidos acima.  
+
+	Fixamos arbitrariamente a linha que corta horizontalmente a figura (\ref{fig:1a}) em duas partes, isto é a linha de número $200$. Teremos então uma linha com dois conjuntos amostrais como base de dados para calcular a função de verossmilhança $l(j)$ conforme equação (\ref{eq_08}) que deve ser aplicada nos canais $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ e $\mathbf{I_{vv}}$ gerando as figuras (\ref{fig:02}).  
+
+   
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{fig_evid_bordas:1a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahh_artigos}}
+     \subfloat[Channel $\text{hv}$ \label{fig_evid_bordas:1b}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahv_artigos}}
+     \subfloat[Channel $\text{vv}$ \label{fig_evid_bordas:1c}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmavv_artigos}}
+      Gerando a matrix de dados
+	   \caption{Edges evidences}
+     \label{fig_evid_bordas}
+   \end{figure}	
+	
+	Podemos notar que as funções mostram um pico indicando as evidências de bordas que devem ser captadas, porém claramente as funções não são deriváveis em muitos pontos, prejudicando o uso de métodos de otimização que necessitam do cálculo da derivada, comisso desempenho dos métodos ficam prejudicados. O problema foi resolvido usando o método Simulated Anneling Generalizado (GenSA) que podemos encontrar na referência \cite{xgsh} e trabalha bem em funções não diferenciáveis.
+	
+	A métrica para o erro usada neste trabalho segue o seguinte procedimento, são realizadas $400$ replicações da distribuição Wishart com dois conjuntos amostrais, isto é, realizamos um processo de gerar $400$ imagens simuladas. Para cada replicação é calculado a função $l(j)$ em uma linha horizontal fixa arbitráriamente. O intuito é encontrar o argumento do ponto de máximo pelo método {\it Generalized Simulated annealing} (GenSA), encontrando desta maneira as evidências de bordas.
+	
+	 Por construção, consideramos nas imagens a linha vertical $200$ como borda real em cada replicação, então o erro para esta replicação é o valor absoluto da diferença entre o ponto de borda real e o valor estimado pelo método GenSA. Assim, calculamos o erro para cada replicação por   
+\begin{equation}\label{eq_12}
+\begin{array}{llll}
+	E(r) &=& |200 - \hat{\jmath}(r)|, & 1\leq r \leq 400,  \\
+\end{array}
+\end{equation}
+onde, $\hat{\jmath}(r)$ é o resultado da maximização de $l(j)$ pelo método GenSA na replicação $r$.
+
+Usaremos frequências relativas para estimar a probabilidade de ter um erro menor que um número de pixeis. Denotando por $H(k)$ o número de replicações para qual o erro é menor que $k$ pixeis calculamos uma estimativa desta probabilidade por $f(k)=\frac{H(k)}{400}$. Nos testes realizados nesta seção variamos $k$ entre $1$ e $10$. O algoritmo está descrito em detalhes na referência \cite{fbgm}. 
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
+	\caption{Probability of detecting edges evidences.}
+\label{probability_edge_detc}
+\end{figure}
+
+	A figura (\ref{cap_acf_fig10}) mostra as probabilidades para a detecção de bordas quando aplicado o método GenSA nos canais $I_{hh}$, $I_{vh}$ e $I_{vv}$ da imagem mostrada na figura (\ref{cap_acf_fig01}).  
+
+\section{Métodos de fusão de evidências de bordas}\label{sec_06}
+\subsection{Média simples}
+O método de fusão com média simples propõe a média aritmética das evidências de bordas, em cada canal. A fusão das evidências de bordas pode ser calculada por
+\begin{equation}
+	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
+\end{equation}
+onde $nc$ é o número de canais a serem utilizados na fusão. Podemos obter mais detalhes na referência \cite{mit}.
+
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
+    minimum height=6em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\centering
+\begin{tikzpicture}
+	\node (wa) [wa]  {$IF=\frac{1}{nc}\sum_{i=1}^{nc}IE_i$};
+	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_{nc}$};    
+%
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (wa.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (wa.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (wa.200);
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5, 0.5) node (a) {};
+%        \path (wa.south -| wa.east)+(+1.0,-2.0) node (b) {};
+%       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (b);           
+%       %     
+%    \end{pgfonlayer}   
+\end{tikzpicture}
+	\caption{Average Fusion.}
+\label{fig5}
+\end{figure}
+
+
+\subsection{Transformada wavelet discreta - DWT} Esta seção, é baseada na referência \cite{n_r}. O método de fusão DWT pode ser descrito pelos seguintes passos:
+\begin{itemize}
+\item[-] calcule a decomposição DWT obtendo $L_{HH}$, $L_{HL}$, $L_{LH}$ e $L_{LL}$ para cada canal;
+\item[-] nas decomposições $L_{HH}$ é realizada a média aritmética de todos canais, pixel a pixel, e nas decomposições $L_{HL}$, $L_{LH}$ e $L_{LL}$, é encontrado o máximo entre cada canal, pixel a pixel, restando uma nova decomposição $\bar{L}_{HH}$, $\bar{L}_{HL}$, $\bar{L}_{LH}$ e $\bar{L}_{LL}$;
+\item[-] realizando a transformação inversa de DWT, obtemos a imagem com a fusão das evidências de bordas $IF(x,y)$.  
+\end{itemize}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef DWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef DWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef DWT}_N$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavalets\\
+                                                       coefficient};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Image fusion};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);        
+        
+%        %
+%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{DWT Fusion.}
+\label{fig7}
+\end{figure}
+
+\subsection{Transformada wavelet estacinária - SWT} Esta seção, novamente é na referência \cite{n_r}. O método de fusão SWT pode ser descrito pelos seguintes passos:
+\begin{itemize}
+\item[-] calcule a decomposição SWT obtendo $L_{HH}$, $L_{HL}$, $L_{LH}$ e $L_{LL}$ para cada canal;
+\item[-] nas decomposições $L_{HH}$ é realizada a média aritmética de todos canais, pixel a pixel, e nas decomposições $L_{HL}$, $L_{LH}$ e $L_{LL}$, é encontrado o máximo entre cada canal, pixel a pixel, restando uma nova decomposição $\bar{L}_{HH}$, $\bar{L}_{HL}$, $\bar{L}_{LH}$ e $\bar{L}_{LL}$;
+\item[-] realizando a transformação inversa de SWT, obtemos a imagem com a fusão das evidências de bordas $IF(x,y)$.  
+\end{itemize}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SWT}_N$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavalets\\
+                                                       coefficient};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Image fusion};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);        
+        
+%        %
+%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{SWT Fusion.}
+\label{fig7}
+\end{figure}
+
+
+\subsection{Pincipal component analysis - (PCA) }
+Esta seção é baseada na referência \cite{n_r} e \cite{mit}. O método de fusão baseado no PCA pode ser descrito pelos seguintes passos:
+\begin{itemize}
+\item[-] organizar os dados de forma a ter cada imagem em um vetor coluna, formando uma matriz $Y$ de dimensão $l\times nc$, onde $l=m\cdot n$, representa a multiplicação das $m$ linhas e $n$ colunas das matrizes a serem utilizadas na fusão;
+\item[-] calcule a média dos elementos dessas colunas, gerando um vetor de dimensão $1\times nc$;
+\item[-] subtrair a média de cada coluna da matriz $Y$. Resultando em uma matriz $X$ de mesma dimensão de $Y$; 
+\item[-] ache a matriz de covariância $C$ proveniente de $X$, calculando $C=XX^T$;
+\item[-] calcule os autovalores $\Lambda$ e os autovetores $D$, e ordene os autovalores e autovetores em ordem decrescente. As matrizes geradas pelos autovalores, na diagonal principal, e os autovetores colocados em coluna, têm dimensões $nc\times nc$;
+\item[-] compute as componentes $P_i=\frac{V_i}{\sum_{i=1}^l V_i}$ com $i=1,\dots,nc$;
+\item[-] realizamos a fusão $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$. Lembrando que o $\sum_{i=1}^{nc}P_i=1$.
+\end{itemize}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-2.0,0.0) node (pcanode) [wa] {$\text{PCA}$};
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    \path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+                                                      \\$p=V_m(i)/||V_m||$
+                                                      \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+    \path [draw, ->] (pcanode.east) -- node [above] {} 
+        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{PCA Fusion.}
+\label{fig6}
+\end{figure}
+
+
+
+
+\subsection{Estatística ROC}
+O método Estatística ROC foi proposto e descrito em detalhes nas referências \cite{gs} e \cite{fawcett}. O método descreve um modelo estatístico para obter informações de maneira automática, de diversas imagens, ou, em diversos canais. Podemos descrever o método no seguinte procedimento:
+\begin{itemize}
+\item[-] obter as evidências de bordas nos canais, aplicando o método descrito nesse artigo. Armazene essas evidências de bordas em matrizes $E_i$, com $i=1,\cdots,nc$ de maneira binária;
+\item[-] defina uma matriz de frequência de bordas $V$. A matriz  $V$ é gerada, somando as evidências de bordas $E_i$;
+\item[-] utilize limiares variando de $t=1,\dots,nc$ gerando matrizes $M_t$;
+\item[-] faça a comparação de cada $M_t$, fixada com todas as $E_i$,  encontre a matriz de confusão para gerar a curva ROC. O ponto da curva ROC que se aproximar (no sentido da distância euclidiana) da linha diagnóstico, terá seu limiar considerado ótimo;
+\item[-] a matriz $M_t$, que corresponde ao limiar mais próximo da linha diagnóstico, é a fusão de evidências de bordas.
+\end{itemize}
+  
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=5em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+\path (wa.west)+(-3.0,0.0) node (pcanode) [wa] {$V=\sum_{i=1}^{N}IE_i$};
+	\path (wa.west)+(-7.2,1.5) node (e1) [sensor] {$IE_1$};
+    \path (wa.west)+(-7.2,0.5) node (e2)[sensor] {$IE_2$};
+    \path (wa.west)+(-7.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-7.2,-2.0) node (e3)[sensor] {$IE_N$};    
+    %\path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+    %                                                  \\$p=V_m(i)/||V_m||$
+    %                                                  \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+	%\node (wa) [wa]  {$V=\sum_{i=1}^{N}IE_i$};
+	%\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+    %\path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+    %\path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    %\path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%%   
+    \path (pcanode.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
+    \path (pcanode.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
+    \path (pcanode.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (pcanode.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
+%%
+    %\path [draw, ->] (e1.east) -- node [above] {} 
+    %    (wa.160) ;
+    %\path [draw, ->] (e2.east) -- node [above] {} 
+    %    (wa.180);
+    %\path [draw, ->] (e3.east) -- node [above] {} 
+    %    (wa.200);
+	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_1$}} 
+        (m1.west);
+	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_2$}} 
+        (m2.west);
+	\path [draw, ->] (pcanode.east) -- node [right] {\tiny{$CT_N$}} 
+        (m3.west);
+%               
+%%    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{Fusion based in ROC statistics - Part I.}
+\label{fig8}
+\end{figure}  
+
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\begin{figure}[hbt]
+\begin{tikzpicture}
+\node[wa] (wa) at (0.0,0.0) {$M_j$};
+\node[wa1] (wa1) at (4.0,0.0) {$\overline{TP}_j$};
+
+    \path (wa.west)+(2.5,1.5) node (e1_1) [sensor] {$TP_1$};
+    \path (wa.west)+(2.5,0.5) node (e2_1)[sensor] {$TP_2$};
+    \path (wa.west)+(2.5,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(2.5,-2.0) node (e3_1)[sensor] {$TP_N$};    
+%
+	\path [draw, ->] (wa.east) -- node [left] {\tiny{$\overline{\cap E_1}$}} 
+        (e1_1.180) ;
+	\path [draw, ->] (wa.east) -- node [below] {\tiny{$\overline{\cap E_2}$}} 
+        (e2_1.180);
+	\path [draw, ->] (wa.east) -- node [right] {\tiny{$\overline{\cap E_3}$}} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {\tiny{$+$}} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.200);
+  
+ %   \begin{pgfonlayer}{background}
+ %       \path (wa_1.west |- wa_1.north)+(5.25,1.75) node (a) {};
+ %       \path (e1_1.south -| e1_1.north)+(-2.75,-3.75) node (b) {};
+ %       %\path (wa1.east |- wa1.east)+(+4.0,-0.5) node (c) {};
+ %      %   
+ %       \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+ %           (a) rectangle (b);           
+ %      %     
+ %   \end{pgfonlayer}
+    
+\end{tikzpicture}
+\caption{ROC Fusion for each $j$. It is true to $\overline{TN}_j$,$\overline{FP}_j$ and, $\overline{FN}_j$. }
+\label{fig9}
+\end{figure}
+
+\subsection{SVD Fusion} 
+A técnica de fusão usando decomposição em valores singulares em multi-resoluçao é baseado na \cite{naidu}. O método e similar ao método de wavelet, onde o sinal e filtrado por filtros de passa alta e passa baixa. O método consiste  no uso dos filtros e posterior restrição usando um fator 2 alcançando o primeiro nível de decomposição. A decomposição referente ao filtro de passa baixa e filtrado e aplicado a restrição alcançando o segundo nível de decomposição. Procedendo desta maneira ate um nível determinado podemos encontrar as decomposição. A proposta agora e usar a SVD como filtro. 
+
+Seja a amostra na forma vetorial $X=[x_1,x_2,\dots,x_n]$ representando o sinal $1D$ de tamanho $N$ divisível por 2. Rearranjamos as amostras em duas linhas onde na primeira linha sejam colocados os números impares e na segunda linha sejam colocados os números pares. Gerando a matrix de dados
+
+
+\begin{equation*}
+	X_{\ell} = \left[
+\begin{array}{cccc}
+	x_1   & x_3 & \dots & x_{N-1}  \\
+	x_2   & x_4 & \dots & x_N  \\
+\end{array}
+\right]
+\end{equation*}
+
+Definindo $T_{\ell} = X_{\ell}X_{\ell}^T$. Encontramos a decomposição em valores singulares $T_{\ell}=U_{\ell}S_{\ell}U_{\ell}^T$. Podemos reescrever $U_{\ell}^TT_{\ell}U_{\ell}=S_{\ell}$.
+
+Sendo $S_{\ell}$
+\begin{equation*}
+	S_{\ell} = \left[
+\begin{array}{cc}
+	s_1   & 0 \\
+	0   & s_2   \\
+\end{array}
+\right]
+\end{equation*}
+
+Podemos definir,
+  
+\begin{equation*}
+\begin{array}{ccc}
+	U_{\ell}^TT_{\ell}U_{\ell}&=&S_{\ell}^2 \\
+	U_{\ell}^TX_{\ell}X_{\ell}^TU_{\ell}&=&S_{\ell}^2 \\
+	U_{\ell}^TX_{\ell}(U_{\ell}^TX_{\ell})^T&=&S_{\ell}^2 \\
+\end{array}
+\end{equation*}
+  
+\section{Resultados numéricos}\label{sec_07}
+
+A imagem PolSAR, com 4 visadas da região de Flevoland na Holanda, foi usada para os testes numéricos. A figura (\ref{fig_01}) mostra a região de interesse, onde construímos as retas radiais para a detecção de bordas.
+
+ A detecção de bordas e suas posteriores fusão de evidências foram realizadas nessa região de interesse, com intuito de entender a ponderação de cada canal, na formação da imagem.
+
+Neste trabalho a detecção de bordas foi realizada nos canais de intensidade (hh), (hv) e (vv), e posteriormente, usadas para a fusão de informações.   
+\begin{figure}[hbt]
+\centering
+	\includegraphics[scale=0.3]{flevoland_radial_4_look_black.pdf}
+	\caption{Região de interesse (ROI) na imagem de Flavoland.}
+\label{fig_01}
+\end{figure}
+
+
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.7\linewidth]{flevoland_radial_25_point_hh_crop}
+	\caption{Edges detection example ($\text{hh}$ channel).}
+\label{fig1}
+\end{figure}
+
+As figuras (\ref{fig_02}), (\ref{fig_03}) e (\ref{fig_04}) mostram, respectivamente, os algoritmos de detecção das evidência de bordas, aplicados nos canais (hh), (hv) e (vv). 
+
+O algoritmo para detectar as evidências de bordas funcionou bem nos canais (hh) e (hv), atingindo uma melhor acurácia em relação ao canal (vv).  
+
+No canal (vv) foi detectado bordas que não fazem parte da região homogênea de interesse, porém, fazem parte de outras bordas da imagem, pesquisando o motivo desse fato, foi analisado a função $l(j)$ e constatado que a função apresenta dois picos, representando possíveis evidências de bordas, no qual o maior foi detectado corretamente. 
+ 
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+     \includegraphics[width=0.225\textwidth]{flevoland_100_point_hh_crop}              
+      % \includegraphics[viewport= 100 0 490 460, clip=true, width=0.3\linewidth]               {flevoland_100_point_hh_crop}
+     }\qquad
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_point_hv_crop}
+     }\qquad
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_point_vv_crop}
+     }
+    \caption{Evidence by channel}
+     \label{fig11}
+   \end{figure}	
+
+
+
+As figuras (\ref{fig_05}) até (\ref{fig_08}) mostram, respectivamente, a fusão de evidências para os métodos descritos neste artigo. Em ordem, listamos o método que mostra a média de evidências de bordas, o método que usa a Stationary wavelet transform (SWT), o método que usa a Principal component analysis (PCA) e finalmente, o método baseado na estatística ROC.
+
+Os métodos mostrados nas figuras (\ref{fig_05}), (\ref{fig_06}) e (\ref{fig_07}) usam todos os pixeis detectados nos diferentes canais. Cada método pondera os pixeis nos diferentes canais com suas características. A média pondera, igualmente, os pixeis. O (SWT) encontra os coeficientes da combinação linear das suas bases de wavelets, e o (PCA) pondera os autovetores da matriz de covariância.
+
+O método da estatística ROC não usa todos os pixeis dos canais, pois o método é baseado em limiares descartando pixeis. Isso se observou na na figura (\ref{fig_08}).
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Average Fusion \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_media_crop}
+     }\quad
+     \subfloat[PCA Fusion\label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_pca_crop}
+     }\\
+     \subfloat[DWT Fusion \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_dwt_crop}
+     }\quad
+     \subfloat[SWT Fusion \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_swt_crop}
+     }
+     \\
+     \subfloat[ROC Fusion \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_roc_crop}
+     }
+     \subfloat[SVD Fusion \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_100_svd_crop}
+     }
+     \caption{Evidence after fusion}
+     \label{fig12}
+   \end{figure}	
+
+\section{Conclusão}\label{sec_08}
+
+Neste artigo, Métodos de fusão de evidências de bordas em imagens Polsar foram analisados. Primeiramente, encontramos as evidências de bordas usando o método de máxima verossimilhança nos canais de intesidades $\text{(hh)}$, $\text{(hv)}$ e $\text{(vv)}$. Posteriormente realizamos a fusão das evidências de bordas nos diferentes canais por meio dos métodos fusão por média simples, SWT, PCA e curva ROC.
+
+Com intuito de quantificar e comparar a performance do processo de detecção de bordas é usado uma imagem simulada. Na imagem simulada que foi gerada é aplicado o método para obtenção  da função $\ell(\jmath)$, a qual tem a característica de não ser diferenciável em vários pontos do domínio, portanto teromos problemas na utilizaão de métodos clássicos de otimização. O problema foi resolvido com aplicação de um método baseado no {\it Simulated annealing} conhecido por trabalhar adequadamente em funções não diferenciáveis.
+
+ A métrica, baseada na probabilidade de detectar a borda corretamente, é aplicada para o método proposto mostrando bom desempenho na detecção de evidências de bordas no canais de intensidade.
+  
+  Para dados reais usamos a imagem de Flevoland com a região de interesse destacada na forma de linhas radiais como mostra a figura. Além disso, temos a intenção de analisar o comportamento dos métodos de detecção de bordas nessas imagens. Inicialmente, notou-se o bom desempenho para detectar as evidências de bordas nos canais de intensidade.   
+   
+  
+\bibliographystyle{IEEEtran}
+\bibliography{../Text/bibliografia}
+\end{document}

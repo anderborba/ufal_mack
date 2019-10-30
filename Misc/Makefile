@@ -3,7 +3,7 @@
 #
 #
 
-BASE_NAME = rasc_tencon_2019_port
+BASE_NAME = rasc_lagirs_2020
 
 LATEX     = latex
 PDFLATEX  = pdflatex

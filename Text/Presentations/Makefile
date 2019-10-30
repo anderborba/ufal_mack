@@ -1,7 +1,7 @@
 # 
 # makefile para a compilação do documento
 #
-BASE_NAME = apres_tengarss_2019
+BASE_NAME = apres_ibmec_2019_02
 
 LATEX     = xelatex
 BIBTEX    = bibtex
