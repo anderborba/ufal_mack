@@ -28,34 +28,56 @@ ev_2 = ev_hv(:, 3);
 ev_3 = ev_vv(:, 3);
 %
 %
+E = zeros(m, n, nc);
 E1 = zeros(m, n);
 E2 = zeros(m, n);
 E3 = zeros(m, n);
+GT = zeros(m, n);
 for(i = 1: m)
+	GT(i, 200) = 1;
 	E1(i, round(ev_hh(i, 3)))      = 1;
 	E2(i, round(ev_hv(i, 3)))      = 1;
 	E3(i, round(ev_vv(i, 3)))      = 1;
 end
-COVAR =[reshape(E1, n * n, 1),reshape(E2, n * n, 1),reshape(E3, n * n, 1)];
-C = cov(COVAR);
-[V, D] = eig(C);
-[SV, SD] = svd(C);
-if D(1,1) >= D(2,2) 
-  pca = V(:,1)./sum(V(:,1));
-elseif (D(2,2) >= D(3,3))
-  pca = V(:,2)./sum(V(:,2));
-else
-  pca = V(:,3)./sum(V(:,3));
+E(:, :, 1) = E1(:, :);
+E(:, :, 2) = E2(:, :);
+E(:, :, 3) = E3(:, :);
+nt = 20;
+tempo = zeros(1, nt);
+for i= 1:nt
+tic;
+[imf] = fus_pca(E, m, n, nc);
+tempo(i)= toc;
 end
+t=sum(tempo(1:nt))/nt;
+%COVAR =[reshape(E1, n * n, 1),reshape(E2, n * n, 1),reshape(E3, n * n, 1)];
+%C = cov(COVAR);
+%[V, D] = eig(C);
+%%[SV, SD] = svd(C);
+%if D(1,1) >= D(2,2) 
+%  pca = V(:,1)./sum(V(:,1));
+%elseif (D(2,2) >= D(3,3))
+ % pca = V(:,2)./sum(V(:,2));
+%else
+%  pca = V(:,3)./sum(V(:,3));
+%end
 %
-p1 = V(:,1)./sum(V(:,1));
-p2 = V(:,2)./sum(V(:,2));
-p3 = V(:,3)./sum(V(:,3));
+%p1 = V(:,1)./sum(V(:,1));
+%p2 = V(:,2)./sum(V(:,2));
+%p3 = V(:,3)./sum(V(:,3));
 %
-imf = pca(1) * E1 + pca(2) * E2 + pca(3) * E3;
-imf1 = p1(1) * E1 + p1(2) * E2 + p1(3) * E3;
-imf2 = p2(1) * E1 + p2(2) * E2 + p2(3) * E3;
-imf3 = p3(1) * E1 + p3(2) * E2 + p3(3) * E3;
+%imf = pca(1) * E1 + pca(2) * E2 + pca(3) * E3;
+
+%Metricas
+%[RMSE, PFE, MAE, dent, CORR, SNR, PSNR, QI, SSIM, MSSIM, ...
+%      SVDQM, SC, LMSE, VIF, PSNE_HVSM, PSNR_HVS] = metricas(GT, imf)
+%[RMSE, PFE, MAE, dent, CORR, SNR, PSNR, QI, SSIM, MSSIM, ...
+%      SVDQM, SC, LMSE, VIF, PSNE_HVSM, PSNR_HVS] = metricas(GT, E(:,:,3))
+
+
+%imf1 = p1(1) * E1 + p1(2) * E2 + p1(3) * E3;
+%imf2 = p2(1) * E1 + p2(2) * E2 + p2(3) * E3;
+%imf3 = p3(1) * E1 + p3(2) * E2 + p3(3) * E3;
 %
 %%%%%% Fusao E1 - E3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %C_hh_vv = cov([E1(:) E3(:)]);

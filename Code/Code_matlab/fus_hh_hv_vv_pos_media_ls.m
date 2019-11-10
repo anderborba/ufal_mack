@@ -7,41 +7,59 @@ clear all;
 format long;
 m = 400;
 n = 400;
+nc = 3;
 % leitura do arquivos de evidencias de bordas no diretorio ~/Data
 % dados baseados nas referencias \cite{nhfc} e \cite{gamf}
-%ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_nhfc.txt');
-%ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_nhfc.txt');
-%ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_nhfc.txt');
+ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_nhfc.txt');
+ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_nhfc.txt');
+ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_nhfc.txt');
 %ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_gamf.txt');
 %ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_gamf.txt');
 %ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_gamf.txt');
-ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_vert.txt');
-ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_vert.txt');
-ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_vert.txt');
+%ev_hh = load('/home/aborba/git_ufal_mack/Data/evidencias_hh_vert.txt');
+%ev_hv = load('/home/aborba/git_ufal_mack/Data/evidencias_hv_vert.txt');
+%ev_vv = load('/home/aborba/git_ufal_mack/Data/evidencias_vv_vert.txt');
 % vetor x para todos os metodos de quadrados minimos
-for i = 1: m
-	x(i) = i;
-end
+%for i = 1: m
+%	x(i) = i;
+%end
 % media de evidencias em cada canal (não é pixel a pixel)
 soma = (ev_hh(:, 3) + ev_hv(:, 3) + ev_vv(:, 3)) / 3;
-y = soma';
-p = polyfit(x, y, 1);
-p = polyval(p, x);
+%y = soma';
+%p = polyfit(x, y, 1);
+%p = polyval(p, x);
 % Plot
 %plot(x, p, x, soma, '.')
-im    = zeros(m, n) + 255;
-im_hh = zeros(m, n) + 255;
-im_hv = zeros(m, n) + 255;
-im_vv = zeros(m, n) + 255;
-im_ls = zeros(m, n) + 255;
+%im    = zeros(m, n) ;
+im_hh = zeros(m, n) ;
+im_hv = zeros(m, n) ;
+im_vv = zeros(m, n) ;
+%im_ls = zeros(m, n) ;
+E = zeros(m, n, nc) ;
+GT = zeros(m, n);
 for(i = 1: m)
-	im_hh(i, round(ev_hh(i, 3))) = 0;
-	im_hv(i, round(ev_hv(i, 3))) = 0;
-	im_vv(i, round(ev_vv(i, 3))) = 0;
-	im   (i, round(soma(i)    )) = 0;
-	im_ls(i, round(soma(i)    )) = 0;
-	im_ls(i, round(   p(i)    )) = 0;
+	GT(i, 200) = 1;
+	im_hh(i, round(ev_hh(i, 3))) = 1;
+	im_hv(i, round(ev_hv(i, 3))) = 1;
+	im_vv(i, round(ev_vv(i, 3))) = 1;
+%	im   (i, round(soma(i)    )) = 1;
+%	im_ls(i, round(soma(i)    )) = 1;
+%	im_ls(i, round(   p(i)    )) = 1;
 end
+E(:, :, 1) = im_hh(:, :);
+E(:, :, 2) = im_hv(:, :);
+E(:, :, 3) = im_vv(:, :);
+nt = 20;
+tempo = zeros(1, nt);
+for i= 1:nt
+tic;
+[imf] = fus_media(E, m, n, nc);
+tempo(i)= toc;
+end
+t=sum(tempo(1:nt))/nt;
+%Metricas
+%[RMSE, PFE, MAE, dent, CORR, SNR, PSNR, QI, SSIM, MSSIM, ...
+%      SVDQM, SC, LMSE, VIF, PSNE_HVSM, PSNR_HVS] = metricas(GT, GT)
 %cd ..
 %cd ..
 %cd Text/Dissertacao/figuras
@@ -60,8 +78,8 @@ end
 %cd ..
 %cd Code/Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-errop = abs(p - 200);
-max(errop)
+%errop = abs(p - 200);
+%max(errop)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %cd ..
 %cd ..

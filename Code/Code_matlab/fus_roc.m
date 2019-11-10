@@ -83,19 +83,19 @@ for l  = 1: nc
 	end
 	fn(l) = sum(soma)/ dim;
 end
-for i = 1: nc
-	tprj(i) =       tp(i) / (tp(i) + fn(i));
-	fprj(i) = 1 -   (tn(i) / (fp(i) + tn(i)));
-	p(i)    = tp(i) + fn(i);
-	q(i)    = tp(i) + fp(i);
-end	
+%for i = 1: nc
+%	tprj(i) =       tp(i) / (tp(i) + fn(i));
+%	fprj(i) = 1 -   (tn(i) / (fp(i) + tn(i)));
+%	p(i)    = tp(i) + fn(i);
+%	q(i)    = tp(i) + fp(i);
+%end	
 % grafico ROC
-paux = p(1);
+%paux = p(1);
 %display('Valor do ponto (P,P) para a contruir a reta  diagnóstico no gráfico (ROC)');
-p;
-x =[0: paux/100: paux];
-y = ((paux - 1)/paux) * x + 1;
-plot(fprj, tprj, 'r*', x, y, 'b-');
+%p;
+%x =[0: paux/100: paux];
+%y = ((paux - 1)/paux) * x + 1;
+%plot(fprj, tprj, 'r*', x, y, 'b-');
 %%%%%%%%%%%%%%%%%% Calculo do indice kappa %%%%%%%%%%%%
 %r = 0.5;
 %rlin = (1 - r);

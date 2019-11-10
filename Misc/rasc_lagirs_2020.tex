@@ -11,6 +11,7 @@
 \usepackage[utf8]{inputenc}                  % AAB inserido
 \usepackage{rotating}                        % AAB inserido
 \usepackage{tikz}                            % AAB    
+\usepackage{siunitx}
 \usetikzlibrary{shapes,arrows,shadows}       % AAB inserido
 \ifCLASSOPTIONcompsoc                        % AAB inserido
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
@@ -26,7 +27,7 @@
 \graphicspath{{../Text/Dissertacao/figuras/}}
 \begin{document}
 
-\title{Fusão de evedência de bordas para canais de intensidade em imagens PolSAR\\
+\title{Fusão de evidência de bordas para canais de intensidade em imagens PolSAR\\
 %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and should not be used}
 \thanks{Bolsista Capes/PROSUP.}
 }
@@ -54,7 +55,7 @@ mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-Atualmente, na área de sensoriamento remoto, pode-de encontrar diferentes métodos para detecção e fusão de evidências de bordas. Entretanto, alguns desses  métodos, ao serem aplicados em imagens PolSAR, produzem resultados inadequados. Com intuito de melhorar sinal ruído, se tem investido em pesquisas com a utilização de modelagem estatística. O presente estudo, propõe um método de detecção e fusão de evidências bordas baseado no método da máxima verossimilhança, utilisando fusão de informações por média, SWT, PCA, e estatística ROC. Os precedimentos foram aplicados para os canais de intensidade de uma imagem real PolSAR. Os resultados indicam um bom desempenho do método na detecção de bordas com possíveis caminhos para pesquisas futuras .
+Atualmente, na área de sensoriamento remoto, pode-de encontrar diferentes métodos para detecção e fusão de evidências de bordas. Entretanto, alguns desses  métodos, ao serem aplicados em imagens PolSAR, produzem resultados inadequados. Com intuito de melhorar sinal ruído, se tem investido em pesquisas com a utilização de modelagem estatística. O presente estudo, propõe um método de detecção e fusão de evidências bordas baseado no método da máxima verossimilhança, utilizando fusão de informações por média, SWT, PCA, e estatística ROC. Os precedimentos foram aplicados para os canais de intensidade de uma imagem real PolSAR. Os resultados indicam um bom desempenho do método na detecção de bordas com possíveis caminhos para pesquisas futuras .
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -244,7 +245,7 @@ O argumento máximo  $\widehat{\jmath}_{ML}$ é uma evidência de borda que ser�
 
 \section{Aplicação em imagens sintéticas}\label{cap_acf_sec4}
 
-A metodologia (MLE) para detecção de evidências de bordas será aplicada em uma imagem simulada baseada nos artigos \cite{nhfc,gamf}. A imagem tem dimensão $400\times400$  e é compostas por duas amostras obdecendo a ditribuíção Wishart. A figura é mostrada  (\ref{cap_acf_fig01}).
+A metodologia (MLE) para detecção de evidências de bordas será aplicada em uma imagem simulada baseada nos artigos \cite{nhfc,gamf}. A imagem tem dimensão $400\times400$  e é compostas por duas amostras obedecendo a distribuição Wishart. A figura é mostrada  (\ref{cap_acf_fig01}).
 
 Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ será gerado uma imagem PolSAR $P_{k_1,k_2}$ da seguinte maneira, em cada pixel branco da imagem simulada será agregado a amostra proveniente de $W_G(\Sigma_{k_1}, L)$ e de cada pixel preto da imagem sintética será agregado a amostra proveniente de $W_G(\Sigma_{k_2},L)$, sendo que nos experimentos apresentados usam número de visadas $L=4$.
 
@@ -262,11 +263,11 @@ Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ será g
 
 A decomposição de Pauli é baseada na representação vetorial na combinação linear dos canais do intensidade $(\mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hh}+I_{VV}}, \mathbf{I_{hv}})$. A decomposição é mostrada na figura (\ref{cap_acf_fig01}). 
 
-De acordo com a função densidade de probabilidade (\ref{eq_05}) e definindo o número de visada $L=4$, podemos gerar a figura (\ref{fig:1b}). A figura mostar a função densidade para valores de $\sigma_{hh}$ extraídos de dados reais para áreas florestais e urbanas dadas respectimavente por $\sigma_{hh}=962892$ e $\sigma_{hh}= 360932$. 
+De acordo com a função densidade de probabilidade (\ref{eq_05}) e definindo o número de visada $L=4$, podemos gerar a figura (\ref{fig:1b}). A figura mostra a função densidade para valores de $\sigma_{hh}$ extraídos de dados reais para áreas florestais e urbanas dadas respectivamente por $\sigma_{hh}=962892$ e $\sigma_{hh}= 360932$. 
 
-A imagem simulada foi construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, configurando a borda; A imagem tem dimensão $400 \times 400$ onde, cada linha  tem dois conjuntos amostrais diferentes geradas com os parâmetros os parametros $\Sigma$ definidos acima.  
+A imagem simulada foi construída com $400$ linhas distribuídas em duas bandas separadas verticalmente em torno do pixel $200$, configurando a borda; A imagem tem dimensão $400 \times 400$ onde, cada linha  tem dois conjuntos amostrais diferentes geradas com os parâmetros os parâmetros $\Sigma$ definidos acima.  
 
-	Fixamos arbitrariamente a linha que corta horizontalmente a figura (\ref{fig:1a}) em duas partes, isto é a linha de número $200$. Teremos então uma linha com dois conjuntos amostrais como base de dados para calcular a função de verossmilhança $l(j)$ conforme equação (\ref{eq_08}) que deve ser aplicada nos canais $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ e $\mathbf{I_{vv}}$ gerando as figuras (\ref{fig:02}).  
+	Fixamos arbitrariamente a linha que corta horizontalmente a figura (\ref{fig:1a}) em duas partes, isto é a linha de número $200$. Teremos então uma linha com dois conjuntos amostrais como base de dados para calcular a função de verossimilhança $l(j)$ conforme equação (\ref{eq_08}) que deve ser aplicada nos canais $\mathbf{I_{hh}}$, $\mathbf{I_{vh}}$ e $\mathbf{I_{vv}}$ gerando as figuras (\ref{fig:02}).  
 
    
    \begin{figure}[hbt]
@@ -285,7 +286,7 @@ A imagem simulada foi construída com $400$ linhas distribuídas em duas bandas 
 	
 	Podemos notar que as funções mostram um pico indicando as evidências de bordas que devem ser captadas, porém claramente as funções não são deriváveis em muitos pontos, prejudicando o uso de métodos de otimização que necessitam do cálculo da derivada, comisso desempenho dos métodos ficam prejudicados. O problema foi resolvido usando o método Simulated Anneling Generalizado (GenSA) que podemos encontrar na referência \cite{xgsh} e trabalha bem em funções não diferenciáveis.
 	
-	A métrica para o erro usada neste trabalho segue o seguinte procedimento, são realizadas $400$ replicações da distribuição Wishart com dois conjuntos amostrais, isto é, realizamos um processo de gerar $400$ imagens simuladas. Para cada replicação é calculado a função $l(j)$ em uma linha horizontal fixa arbitráriamente. O intuito é encontrar o argumento do ponto de máximo pelo método {\it Generalized Simulated annealing} (GenSA), encontrando desta maneira as evidências de bordas.
+	A métrica para o erro usada neste trabalho segue o seguinte procedimento, são realizadas $400$ replicações da distribuição Wishart com dois conjuntos amostrais, isto é, realizamos um processo de gerar $400$ imagens simuladas. Para cada replicação é calculado a função $l(j)$ em uma linha horizontal fixa arbitrariamente. O intuito é encontrar o argumento do ponto de máximo pelo método {\it Generalized Simulated annealing} (GenSA), encontrando desta maneira as evidências de bordas.
 	
 	 Por construção, consideramos nas imagens a linha vertical $200$ como borda real em cada replicação, então o erro para esta replicação é o valor absoluto da diferença entre o ponto de borda real e o valor estimado pelo método GenSA. Assim, calculamos o erro para cada replicação por   
 \begin{equation}\label{eq_12}
@@ -501,7 +502,7 @@ onde $nc$ é o número de canais a serem utilizados na fusão. Podemos obter mai
 \end{figure}
 
 
-\subsection{Pincipal component analysis - (PCA) }
+\subsection{Principal component analysis - (PCA) }
 Esta seção é baseada na referência \cite{n_r} e \cite{mit}. O método de fusão baseado no PCA pode ser descrito pelos seguintes passos:
 \begin{itemize}
 \item[-] organizar os dados de forma a ter cada imagem em um vetor coluna, formando uma matriz $Y$ de dimensão $l\times nc$, onde $l=m\cdot n$, representa a multiplicação das $m$ linhas e $n$ colunas das matrizes a serem utilizadas na fusão;
@@ -690,7 +691,7 @@ O método Estatística ROC foi proposto e descrito em detalhes nas referências 
 \subsection{SVD Fusion} 
 A técnica de fusão usando decomposição em valores singulares em multi-resoluçao é baseado na \cite{naidu}. O método e similar ao método de wavelet, onde o sinal e filtrado por filtros de passa alta e passa baixa. O método consiste  no uso dos filtros e posterior restrição usando um fator 2 alcançando o primeiro nível de decomposição. A decomposição referente ao filtro de passa baixa e filtrado e aplicado a restrição alcançando o segundo nível de decomposição. Procedendo desta maneira ate um nível determinado podemos encontrar as decomposição. A proposta agora e usar a SVD como filtro. 
 
-Seja a amostra na forma vetorial $X=[x_1,x_2,\dots,x_n]$ representando o sinal $1D$ de tamanho $N$ divisível por 2. Rearranjamos as amostras em duas linhas onde na primeira linha sejam colocados os números impares e na segunda linha sejam colocados os números pares. Gerando a matrix de dados
+Seja a amostra na forma vetorial $X=[x_1,x_2,\dots,x_n]$ representando o sinal $1D$ de tamanho $N$ divisível por 2. Rearranjamos as amostras em duas linhas onde na primeira linha sejam colocados os números impares e na segunda linha sejam colocados os números pares. Gerando a matriz de dados
 
 
 \begin{equation*}
@@ -723,6 +724,165 @@ Podemos definir,
 	U_{\ell}^TX_{\ell}(U_{\ell}^TX_{\ell})^T&=&S_{\ell}^2 \\
 \end{array}
 \end{equation*}
+
+\section{Metricas}
+
+\subsection{RMSE - Root mean square}
+A métrica RMSE tem como valor de referencia $0$ quando a imagem da fusão for a mesma da imagem de referencia. A métrica é calculada como a raiz quadrada do erro pixel a pixel entre a matriz de referencia e a matriz proveniente da fusão.
+  
+\begin{equation}
+	RMSE=\sqrt{\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}.  \\
+\end{equation}
+\subsection{Percent fit error}
+ A métrica PFE tem como valor de referencia $0$ quando a imagem da fusão for a mesma da imagem de referencia. A métrica é calculada como o quociente entre a diferença da norma da imagem de referencia e de fusão e a norma da matriz de referencia. O resultado e apresentado em porcentagem.
+
+\begin{equation}
+	PFE=\frac{norm(I_r-I_f)}{norm(I_r)}*100.  \\
+\end{equation}
+
+\subsection{MAE - Root Mean absolute}
+ A métrica MAE tem como valor de referencia $0$ quando a imagem da fusão for a mesma da imagem de referencia. A métrica é calculada como a média do valor absoluto do erro pixel a pixel entre as imagens de referencia e imagem de fusão.
+\begin{equation}
+	MAE=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N\left|I_r(i,j)-I_f(i,j)\right|.  \\
+\end{equation}
+\subsection{Dent - Diferença de entropia}
+A métrica Dent tem como valor de referencia $0$ quando a imagem da fusão for a mesma da imagem de referencia. A métrica é calculada como a diferença do valor absoluto  das entropias das imagens de referencia e da imagem de fusão.
+\begin{equation}
+	Dent=abs(entropia(Ir(i,j))-entropia(If(i,j))).  \\
+\end{equation}
+
+\subsection{Corr - Correlaçao}
+A métrica Corr tem como valor de referencia $1$ quando a imagem da fusão for a mesma da imagem de referencia. A correlação entre as imagem podem variar entre o valor $0$ e $1$, onde valores próximos de $0$ indicam que as imagens tem baixa correlação, e valores próximos de $1$ indicam que a imagem tem alta correlação.
+\begin{equation}
+CORR = \frac{2C_{rf}}{C_r+Cf}
+\end{equation}
+Onde $$C_r= \sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$ $$C_f=\sum_{i=1}^M\sum_{j=1}^N(I_f(i,j))^2,$$ $$C_{rf}=\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)I_f(i,j)),$$
+
+\subsection{Signal to noise ratio}
+A métrica SRN tem valor de referencia alto quando a imagem da fusão for a mesma da imagem de referencia. Altos valores mostram que a imagem de referencia e a imagem de fusão são similares.
+\begin{equation} 
+SRN = 20log_{10}\left(\frac{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2}{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}\right)
+\end{equation}
+\subsection{Peak signal to noise ratio}
+A métrica SRN tem valor de referencia alto quando a imagem da fusão for a mesma da imagem de referencia. Altos valores mostram que a imagem de referencia e a imagem de fusão são similares.
+\begin{equation}
+PSRN = 20log_{10}\left(\frac{L^2}{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}\right),
+\end{equation}
+onde $L$ é o número de níveis de cinza na imagem. 
+
+%\subsection{Mutual information}
+%\begin{equation}
+%MI = \sum_{i=1}^M\sum_{j=1}^N h_{I_rI_f}(i,j){log_2\left(\frac{h_{I_rI_f}(i,j)}{h_{I_r}(i,j)h_{I_f}(i,j)}\right)}
+%\end{equation}
+\subsection{Universal quality index}
+A métrica QI tem como intervalo para os valores de referencia $[-1,1]$. O valor $1$ é atingido quando a imagem da fusão for a mesma da imagem de referencia. A métrica mede o quanto de informação importante foi transferida das imagens para a fusão em comparação com a imagem de referencia.
+\begin{equation}
+QI=\frac{4\sigma_{I_rI_f}(\nu_{I_r}+\nu_{I_f})}{(\sigma_{I_r}^2+\sigma_{I_f}^2)(\nu_{I_r}^2+\nu_{I_f}^2)}
+\end{equation}
+onde 
+$$\nu_{I_r}=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$
+$$\nu_{I_f}=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$ $$\sigma_{I_r}^2=\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-\mu_{I_r})^2,$$
+$$\sigma_{I_f}^2   =\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_f(i,j)-\mu_{I_f})^2$$ e
+$$\sigma_{I_rI_f}^2=\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-\mu_{I_r})(I_f(i,j)-\mu_{I_f})$$ 
+\subsection{Measure of structural similarity}
+Sinais de imagem podem ser altamente estruturados e quando isso acontece seus pixeis revelam fortes dependências. Essas dependências levariam informações vitais sobre a estrutura da borda. Ele compara padrões locais de intensidades de pixeis que foram normalizados para luminância e contraste.
+
+\begin{equation}
+SSIM=\frac{(2\nu_{I_r}\nu_{I_r}+C_1)(2\sigma_{I_rI_f}+C_2)}{(\mu_{I_r}^2+\nu_{I_f}^2+C_1)(\sigma_{I_r}^2+\sigma_{I_f}^2+C_2)}
+\end{equation}
+onde $C_1$ é uma constante que é incluída para evitar a instabilidade quando $(\mu_{I_r}^2+\nu_{I_f}^2)$ é perto de zero, e $C_2$ é uma constante que é incluída para evitar a instabilidade quando $(\sigma_{I_r}^2+\sigma_{I_f}^2)$ é perto de zero.
+%\subsection{Standard deviation}
+%\begin{equation}
+%\sigma=\sqrt{\sum_{i=1}^L(i-\bar{i})^2h_{I_f}(i)}
+%\end{equation}
+%onde $\bar{i}=\sum_{i=0}^Lih_{I_f}$, sendo $h_{I_f}$ o histograma normalizado da imagem proveniente da fusão $I_f(i,j)$, e $L$ o número de frequência existente no histograma.
+%\subsection{Entropy}
+%\begin{equation}
+%He=-\sum_{i=1}^Lh_{I_f}(i)\log_2 h_{I_f}(i)
+%\end{equation}
+%\subsection{Cross Entropy}
+%A entropia cruzada das imagens fontes $I_1$ e $I_2$ e a imagem fundida $I_f$ é:
+%\begin{equation}
+%CE(I_1,I_2;I_f)=\frac{CE(I_1;I_f)+CE(I_2;I_f)}{2}
+%\end{equation}
+%onde $CE(I_1;I_f)=\sum_{i=1}^Lh_{I_f}(i)\log_2\left( \frac{h_{I_1}(i)}{h_{I_f}(i)}\right)$ e $CE(I_1;I_f)=\sum_{i=1}^Lh_{I_f}(i)\log_2\left( \frac{h_{I_1}(i)}{h_{I_f}(i)}\right)$
+%\subsection{Spatial frequency}
+%\begin{equation}
+%SF=\sqrt{RF^2+CF^2}
+%\end{equation}
+%onde, $RF=\sqrt{\frac{1}{MN}\sum_{x=1}^M\sum_{y=2}^N[I_f(x,y)-I_f(x,y-1)]^2}$ e $RF=\sqrt{\frac{1}{MN}\sum_{y=1}^N\sum_{x=2}^M[I_f(x,y)-I_f(x-1,y)]^2}$
+
+
+\begin{table}[hbt]
+	\centering
+	\tiny
+	\caption{Metricas.}
+	\label{cap_acf_tab01}
+\begin{tabular}{@{}lllll@{}} \toprule
+	Metricas & Met-ref& Canal(hh)& Canal(hv) & canal(vv) \\ \midrule
+	RMSE     & 0      & 0.0660  & 0.0588 & 0.0668\\
+	PFE      & 0      & 132.09  & 117.68 & 133.60\\
+	MAE      & 0      & 0.0043  & 0.0034 & 0.0044\\
+	Dent     & 0      & 0       & 0      & 0\\
+	Corr     & 1      & 0.1275  & 0.3075 & 0.1075\\
+	SRN      & Inf    & -2.4179 &-1.4144 & -2.5163\\
+    PSRN     & Inf    &  59.9661& 60.4678& 59.9169\\
+	QI       & 1      &  0.9710 & 0.9571 & 0.9643\\ 
+    SSIM     & 1      &  0.9999 & 0.9999 & 0.9999\\\bottomrule
+%    MSSIM& 1& 0.99999 &0.99999& 0.99999&0.99999& 0.99999& 0.99999\\
+%    SVDQM& NaN& 8.3216  &8.1915 & 7.3324 &8.0724 & 9.0020 & 6.9328  \\
+%    SC   & 1& 2.1582  &1.9300 & 1.9230 &0.7413 & 1.1229 & 2.8095  \\	 
+%    LMSE & 0& 2.2794  &2.4791 & 2.7737 &6.8230 &4.5981  & 1.7273  \\	 
+%    VIF  & 1&0.0313   &0.0258 & 0.0165 &0.0151 &0.0458  & 0.0265   \\	
+%    PSNR-HVSM&100000 &69.8109&69.2399 &68.9017&68.0721&69.8955 & 69.4967\\	
+%    PSNR-HSV &100000 & 68.9372&68.4139 &68.0519&67.0926&68.8654 & 68.7758\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+\begin{table}[hbt]
+	\centering
+	\tiny
+	\caption{Metricas.}
+	\label{cap_acf_tab01}
+\begin{tabular}{@{}llllllll@{}} \toprule
+	Metricas & Met-ref&  Media& PCA& ROC&DWT&SWT&SVD\\ \midrule
+	RMSE & 0& 0.0524  &0.0549 &0.0578  &0.0760 &0.0601  & 0.0521\\
+	PFE  & 0& 104.96  &109.98 & 115.75 &152.00 & 120.33 & 104.22\\
+	MAE  & 0& 0.0040  &0.0042 & 0.0033 &0.0083 & 0.0065 & 0.0044\\
+	Dent & 0& 0.0040  &0.0393 & 0.0108 &0.2019 & 0.2312 & 0.0728\\
+	Corr & 1& 0.2471  &0.2031 & 0.1184 &0.0163 & 0.2340 & 0.1989\\
+	SRN  & Inf&-0.4205  &-0.8269&-1.2710 &-3.6368&-1.6080 & -0.3590 \\
+    PSRN & Inf& 60.9648 &60.7616& 60.5395&59.3566& 60.3710& 60.9955\\
+	QI   & 1& 0.9473  &0.9463 &0.9759  &0.9199 & 0.9209 & 0.9445\\ 
+    SSIM & 1& 0.99994 &0.99993& 0.99991&0.99988& 0.99992& 0.99989 \\\bottomrule
+%    MSSIM& 1& 0.99999 &0.99999& 0.99999&0.99999& 0.99999& 0.99999\\
+%    SVDQM& NaN& 8.3216  &8.1915 & 7.3324 &8.0724 & 9.0020 & 6.9328  \\
+%    SC   & 1& 2.1582  &1.9300 & 1.9230 &0.7413 & 1.1229 & 2.8095  \\	 
+%    LMSE & 0& 2.2794  &2.4791 & 2.7737 &6.8230 &4.5981  & 1.7273  \\	 
+%    VIF  & 1&0.0313   &0.0258 & 0.0165 &0.0151 &0.0458  & 0.0265   \\	
+%    PSNR-HVSM&100000 &69.8109&69.2399 &68.9017&68.0721&69.8955 & 69.4967\\	
+%    PSNR-HSV &100000 & 68.9372&68.4139 &68.0519&67.0926&68.8654 & 68.7758\\\bottomrule
+\end{tabular}
+\end{table}
+
+
+\section{tempo de execução da fusão de canais} 
+O tempo de execução da fusão dos canais de intensidade foi realizado rodando o programa de fusão de evidencias de bordas $20$ vezes. A media destes tempos esta mostrada na tabela (\ref{metrica_de_tempo}). A tabela mostra  também o comparativo com a fusão de menor tempo. Escolhemos o menor tempo como referencia e calculamos quanto os outros são maiores.   
+\begin{table}[hbt]
+	\centering
+	\tiny
+	\caption{Métrica de Tempo.}
+	\label{metrica_de_tempo}
+\begin{tabular}{@{}lllllll@{}} \toprule
+	Métricas & Media   &   PCA   &  ROC   & DWT     &  SWT     &  SVD \\ \midrule
+	Tempo(s)    & 0.00369 & 0.01016 &0.13858 & 0.03831&  0.08499 & 0.82393  \\
+    Tempo comparativo $\left(\frac{\text{Tempo}}{TF}\right)$& TF & 2.75TF &37.5TF & 10.4TF   &  23TF& 223TF  \\ \bottomrule
+\end{tabular}
+\end{table}
+
   
 \section{Resultados numéricos}\label{sec_07}
 
@@ -804,9 +964,9 @@ O método da estatística ROC não usa todos os pixeis dos canais, pois o métod
 
 \section{Conclusão}\label{sec_08}
 
-Neste artigo, Métodos de fusão de evidências de bordas em imagens Polsar foram analisados. Primeiramente, encontramos as evidências de bordas usando o método de máxima verossimilhança nos canais de intesidades $\text{(hh)}$, $\text{(hv)}$ e $\text{(vv)}$. Posteriormente realizamos a fusão das evidências de bordas nos diferentes canais por meio dos métodos fusão por média simples, SWT, PCA e curva ROC.
+Neste artigo, Métodos de fusão de evidências de bordas em imagens Polsar foram analisados. Primeiramente, encontramos as evidências de bordas usando o método de máxima verossimilhança nos canais de intensidades $\text{(hh)}$, $\text{(hv)}$ e $\text{(vv)}$. Posteriormente realizamos a fusão das evidências de bordas nos diferentes canais por meio dos métodos fusão por média simples, SWT, PCA e curva ROC.
 
-Com intuito de quantificar e comparar a performance do processo de detecção de bordas é usado uma imagem simulada. Na imagem simulada que foi gerada é aplicado o método para obtenção  da função $\ell(\jmath)$, a qual tem a característica de não ser diferenciável em vários pontos do domínio, portanto teromos problemas na utilizaão de métodos clássicos de otimização. O problema foi resolvido com aplicação de um método baseado no {\it Simulated annealing} conhecido por trabalhar adequadamente em funções não diferenciáveis.
+Com intuito de quantificar e comparar a performance do processo de detecção de bordas é usado uma imagem simulada. Na imagem simulada que foi gerada é aplicado o método para obtenção  da função $\ell(\jmath)$, a qual tem a característica de não ser diferenciável em vários pontos do domínio, portanto teremos problemas na utilização de métodos clássicos de otimização. O problema foi resolvido com aplicação de um método baseado no {\it Simulated annealing} conhecido por trabalhar adequadamente em funções não diferenciáveis.
 
  A métrica, baseada na probabilidade de detectar a borda corretamente, é aplicada para o método proposto mostrando bom desempenho na detecção de evidências de bordas no canais de intensidade.
   
