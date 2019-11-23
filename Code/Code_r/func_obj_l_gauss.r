@@ -6,24 +6,45 @@
 # Distribuicao de gauss
 func_obj_l_gauss <- function(param){
 	soma1 <- 0.0
-        for (i in 1: j){
-		look <-  (4 * L^(L + 1) * z[i]^L) / (gamma(L) * (1 - r1s)) * besselI((2 * rho1 * L * z[i]) / (1 - r1s), 0) * besselK((2 * L * z[i]) / (1 - r1s) , L - 1) 
-
-		soma1 <- soma1 + log(look)
-	}
+	look <- 0.0
+  for (i in 1: j){
+    caux <- sqrt(func_soma_1_to_j(j, z1)  * func_soma_1_to_j(j, z2))
+    z[i] <- z[i] / caux
+	  aux1 <- 4 * L^(L + 1) * z[i]^L
+	  aux2 <- gamma(L) * (1 - r1s)
+	  daux1 <- aux1 / aux2
+	  aux3 <- 2 * rho1 * L * z[i]
+	  aux4 <- 1 - r1s
+		daux2 <- aux3 / aux4
+		aux5 <- 2 * L * z[i]
+		aux6 <- 1 - r1s
+		daux3 <- aux5 / aux6
+		#look <-  daux1 * besselI(daux2, 0) * besselK(daux3, L - 1)
+	  #soma1 <- soma1 + log(look)
+    soma1 <- soma1 + log(daux1 * besselI(daux2, 0)* besselK(daux3, L - 1))
+	  #soma1 <- soma1 + log(daux1 * besselI(daux2, 0))
+	  #soma1 <- soma1 + log(daux1)
+	  }
 	soma2 <- 0.0
-        for (i in (j + 1) : N){
-		look <-  (4 * L^(L + 1) * z[i]^L) / (gamma(L) * (1 - r2s)) * besselI((2 * rho2 * L * z[i]) / (1 - r2s), 0) * besselK((2 * L * z[i]) / (1 - r2s) , L - 1) 
-
-		soma2 <- soma2 + log(look)
-	}
-	#aux1      = N * log(4) + N * (L + 1) * log(L) - N * log(gamma(L)) - N * log(1 - rho^2)
-	#cons1 = (2 * abs(rho) * L) / (1 - rho^2) 
-	#cons2 = (2 * L) / (1 - rho^2) 
-        #soma1 = L * N * log(z[j])
-	#soma2 = N * log(besselI(cons1 * z[j], 0))
-        #soma3 = N * log(besselK(cons2 * z[j], (L - 1)))
-	#func_obj_l_gauss <- aux1 + soma1 + soma2 + soma3
+	look <- 0.0
+  for (i in (j + 1) : N){
+    caux <- sqrt(func_soma_j_to_n(j, N, z1)  * func_soma_j_to_n(j, N, z2))
+    z[i] <- z[i] / caux
+    aux1 <- 4 * L^(L + 1) * z[i]^L
+    aux2 <- gamma(L) * (1 - r2s)
+    daux1 <- aux1 / aux2
+    aux3 <- 2 * rho2 * L * z[i]
+    aux4 <- 1 - r2s
+    daux2 <- aux3 / aux4
+    aux5 <- 2 * L * z[i]
+    aux6 <- 1 - r2s
+    daux3 <- aux5 / aux6
+		#look <-  daux1 * besselI(daux2, 0) * besselK(daux3, L - 1)
+		#soma2 <- soma2 + log(look)
+    soma2 <- soma2 + log(daux1 * besselI(daux2, 0) * besselK(daux3, L - 1))
+		#soma2 <- soma2 + log(daux1 * besselI(daux2, 0))
+		#soma2 <- soma2 + log(daux1)
+		}
 	func_obj_l_gauss <- soma1 + soma2 
 	return(func_obj_l_gauss)
 }

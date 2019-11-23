@@ -24,7 +24,7 @@ require(latex2exp)
 source("func_soma_1_to_j.r")
 source("func_soma_j_to_n.r")
 source("fpmgamma.r")
-source("func_obj_l_gauss.r")
+source("func_obj_l_razao_inten.r")
 # Programa principal
 ## Leitura do arquivo *.txt no diretorio /Data 
 setwd("../..")
@@ -61,26 +61,23 @@ z2 <-  mat2[200,1:400]
 pm = 1
 L  = 4
 N  = 400
-#ksi <- rep(0, N)
-#for (j in 1: N){
-#	ksi[j] <- z[j] / sqrt(z1[j] * z2[j])
-#}
+ksi <- rep(0, N)
 aux1 <- sum(z[1:200])  / 200
 aux2 <- sum(z1[1:200]) / 200
 aux3 <- sum(z2[1:200]) / 200
-rho1 <- abs(aux1 / sqrt(aux2 * aux3))
+rho1 <- aux1 / sqrt(aux2 * aux3)
 aux4 <- sum(z[201:400])  / 200
 aux5 <- sum(z1[201:400]) / 200
 aux6 <- sum(z2[201:400]) / 200
-rho2 <- abs(aux4 / sqrt(aux5 * aux6))
+rho2 <- aux4 / sqrt(aux5 * aux6)
 
 r1s <- abs(rho1)^2
 r2s <- abs(rho2)^2
 x  = seq(1, N - 1, 1 )
 lobj <- rep(0, (N - 1))
-#z <- ksi
+z <- ksi
 for (j in 1 : (N - 1) ){
-	lobj[j] <- func_obj_l_gauss(j)
+	lobj[j] <- func_obj_l_razao_inten(j)
 }
 df <- data.frame(x, lobj)
 ##### realizar o plot usando o ggplot #######################
