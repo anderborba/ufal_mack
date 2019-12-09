@@ -4,7 +4,7 @@
 
 \section{Aspectos gerais}
 
-Neste trabalho estudaremos as imagens de radar de abertura sintética (\textit{Synthetic Aperture Radar} -- SAR) e as imagens de radar polarimétrico de abertura sintética (\textit{Polarimetric Synthetic Aperture Radar} -- PolSAR).
+Neste trabalho estudaremos as imagens de radar de abertura sintética (\textit{Synthetic Aperture Radar} -- SAR) e as imagens de radar polarimétrico de abertura sintética (\textit{Polarimetric Synthetic Aperturadar} -- PolSAR).
 Ambas requerem modelos e algoritmos adequados para o tratamento das suas características especiais.
 Em particular, trabalharemos com técnicas de detecção de bordas.
 
@@ -697,10 +697,179 @@ lembrando que a função Gamma multivariada é definida na equação (\ref{cap_a
 equação equivalente pode ser encontrada em \citep{fnc2011}.
 
 \section{Densidades para o artigo}
-\subsection{Univariada}
-A função univariada densidade de probabilidade usadas serão:  
+\subsection{Função densidade de probabilidade Univariada - $\Gamma$ Univariada - Lee}
+\begin{equation}\label{cap_acf_23}
+	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
+\end{equation}
+
+\subsection{Razão de intensidades univariada}
+A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
+
+\begin{equation}\label{eqn63}
+\begin{array}{ccccccc}
+	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
+\end{array}
+\end{equation}
+
+Onde $\tau=\frac{C_{11}}{C_{22}}$.
+
+A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
 
 
+\begin{equation}\label{eqn64}
+	p^{(n)}(\mu)=\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
+\end{equation}
+\subsection{Distribuição bivariada produto de intensidades - Lee } 
+
+O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
+
+\begin{equation}\label{eqn59}
+\begin{array}{ccccc}
+	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
+	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
+\end{array}
+\end{equation}
+
+Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+
+\begin{equation}\label{eqn60}
+	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+Sendo
+\begin{equation}\label{eqn61}
+	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
+\end{equation}
+
+\begin{equation}\label{eqn62}
+	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+\subsection{Distribuição $\Gamma$ trivariada - Hagedorn }
+\begin{equation}\label{eqn62}
+\begin{array}{ccc}
+	p(I_1,I_2,I_3)&=& \frac{\exp(-\frac{1}{2}(a_1I_1+b_1I_2+c_1I_3))}{8(n-1)|C|^{\frac{n}{2}}(d_1d_2d_3)^{n-1}}\sum_{k=n-1}^{\infty}k(-1)^{k-n+1}C_{k-n+1}^{n-1}(cos(\gamma))\\
+	&&I_k(d_1\sqrt{I_1I_2})I_k(d_2\sqrt{I_2I_3})I_k(d_3\sqrt{I_1I_3})
+\end{array}
+\end{equation}
+
+
+
+\subsection{Método da verossimilhança para a pdf univariada $\Gamma$.}
+\begin{equation}\label{cap_acf_23}
+	f_{Z_{i}}(Z_{i};\mu,L)=\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{Z_{i}}{\mu}\right), \\
+\end{equation}
+Aplicando o logaritmo natural na igualdade teremos:
+\begin{equation}\label{cap_acf_23}
+\begin{array}{ccc}
+	\ln f_{Z_{i}}(Z_{i};\mu,L)&=&\ln \left(\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{Z_{i}}{\mu}\right)\right), \\
+	                                         &=&\ln \left(\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)}\right) + \ln\left(\exp\left(-L\frac{Z_{i}}{\mu}\right)\right), \\
+	                                         &=&\ln \left(L^{L}Z_{i}^{L-1} \right)-\ln\left(\mu^{L}\Gamma(L)\right) -\frac{L}{\mu} Z_i\\
+	                                         &=&L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
+\end{array}
+\end{equation}
+
+
+A funcao 
+\begin{equation}\label{cap_acf_23}
+\begin{array}{ccc}
+	\ln f_{Z_{i}}(Z_{i};\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
+\end{array}
+\end{equation}
+
+A imagem de flevoland é usada para ilustrar a busca pelos parâmetros ($L, \mu$). As figura mostram a distribuição de dados em uma faixa fixa $r=50$, e sua sua função de máxima verossimilhança com os parâmetros fixos $L=4$ e $\mu$, o mesmo é calculado como média dos pontos internos e externos da faixa de dados. 
+
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{faixa_dados_r_50_flevoland.pdf}
+  	\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funcao_l_faixa_r_50_flevoland.pdf}
+		\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig05}
+\endminipage\hfill
+%\endminipage\hfill
+\end{figure}
+
+As figuras abaixo mostram a radial de número $r=50$ na imagem de Flevoland, com os respectivos correspondentes sigmas fixos, ou seja, para cada sigma fixado é mostrado a função 
+\begin{equation}\label{cap_acf_23}
+\begin{array}{ccc}
+	\ln f_{\sigma_i}(\sigma_i;\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} \sigma_i\\
+\end{array}
+\end{equation}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flevoland.pdf}
+  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flevoland.pdf}
+		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flevoland.pdf}
+  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flevoland.pdf}
+		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flevoland.pdf}
+  	\caption{$\sigma= 0.000878$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flevoland.pdf}
+		\caption{ $\sigma= 0.000725$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flevoland.pdf}
+  	\caption{$\sigma=0.001358 $.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flevoland.pdf}
+		\caption{$\sigma= 0.001011$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+\newpage
+Para cada $i$:
+  
+Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_I)$ em uma primeira metade da faixa de dados.
+
+Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_E)$ em uma segunda metade da faixa de dados.
+
+Usando o estimador de máxima verossimilhança, 
+\begin{equation}\label{cap_acf_16}
+    (\hat{\mu}_i, \hat{L}_i)(Z_{\bigodot})= \text{arg}\,\max\limits_{(\mu, L)\in \mathbb{R}^{+}\times \mathbb{R}^{+}}\ell(\mu,L;Z_i).\\
+\end{equation}
+Assim
+\begin{equation}\label{cap_acf_16}
+\begin{array}{ccc}
+ \ell(\mu, L)&=&\ln\left(\prod_{k=1}^{n}f_{Z_{i}}(Z_{k};\mu,L)\right)\\
+  \ell(\mu, L)&=&\sum_{k=1}^{n}\ln\left(f_{Z_{i}}(Z_{k};\mu,L)\right)
+ \end{array}
+ \end{equation}
+Temos duas amostras
+\begin{equation}\label{cap_acf_16}
+ \begin{array}{lll}
+\ell(\mu_I, L_I,\mu_E, L_E, j)&=&\sum_{k=1}^{j}     \left[   L_I\ln L_I +(L_I   - 1) \ln Z_{i}-L_I \ln \mu_I-\ln \Gamma(L_i) -\frac{L_I}{\mu_I} Z_i \right]\\
+                                               &+&\sum_{k=j+1}^{N}\left[   L_E\ln L_E +(L_E - 1) \ln Z_{i}-L_E \ln \mu_E-\ln \Gamma(L_E) -\frac{L_E}{\mu_E} Z_i \right]\\
+\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I \sum_{k=1}^{j} 1 +(L_I   - 1) \sum_{k=1}^{j}  \ln Z_{i}-L_I \ln \mu_I\sum_{k=1}^{j} 1-\ln \Gamma(L_i) \sum_{k=1}^{j} 1  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
+                                               &+&  L_E\ln L_E \sum_{k=j+1}^{N}1+(L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}- \ln \mu_E\sum_{k=j+1}^{N}1-\ln \Gamma(L_E)\sum_{k=j+1}^{N} 1-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
+\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I j-L_I \ln \mu_I j-\ln \Gamma(L_i) j \\
+&+& (L_I  - 1) \sum_{k=1}^{j}  \ln Z_{i}  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
+                                               &+&  L_E\ln L_E (N-j)-L_E \ln \mu_E(N-j)-\ln \Gamma(L_E)(N-j)- \\
+                                               &+& (L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
+                                                \end{array}
+ \end{equation}
+
+
+
+    
 \section{Detecção de bordas em imagens PolSAR}\label{cap_acf_sec2}
 
 Na literatura encontramos uma grande oferta de métodos clássicos para detectar bordas, por exemplo Sobel, Canny, Laplaciano da gaussiana(LoG) e LoG piramidal. Os métodos clássicos de detecção de bordas são construídos assumindo que o ruído é aditivo, tornando esses métodos ineficientes para aplicação em imagens PolSAR, entretanto, nas imagens PolSAR o ruído é multiplicativo. 
