@@ -10,7 +10,7 @@ Em particular, trabalharemos com técnicas de detecção de bordas.
 
 No estudo de imagens PolSAR podemos citar diferentes técnicas, por exemplo, no trabalho de \citet{slf_2008} é usado modelagem eletromagnética para propor uma abordagem de detecção de bordas nas simulações de imagens PolSAR. 
 %%% ACF Frase confusa:
-Nos trabalhos de \citet{tlb, obw, flmc, fyf} podemos encontrar técnicas de detecção de bordas baseadas em métodos que estimam o gradiente, que funcionam usando uma janela deslizante, destacando através do cálculo do gradiente as bordas das imagens. 
+Nos trabalhos de \citet{tlb, obw, flmc, fyf} podemos encontrar técnicas de detecção de bordas baseadas em métodos que estimam ouni gradiente, que funcionam usando uma janela deslizante, destacando através do cálculo do gradiente as bordas das imagens. 
 Em \citet{obw} foi proposto o método de máxima verossimilhança para detectar a presença de bordas, em uma janela pré-definida de pixeis com a tarefa de encontrar bordas acuradas. 
 O estudo de detecção de bordas, usando propriedades físicas das áreas estudadas, pode ser encontrado no trabalho de \citet{bf}, as quais utilizam cadeias de Markov. 
 Em \citep{gfn} é descrita a comparação entre vários detectores de bordas que seguem a ideia deste trabalho. 
@@ -717,8 +717,157 @@ A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $
 
 
 \begin{equation}\label{eqn64}
-	p^{(n)}(\mu)=\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
+	p^{(L)}(\mu)=\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\\
 \end{equation}
+
+\begin{equation}\label{eqn64}
+	\ln p^{(L)}(\mu)=\ln\left(\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\right)\\
+\end{equation}
+\begin{equation}\label{eqn64}
+\begin{array}{ccc}
+	\ln p^{(L)}(\mu)&=&\ln\left(\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}\right)\\
+	&-&\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
+\end{array}
+\end{equation}
+\begin{equation}\label{eqn64}
+\begin{array}{ccc}
+	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +\ln(1-|\rho_c|^2)^{L}+\ln(1+\mu)+\ln\mu^{L-1}\\
+	&-&\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{eqn64}
+\begin{array}{ccl}
+	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
+	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]\\
+\end{array}
+\end{equation}
+
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flev_razao.pdf}
+  	\caption{$\sigma= 12.3426$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flev_razao.pdf}
+		\caption{$\sigma=2.1029 $.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flev_razao.pdf}
+  	\caption{$\sigma=1.4999 $.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flev_razao.pdf}
+		\caption{$\sigma=12.6414 $.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flev_razao.pdf}
+  	\caption{$\sigma=10.4523$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flev_razao.pdf}
+		\caption{$\sigma= 14.2156$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flev_razao.pdf}
+  	\caption{$\sigma=9.8405 $.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flev_razao.pdf}
+		\caption{$\sigma=13.1298 $.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+
+
+
+
+
+
+\subsection{Distribuição univariada da magnitude do produto}
+A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+
+\begin{equation}
+	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+\end{equation}
+onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right).
+		\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flev_produto.pdf}
+  	\caption{$\sigma= 0.0001241$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flev_produto.pdf}
+		\caption{$\sigma= 0.0021969$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flev_produto.pdf}
+  	\caption{$\sigma=0.0047520 $.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flev_produto.pdf}
+		\caption{$\sigma= 0.0123943$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flev_produto.pdf}
+  	\caption{$\sigma= 0.0002715$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flev_produto.pdf}
+		\caption{$\sigma= 0.0001922$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flev_produto.pdf}
+  	\caption{$\sigma= 0.0004329$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flev_produto.pdf}
+		\caption{$\sigma= 0.0002790$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+
+
 \subsection{Distribuição bivariada produto de intensidades - Lee } 
 
 O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
@@ -769,7 +918,7 @@ Aplicando o logaritmo natural na igualdade teremos:
 \end{equation}
 
 
-A funcao 
+A função
 \begin{equation}\label{cap_acf_23}
 \begin{array}{ccc}
 	\ln f_{Z_{i}}(Z_{i};\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
@@ -835,7 +984,114 @@ As figuras abaixo mostram a radial de número $r=50$ na imagem de Flevoland, com
 		\caption{$\sigma= 0.001011$.}\label{cap_acf_fig05}
 \endminipage\hfill
 \end{figure}
-\newpage
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_10_flev_wishart.pdf}
+  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_20_flev_wishart.pdf}
+		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_30_flev_wishart.pdf}
+  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_40_flev_wishart.pdf}
+		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_50_flev_wishart.pdf}
+  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_60_flev_wishart.pdf}
+		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_70_flev_wishart.pdf}
+  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_80_flev_wishart.pdf}
+		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+
+\begin{table}[hbt]
+	\centering
+	\caption{Estimativa de parâmetros.}\label{cap_acf_tab04}
+\begin{tabular}{@{}ll@{}} \toprule
+	Parâmetro $\sigma$  & Estimativa $\hat{\sigma}$ \\ \midrule
+	0.007097 &  0.007096999 \\ 
+	0.003186 & 0.003186001 \\
+	0.00582&  0.00582\\
+	0.044068 & 0.044068 \\
+	0.000878&  0.0008780002\\
+	 0.000725& 0.000725 \\
+	 0.001358&  0.001357997\\ 
+	 0.001011&  0.001009432 \\ \bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_01_flev_wishart.pdf}
+  	\caption{$\mu= 0.1$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_02_flev_wishart.pdf}
+		\caption{ $\mu= 0.2$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_03_flev_wishart.pdf}
+  	\caption{$\mu=0.3$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_04_flev_wishart.pdf}
+		\caption{$\mu= 0.4$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_05_flev_wishart.pdf}
+  	\caption{$\mu= 0.5$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_06_flev_wishart.pdf}
+		\caption{ $\mu= 0.6$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\centering
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_07_flev_wishart.pdf}
+  	\caption{$\mu=0.7 $.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{func_max_ver_sigma_08_flev_wishart.pdf}
+		\caption{$\mu= 0.8$.}\label{cap_acf_fig05}
+\endminipage\hfill
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Estimativa de parâmetros.}\label{cap_acf_tab04}
+\begin{tabular}{@{}ll@{}} \toprule
+	Parâmetro $\mu$  & Estimativa $\hat{L}$ \\ \midrule
+	0.1 &  0.3856407 \\ 
+	0.2 & 0.2917647  \\
+	0.3 & 0.2557148 \\
+	0.4 & 0.2352014  \\
+	0.5 & 0.2215195 \\
+	0.6 & 0.2115041 \\
+	0.7 & 0.2037434 \\ 
+	0.8 & 0.1974852  \\ \bottomrule
+\end{tabular}
+\end{table}
+
 Para cada $i$:
   
 Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_I)$ em uma primeira metade da faixa de dados.

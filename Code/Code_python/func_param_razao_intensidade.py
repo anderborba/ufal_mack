@@ -26,21 +26,23 @@ os.getcwd()
 os.chdir("/home/aborba/ufal_mack/Code")
 os.chdir("/home/aborba/ufal_mack")
 os.chdir("/home/aborba/ufal_mack/Data/")
-f = open("real_flevoland_1.txt","r" )
+f1 = open("real_flevoland_1.txt","r" )
+f2 = open("real_flevoland_2.txt","r" )
 os.getcwd()
 os.chdir("/home/aborba/ufal_mack/Data")
 os.getcwd()
 os.chdir("/home/aborba/ufal_mack/Code/")
 os.chdir("/home/aborba/ufal_mack/Code/Code_python")
 # Make manipulation of the files
-mat = np.loadtxt(f)
-dim = mat.shape[0]
+mat1 = np.loadtxt(f1)
+mat2 = np.loadtxt(f2)
+dim = mat1.shape[0]
 sig = np.zeros(dim)
 for i in range(dim):
-        sig[i] = mat[50][i]
+        sig[i] = mat1[50][i]/mat2[50][i]
 # Make data.
-x = np.arange(1, 10, 0.1)
-y = np.arange(0.001, 0.5 , 0.001)
+x = np.arange(1, 10, 0.01)
+y = np.arange(0.01, 1 , 0.01)
 x1, y1 = np.meshgrid(y, x)
 dimx = x.shape
 dimy = y.shape
@@ -48,19 +50,22 @@ n = dimx[0]
 m = dimy[0]
 l = 80
 sigma = sig[l]
-gamma = np.zeros(n)
+gamma1 = np.zeros(n)
+gamma2 = np.zeros(n)
 for i in range(n):
-    gamma[i] = math.gamma(x[i])
+    gamma1[i] = math.gamma(x[i])
+    gamma2[i] = math.gamma(2 * x[i])
 s = (n, m)
 z = np.zeros(s)
 for i in range(n):
     for j in range(m):
-        aux1 = x[i] * np.log(x[i]) 
-        aux2 = (x[i] - 1) * np.log(sigma)
-        aux3 = x[i] * np.log(y[j])
-        aux4 = np.log(gamma[i])
-        aux5 = (x[i] / y[j]) * sigma
-        z[i][j] = aux1 + aux2 - aux3 - aux4 - aux5
+        aux1 = np.log(gamma2[i]) 
+        aux2 = x[i] * np.log(1 - abs(y[j])**2)
+        aux3 = np.log(1 + sigma)
+        aux4 = (x[i] - 1) * np.log(sigma)
+        aux5 = 2 * np.log(gamma1[i])
+        aux6 = ((2 * x[i] + 1)/(2)) * np.log((1 + sigma)**2 - 4 * abs(y[j])**2 * sigma)
+        z[i][j] = aux1 + aux2 + aux3 + aux4 - aux5 - aux6
 surf = ax.plot_surface(x1, y1, z, cmap=cm.coolwarm,
 #surf = ax.plot_surface(x1, y1, z, cmap=cm.Spectral,
                        linewidth=0, antialiased=False)

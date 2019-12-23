@@ -34,19 +34,20 @@ os.chdir("/home/aborba/ufal_mack/Code/")
 os.chdir("/home/aborba/ufal_mack/Code/Code_python")
 # Make manipulation of the files
 mat = np.loadtxt(f)
-dim = mat.shape[0]
+dim = mat.shape[1]
 sig = np.zeros(dim)
 for i in range(dim):
         sig[i] = mat[50][i]
-# Make data.
-x = np.arange(1, 10, 0.1)
-y = np.arange(0.001, 0.5 , 0.001)
+# Make data
+x = np.arange(1, 100, 0.1)
+#y = np.arange(0.001/1.25, 0.1 , 0.001/1.25)
+y = np.arange(0.001, 0.03 , 0.01)
 x1, y1 = np.meshgrid(y, x)
 dimx = x.shape
 dimy = y.shape
 n = dimx[0]
 m = dimy[0]
-l = 80
+l = 10
 sigma = sig[l]
 gamma = np.zeros(n)
 for i in range(n):
