@@ -17,7 +17,7 @@ source("func_obj_l.r")
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat <- scan('real_flevoland_3.txt')
+mat <- scan('real_flevoland_1.txt')
 setwd("..")
 setwd("Code/Code_r")
 mat <- matrix(mat, ncol = 120, byrow = TRUE)
@@ -25,6 +25,11 @@ d <- dim(mat)
 nrows <- d[1]
 ncols <- d[2]
 N  = ncols
+zaux <- matrix(0, 1, N)
+zaux <-  mat[61, 1: N] 
+indx <- which(zaux != 0)
+N <- max(indx)
+z <-  mat[61, 1: N] 
 #z  <- rep(0, N)
 #zaux  <- rep(0, N)
 #zaux1  <- rep(0, N)

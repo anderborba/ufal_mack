@@ -1,13 +1,13 @@
 clear all;
 format long;
-ev_hh = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_1.txt');
-ev_hv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_2.txt');
-ev_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_3.txt');
+ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_1_param_L_mu.txt');
+ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_2_param_L_mu.txt');
+ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_3_param_L_mu.txt');
 %ev_hh_hv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_1.txt');
 %ev_hh_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_2.txt');
 %ev_hv_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_3.txt');
-xc = load('/home/aborba/git_ufal_mack/Data/xc_flevoland.txt');
-yc = load('/home/aborba/git_ufal_mack/Data/yc_flevoland.txt');
+xc = load('/home/aborba/ufal_mack/Data/xc_flevoland.txt');
+yc = load('/home/aborba/ufal_mack/Data/yc_flevoland.txt');
 num_radial = 100;
 for i = 1: num_radial 
 ev(i, 1) = round(ev_hh(i, 3));

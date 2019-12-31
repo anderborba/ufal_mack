@@ -6,7 +6,8 @@
 func_obj_l <- function(param){
 	#print(j)
 	j <- param
-	aux1 = j * log(abs(func_soma_1_to_j(j, z))) + (N - j) * log(abs(func_soma_j_to_n(j, N, z))) 
+	#aux1 = j * log(abs(func_soma_1_to_j(j, z))) + (N - j) * log(abs(func_soma_j_to_n(j, N, z)))
+	aux1 = j * log(abs(sum(z[1:j])/j)) + (N - j) * log(abs(sum(z[(j + 1):N])/(N - j)))
 	aux2 =  pm * L * (log(L) - 1) - log(fpmgamma(L, pm)) 
 	aux3 = (L - pm) * sum(log(abs(z)))
 	func_obj_l <- (L * aux1 + N * aux2 + aux3)

@@ -41,7 +41,7 @@ pm = 1
 L  = 4
 N  = r
 zaux <- matrix(0, 1, N)
-zaux <-  mat[6, 1: N] 
+zaux <-  mat[1, 1: N] 
 indx <- which(zaux != 0)
 N <- max(indx)
 z <-  mat[6, 1: N] 

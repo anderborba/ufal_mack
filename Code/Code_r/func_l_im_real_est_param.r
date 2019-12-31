@@ -21,8 +21,8 @@ rm(list = ls())
 require(ggplot2)
 require(latex2exp)
 # funcoes auxiliares para encontrar l(j) de acordo com \cite{nhfc}
-source("func_soma_1_to_j.r")
-source("func_soma_j_to_n.r")
+#source("func_soma_1_to_j.r")
+#source("func_soma_j_to_n.r")
 source("fpmgamma.r")
 source("func_obj_l.r")
 # Programa principal
@@ -41,10 +41,10 @@ pm = 1
 L  = 4
 N  = r
 zaux <- matrix(0, 1, N)
-zaux <-  mat[6, 1: N] 
+zaux <-  mat[1, 1: N] 
 indx <- which(zaux != 0)
 N <- max(indx)
-z <-  mat[50, 1: N] 
+z <-  mat[1, 1: N] 
 x  = seq(1, N - 1, 1 )
 xp  = seq(1, N, 1 )
 lobj <- rep(0, (N - 1))

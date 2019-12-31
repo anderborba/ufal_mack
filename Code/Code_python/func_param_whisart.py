@@ -47,8 +47,9 @@ dimx = x.shape
 dimy = y.shape
 n = dimx[0]
 m = dimy[0]
-l = 10
-sigma = sig[l]
+l = 100
+sigma1 = sum(np.log(sig[0:l]))
+sigma2 = sum(sig[0:l])
 gamma = np.zeros(n)
 for i in range(n):
     gamma[i] = math.gamma(x[i])
@@ -56,11 +57,11 @@ s = (n, m)
 z = np.zeros(s)
 for i in range(n):
     for j in range(m):
-        aux1 = x[i] * np.log(x[i]) 
-        aux2 = (x[i] - 1) * np.log(sigma)
-        aux3 = x[i] * np.log(y[j])
-        aux4 = np.log(gamma[i])
-        aux5 = (x[i] / y[j]) * sigma
+        aux1 = dim * x[i] * np.log(x[i]) 
+        aux2 = (x[i] - 1) * sigma1
+        aux3 = dim * x[i] * np.log(y[j])
+        aux4 = dim * np.log(gamma[i])
+        aux5 = (x[i] / y[j]) * sigma2
         z[i][j] = aux1 + aux2 - aux3 - aux4 - aux5
 surf = ax.plot_surface(x1, y1, z, cmap=cm.coolwarm,
 #surf = ax.plot_surface(x1, y1, z, cmap=cm.Spectral,
