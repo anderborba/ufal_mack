@@ -1,38 +1,32 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt,professionalfonts]{beamer}
 
 \usetheme{metropolis}
 \usecolortheme{beaver}
 \usepackage{appendixnumberbeamer}
 
 \usepackage{booktabs}
-\usepackage[scale=2]{ccicons}
-
-\usepackage{pgfplots}
-\usepgfplotslibrary{dateplot}
 
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
-%\usepackage[brazil]{babel}  % AAB
-\usepackage{bibentry}       % AAB
+
 \usepackage{amsmath, bm}    % AAB
 \usepackage{tikz}           % AAB    
 \usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
 %\usepackage[utf8]{inputenc}                  % AAB inserido
                                               % AAB inserido
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
-%\usepackage[caption=false,font=footnotesize]{subfig}
+
 %
 \DeclareMathOperator{\traco}{tr} %AAB
 \graphicspath{{../Dissertacao/figuras/}}        % AAB - caminho das figuras
 %\graphicspath{{../Images/PDF/}}                 % AAB - caminho das figuras (recomendável) 
 
 \title{Fusion of Evidences for Edge Detection in PolSAR Images}
-%\subtitle{A modern beamer theme}
 \date{\today}
-\author{Anderson Adaime de Borba - Mackenzie-BR - IBMEC-SP\\
-        Dr. Mauricio Marengoni - Mackenzie-BR\\
-        Dr. Alejandro Frery - UFAL-BR} 
-\institute{TENGARSS- 2019}
+\author{Anderson Adaime de Borba -- Mackenzie, BR \& IBMEC-SP\\
+        Dr. Mauricio Marengoni -- Mackenzie, BR\\
+        Dr. Alejandro C.\ Frery -- LaCCAN, UFAL, BR} 
+\institute{TENGARSS 2019}
 \titlegraphic{\hfill\includegraphics[height=1.1cm]{logo_mack1.pdf}}
 \titlegraphic{\hfill\includegraphics[height=1.1cm]{laccan_ufal.pdf}}
 
@@ -194,7 +188,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
 \begin{alertblock}{ROI Flevoland Example} 
 \begin{figure}[hbt]
 \centering
-	\includegraphics[width=.7\linewidth]{flevoland_radial_25_point_hh_crop}
+	\includegraphics[width=.8\linewidth]{flevoland_radial_25_point_hh_crop}
 	\caption{Edges detection example ($\text{hh}$ channel).}
 \label{fig1}
 \end{figure}
@@ -458,7 +452,7 @@ The following procedure is proposed to detected edges in the $\text{hh}$, $\text
     \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
     \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
     \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
-    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavalets\\
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavelets\\
                                                        coefficient};
                                                        
     \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Image fusion};
