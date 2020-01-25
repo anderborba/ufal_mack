@@ -47,7 +47,8 @@ L  = 4
 evidencias          <- rep(0, N)
 evidencias_valores  <- rep(0, N)
 xev  <- seq(1, N, 1 )
-for (j in 1 : N){
+#for (j in 1 : N){
+for (j in 200 : 200){
 	print(j)
 	z     <-  mat[j,1:N]
 	temp  <- sample(1: N, 1)
@@ -57,6 +58,14 @@ for (j in 1 : N){
 	evidencias[j] <- out$par
 	evidencias_valores[j] <- out$value
 }
+x <- seq(N - 1)
+lobj <- rep(0, (N - 1))
+for (j in 1 : (N - 1) ){
+  lobj[j] <- func_obj_l(j)
+}
+df <- data.frame(x, lobj)
+p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
+print(p)
 # imprime em arquivo no diretorio  ~/Data/
 #dfev <- data.frame(xev, evidencias)
 #names(dfev) <- NULL

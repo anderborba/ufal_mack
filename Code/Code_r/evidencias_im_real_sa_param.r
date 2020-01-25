@@ -11,29 +11,34 @@ require(GenSA)
 require(maxLik)
 #
 source("func_obj_l_L_mu.r")
+source("loglike.r")
+source("loglikd.r")
 # Programa principal
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
 mat <- scan('real_flevoland_3.txt')
+#mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
 setwd("..")
 setwd("Code/Code_r")
-mat <- matrix(mat, ncol = 120, byrow = TRUE)
-d <- dim(mat)
-nrows <- d[1]
-ncols <- d[2]
-N  = ncols
+r <- 120
+#r <- 400
+mat <- matrix(mat, ncol = r, byrow = TRUE)
 # Loop para toda a imagem
+nr <- 100
+N  <- r
+#nr <- 400
+#N  <- r
 matdf1 <- matrix(0, nrow = N, ncol = 2)
 matdf2 <- matrix(0, nrow = N, ncol = 2)
-matsig <- matrix(0, nrow = N, ncol = 4)
-evidencias          <- rep(0, nrows)
-evidencias_valores  <- rep(0, nrows)
-xev  <- seq(1, nrows, 1 )
-for (k in 1 : nrows){# j aqui varre o número de radiais
+evidencias          <- rep(0, nr)
+evidencias_valores  <- rep(0, nr)
+xev  <- seq(1, nr, 1 )
+for (k in 1 : nr){# j aqui varre o número de radiais
+#for (k in 83 : 83){# j aqui varre o número de radiais
   print(k)
-	N <- ncols
-	z     <- rep(0, N)
+	N <- r
+	z <- rep(0, N)
 	z <- mat[k, 1: N]
         zaux1 <- rep(0, N)
 	conta = 0
@@ -48,44 +53,13 @@ for (k in 1 : nrows){# j aqui varre o número de radiais
 	z     <-  zaux1[1:N]
 	matdf1 <- matrix(0, nrow = N, ncol = 2)
 	matdf2 <- matrix(0, nrow = N, ncol = 2)
-	matsig <- matrix(0, nrow = N, ncol = 4)
 	for (j in 1 : N ){
-	  sigma1 <- sum(log(z[1: j])) / j
-	  sigma2 <- sum(z[1: j]) / j
-	  sigma3 <- sum(log(z[(j + 1): N])) / (N - j)
-	  sigma4 <- sum(z[(j + 1): N]) / (N - j)
-	  matsig[j, 1] <- sigma1
-	  matsig[j, 2] <- sigma2
-	  matsig[j, 3] <- sigma3
-	  matsig[j, 4] <- sigma4
-	  loglike <- function(param) {
-	    L <- param[1]
-	    mu <- param[2]
-	    aux1 <-  L * log(L)
-	    aux2 <- (L - 1) * sigma1
-	    aux3 <-  L * log(mu)
-	    aux4 <-  log(gamma(L))
-	    aux5 <- (L / mu) * sigma2
-	    ll <- aux1 + aux2 - aux3 - aux4 - aux5 
-	    ll
-	  }
-	  loglikd <- function(param) {
-	    L <- param[1]
-	    mu <- param[2]
-	    aux1 <-  L * log(L)
-	    aux2 <- (L - 1) * sigma3
-	    aux3 <-  L * log(mu)
-	    aux4 <-  log(gamma(L))
-	    aux5 <- (L / mu) * sigma4
-	    ll <- aux1 + aux2 - aux3 - aux4 - aux5 
-	    ll
-	  }
-	  r1 <- runif(1, 0, 10)
-	  r2 <- runif(1, 0, 1)
-	  res1 <- maxBFGS(loglike, start=c(r1,r2))
-	  r1 <- runif(1, 0, 10)
-	  r2 <- runif(1, 0, 1)
-	  res2 <- maxBFGS(loglikd, start=c(r1,r2))
+	  r1 <- 1
+	  r2 <- sum(z[1: j]) / j
+	  res1 <- maxBFGS(loglike, start=c(r1, r2))
+	  r1 <- 1
+	  r2 <- sum(z[(j + 1): N]) / (N - j)
+	  res2 <- maxBFGS(loglikd, start=c(r1, r2))
 	  matdf1[j, 1] <- res1$estimate[1]
 	  matdf1[j, 2] <- res1$estimate[2]
 	  if (j < N){
@@ -93,19 +67,26 @@ for (k in 1 : nrows){# j aqui varre o número de radiais
 	    matdf2[j, 2] <- res2$estimate[2]
 	  }
 	}
-	temp  <- sample(1: N, 1)
-	lower <- 1 
-	upper <- N
-	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100, temperature = temp))
+	lower <- 15
+	upper <- N - 15
+	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
 	evidencias[k] <- out$par
 	evidencias_valores[k] <- out$value
 }
+x <- seq(N - 1)
+lobj <- rep(0, (N - 1))
+for (j in 1 : (N - 1) ){
+  lobj[j] <- func_obj_l_L_mu(j)
+}
+df <- data.frame(x, lobj)
+p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
+print(p)
 # imprime em arquivo no diretorio  ~/Data/
 dfev <- data.frame(xev, evidencias)
 names(dfev) <- NULL
 setwd("../..")
 setwd("Data")
-sink("evid_real_flevoland_3_param_L_mu.txt")
+sink("evid_real_flevoland_3_param_L_mu_15_pixel.txt")
 print(dfev)
 sink()
 setwd("..")

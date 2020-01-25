@@ -71,6 +71,7 @@ aux5 <- sum(z1[201:400]) / 200
 aux6 <- sum(z2[201:400]) / 200
 rho2 <- aux4 / sqrt(aux5 * aux6)
 
+	    aux4 <-  log(gamma(L))
 r1s <- abs(rho1)^2
 r2s <- abs(rho2)^2
 x  = seq(1, N - 1, 1 )

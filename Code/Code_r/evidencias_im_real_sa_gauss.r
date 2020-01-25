@@ -66,12 +66,12 @@ for (j in 1 : nrows){
 	evidencias_valores[j] <- out$value
 }
 # imprime em arquivo no diretorio  ~/Data/
-dfev <- data.frame(xev, evidencias)
-names(dfev) <- NULL
-setwd("../..")
-setwd("Data")
-sink("evid_real_flevoland_produto_3.txt")
-print(dfev)
-sink()
-setwd("..")
-setwd("Code/Code_r")
+#dfev <- data.frame(xev, evidencias)
+#names(dfev) <- NULL
+#setwd("../..")
+#setwd("Data")
+#sink("evid_real_flevoland_produto_3.txt")
+#print(dfev)
+#sink()
+#setwd("..")
+#setwd("Code/Code_r")

@@ -55,6 +55,9 @@
 %\else
 \usepackage[caption=false,font=footnotesize]{subfig}
 %\fi
+\usepackage{booktabs}                   % AAB inserido
+\usepackage{siunitx}                    % AAB inserido
+\usepackage{rotating}                   % AAB inserido
 %================================
 % Add packages and commands here. The following packages are loaded in our class file: fontenc, calc, indentfirst, fancyhdr, graphicx, lastpage, ifthen, lineno, float, amsmath, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, amsthm, hyphenat, natbib, hyperref, footmisc, geometry, caption, url, mdframed, tabto, soul, multirow, microtype, tikz
 
@@ -140,129 +143,83 @@ We quantify the amount of information each combination of bands brings, and comp
 %The template details the sections that can be used in a manuscript. Note that the order and names of article sections may differ from the requirements of the journal (e.g., the positioning of the Materials and Methods section). Please check the instructions for authors page of the journal to verify the correct order and names. For any questions, please contact the editorial office of the journal or support@mdpi.com. For LaTeX related questions please contact latex@mdpi.com.
 %The order of the section titles is: Introduction, Materials and Methods, Results, Discussion, Conclusions for these journals: aerospace,algorithms,antibodies,antioxidants,atmosphere,axioms,biomedicines,carbon,crystals,designs,diagnostics,environments,fermentation,fluids,forests,fractalfract,informatics,information,inventions,jfmk,jrfm,lubricants,neonatalscreening,neuroglia,particles,pharmaceutics,polymers,processes,technologies,viruses,vision
 
+
 \section{Introduction}
-%The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper \cite{ref-journal}. And now citing a book reference \cite{ref-book}. Please use the command \citep{ref-journal} for the following MDPI journals, which use author-date citation: Administrative Sciences, Arts, Econometrics, Economies, Genealogy, Humanities, IJFS, JRFM, Languages, Laws, Religions, Risks, Social Sciences.
- 
+\section{Modelagem estatística para dados PolSAR}\label{cap_acf_sec1}
+Os sistemas SAR totalmente polarimétricos transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel, a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem no sistema SAR a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
+
+A transformação pode ser representada como
+\begin{equation}\label{cap_acf_1}
+ \left[
+\begin{array}{c}
+	E_{h}^{r}   \\
+	E_{v}^{r}    \\
+\end{array}
+\right]
+ = \frac{e^{\hat{\imath} kr}}{r}\left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right]
+ \left[
+\begin{array}{c}
+	E_{h}^{t}   \\
+	E_{v}^{t}    \\
+\end{array}
+\right],
+\end{equation}
+onde $k$ denota o número de onda, $\hat{\imath}$ é um número complexo e $r$ é a distância entre o radar e o alvo. O campo eletromagnético com componentes $E_{i}^{j}$, o índice subscrito denota polarização horizontal ($h$) ou vertical ($v$),  enquanto o índice sobrescrito indica a onda recebida ($r$) ou transmitida ($t$). Definindo $S_{i,j}$ como os coeficientes de espalhamento complexo, tal que o índice $i$ e $j$ são associados com o recebimento com a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_{hv}$ está associado a onda transmitida na direção vertical ($v$) e recebida na direção horizontal ($h$).
+
+Sendo conhecido cada um dos coeficientes, a matriz de espalhamento complexa $\mathbf{S}$ é definida por
+\begin{equation}\label{cap_acf_2}
+\mathbf{S} = \left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right],
+\end{equation}
+se o meio de propagação das ondas é recíproco, isto é, de uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos, então usaremos o teorema da reciprocidade \cite{lp} para definir a matriz de espalhamento como sendo hermitiana, ou seja, a igualdade dos termos complexos $S_{hv}=S_{vh}$. De acordo com o teorema da reciprocidade a matriz de espalhamento pode ser representada pelo vetor
+\begin{equation}\label{cap_acf_3}
+\mathbf{s} = \left[
+\begin{array}{c}
+	S_{hh}      \\
+        \sqrt{2}S_{vh}     \\
+	S_{vv}      \\
+\end{array}
+\right].
+\end{equation}
+
+Podemos definir uma generalização para a representação de dados PolSAR com visada simples como sendo o vetor de espalhamento com polarização $m$, $$\mathbf{s}=[S_1,S_2,\dots,S_m]^H,$$ onde $H$ sobrescrito na representação vetorial significa o cáculo do número complexo conjugado e a seguida transposição do vetor. Os valores $S_j$ com $j=1,\dots,m$ representam variáveis randômicas complexas associadas com cada canal de polarização. $[S_{hh},S_{vh},S_{vv}]^T$ e a multiplicação de $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]$ pelo seu conjugado transposto $\mathbf{S}=[S_{hh},S_{vh},S_{vv}]^H$, isto é, a hermitiana do vetor, 
+
+\begin{equation}
+\mathbf{s}\mathbf{s}^H = \left[
+\begin{array}{c}
+	S_{hh}      \\
+        S_{vh}     \\
+	S_{vv}      \\
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+	S_{hh}  & S_{vh}  & S_{vv}      \\
+\end{array}
+\right]^H = \left[S_{ij} \right]_{i,j=h,v}
+\end{equation}
+
+De acordo com \cite{good} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{S}=[S_{hh},S_{hv},S_{vv}]^H$. 
+
+Dados polarimétricos são usualmente sujeitados a um processo de várias visadas com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme \cite{good, ade}
+\begin{equation}
+\begin{array}{ccc}
+    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{l=1}^{L} {\mathbf{s}_l}{\mathbf{s}_l}^H}, \\
+\end{array}
+\end{equation}
+onde $\mathbf{s}_l$ com $l = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{S}$, assim a matriz de covariância amostral associada a $\mathbf{S}_l$, com $l=1,\dots,L$ denotam o espalhamento para cada visada $L$ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 
-
-
-\subsection{Razão de intensidades univariada}
-A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
-
-\begin{equation}\label{eqn63}
-\begin{array}{ccccccc}
-	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
-\end{array}
-\end{equation}
-
-Onde $\tau=\frac{C_{11}}{C_{22}}$.
-
-A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
-
-
-\begin{equation}\label{eqn64}
-	p^{(L)}(\mu)=\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\\
-\end{equation}
-
-\begin{equation}\label{eqn64}
-	\ln p^{(L)}(\mu)=\ln\left(\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\right)\\
-\end{equation}
-\begin{equation}\label{eqn64}
-\begin{array}{ccc}
-	\ln p^{(L)}(\mu)&=&\ln\left(\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}\right)\\
-	&-&\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
-\end{array}
-\end{equation}
-\begin{equation}\label{eqn64}
-\begin{array}{ccc}
-	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +\ln(1-|\rho_c|^2)^{L}+\ln(1+\mu)+\ln\mu^{L-1}\\
-	&-&\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
-\end{array}
-\end{equation}
-
-\begin{equation}\label{eqn64}
-\begin{array}{ccl}
-	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
-	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]\\
-\end{array}
-\end{equation}
-
-
-\subsection{Distribuição univariada da magnitude do produto}
-A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
-
-\begin{equation}
-	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
-\end{equation}
-onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
-\begin{equation}
-\begin{array}{ccc}
-	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right).
-		\end{array}
-\end{equation}
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\subsection{Distribuição bivariada produto de intensidades - Lee } 
-
-O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
-
-\begin{equation}\label{eqn59}
-\begin{array}{ccccc}
-	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
-	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
-\end{array}
-\end{equation}
-
-Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
-
-\begin{equation}\label{eqn60}
-	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
-\end{equation}
-
-Sendo
-\begin{equation}\label{eqn61}
-	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
-\end{equation}
-
-\begin{equation}\label{eqn62}
-	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
-\end{equation}
-\subsection{Distribuição $\Gamma$ trivariada - Hagedorn }
-\begin{equation}\label{eqn62}
-\begin{array}{ccc}
-	p(I_1,I_2,I_3)&=& \frac{\exp(-\frac{1}{2}(a_1I_1+b_1I_2+c_1I_3))}{8(n-1)|C|^{\frac{n}{2}}(d_1d_2d_3)^{n-1}}\sum_{k=n-1}^{\infty}k(-1)^{k-n+1}C_{k-n+1}^{n-1}(cos(\gamma))\\
-	&&I_k(d_1\sqrt{I_1I_2})I_k(d_2\sqrt{I_2I_3})I_k(d_3\sqrt{I_1I_3})
-\end{array}
-\end{equation}
 \subsection{Função densidade de probabilidade univariada $\Gamma$ e o método da máxima verossimilhança.}
 \begin{equation}\label{func_dens_uni_gamma}
 	f_{Z}(z_{i};\mu,L)=\frac{L^{L}z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{z_{i}}{\mu}\right). \\
@@ -284,73 +241,7 @@ encontramos a função
 \end{array}
 \end{equation}
 
-As derivadas da função (\ref{func_max_ver_uni_gamma}) com relação a $L$ e $\mu$ podem ser calculadas, iniciamos pela derivada em relação a $\mu$,
-\begin{equation}\label{der_mu_func_max_ver_uni_gamma}
-\begin{array}{ccc}
-	\frac{\partial}{\partial \mu}\ln f_{Z_{i}}(z_{i};\mu,L)&=& -\frac{L}{\mu} + \frac{L}{\mu^2} z_i.\\
-\end{array}
-\end{equation}
-e a derivada em relação a $L$
-\begin{equation}\label{der_l_func_max_ver_uni_gamma}
-\begin{array}{ccc}
-	\frac{\partial}{\partial L}\ln f_{Z_{i}}(z_{i};\mu,L)&=&1 + \ln L + \ln z_{i}-\ln \mu -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{\mu} z_i.\\
-\end{array}
-\end{equation}
 
-As equações podem ser resolvidas da seguinte forma, seja (\ref{der_mu_func_max_ver_uni_gamma}) 
-\begin{equation}\label{der_mu_func_max_ver_uni_gamma_equal_to_zero}
-\begin{array}{ccc}
-\frac{\partial}{\partial \mu}\ln f_{Z_{i}}(z_{i};\mu,L)&=&0.\\
-	 -\frac{L}{\mu} + \frac{L}{\mu^2} z_i&=&0.\\
-	 \mu &=& z_i
-\end{array}
-\end{equation}
-e, usando a equação (\ref{der_l_func_max_ver_uni_gamma}),
-\begin{equation}\label{der_l_func_max_ver_uni_gamma_equal_to_zero}
-\begin{array}{ccc}
-	\frac{\partial}{\partial L}\ln f_{Z_{i}}(z_{i};\mu,L)&=&0.\\
-	1 + \ln L + \ln z_{i}-\ln \mu -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{\mu} z_i&=&0.\\
-\end{array}
-\end{equation}
-
-Considerando $\mu=z_i$ teremos
-\begin{equation}\nonumber
-\begin{array}{ccc}
-	1 + \ln L + \ln z_{i}-\ln z_i -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{z_i} z_i&=&0.\\
-	1 + \ln L + \ln z_{i}-\ln z_i -\frac{\partial}{\partial L}\ln \Gamma(L)-1&=&0.\\
-\end{array}
-\end{equation}
-portanto,
-\begin{equation}\label{eq_der_l_equal_to_zero}
-\begin{array}{ccc}
-	\ln L -\frac{\partial}{\partial L}\ln \Gamma(L)&=&0.\\
-\end{array}
-\end{equation}
-definindo,
-\begin{equation}\label{poly_gamma_function_order_zero}
-\begin{array}{ccc}
-	\psi^0(L)&=&\frac{\partial}{\partial L}\ln \Gamma(L).\\
-\end{array}
-\end{equation}
-desta maneira podemos reescrever a equação (\ref{eq_der_l_equal_to_zero}) 
-\begin{equation}\label{eq_der_l_equal_to_zero_psi}
-\begin{array}{ccc}
-	\ln L -\psi^0(L)&=&0.\\
-\end{array}
-\end{equation}
-
-Tais equações podem estimar os parâmetros $L$ e $\mu$ de um região em uma imagem PolSAR.
-%\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{faixa_dados_r_50_flevoland.pdf}
-%  	\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funcao_l_faixa_r_50_flevoland.pdf}
-%		\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%%\endminipage\hfill
-%\end{figure}
 Uma região da imagem PolSAR pode ser dividida na parte interna ($I$) e externa ($E$). Construímos uma faixa de dados que temos certeza da presença das regiões internas e externas. Definimos a faixa de dados $(z_1, \cdots,z_j)= z_I$ e $(z_{j+1}, \cdots,z_N)= z_E$. Para cada $j$ que faz a indexação da faixa de dados vamos,
   
 Estimar $(\mu_j, L_j )$ por $(\hat{\mu}_j, \hat{L}_j)(z_I)$ na parte interna da faixa de dados.
@@ -429,6 +320,412 @@ Para estimar o  parâmetro $j$ foi usado o método $GenSA$ \textit{Generalized S
      \caption{Edges evidences}
      \label{evidencias_hh_hv_vv}
    \end{figure*}
+
+
+\subsection{Função densidades de probabilidade razão de intensidades univariada e o método de máxima verossimilhança}
+A razão de intensidade e amplitude entre $S_{hh}$, $S_{vv}$, e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora. 
+
+\begin{equation}\label{razao_mu}
+\begin{array}{ccccccc}
+	\mu&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{\Sigma_{hh}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{\Sigma_{vv}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
+\end{array}
+\end{equation}
+
+Onde $\tau=\frac{\Sigma_{hh}}{\Sigma_{vv}}$ quando é considerado a função de probabilidade aplicada nos canais $(hh)$ e $(vv)$.
+
+A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}.  
+
+
+\begin{equation}\label{fun_pdf_inten_razao_mu}
+	p^{(L)}(\mu)=\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\\
+\end{equation}
+
+ Se considerarmos $w=\tau \mu$  e a distribuição  (\ref{fun_pdf_inten_razao_mu}) teremos,
+\begin{equation}\label{fun_pdf_inten_razao_w}
+	p^{(L)}(w;\tau, L, \rho)=\frac{\tau^L\Gamma(2L)(1-|\rho_c|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2L+1}{2}}}\\
+\end{equation}
+
+\begin{equation}\nonumber
+	\ln p^{(L)}(w;\tau, L, \rho)=\ln\left(\frac{\tau^L\Gamma(2L)(1-|\rho_c|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2L+1}{2}}}\right)\\
+\end{equation}
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln p^{(L)}(\mu)&=&\ln\left(\tau^L\Gamma(2L)(\tau-|\rho_c|^2)^{L}(1+w)w^{L-1}\right)\\
+	&-&\ln\left(\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2L+1}{2}}\right)\\
+\end{array}
+\end{equation}
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln p^{(L)}(\mu)&=&\ln\tau^L+\ln\Gamma(2L) +\ln(1-|\rho_c|^2)^{L}+\ln(\tau+w)+\ln w^{L-1}\\
+	&-&\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2L+1}{2}}\right)\\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{eqn64}
+\begin{array}{ccl}
+	\ln p^{(L)}(\mu)&=&L\ln\tau+\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(\tau+w)+(L-1)\ln w\\
+	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]\\
+\end{array}
+\end{equation}
+
+Uma região da imagem PolSAR pode ser dividida na parte interna ($I$) e externa ($E$). Construímos uma faixa de dados que temos certeza da presença das regiões internas e externas. Definimos a faixa de dados $(z_1, \cdots,z_j)= z_I$ e $(z_{j+1}, \cdots,z_N)= z_E$. Para cada $j$ que faz a indexação da faixa de dados vamos,
+  
+Estimar $(\tau_j, L_j, \rho )$ por $(\hat{\tau}_j, \hat{L}_j, \hat{\rho}_j)(z_I)$ na parte interna da faixa de dados.
+
+Estimar $(\tau_j, L_j, \rho )$ por $(\hat{\tau}_j, \hat{L}_j, \hat{\rho}_j)(z_E)$ na parte externa da faixa de dados.
+
+Assim
+\begin{equation}\label{cap_acf_16}
+\begin{array}{ccc}
+ \ell(\tau,\mu, L) &=&\ln\left(\prod_{k=1}^{j}p^L(z_k;\mu,L,\rho)\prod_{k=j+1}^{N}p^L(z_k;\mu,L,\rho)\right)\\
+ \ell(\tau, \mu, L)&=&\sum_{k=1}^{j}\ln\left(p^L(z_k;\mu,L,\rho)\right)+\sum_{k=j+1}^{N}\ln\left(p^L(Z_k;\mu,L,\rho)\right)
+ \end{array}
+ \end{equation}
+Usando a equação (\ref{func_max_ver_uni_gamma}) teremos
+\begin{equation}\nonumber
+\begin{array}{ccc}
+  \ell(\tau, L)&=&\sum_{k=1}^{j}\left[L\ln\tau +\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(\tau+w_k)+(L-1)\ln w_k-2\ln\Gamma(L)\right.\\
+  &-&\left.\frac{2L+1}{2}\ln\left[(\tau+w_k)^2-4|\rho_c|^2w_k \right]\right]\\
+              &+&\sum_{k=j+1}^{N}\left[L\ln\tau +\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(\tau+w_k)+(L-1)\ln w_k-2\ln\Gamma(L)\right.\\ 
+              &-&\left.\frac{2L+1}{2}\ln\left[(\tau+w_k)^2-4\tau|\rho_c|^2w_k \right]\right]\\
+  \ell(\tau, L)&=&jL\ln\tau + j\ln \Gamma(2L)+jL\ln(1-|\rho_c|^2)+\sum_{k=1}^{j}\ln (\tau+w_k)+(L-1)\sum_{k=1}^{j}\ln w_k\\ 
+  &-&2j\ln\Gamma(L)-\frac{2L+1}{2}\sum_{k=1}^{j} \ln[(\tau+w_k)^2-4\tau|\rho_c|^2w_k]\\
+              &+&(N-j)L\ln\tau + (N-j)\ln\Gamma(2L)+(N-j)L\ln(1-|\rho_c|^2)+\sum_{k=j+1}^{N}\ln (\tau+w_k)+(L-1)\sum_{k=j+1}^{N}\ln w_k\\
+  &-&2(N-j)\ln\Gamma(L)-\frac{2L+1}{2}\sum_{k=j+1}^{N} \ln[(\tau+w_k)^2-4\tau|\rho_c|^2 w_k]\\
+ \end{array}
+ \end{equation}
+equivalentemente,
+\begin{equation}\nonumber
+\begin{array}{ccc}
+  \ell(\tau, L)&=&j\left[L\ln\tau + \ln \Gamma(2L)+L\ln(1-|\rho_c|^2)+\frac{1}{j}\sum_{k=1}^{j}\ln (\tau+w_k)+\frac{(L-1)}{j}\sum_{k=1}^{j}\ln w_k\right.\\ 
+  &-&\left.2\ln\Gamma(L)-\frac{2L+1}{2j}\sum_{k=1}^{j} \ln[(\tau+w_k)^2-4\tau|\rho_c|^2w_k]\right]\\
+              &+&(N-j)\left[L\ln\tau + \ln\Gamma(2L)+L\ln(1-|\rho_c|^2)+\frac{1}{N-j}\sum_{k=j+1}^{N}\ln (\tau+w_k)+\frac{L-1}{N-j}\sum_{k=j+1}^{N}\ln w_k\right.\\
+  &-&\left.2\ln\Gamma(L)-\frac{2L+1}{2(N-j)}\sum_{k=j+1}^{N} \ln[(\tau+w_k)^2-4\tau|\rho_c|^2 w_k]\right]\\
+ \end{array}
+ \end{equation}
+resultando na equação
+\begin{equation}\nonumber
+\begin{array}{ccc}  
+  \ell(\tau; L, \rho)&=&j\ell_1(\mu; L, \rho) + (N - j)\ell_2(\mu; L, \rho)
+ \end{array}
+ \end{equation}
+definindo
+ \begin{equation}
+\begin{array}{ccc}\label{func_l_param_L_rho_razao}
+    \ell_1(\tau; L, \rho)&=&L\ln\tau + \ln\Gamma(2L)+L\ln(1-|\rho_c|^2)+\frac{1}{j}\sum_{k=1}^{j}\ln (\tau+w_k)+\frac{(L-1)}{j}\sum_{k=1}^{j}\ln w_k-2\ln\Gamma(L)\\ 
+  &-&\frac{2L+1}{2j}\sum_{k=1}^{j} \ln[(\tau+w_k)^2-4\tau|\rho_c|^2w_k]\\
+    \ell_2(\tau; L, \rho)&=&L\ln\tau +\ln\Gamma(2L)+L\ln(1-|\rho_c|^2)+\frac{1}{N-j}\sum_{k=j+1}^{N}\ln (\tau+w_k)+\frac{(L-1)}{N-j}\sum_{k=j+1}^{N}\ln w_k-2\ln\Gamma(L)\\
+  &-&\frac{2L+1}{2(N-j)}\sum_{k=j+1}^{N} \ln[(\tau+ w_k)^2-4\tau|\rho_c|^2w_k]\\
+ \end{array}
+ \end{equation}
+
+O método de otimização $BFGS$ (Ref.\cite{nw_2006}) foi usado para estimar os parâmetros em cada faixa de dados. O pacote $maxLik$ (Ref.\cite{ht_2011}) contém a implementação do método e foi usado na implementação.
+ 
+Para cada $j$ são estimados os parâmetros usando as equações de $\ell_1(\mu, L)$ e $\ell_2(\mu, L)$. Os parâmetros $(\hat{L}_I, \hat{\rho}_I)$ e $(\hat{L}_E, \hat{\rho}_e)$ foram estimados usando o pacote maxLik, que pode ser lido com mais detalhes em \cite{ht_2011}, aplicado nas funções (\ref{func_l_param_L_rho_razao}).
+
+\begin{equation}\nonumber
+\begin{array}{ccc}
+  \ell(\mu;\hat{\tau}_I, \hat{L}_I,\hat{\rho}_I,\hat{\tau}_E,\hat{L}_E,\hat{\rho}_E)&=&j\left[L_I\ln\hat{\tau}_I+\ln \Gamma(2\hat{L}_I)+\hat{L}_I\ln(1-|\hat{\rho_c}_I^2)+\frac{1}{j}\sum_{k=1}^{j}\ln (\hat{\tau}_I+w_k)+\frac{(\hat{L}_I-1)}{j}\sum_{k=1}^{j}\ln w_k\right.\\ 
+  &-&2\ln\Gamma(\hat{L}_I)-\left.\frac{2\hat{L}+1}{2j}\sum_{k=1}^{j} \ln[(\hat{\tau}_I+w_k)^2-4\hat{\tau}|\hat{\rho_c}_I|^2w_k]\right]\\
+              &+&(N-j)\left[\ln\Gamma(2\hat{L}_E)+\hat{L}_E\ln(1-|\hat{\rho_c}_E^2)+\frac{1}{N-j}\sum_{k=j+1}^{N}\ln (\hat{\tau}+w_k)+\frac{(\hat{L}_E-1)}{N-j}\sum_{k=j+1}^{N}\ln w_k\right.\\
+  &-&2\ln\Gamma(\hat{L}_E)-\left.\frac{2\hat{L}_E+1}{2(N-j)}\sum_{k=j+1}^{N} \ln[(\hat{\tau}+w_k)^2-4\hat{\tau}|\hat{\rho}_c|^2w_k]\right]\\
+ \end{array}
+ \end{equation}
+
+Para estimar o  parâmetro $j$ foi usado o método $GenSA$ \textit{Generalized Simulated Annealing} (Ref.\cite{xgsh}).
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_crop}
+     }
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_crop}
+     }
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_crop}
+     }
+     \caption{Edges evidences}
+     \label{evidencias_hh_hv_vv}
+   \end{figure*}
+
+\subsection{Distribuição univariada da magnitude do produto}
+A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+
+\begin{equation}
+	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+\end{equation}
+onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}\nonumber
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right).
+		\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}\nonumber
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}\nonumber
+	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}\nonumber
+	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}\label{fun_log_pdf_inten_produto_xi}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+Uma região da imagem PolSAR pode ser dividida na parte interna ($I$) e externa ($E$). Construímos uma faixa de dados que temos certeza da presença das regiões internas e externas. Definimos a faixa de dados $(z_1, \cdots,z_j)= z_I$ e $(z_{j+1}, \cdots,z_N)= z_E$. Para cada $j$ que faz a indexação da faixa de dados vamos,
+  
+Estimar $(L_j, \rho )$ por $(\hat{L}_j, \hat{\rho}_j)(z_I)$ na parte interna da faixa de dados.
+
+Estimar $(L_j, \rho )$ por $(\hat{L}_j, \hat{\rho}_j)(z_E)$ na parte externa da faixa de dados.
+
+Assim
+\begin{equation}\label{cap_acf_16}
+\begin{array}{ccc}
+ \ell(\mu, L) &=&\ln\left(\prod_{k=1}^{j}p^L(\xi_k;L,\rho)\prod_{k=j+1}^{N}p^L(\xi_k;L,\rho)\right)\\
+ \ell(\mu, L) &=&\sum_{k=1}^{j}\ln\left(p^L(\xi_k;L,\rho)\right)+\sum_{k=j+1}^{N}\ln\left(p^L(\xi_k;L,\rho)\right)
+ \end{array}
+ \end{equation}
+Usando a equação (\ref{fun_log_pdf_inten_produto_xi}) teremos
+\begin{equation}\nonumber
+\begin{array}{lll}
+  \ell(L, \rho)&=&\sum_{k=1}^{j}\left[\ln (4)+(L+1)\ln L+L\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right) \right]\\
+              &+&\sum_{k=j+1}^{N}\left[\ln (4)+(L+1)\ln L+L\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\right.\\ 
+   \ell(L, \rho)&=&j\ln (4)+j(L+1)\ln L+L\sum_{k=1}^{j}\ln \xi_k-j\ln\Gamma(L)-j\ln(1-|\rho|^2)\\
+   &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\\
+              &+&(N-j)\ln (4)+(N-j)(L+1)\ln L+L\sum_{k=j+1}^{N}\ln \xi_k-(N-j)\ln\Gamma(L)-(N-j)\ln(1-|\rho|^2)\\
+              &+&\sum_{k=j+1}^{N}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \sum_{k=j+1}^{N}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\\ 
+ \end{array}
+ \end{equation}
+equivalentemente,
+\begin{equation}\nonumber
+\begin{array}{lll}
+   \ell(L, \rho)&=&j\left[\ln (4)+(L+1)\ln L+\frac{L}{j}\sum_{k=1}^{j}\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\right.\\
+   &+&\left.\frac{1}{j}\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \frac{1}{j}\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\right]\\
+              &+&(N-j)\left[\ln (4)+(L+1)\ln L+\frac{L}{N-j}\sum_{k=j+1}^{N}\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\right.\\
+              &+&\left.\frac{1}{N-j}\sum_{k=j+1}^{N}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \frac{1}{N-j}\sum_{k=j+1}^{N}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\right]\\ 
+ \end{array}
+ \end{equation}
+resultando na equação
+\begin{equation}\nonumber
+\begin{array}{ccc}  
+  \ell(\tau; L, \rho)&=&j\ell_1(\mu; L, \rho) + (N - j)\ell_2(\mu; L, \rho)
+ \end{array}
+ \end{equation}
+definindo
+ \begin{equation}
+\begin{array}{ccc}\label{func_l_param_L_rho_razao}
+    \ell_1(\tau; L, \rho)&=&\ln (4)+(L+1)\ln L+\frac{L}{j}\sum_{k=1}^{j}\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
+   &+&\frac{1}{j}\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \frac{1}{j}\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\\
+    \ell_2(\tau; L, \rho)&=&\ln (4)+(L+1)\ln L+\frac{L}{N-j}\sum_{k=j+1}^{N}\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
+              &+&\frac{1}{N-j}\sum_{k=j+1}^{N}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \frac{1}{N-j}\sum_{k=j+1}^{N}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\\
+ \end{array}
+ \end{equation}
+
+O método de otimização $BFGS$ (Ref.\cite{nw_2006}) foi usado para estimar os parâmetros em cada faixa de dados. O pacote $maxLik$ (Ref.\cite{ht_2011}) contém a implementação do método e foi usado na implementação.
+ 
+Para cada $j$ são estimados os parâmetros usando as equações de $\ell_1(\mu, L)$ e $\ell_2(\mu, L)$. Os parâmetros $(\hat{L}_I, \hat{\rho}_I)$ e $(\hat{L}_E, \hat{\rho}_e)$ foram estimados usando o pacote maxLik, que pode ser lido com mais detalhes em \cite{ht_2011}, aplicado nas funções (\ref{func_l_param_L_rho_razao}).
+\begin{equation}\nonumber
+\begin{array}{lll}
+   \ell(\xi;\hat{L}_I,\hat{L}_E,\hat{\rho}_I,\hat{\rho}_E)&=&j\left[\ln (4)+(\hat{L}_I+1)\ln \hat{L}_I+\frac{\hat{L}_I}{j}\sum_{k=1}^{j}\ln \xi_k-\ln\Gamma(\hat{L}_I)-\ln(1-|\hat{\rho}_I^2)\right.\\
+   &+&\left.\frac{1}{j}\sum_{k=1}^{j}\ln I_0\left(\frac{2|\hat{\rho}_I|\hat{L}_I\xi_k}{1-|\hat{\rho}_I|^2}\right)+ \frac{1}{j}\sum_{k=1}^{j}\ln K_{\hat{L}_I-1}\left(\frac{2\hat{L}_I\xi_k}{1-|\hat{\rho}_I|^2}\right)\right]\\
+              &+&(N-j)\left[\ln (4)+(\hat{L}_E+1)\ln \hat{L}_E+\frac{\hat{L}_E}{N-j}\sum_{k=j+1}^{N}\ln \xi_k-\ln\Gamma(\hat{L}_E)-\ln(1-|\hat{\rho}_E^2)\right.\\
+              &+&\left.\frac{1}{N-j}\sum_{k=j+1}^{N}\ln I_0\left(\frac{2|\hat{\rho}_E|\hat{L}_E\xi_k}{1-|\hat{\rho}_E|^2}\right)+ \frac{1}{N-j}\sum_{k=j+1}^{N}\ln K_{\hat{L}_E-1}\left(\frac{2\hat{L}_E\xi_k}{1-|\hat{\rho}_E|^2}\right)\right]\\ 
+ \end{array}
+ \end{equation}
+
+Para estimar o  parâmetro $j$ foi usado o método $GenSA$ \textit{Generalized Simulated Annealing} (Ref.\cite{xgsh}).
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_crop}
+     }
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_crop}
+     }
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_crop}
+     }
+     \caption{Edges evidences}
+     \label{evidencias_hh_hv_vv}
+   \end{figure*}
+\subsection{Distribuição bivariada produto de intensidades - Lee } 
+
+A $PDF$ conjunta retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
+
+\begin{equation}\label{eqn59}
+\begin{array}{ccccc}
+	R_1&=&\frac{1}{L}\sum_{k=1}^{L}|S_i(k)|^2&=&\frac{B_1\Sigma_{11}}{L}\\
+	R_2&=&\frac{1}{L}\sum_{k=1}^{L}|S_j(k)|^2&=&\frac{B_2\Sigma_{22}}{L}\\
+\end{array}
+\end{equation}
+
+Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+
+\begin{equation}\label{eqn60}
+	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(L)(1-|\rho_c|^2)|\rho_c|^{L-1}}I_{L-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+%Sendo
+%\begin{equation}\label{eqn61}
+%	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
+%\end{equation}
+
+\begin{equation}\label{fun_pdf_biv_inten}
+	p(B_1,B_2)=\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho_c|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho_c|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+Aplicando o logaritmo natural na equação em ambos os lados da  (\ref{fun_pdf_biv_inten})
+
+\begin{equation}\nonumber
+	\ln p(B_1,B_2)=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho_c|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho_c|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)\right)
+\end{equation}
+\begin{equation}\nonumber
+	\ln p(B_1,B_2)=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho_c|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho_c|^2)|\rho_c|^{L-1}}\right) +\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln p(B_1,B_2)&=&\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho_c|^2}\right)\right)\\
+	&+&\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho_c|^2)|\rho_c|^{L-1}\right) \\
+	&+&\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{array}
+\end{equation}
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln p(B_1,B_2)&=&\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\right) + \ln \exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho_c|^2}\right)\\
+	&-&\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho_c|^2)|\rho_c|^{L-1}\right) \\
+	&+&\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{array}
+\end{equation}
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln p(B_1,B_2)&=&\ln L^{L+1} + \ln (R_1R_2)^{\frac{L-1}{2}} -\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho_c|^2}\\
+	&-&\ln(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)-\ln|\rho_c|^{L-1} \\
+	&+&\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{array}
+\end{equation}
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln p(B_1,B_2)&=&(L+1)\ln L +\frac{L-1}{2} \ln (R_1R_2) -\frac{LR_1}{\Sigma_{11}(1-|\rho_c|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho_c|^2)}\\
+	&-&\frac{L+1}{2}\ln(\Sigma_{11}\Sigma_{22}) - \ln\Gamma(L)- \ln(1-|\rho_c|^2)-(L-1)\ln|\rho_c|\\
+	&+&\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{array}
+\end{equation}
+\begin{equation}\label{fun_log_biv_inten}
+\begin{array}{ccc}
+	\ln p(B_1,B_2)&=&(L+1)\ln L +\frac{L-1}{2} \ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho_c|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho_c|^2)}\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)-(L-1)\ln|\rho_c|\\
+	&+&\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{array}
+\end{equation}
+
+Uma região da imagem PolSAR pode ser dividida na parte interna ($I$) e externa ($E$). Construímos uma faixa de dados que temos certeza da presença das regiões internas e externas. Definimos a faixa de dados $(z_1, \cdots,z_j)= z_I$ e $(z_{j+1}, \cdots,z_N)= z_E$. Para cada $j$ que faz a indexação da faixa de dados vamos,
+  
+Estimar $(L_j, \rho )$ por $(\hat{L}_j, \hat{\rho}_j)(z_I)$ na parte interna da faixa de dados.
+
+Estimar $(L_j, \rho )$ por $(\hat{L}_j, \hat{\rho}_j)(z_E)$ na parte externa da faixa de dados.
+
+Assim
+\begin{equation}\label{cap_acf_16}
+\begin{array}{ccc}
+ \ell(L, \rho) &=&\ln\left(\prod_{k=1}^{j}p^L(R_1,R_2;L,\rho)\prod_{k=j+1}^{N}p^L(R_1,R_2;L,\rho)\right)\\
+ \ell(L, \rho) &=&\sum_{k=1}^{j}\ln\left(p^L(R_1, R_2;L,\rho)\right)+\sum_{k=j+1}^{N}\ln\left(p^L(R_1,R_2;L,\rho)\right)
+ \end{array}
+ \end{equation}
+Usando a equação (\ref{fun_log_biv_inten}) teremos
+\begin{equation}\nonumber
+\begin{array}{lll}
+  \ell(L, \rho)&=&\sum_{k=1}^{j}\left[(L+1)\ln L +\frac{L-1}{2}\ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho_c|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho_c|^2)}\right.\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)-(L-1)\ln|\rho_c|\\
+	&+&\left.\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right) \right]\\
+              &+&\sum_{k=j+1}^{N}\left[ (L+1)\ln L +\frac{L-1}{2}\ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho_c|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho_c|^2)}\right.\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)-(L-1)\ln|\rho_c|\\
+	&+&\left.\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right) \right]\\ 
+    \ell(L, \rho)&=&j(L+1)\ln L +\frac{L-1}{2}\sum_{k=1}^{j}\ln R_1 +\frac{L-1}{2} \sum_{k=1}^{j}\ln R_2 \\
+    &-&\frac{L}{\Sigma_{11}(1-|\rho_c|^2)}\sum_{k=1}^{j}R_1-\frac{L}{\Sigma_{22}(1-|\rho_c|^2)}\sum_{k=1}^{j}R_2\\
+	&-&j\frac{L+1}{2}\ln\Sigma_{11}-j\frac{L+1}{2}\ln\Sigma_{22} - j\ln\Gamma(L)- j\ln(1-|\rho_c|^2)-j(L-1)\ln|\rho_c|\\
+	&+&\sum_{k=1}^{j}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right) \\
+              &+& (N-j)(L+1)\ln L +\frac{L-1}{2}\sum_{k=j+1}^{N}\ln R_1 \\
+              &+&\frac{L-1}{2} \sum_{k=j+1}^{N}\ln R_2 -\frac{L}{\Sigma_{11}(1-|\rho_c|^2)}\sum_{k=j+1}^{N}R_1-\frac{L}{\Sigma_{22}(1-|\rho_c|^2)}\sum_{k=j+1}^{N}R_2\\
+	&-&(N-j)\frac{L+1}{2}\ln\Sigma_{11}-(N-j)\frac{L+1}{2}\ln\Sigma_{22} - (N-j)\ln\Gamma(L)- (N-j)\ln(1-|\rho_c|^2)-(N-j)(L-1)\ln|\rho_c|\\
+	&+&\sum_{k=j+1}^{N}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)\\ 
+ \end{array}
+ \end{equation}
+equivalentemente,
+\begin{equation}\nonumber
+\begin{array}{lll} 
+    \ell(L, \rho)&=&j\left[(L+1)\ln L +\frac{L-1}{2j}\sum_{k=1}^{j}\ln R_1 +\frac{L-1}{2j} \sum_{k=1}^{j}\ln R_2\right. \\
+    &-&\frac{L}{j\Sigma_{11}(1-|\rho_c|^2)}\sum_{k=1}^{j}R_1-\frac{L}{j\Sigma_{22}(1-|\rho_c|^2)}\sum_{k=1}^{j}R_2\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)-(L-1)\ln|\rho_c|\\
+	&+&\left.\frac{1}{j}\sum_{k=1}^{j}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)\right] \\
+              &+& (N-j)\left[(L+1)\ln L +\frac{L-1}{2(N-j)}\sum_{k=j+1}^{N}\ln R_1\right. \\
+              &+&\frac{L-1}{2(N-j)} \sum_{k=j+1}^{N}\ln R_2 -\frac{L}{(N-j)\Sigma_{11}(1-|\rho_c|^2)}\sum_{k=j+1}^{N}R_1-\frac{L}{(N-j)\Sigma_{22}(1-|\rho_c|^2)}\sum_{k=j+1}^{N}R_2\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)	-(L-1)\ln|\rho_c|\\
+	&+&\left.\frac{1}{N-j}\sum_{k=j+1}^{N}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)\right]\\ 
+ \end{array}
+ \end{equation}
+resultando na equação
+\begin{equation}\nonumber
+\begin{array}{ccc}  
+  \ell(\tau; L, \rho)&=&j\ell_1(\mu; L, \rho) + (N - j)\ell_2(\mu; L, \rho)
+ \end{array}
+ \end{equation}
+definindo
+ \begin{equation}
+\begin{array}{ccc}\label{func_l_param_L_rho_razao}
+    \ell_1(\tau; L, \rho)&=&(L+1)\ln L +\frac{L-1}{2j}\sum_{k=1}^{j}\ln R_1 +\frac{L-1}{2j} \sum_{k=1}^{j}\ln R_2 \\
+    &-&\frac{L}{j\Sigma_{11}(1-|\rho_c|^2)}\sum_{k=1}^{j}R_1-\frac{L}{j\Sigma_{22}(1-|\rho_c|^2)}\sum_{k=1}^{j}R_2\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)|-(L-1)\ln|\rho_c|\\
+	&+&\frac{1}{j}\sum_{k=1}^{j}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)\\
+    \ell_2(\tau; L, \rho)&=&(L+1)\ln L +\frac{L-1}{2(N-j)}\sum_{k=j+1}^{N}\ln R_1 \\
+              &+&\frac{L-1}{2(N-j)} \sum_{k=j+1}^{N}\ln R_2 -\frac{L}{(N-j)\Sigma_{11}(1-|\rho_c|^2)}\sum_{k=j+1}^{N}R_1-\frac{L}{(N-j)\Sigma_{22}(1-|\rho_c|^2)}\sum_{k=j+1}^{N}R_2\\
+	&-&\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho_c|^2)|-(L-1)\ln|\rho_c|\\
+	&+&\frac{1}{N-j}\sum_{k=j+1}^{N}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)\\
+ \end{array}
+ \end{equation}
+
+O método de otimização $BFGS$ (Ref.\cite{nw_2006}) foi usado para estimar os parâmetros em cada faixa de dados. O pacote $maxLik$ (Ref.\cite{ht_2011}) contém a implementação do método e foi usado na implementação.
+ 
+Para cada $j$ são estimados os parâmetros usando as equações de $\ell_1(\mu, L)$ e $\ell_2(\mu, L)$. Os parâmetros $(\hat{L}_I, \hat{\rho}_I)$ e $(\hat{L}_E, \hat{\rho}_e)$ foram estimados usando o pacote maxLik, que pode ser lido com mais detalhes em \cite{ht_2011}, aplicado nas funções (\ref{func_l_param_L_rho_razao}).
+\begin{equation}\nonumber
+\begin{array}{lll}
+   \ell(R_1,R_2;\hat{L}_I,\hat{L}_E,\hat{\rho}_I,\hat{\rho}_E)&=&j\left[(\hat{L}_I+1)\ln \hat{L}_I +\frac{\hat{L}_I-1}{2j}\sum_{k=1}^{j}\ln R_1 +\frac{\hat{L}_I-1}{2j} \sum_{k=1}^{j}\ln R_2\right. \\
+    &-&\frac{\hat{L}_I}{j\Sigma_{11}(1-|\hat{\rho}_I|^2)}\sum_{k=1}^{j}R_1-\frac{\hat{L}_I}{j\Sigma_{22}(1-|\hat{\rho}_I|^2)}\sum_{k=1}^{j}R_2\\
+	&-&\frac{\hat{L}_I+1}{2}\ln\Sigma_{11}-\frac{\hat{L}_I+1}{2}\ln\Sigma_{22} - \ln\Gamma(\hat{L}_I)- \ln(1-|\hat{\rho}_I|^2)-(\hat{L}_I-1)\ln|\hat{\rho}_I|\\
+	&+&\left.\frac{1}{j}\sum_{k=1}^{j}\ln I_{\hat{L}_I-1}\left(2\hat{L}_I\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\hat{\rho}_I|}{1-|\hat{\rho}_I|^2}\right) \right]\\
+              &+&(N-j)\left[(\hat{L}_E+1)\ln \hat{L}_E +\frac{\hat{L}_E-1}{2j}\sum_{k=1}^{j}\ln R_1 +\frac{\hat{L}_E-1}{2j} \sum_{k=1}^{j}\ln R_2\right. \\
+    &-&\frac{\hat{L}_E}{j\Sigma_{11}(1-|\hat{\rho}_E|^2)}\sum_{k=1}^{j}R_1-\frac{\hat{L}_E}{j\Sigma_{22}(1-|\hat{\rho}_E|^2)}\sum_{k=1}^{j}R_2\\
+	&-&\frac{\hat{L}_E+1}{2}\ln\Sigma_{11}-\frac{\hat{L}_E+1}{2}\ln\Sigma_{22} - \ln\Gamma(\hat{L}_E)- \ln(1-|\hat{\rho}_E|^2)-(\hat{L}_E-1)\ln|\hat{\rho}_E|\\
+	&+&\left.\frac{1}{j}\sum_{k=1}^{j}\ln I_{\hat{L}_E-1}\left(2\hat{L}_E\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\hat{\rho}_E|}{1-|\hat{\rho}_E|^2}\right) \right]\\ 
+ \end{array}
+ \end{equation}
+
+Para estimar o  parâmetro $j$ foi usado o método $GenSA$ \textit{Generalized Simulated Annealing} (Ref.\cite{xgsh}).
+%\subsection{Distribuição $\Gamma$ trivariada - Hagedorn }
+%\begin{equation}\label{eqn62}
+%\begin{array}{ccc}
+%	p(I_1,I_2,I_3)&=& \frac{\exp(-\frac{1}{2}(a_1I_1+b_1I_2+c_1I_3))}{8(n-1)|C|^{\frac{n}{2}}(d_1d_2d_3)^{n-1}}\sum_{k=n-1}^{\infty}k(-1)^{k-n+1}C_{k-n+1}^{n-1}(cos(\gamma))\\
+%	&&I_k(d_1\sqrt{I_1I_2})I_k(d_2\sqrt{I_2I_3})I_k(d_3\sqrt{I_1I_3})
+%\end{array}
+%\end{equation}
 
 
 %This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
@@ -618,6 +915,9 @@ Arne Henningsen and Ott Toomet. maxLik: A package for maximum likelihood estimat
 \bibitem{xgsh}
 Yang Xiang and Sylvain Gubian and Brian Suomela and Julia Hoeng. Generalized Simulated Annealing for Efficient Global Optimization: the {GenSA} Package for {R}. The R Journal Volume 5/1, June 2013, https://journal.r-project.org/archive/2013/RJ-2013-002/index.html.
 
+\bibitem{lee}
+Lee, J. S. and Hoppel, K. W. and Mango, S. A. and Miller, A. R. Intensity and phase statistics of multilook polarimetric and interferometric {SAR} imagery. IEEE Transactions on Geoscience and Remote Sensing, 1017--1028, Vol 32, 1994.
+  
 %\bibitem{einstein} 
 %Albert Einstein. 
 %\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 

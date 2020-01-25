@@ -21,8 +21,6 @@ rm(list = ls())
 require(ggplot2)
 require(latex2exp)
 # funcoes auxiliares para encontrar l(j) de acordo com \cite{nhfc}
-source("func_soma_1_to_j.r")
-source("func_soma_j_to_n.r")
 source("fpmgamma.r")
 source("func_obj_l_razao_inten.r")
 # Programa principal
@@ -61,7 +59,6 @@ z2 <-  mat2[200,1:400]
 pm = 1
 L  = 4
 N  = 400
-ksi <- rep(0, N)
 aux1 <- sum(z[1:200])  / 200
 aux2 <- sum(z1[1:200]) / 200
 aux3 <- sum(z2[1:200]) / 200
@@ -75,7 +72,6 @@ r1s <- abs(rho1)^2
 r2s <- abs(rho2)^2
 x  = seq(1, N - 1, 1 )
 lobj <- rep(0, (N - 1))
-z <- ksi
 for (j in 1 : (N - 1) ){
 	lobj[j] <- func_obj_l_razao_inten(j)
 }

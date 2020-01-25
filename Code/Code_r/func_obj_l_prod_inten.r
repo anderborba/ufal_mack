@@ -5,34 +5,41 @@
 # assim a subrotina define a funcão objetivo l(j) descrita na eq(5) do artigo NHFC_2014
 # Distribuicao de gauss
 func_obj_l_prod_inten <- function(param){
-  z   <- matrix(0, 1, 400)	
-  soma1 <- 0.0
-	look <- 0.0
+  #Le <- 4
+  #Ld <- 4
+  Le <- matdf1[j, 1]
+  Ld <- matdf2[j, 1]
+  rhoe <- 0.4
+  rhod <- 0.3
   for (i in 1: j){ 
-    caux1 <- func_soma_1_to_j(j, z1)
-    caux2 <- func_soma_1_to_j(j, z2)
- 	  aux1 <- L^(L+1) * (z1[i] * z2[i])^(0.5 * (L - 1)) 
-	  aux2 <- (caux1 * caux2)^(0.5 * (L + 1)) * gamma(L) * (1 - r1s) * rho1^(L - 1)
- 		aux3 <- exp(-L * (z1[i] / caux1 + z2[i] / caux2 ) / (1 - r1s))
-		daux <- 2 * L * sqrt((z1[i] * z2[i]) / (caux1 * caux1)) * rho1 / (1 - r1s)
-		aux4 <- besselI(daux, L - 1)
-		look <- (aux1 / aux2) * aux3 * aux4 
-	  soma1 <- soma1 + log(look)
-	  }
-	soma2 <- 0.0
-	look <- 0.0
+    sig1e <- sum(z1[1: j]) / j
+    sig2e <- sum(z2[1: j]) / j
+  }
+  aux1 <- (Le + 1) * log(Le)  
+  aux2 <- 0.5 * (Le - 1) * sum(log(z1[1: j])) / j 
+  aux3 <- 0.5 * (Le - 1) * sum(log(z2[1: j])) / j
+  aux4 <- 0.5 * (Le + 1) * log(sig1e)
+  aux5 <- 0.5 * (Le + 1) * log(sig2e) 
+  aux6 <- log(gamma(Le)) + log(1 - rhoe^2)
+  aux7 <- (Le - 1) * log(rhoe)
+  aux8 <- -Le * (sum(z1[1: j]) / (j * sig1e) + sum(z2[1: j]) / (j * sig2e) ) / (1 - rhoe^2)
+  aux9 <- sum(log(besselI(2 * Le * sqrt((z1[1: j] * z2[1: j]) / (sig1e * sig1e)) * rhoe / (1 - rhoe^2), Le - 1))) / j 
+  soma1 <- aux1 + aux2 + aux3 - aux4 - aux5 - aux6 - aux7 + aux8 + aux9
   for (i in (j + 1) : N){
-    caux1 <- func_soma_j_to_n(j, N, z1)
-    caux2 <- func_soma_j_to_n(j, N, z2)
-    aux1 <- L^(L+1) * (z1[i] * z2[i])^(0.5 * (L - 1)) 
-    aux2 <- (caux1 * caux2)^(0.5 * (L + 1)) * gamma(L) * (1 - r2s) * rho2^(L - 1)
-    aux3 <- exp(-L * (z1[i] / (caux1) + z2[i] / (caux2) ) / (1 - r2s))
-    daux <- 2 * L * sqrt((z1[i] * z2[i]) / (caux1 * caux1)) * rho2 / (1 - r2s)
-    aux4 <- besselI(daux, L - 1)
-    look <- (aux1 / aux2) * aux3 * aux4 
-    soma1 <- soma1 + log(look)
-		}
-	func_obj_l_prod_inten <-  soma1 + soma2
-	return(func_obj_l_prod_inten)
+    sig1d <- sum(z1[(j + 1): N]) / (N - j)
+    sig2d <- sum(z2[(j + 1): N]) / (N - j)
+  }
+  aux1 <- (Ld + 1) * log(Ld)  
+  aux2 <- 0.5 * (Ld - 1) * sum(log(z1[(j + 1): N])) / (N - j)
+  aux3 <- 0.5 * (Ld - 1) * sum(log(z2[(j + 1): N])) / (N - j)
+  aux4 <- 0.5 * (Ld + 1) * log(sig1d)
+  aux5 <- 0.5 * (Ld + 1) * log(sig2d) 
+  aux6 <- log(gamma(Ld)) + log(1 - rhod^2)
+  aux7 <- (Ld - 1) * log(rhod)
+  aux8 <- -Ld * (sum(z1[(j + 1): N]) / ((N - j) * sig1d) + sum(z2[(j + 1): N]) / ((N - j) * sig2d) ) / (1 - rhod^2)
+  aux9 <- sum(log(besselI(2 * Ld * sqrt((z1[(j + 1): N] * z2[(j + 1): N]) / (sig1d * sig1d)) * rhod / (1 - rhod^2), Ld - 1))) / (N - j)
+  soma2 <- aux1 + aux2 + aux3 - aux4 - aux5 - aux6 - aux7 + aux8 + aux9
+  func_obj_l_prod_inten <-  j * soma1 + (N - j) * soma2
+  return(func_obj_l_prod_inten)
 }
 
