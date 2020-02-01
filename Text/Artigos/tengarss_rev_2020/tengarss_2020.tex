@@ -28,7 +28,7 @@
 \graphicspath{{../../Dissertacao/figuras/}}
 \begin{document}
 
-\title{Fusion of Evidences for Edge Detection in PolSAR Images\\
+\title{Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images\\
 %{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
 %should not be used}
 \thanks{Grantee Capes/PROSUP/Mackenzie.}
@@ -91,10 +91,7 @@ Numerical results are shown and analyzed in Section~\ref{sec_08} and, finally, S
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
 
-Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. 
-For each pixel, there is a matrix of scattering coefficients, which are complex numbers and describe the transformation from the transmitted electromagnetic field to the received electromagnetic field.
-
-The transformation can be represented as
+Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. For each pixel, there is a matrix of scattering, such that the entries are complex numbers. The matrix describes the transformation from the transmitted electromagnetic field to the received electromagnetic field and can be represented as
 \begin{equation*}
  \left[
 \begin{array}{c}
@@ -115,64 +112,59 @@ The transformation can be represented as
 \end{array}
 \right],
 \end{equation*}
-where $k$ denotes the wave number, $\hat{\imath}$ is the complex unit, and $\text{r}$ is the distance between the radar and the target. 
-The electromagnetic field with components $E_{\text{i}}^{\text{j}}$ has a subscribed index denoting horizontal ($\text{h}$) or vertical ($\text{v}$) polarization, while the superscript index indicates the received ($\text{r}$) or transmitted ($\text{t}$) wave. 
-Defining $S_\text{ij}$ as the complex scattering coefficients, such that the indexes $\text{i}$ and $\text{j}$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with the wave transmitted in the vertical direction ($\text{v}$) and received in the horizontal direction ($\text{h}$).
+where $k$ denotes the wave number, $\hat{\imath}$ is unit imaginary number, and $r$ is the distance between the radar and the target. 
+
+The electromagnetic field with components $E_{\text{i}}^{\text{j}}$ has a subscribed index denoting horizontal ($\text{h}$) or vertical ($\text{v}$) polarization, while the superscript index indicates the received ($\text{r}$) or transmitted ($\text{t}$) wave. Defining $S_\text{ij}$ as the complex scattering coefficients, such that the indices $\text{i}$ and $\text{j}$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with the wave transmitted in the vertical direction ($\text{v}$) and received in the horizontal direction ($\text{h}$).
 
 The complex scattering matrix $\mathbf{S}$ is defined by
 \begin{equation}
 \mathbf{S} = \left[
 \begin{array}{cc}
 	S_\text{hh}   & S_\text{hv}   \\
-	S_\text{vv}   & S_\text{vv}   
+	S_\text{vh}   & S_\text{vv}   
 \end{array}
 \right],
 \label{eq_01}
 \end{equation}
-and if the medium of propagation of waves is reciprocal, then the reciprocity theorem, Ref.~\cite{lp}, allows to state the scattering matrix as being Hermitian. 
-In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
+and if the medium of propagation of waves is reciprocal, then the reciprocity theorem, Ref.~\cite{lp}, allows to state the scattering matrix as being Hermitian.  In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
 
-Following Refs.~\cite{good, lee}, the distribution of $\mathbf{s}$ is assumed to be  Gaussian circular complex multivariate with zero mean $N^{\mathbbm C}_3(0,\mathbf{\Sigma})$, and probability density function (pdf) given by:
+Following Refs.~\cite{good, lee}, the distribution of $\mathbf{s}$ is assumed to be  Gaussian circular complex multivariate with zero mean, and probability density function (pdf) given by:
 \begin{equation}
-    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^H\mathbf{\Sigma}^{-1}\mathbf{s}),
+    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^\text{H}\mathbf{\Sigma}^{-1}\mathbf{s}),
     \label{eq_02}
 \end{equation}
 where $|\cdot|$ is the determinant, 
-the superscript index $H$ denotes the conjugate complex number, 
-and $\mathbf{\Sigma}$ is the covariance matrix of $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^H]$, where $E[\cdot]$ denotes the expected value. 
-
-This statistical modeling has been confirmed for a variety of the polarimetric SAR data, and it contains all the necessary information to characterize the backscatter according to Refs.~\cite{sarabendi,mfp}
+the superscript index $\text{H}$ denotes the conjugate complex number, 
+and $\mathbf{\Sigma}$ is the covariance matrix of $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^\text{H}]$, where $E[\cdot]$ denotes the expected value. 
  
-The statistical modeling described so far deals only with single-look modeling.
-However, polarimetric images are usually subjected to multilook processing in order to improve the signal-to-noise ratio. 
+The statistical modeling described so far deals only with single-look modeling. However, polarimetric images are usually subjected to multi-look processing in order to improve the signal-to-noise ratio. 
 For this purpose, Refs.~\cite{good, ade} show that estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent samples of the same scene, resulting in the estimated sample covariance matrix:
 \begin{equation}
-    \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^H,
+    \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^\text{H},
     \label{eq_03}
 \end{equation}
-where $\mathbf{s}_\ell$, $\ell = 1, \dots, L$, are $L$ independent samples of complex vectors distributed as $\mathbf{s}$. 
-The sample covariance matrix associated with $\mathbf{s}_\ell$ denotes the scattering for each of the $L$ looks.
+where $\mathbf{s}_\ell$, $\ell = 1, \dots, L$, are $L$ independent samples of complex vectors distributed as $\mathbf{s}$.
 
+This statistical modeling has been confirmed for a variety of the polarimetric SAR data, and it contains all the necessary information to characterize the backscatter according to Refs.~\cite{sarabendi,mfp}
 \section{Multilook Wishart density function}\label{sec_03}
 
-Multilooked data follow a Wishart distribution with probability density function defined by:
+Multi-looked data follow the Wishart distribution with probability density function defined by:
 \begin{equation}
     f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})),
     \label{eq_04}
 \end{equation} 
-where, $\traco(\cdot)$ is the trace operator of an array, $\Gamma_m(L)$ is a multivariate Gamma function defined by
+where, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is a multivariate Gamma function defined by
 \begin{equation*}
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
 \end{equation*}
 and $\Gamma(\cdot)$ is the Gamma function.
 In this study, $m=3$ is considered. This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. 
-Since there is no ambiguity, $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ is used  to represent the covariance matrix associated with $\mathbf{S}$.
+Since there is no ambiguity, $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ is used  to represent the covariance matrix associated with $\mathbf{s}$.
 
 \section{Edge Detection}\label{sec_04}
 
 Most of the usual techniques for edge detection, e.g., 
-Sobel, Canny, Laplacian of Gaussian (LoG) and pyramidal LoG, assume additive Gaussian noise and, thus, they are ineffective for PolSAR imagery.
-The noise in these kinds of images is multiplicative, making edge detection in SAR images a challenging task.
+Sobel, Canny, Laplacian of Gaussian (LoG) and pyramidal LoG, assume additive Gaussian noise and, thus, they are ineffective for PolSAR imagery.The noise in these kinds of images is multiplicative, making edge detection in SAR images a challenging task.
 
 The main idea for edge detection is based on Ref.~\cite{nhfc, gmbf} and show how to detect the transition point in a thin strip between two regions of the image. The transition point is considered as edge evidence. 
 
@@ -189,24 +181,25 @@ With this, fully polarized data is not required, only the intensity channels.
 
 \section{Maximum Likelihood Estimator (MLE) to Edge Detection}\label{sec_05}
 
-The method described in this section can be found in the Refs.~\cite{gmbf,nhfc}. For each radial in the region of interest (ROI), we have a data strip
+The method described in this section can be found in the Refs.~\cite{gmbf,nhfc}. For each radial in the region of interest (ROI), a data strip is considered
 \begin{equation}\nonumber
-	z = (z_1,z_2,\cdots,z_N) \\
+	z = (z_1,z_2,\dots,z_N) \\
 \end{equation}
-partitioned by
+with partition represented by
 \begin{equation}\label{func_max_ver_uni_gamma} 
 \begin{array}{lll}
-	Z_k&\sim&f_Z(z_k;\mu_I,L_I), k=1,\cdots,j\\
-	Z_k&\sim&f_Z(z_k;\mu_E,L_E), k=j+1,\cdots,N\\
+	Z_k&\sim& f_Z(z_k;\mu_\text{I},L_\text{I}), k=1,\dots,j\\
+	Z_k&\sim& f_Z(z_k;\mu_\text{E},L_\text{E}), k=j+1,\dots,N\\
 \end{array}
 \end{equation}
-where, for each $k$, $z_k$ are distributed according to their probability density function (PDF).
+where, for each $k$, $z_k$ is the realization of the random variable $Z_k$, and they are distributed according to their probability density function (PDF). The indices $\text{I}$ e $\text{E}$ define if the point lies in inside $\text{I}$ or external $\text{E}$ of region of interest (ROI).
 
-In order to estimate the parameters ($\mu_I,L_I$) e ($\mu_E,L_E$)  the probability density function is analyzed (PDF)
+In order to estimate the parameters ($\mu_\text{I},L_\text{I}$) e ($\mu_\text{E},L_\text{E}$)  the probability density function is used (PDF)
 \begin{equation}\label{func_dens_uni_gamma}
-	f_Z(z_k;\mu,L)=\frac{L^{L}z_k^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{z_k}{\mu}\right), \\
+	f_Z(z_k;\mu,L)=\frac{L^{L}z_k^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{z_k}{\mu}\right). \\
 \end{equation}
-and applying the natural logarithm on both sides of the equation. In this equation (\ref{func_dens_uni_gamma}) the necessary algebra is performed by finding the function
+
+Applying the natural logarithm on both sides of the equation (\ref{func_dens_uni_gamma}), and performing  the necessary algebra,  the function is found
 \begin{equation}\label{func_max_ver_uni_gamma}
 \begin{array}{lcl}
 	\ln f_Z(z_k;\mu,L)&=& L\ln L +(L - 1) \ln z_k-L \ln \mu \\
@@ -214,8 +207,8 @@ and applying the natural logarithm on both sides of the equation. In this equati
 \end{array}
 \end{equation}
 
-The objective of the method is to find the transition point in each data range (radial chosen), for this, it is considered the function of maximum likelihood $\ell$ for each partition of the data range, 
-\begin{equation}\label{cap_acf_16}
+The objective of the method is to find the transition point in each data  strip (each radial), for this, it is considered the function of maximum likelihood $\ell$ for each partition of the data,
+\begin{equation}\nonumber
 \begin{array}{lcl}
  \ell(j;\mu, L)&=&\ln\left(\prod_{k=1}^{j}f_{Z}(z_k;\mu,L)\prod_{k=j+1}^{N}f_{Z}(z_k;\mu,L)\right)\\
  \ell(j;\mu, L)&=&\sum_{k=1}^{j}\ln f_{Z}(z_k;\mu,L)\\
@@ -224,8 +217,8 @@ The objective of the method is to find the transition point in each data range (
  \end{equation}
  
 Using the equation (\ref{func_max_ver_uni_gamma}) and performing the necessary algebra, the resulting equation is, 
-\begin{equation}\nonumber
-\begin{array}{ccc}\label{func_l_param}  
+\begin{equation}\label{func_l_param}
+\begin{array}{ccc}  
   \ell(j;\mu, L)&=&j\ell_1(\mu, L) + (N - j)\ell_2(\mu, L)
  \end{array}
  \end{equation}
@@ -240,184 +233,62 @@ where,
  \end{equation}
  
 The functions defined in (\ref{func_l_param_1_2}) are used to estimate the parameters by solving the following optimization problems 
-\begin{equation}
-(\hat{\mu},\hat{L})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_1(\mu,L)
+\begin{equation}\label{optimiz_l_1}
+(\widehat{\mu}_\text{I},\widehat{L}_\text{I})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_1(\mu,L)
 \end{equation}
 e 
-\begin{equation}
-(\widehat{\mu},\widehat{L})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_2(\mu,L).
+\begin{equation}\label{optimiz_l_2}
+(\widehat{\mu}_\text{E},\widehat{L}_\text{E})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_2(\mu,L).
 \end{equation} 
 
-The $BFGS$ Ref.\cite{nw} optimization method implemented in the \text{maxLik} Ref.\cite{ht} package was used to estimate the $(\hat{\mu}_I, \hat{L}_I)$ and $(\hat{\mu}_E, \hat{L}_E)$ parameters, for every $j$ in the data range.
+The \text{BFGS}~(Ref.\cite{nw}) optimization method implemented in the \text{maxLik}~(Ref.\cite{ht}) package was used to estimate the $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ parameters, for every $j$ in the data strip.
 
-At this point, being known the parameters $(\hat{\mu}_I, \hat{L}_I)$ and $(\hat{\mu}_E, \hat{L}_E)$ we can construct the $\ell$ function based on the equation (\ref{func_l_param}) as follows,
-\begin{equation}\label{cap_acf_16}
+At this point, being known the parameters $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ is constructed the $\ell$ function based on the equation (\ref{func_l_param}) as follows,
+\begin{equation}\label{l_com_paremetros}
  \begin{array}{lll}
-\ell(j;\hat{\mu}_I, \hat{L_I},\hat{\mu}_E, \hat{L}_E)&=&j\left[  \hat{L}_I\ln \hat{L}_I -\hat{L}_I \ln \hat{\mu}_I \right.\\
-                                                      &-& \ln \Gamma(\hat{L}_I) + \frac{(\hat{L}_I  - 1)}{j} \sum_{k=1}^{j}  \ln z_k  \\
-                                                      &-&\left.\frac{\hat{L}_I}{j\hat{\mu}_I} \sum_{k=1}^{j}   z_k\right] \\
-                                               &+&(N-j)\left[\hat{L}_E\ln \hat{L}_E -\hat{L}_E \ln \hat{\mu}_E\right.\\
-                                               &-&\ln \Gamma(\hat{L}_E) + \frac{(\hat{L}_E - 1)}{n-j} \sum_{k=j+1}^{N}\ln z_k\\
-                                               &-&\left.\frac{\hat{L}_E}{(N-j)\mu_E} \sum_{k=j+1}^{N}z_k\right]. \\
+\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)&=&j\left[  \widehat{L}_I\ln \widehat{L}_I -\widehat{L}_I \ln \widehat{\mu}_I \right.\\
+                                                      &-& \ln \Gamma(\widehat{L}_I) + \frac{(\widehat{L}_I  - 1)}{j} \sum_{k=1}^{j}  \ln z_k  \\
+                                                      &-&\left.\frac{\widehat{L}_I}{j\widehat{\mu}_I} \sum_{k=1}^{j}   z_k\right] \\
+                                               &+&(N-j)\left[\widehat{L}_E\ln \widehat{L}_E -\widehat{L}_E \ln \widehat{\mu}_E\right.\\
+                                               &-&\ln \Gamma(\widehat{L}_E) + \frac{(\widehat{L}_E - 1)}{N-j} \sum_{k=j+1}^{N}\ln z_k\\
+                                               &-&\left.\frac{\widehat{L}_E}{(N-j)\mu_E} \sum_{k=j+1}^{N}z_k\right]. \\
  \end{array}
  \end{equation}
 
-To estimate the parameter $\hat{\jmath}$ in the following optimization problem $\hat{\jmath}= \arg\max\limits_{j\in [1,N]}\ell(j)$ was used the \textit{GenSA} method Generalized Simulated Annealing (Ref.\cite{xgsh}).
+To estimate the parameter $\widehat{\jmath}$ in the following optimization problem $\widehat{\jmath}= \arg\max\limits_{j\in [1,N]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$, was used the \text{GenSA} - Generalized Simulated Annealing methods~(Ref.\cite{xgsh}).
 
-%\section{Application in simulated images}\label{sec_06}
-
-%The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on Refs.~\cite{nhfc,gamf}. 
-%The image has $400\times400$ pixels and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}.
-
-%For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ a PolSAR image $I_{k_1,k_2}$ is simulated: 
-%samples of $W_G(\Sigma_{k_1}, 4)$ in the left half, and 
-%samples of $W_G(\Sigma_{k_2}, 4)$ in the right half.
-%The image has $400 \times 400$ pixels.
-%
-%\begin{figure}[hbt]
-%     \subfloat[Pauli decomposition \label{fig_Edges-Evidence:a}]{%
-%       \includegraphics[viewport= 80 50 490 460, clip=true, width=0.23\textwidth]{phanton_nhfc_dec_pauli}}      
-%     \subfloat[Marginal densities of the $\text{hh}$ channel\label{fig_Edges-Evidence:b}]{%
-%       \includegraphics[width=0.24\textwidth]{grafico_pdf_nhfc_2014_sigma_hh_artigos}
-%     }
-%    \caption{Edges evidences}
-%     \label{fig_Edges-Evidence}
-%\end{figure}
-
-%The Pauli decomposition is based on the linear combination of intensity channels: $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}-I_{\text{vv}}}, \mathbf{I_\text{hv}})$. This decomposition shows the evidence of edge in the middle line, as presented in Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}. 
-
-%Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:b}. 
-%shows the density function of $\sigma_\text{hh}$ with parameters extracted from real data for forest and urban areas: $\sigma_\text{hh}=962892$ and $\sigma_\text{hh}= 360932$.  
-    
-%\begin{figure}[hbt]
-%	\centering
-%     \subfloat[Channel $\text{hh}$ \label{fig_evid_bordas:1a}]{%
-%       %\includegraphics[width=0.2\textwidth]{example-image-a}
-%       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahh_artigos}}
-%     \subfloat[Channel $\text{hv}$ \label{fig_evid_bordas:1b}]{%
-%       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmahv_artigos}}
-%     \subfloat[Channel $\text{vv}$ \label{fig_evid_bordas:1c}]{%
-%       \includegraphics[width=0.32\linewidth]{grafico_l_nhfc_2014_sigmavv_artigos}}
-%     \caption{Edges evidences}
-%     \label{fig_evid_bordas}
-%   \end{figure}	
-
-%The functions have a peak indicating the evidence of the edge that should be captured, but the functions are not smooth, hindering the use of optimization methods that require the calculation of the derivative.
-%This problem was solved using Generalized Simulated Annealing (GenSA)~\cite{xgsh}, suitable for non-differentiable functions.
-    
-%The error is measured simulating $400$ independent images and finding $\widehat\jmath$ in a line fixed.
-%By construction, the vertical line $200$ is considered as the real edge in each replication, so the error for this replication is the absolute value of the difference between this point and the estimated value, and it is computed by $E(r) = |200 - \widehat{\jmath}(r)|$, $1\leq r \leq 400$.
-
-%Relative frequencies to estimate the probability of having an error smaller than a number of pixels is used. 
-%Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)=\frac{H(k)}{400}$. 
-%In the tests performed in this section, $k$ varies between $1$ and $10$. 
-%The algorithm is described in Ref.~\cite{fbgm}.
-%Fig.~\ref{probability_edge_detc} shows these probabilities as computed in each channel $I_\text{hh}$, $I_\text{hv}$ and $I_{vv}$ of the image. 
-  
-%\begin{figure}[hbt]
-%	\centering
-%	\includegraphics[width=.7\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
-%	\caption{Probability of detecting edges evidences.}
-%\label{probability_edge_detc}
-%\end{figure}
+In this section, it was shown how to estimate a transition point in the data range. This transition point is defined as edge evidence. 
 
 \section{Methods of fusion of edge evidence}\label{sec_07}
 
-\subsection{Simple average}
-The simple average fusion method proposes the arithmetic mean of the edge evidence in each channel. 
-The edge evidence fusion can be calculated by
-\begin{equation}
-	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
-\end{equation} 
-where $nc$ is the number of channels to be used in the fusion, $IE$ is image with edges evidences in each channel, and $IF$ is image fusion.
-More details are presented in Ref.~\cite{mit}.
+In this section, the methods of fusion of edge evidence used in numerical tests are described. The simple average, stationary wavelet transform (SWT), principal components analysis PCA, and ROC statistics fusion methods are summarized on Ref.\cite{bmf_2019}. However, more details are found in the references Ref.~\cite{n_r,mit,gs} and,~\cite{fawcett}. The discrete wavelet transform and singular value decomposition (SVD) methods are described in the sequence.
 
-\subsection{Transformada wavelet discreta - DWT} 
-This section is based on Ref.~\cite{n_r}. DWT e SWT filters are applied separately in vertical and horizontal directions and down-sampled by a factor of two in the image $I$. In this way, the image is filtered by the low pass filter $\text{L}$ and the high pass filter $\text{H}$ in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $L_\text{L}$ and $L_\text{H}$. After this, the coefficients matrices $L_\text{L}$ and $L_\text{H}$ are again subjected to the low pass and high pass filters in the vertical direction and newly down-sampled by a factor of two to create sub-images. $ L_\text{LL}$,$L_\text{LH}$, $L_\text{HL}$ and $L_\text{HH}$. The DWT fusion method can be described by the following steps:
+\subsection{Multi-Resolution Discrete Wavelet Transform DWT Fusion} 
+This section is based on Ref.~\cite{n_r}. In general form, DWT filter is applied separately in vertical and horizontal directions and down-sampled by a factor of two in the image I. In this way, the image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $\text{I}_\text{L}$ and $\text{I}_\text{H}$. After this, the decomposition $\text{I}_\text{L}$ and $\text{I}_\text{H}$ are again submitted to the low pass and high pass filters in the both direction and newly down-sampled by a factor of two to create sub-images named $\text{I}_\text{LL}$,$\text{I}_\text{LH}$, $\text{I}_\text{HL}$ and $\text{I}_\text{HH}$. The successive levels of decomposition can be achieved by repeating this procedure.
+
+The DWT fusion method can be described by the following steps:
 \begin{itemize}
-\item[-] Calculate the DWT decomposition by getting $L_\text{HH}$, $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$ for each channel;
-\item[-] in the decomposition $L_\text{HH}$ the arithmetic mean of all channels, pixel by pixel, and in the decomposition's $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$, the maximum is found between each channel, pixel by pixel, leaving a new breakdown $\bar{L}_\text{HH}$, $\bar{L}_\text{HL}$, $\bar{L}_\text{LH}$ and $\bar{L}_\text{LL}$;
-\item[-] the image with the fusing of the edge evidence $IF(x,y)$ is performing the reverse DWT transformation.  
+\item[-] Calculate the DWT decomposition by getting $\text{I}_\text{HH}$, $\text{I}_\text{HL}$, $\text{I}_\text{LH}$ and $\text{I}_\text{LL}$ for each channel;
+\item[-] in the decomposition, $\text{I}_\text{HH}$ the arithmetic mean of all channels is realized, pixel by pixel, and in the decomposition $\text{I}_\text{HL}$, $\text{I}_\text{LH}$, and $\text{I}_\text{LL}$, the maximum is found between of all channel, pixel by pixel, finding a new operators $\bar{\text{I}}_\text{HH}$, $\bar{\text{I}}_\text{HL}$, $\bar{\text{I}}_\text{LH}$, and $\bar{\text{I}}_\text{LL}$;
+\item[-] the image with the fusing of the edge evidence $\text{IF}(x,y)$ is performing the reverse DWT transformation.  
 \end{itemize}
 
-\subsection{Stationary wavelet transform -- SWT} 
-
-This section is based on Ref.~\cite{n_r}.The SWT fusion method work like previews methods, and it can be described by the following steps:
+\subsection{Multi-Resolution Singular Value Decomposition SVD Fusion - MSVD}
+This section is based on Ref.~\cite{naidu}. Multi-Resolution Singular Value Decomposition SVD Fusion works of similar manner them DWT method.  The difference in the two methods consists in to change the DWT filters to the SVD filters. The SVD fusion method can be summarized to the following steps:
 \begin{itemize}
-\item[-] calculate the SWT decomposition by getting $L_\text{HH}$, $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$ for each channel (image); %%% ACF O que é cada uma dessas L?
-\item[-] in the decomposition $L_\text{HH}$, obtain the arithmetic mean of all channels, pixel by pixel. In the decomposition's $L_\text{HL}$, $L_\text{LH}$ and $L_\text{LL}$, the maximum between each channel is found, pixel by pixel, leaving a new decomposition $\bar{L}_\text{HH}$, $\bar{L}_\text{HL}$, $\bar{L}_\text{LH}$ and $\bar{L}_\text{LL}$;
-\item[-] perform the inverse SWT transformation. The image is obtained by fusing the edge evidence $IF(x,y)$.  
+\item[-] Organize the data in a matrices $X_\ell$ with dimension $4\times MN$ according to the reference Ref.~\cite{naidu}. The dimension $MN$ is the row number multiply to the  column number of the image PolSAR, and $\ell$ is the level of resolution to set;  
+\item[-] find the SVD decomposition to matrix $T=X_\ell X_\ell^T=U_\ell S^2 U_\ell^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $S$;
+\item[-] put $\widehat{X}_\ell=U_\ell^TX_\ell$ and transform the lines this matrix in new matrices with dimensions $\frac{M}{2}\times\frac{N}{2}$, named respectively $\{\Phi_\ell, \Psi_\ell^\text{V}, \Psi_\ell^\text{H}, \Psi_\ell^\text{D}\}$. In the next level of decomposition, the $\widehat{X}_\ell$ is replaced by $\Phi_\ell$ until to reach the level L. The MSVD method may be represented as:
+\begin{equation}\label{msvd_iter}
+\widehat{X}\leftarrow \left\{\Phi_L,\{\Psi_\ell^\text{V},\Psi_\ell^\text{H},\Psi_\ell^\text{D} \}_{\ell=1}^L,\{U_\ell\}_{\ell=1}^L \right\}
+\end{equation}
+\item[-] After to apply the MSVD to level $\ell$ previously defined is realized the fusion process in the following manner. In the operators $\Phi_\ell^\text{V}$, $\Phi_\ell^\text{H}$ and $\Phi_\ell^\text{D}$, the maximum is found between of all channel, pixel to pixel, resulting in new operators $\bar{\Phi}_\ell^\text{V}$, $\bar{\Phi}_\ell^\text{H}$ and $\bar{\Phi}_\ell^\text{D}$. The other operators $\Psi_\ell$, and $U_\ell$, are averaged to all the channels. There is a  flowchart to  explain the process on Ref.~\cite{naidu};
+\item[-] the image with the fusing of the edge evidence $\text{IF}(x,y)$ is performing to the SVD transformation resulting in the above process. 
 \end{itemize}
-
-\subsection{Principal component analysis -- PCA}
-
-This section is based on Refs.~\cite{n_r,mit}.
-The method is comprised of the following steps:
-\begin{itemize}
-\item[-] organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m n$, the lines times the columns of the matrices to be used in the fusion;
-\item[-] calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
-\item[-] subtract the average of each column from the $Y$ matrix, resulting in $X$, a matrix of the same dimension of $Y$; 
-\item[-] find $C$, the covariance matrix of $X$;
-\item[-] calculate its eigenvalues $\Lambda$ and eigenvectors $D$, and sort the eigenvalues and eigenvectors in descending order. The matrices generated by the eigenvalues, on the main diagonal, and the eigenvectors placed in column, have dimensions $nc\times nc$;
-\item[-] compute the components $P_i={V_i}^{-1}{\sum_{i=1}^l V_i}$ with $i=1,\dots,nc$;
-\item[-] fuse $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$, recalling that $\sum_{i=1}^{nc}P_i=1$.
-\end{itemize}
-
-\subsection{ROC statistics}
-
-The ROC method was proposed and described in~\cite{gs,fawcett}:
-\begin{itemize}
-\item[-] obtain the evidence of edges in the channels, and store it in $E_i$ matrices, with $i=1,\dots,nc$ in a binary way;
-\item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ edges;
-\item[-] use thresholds ranging from $t=1,\dots,nc$ generating $M_t$ matrices;
-\item[-] compare each $M_t$, fixed with all $E_i$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
-\item[-] the $M_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
-\end{itemize}
-
-
-%\subsection{SVD Fusion}
-
- 
-%A técnica de fusão usando decomposição em valores singulares em multi-resoluçao é baseado na \cite{naidu}. O método e similar ao método de wavelet, onde o sinal e filtrado por filtros de passa alta e passa baixa. O método consiste  no uso dos filtros e posterior restrição usando um fator 2 alcançando o primeiro nível de decomposição. A decomposição referente ao filtro de passa baixa e filtrado e aplicado a restrição alcançando o segundo nível de decomposição. Procedendo desta maneira ate um nível determinado podemos encontrar as decomposição. A proposta agora e usar a SVD como filtro. 
-
-%Seja a amostra na forma vetorial $X=[x_1,x_2,\dots,x_n]$ representando o sinal $1D$ de tamanho $N$ divisível por 2. Rearranjamos as amostras em duas linhas onde na primeira linha sejam colocados os números impares e na segunda linha sejam colocados os números pares. Gerando a matriz de dados
-
-
-%\begin{equation*}
-%	X_{\ell} = \left[
-%\begin{array}{cccc}
-%	x_1   & x_3 & \dots & x_{N-1}  \\
-%	x_2   & x_4 & \dots & x_N  \\
-%\end{array}
-%\right]
-%\end{equation*}
-
-%Definindo $T_{\ell} = X_{\ell}X_{\ell}^T$. Encontramos a decomposição em valores singulares $T_{\ell}=U_{\ell}S_{\ell}U_{\ell}^T$. Podemos reescrever $U_{\ell}^TT_{\ell}U_{\ell}=S_{\ell}$.
-
-%Sendo $S_{\ell}$
-%\begin{equation*}
-%	S_{\ell} = \left[
-%\begin{array}{cc}
-%	s_1   & 0 \\
-%	0   & s_2   \\
-%\end{array}
-%\right]
-%\end{equation*}
-
-%Podemos definir,
-  
-%\begin{equation*}
-%\begin{array}{ccc}
-%	U_{\ell}^TT_{\ell}U_{\ell}&=&S_{\ell}^2 \\
-%	U_{\ell}^TX_{\ell}X_{\ell}^TU_{\ell}&=&S_{\ell}^2 \\
-%	U_{\ell}^TX_{\ell}(U_{\ell}^TX_{\ell})^T&=&S_{\ell}^2 \\
-%\end{array}
-%\end{equation*}
-
-
 \section{Numerical results}\label{sec_08}
 
-The PolSAR image of the Flevoland region in the Netherlands is used, with $4$ looks, for the numerical tests. 
+\subsection{Real PolSAR image}
+The PolSAR image of the Flevoland region in the Netherlands is used for the numerical tests. 
 Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radial lines for edge detection.
 
 \begin{figure}[hbt]
@@ -427,70 +298,13 @@ Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radia
 \label{flevoland_radial_4look}
 \end{figure}
 
-Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels. 
-The algorithm achieves better accuracy in channels $\text{hh}$ and $\text{hv}$ than in channel $\text{vv}$.  
+The estimates made in equations~(\ref{optimiz_l_1}) and~(\ref{optimiz_l_2}) and their insertion in equation~(\ref{l_com_paremetros}) generated an oscillation at the ends of each radial, depending on the radial considered. In order to get around the problem, we disregarded some pixels on each side of the chosen radial. In the case of this PolSAR image, after performing some tests, 14 pixels on each side are chosen. Disregarded pixels is possible because the chosen radial has 120 pixels. 
 
-It is noteworthy that GenSA identified the maximum evidence correctly, even in the presence of multiple local maxima as in the case of the $\text{vv}$ channel.
+Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels. For each of these figures, the maximum likelihood estimation (MLE) program is executed.
+
+It is worth noting that GenSA has accurately identified the maximum value of function $\ell(j)$, even in the presence of multiple local maxima. Another important observation concerns the performance of the proposed method in the $\text{hv}$ channel. The method presents a few outliers points, in contrast, the method presents good accuracy in the detection of edges evidence. We can also highlight the best performance when compared to channels $\text{hh}$ and $\text{vv}$. 
 
 
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_10_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_10_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_10_pixel_crop}
-     }
-     \caption{Edges evidences 10 pixel range}
-     \label{evidencias_hh_hv_vv 10 pixel range} 
-   \end{figure*}
-   
-   \begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_11_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_11_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_11_pixel_crop}
-     }
-     \caption{Edges evidences 11 pixel range}
-     \label{evidencias_hh_hv_vv 11 pixel range} 
-   \end{figure*}
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_12_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_12_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_12_pixel_crop}
-     }
-     \caption{Edges evidences 12 pixel range}
-     \label{evidencias_hh_hv_vv 12 pixel range} 
-   \end{figure*}
-
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_13_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_13_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_13_pixel_crop}
-     }
-     \caption{Edges evidences 13 pixel range}
-     \label{evidencias_hh_hv_vv 13 pixel range} 
-   \end{figure*}
    \begin{figure*}[hbt]
 	\centering
      \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
@@ -503,68 +317,66 @@ It is noteworthy that GenSA identified the maximum evidence correctly, even in t
        \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
      }
      \caption{Edges evidences 14 pixel range}
-     \label{evidencias_hh_hv_vv 14 pixel range} 
+     \label{evidencias_hh_hv_vv} 
    \end{figure*}
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_15_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_15_pixel_crop}
-     }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_15_pixel_crop}
-     }
-     \caption{Edges evidences 15 pixel range}
-     \label{evidencias_hh_hv_vv 15 pixel range} 
-   \end{figure*}   
-   
-Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. The methods use all the pixels detected in the three channels by using different weights: 
-the average weights the pixels equally, SWT finds the coefficients of the linear combination of its wavelet bases, and PCA weights by the eigenvalues of the covariance matrix.
 
-The ROC statistics method does not use all pixels of the channels, because the method is based on thresholds for discarding pixels. 
-This was observed in Fig.~\ref{fusion_met}\subref{fusion_met:d}.
+Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. 
+
+The simple average and PCA methods have similar performances to indicate pixels as edges. The time to perform the methods is shown in the table~(\ref{metrica_de_tempo}). Thus, we can see that the time for the PCA method is 2.19 times longer than the simple average.  
+
+The MSVD method shows excellent performance to indicate pixels of edges; the number of pixels outliers is much smaller than the other methods. The significant disadvantage of the MSVD method is the runtime. We can see in the table~(\ref{metrica_de_tempo}) that it has the highest time.
+
+The ROC Fusion showed edge pixels with good accuracy and a small number of outliers but no show pixels that are edges. One way to get around this problem would be to increase the number of channels considered, as well as use other probability density functions (PDF).
+
+The post-processing is an option to be used in all the fusion methods. An idea can be found in Ref.~\cite{gmbf}. 
+
+
 
 \begin{figure*}[hbt]
 	\centering
      \subfloat[Average fusion\label{fusion_met:a}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_media_param_L_mu_crop}
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
      }
      \subfloat[SWT fusion\label{fusion_met:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_swt_param_L_mu_crop}
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
      }
      \subfloat[PCA fusion \label{fusion_met:c}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_pca_param_L_mu_crop}       
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
      }\\
      \subfloat[ROC fusion\label{fusion_met:d}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_roc_param_L_mu_crop}
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
      }
-     \subfloat[DWT fusion\label{fusion_met:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_dwt_param_L_mu_crop}
+     \subfloat[DWT fusion\label{fusion_met:e}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
      }
-     \subfloat[SVD fusion\label{fusion_met:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_crop}
+     \subfloat[MSVD fusion\label{fusion_met:f}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
      }
      \caption{Fusion methods}
      \label{fusion_met}
 \end{figure*}
 
-\section{Time} 
-%O tempo de execução da fusão dos canais de intensidade foi realizado rodando o programa de fusão de evidencias de bordas $20$ vezes. A media destes tempos esta mostrada na tabela (\ref{metrica_de_tempo}). A tabela mostra  também o comparativo com a fusão de menor tempo. Escolhemos o menor tempo como referencia e calculamos quanto os outros são maiores.   
+\subsection{Implementation Details}
+We are running our programs on a computer Intel(R) Core i7-9750HQ CPU 2.6 GHz (16 GB RAM).  The method for detecting edge evidence defined with maximum likelihood estimation (MLE) is programmed in R language; on the other hand, the fusion methods are programmed in Matlab language. The computational cost to each of the fusion method is shown in the table (\ref{metrica_de_tempo}).
+
+\subsection{The processing time to fusion methods} 
+
+This section is constructed a table of the processing time to fusion's methods. The measurement of time was performed only for the fusion method, disregarding the time for the method that finds the evidence of edges, because it is the same for all fusion's methods. The measurement was performed by running the fusion method 20 times and performing the average of these times. The result is shown in the first row of the table (\ref{metrica_de_tempo}), the second row of the table  (\ref{metrica_de_tempo}) was constructed by choosing the shortest time of the methods as the reference time (TR). The other times shown in the table are related to the reference time (TR).   
+
+
 \begin{table}[hbt]
 	\centering
 	\tiny
-	\caption{Métrica de Tempo.}
-	\label{metrica_de_tempo}
+	\caption{The measurement of time.}\label{metrica_de_tempo}
 \begin{tabular}{@{}lllllll@{}} \toprule
-	Métricas & Media   &   PCA   &  ROC   & DWT     &  SWT     &  SVD \\ \midrule
-	Tempo(s)    & 0.00369 & 0.01016 &0.13858 & 0.03831&  0.08499 & 0.82393  \\
-    Tempo comparativo $\left(\frac{\text{Tempo}}{TF}\right)$& TF & 2.75TF &37.5TF & 10.4TF   &  23TF& 223TF  \\ \bottomrule
+	Methods       & Average    &   PCA      &  ROC      & DWT       &  SWT        &  MSVD \\ \midrule
+	Time (s)      & 0.00858185 & 0.01880955 &0.39989020 &0.07938820 &  0.18071635 & 1.11195710  \\
+    Ref. time     & TR & 2.19TR &46.59TR & 9.25TR   & 21.05TR & 129.57TR  \\ \bottomrule
 \end{tabular}
 \end{table}
+
 
 \section{Conclusion}\label{sec_09}
 

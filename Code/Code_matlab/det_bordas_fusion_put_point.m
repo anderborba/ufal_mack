@@ -59,9 +59,9 @@ MY = zeros(num_radial, r, nc);
 %ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_hh_vv_param_razao.txt');
 %%%%% Cuidado esta repetido o canal%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_hh_vv_param_razao.txt');
-ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_1_param_L_mu_15_pixel.txt');
-ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_2_param_L_mu_15_pixel.txt');
-ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_3_param_L_mu_15_pixel.txt');
+ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_1_param_L_mu_14_pixel.txt');
+ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_2_param_L_mu_14_pixel.txt');
+ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_3_param_L_mu_14_pixel.txt');
 %ev_hh_hv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_1.txt');
 %ev_hh_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_2.txt');
 %ev_hv_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_3.txt');
@@ -94,13 +94,20 @@ for canal = 1 : nc
 end
 %figure(1), imshow(I255);
 %figure(2), imshow(IG);
+nt = 20
+tempo = zeros(1, nt);
+for i=1: nt
+tic;
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-%[IF] = fus_svd(IM, m, n, nc);
+[IF] = fus_svd(IM, m, n, nc);
+tempo(i) = toc;
+end
+t= sum(tempo(1:nt)) / nt;
 %%%%%%%%%%% ROIs %%%%%%%%%%%%%%%%%%
 x0 = m / 2 - 140;
 y0 = n / 2 - 200;
@@ -116,9 +123,9 @@ hby = y0 + 60;
 
 imshow(II)
 % plot com fusion
-%[xpixel, ypixel, valor] = find(IF > 0);
+[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
+%[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
 %
 axis on
 hold on;
