@@ -1,57 +1,36 @@
-\documentclass[conference]{IEEEtran}
-%\IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\documentclass[journal]{IEEEtran}
+
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
+
 \usepackage{graphicx}
+\graphicspath{{../../Dissertacao/figuras/}}
+
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{booktabs}                        % AAB inserido
 \usepackage[utf8]{inputenc}                  % AAB inserido
 \usepackage{rotating}                        % AAB inserido
-%\usepackage{subfigure}                       % AAB inserido
-%\usepackage[export]{adjustbox}               % AAB inserido
+
 \usepackage{bbm}
+\usepackage[binary-units]{siunitx}
 
-\ifCLASSOPTIONcompsoc                        % AAB inserido
-\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
-\else
 \usepackage[caption=false,font=footnotesize]{subfig}
-\fi
-%\usepackage[round,sort,nonamebreak]{natbib}  % AAB inserido
-%\usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-%AAB
 \DeclareMathOperator{\traco}{tr}
-\graphicspath{{../../Dissertacao/figuras/}}
-\begin{document}
 
-\title{Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images\\
-%{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-%should not be used}
-\thanks{Grantee Capes/PROSUP/Mackenzie.}
-}
-\author{\IEEEauthorblockN{Anderson A.\ de Borba}
-\IEEEauthorblockA{\textit{Dept.\ Engenharia Elétrica e Computação} \\
-\textit{UPM -- Universidade Presbiteriana Mackenzie}\\
-IBMEC-SP\\
-São Paulo, Brazil \\
-anderson.borba@ibmec.edu.br}
-\and
-\IEEEauthorblockN{Maurício Marengoni}
-\IEEEauthorblockA{\textit{Dept.\ Engenharia Elétrica e Computação} \\
-\textit{UPM -- Universidade Presbiteriana Mackenzie}\\
-São Paulo, Brazil \\
-mauricio.marengoni@mackenzie.br}
-\and
-\IEEEauthorblockN{Alejandro C.\ Frery}
-\IEEEauthorblockA{Laboratório de Computação Científica e Análise Numérica- LACCAN}
-\textit{UFAL -- Universidade Federal de Alagoas}\\
-Maceió, Brazil \\
-acfrery@laccan.ufal.br}
+
+
+\begin{document}
+\title{Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images}
+\author{Anderson A.\ de Borba, Maurício Marengoni, and Alejandro C.\ Frery,~\IEEEmembership{Senior Member,~IEEE}%
+\thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.borba@ibmec.edu.br}
+\thanks{M.\ Marengoni is with the Dept.\ Engenharia Elétrica e Computação,
+UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
+\thanks{A.\ C.\ Frery is with the Laboratório de Computação Científica e Análise Numérica (LaCCAN), Universidade Federal de Alagoas (UFAL), Maceió, Brazil. acfrery@laccan.ufal.br}}
+
 \maketitle
+
 \begin{abstract}
 The Synthetic Polarimetric Aperture Radar (PolSAR) has reached an essential position in the area of remote sensing. The images coming from PolSAR sensors are contaminated with speckle noise, making their processing and analysis challenging tasks. The present study discusses a detection method based on the fusion of evidence obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi look images. The method consists of detecting transition points in the thinnest range of data that covers two regions using the maximum likelihood with estimates of the parameters from the Wishart distribution. The fusion methods used are the simple mean, the discrete wavelet (DWT), and stationary (SWT) transform, the principal component analysis (PCA), the ROC statistic, and a multi-resolution method based on singular values (SVD). The results indicate an assessment of the influence of each intensity channel in the merging of evidence with possible paths for future research.
 \end{abstract}
@@ -66,81 +45,82 @@ This paper presents results on the detection and fusion of edge evidence applied
 
 Among the available edge detection techniques for PolSAR images, it is worth mentioning:
 a) Gradient-based techniques can be found in Refs.~\cite{tlb, obw, flmc, fyf}. They present difficulties due to speckle. For this reason, the treatment of speckle-noise is crucial, giving rise to methods that work by filtering this type of noise Refs.~\cite{ lee, law, cgaf}; 
-
 b) Methods using Markov chains, Ref.~\cite{bf} have intensive use of computational processing;
-
 c) The use of deep learning can be observed in the following Refs.~\cite{bac, ztmxzxf, tabmm, sglmla}, and;
-
 d) techniques based on statistical modeling have been used in border detection, Refs.~\cite{gmbf, fbgm, horrit}.
 
 The article follows the statistical modeling approach using the techniques described in Refs.~\cite{fbgm, nhfc, bmf_2019} to find the edge evidence. As well as, o process the fusing of this information is described in Refs.~\cite{mit, sg}.
 
 This work aims to show the feasibility of a procedure to edge detection in the PolSAR image. The intention is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
-The article is structured as follows; section~\ref{sec_02} describes statistical modeling and edge detection for PolSAR data, section~\ref{sec_03} describes the approach to edge evidence fusing, the numerical results are shown and analyzed in Section~\ref{sec_04}, and finally, Section~\ref{sec_05} concludes the work with observations, future directions of research and, the feasibility of detecting edges in each channel of a PolSAR image.
+The article is structured as follows.
+Section~\ref{sec_02} describes statistical modeling and edge detection for PolSAR data.
+Section~\ref{sec_03} describes the approach to edge evidence fusing.
+Section~\ref{sec_04} presents the numerical results.
+Finally, Section~\ref{sec_05} concludes the work with observations, future directions of research, and the feasibility of detecting edges in each channel of a PolSAR images.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
 
-Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. For each pixel, there is a matrix of scattering, such that the entries are complex numbers. The matrix describes the transformation from the transmitted electromagnetic field to the received electromagnetic field and can be represented as
-\begin{equation*}
- \left[
-\begin{array}{c}
-	E_{\text{h}}^{\text{r}}   \\
-	E_{\text{v}}^{\text{r}}    
-\end{array}
-\right]
- = \frac{e^{\hat{\imath} kr}}{r}\left[
-\begin{array}{cc}
-	S_\text{hh}   & S_\text{hv}   \\
-	S_\text{vh}   & S_\text{vv}   
-\end{array}
-\right]
- \left[
-\begin{array}{c}
-	E_{\text{h}}^{\text{t}}   \\
-	E_{\text{v}}^{\text{t}}    
-\end{array}
-\right],
-\end{equation*}
-where $k$ denotes the wave number, $\hat{\imath}$ is unit imaginary number, and $r$ is the distance between the radar and the target. 
+%Fully polarimetric SAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. For each pixel, there is a matrix of scattering, such that the entries are complex numbers. The matrix describes the transformation from the transmitted electromagnetic field to the received electromagnetic field and can be represented as
+%\begin{equation*}
+% \left[
+%\begin{array}{c}
+%	E_{\text{h}}^{\text{r}}   \\
+%	E_{\text{v}}^{\text{r}}    
+%\end{array}
+%\right]
+% = \frac{e^{\hat{\imath} kr}}{r}\left[
+%\begin{array}{cc}
+%	S_\text{hh}   & S_\text{hv}   \\
+%	S_\text{vh}   & S_\text{vv}   
+%\end{array}
+%\right]
+% \left[
+%\begin{array}{c}
+%	E_{\text{h}}^{\text{t}}   \\
+%	E_{\text{v}}^{\text{t}}    
+%\end{array}
+%\right],
+%\end{equation*}
+%where $k$ denotes the wave number, $\hat{\imath}$ is unit imaginary number, and $r$ is the distance between the radar and the target. 
+%
+%The electromagnetic field with components $E_{\text{i}}^{\text{j}}$ has a subscribed index denoting horizontal (h) or vertical (v) polarization, while the superscript index indicates the received (r) or transmitted (t) wave. Defining $S_\text{ij}$ as the complex scattering coefficients, such that the indices $\text{i}$ and $\text{j}$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with the wave transmitted in the vertical direction (v) and received in the horizontal direction (h).
+%
+%The complex scattering matrix $\mathbf{S}$ is defined by
+%\begin{equation}
+%\mathbf{S} = \left[
+%\begin{array}{cc}
+%	S_\text{hh}   & S_\text{hv}   \\
+%	S_\text{vh}   & S_\text{vv}   
+%\end{array}
+%\right],
+%\label{eq_01}
+%\end{equation}
+%and if the medium of propagation of waves is reciprocal, then the reciprocity theorem, Ref.~\cite{lp}, allows to state the scattering matrix as being Hermitian.  In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
+%
+%Following Refs.~\cite{good, lee}, the distribution of $\mathbf{s}$ is assumed to be  Gaussian circular complex multivariate with zero mean, and probability density function (pdf) given by:
+%\begin{equation}
+%    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^\text{H}\mathbf{\Sigma}^{-1}\mathbf{s}),
+%    \label{eq_02}
+%\end{equation}
+%where $|\cdot|$ is the determinant, 
+%the superscript index $\text{H}$ denotes the conjugate complex number, 
+%and $\mathbf{\Sigma}$ is the covariance matrix of $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^\text{H}]$, where $E[\cdot]$ denotes the expected value. 
+% 
+%The statistical modeling described so far deals only with single-look modeling. However, polarimetric images are usually subjected to multi-look processing in order to improve the signal-to-noise ratio. 
+%For this purpose, Refs.~\cite{good, ade} show that estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent samples of the same scene, resulting in the estimated sample covariance matrix:
+%\begin{equation}
+%    \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^\text{H},
+%    \label{eq_03}
+%\end{equation}
+%where $\mathbf{s}_\ell$, $\ell = 1, \dots, L$, are $L$ independent samples of complex vectors distributed as $\mathbf{s}$.
+%
+%This statistical modeling has been confirmed for a variety of the polarimetric SAR data, and it contains all the necessary information to characterize the backscatter according to Refs.~\cite{sarabendi,mfp}
+%\subsection{Multilook Wishart density function}
 
-The electromagnetic field with components $E_{\text{i}}^{\text{j}}$ has a subscribed index denoting horizontal (h) or vertical (v) polarization, while the superscript index indicates the received (r) or transmitted (t) wave. Defining $S_\text{ij}$ as the complex scattering coefficients, such that the indices $\text{i}$ and $\text{j}$ are associated with the reception and transmission of waves, for example, the scattering coefficient $S_\text{hv}$ is associated with the wave transmitted in the vertical direction (v) and received in the horizontal direction (h).
-
-The complex scattering matrix $\mathbf{S}$ is defined by
+Multi-looked fully polarimetric data follow the Wishart distribution with probability density function defined by:
 \begin{equation}
-\mathbf{S} = \left[
-\begin{array}{cc}
-	S_\text{hh}   & S_\text{hv}   \\
-	S_\text{vh}   & S_\text{vv}   
-\end{array}
-\right],
-\label{eq_01}
-\end{equation}
-and if the medium of propagation of waves is reciprocal, then the reciprocity theorem, Ref.~\cite{lp}, allows to state the scattering matrix as being Hermitian.  In this way, the scattering matrix~(\ref{eq_01}) can be represented by the vector $\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T$.
-
-Following Refs.~\cite{good, lee}, the distribution of $\mathbf{s}$ is assumed to be  Gaussian circular complex multivariate with zero mean, and probability density function (pdf) given by:
-\begin{equation}
-    f_{\mathbf{s}}(\mathbf{s};\mathbf{\Sigma})=\frac{1}{\pi^3|\mathbf{\Sigma}|} \exp(-\mathbf{s}^\text{H}\mathbf{\Sigma}^{-1}\mathbf{s}),
-    \label{eq_02}
-\end{equation}
-where $|\cdot|$ is the determinant, 
-the superscript index $\text{H}$ denotes the conjugate complex number, 
-and $\mathbf{\Sigma}$ is the covariance matrix of $\mathbf{s}$ such that $\mathbf{\Sigma}=E[\mathbf{ss}^\text{H}]$, where $E[\cdot]$ denotes the expected value. 
- 
-The statistical modeling described so far deals only with single-look modeling. However, polarimetric images are usually subjected to multi-look processing in order to improve the signal-to-noise ratio. 
-For this purpose, Refs.~\cite{good, ade} show that estimated positive definite Hermitian matrices are obtained by computing the average of $L$ independent samples of the same scene, resulting in the estimated sample covariance matrix:
-\begin{equation}
-    \mathbf{Z}=\frac{1}{L}\sum_{\ell=1}^{L} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^\text{H},
-    \label{eq_03}
-\end{equation}
-where $\mathbf{s}_\ell$, $\ell = 1, \dots, L$, are $L$ independent samples of complex vectors distributed as $\mathbf{s}$.
-
-This statistical modeling has been confirmed for a variety of the polarimetric SAR data, and it contains all the necessary information to characterize the backscatter according to Refs.~\cite{sarabendi,mfp}
-\subsection{Multilook Wishart density function}
-
-Multi-looked data follow the Wishart distribution with probability density function defined by:
-\begin{equation}
-    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})),
+    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z})),
     \label{eq_04}
 \end{equation} 
 where, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is a multivariate Gamma function defined by
@@ -148,8 +128,9 @@ where, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is a mul
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
 \end{equation*}
 and $\Gamma(\cdot)$ is the Gamma function.
-In this study, $m=3$ is considered. This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. 
-Since there is no ambiguity, $\mathbf{\Sigma}$ instead of $\mathbf{\Sigma_{s}}$ is used  to represent the covariance matrix associated with $\mathbf{s}$.
+In this study, $m=3$ is considered. 
+This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
+This assumption usually holds on targets where the speckle is fully developed.
 
 \subsection{Edge Detection}
 
@@ -186,66 +167,65 @@ where, for each $k$, $z_k$ is the realization of the random variable $Z_k$, and 
 
 In order to estimate the parameters ($\mu_\text{I},L_\text{I}$) e ($\mu_\text{E},L_\text{E}$)  the probability density function is used (PDF)
 \begin{equation}\label{func_dens_uni_gamma}
-	f_Z(z_k;\mu,L)=\frac{L^{L}z_k^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{z_k}{\mu}\right). \\
+	f_Z(z_k;\mu,L)=\frac{L^{L}z_k^{L-1}}{\mu^{L}\Gamma(L)} \exp\Big\{-L\frac{z_k}{\mu}\Big\}.
 \end{equation}
 
 Applying the natural logarithm on both sides of the equation (\ref{func_dens_uni_gamma}), and performing  the necessary algebra,  the function is found
 \begin{equation}\label{func_max_ver_uni_gamma}
-\begin{array}{lcl}
-	\ln f_Z(z_k;\mu,L)&=& L\ln L +(L - 1) \ln z_k-L \ln \mu \\
-	 	                  &-& \ln \Gamma(L) -\frac{L}{\mu} z_k.\\
-\end{array}
+\begin{split}
+	\ln f_Z(z_k;\mu,L)&= L\ln L +(L - 1) \ln z_k-L \ln \mu \\
+	 	                  &{}- \ln \Gamma(L) -\frac{L}{\mu} z_k.\\
+\end{split}
 \end{equation}
 
-The objective of the method is to find the transition point in each data  strip (each radial), for this, it is considered the function of maximum likelihood $\ell$ for each partition of the data,
+The objective of the method is to find the transition point in each radial data strip .
+For this, we consider the function of maximum likelihood $\ell$ for each partition of the data:
 \begin{equation}\nonumber
-\begin{array}{lcl}
- \ell(j;\mu, L)&=&\ln\left(\prod_{k=1}^{j}f_{Z}(z_k;\mu,L)\prod_{k=j+1}^{N}f_{Z}(z_k;\mu,L)\right)\\
- \ell(j;\mu, L)&=&\sum_{k=1}^{j}\ln f_{Z}(z_k;\mu,L)\\
-             &+&\sum_{k=j+1}^{N}\ln f_{Z}(Z_k;\mu,L).
- \end{array}
- \end{equation}
- 
-Using the equation (\ref{func_max_ver_uni_gamma}) and performing the necessary algebra, the resulting equation is, 
-\begin{equation}\label{func_l_param}
-\begin{array}{ccc}  
-  \ell(j;\mu, L)&=&j\ell_1(\mu, L) + (N - j)\ell_2(\mu, L)
- \end{array}
- \end{equation}
-where,
- \begin{equation}
-\begin{array}{lcl}\label{func_l_param_1_2}
-    \ell_1(\mu, L)&=&L\ln L+\frac{(L-1)}{j}\sum_{k=1}^{j}\ln z_k-L\ln\mu\\
-    &-&\ln\Gamma(L) -\frac{L}{j\mu}\sum_{k=1}^{j} z_k\\
-    \ell_2(\mu, L)&=&L\ln L+\frac{(L-1)}{N-j}\sum_{k=j+1}^{N}\ln z_k-L\ln\mu\\
-    &-&\ln\Gamma(L) -\frac{L}{(N-j)\mu}\sum_{k=j+1}^{N} z_k.
- \end{array}
- \end{equation}
- 
-The functions defined in (\ref{func_l_param_1_2}) are used to estimate the parameters by solving the following optimization problems 
-\begin{equation}\label{optimiz_l_1}
-(\widehat{\mu}_\text{I},\widehat{L}_\text{I})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_1(\mu,L)
+\ell(j;\mu, L)=\sum_{k=1}^{j}\ln f_{Z}(z_k;\mu,L)
+             +\sum_{k=j+1}^{N}\ln f_{Z}(Z_k;\mu,L).
 \end{equation}
-e 
+ 
+Using~\eqref{func_max_ver_uni_gamma} and performing the necessary algebra, the resulting equation is 
+\begin{equation}\label{func_l_param}
+  \ell(j;\mu, L)=j\ell_1(\mu, L) + (N - j)\ell_2(\mu, L),
+ \end{equation}
+where
+\begin{equation}\label{func_l_param_1_2}
+\begin{split}
+    \ell_1(\mu, L)&=L\ln L+\frac{L-1}{j}\sum_{k=1}^{j}\ln z_k-L\ln\mu\\
+    &{}-\ln\Gamma(L) -\frac{L}{j\mu}\sum_{k=1}^{j} z_k,\text{ and}\\
+    \ell_2(\mu, L)&=L\ln L+\frac{L-1}{N-j}\sum_{k=j+1}^{N}\ln z_k-L\ln\mu\\
+    &{}-\ln\Gamma(L) -\frac{L}{(N-j)\mu}\sum_{k=j+1}^{N} z_k.
+ \end{split}
+\end{equation}
+ 
+The functions defined in~\eqref{func_l_param_1_2} are used to estimate the parameters by solving the following optimization problems 
+\begin{equation}\label{optimiz_l_1}
+(\widehat{\mu}_\text{I},\widehat{L}_\text{I})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_1(\mu,L),
+\end{equation}
+and
 \begin{equation}\label{optimiz_l_2}
 (\widehat{\mu}_\text{E},\widehat{L}_\text{E})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_2(\mu,L).
 \end{equation} 
 
-The BFGS~(Ref.\cite{nw}) optimization method implemented in the maxLik~(Ref.\cite{ht}) package was used to estimate the $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ parameters, for every $j$ in the data strip.
+We used the BFGS optimization method~\cite{nw} implemented in the maxLik package~\cite{ht} to estimate $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$, for every $j$ in the data strip.
 
-At this point, being known the parameters $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ is constructed the $\ell$ function based on the equation (\ref{func_l_param}) as follows,
+At this point, being known the parameters $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ is constructed the $\ell$ function based on~\eqref{func_l_param} as follows,
 \begin{equation}\label{l_com_paremetros}
- \begin{array}{lll}
-\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)&=&j\left[  \widehat{L}_I\ln \widehat{L}_I -\widehat{L}_I \ln \widehat{\mu}_I \right.\\
-                                                      &-& \ln \Gamma(\widehat{L}_I) + \frac{(\widehat{L}_I  - 1)}{j} \sum_{k=1}^{j}  \ln z_k  \\
-                                                      &-&\left.\frac{\widehat{L}_I}{j\widehat{\mu}_I} \sum_{k=1}^{j}   z_k\right] \\
-                                               &+&(N-j)\left[\widehat{L}_E\ln \widehat{L}_E -\widehat{L}_E \ln \widehat{\mu}_E\right.\\
-                                               &-&\ln \Gamma(\widehat{L}_E) + \frac{(\widehat{L}_E - 1)}{N-j} \sum_{k=j+1}^{N}\ln z_k\\
-                                               &-&\left.\frac{\widehat{L}_E}{(N-j)\mu_E} \sum_{k=j+1}^{N}z_k\right]. \\
- \end{array}
+ \begin{split}
+\ell&(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=j\Bigg[  \widehat{L}_I(\ln \widehat{L}_I -\ln \widehat{\mu}_I) \\
+                                          &{}- \ln \Gamma(\widehat{L}_I) + \frac{\widehat{L}_I  - 1}{j} \sum_{k=1}^{j}  \ln z_k -\frac{\widehat{L}_I}{j\widehat{\mu}_I} \sum_{k=1}^{j}   z_k\Bigg] \\
+                                   &{}+(N-j)\Bigg[\widehat{L}_E(\ln \widehat{L}_E - \ln \widehat{\mu}_E)\\
+                                   &{}-\ln \Gamma(\widehat{L}_E) + \frac{\widehat{L}_E - 1}{N-j} \sum_{k=j+1}^{N}\ln z_k
+                                   -\frac{\widehat{L}_E}{(N-j)\widehat{\mu}_E} \sum_{k=j+1}^{N}z_k\Bigg]. \\
+ \end{split}
  \end{equation}
-
-To estimate the parameter $\widehat{\jmath}$ in the following optimization problem $\widehat{\jmath}= \arg\max\limits_{j\in [1,N]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$, was used the GenSA - Generalized Simulated Annealing methods~(Ref.\cite{xgsh}).
+ 
+We used a Generalized Simulated Annealing method (GenSA~\cite{xgsh}) to find  
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
+$$ 
+in which $\min_s$ is a minimum sample size that we set to $14$.
 
 In this section, it was shown how to estimate a transition point in the data range. This transition point is defined as edge evidence. 
 
@@ -349,9 +329,12 @@ The post-processing is an option to be used in all the fusion methods. An idea c
 \end{figure*}
 
 \subsection{Implementation Details}
-We are running our programs on a computer Intel(R) Core i7-9750HQ CPU 2.6 GHz (16 GB RAM).  The method for detecting edge evidence defined with maximum likelihood estimation (MLE) is programmed in R language; on the other hand, the fusion methods are programmed in Matlab language. The computational cost to each of the fusion method is shown in the table (\ref{metrica_de_tempo}).
 
-\subsection{The processing time to fusion methods} 
+We run our programs on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
+The method for detecting edge evidence defined with maximum likelihood estimation (MLE) is programmed in R language; on the other hand, the fusion methods are programmed in Matlab language. 
+Table~\ref{metrica_de_tempo} shows the computational cost of each of the fusion methods.
+
+\subsection{Processing times} 
 
 This section is constructed a table of the processing time to fusion's methods. The measurement of time was performed only for the fusion method, disregarding the time for the method that finds the evidence of edges, because it is the same for all fusion's methods. The measurement was performed by running the fusion method 20 times and performing the average of these times. The result is shown in the first row of the table (\ref{metrica_de_tempo}), the second row of the table  (\ref{metrica_de_tempo}) was constructed by choosing the shortest time of the methods as the reference time (TR). The other times shown in the table are related to the reference time (TR).   
 
@@ -359,9 +342,9 @@ This section is constructed a table of the processing time to fusion's methods. 
 \begin{table}[hbt]
 	\centering
 	\tiny
-	\caption{The measurement of time.}\label{metrica_de_tempo}
+	\caption{Processing times.}\label{metrica_de_tempo}
 \begin{tabular}{@{}lllllll@{}} \toprule
-	Methods       & Average    &   PCA      &  ROC      & DWT       &  SWT        &  MSVD \\ \midrule
+	Method       & Average    &   PCA      &  ROC      & DWT       &  SWT        &  MSVD \\ \midrule
 	Time (s)      & 0.00858185 & 0.01880955 &0.39989020 &0.07938820 &  0.18071635 & 1.11195710  \\
     Ref. time     & TR & 2.19TR &46.59TR & 9.25TR   & 21.05TR & 129.57TR  \\ \bottomrule
 \end{tabular}
