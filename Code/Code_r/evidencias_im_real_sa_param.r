@@ -17,25 +17,28 @@ source("loglikd.r")
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat <- scan('real_flevoland_3.txt')
-#mat <- scan('Phantom_nhfc_0.000_1_2_1.txt')
+#mat <- scan('real_flevoland_3.txt')
+mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
+#mat <- scan('Phantom_gamf_0.000_1_2_3.txt')
 setwd("..")
 setwd("Code/Code_r")
-r <- 120
-#r <- 400
+########## setup para a imagem de flevoland
+#r <- 120
+#N <- 100
+#nr <- 100
+########## setup para a imagens simuladas
+r <- 400
+nr <- r
+N  <- r
 mat <- matrix(mat, ncol = r, byrow = TRUE)
 # Loop para toda a imagem
-nr <- 100
-N  <- r
-#nr <- 400
-#N  <- r
 matdf1 <- matrix(0, nrow = N, ncol = 2)
 matdf2 <- matrix(0, nrow = N, ncol = 2)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
-for (k in 1 : nr){# j aqui varre o número de radiais
-#for (k in 83 : 83){# j aqui varre o número de radiais
+#for (k in 1 : nr){# j aqui varre o número de radiais
+for (k in 200 : 200){# j aqui varre o número de radiais
   print(k)
 	N <- r
 	z <- rep(0, N)
@@ -76,18 +79,29 @@ for (k in 1 : nr){# j aqui varre o número de radiais
 x <- seq(N - 1)
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){
-  lobj[j] <- func_obj_l_L_mu(j)
+  #lobj[j] <- func_obj_l_L_mu(j)
+#  Tomar cuidado com o sinal o mesmo é inserido pois o GenSA minimiza funçoes
+  lobj[j] <- -func_obj_l_L_mu(j)
 }
 df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 print(p)
 # imprime em arquivo no diretorio  ~/Data/
-dfev <- data.frame(xev, evidencias)
-names(dfev) <- NULL
-setwd("../..")
-setwd("Data")
-sink("evid_real_flevoland_3_param_L_mu_15_pixel.txt")
-print(dfev)
-sink()
-setwd("..")
-setwd("Code/Code_r")
+#dfev <- data.frame(xev, evidencias)
+#names(dfev) <- NULL
+#setwd("../..")
+#setwd("Data")
+#sink("evid_real_flevoland_3_param_L_mu_15_pixel.txt")
+#print(dfev)
+#sink()
+#setwd("..")
+#setwd("Code/Code_r")
+# escrita no diretorio /Text/Dissertacao/figura
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave("grafico_l_nhfc_2014_sigmavv_param_L_mu.pdf")
+#setwd("../../..")
+#setwd("Code/Code_r")
+# retornou ao diretorio /Code/Code_r
+#print(p)
+

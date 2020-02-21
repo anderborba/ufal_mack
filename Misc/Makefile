@@ -3,7 +3,7 @@
 #
 #
 
-BASE_NAME = rasc_lagirs_2020
+BASE_NAME = revisao_bib
 
 LATEX     = latex
 PDFLATEX  = pdflatex

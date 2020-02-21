@@ -1,0 +1,693 @@
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{booktabs}                   % AAB inserido
+\usepackage{rotating}                   % AAB inserido
+
+%\usepackage{tikz}
+%\usetikzlibrary{shapes,arrows,shadows}
+%\usepackage{amsmath,bm,times}
+%%%<
+%\usepackage{verbatim}
+%\usepackage[active,tightpage]{preview}
+%\PreviewEnvironment{tikzpicture}
+%\setlength\PreviewBorder{5pt}%
+%%%>
+
+%\begin{comment}
+%Revisão bibliográfica
+%\end{comment}
+
+
+\begin{document}
+\section{Artigo \cite{sjx}}
+\begin{itemize}
+\item Autores J. Shi, H. Jin and Z. Xiao,
+\item revista IEEE Access,
+\item título \textit{A Novel Hybrid Edge Detection Method for Polarimetric SAR Images,}
+\item ano 2020.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Detecção de bordas.
+\item Imagens PolSAR.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item 1) A detecção de bordas é realizada utilizando filtros para diminuir speckle.
+\item 2) O artigo usa dois detectores estabelecidos na literatura e tenta potencializar o mesmo usando técnica de fusão. 
+\item 3) Usa somente um canal.
+\item 4) O artigo esta usando limiares para ajustar a fusão.
+\item 5) O artigo propõe uma nova maneira de fazer a fusão para os coeficientes SWT, muito interessante. 
+\end{itemize}
+%############################### template
+\section{artigo \cite{wxbzw}}
+\begin{itemize}
+\item Autores Wei Wang and Deliang Xiang and Yifang Ban and Jun Zhang and Jianwei Wan.
+\item revista International Journal of Remote Sensing
+\item título \textit{Enhanced edge detection for polarimetric SAR images using a directional span-driven adaptive window}
+\item ano 2018.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Imagens PolSAR.
+\item Imagens sintéticas e reais.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Baseado em aplicação de filtros.
+\item O artigo propõe um detector de borda aprimorado baseado em uma janela DSDA (\textit{directional span-driven adaptive}).
+\end{itemize}
+
+%############################### template
+\section{artigo \cite{lzly}}
+\begin{itemize}
+\item Autores B. {Liu} and Z. {Zhang} and X. {Liu} and W. {Yu}.
+\item revista IEEE Geoscience and Remote Sensing Letters
+\item título \textit{Edge Extraction for Polarimetric SAR Images Using Degenerate Filter With Weighted Maximum Likelihood Estimation}
+\item ano 2014.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Imagens PolSAR.
+\item Imagem simulada e real.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Propõe um filtro baseado \textit{maximum likelihood estimation} chamado de \textit{weighted maximum likelihood estimation (WMLE)}.
+\end{itemize}
+
+%############################### template
+%\section{artigo \cite{}}
+%\begin{itemize}
+%\item Autores 
+%\item revista 
+%\item título \textit{}
+%\item ano .
+%\end{itemize}
+%\subsection{Aplicações}
+%\begin{itemize}
+%\item
+%\item
+%\end{itemize}
+%\subsection{Resumo}
+%\begin{itemize}
+%\item
+%\item
+%\end{itemize}
+
+\section{artigo \cite{tlb}}
+\begin{itemize}
+\item Autores R. Touzi and A. Lopes and P. Bousquet, 
+\item revista IEEE Transactions on Geoscience and Remote Sensing
+\item título \textit{A statistical and geometrical edge detector for {SAR} images}
+\item ano 1988.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Detecção de bordas
+\item Imagem SAR
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item 1) Detector de bordas CFAR - Constant False alarm rate
+\item 2) O método usa gradiente.
+\item 3) Usa limiares
+\item 4) Usa a distribuição  Wishart (gaussiana 1-D).
+\end{itemize}
+\section{artigo \cite{obw}}
+\begin{itemize}
+\item Autores C. J. Oliver and D. Blacknell and R. G. White
+\item revista IEEE Proceedings-Radar, Sonar and Navigation
+\item título \textit{Optimum edge detection in SAR}
+\item ano 1996.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Detector de Bordas
+\item Imagem SAR
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Maximizar a probabilidade total de detectar bordas com uma janela.
+\item Maximizar a acurácia com que a posição da borda pode ser determinada.
+\item Usar o método da máxima verossimilhança.
+\item Usa a pdf Wishart (gaussiana 1-D).
+\item Usar limiares. 
+\end{itemize}
+
+\section{artigo \cite{flmc}}
+\begin{itemize}
+\item Autores R. Fjortoft, A. Lopes, P. Marthon and E. Cubero-Castan 
+\item revista IEEE Transactions on Geoscience and Remote Sensing
+\item título \textit{An optimal multiedge detector for {SAR} image segmentation}
+\item ano 1998.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Detecção de bordas
+\item Imagem SAR
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item É um detector  optimal no sentido d eminimizar o erro médio quadratico MSE. 
+\item É um método do tipo CFAR.
+\item Tem limiares.
+\item Tranbalha com multiplas bordas no ROI.
+\item Usa filtros MMSE lineares.
+\item Usa métodos de máxima verrossimilhança.
+\end{itemize}
+
+%\section{artigo \cite{fyf}}
+%\begin{itemize}
+%\item Autores X. Fu, H. You and K. Fu
+%\item revista IEEE Geoscience and Remote Sensing Letters
+%\item título \textit{A Statistical Approach to Detect Edges in {SAR} Images Based on Square Successive Difference of Averages}
+%\item ano 2012.
+%\end{itemize}
+%\subsection{Aplicações}
+%\begin{itemize}
+%\item Detecção de bordas
+%\item Imagem SAR
+%\end{itemize}
+%\subsection{Resumo}
+%\begin{itemize}
+%\item É proposto um detector de bordas baseado na diferença sucessiva de quadrados das médias.
+%\item CFAR
+%\item Limiares no pós processamento.
+%\item É um método estatístico e geométrico.
+%\item É necessário propor um tamanho de janela.
+%\item Usa a distribuição normal gaussiana.
+%\item Propõe uma alternativa a direção gradiente.
+%\end{itemize}
+%############################### template
+\section{artigo \cite{law}}
+\begin{itemize}
+\item Autores J. Lee, T. L. Ainsworth and Y. Wang.
+\item revista IEEE International Geoscience and Remote Sensing Symposium (IGARSS-2017)
+\item título \textit{A review of polarimetric {SAR} speckle filtering}
+\item ano 2017.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Filtros
+\item PolSAR
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item 1) Avanços recentes de filtros PolSAR.
+\item 2) Filtrar o speckle é um procedimento necessário para muitas aplicações PolSAR com intuito de,
+	\begin{itemize}	
+	\item a)  para reduzir o nível de ruídos.
+	\item b)  para formar espalhamento incoerente fazendo média com a matriz de coerência ou a matriz de covariância nos pixels de uma vizinhança.
+	\end{itemize}
+\item 3) SLC - PolSAR,
+\item 4) obs(conclusão) O melhor filtro não existe porque o filtro desenhado é dependente da aplicação ou de preferência pessoal. O filtro pode ser adequado para uma aplicaçã, mas inadequado para outra.
+\item 5) citação "Filtros Speckle não é uma ciência exata, e um filtro de speckle perfeito não pode ser alcançado".
+\item 6) O objetivo dos filtros de ruído speckle é reduzir o speckle enquanto preserva.
+\begin{itemize}
+\item a) resolução espacial,
+\item b) as propriedades de espalhamento PolSAR.
+\item c) as características estatísticas similares ao processo de multiplas visadas das matrizes de coerência ou covariança.
+\end{itemize}
+\item 7) DLR F-SAR, Pi-SAR2 pode ter resolução de ($0.25 cm\times 0.65 cm$).
+\item 8) Para dados com resolução alta o tamanho de cada célula é perto do comprimento de onda do radar. Se isso acontece podemos validar as seguintes afirmações,
+\begin{itemize}
+\item a) A validade do fenômeno do speckle totalmente desenvolvido.
+\item b) Aplicabilidade dos filtros. 
+\end{itemize} 
+\item 9) A seleção de pixels homogêneos da propriedades de espalhamento é a chave para um efetivo e robusto filtro de speckle.
+\end{itemize}
+
+
+%############################### template
+\section{artigo \cite{cgaf}}
+\begin{itemize}
+\item Autores D. Santana-Cedrés, L. Gomez, L. Alvarez, and A. C. Frery
+\item revista IEEE Geoscience and Remote Sensing Letters
+\item título \textit{Despeckling PolSAR Images With a Structure Tensor Filter}
+\item ano 2020.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Filtros
+\item PolSAR
+\item EDP
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Cinco classes de filtros importantes
+\begin{itemize}
+\item a) Filtros locais os quais usa análise de estatística de dados locaispara estimar uma redução do speckle.
+\item b) Métodos baseados em EDP's que trabalham na imagem toda.
+\item c) Métodos variacionais combinando EDP e estratégias de otimização.
+\item d) Aprendizado de máquina e CNN. - \textcolor{red}{olhar o artigo [7] da publicação}
+\item e) Filtros não locais
+\end{itemize}
+\item Usa a distribuíção Wishart.
+\end{itemize}
+ 
+\section{artigo \cite{bf}}
+\begin{itemize}
+\item Autores F. Baselice and G. Ferraioli
+\item revista IEEE Geoscience and Remote Sensing Letters
+\item título \textit{Statistical Edge Detection in Urban Areas Exploiting {SAR} Complex Data}
+\item ano 2012.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Detecção de bordas
+\item Imagens SAR
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item MRF, Markov Random fields.
+\item O método é baseado na exploração conjunta da amplitude e da fase interferométrica.
+\item Usa a máxima verossimilhança. 
+\end{itemize}
+
+\section{artigo \cite{bac}}
+\begin{itemize}
+\item Autores J. E. Ball and D. T. Anderson and C. S. Chan
+\item revista Journal of Applied Remote Sensing
+\item título \textit{Comprehensive survey of deep learning in remote sensing: theories, tools, and challenges for the community}
+\item ano 2017.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Deep learning.
+\item Area de sensoriamento remoto
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Survey 
+\item Tem duas tabelas com apontamentos sobre artigos e aplicações (Boa revisão bibliográfica).
+\end{itemize}
+
+%############################### template
+\section{artigo \cite{ztmxzxf}}
+\begin{itemize}
+\item Autores X. X. Zhu and D. Tuia and L. Mou and G. Xia and L. Zhang and F. Xu and F. Fraundorfer
+\item revista IEEE Geoscience and Remote Sensing Magazine
+\item título \textit{Deep Learning in Remote Sensing: A Comprehensive Review and List of Resources}
+\item ano 2017.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Deep learning em sensoriamento remoto.
+\item SAR / PolSAR
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Aplicação em classificação da superfície da terra.
+\item Alguns artigos comentados sobre machine learning.
+ \end{itemize}
+
+%############################### template
+\section{artigo \cite{gmbf}}
+\begin{itemize}
+\item Autores J. Gambini and M. Mejail and J. Jacobo-Berlles and A. C. Frery
+\item revista International Journal of Remote Sensing
+\item título \textit{Feature Extraction in Speckled Imagery using Dynamic {B}-Spline Deformable Contours under the {G0} Model}
+\item ano 2006.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item SAR imagem
+\item Introdução do método de deteção de imagens usando a técnica das radiais.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Usa o speckle na análise estatística.
+\item B-spline pós-processamento.
+\item uso do algoritmo das linhas radiais.
+\item Máxima verossimilhança.
+\item introdução da imagem simulada de flor.
+\end{itemize}
+
+%############################### template
+\section{artigo \cite{fbgm}}
+\begin{itemize}
+\item Autores A. C. Frery, Jacobo-Berlles, J., Gambini, J. and Mejail, M.
+\item revista Multidimensional Systems and Signal Processing
+\item título \textit{Polarimetric {SAR} Image Segmentation with {B-Splines} and a New Statistical Model}
+\item ano 2010.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item PolSAR
+\item Modelo estatístico para detecção de bordas.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Artigo smilar ao artigo \cite{gmbf} porém propondo o método de detecão de bordas para imagens PolSAR.
+\item Estimativa de parâmetros de uma região usando o método dos momentos. 
+\item Uma bom algoritmo para estimativa de erro em imagens simuladas.
+\item Interessante resumo teórico no apendice B1.
+\end{itemize}
+
+title = "A statistical active contour model for {SAR} image segmentation",
+journal = "Image and Vision Computing",
+volume = "17",
+number = "3",
+pages = "213--224",
+year = "1999",
+
+%############################### template
+\section{artigo \cite{horrit}}
+\begin{itemize}
+\item Autores Matthew S. Horritt
+\item revista Image and Vision Computing
+\item título \textit{A statistical active contour model for {SAR} image segmentation}
+\item ano 1999.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item SAR imagens
+\item Imagens sintéticas e reais.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Modelo de contorno ativo estatístico.
+\end{itemize}
+
+%############################### template
+\section{artigo \cite{nhfc}}
+\begin{itemize}
+\item Autores Nascimento, Abraão and Horta, Michelle and Frery, Alejandro and Cintra, Renato.
+\item revista Journal of Selected Topics in Applied Earth Observations and Remote Sensing
+\item título \textit{Comparing Edge Detection Methods Based on Stochastic Entropies and Distances for {P}ol{SAR} Imagery}
+\item ano 2014.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item PolSAR
+\item Imagem simulada em duas folhas e imagens reais.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Entropias e distâncias estocásticas
+\item Descrição do método das linhas radiais.
+\item Aplicação do método da verossimilhança.
+\item Distribuíção Wishart.
+\item Interessante medida do erro.
+\end{itemize}
+
+%############################### template
+\section{artigo \cite{bmf_2019}}
+\begin{itemize}
+\item Autores A. A. {de Borba} and M. {Marengoni} and A. C. {Frery}
+\item Congrasso  2019 IEEE Recent Advances in Geoscience and Remote Sensing: Technologies, Standards and Applications (TENGARSS)
+\item título \textit{Fusion of Evidences for Edge Detection in {PolSAR} Images}
+\item ano 2019.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item PolSAR.
+\item Imagem real flevoland.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Distribuíção Wishart para modelar o speckle. Não é usado filtro.
+\item Estimativa do parâmetro  $\mu$ usando a média de pontos na amostra, o número de visadas é definida como sendo $4$.
+\item Uso de estimativa de máxima verossimilhança para o ponto de transição entre duas regiões com intuito de obter a evidência de borda nos canais de intensidades. 
+\item Fusão de evidências de bordas.
+\item Métodos de fusão usados, média, SWT, PCA e estatística ROC.
+\end{itemize}
+%############################### template
+\section{artigo \cite{mit}}
+\begin{itemize}
+\item Autores Mitchell, H.B.
+\item editora  Springer Berlin Heidelberg
+\item título \textit{Image Fusion: Theories, Techniques and Applications}
+\item ano 2010.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Fusão de imagem.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Fusão de imagens, teoria, técnicas e aplicações.
+\end{itemize}
+
+
+%############################### template
+\section{artigo \cite{sg}}
+\begin{itemize}
+\item Autores A. Salentinig and P. Gamba.
+\item revista IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing
+\item título \textit{IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing}
+\item ano .
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Imagem SAR
+\item Fusão de dados.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Fusão baseada no histograma.
+\item Fusão baseada em DWT
+\item Filtros de Kalmam de multiescala.
+\item Fusão baseada em lógica Fuzzy.
+\item Fusão baseadas em operadores lógicos.
+\end{itemize}
+%############################### template
+
+\section{artigo \cite{xgsh}}
+\begin{itemize}
+\item Autores Yang Xiang and Sylvain Gubian and Brian Suomela and
+      Julia Ho eng
+\item revista The R Journal Volume 5/1
+\item título \textit{Generalized Simulated Annealing for Efficient Global
+      Optimization: the {GenSA} Package for {R}}
+\item ano 2013.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Referência para o método GenSA.
+\end{itemize}
+%############################### template
+\section{artigo \cite{nw}}
+\begin{itemize}
+\item Autores Jorge Nocedal and Stephen J. Wright.
+\item editora Springer
+\item título \textit{Numerical Optimization}
+\item ano 2006.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Teoria sobre métodos de otimização, por exemplo o método BFGS usada no artigo.
+\end{itemize}
+%############################### template
+\section{artigo \cite{ht}}
+\begin{itemize}
+\item Autores Arne Henningsen and Ott Toomet
+\item revista Computational Statistics
+\item título \textit{maxLik: A package for maximum likelihood estimation in
+      {R}}
+\item ano 2011.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Pacote do R que foi usado no artigo com a implementação do método de otimização BFGS.
+\end{itemize}
+
+%############################### template
+\section{artigo \cite{n_r}}
+\begin{itemize}
+\item Autores Naidu, V.P.S. and Raol, J.R.
+\item revista Defence Science Journal.
+\item título \textit{Pixel-level Image Fusion using Wavelets and Principal Component Analysis}
+\item ano 2008.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Técnicas de fusão.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item PCA
+\item DWT
+\item SWT
+\end{itemize}   
+
+%############################### template
+\section{artigo \cite{gs}}
+\begin{itemize}
+\item Autores Giannarou, Stamatia and Stathaki, Tania
+\item revista EURASIP Journal on Advances in Signal Processing
+\item título \textit{Optimal edge detection using multiple operators for image understanding}
+\item ano 2011.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Imagem SAR
+\item Estatística ROC
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Introdução do método ROC sendo usado para detectores clássicos (Canny, Rothwell, etc..) 
+\item Descrição do método dos coeficientes kappa ponderados.
+\end{itemize}
+%############################### template
+\section{artigo \cite{fawcett}}
+\begin{itemize}
+\item Autores Fawcett, Tom
+\item revista Pattern Recognition Letters
+\item título \textit{An Introduction to {ROC} Analysis}
+\item ano 2006.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item teoria do método ROC.
+\end{itemize}
+%############################### template
+\section{artigo \cite{naidu}}
+\begin{itemize}
+\item Autores Naidu, V.P.S.
+\item revista Defence Science Journal
+\item título \textit{Image Fusion Technique using Multi-resolution Singular Value Decomposition}
+\item ano 2011.
+\end{itemize}
+\subsection{Aplicações}
+\begin{itemize}
+\item Técnicas de fusão.
+\end{itemize}
+\subsection{Resumo}
+\begin{itemize}
+\item Descrição do método multiresolution SVD (MSVD).
+\end{itemize}
+\section{Tabela com as datas dos artigos.}
+\begin{table}[hbt]                                                                      \centering
+        \caption{Quantidade de artigos por ano.}\label{tab01}
+\begin{tabular}{@{}llr@{}} \toprule
+        Ano & Quantidades  \\ \midrule                
+        2020             & 2 \\          
+        2019             & 1\\          
+        2018             & 1\\          
+        2017             & 3 \\          
+        2016             & 1 \\          
+        2014             & 2 \\
+        2013             & 1 \\
+        2012             & 1 \\          
+        2011             & 3\\
+        2010             & 2 \\
+        2008             & 1\\          
+        2006             & 3 \\
+        1999             & 1\\          
+        1998             & 1\\         
+        1996             & 1 \\
+        1988             & 1  \\     \bottomrule
+\end{tabular}
+\end{table}
+\section{Tabela com o número de artigos por revista.}
+%\begin{table}[hbt]
+\begin{sidewaystable}                                                                      \centering
+        \caption{Quantidade de artigos por revista.}\label{tab02}
+\begin{tabular}{@{}llr@{}} \toprule
+        Ano & Quantidades  \\ \midrule                
+     IEEE Geoscience and Remote Sensing Letters                & 4 \\
+     International Journal of Remote Sensing                   & 2  \\
+     IEEE Transactions on Geoscience and Remote Sensing        & 2 \\
+     Journal of Selected Topics in Applied Earth Observations and Remote Sensing      & 2 \\
+     Springer (livros)                                         & 2\\
+     Defence Science Journal                                   & 2\\
+     IEEE Access                                               & 1 \\
+     IEEE Proceedings-Radar, Sonar and Navigation              & 1 \\
+     IEEE International Geoscience and Remote Sensing Symposium (IGARSS-2017) & 1\\
+     Journal of Applied Remote Sensing                         & 1\\
+     Multidimensional Systems and Signal Processing            & 1\\
+     Image and Vision Computing                                & 1 \\
+     2019 IEEE Recent Advances in Geoscience and Remote Sensing: Technologies, Standards and Applications (TENGARSS) & 1\\
+     The R Journal                                             & 1\\
+     Computational Statistical                                 & 1 \\
+      EURASIP Journal on Advances in Signal Processing         & 1 \\
+      Pattern Recognition Letters                              & 1  \\     \bottomrule
+\end{tabular}
+\end{sidewaystable}  
+
+
+%############################### template
+%\section{artigo \cite{}}
+%\begin{itemize}
+%\item Autores 
+%\item revista 
+%\item título \textit{}
+%\item ano .
+%\end{itemize}
+%\subsection{Aplicações}
+%\begin{itemize}
+%\item
+%\item
+%\end{itemize}
+%\subsection{Resumo}
+%\begin{itemize}
+%\item
+%\item
+%\end{itemize}
+
+
+
+% Define the layers to draw the diagram
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+
+% Define block styles used later
+
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
+%    minimum height=6em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+%    minimum height=10em, rounded corners, drop shadow]
+
+% Define distances for bordering
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+
+%\begin{tikzpicture}
+%	\node (wa) [wa]  {$V=\sum_{i=1}^{N}E_i$};
+%	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$E_1$};
+%    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$E_2$};
+%    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$E_N$};    
+%   
+%    \path (wa.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
+%    \path (wa.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
+%    \path (wa.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
+%
+%    \path [draw, ->] (e1.east) -- node [above] {} 
+%        (wa.160) ;
+%    \path [draw, ->] (e2.east) -- node [above] {} 
+%        (wa.180);
+%    \path [draw, ->] (e3.east) -- node [above] {} 
+%        (wa.200);
+%	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_1$}} 
+%        (m1.west);
+%	\path [draw, ->] (wa.east) -- node [above] {\tiny{$CT_2$}} 
+%        (m2.west);
+%	\path [draw, ->] (wa.east) -- node [right] {\tiny{$CT_N$}} 
+%        (m3.west);
+%               
+%    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.5) node (c) {};
+%       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+ %   
+%
+%\end{tikzpicture}
+
+\bibliographystyle{IEEEtran}
+\bibliography{../Text/bibliografia}
+\end{document}

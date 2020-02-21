@@ -28,6 +28,5 @@ func_obj_l_L_mu <- function(param){
   a2 <-  aux6 + aux7 - aux8 - aux9 - aux10
   #### O sinal negativo, pois o GenSA minimiza uma funcao
   func_obj_l_L_mu <- -(j * a1 + (N - j) * a2)   
-  #func_obj_l_L_mu <-  -(-j^2+ N * j)  
   return(func_obj_l_L_mu)
 }
