@@ -50,10 +50,12 @@ PolSAR, edge detection, maximum likelihood estimation, fusion methods.
 results on the detection and fusion of edge evidence applied to Polarimetric Synthetic Aperture Radar (PolSAR) images.
 
 Among the available edge detection techniques for PolSAR images, it is worth mentioning:
-a) The techniques based on filters and applied in SAR imagen were developed in~\cite{tlb, obw, flmc}, showing how filters work speckle noise in SAR imagen. The articles~\cite{sjx, lzly, wxbzw, law, cgaf} show how filters are used to mitigate the effect of speckle in PolSAR images.   
-b) Methods using markov random fields~\cite{bf} have intensive use of computational processing;
-c) The use of deep learning can be observed in~\cite{bac, ztmxzxf}, and;
-d) Techniques based on statistical modeling have been used in edge detection in~\cite{gmbf, fbgm, horrit}.
+\begin{itemize}
+\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
+\item methods that use Markov random fields~\cite{bf};	
+\item the deep learning approach~\cite{bac, ztmxzxf}; and,
+\item statistical techniques~\cite{gmbf, fbgm, horrit}.
+\end{itemize}
 
 This article follows the statistical modeling approach using the techniques described in~\cite{fbgm, nhfc, bmf_2019} to find edge evidence, as well as, process for fusing this information is described in~\cite{mit, sg}. The filter-based techniques are not used to treat speckle. 
 
