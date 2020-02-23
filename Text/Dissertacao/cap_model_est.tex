@@ -1,0 +1,1853 @@
+\chapter{Metodologia}\label{metodologia}
+
+\section{Modelagem estatística para dados PolSAR}\label{cap_acf_sec1}
+Os sistemas SAR totalmente polarimétricos transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel, a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem no sistema SAR a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
+
+A transformação pode ser representada como
+\begin{equation}\label{cap_acf_1}
+ \left[
+\begin{array}{c}
+	E_{h}^{r}   \\
+	E_{v}^{r}    \\
+\end{array}
+\right]
+ = \frac{e^{\hat{\imath} kr}}{r}\left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right]
+ \left[
+\begin{array}{c}
+	E_{h}^{t}   \\
+	E_{v}^{t}    \\
+\end{array}
+\right],
+\end{equation}
+onde $k$ denota o número de onda, $\hat{\imath}$ é um número complexo e $r$ é a distância entre o radar e o alvo. O campo eletromagnético com componentes $E_{i}^{j}$, o índice subscrito denota polarização horizontal ($h$) ou vertical ($v$),  enquanto o índice sobrescrito indica a onda recebida ($r$) ou transmitida ($t$). Definindo $S_{i,j}$ como os coeficientes de espalhamento complexo, tal que o índice $i$ e $j$ são associados com o recebimento com a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_{hv}$ está associado a onda transmitida na direção vertical ($v$) e recebida na direção horizontal ($h$).
+
+Sendo conhecido cada um dos coeficientes, a matriz de espalhamento complexa $\mathbf{S}$ é definida por
+\begin{equation}\label{cap_acf_2}
+\mathbf{S} = \left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right],
+\end{equation}
+considerando a diagonal principal da matriz de espalhamento podemos definir a co-polarização relacionando a polarização das ondas transmitidas e recebidas nas mesmas direções. Ainda podemos definir a polarização cruzada como sendo a relação entre  elementos da diagonal secundária da matriz de espalhamento relacionando assim os estados de polarizações ortogonais (ver Ref~\citet{lp}).
+ 
+A definição da matriz $\mathbf{S}$ depende da definição do sistema de coordenadas, se a antena transmissora e receptora de sinal estão localizadas na mesma posição consideramos as medidas mono estáticas e consideramos o sistema de coordenada \textbf{BSA} - \textit{Back Scattering Alignment}. Podemos afirmar que o sistema de coordenadas da transmissão e recepção de sinal são coincidentes.   
+ 
+A potência total espalhada no caso de um sistema de radar polarimétrico é o chamado \textit{span}, sendo definido no caso mais geral como:
+\begin{equation}\label{span_geral}
+\mathbf{Span(S)} = \traco(SS^H)=|S_{hh}|^2+|S_{hv}|^2|+|S_{vh}|^2+|S_{vv}|^2,
+\end{equation}
+onde o operador $\traco(\cdot)$ é o traço de uma matriz.
+
+O entendimento de como extrair informação da matriz de espalhamento $\mathbf{S}$ pode ser alcançado coma construção de um sistema de vetores. Usando a matriz de espalhamento podemos construir o seguinte vetor
+\begin{equation}\label{def_vet_espalhamento}
+\mathbf{k}=\frac{1}{2} \traco(S\Psi),
+\end{equation}
+onde $\Psi$ é uma base para o espaço das matrizes complexas $2\times 2$.
+
+Existe na literatura diferentes bases para o mesmo espaço matricial. Neste trabalho será considerado duas bases para os espaço das matrizes nomeadas como base de Pauli e base lexicográfica.	
+
+A base de Pauli pode ser definida como,
+\begin{equation}\label{base_de_pauli}
+\{\Psi_P\} = \left\{
+\sqrt{2}\left[\begin{array}{cc}
+	1  & 0  \\
+	0  & 1 \\
+\end{array}\right],
+\sqrt{2}\left[\begin{array}{cc}
+	1  & 0  \\
+	0  & -1  \\
+\end{array}\right],
+\sqrt{2}\left[\begin{array}{cc}
+	0  & 1  \\
+	1  & 0  \\
+\end{array}\right],
+\sqrt{2}\left[\begin{array}{cc}
+	0       & -i  \\
+	i  & 0  \\
+\end{array}\right]
+\right\},
+\end{equation}
+
+A base lexicográfica pode ser definida como,
+\begin{equation}\label{base_de_lexicografica}
+\{\Psi_L\} = \left\{
+2\left[\begin{array}{cc}
+	1  & 0  \\
+	0  & 0 \\
+\end{array}\right],
+2\left[\begin{array}{cc}
+	0  & 1  \\
+	0  & 0  \\
+\end{array}\right],
+2\left[\begin{array}{cc}
+	0  & 0  \\
+	1  & 0 \\
+\end{array}\right],
+2\left[\begin{array}{cc}
+	0  & 0  \\
+	0  & 1  \\
+\end{array}\right]
+\right\},
+\end{equation}
+
+Usando as bases (\ref{base_de_pauli}), (\ref{base_de_lexicografica}) e a equação (\ref{def_vet_espalhamento}) geramos os seguintes vetores de espalhamento. A matriz de espalhamento pode ser representada pelo vetor característico de Pauli $4$-D,
+\begin{equation}\label{vetor_pauli_4d}
+\mathbf{k}= \frac{1}{\sqrt{2}}\left[
+	\begin{array}{cccc}
+	S_{hh} + S_{vv},& S_{hh} - S_{vv},& S_{hv} + S_{vh}, &i (S_{hv} - S_{vh}   \\
+\end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1, k_2, k_3, k_4]
+\end{equation}
+e pelo vetor característico lexicográfico $4$-D 
+\begin{equation}\label{vetor_lexicografico_4d}
+\mathbf{\Omega}= \frac{1}{\sqrt{2}}\left[
+	\begin{array}{cccc}
+	S_{hh},& S_{hv}, &S_{hv},& S_{vv}   \\
+\end{array}\right]^T=[\Omega_1, \Omega_2, \Omega_3, \Omega_4]
+\end{equation}
+
+A matriz de espalhamento pode ser relacionada com os vetores (\ref{vetor_pauli_4d}) e (\ref{vetor_lexicografico_4d}) da seguinte maneira,
+\begin{equation}\label{mat_esp_rel_pauli_lex}
+\mathbf{S} = \left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right]=
+\left[
+\begin{array}{cc}
+	\Omega_1   & \Omega_2   \\
+	\Omega_3   & \Omega_4   \\
+\end{array}
+\right]=\frac{1}{\sqrt{2}}
+\left[
+\begin{array}{cc}
+	 k_1+k_2  & k_3-ik_4   \\
+	 k_3+ik_4 & k_1-k_2   \\
+\end{array}
+\right]
+\end{equation}
+
+As constantes $2$ e $\sqrt{2}$ nas equações (\ref{base_de_pauli}) e (\ref{base_de_lexicografica}) tem o intuito de manter a norma dos vetores de espalhamento iguais independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 4.
+
+Podemos assim garantir que a invariância da potencia total, isto é, 
+\begin{equation}\label{span_invariacia}
+\begin{array}{ccc}
+\mathbf{Span(S)} &=& \traco(SS^H)\\
+	   &=&  \traco(SS^H)=|S_{hh}|^2+|S_{hv}|^2|+|S_{vh}|^2+|S_{vv}|^2  \\
+	   &=&  \mathbf{k}^H\mathbf{k}=|\mathbf{k}|^2\\
+	   &=& \mathbf{\Omega}^H\mathbf{\Omega}=|\mathbf{\Omega}|^2
+\end{array}
+\end{equation}
+
+A transformação linear unitária $U_{4(L \rightarrow P)}$ é definida como uma transformação que aplica o vetor na base lexográfica em um vetor na base de Pauli. Definimos a notação \textrm{SU(4)} para desigmar a transformação  unitária.
+
+\begin{equation}\label{trans_matriz_unit_su4}
+\left[
+\begin{array}{c}
+	  S_{hh} +  S_{vv}\\  
+	  S_{hh} -  S_{vv}\\
+	  S_{hv} +  S_{vh} \\
+        i(S_{hv} -  S_{vh}) \\
+\end{array}
+\right]=\frac{1}{\sqrt{2}}	
+\left[
+\begin{array}{rrrr}
+	1   & 0 & 0 & 1  \\
+	1   & 0 & 0 & -1  \\
+	0   & 1 & 1 & 0  \\
+	0   & i & -i &0   \\
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+	S_{hh} \\  
+	S_{hv} \\
+	S_{vh} \\
+	S_{vv} \\
+\end{array}
+\right]
+\end{equation}
+desta maneira definimos,
+\begin{equation}\label{matriz_unit_su4}
+U_{4(L \rightarrow P)}=	\frac{1}{\sqrt{2}}	
+\left[
+\begin{array}{rrrr}
+	1   & 0 & 0 & 1  \\
+	1   & 0 & 0 & -1  \\
+	0   & 1 & 1 & 0  \\
+	0   & i & -i &0   \\
+\end{array}
+\right]
+\end{equation}
+\subsection{Matriz de coerência polarimétrica de Pauli ($T_4$) e matriz de covariância lexicográfica ($C_4$)}
+
+Para o caso biestático definimos a matriz de coerência polarimétrica de Pauli 
+\begin{equation}\label{matriz_polar_pauli}
+	\mathbf{T}_4=\mathbf{k}\mathbf{k}^H=	
+\left[
+\begin{array}{rrrr}
+	|k_1|^2       & k_1\bar{k}_2  & k_1\bar{k}_3  & k_1\bar{k}_4  \\
+	k_2\bar{k}_1  & |k_2|^2       & k_2\bar{k}_3  & k_2\bar{k}_4  \\
+	k_3\bar{k}_1  & k_3\bar{k}_2  &    |k_3|^2    & k_3\bar{k}_4  \\
+	k_4\bar{k}_1  & k_4\bar{k}_2  & k_4\bar{k}_3  & |k_4|^2   \\
+\end{array}
+\right]
+\end{equation}
+e a matriz de covariância lexicográfica
+\begin{equation}\label{matriz_covar_lexic}
+	\mathbf{C}_4=\mathbf{\Omega}\mathbf{\Omega}^H=	
+\left[
+\begin{array}{rrrr}
+	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3  & \Omega_1\bar{\Omega}_4  \\
+	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  & \omega_2\bar{\Omega}_4  \\
+	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2    & \Omega_3\bar{\Omega}_4  \\
+	\Omega_4\bar{\Omega}_1  & \Omega_4\bar{\Omega}_2  & \Omega_4\bar{\Omega}_3  & |\Omega_4|^2   \\
+\end{array}
+\right]
+\end{equation}
+
+Usando as definções e as propriedades acima teremos
+\begin{equation}\nonumber
+\begin{array}{rrrrr}
+	\mathbf{T}_4&=&\mathbf{k}\mathbf{k}^H&=&\mathbf{U_4\Omega}\mathbf{U_4\Omega}^H	\\
+	   &=&\mathbf{U_4\Omega}\mathbf{\Omega}^H\mathbf{U_4}^H&=&\mathbf{U_4}\mathbf{\Omega}\mathbf{\Omega}^H\mathbf{U_4}^H	\\
+	   &=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^H&=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^{-1}\\
+\end{array}
+\end{equation}
+\begin{equation}\label{matriz_simil_t4_c4}
+\begin{array}{rrr}
+	 \mathbf{T}_4  &=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^{-1}\\
+\end{array}
+\end{equation}
+com isso, podemos concluir que
+\begin{equation}\label{traco_t4_c4}
+\begin{array}{rrrrr}
+	\traco{\mathbf{T}_4}  &=&\traco{\mathbf{C}_4}&=&\mathbf{Span(S)}.\\
+\end{array}
+\end{equation}
+
+
+Podemos entender as interações da ondas eletromagnéticas em alvos naturais sob a ótica do teorema da reciprocidade que considera o meio reciproco. Assim, se o meio de propagação das ondas é recíproco, isto é, de uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos, então usaremos o teorema da reciprocidade, podemos consultar a mesma referência anterior \citet{lp}, para definir a matriz de espalhamento como sendo hermitiana, ou seja, a igualdade dos termos complexos (polarização cruzada) $S_{hv}=S_{vh}$. 
+
+Como anteriormente, o entendimento de como extrair informação da matriz de espalhamento $\mathbf{S}$ pode ser alcançado coma construção de um sistema de vetores. Usando a matriz de espalhamento podemos construir o seguinte vetor
+\begin{equation}\label{def_vet_espalhamento}
+\mathbf{k}=\frac{1}{2} \traco(S\Psi),
+\end{equation}
+onde $\Psi$ é uma base para o espaço das matrizes complexas $2\times 2$.
+
+Existe na literatura diferentes bases para o mesmo espaço matricial. Neste trabalho será considerado duas bases para os espaço das matrizes nomeadas como base de Pauli e base lexicográfica.	
+
+A base de Pauli pode ser definida como,
+\begin{equation}\label{base_de_pauli_3m}
+\{\Psi_P\} = \left\{
+\sqrt{2}\left[\begin{array}{cc}
+	1  & 0  \\
+	0  & 1 \\
+\end{array}\right],
+\sqrt{2}\left[\begin{array}{cc}
+	1  & 0  \\
+	0  & -1  \\
+\end{array}\right],
+\sqrt{2}\left[\begin{array}{cc}
+	0  & 1  \\
+	1  & 0  \\
+\end{array}\right]
+\right\},
+\end{equation}
+
+A base lexicográfica pode ser definida como,
+\begin{equation}\label{base_de_lexicografica_3m}
+\{\Psi_L\} = \left\{
+2\left[\begin{array}{cc}
+	1  & 0  \\
+	0  & 0 \\
+\end{array}\right],
+2\sqrt{2}\left[\begin{array}{cc}
+	0  & 1  \\
+	0  & 0  \\
+\end{array}\right],
+2\left[\begin{array}{cc}
+	0  & 0  \\
+	0  & 1  \\
+\end{array}\right]
+\right\},
+\end{equation}
+
+Usando as bases (\ref{base_de_pauli}), (\ref{base_de_lexicografica}) e a equação (\ref{def_vet_espalhamento}) geramos os seguintes vetores de espalhamento. A matriz de espalhamento pode ser representada pelo vetor característico de Pauli $4$-D,
+\begin{equation}\label{vetor_pauli_3d}
+\mathbf{k}= \frac{1}{\sqrt{2}}\left[
+	\begin{array}{ccc}
+	S_{hh} + S_{vv},& S_{hh} - S_{vv},& 2S_{hv}   \\
+\end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1,k_2, k_3]
+\end{equation}
+e pelo vetor característico lexicográfico $4$-D 
+\begin{equation}\label{vetor_lexicografico_3d}
+\mathbf{\Omega}= \frac{1}{\sqrt{2}}\left[
+	\begin{array}{ccc}
+	S_{hh},& S_{hv},& S_{vv}   \\
+\end{array}\right]^T=[\Omega_1, \Omega_2, \Omega_3]
+\end{equation}
+
+As constantes $2$ e $\sqrt{2}$ nas equações (\ref{base_de_pauli}) e (\ref{base_de_lexicografica}) tem o intuito de manter a norma dos vetores de espalhamento iguais independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 4.
+
+Podemos assim garantir que a invariância da potencia total, isto é, 
+\begin{equation}\label{span_invariante}
+\begin{array}{ccc}
+\mathbf{Span(S)} &=& \traco(SS^H)\\
+	   &=&  \traco(SS^H)=|S_{hh}|^2+2|S_{hv}|^2|+|S_{vv}|^2  \\
+	   &=&  \mathbf{k}^H\mathbf{k}=|\mathbf{k}|^2\\
+	   &=& \mathbf{\Omega}^H\mathbf{\Omega}=|\mathbf{\Omega}|^2
+\end{array}
+\end{equation}
+
+A transformação linear unitária $U_{4(L \rightarrow P)}$ é definida como uma transformação que aplica o vetor na base lexográfica em um vetor na base de Pauli. Definimos a notação \textrm{SU(4)} para desigmar a transformação  unitária.
+
+\begin{equation}\label{trans_matriz_unit_su3}
+\left[
+\begin{array}{c}
+	  S_{hh} +  S_{vv}\\  
+	  S_{hh} -  S_{vv}\\
+	  2 * S_{hv} \\
+\end{array}
+\right]=\frac{1}{\sqrt{2}}	
+\left[
+\begin{array}{rrr}
+	1   & 0 & 1  \\
+	1   & 0 & -1  \\
+	0   & 2 &  0  \\
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+	S_{hh} \\  
+	S_{hv} \\
+	S_{vv}\\
+\end{array}
+\right]
+\end{equation}
+desta maneira definimos,
+\begin{equation}\label{matriz_unit_su3}
+U_{3(L \rightarrow P)}=\frac{1}{\sqrt{2}}	
+\left[
+\begin{array}{rrr}
+	1   & 0 & 1  \\
+	1   & 0 & -1  \\
+	0   & \sqrt{2} &  0  \\
+\end{array}
+\right]
+\end{equation}
+\subsection{Matriz de coerência polarimétrica de Pauli ($T_3$) e matriz de covariância lexicográfica ($C_3$)}
+
+Para o caso mono estático definimos a matriz de coerência polarimétrica de Pauli 
+\begin{equation}\label{matriz_polar_pauli_3}
+	\mathbf{T}_3=\mathbf{k}\mathbf{k}^H=	
+\left[
+\begin{array}{rrr}
+	|k_1|^2       & k_1\bar{k}_2  & k_1\bar{k}_3  \\
+	k_2\bar{k}_1  & |k_2|^2       & k_2\bar{k}_3  \\
+	k_3\bar{k}_1  & k_3\bar{k}_2  &    |k_3|^2    \\
+\end{array}
+\right]
+\end{equation}
+e a matriz de covariância lexicográfica
+\begin{equation}\label{matriz_covar_lexic_3}
+	\mathbf{C}_3=\mathbf{\Omega}\mathbf{\Omega}^H=	
+\left[
+\begin{array}{rrr}
+	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3   \\
+	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  \\
+	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2      \\
+\end{array}
+\right]
+\end{equation}
+
+Usando as definções e as propriedades acima teremos
+\begin{equation}\nonumber
+\begin{array}{rrrrr}
+	\mathbf{T}_3&=&\mathbf{k}\mathbf{k}^H&=&\mathbf{U_3\Omega}\mathbf{U_3\Omega}^H	\\
+	   &=&\mathbf{U_3\Omega}\mathbf{\Omega}^H\mathbf{U_3}^H&=&\mathbf{U_3}\mathbf{\Omega}\mathbf{\Omega}^H\mathbf{U_3}^H	\\
+	   &=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^H&=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^{-1}\\
+\end{array}
+\end{equation}
+\begin{equation}\label{matriz_simil_t4_c4}
+\begin{array}{rrr}
+	 \mathbf{T}_3  &=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^{-1}\\
+\end{array}
+\end{equation}
+com isso, podemos concluir que
+\begin{equation}\label{traco_t4_c4}
+\begin{array}{rrrrr}
+	\traco{\mathbf{T}_3}  &=&\traco{\mathbf{C}_3}&=&\mathbf{Span(S)}.\\
+\end{array}
+\end{equation}
+
+Podemos concluir,
+\begin{equation}\label{vetor_3d}
+\mathbf{s} = \left[
+\begin{array}{c}
+	S_{hh}      \\
+        \sqrt{2}S_{vh}     \\
+	S_{vv}      \\
+\end{array}
+\right].
+\end{equation}
+
+Assim, a potência total espalhada no caso do de um sistema de radar polarimétrico em meio recíproco pode ser definido como:
+\begin{equation}\label{span_geral}
+\mathbf{Span} = \traco(SS^H)=|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2,
+\end{equation}
+
+
+A distribuição gaussiana circular complexa multivariada com média zero pode ser definida de acordo com \citet{goodman}, assim, sendo $\mathbf{S}_i= x_j+\hat{\imath}y_j$ é exigido que $x_j$ e $y_j$ com $j=1,2,3$ tenham distribuições conjuntas gaussianas e satisfaçam as seguintes condições 
+\begin{itemize}
+	\item[-] $E[x_j]=E[y_j]=0$,
+	\item[-] $E[x_j^2]=E[y_j^2]$,
+	\item[-] $E[x_jy_j]=0$,
+	\item[-] $E[x_jx_k]=E[y_jy_k]$,
+	\item[-] $E[y_jx_k]=-E[x_jy_k]$,
+\end{itemize}
+onde, $E[\cdot]$ é o valor esperado.
+%%%%%%%%%%%%%%%%%%%%%% Editar - Texto feito em maceio %%%%%%%%
+utra forma de representar o vetor $\mathbf{S}$ é realocar as partes reais e complexas de cada elemento em um vetor de dimensão $6$ onde cada entrada é representado por
+\begin{equation}
+\mathbf{S} = \left[
+\begin{array}{c}
+	R_{hh}     \\
+    I_{hh}     \\
+	R_{hv}     \\
+	I_{hv}     \\
+    R_{vv}     \\
+	I_{vv}     \\
+\end{array}
+\right]
+\end{equation}
+e respeitam uma distribuição gaussiana complexa de média 0, a qual representamos 
+
+A matriz de covariância considerando as 3 amostras $(S_{hh}, S_{hv}, S_{vv})$ complexas, por definição tem dimensão $6 \times 6$, e por hipótese é uma distribuição gaussiana circular complexa multivariada com média zero assumindo a forma de matricial,  
+\begin{equation*}
+\tiny
+\mathbf{S} \mathbf{S}^H= \left[
+\begin{array}{rrrrrr}
+	R_{hh}^2       & 0            &R_{hh}R_{hv}  &-R_{hh}I_{hv} &R_{hh}R_{vv} &-R_{hh}I_{vv}    \\
+    0              & I_{hh}^2     &I_{hh}R_{hv}  &I_{hh}I_{hv}  &I_{hh}R_{vv}  &I_{hh}I_{vv}   \\
+	R_{hv}R_{hh}   & R_{hv}I_{hh} &R_{hv}^2      & 0            &R_{hv}R_{vv}  &-R_{hv}I_{vv}     \\
+	-I_{hv}R_{hh}  & I_{hv}I_{hh} &0             &I_{hv}^2      &I_{hv}R_{vv}  &I_{hh}I_{vv} \\
+    R_{vv}I_{hh}   & R_{vv}I_{hh} &R_{vv}R_{hv}  &R_{vv}I_{hv}  &R_{vv}^2      &0            \\
+	-I_{vv}R_{hh}  & I_{vv}I_{hh} &-I_{vv}R_{hv} &I_{vv}I_{hv}  &0             &I_{vv}^2     \\
+\end{array}
+\right].
+\end{equation*}
+
+Na referência \cite{good} foi descrito a hipótese de ser uma distribuição gaussiana circular complexa multivariada com média zero , portanto, sendo $\mathbf{S}_{ij}= R_{ij}+ i I_{ij}$ é exigido que $R_{ij}$ e $I_{ij}$ com $j=h,v$ satisfaçam a hipótese descritas detalhadamente por 
+\begin{itemize}
+	\item[I-] $E[R_{ij}]=E[I_{ij}]=0,$
+	\item[II-] $E[R_{ij}^2]=E[I_{ij}^2],$ 
+	\item[II-] $E[R_{ij}I_{ij}]=0,$  
+	\item[IV-] $E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}],$ 
+	\item[V-] $E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}],$
+\end{itemize}
+onde, $E[\cdot]$ denota o valor esperado. 
+
+As hipóteses explicam o formato da matriz de covariância e veremos a analise das condições acima detalhadamente,
+\begin{itemize}
+	\item[I-] A condição $$E[R_{ij}]=E[I_{ij}]=0,$$ pode ser escrita por, 
+	$$E[R_{hh}]=E[I_{hh}]=0,$$ 
+	$$E[R_{hv}]=E[I_{hv}]=0,$$ 
+  e $$E[R_{vv}]=E[I_{vv}]=0.$$	                               
+	\item[II-] A condição (II) $$E[R_{ij}^2]=E[I_{ij}^2],$$ pode ser escrita,      $$R_{hh}^2=I_{hh}^2,$$ 
+	$$R_{hh}^2=I_{hh}^2,$$ 
+	e $$R_{vv}^2=I_{v}^2.$$
+	\item[III-]A condição (III) $$E[R_{ij}I_{ij}]=0,$$ pode ser escrita, $$R_{hh}I_{hh}=0,
+$$ $$R_{hv}I_{hv}=0,$$
+e $$R_{vv}I_{vv}=0.$$ 
+	\item[IV-] A condição (IV) $$E[R_{ij}R_{ij}]=E[I_{ij}I_{ij}],$$ pode ser escrita, $$R_{hh}R_{hv}=I_{hh}I_{hv},$$
+	     $$R_{hh}R_{vv}=I_{hh}I_{vv},$$
+	     $$R_{hv}R_{vv}=I_{hv}I_{vv},$$
+	     $$R_{hv}R_{hv}=I_{hv}I_{hv},$$ 
+	     $$R_{vv}R_{hv}=I_{vv}I_{hv},$$
+	  e  $$R_{vv}R_{hv}=I_{vv}I_{hv}.$$ 
+	\item[V-] A condição (V) 
+	$$E[I_{ij}R_{ij}]=-E[R_{ij}I_{ij}],$$ pode ser escrita,
+    $$I_{hv}R_{hv}=-R_{hh}I_{hv},$$
+    $$I_{vv}R_{hh}=-R_{hh}I_{vv},$$
+    $$I_{vv}R_{hv}=-R_{vv}I_{hv},$$
+    $$I_{hv}R_{hh}=-R_{hh}I_{hv},$$
+    $$I_{hh}R_{vv}=-R_{hh}I_{vv},$$
+  e $$I_{hv}R_{vv}=-R_{hv}I_{vv}.$$ 
+\end{itemize}
+$[S_{hh},S_{vh},S_{vv}]^T$ e a multiplicação de $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]$ pelo seu conjugado transposto $\mathbf{S}=[S_{hh},S_{vh},S_{vv}]^H$, isto é, a hermitiana do vetor, 
+
+\begin{equation}
+\mathbf{s}\mathbf{s}^H = \left[
+\begin{array}{c}
+	S_{hh}      \\
+        S_{vh}     \\
+	S_{vv}      \\
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+	S_{hh}  & S_{vh}  & S_{vv}      \\
+\end{array}
+\right]^H = \left[S_{ij} \right]_{i,j=h,v}
+\end{equation}
+
+De acordo com \cite{good} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{S}=[S_{hh},S_{hv},S_{vv}]^H$. 
+
+Dados polarimétricos são usualmente sujeitados a um processo de várias visadas com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme \cite{good, ade}
+\begin{equation}
+\begin{array}{ccc}
+    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{l=1}^{L} {\mathbf{s}_l}{\mathbf{s}_l}^H}, \\
+\end{array}
+\end{equation}
+onde $\mathbf{s}_l$ com $l = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{S}$, assim a matriz de covariância amostral associada a $\mathbf{S}_l$, com $l=1,\dots,L$ denotam o espalhamento para cada visada $L$
+
+Sendo $i=j$
+\begin{equation}
+\begin{array}{ccc}
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& (R_{ii}+iI_{ii})\overline{(R_{ii}+iI_{jj})} \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& (R_{ii}+iI_{ii})(R_{ii}-iI_{ii}) \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& R_{ii}^2+I_{ii}^2 \\
+\end{array}
+\end{equation}
+e considerando $i \neq j$
+\begin{equation}
+\begin{array}{ccc}
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}+iI_{ii})\overline{(R_{ij}+iI_{ij})} \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}+iy_{ii})(I_{ij}-iI_{ij}) \\
+\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}R_{ij}+I_{ii}I_{ij})+i(R_{ij}I_{ii}-R_{ii}I_{ij}) \\
+\end{array}
+\end{equation}
+ Definindo,
+ \begin{equation}
+\begin{array}{ccc}
+	  RC_{ij}&=&  R_{ii}R_{ij}+I_{ii}I_{ij} 
+\end{array}
+\end{equation}
+e
+\begin{equation}
+\begin{array}{ccc}
+	  IC_{ij}&=& R_{ij}I_{ii}-R_{ij}I_{ii}
+\end{array}
+\end{equation}
+
+Sendo a variável randômica gaussiana complexa $\mathbf{C_{i,j}}=RC_{ij} + i IC_{ij}$, ou ainda, $\mathbf{C_{i,j}}=(R_{ii}R_{ij}+I_{ii}I_{ij}) + i(R_{ij}I_{ii}-R_{ij}I_{ii})$. Podemos escrever uma variável randômica gaussiana complexa $4-$variada $(R_{ii},R_{ij},I{ii},I_{ij})$.
+
+De acordo com (\cite{good})
+\begin{equation}
+\mathbf{C} = \left[
+\begin{array}{cc}
+	E(X_iX_j)  & E(X_iY_j)  \\
+	E(Y_iX_j)  & E(Y_iY_j)  \\
+\end{array}
+\right].
+\end{equation}
+Tal que
+\begin{equation}
+\mathbf{C} =
+\left\{
+\begin{array}{cc}
+	\frac{1}{2}\left[
+\begin{array}{cc}
+	 1 & 0  \\
+	 0 & 1  \\
+\end{array}
+	\right]\sigma^{2}_{j}  & \mbox{se}\quad i=j, \\
+	& \\
+	\frac{1}{2}\left[
+\begin{array}{cc}
+	\alpha_{ij} & -\beta_{ij}  \\
+	 \beta_{ij} & \alpha_{ij}  \\
+\end{array}
+	\right]\sigma_j\sigma_k  & \mbox{se}\quad i\neq j.   \\
+\end{array}
+\right.
+\end{equation}
+
+\begin{sidewaystable}
+	\centering
+	\caption{Tabela}
+\begin{tabular}{@{}lcccccc@{}} \toprule
+	     &$R_{hh}$        & $I_{hh}$ & $R_{hv}$&$I_{hv}$                            &$R_{vv}$                           &$I_{vv}$ \\ \midrule
+$R_{hh}$ &$\sigma_{hh}^2$ & 0                  &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$ & $\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$&$\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$  \\ 
+	$I_{hh}$ & 0 & $\sigma_{hh}^2$ &$-\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$-\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$ &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  \\ 
+	$R_{hv}$ &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$   &$-\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$  &$\sigma_{hv}^2$ &0 &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$  \\ 
+	$I_{hv}$ &$\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$  &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$  &0 &$\sigma_{hv}^2$ &$-\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ \\ 
+	$R_{vv}$ &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$-\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$-\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ & $\sigma_{vv}^2$ &0 \\ 
+    $I_{vv}$ &$\eta_{hh,vv}\sigma_{hh}\sigma_{hv}$  &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ & 0 &$\sigma_{vv}^2$ \\ 	 \bottomrule
+\end{tabular}
+\end{sidewaystable}
+\section{Funções de densidade}
+\subsection{Função de densidade Wishart para os canais de intensidade}
+Para os canais $(hh)$, $(hv)$ e $(vv)$ vamos usar a distribuição Wishart (PDF) descrita por
+
+\begin{equation}
+    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
+\end{equation} 
+
+onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
+\begin{equation}\label{cap_acf_10}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+\end{equation}
+e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart denotando por $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Sem perda de generalidade para o texto vamos usar o simbolo $\mathbf{\Sigma}$ em detrimento a $\mathbf{\Sigma_{s}}$ para representar a matriz de covariância associada a $\mathbf{S}$.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
+	\caption{Distribuição intensidade multiplas visadas com $\sigma=0.01$.}
+\label{fig2}
+\end{figure}
+
+
+\subsection{Função de densidade para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+
+\begin{equation}
+	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+\end{equation}
+onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+
+A PDF de $\xi$
+
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas.
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{dist_interferograma_multi_visadas.pdf}
+	\caption{Distribuição interferograma multiplas visadas.}
+\label{fig2}
+\end{figure}
+
+
+A PDF para a magnitude não normalizada $g$ pode ser obtida pelas equações acima:
+\begin{equation}
+\begin{array}{ccc}
+	f(g)&=&\frac{4L^{L+1}g^L}{\Gamma(L)(1-|\rho|^2)h^{L+1}}I_0\left(\frac{2|\rho|Lg}{(1-|\rho|^2)h}\right)K_{L-1}\left(\frac{2Lg}{(1-|\rho|^2)h}\right).
+		\end{array}
+\end{equation}
+
+\subsection{Função de densidade para cada canal complexo}
+
+Sendo $(R_{ii}, R_{ij})\sim N2(0, C_{ij})$ podemos observar na tabela anterior que 
+\begin{equation}
+C_{ij}=\left[
+\begin{array}{cc}
+	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij}  \\
+	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2   \\
+\end{array}
+\right],
+\end{equation}
+
+A pdf para esta distribuição normal é:
+
+\begin{equation}
+\begin{array}{ccc}
+	f_{Z_{R_{ii}R_{ij}}}(z)&=&\frac{1}{\pi\sigma_{ii}\sigma_{ij}\sqrt{1-\rho_{ii,ij}^2}}\exp\left(\frac{\rho_{ii,ij}z}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right)\\
+	&&K_0\left(\frac{|z|}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right).
+\end{array}
+\end{equation}
+
+
+Sendo $(I_{ii}, I_{ij})\sim N2(0, C_{ij})$ podemos observar na tabela anterior que 
+\begin{equation}
+C_{ij}=\left[
+\begin{array}{cc}
+	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij}  \\
+	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2   \\
+\end{array}
+\right],
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}
+	f_{Z_{R_{ii}R_{ij}}}(z)&=&\frac{1}{\pi\sigma_{ii}\sigma_{ij}\sqrt{1-\rho_{ii,ij}^2}}\exp\left(\frac{\rho_{ii,ij}z}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right)\\
+	&&K_0\left(\frac{|z|}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right).
+\end{array}
+\end{equation}
+
+Definindo o funcional $\Theta(z;\sigma_p,\sigma_q,\gamma)$
+\begin{equation}
+\begin{array}{ccc}
+	\Theta(z;\sigma_p,\sigma_q,\gamma)&=&\frac{1}{\pi\sigma_p\sigma_q\sqrt{1-\gamma^2}}\exp\left(\frac{\gamma z}{\sigma_p\sigma_q(1-\gamma)^2}\right)\\
+	&&K_0\left(\frac{|z|}{\sigma_p\sigma_q(1-\gamma)^2}\right).
+\end{array}
+\end{equation}
+onde,  $\sigma_p,\sigma_q,\gamma$ são  parâmetros da função.
+\subsection{distribuição conjunta para  $(R_{ii}, R_{ij})\sim N2(0, C_{ij})$}
+Sendo $(R_{ii}, R_{ij},I_{ii}, I_{ij})\sim N4(0, C_{ii,ij})$ podemos observar na tabela anterior que 
+\begin{equation}
+C_{ii,ij}=\left[
+\begin{array}{cccc}
+	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij} & 0&\eta_{ii,ij}\sigma_{ii}\sigma_{ij}\\
+	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2  & -\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&0 \\
+	0&-\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&\sigma_{ii}^2&\rho_{ii,ij}\sigma_{ii}\sigma_{ij}\\
+	\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&0&\rho_{ii,ij}\sigma_{ii}\sigma_{ij}&\sigma_{ij}^2\\
+\end{array}
+\right],
+\end{equation}
+Realizar a transformação 
+\begin{equation}
+\left[
+\begin{array}{ccc}
+	 Z = R_{ii}R_{ij}+I_{ii}I_{ij} \\
+	 U_1 = R_{ii}\\
+	 U_2 = R_{ij}\\
+	 U_3 = I_{ii}\\
+\end{array}
+\right],
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+De acordo com \citet{good} e \citet{lee} esta distribuição pode modelar adequadamente o comportamento estatístico de $\mathbf{s}$. A hipotêse de ser gaussiana e circular foi comprovada para dados SAR polarimétricos no artigo \citet{sarabendi}.   
+
+A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $m$-variada é dada por
+\begin{equation}\label{cap_acf_4}
+    p({\bf s})=\frac{1}{\pi^m|\bf{\Sigma}_{{\bf s}}|}\exp(-{\bf s}^{H}\bf{\Sigma}_{{\bf s}}^{-1}{\bf s}), 
+\end{equation}
+sendo $|\cdot|$ o determinante de uma matriz ou o valor absoluto de um escalar, e $\mathbf{\Sigma}_{\bf{s}}$ é a matriz de covariância associada a $\mathbf{s}$ definida por
+\begin{equation}\label{cap_acf_5}
+	{\bf \Sigma_{{\bf s}}} = E[{\mathbf s}{\mathbf s}^H] = \left[
+\begin{array}{cccc}
+	E[S_1\overline{S_1}]  & E[{S_1}\overline{S_2}] &\hdots & E[S_1\overline{S_m}] \\
+	E[S_2\overline{S_1}]  & E[{S_2}\overline{S_2}] &\hdots &E[S_2\overline{S_m}]\\
+        \vdots&\vdots &\ddots &\vdots\\
+	E[S_m\overline{S_1}]  & E[S_m\overline{S_2}] &\hdots &E[S_m\overline{S_m}]\\
+\end{array}
+\right]
+\end{equation}
+talque, $E[\cdot]$ denota o valor esperado e $\overline{\cdot}$ denota o conjugado complexo. A matriz de covariância é hermitiana positiva definida e contém todas as informações necessárias para caracterizar o retroespalhamento, podemos consultar mais informações em \citep{mfp}. 
+
+Nas imagens PolSAR serão consideradas três componentes para o vetor $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]^T$ e a multiplicação de $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]$ pelo seu conjugado transposto $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]^H$, isto é, a hermitiana do vetor, 
+
+\begin{equation}\label{cap_acf_6}
+\mathbf{s}\mathbf{s}^H = \left[
+\begin{array}{c}
+	S_{hh}      \\
+        S_{vh}     \\
+	S_{vv}      \\
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+	S_{hh}  & S_{vh}  & S_{vv}      \\
+\end{array}
+\right]^H = 
+\left[
+\begin{array}{ccc}
+	S_{hh}\overline{S_{hh}} & S_{hh} \overline{S_{vh}} & S_{hh}  \overline{S_{vv}}     \\
+	S_{vh} \overline{S_{hh}}  & S_{vh} \overline{S_{vh}}  & S_{vh} \overline{S_{vv}}      \\
+	S_{vv} \overline{S_{hh}}  & S_{vv} \overline{S_{vh}}  & S_{vv}  \overline{S_{vv}}     \\
+\end{array}
+\right].
+\end{equation}
+
+A  matriz $\mathbf \Sigma_{{\mathbf s}}$ tem dimensão $3\times 3$, e pode ser definida como sendo a matriz de covariância associada a $\mathbf{s}$.
+\begin{equation}\label{cap_acf_7}
+\mathbf{\Sigma_{{\mathbf s}}} = E[\mathbf{s}\mathbf{s}^H] =
+\left[
+\begin{array}{ccc}
+	E[S_{hh}\overline{S_{hh}}] & E[S_{hh} \overline{S_{vh}}] & E[S_{hh}  \overline{S_{vv}}]     \\
+	E[S_{vh} \overline{S_{hh}}]  & E[S_{vh} \overline{S_{vh}}]  & E[S_{vh} \overline{S_{vv}}]      \\
+	E[S_{vv} \overline{S_{hh}}]  & E[S_{vv} \overline{S_{vh}}]  & E[S_{vv}  \overline{S_{vv}}]     \\
+\end{array}
+\right].  
+\end{equation}
+
+Dados polarimétricos são usualmente sujeitados a um processo de várias visadas com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme \citep{good, ade}
+\begin{equation}\label{cap_acf_8}
+\begin{array}{ccc}
+    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\mathbf{s}_i}{\mathbf{s}_i}^H}, \\
+\end{array}
+\end{equation}
+onde $\mathbf{s}_i$ com $i = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{s}$, assim a matriz de covariância amostral associada a $\mathbf{s}_i$, com $i=1,\dots,L$ denotam o espalhamento para cada visada $L$ seguindo uma distribuição complexas de Wishart. 
+
+Sendo agora $\mathbf{\Sigma_{s}}$ e $L$ parâmetros conhecidos a função densidade de probabilidade da distribuição Wishart por  
+%
+\begin{equation}\label{cap_acf_9}
+    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
+\end{equation}
+onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
+\begin{equation}\label{cap_acf_10}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+\end{equation}
+e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart denotando por $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Sem perda de generalidade para o texto vamos usar o simbolo $\mathbf{\Sigma}$ em detrimento a $\mathbf{\Sigma_{s}}$ para representar a matriz de covariância associada a $\mathbf{s}$.
+
+Seja a função densidade de probabilidade da distribuição complexa Wishart (\ref{cap_acf_9}) na qual vamos aplicar o logaritmo natural e suas propriedades com o intuito de reescrever a função na forma adequada para aplicar o método de estimativa de máxima verossimilhança. Assim,
+\begin{equation}\label{cap_acf_11}
+\begin{array}{ccc}
+    \ln{f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)}&=&\ln{\left(\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
+        \ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)}\right)}+\ln{\left( \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
+        \ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(L^{mL}|\mathbf{Z}|^{L-m}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
+        \ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+(L-m)\ln{\left(|\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf {Z}), \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
+\end{array}
+\end{equation}
+lembrando que a função Gamma multivariada é definida na equação (\ref{cap_acf_10}) então, podemos rescrever a equação da seguinte forma
+\begin{equation}\label{cap_acf_12}
+\begin{array}{cll}
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}\\
+	&-&\ln{\left(\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}),\\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}\\
+        &-&\ln{\left(\pi^{\frac{1}{2}m(m-1)}\right)}-\ln{\left( \prod_{i=0}^{m-1}\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
+	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}\\
+        &-&\frac{1}{2}m(m-1)\ln{\left(\pi\right)}-\sum_{i=0}^{m-1}\ln{\left(\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}),\\
+\end{array}
+\end{equation}
+equação equivalente pode ser encontrada em \citep{fnc2011}.
+
+
+\section{Modelos para dados dados}
+
+A matriz de espalhamento complexa {\boldmath S} é definida por
+$$
+\mathbf{ s} = \left[
+\begin{array}{cc}
+	S_{hh}   & S_{hv}   \\
+	S_{vh}   & S_{vv}   \\
+\end{array}
+\right].
+$$
+% % % ACF Dizer o que significam "h" e "v"
+
+Usaremos o caso do meio de propagação ser recíproco, isto é, $S_{hv}=S_{vh}$ tornando a matriz de espalhamento simétrica. Podemos facilitar a notação representando a matriz de espalhamento por um vetor da seguinte forma
+$$
+\mathbf{s} = \left[
+\begin{array}{c}
+	S_{vv}      \\
+	S_{vh}     \\
+	S_{hh}      \\
+\end{array}
+\right].
+$$
+% % % ACF Não é sempre um fato. Ocorre na maioria das vezes, e em português é "meio recíproco".
+
+De acordo com \cite{good} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{s}=[S_1,S_2,\dots,S_p]^T$. 
+% % % ACF Acrescentei "complex"
+
+A função densidade de probabilidade ({\boldmath pdf}) da distribuição gaussiana complexa $p-$variada é dada por
+\begin{equation}\label{eqn1}
+	p(\mathbf{s})=\frac{1}{\pi^p|\Sigma_{\mathbf{s}}|}\exp(-\bar{\mathbf{s}}^{T}\Sigma_{\mathbf{s}}^{-1}\mathbf{s}).
+\end{equation}
+O parâmetro que indexa a distribuição é a matriz de covariância, que é definida por:
+\begin{equation}\label{eqn2}
+	\mathbf{ \Sigma_{s}} = E[\mathbf{ss}^H] = \left[
+\begin{array}{cccc}
+	E(\mathbf{s_1s_1}^H)  & E(\mathbf{s_1s_2}^H) &\hdots & E({\mathbf s_1s_p}^H) \\
+	E(\mathbf{ s_2s_1}^H)  & E(\mathbf {s_2 s_2}^H) &\hdots &E(\mathbf {s_2 s_p}^H)\\
+        \vdots&\vdots &\ddots &\vdots\\
+	E(\mathbf{ s_ps_1}^H)  & E(\mathbf {s_ps_2}^H) &\hdots &E(\mathbf {s_ps_p}^H)\\
+\end{array}
+\right].
+\end{equation}
+onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
+
+A matriz {\boldmath$\Sigma_{\mathbf{s}}$} é hermitiana pois se $\mathbf {S_j}= x_j+iy_j $
+
+\begin{equation}\label{eqn3}
+\begin{array}{ccc}
+\mathbf{S}_j\overline{\mathbf{S}}_j&=& (x_j+iy_j)\overline{(x_j+iy_j)} \\
+\mathbf{S}_j\overline{\mathbf{S}}_j&=& (x_j+iy_j)(x_j-iy_j) \\
+\mathbf{S}_j\overline{\mathbf{S}}_j&=& x_j^2+y_j^2 \\
+\end{array}
+\end{equation}
+considerando $j \neq k$
+\begin{equation}\label{eqn4}
+\begin{array}{ccc}
+\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_j+iy_j)\overline{(x_k+iy_k)} \\
+\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_j+iy_j)(x_k-iy_k) \\
+\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_jx_k+y_jy_k)+i(x_ky_j-x_jy_k) \\
+\end{array}
+\end{equation}
+ainda,
+\begin{equation}\label{eqn5}
+\begin{array}{ccc}
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_k+iy_k)\overline{(x_j+iy_j)} }\\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_k+iy_k)(x_j-iy_j)} \\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_kx_j+y_ky_j)+i(x_jy_k-x_ky_j) }\\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)-i(x_jy_k-x_ky_j) \\
+	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)+i(x_ky_j-x_jy_k) \\
+\end{array}
+\end{equation}
+Portanto1
+\begin{equation}\label{eqn6}
+\begin{array}{ccc}
+	\mathbf{S}_j\overline{\mathbf{S}}_j&=&\overline{\mathbf{S}_j\overline{\mathbf {S}}}_j \\
+	\mathbf{S}_j\overline{\mathbf{S}}_k&=&\overline{\mathbf{S}_k\overline{\mathbf {S}}}_j \\
+\end{array}
+\end{equation}
+Assim com $j$ e $k$ varrendo toda a matriz podemos afirmar que $\mathbf{\Sigma_{\mathbf{s}}}=\mathbf{\Sigma_{ s}}^H$ portanto hermitiana.
+
+
+Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão sinal-ruído.
+% % % ACF "relação senhal-ruído"
+Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ visadas 
+% % % ACF "visadas", mas ninguém usa
+independentes de uma mesma cena. Isto resulta na matriz de covariância {\boldmath{Z}} dada por:
+\begin{equation}\label{eqn7}
+	\mathbf{Z}=\frac{1}{L}\sum_{i=1}^{L} \mathbf{s_is_i}^H .
+\end{equation}
+% % % ACF Código LaTeX simplificado
+
+\subsubsection{Coeficiente de correlação {\it Multilook}}
+
+O coeficiente de correlação complexo é um importante parâmetro para descrever a função de densidade de probabilidade. 
+Podemos defini-lo como
+\begin{equation}\label{eqn8}
+	\rho_c=\frac{E[\mathbf{s_is_j}^H]}{\sqrt{E[|\mathbf{s_i}|^2]E[|\mathbf{s_j}|^2]}} =|\rho_c|e^{i\theta}.
+\end{equation}
+% % % ACF Não complique LaTeX
+em que {\boldmath $s_i$} e {\boldmath $s_j$} 
+% % % ACF Repare que o negrito matemático se faz de outra maneira
+são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico SAR. 
+Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $L$ looks intensidade é definida como   
+% % % ACF Eram L looks, agora são n. Unificar a notação
+\begin{equation}\label{eqn9}
+	\rho_I^{(n)}=\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
+\end{equation}
+
+No apêndice do artigo \cite{lee} foi mostrado que 
+
+\begin{equation}\label{eqn10}
+	\rho_I^{(n)}= |\rho_c|^2\\
+\end{equation}
+
+Sendo 
+
+\begin{equation}\label{eqn11}
+\begin{array}{ccc}
+	\mathbf{S_i}&=&a_{R}+ia_{I} \\
+        \mathbf{S_j}&=&b_{R}+ib_{I} \\
+\end{array}
+\end{equation}
+
+Assim a equação (\ref{eqn8}) pode ser reescrita
+
+\begin{equation}\label{eqn12}
+\begin{array}{ccc}
+	\rho_c&=&\frac{E[(a_{R}+ia_{I})\overline{(b_{R}+ib_{I})}]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
+	\rho_c&=&\frac{E[(a_{R}+ia_{I})(b_{R}-ib_{I})]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sqrt{E[a_{R}^2+a_{I}^2]}\sqrt{E[b_{R}^2+b_{I}^2]}}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sqrt{E[a_{R}^2+a_{I}^2]}\sqrt{E[b_{R}^2+b_{I}^2]}}. \\
+\end{array}
+\end{equation}
+Definindo os desvios padrões,
+\begin{equation}\label{eqn13}
+\begin{array}{ccc}
+	\sigma_{a}	&=&\sqrt{E[a_{R}^2+a_{I}^2]} \\
+	\sigma_{b}      &=&\sqrt{E[b_{R}^2+b_{I}^2]} \\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{eqn14}
+\begin{array}{ccc}
+	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sigma_a\sigma_b}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}+a_{I}b_{I}+i(a_{I}b_{R}-a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}]+E[a_{I}b_{I}]+i(E[a_{I}b_{R}]-E[a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
+	\rho_c&=&\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b}+\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b}+i\left(\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b}-\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}\right). \\
+\end{array}
+\end{equation}
+Definindo
+\begin{equation}\label{eqn15}
+\begin{array}{ccccccccc}
+	\rho_{RR}=\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b},&&\rho_{II}=\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b},&&\rho_{IR}=\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b},&&\rho_{RI}=\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}. \\
+\end{array}
+\end{equation}
+
+Portanto, 
+\begin{equation}\label{eqn16}
+	\rho_c=\frac{(\rho_{RR}+\rho_{II})+i(\rho_{IR}-\rho_{RI})}{2}. \\
+\end{equation}
+
+\textcolor{red}{obs:Explicar melhor o fator 2}
+
+Devido a condição de ser gaussiana circular
+
+\begin{equation}\label{eqn17}
+	\rho_{RR}=\rho_{II},\quad \rho_{IR}=-\rho_{RI}. \\
+\end{equation}
+podemos escrever $\rho_c$
+\begin{equation}\label{eqn18}
+	\rho_c=\rho_{RR}+i\rho_{IR}. \\
+\end{equation}
+
+Portanto
+
+\begin{equation}\label{eqn19}
+	|\rho_c|^2=\rho_{RR}^2+\rho_{IR}^2. \\
+\end{equation}
+
+O processo de {\bf Multilook} produz
+\begin{equation}\label{eqn20}
+\begin{array}{ccc}
+	A_n&=&\frac{1}{n}\sum_{k=1}^{n} [a_{R}^2(k)+a_{I}^2(k)]. \\
+	B_n&=&\frac{1}{n}\sum_{k=1}^{n} [b_{R}^2(k)+b_{I}^2(k)]. \\
+\end{array}
+\end{equation}
+
+Assumindo a independência estatística entre amostras, a média e o desvio padrão podem ser definidos por
+\begin{equation}\label{eqn21}
+\begin{array}{cccccccccccc}
+	\overline{A_n}&=&E[A_n]&=&2E[a_{R}^2(k)]&=&2\sigma_a^2,&SD[A_n]&=&\frac{2\sigma_a^2}{\sqrt{n}}.\\
+	\overline{B_n}&=&E[B_n]&=&2E[b_{R}^2(k)]&=&2\sigma_b^2,&SD[B_n]&=&\frac{2\sigma_b^2}{\sqrt{n}}.\\
+\end{array}
+\end{equation}
+
+O coeficiente de correlação {\it Multilook} para intensidade (equação (\ref{eqn9})) pode ser escrito por:
+
+\begin{equation}\label{eqn22}
+	\rho_I^{(n)}=\frac{E[(A_n-\overline{A_n})(B_n-\overline{B_n})]}{SD[A_n]SD[B_n]}. \\
+	%\rho_I^{(n)}&=&\frac{E[(A_nB_n-A_n\overline{B_n}-\overline{A_n}B_n+\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
+	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
+	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
+\end{equation}
+
+Assumindo a independência entre as amostras e depois de algumas manipulações algébricas para o numerador da equação (\ref{eqn22}). 
+\begin{equation}\label{eqn23}
+	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]=\frac{1}{n^2}\sum_{k=1}^{n}[E[(a_{R}^2(k)+a_{I}^2(k))(b_{R}^2(k)+b_{I}^2(k))]-4\sigma_a^2\sigma_b^2] \\
+\end{equation}
+\textcolor{red}{OBS: Entender melhor a equação (\ref{eqn23}) e (\ref{eqn24})}.
+\begin{equation}\label{eqn24}
+	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]=\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2\\
+\end{equation}
+
+Agora substituindo em (\ref{eqn22})
+
+\begin{equation}\label{eqn25}
+\begin{array}{ccc}
+	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2}{SD[A_n]SD[B_n]}. \\
+	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2}{\frac{2\sigma_a^2}{\sqrt{n}}\frac{2\sigma_b^2}{\sqrt{n}}}. \\
+\end{array}
+\end{equation}
+
+completando as simplificaçãoes
+
+\begin{equation}\label{eqn26}
+	\rho_I^{(n)}=|\rho_c|^2. \\
+\end{equation}
+
+\textcolor{blue}{OBS: Esta relação mostra que o coeficiente de correlação da intensidade não depende dos {\it nlooks}.}
+
+\subsubsection{Diferença de fase {\it Multilook}}
+
+A $PDF$ diferença de fase é derivafda nesta seção para cada duas componentes do $SAR$ polarimetrico. A {\it 1ook} diferença de fase é definida como 
+
+
+\begin{equation}\label{eqn27}
+	\psi_1=\angle(\mathbf{S_iS_j^{H}}). \\
+\end{equation}
+
+A fase {\it multilook} é obtida por 
+
+\begin{equation}\label{eqn28}
+	\psi_n=\angle\left(\frac{1}{n}\sum_{k=1}^{n}\mathbf{S_i(k)S_j^{H}(k)}\right). \\
+\end{equation}
+
+A $\psi_n$ são os elementos fora da diagonal principal da matriz de covariança $Z$. Podemos pensar como uma média de {\it 1-looks}.
+
+Para derivar estas $PDF's$ vamos usar duas componentes de seguinte forma
+
+\begin{equation}\label{eqn29}
+	A=\left[
+\begin{array}{cc}
+	A_{11}              & \alpha e^{i\psi_n} \\
+	\alpha e^{-i\psi_n} & A_{22} \\
+\end{array}\right]
+\end{equation}
+
+
+\begin{equation}\label{eqn30}
+	C=E[\mathbf{SS^{H}}]=\left[
+\begin{array}{cc}
+	C_{11}              & \sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta} \\
+ \sqrt{C_{11}C_{22}}|\rho_c |e^{-i\theta} & C_{22}\\
+\end{array}\right]
+\end{equation}
+
+Onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ e $C_{ii}=E[|\mathbf{S_i}|^2]$, assim podemos rescrever a matriz (\ref{eqn29})
+
+\begin{equation}\label{eqn31}
+	A=\left[
+\begin{array}{cc}
+	A_{11}              & A_{12R}+iA_{12I} \\
+	A_{12R}-iA_{12I}    & A_{22} \\
+\end{array}\right]
+\end{equation}
+
+
+\begin{equation}\label{eqn32}
+	p_A^{(n)}(A)=\frac{|A|^{n-p}}{K(n,p)|C|^n} \exp(-tr(C^{-1}A)), \\
+\end{equation}
+onde
+\begin{equation}\label{eqn33}
+	K(n,p)=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1), \\
+\end{equation}
+sendo $\Gamma(\cdot)$ a função Gamma.
+
+Como nesse caso estamos usando $p=2$ podemos rescrever,
+\begin{equation}\label{eqn34}
+	p_A^{(n)}(A)=\frac{|A|^{n-2}}{K(n,2)|C|^n} \exp(-tr(C^{-1}A)), \\
+\end{equation}
+\begin{equation}\label{eqn35}
+	K(n,2)=\pi\Gamma(n)\Gamma(n-1), \\
+\end{equation}
+Efetuando as manipulações algébricas
+\begin{equation}\label{eqn36}
+\begin{array}{ccc}
+	|A|&=&A_{11}A_{22}-(A_{12R}+iA_{12I})(A_{12R}-iA_{12I})\\
+	|A|&=&A_{11}A_{22}-(A_{12R}^2+A_{12I}^2)\\
+\end{array}
+\end{equation}
+\begin{equation}\label{eqn37}
+\begin{array}{ccc}
+	|C|&=&C_{11}C_{22}-C_{11}C_{22}|\rho_c|^2\\
+	|C|&=&C_{11}C_{22}(1-|\rho_c|^2)\\
+\end{array}
+\end{equation}
+assim temos
+\begin{equation}\label{eqn38}
+\begin{array}{ccc}
+	|A|^{n-2}&=&(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}\\
+	|C|^{n}&=&(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}\\
+\end{array}
+\end{equation}
+
+Agora será verificado somente quociente,
+\begin{equation}\label{eqn39}
+	\frac{|A|^{n-2}}{|C|^{n}}=\frac{(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}}{(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}}\\
+\end{equation}
+Como  $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ então $|A_{12R}+iA_{12I}|=|\alpha e^{i\psi_n}|$ portanto $\alpha=A_{12R}^2+A_{12I}^2$ 
+\begin{equation}\label{eqn40}
+	\frac{|A|^{n-2}}{|C|^{n}}=\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}}\\
+\end{equation}
+reescrevendo a equação (\ref{eqn40})
+\begin{equation}\label{eqn41}
+\begin{array}{ccc}
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}\left(\frac{C_{11}C_{22}}{C_{11}C_{22}}\right)^2(1-|\rho_c|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{\frac{(C_{11}C_{22})^{n-2}}{\left(C_{11}C_{22}\right)^2}(1-|\rho_c|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(\frac{A_{11}A_{22}}{C_{11}C_{22}}-\frac{\alpha^2}{C_{11}C_{22}}\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
+\end{array}
+\end{equation}
+Definindo a seguinte normalização 
+\begin{equation}\label{eqn42}
+	B_1=\frac{A_{11}}{C_{11}},\quad B_2=\frac{A_{22}}{C_{22}},\quad\eta=\frac{\alpha}{\sqrt{C_{11}C_{22}}}.\\
+\end{equation}
+
+Substituindo na equação (\ref{eqn41})
+\begin{equation}\label{eqn43}
+\begin{array}{ccc}
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
+	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
+\end{array}
+\end{equation}
+\textcolor{red}{OBS:Entender melhor o fator $(C_{11}C_{22})^{-2}$, não está compatível com o artigo \cite{lee}- verificar o Jacobiano.}
+
+Encontrando a matriz inversa de $C$,
+\begin{equation}\label{eqn44}
+	C^{-1}=\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
+\begin{array}{cc}
+	C_{22}              & -\sqrt{C_{11}C_{22}}|\rho_c |e^{i\theta} \\
+ -\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta} & C_{11}\\
+\end{array}\right]
+\end{equation}
+\begin{equation}\label{eqn45}
+	C^{-1}A=\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
+\begin{array}{cc}
+	C_{22}A_{11}-\sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta}\alpha e^{-i\psi_n} & C_{22} \alpha e^{i\psi_n}-A_{22}\sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta} \\
+	C_{11}\alpha e^{-i\psi_n}-A_{11}\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta} & C_{11}A_{22}-\sqrt{C_{11}C_{22}}\rho_c|e^{-i\theta}\alpha e^{i\psi_n} \\
+\end{array}\right]
+\end{equation}
+
+Aplicando o traço para a matriz $C^{-1}A$,
+{\footnotesize
+\begin{equation}\label{eqn46}
+	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
+	C_{22}A_{11}-\sqrt{C_{11}C_{22}}|\rho_c |e^{i\theta}\alpha e^{-i\psi_n} + C_{11}A_{22}-\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta}\alpha e^{i\psi_n} \right]
+\end{equation}}
+
+{\footnotesize
+\begin{equation}\label{eqn47}
+	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
+		C_{22}A_{11}-\alpha \sqrt{C_{11}C_{22}}|\rho_c|e^{i(\theta-\psi_n)} + C_{11}A_{22}-\alpha \sqrt{C_{11}C_{22}}|\rho_c|e^{i(\psi_n-\theta)}\right]
+\end{equation}}
+{\footnotesize
+\begin{equation}\label{eqn48}
+	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[
+	\frac{C_{22}A_{11}}{C_{11}C_{22}}+\frac{C_{11}A_{22}}{C_{11}C_{22}}-\frac{2\alpha \sqrt{C_{11}C_{22}}|\rho_c \cos(\psi_n-\theta)}{C_{11}C_{22}}\right]
+\end{equation}}
+{\footnotesize
+\begin{equation}\label{eqn49}
+	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[
+	\frac{A_{11}}{C_{11}}+\frac{A_{22}}{C_{22}}-\frac{2\alpha \sqrt{C_{11}C_{22}}|\rho_c |\cos(\psi_n-\theta)}{C_{11}C_{22}}\right]
+\end{equation}}
+
+{\footnotesize
+\begin{equation}\label{eqn50}
+	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[B_1+B_2-2\eta |\rho_c |\cos(\psi_n-\theta)\right]
+\end{equation}}
+{\footnotesize
+\begin{equation}\label{eqn51}
+	tr(-C^{-1}A)=-\frac{B_1+B_2-2\eta |\rho_c|\cos(\psi_n-\theta)}{(1-|\rho_c|^2)}
+\end{equation}}
+
+portanto usando e equação (\ref{eqn43}), (\ref{eqn51}),   (\ref{eqn34}), (\ref{eqn35}) termos   
+{\footnotesize
+\begin{equation}\label{eqn52}
+	p(B_1,B_2,\eta,\psi_n)=\frac{\left(B_1B_2-\eta^2\right)^{n-2}\eta}{\pi(1-|\rho_c|^2)^{n}\Gamma(n)\Gamma(n-1)}\exp\left(-\frac{B_1+B_2-2\eta |\rho_c |\cos(\psi_n-\theta)}{(1-|\rho_c|^2)}\right)
+\end{equation}}
+
+Derivando e equação (\ref{eqn52}) com relação a $B_1$, $B_2$ e $\eta$ podemos afirmar que a distribuição diferença de fase {\it multilook} é 
+\begin{equation}\label{eqn53}
+	p_{\psi}^{(n)}(\psi)=\frac{\Gamma(n+\frac{1}{2})(1-|\rho_c|^2)^n\beta}{2\sqrt{\pi}\Gamma(n)(1-\beta^2)^{n+\frac{1}{2}}}+\frac{(1-|\rho_c|^2)^n}{2\pi}F(n,1;\frac{1}{2};\beta^2)
+\end{equation}
+Sendo $-\pi<\psi\leq\pi$, $\beta=|\rho_c|\cos(\psi-\theta)$ e $F(n,1;\frac{1}{2};\beta^2)$ a função de Gauss hipergométrica.
+
+Para $n=1$  vale a seguinte identidade para a função de Gauss Hipergeométrica,
+\begin{equation}\label{eqn54}
+	F(1,1;\frac{1}{2};z)=(1-z)^{-1}\left[1+\frac{\sqrt{z}\sin^{-1}(\sqrt{z})}{\sqrt{1-z}}\right]
+\end{equation}
+
+Pela equação (\ref{eqn53})
+\begin{equation}\label{eqn55}
+	p_{\psi}^{(1)}(\psi)=\frac{(1-|\rho_c|^2)[(1-\beta^{2})^{\frac{1}{2}}+\beta(\pi-\cos^{-1}(\beta))]}{2\pi(1-\beta^{2})^{\frac{3}{2}}}
+\end{equation}
+
+Da mesma forma podemos obter $2-look$, $3-look$ e $4-look$,
+
+\begin{equation}\label{eqn56}
+	p_{\psi}^{(2)}(\psi)=\frac{3}{8}\frac{(1-|\rho_c|^2)^2\beta}{(1-\beta^2)^{\frac{5}{2}}}+\frac{(1-|\rho_c|^2)^2}{4\pi(1-\beta^2)^{2}}\left[2+\beta^2+\frac{3\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
+\end{equation}
+\begin{equation}\label{eqn57}
+\begin{array}{ccc}
+	p_{\psi}^{(3)}(\psi)&=&\frac{15}{32}\frac{(1-|\rho_c|^2)^3\beta}{(1-\beta^2)^{\frac{7}{2}}}+\frac{(1-|\rho_c|^2)^3(1-\beta^2)^{-3}}{16\pi}\left[8+9\beta^2-2\beta^4+\frac{15\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
+\end{array}
+\end{equation}
+\begin{equation}\label{eqn58}
+	p_{\psi}^{(4)}(\psi)=\frac{35}{64}\frac{(1-|\rho_c|^2)^4\beta}{(1-\beta^2)^{\frac{9}{2}}}+\frac{(1-|\rho_c|^2)^4(1-\beta^2)^{-4}}{96\pi}\left[48+87\beta^2-38\beta^4+8\beta^6+\frac{105\beta}{(1-\beta^2)^{\frac{1}{2}}}\sin^{-1}(\beta)\right]
+\end{equation}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{grafico_pdf_lee_1994_dif_fase.pdf}
+	\caption{Distribuição diferença de fase {\it n-looks}.}
+\label{fig1}
+\end{figure}
+
+A  figura (\ref{fig1}) mostra a equação (\ref{eqn53}) para seus diferentes {\it 1,2,3 e 4 - looks} que são $p_{\psi}^{(1)}(\psi)$, $p_{\psi}^{(2)}(\psi)$, $p_{\psi}^{(3)}(\psi)$ e $p_{\psi}^{(4)}(\psi)$.
+
+\subsubsection{Distribuição conjunta do {\it Multilook} $|S_i|^2$ e $|S_j|^2$ }
+
+O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
+
+\begin{equation}\label{eqn59}
+\begin{array}{ccccc}
+	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
+	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
+\end{array}
+\end{equation}
+
+Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+
+\begin{equation}\label{eqn60}
+	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+Sendo
+\begin{equation}\label{eqn61}
+	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
+\end{equation}
+
+\textcolor{red}{OBS: As integrações na equação (\ref{eqn52}) não foram realizadas neste estudo.}
+\begin{equation}\label{eqn62}
+	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+\textcolor{red}{OBS: Verificar o surgimento de um fator $\frac{n^2}{C_{11}C_{22}}$ na equação  (\ref{eqn62}) - Mudança de variável!!!!!.}
+
+\subsubsection{Distribuição razão intensidade e amplitude para {\it multilook}}
+
+A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
+
+\begin{equation}\label{eqn63}
+\begin{array}{ccccccc}
+	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
+\end{array}
+\end{equation}
+
+Onde $\tau=\frac{C_{11}}{C_{22}}$.
+
+A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
+
+
+\begin{equation}\label{eqn64}
+	p^{(n)}(\mu)=\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
+\end{equation}
+
+\textcolor{red}{OBS: Não realizei as contas do apêndice $(C)$.}
+
+Realizando a troca de variável $\nu=\sqrt{\mu}$ a equação (\ref{eqn64}) pode ser rescrita por
+\begin{equation}\label{eqn65}
+	p^{(n)}(\nu)=\frac{2\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\nu^2)\nu^{2n-1}}{\Gamma(n)\Gamma(n)\left[(1+\nu^2)^2-4|\rho_c|^2\nu^2 \right]^{\frac{2n+1}{2}}}\\
+\end{equation}
+As $PDF's$ razão de intensidade e amplitude entre os {\it multilook} $\mathbf{S_1}$ e $\mathbf{S_2}$ podem ser facilmente deduzidas das seguintes definições e posterior aplicação nas equações (\ref{eqn64}) e (\ref{eqn65}). definindo 
+\begin{equation}\label{eqn66}
+\begin{array}{ccccc}
+	w&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\sum_{k=1}^{n}|S_i(k)|^2}&=&\tau\mu\\
+	z&=&\sqrt{w}&=&\sqrt{\tau}\nu
+\end{array}
+\end{equation}
+Portanto a distribuição da razão $w$ de intensidade {\it multilook} é
+\begin{equation}\label{eqn67}
+	p^{(n)}(w)=\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+w)w^{n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2n+1}{2}}}.
+\end{equation}
+Portanto a distribuição da razão $z$ de amplitude {\it multilook} é
+\begin{equation}\label{eqn68}
+	p^{(n)}(z)=\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+z^2)z^{2n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+z^2)^2-4\tau|\rho_c|^2z^2 \right]^{\frac{2n+1}{2}}}.
+\end{equation}
+
+A discusão será limitada para estatística da razão $\nu$ amplitude normalizada. A figura (\ref{fig2}) mostra a distribuição razão amplitude apresentada na equação  (\ref{eqn65}). Notadamente a medida que $n$ aumenta tendemos a ter uma aproximação da "função" delta de Dirac e uma concentração em torno da abscissa $\nu=1$.
+
+\textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variância.}
+
+
+\section{Densidades para o artigo}
+\subsection{Função densidade de probabilidade Univariada - $\Gamma$ Univariada - Lee}
+\begin{equation}\label{cap_acf_23}
+	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
+\end{equation}
+
+\subsection{Razão de intensidades univariada}
+A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
+
+\begin{equation}\label{eqn63}
+\begin{array}{ccccccc}
+	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
+\end{array}
+\end{equation}
+
+Onde $\tau=\frac{C_{11}}{C_{22}}$.
+
+A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
+
+
+\begin{equation}\label{eqn64}
+	p^{(L)}(\mu)=\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\\
+\end{equation}
+
+\begin{equation}\label{eqn64}
+	\ln p^{(L)}(\mu)=\ln\left(\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\right)\\
+\end{equation}
+\begin{equation}\label{eqn64}
+\begin{array}{ccc}
+	\ln p^{(L)}(\mu)&=&\ln\left(\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}\right)\\
+	&-&\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
+\end{array}
+\end{equation}
+\begin{equation}\label{eqn64}
+\begin{array}{ccc}
+	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +\ln(1-|\rho_c|^2)^{L}+\ln(1+\mu)+\ln\mu^{L-1}\\
+	&-&\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
+\end{array}
+\end{equation}
+
+\begin{equation}\label{eqn64}
+\begin{array}{ccl}
+	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
+	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]\\
+\end{array}
+\end{equation}
+
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flev_razao.pdf}
+%  	\caption{$\sigma= 12.3426$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flev_razao.pdf}
+%		\caption{$\sigma=2.1029 $.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flev_razao.pdf}
+%  	\caption{$\sigma=1.4999 $.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flev_razao.pdf}
+%		\caption{$\sigma=12.6414 $.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flev_razao.pdf}
+%  	\caption{$\sigma=10.4523$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flev_razao.pdf}
+%		\caption{$\sigma= 14.2156$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flev_razao.pdf}
+%  	\caption{$\sigma=9.8405 $.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flev_razao.pdf}
+%		\caption{$\sigma=13.1298 $.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+\subsection{Distribuição univariada da magnitude do produto}
+A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+
+\begin{equation}
+	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+\end{equation}
+onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+\begin{equation}
+\begin{array}{ccc}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right).
+		\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{ccc}
+	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flev_produto.pdf}
+%  	\caption{$\sigma= 0.0001241$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flev_produto.pdf}
+%		\caption{$\sigma= 0.0021969$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flev_produto.pdf}
+%  	\caption{$\sigma=0.0047520 $.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flev_produto.pdf}
+%		\caption{$\sigma= 0.0123943$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flev_produto.pdf}
+%  	\caption{$\sigma= 0.0002715$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flev_produto.pdf}
+%		\caption{$\sigma= 0.0001922$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flev_produto.pdf}
+%  	\caption{$\sigma= 0.0004329$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flev_produto.pdf}
+%		\caption{$\sigma= 0.0002790$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+
+
+\subsection{Distribuição bivariada produto de intensidades - Lee } 
+
+O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
+
+\begin{equation}\label{eqn59}
+\begin{array}{ccccc}
+	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
+	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
+\end{array}
+\end{equation}
+
+Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+
+\begin{equation}\label{eqn60}
+	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+
+Sendo
+\begin{equation}\label{eqn61}
+	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
+\end{equation}
+
+\begin{equation}\label{eqn62}
+	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+\end{equation}
+\subsection{Distribuição $\Gamma$ trivariada - Hagedorn }
+\begin{equation}\label{eqn62}
+\begin{array}{ccc}
+	p(I_1,I_2,I_3)&=& \frac{\exp(-\frac{1}{2}(a_1I_1+b_1I_2+c_1I_3))}{8(n-1)|C|^{\frac{n}{2}}(d_1d_2d_3)^{n-1}}\sum_{k=n-1}^{\infty}k(-1)^{k-n+1}C_{k-n+1}^{n-1}(cos(\gamma))\\
+	&&I_k(d_1\sqrt{I_1I_2})I_k(d_2\sqrt{I_2I_3})I_k(d_3\sqrt{I_1I_3})
+\end{array}
+\end{equation}
+
+
+
+\subsection{Método da verossimilhança para a pdf univariada $\Gamma$.}
+\begin{equation}\label{cap_acf_23}
+	f_{Z_{i}}(Z_{i};\mu,L)=\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{Z_{i}}{\mu}\right), \\
+\end{equation}
+Aplicando o logaritmo natural na igualdade teremos:
+\begin{equation}\label{cap_acf_23}
+\begin{array}{ccc}
+	\ln f_{Z_{i}}(Z_{i};\mu,L)&=&\ln \left(\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{Z_{i}}{\mu}\right)\right), \\
+	                                         &=&\ln \left(\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)}\right) + \ln\left(\exp\left(-L\frac{Z_{i}}{\mu}\right)\right), \\
+	                                         &=&\ln \left(L^{L}Z_{i}^{L-1} \right)-\ln\left(\mu^{L}\Gamma(L)\right) -\frac{L}{\mu} Z_i\\
+	                                         &=&L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
+\end{array}
+\end{equation}
+
+
+A função 
+\begin{equation}\label{func_log_univ_gaussiana}
+\begin{array}{ccc}
+	\ln f_{Z_{i}}(Z_{i};\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
+\end{array}
+\end{equation}
+
+A imagem de flevoland é usada para ilustrar a busca pelos parâmetros ($L, \mu$). As figura mostram a distribuição de dados em uma faixa fixa $r=50$, e sua sua função de máxima verossimilhança com os parâmetros fixos $L=4$ e $\mu$, o mesmo é calculado como média dos pontos internos e externos da faixa de dados. 
+
+\begin{figure}[hbt]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{faixa_dados_r_50_flevoland.pdf}
+  	\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig04}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{funcao_l_faixa_r_50_flevoland.pdf}
+		\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig05}
+\endminipage\hfill
+%\endminipage\hfill
+\end{figure}
+
+As figuras abaixo mostram a radial de número $r=50$ na imagem de Flevoland, com os respectivos correspondentes sigmas fixos, ou seja, para cada sigma fixado é mostrado a função 
+\begin{equation}\label{cap_acf_23}
+\begin{array}{ccc}
+	\ln f_{\sigma_i}(\sigma_i;\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} \sigma_i\\
+\end{array}
+\end{equation}
+
+
+As derivadas da função (\ref{func_max_ver_uni_gamma}) com relação a $L$ e $\mu$ podem ser calculadas, iniciamos pela derivada em relação a $\mu$,
+\begin{equation}\label{der_mu_func_max_ver_uni_gamma}
+\begin{array}{ccc}
+	\frac{\partial}{\partial \mu}\ln f_{Z_{i}}(z_{i};\mu,L)&=& -\frac{L}{\mu} + \frac{L}{\mu^2} z_i.\\
+\end{array}
+\end{equation}
+e a derivada em relação a $L$
+\begin{equation}\label{der_l_func_max_ver_uni_gamma}
+\begin{array}{ccc}
+	\frac{\partial}{\partial L}\ln f_{Z_{i}}(z_{i};\mu,L)&=&1 + \ln L + \ln z_{i}-\ln \mu -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{\mu} z_i.\\
+\end{array}
+\end{equation}
+
+
+As equações podem ser resolvidas da seguinte forma, seja (\ref{der_mu_func_max_ver_uni_gamma}) 
+\begin{equation}\label{der_mu_func_max_ver_uni_gamma_equal_to_zero}
+\begin{array}{ccc}
+\frac{\partial}{\partial \mu}\ln f_{Z_{i}}(z_{i};\mu,L)&=&0.\\
+	 -\frac{L}{\mu} + \frac{L}{\mu^2} z_i&=&0.\\%
+	 \mu &=& z_i
+\end{array}
+\end{equation}
+e, usando a equação (\ref{der_l_func_max_ver_uni_gamma}),
+\begin{equation}\label{der_l_func_max_ver_uni_gamma_equal_to_zero}
+\begin{array}{ccc}
+	\frac{\partial}{\partial L}\ln f_{Z_{i}}(z_{i};\mu,L)&=&0.\\
+	1 + \ln L + \ln z_{i}-\ln \mu -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{\mu} z_i&=&0.\\
+\end{array}
+\end{equation}
+
+Considerando $\mu=z_i$ teremos
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	1 + \ln L + \ln z_{i}-\ln z_i -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{z_i} z_i&=&0.\\
+	1 + \ln L + \ln z_{i}-\ln z_i -\frac{\partial}{\partial L}\ln \Gamma(L)-1&=&0.\\
+\end{array}
+\end{equation}
+portanto,
+\begin{equation}\label{eq_der_l_equal_to_zero}
+\begin{array}{ccc}
+	\ln L -\frac{\partial}{\partial L}\ln \Gamma(L)&=&0.\\
+\end{array}
+\end{equation}
+definindo,
+\begin{equation}\label{poly_gamma_function_order_zero}
+\begin{array}{ccc}
+	\psi^0(L)&=&\frac{\partial}{\partial L}\ln \Gamma(L).\\
+\end{array}
+\end{equation}
+desta maneira podemos reescrever a equação (\ref{eq_der_l_equal_to_zero}) 
+\begin{equation}\label{eq_der_l_equal_to_zero_psi}
+\begin{array}{ccc}
+	\ln L -\psi^0(L)&=&0.\\
+\end{array}
+\end{equation}
+
+Tais equações podem estimar os parâmetros $L$ e $\mu$ de um região em uma imagem PolSAR.
+
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flevoland.pdf}
+%  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flevoland.pdf}
+%		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flevoland.pdf}
+%  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flevoland.pdf}
+%		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flevoland.pdf}
+%  	\caption{$\sigma= 0.000878$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flevoland.pdf}
+%		\caption{ $\sigma= 0.000725$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flevoland.pdf}
+%  	\caption{$\sigma=0.001358 $.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flevoland.pdf}
+%		\caption{$\sigma= 0.001011$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_10_flev_wishart.pdf}
+%  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_20_flev_wishart.pdf}
+%		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_30_flev_wishart.pdf}
+%  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_40_flev_wishart.pdf}
+%		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_50_flev_wishart.pdf}
+%  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_60_flev_wishart.pdf}
+%		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_70_flev_wishart.pdf}
+%  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_80_flev_wishart.pdf}
+%		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+
+%\begin{table}[hbt]
+%	\centering
+%	\caption{Estimativa de parâmetros.}\label{cap_acf_tab04}
+%\begin{tabular}{@{}ll@{}} \toprule
+%	Parâmetro $\sigma$  & Estimativa $\hat{\sigma}$ \\ \midrule
+%	0.007097 &  0.007096999 \\ 
+%	0.003186 & 0.003186001 \\
+%	0.00582&  0.00582\\
+%	0.044068 & 0.044068 \\
+%	0.000878&  0.0008780002\\
+%	 0.000725& 0.000725 \\
+%	 0.001358&  0.001357997\\ 
+%	 0.001011&  0.001009432 \\ \bottomrule
+%\end{tabular}
+%\end{table}
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_01_flev_wishart.pdf}
+%  	\caption{$\mu= 0.1$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_02_flev_wishart.pdf}
+%		\caption{ $\mu= 0.2$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_03_flev_wishart.pdf}
+%  	\caption{$\mu=0.3$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_04_flev_wishart.pdf}
+%		\caption{$\mu= 0.4$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%\begin{figure}[hbt]
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_05_flev_wishart.pdf}
+%  	\caption{$\mu= 0.5$.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_06_flev_wishart.pdf}
+%		\caption{ $\mu= 0.6$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\centering
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_07_flev_wishart.pdf}
+%  	\caption{$\mu=0.7 $.}\label{cap_acf_fig04}
+%\endminipage\hfill
+%\minipage{0.5\textwidth}
+%  \includegraphics[width=\linewidth]{func_max_ver_sigma_08_flev_wishart.pdf}
+%		\caption{$\mu= 0.8$.}\label{cap_acf_fig05}
+%\endminipage\hfill
+%\end{figure}
+%\begin{table}[hbt]
+%	\centering
+%	\caption{Estimativa de parâmetros.}\label{cap_acf_tab04}
+%\begin{tabular}{@{}ll@{}} \toprule
+%	Parâmetro $\mu$  & Estimativa $\hat{L}$ \\ \midrule
+%	0.1 &  0.3856407 \\ 
+%	0.2 & 0.2917647  \\
+%	0.3 & 0.2557148 \\
+%	0.4 & 0.2352014  \\
+%	0.5 & 0.2215195 \\
+%	0.6 & 0.2115041 \\
+%	0.7 & 0.2037434 \\ 
+%	0.8 & 0.1974852  \\ \bottomrule
+%\end{tabular}
+%\end{table}
+
+
+
+Para cada $i$:
+  
+Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_I)$ em uma primeira metade da faixa de dados.
+
+Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_E)$ em uma segunda metade da faixa de dados.
+
+Usando o estimador de máxima verossimilhança, 
+\begin{equation}\label{cap_acf_16}
+    (\hat{\mu}_i, \hat{L}_i)(Z_{\bigodot})= \text{arg}\,\max\limits_{(\mu, L)\in \mathbb{R}^{+}\times \mathbb{R}^{+}}\ell(\mu,L;Z_i).\\
+\end{equation}
+Assim
+\begin{equation}\label{cap_acf_16}
+\begin{array}{ccc}
+ \ell(\mu, L)&=&\ln\left(\prod_{k=1}^{n}f_{Z_{i}}(Z_{k};\mu,L)\right)\\
+  \ell(\mu, L)&=&\sum_{k=1}^{n}\ln\left(f_{Z_{i}}(Z_{k};\mu,L)\right)
+ \end{array}
+ \end{equation}
+Temos duas amostras
+\begin{equation}\label{cap_acf_16}
+ \begin{array}{lll}
+\ell(\mu_I, L_I,\mu_E, L_E, j)&=&\sum_{k=1}^{j}     \left[   L_I\ln L_I +(L_I   - 1) \ln Z_{i}-L_I \ln \mu_I-\ln \Gamma(L_i) -\frac{L_I}{\mu_I} Z_i \right]\\
+                                               &+&\sum_{k=j+1}^{N}\left[   L_E\ln L_E +(L_E - 1) \ln Z_{i}-L_E \ln \mu_E-\ln \Gamma(L_E) -\frac{L_E}{\mu_E} Z_i \right]\\
+\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I \sum_{k=1}^{j} 1 +(L_I   - 1) \sum_{k=1}^{j}  \ln Z_{i}-L_I \ln \mu_I\sum_{k=1}^{j} 1-\ln \Gamma(L_i) \sum_{k=1}^{j} 1  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
+                                               &+&  L_E\ln L_E \sum_{k=j+1}^{N}1+(L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}- \ln \mu_E\sum_{k=j+1}^{N}1-\ln \Gamma(L_E)\sum_{k=j+1}^{N} 1-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
+\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I j-L_I \ln \mu_I j-\ln \Gamma(L_i) j \\
+&+& (L_I  - 1) \sum_{k=1}^{j}  \ln Z_{i}  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
+                                               &+&  L_E\ln L_E (N-j)-L_E \ln \mu_E(N-j)-\ln \Gamma(L_E)(N-j)- \\
+                                               &+& (L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
+                                                \end{array}
+ \end{equation}
+
+
+\section{Imagens PolSAR reais}
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{grafico_pdf_lee_1994_razao_amplitude.pdf}
+	\caption{Distribuição razão de amplitudes {\it L- visadas}.}
+\label{fig2}
+\end{figure}
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=4.0in]{sf_amostras_b_r_y.pdf}
+	\vspace{-2.5cm}
+	\caption{Regiões de interesses (ROIs).}
+\label{fig2}
+\end{figure}
+ A tabela mostra os coeficientes de correlação para as regiões destacadas na figura. Os coeficientes correlacionam os canais $(hh-hv)$, $(hh-vv)$ e $(vv-hv)$ respectivamente para o mar ( ROI azul), floresta (ROI vermelho) e zona urbana (ROI amarelo).
+\begin{table}[hbt]
+	\centering
+	\caption{Coeficientes de correlação.}\label{cap_acf_tab04}
+\begin{tabular}{@{}lccc@{}} \toprule
+	Coeficiente de correlação & Mar  & Floresta & Zona urbana \\ \midrule
+	$(hh-hv)$ & 0.5548 & 0.7024 &  0.7177 \\ 
+	$(hh-vv)$ & 0.8743 & 0.6633 &  0.6483\\ 
+	$(vv-hv)$ & 0.5128 & 0.6065 &  0.6175\\ \bottomrule
+\end{tabular}
+\end{table}
+
+A figura acima mostra a baía de San Francisco ($450 \times 600$) com três regiões de interesses destacadas oceâno, floresta e zona urbana respectivamente nas cores azul, vermelho e amarelo. As ROI's têm dimensão ($50 \times 50$) adquirindo dados nos três canais de intensidade. O histograma e as pdf's teóricas são mostradas na figura abaixo. No cálculo das pdf's foi usado a equação 
+\begin{equation}\label{cap_acf_23}
+	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
+\end{equation}
+sendo $L=\{2,3,4\}$ e $\sigma_{i}^2$ a média de todos as entradas das respectivas regiões de interesses conforme \cite{nhfc}.
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=4.0in]{graf_pdf_roi_mar_hh.pdf}
+	\caption{Regiões de interesses (ROIs).}
+\label{fig2}
+\end{figure}
+\textcolor{red}{OBS: Tem algo errado no gráfico, provavelmente a estimativa de $\sigma_{i}$.}
+
+% ****************************************************************

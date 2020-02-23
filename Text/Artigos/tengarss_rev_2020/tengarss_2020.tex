@@ -45,21 +45,35 @@ PolSAR, edge detection, maximum likelihood estimation, fusion methods.
 \end{IEEEkeywords}
 
 \section{Introduction}\label{sec_01}
+\IEEEPARstart{P}{olarimetric} synthetic aperture radar (PolSAR) has achieved an essential position as a remote sensing method. This area require specifically tailored signal processing techniques, then a method for detection and fusion of edge evidence is presented. 
 
-\IEEEPARstart{W}{e present}
-results on the detection and fusion of edge evidence applied to Polarimetric Synthetic Aperture Radar (PolSAR) images.
-
-Among the available edge detection techniques for PolSAR images, it is worth mentioning:
+Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning:
 \begin{itemize}
-\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
-\item methods that use Markov random fields~\cite{bf};	
-\item the deep learning approach~\cite{bac, ztmxzxf}; and,
-\item statistical techniques~\cite{gmbf, fbgm, horrit}.
+\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf} used to PolSAR image;   
+\item the Markov random fields~\cite{bf} method applied to SAR images;	
+\item the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification in PolSAR / SAR image; and,
+\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR / SAR image.
 \end{itemize}
+%\IEEEPARstart{W}{e present}
+%results on the detection and fusion of edge evidence applied to Polarimetric Synthetic Aperture Radar (PolSAR) images.
+%
+%Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning:
+%\begin{itemize}
+%\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
+%\item methods that use Markov random fields~\cite{bf};	
+%\item the deep learning approach~\cite{bac, ztmxzxf}; and,
+%\item statistical techniques~\cite{gmbf, fbgm, horrit}.
+%\end{itemize}
 
-This article follows the statistical modeling approach using the techniques described in~\cite{fbgm, nhfc, bmf_2019} to find edge evidence, as well as, process for fusing this information is described in~\cite{mit, sg}. The filter-based techniques are not used to treat speckle. 
+This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidence, as well as, the process for fusing this information is described in~\cite{mit, bmf_2019}. The technique used does not attempt to eliminate the existing speckle noise, but to extract information from its statistical properties.
 
-This work aims to show the feasibility of a procedure for edge detection in PolSAR images. The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
+% The images PolSAR are contaminated with speckle noise giving the image a granular appearance, and its multiplicative nature makes analyzing the images a challenging task. 
+
+An estimation of the the probability density function (PDF) parameters is performed by log-likelihood maximum method, and the BFGS optimization method implemented in the maxLik package~\cite{ht} is used to found the parameters.
+
+The parameters are applied to generate the log-likelihood function to find the transition point between two samples; this function is non-differentiable at various points in the domain. It is known that classical methods have difficulties in finding the maximum of a non-differentiable function. The Generalized Simulated Annealing (GenSA)~\cite{xgsh} method solves this problem. 
+ 
+Further, the present work presenting two fusion methods, the methods DWT~\cite{n_r} and SVD~\cite{naidu}. It aims to show the feasibility of a procedure for edge detection in PolSAR images. The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
 Section~\ref{sec_02} describes statistical modeling.
@@ -69,7 +83,7 @@ Section~\ref{sec_05} presents the numerical results.
 Finally, Section~\ref{sec_06} concludes the work with observations, future directions of research, and the feasibility of detecting edges in each channel of PolSAR images.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
-Multi-looked fully polarimetric data follow the Wishart distribution with probability density function defined by:
+Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
     f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z})),
     \label{eq_04}
@@ -84,19 +98,20 @@ This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satis
 This assumption usually holds on targets where the speckle is fully developed.
 
 \section{Edge Detection}\label{sec_03}
-The noise in these kinds of images is multiplicative, making edge detection in PolSAR images a challenging task. The main idea for edge detection is based in~\cite{nhfc, gmbf} and show how to detect the transition point in a thin strip between two regions of the image. The transition point is considered as edge evidence. 
+%The noise in these kinds of images is multiplicative, making edge detection in PolSAR images a challenging task. 
+The main idea for edge detection is based in~\cite{gmbf, fbgm, nhfc} and show how to detect the transition point in a thin strip between two regions of the image. The transition point is considered as edge evidence. 
 
 The following procedure is proposed:
 \begin{enumerate}
 	\item Identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
 	\item casting radial line from the centroid to the outside of the area;
 	\item collect data around the radial lines using the  Bresenham's midpoint line algorithm, ideally of the size of a pixel;
-	\item detect points in the data strips which provide evidence of changes in their statistical properties, i.e., a transition point that defines an edge evidence;
-	\item use the Generalized Simulated Annealing (GenSA) method,~\cite{xgsh}, to find maximum points in the functions of interest;
+	\item detect points in the data strips which provide evidence of changes in their statistical properties, i.e., a transition point;
+	\item use the GenSA method,~\cite{xgsh}, to find maximum points in the functions of interest;
 	\item fuse the evidence of detected edges in the (hh), (hv) and (vv) channels.
 \end{enumerate}
 
-The Maximum Likelihood Estimator (MLE) method found in~\cite{gmbf, nhfc} is used to detect transition points described in (4) above. Thus, for each radial line in the (ROI), a data range is considered,
+The Maximum Likelihood Estimator (MLE) method found in~\cite{gmbf, nhfc} is used to detect transition points described in item (4) above. Thus, for each radial line of a ROI, a data range is considered,
 
 \begin{equation}\nonumber
 	z = (z_1,z_2,\dots,z_N)
@@ -108,7 +123,7 @@ with partition represented by
 	Z_k&\sim& f_Z(z_k;\mu_\text{E},L_\text{E}), k=j+1,\dots,N
 \end{array}
 \end{equation}
-where, for each $k$, $z_k$ is the realization of the random variable $Z_k$, and they are distributed according to their probability density function (PDF). The indices I e E define if the point is internal (I) or external (E) of the (ROI).
+where, for each $k$, $z_k$ is the realization of the random variable $Z_k$, and they are distributed according to their PDF. The indices I e E define if the point is internal (I) or external (E) of a ROI.
 
 The Gamma model is used to estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$:
 \begin{equation}\label{func_dens_uni_gamma}
@@ -151,7 +166,7 @@ and
 (\widehat{\mu}_\text{E},\widehat{L}_\text{E})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_2(\mu,L).
 \end{equation} 
 
-The BFGS optimization method~\cite{nw} implemented in the maxLik package~\cite{ht} to estimate $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$, for every $j$ in the data strip is used.
+The BFGS optimization method implemented in the maxLik package~\cite{ht} to estimate $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$, for every $j$ in the data strip is used.
 
 As the parameters $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ are known, the $\ell$ function based on~\eqref{func_l_param} is constructed as follows,
 \begin{equation}\label{l_com_paremetros}
@@ -164,7 +179,7 @@ As the parameters $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \wid
  \end{split}
  \end{equation}
  
-The Generalized Simulated Annealing method (GenSA~\cite{xgsh}) is used to find  
+The GenSA is used to find  
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
 $$ 
@@ -177,15 +192,15 @@ where $\min_s$ is a minimum sample size that we set to $14$.
 \subsection{Multi-Resolution Discrete Wavelet Transform DWT Fusion~\cite{n_r}}  
 The filters DWT are applied separately in vertical and horizontal directions and down-sampled by a factor of two in image I. In this way, the image is filtered by the low pass filter L in the vertical direction and the high pass filter H in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $\text{I}_\text{L}$ and $\text{I}_\text{H}$. After this, the decomposition $\text{I}_\text{L}$ and $\text{I}_\text{H}$ are submitted to the low pass and high pass filters again  in both direction and newly down-sampled by a factor of two to create sub-images named $\text{I}_\text{LL}$,$\text{I}_\text{LH}$, $\text{I}_\text{HL}$ and $\text{I}_\text{HH}$. The successive levels of decomposition can be achieved by repeating this procedure.
 
-The DWT fusion method has following steps:
+The DWT fusion method for each channel has following steps:
 \begin{enumerate}
 \item Calculate the DWT decomposition by getting $\text{I}_\text{HH}$, $\text{I}_\text{HL}$, $\text{I}_\text{LH}$ and $\text{I}_\text{LL}$ for each channel;
 \item in the decomposition $\text{I}_\text{HH}$, the arithmetic mean of all channels is computed, pixel by pixel, and in the decomposition $\text{I}_\text{HL}$, $\text{I}_\text{LH}$, and $\text{I}_\text{LL}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bar{\text{I}}_\text{HH}$, $\bar{\text{I}}_\text{HL}$, $\bar{\text{I}}_\text{LH}$, and $\bar{\text{I}}_\text{LL}$;
-\item the image with the fusion of edge evidence IF(x, y) is computed performing the inverse DWT transformation.
+\item the image with the fusion of edge evidence IF(x, y) is computed performing the inverse DWT transformation to operators $\bar{\text{I}}_\text{HH}$, $\bar{\text{I}}_\text{HL}$, $\bar{\text{I}}_\text{LH}$, and $\bar{\text{I}}_\text{LL}$.
 \end{enumerate}
 
-\subsection{Multi-Resolution Singular Value Decomposition SVD Fusion - (MSVD~\cite{naidu})}
-Multi-Resolution Singular Value Decomposition SVD Fusion works similar to the DWT method. The difference consists in changing the DWT filters by the SVD filters. The SVD fusion method can be summarized as follows:
+\subsection{Multi-Resolution Singular Value Decomposition SVD Fusion - MSVD~\cite{naidu}}
+Multi-Resolution Singular Value Decomposition SVD Fusion works similar to the DWT method. The difference consists in changing the DWT filters by the SVD filters. The SVD fusion method can be summarized for each channel, as follows:
 \begin{enumerate}
 \item Organize the data in matrices $X_\ell$ with dimension $4\times\text{MN}$ according to~\cite{naidu}. Where M is the number of rows and N is the number of columns in the PolSAR image, and $\ell$ is the level resolution to set;  
 \item find the SVD decomposition to matrix $T=X_\ell X_\ell^T=U_\ell S^2 U_\ell^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $S$, and $U$ is an real or complex unitary matrix;
@@ -200,7 +215,7 @@ Multi-Resolution Singular Value Decomposition SVD Fusion works similar to the DW
 
 \subsection{Real PolSAR image}
 The PolSAR image of the Flevoland region in the Netherlands is used for the numerical tests. 
-Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radial lines for edge detection.
+Fig.~(\ref{flevoland_radial_4look}) shows the ROI, with the radial lines for edge detection.
 
 \begin{figure}[hbt]
 \centering
@@ -211,7 +226,7 @@ Fig.~(\ref{flevoland_radial_4look}) shows the region of interest, with the radia
 
 The estimates from equations~\eqref{optimiz_l_1} and~\eqref{optimiz_l_2} are used in equation~\eqref{l_com_paremetros} generating an oscillation at the end of each radial line, depending on the radial considered. In order to get around this problem, in this PolSAR image, 14 pixels on each side of radial lines were not considered. The number of pixel were determined empirically.
 
-Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels. For each of these images, the maximum likelihood estimation (MLE) is executed.
+Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels. For each of these images, the MLE is executed.
 
 It is worth noting that GenSA has accurately identified the maximum value of function $\ell(j)$, even in the presence of multiple local maxima. Another important observation concerns the performance of the proposed method in the $\text{hv}$ channel. The method presents a few outliers points, and, good accuracy in the detection edges evidence. The method presents the best performance when compared to channels $\text{hh}$ and $\text{vv}$. 
    \begin{figure*}[hbt]
@@ -229,13 +244,13 @@ It is worth noting that GenSA has accurately identified the maximum value of fun
      \label{evidencias_hh_hv_vv} 
    \end{figure*}
 
-Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, and~\subref{fusion_met:d} show, respectively, the results of fusing these evidences. 
+Figs.~\ref{fusion_met}\subref{fusion_met:a},~\subref{fusion_met:b},~\subref{fusion_met:c},~\subref{fusion_met:d},~\subref{fusion_met:e}, and~\subref{fusion_met:f} show the results of fusing these evidences. 
 
 The simple average and PCA methods have similar performances to indicate pixels as edges. The time to perform the methods is shown in the table~(\ref{metrica_de_tempo}). Thus, one can see that the time for the PCA method is 2.19 times longer than the simple average.  
 
 The MSVD method shows excellent performance to indicate pixels of edges; the number of pixels outliers is much smaller than the other methods. The significant disadvantage of the MSVD method is the runtime. Table~(\ref{metrica_de_tempo}) shows that it has the highest time.
 
-The ROC Fusion shown edge pixels with good accuracy and a small number of outliers, but it doesn't show pixels that are edges. One way to get around this problem would be to increase the number of channels considered, as well as use other probability density functions (PDF).
+The ROC Fusion shown edge pixels with good accuracy and a small number of outliers, but it doesn't show pixels that are edges. One way to get around this problem would be to increase the number of channels considered using other PDF.
 
 The post-processing is an option to be used in all the fusion methods. An idea can be found in Ref.~\cite{gmbf}. 
 
@@ -267,12 +282,12 @@ The post-processing is an option to be used in all the fusion methods. An idea c
 
 \subsection{Implementation Details}
 The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
-The method for detecting edge evidence defined with maximum likelihood estimation (MLE) was implemented in R language; on the other hand, the fusion methods were implemented in Matlab language. 
+The method for detecting edge evidence MLE was implemented in R language; on the other hand, the fusion methods were implemented in Matlab language. 
 Table~\ref{metrica_de_tempo} shows the computational cost of each of the fusion methods.
 
 \subsection{Processing times} 
 
-This section presents a table of the processing time to fusion's methods. The measurement of time was performed only for the fusion method, disregarding the time for the method that finds the evidence of edges, because it is the same for all fusion methods. The measurement was performed by running the fusion method 20 times and performing the average of these times. The result is shown in the first row of the table (\ref{metrica_de_tempo}), the second row of the table  (\ref{metrica_de_tempo}) was constructed by choosing the shortest time of the methods as the reference time (TR) that shows how longer the others methodos is are.
+This section presents a table of the processing time to fusion's methods. The measurement of time was performed only for the fusion method, disregarding the time for the method that finds the evidence of edges, because it is the same for all fusion methods. The measurement was performed by running the fusion method 20 times and performing the average of these times. The result is shown in the first row of the table (\ref{metrica_de_tempo}), the second row of the table  (\ref{metrica_de_tempo}) was constructed by choosing the shortest time of the methods as the reference time (TR) that shows how longer the others methods are.
 \begin{table}[hbt]
 	\centering
 	\tiny
@@ -293,8 +308,9 @@ The fusion methods like simple average, SWT, PCA, ROC, DWT, and MSVD were applie
 
 From the obtained results, the feasibility of procedure proposes for edge detection in PolSAR images is shown.
 
-Finally, three observations are highlighted on future work; the ROC statistic can be improved by increasing the number of probability density functions for the intensity channels, the weight adjustment for the channels or the choice of the best channels for the fusion of edge evidence, and the use of post-processing on the images coming from the fusion.
+Finally, three observations are highlighted on future work; the ROC statistic can be improved by increasing the number of PDF for the intensity channels, the weight adjustment for the channels or the choice of the best channels for the fusion of edge evidence, and the use of post-processing on the images coming from the fusion.
 
 \bibliographystyle{IEEEtran}
 \bibliography{../../../Text/bibliografia}
 \end{document}
+
