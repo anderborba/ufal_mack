@@ -152,7 +152,7 @@ $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
 We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
 
 The total log-likelihood at point $j$ is, then,
-\begin{equation}
+\begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
 \ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
 \ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
@@ -173,11 +173,19 @@ Notice that this approach can be extended and/or modified to cope with any kind 
 
 We will see ways of fusing these evidences in the next section.
 
-\section{Methods of fusion of edge evidence}\label{sec_04}
+\section{Fusion of Evidences}\label{sec_04}
 
- The simple average, stationary wavelet transform (SWT), principal components analysis PCA, and ROC statistics fusion methods are summarized in~\cite{bmf_2019}, more details in~\cite{n_r,mit,gs}, and~\cite{fawcett}. The multi-resolution discrete wavelet transform and multi-resolution singular value decomposition (MSVD) fusion methods are presented bellow.
+We compare the results of five fusion techniques, namely:
+simple average, 
+stationary wavelet transform (SWT),
+principal components analysis (PCA), 
+ROC statistics,
+multi-resolution discrete wavelet transform (MR-DWT), and
+multi-resolution singular value decomposition (MR-SVD).
+Refs.~\cite{bmf_2019,n_r,mit,gs,fawcett} provide details about the three first.
+We describe the two latter below.
 
-\subsection{Multi-Resolution Discrete Wavelet Transform DWT Fusion~\cite{n_r}}  
+\subsection{Multi-Resolution Discrete Wavelet Transform DWT}  
 The filters DWT are applied separately in vertical and horizontal directions and down-sampled by a factor of two in image I. In this way, the image is filtered by the low pass filter L in the vertical direction and the high pass filter H in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $\text{I}_\text{L}$ and $\text{I}_\text{H}$. After this, the decomposition $\text{I}_\text{L}$ and $\text{I}_\text{H}$ are submitted to the low pass and high pass filters again  in both direction and newly down-sampled by a factor of two to create sub-images named $\text{I}_\text{LL}$,$\text{I}_\text{LH}$, $\text{I}_\text{HL}$ and $\text{I}_\text{HH}$. The successive levels of decomposition can be achieved by repeating this procedure.
 
 The DWT fusion method for each channel has following steps:
@@ -187,8 +195,9 @@ The DWT fusion method for each channel has following steps:
 \item the image with the fusion of edge evidence IF(x, y) is computed performing the inverse DWT transformation to operators $\bar{\text{I}}_\text{HH}$, $\bar{\text{I}}_\text{HL}$, $\bar{\text{I}}_\text{LH}$, and $\bar{\text{I}}_\text{LL}$.
 \end{enumerate}
 
-\subsection{Multi-Resolution Singular Value Decomposition SVD Fusion - MSVD~\cite{naidu}}
-Multi-Resolution Singular Value Decomposition SVD Fusion works similar to the DWT method. The difference consists in changing the DWT filters by the SVD filters. The SVD fusion method can be summarized for each channel, as follows:
+\subsection{Multi-Resolution Singular Value Decomposition SVD}
+
+Multi-Resolution Singular Value Decomposition SVD Fusion~\cite{naidu} works similar to the DWT method. The difference consists in changing the DWT filters by the SVD filters. The SVD fusion method can be summarized for each channel, as follows:
 \begin{enumerate}
 \item Organize the data in matrices $X_\ell$ with dimension $4\times\text{MN}$ according to~\cite{naidu}. Where M is the number of rows and N is the number of columns in the PolSAR image, and $\ell$ is the level resolution to set;  
 \item find the SVD decomposition to matrix $T=X_\ell X_\ell^T=U_\ell S^2 U_\ell^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $S$, and $U$ is an real or complex unitary matrix;
@@ -264,7 +273,7 @@ The post-processing is an option to be used in all the fusion methods. An idea c
      \subfloat[MSVD fusion\label{fusion_met:f}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
      }
-     \caption{Fusion methods}
+     \caption{Results of applying the five fusion methods}
      \label{fusion_met}
 \end{figure*}
 
