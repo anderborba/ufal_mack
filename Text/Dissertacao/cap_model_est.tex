@@ -389,7 +389,7 @@ com isso, podemos concluir que
 \end{equation}
 
 Podemos concluir,
-\begin{equation}\label{vetor_3d}
+\begin{equation}\label{vetor_3d} 
 \mathbf{s} = \left[
 \begin{array}{c}
 	S_{hh}      \\
@@ -403,6 +403,22 @@ Assim, a potência total espalhada no caso do de um sistema de radar polarimétr
 \begin{equation}\label{span_geral}
 \mathbf{Span} = \traco(SS^H)=|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2,
 \end{equation}
+
+
+\section{Estatística do Ruido Speckle}
+O ruído speckle causa uma variação de intensidade pixel a pixel imprimindo um aspecto granular nas imagens SAR / PolSAR.  
+
+O speckle dificulta a interpretação e analise das imagens reduzindo a efetividade da segmentação, classificação, ou detecção de mudanças de características  das imagens SAR / PolSAR. O entendimento do comportamento estatísco do speckle é essencial para extrair boas informações das imagens e propor algoritmos efetivos para tratar o speckle. Assim, podemos propor tarefas de criação de filtros d eimagens, estimativas de parâmetros geofísicos, classificação e segmentação de regiões, detectar bordas, entre outras.
+
+\cite{lp} realizaram um estudo sistemático do speckle com o objetivo de entender os seus efeitos nas imagens SAR e PolSAR, o estudo usou os dados com simples visada ou com multiplas visadas. Como em  \cite{lp} e~\cite{dmch} apresentamos a matriz polarimétrica de covariança e a matriz de coerência. Baseado na distribuíção Wishart apresentamos as funções de densidades de probabilidades gaussiana, diferênça de fase, produto de amplitudes, e razão de amplitude entre duas polarização.
+
+\subsection{Formação do speckle}   
+ A formação do speckle surge quando o radar ilumina uma superfície rugosa com escala do comprimento de onda do radar. O sinal de retorno consiste em ondas refletidas de muitos elementos de espalhamentos. 
+ 
+ Os elementos de espalhamento tem geometrias complexas e distribuições aleatórias, tornamdo a modelagem estatística um tarefa indispensável.  
+
+
+
 
 
 A distribuição gaussiana circular complexa multivariada com média zero pode ser definida de acordo com \citet{goodman}, assim, sendo $\mathbf{S}_i= x_j+\hat{\imath}y_j$ é exigido que $x_j$ e $y_j$ com $j=1,2,3$ tenham distribuições conjuntas gaussianas e satisfaçam as seguintes condições 
