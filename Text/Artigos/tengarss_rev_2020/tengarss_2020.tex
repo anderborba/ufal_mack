@@ -45,33 +45,35 @@ PolSAR, edge detection, maximum likelihood estimation, fusion methods.
 \end{IEEEkeywords}
 
 \section{Introduction}\label{sec_01}
-\IEEEPARstart{P}{olarimetric} synthetic aperture radar (PolSAR) has achieved an essential position as a remote sensing method. This area require specifically tailored signal processing techniques, then a method for detection and fusion of edge evidence is presented. 
+\IEEEPARstart{P}{olarimetric} synthetic aperture radar (PolSAR) has achieved an essential position as a remote sensing technology. 
+The data such sensors provide require specifically tailored signal processing techniques.
+Among such techniques, edge detection is one of the most important operations for extracting information.
+Edges are at a higher level of abstraction than mere data and, as such, provide relevant insights about the scene.
 
 Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning:
 \begin{itemize}
-\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf} used to PolSAR image;   
-\item the Markov random fields~\cite{bf} method applied to SAR images;	
-\item the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification in PolSAR / SAR image; and,
-\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR / SAR image.
+\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
+\item Markov random fields~\cite{bf};	
+\item the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and,
+\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR / SAR imagery.
 \end{itemize}
-%\IEEEPARstart{W}{e present}
-%results on the detection and fusion of edge evidence applied to Polarimetric Synthetic Aperture Radar (PolSAR) images.
-%
-%Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning:
-%\begin{itemize}
-%\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
-%\item methods that use Markov random fields~\cite{bf};	
-%\item the deep learning approach~\cite{bac, ztmxzxf}; and,
-%\item statistical techniques~\cite{gmbf, fbgm, horrit}.
-%\end{itemize}
 
-This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidence, as well as, the process for fusing this information is described in~\cite{mit, bmf_2019}. The technique used does not attempt to eliminate the existing speckle noise, but to extract information from its statistical properties.
+This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
+Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
 
-% The images PolSAR are contaminated with speckle noise giving the image a granular appearance, and its multiplicative nature makes analyzing the images a challenging task. 
+Instead of handling fully polarimetric data, we treat each intensity channel separately, obtain evidence of edges, and then produce a single estimator of the edge position.
+With this, we quantify the contribution each channel provides to the solution of the problem.
 
-An estimation of the the probability density function (PDF) parameters is performed by log-likelihood maximum method, and the BFGS optimization method implemented in the maxLik package~\cite{ht} is used to found the parameters.
+We adopted the Gambini Algorithm~\cite{gmbf_sc}, which consists in casting rays and then finding the evidence of an edge in the ray by maximizing a value function.
+The value function we use is the likelihood of two samples: one inside the edge, another outside the edge.
+Without loss of generality, we assume the complex scaled Wishart distribution for the fully polarimetric observations~\cite{ade}, from which Gamma laws stem for each intensity channel.
+The value function depends on the estimates that index such Gamma laws.
+We estimate them by maximum likelihood with the BFGS optimization method implemented in the \texttt{maxLik} package~\cite{ht}.
 
-The parameters are applied to generate the log-likelihood function to find the transition point between two samples; this function is non-differentiable at various points in the domain. It is known that classical methods have difficulties in finding the maximum of a non-differentiable function. The Generalized Simulated Annealing (GenSA)~\cite{xgsh} method solves this problem. 
+The value function is the total likelihood.
+It is non-differentiable at most points in the domain. 
+It is known that classical methods have difficulties in finding the maximum of a non-differentiable functions. 
+We used the Generalized Simulated Annealing (GenSA)~\cite{xgsh} method to solve this problem. 
  
 Further, the present work presenting two fusion methods, the methods DWT~\cite{n_r} and SVD~\cite{naidu}. It aims to show the feasibility of a procedure for edge detection in PolSAR images. The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
