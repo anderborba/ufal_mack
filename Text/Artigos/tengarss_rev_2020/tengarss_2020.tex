@@ -13,7 +13,7 @@
 \usepackage[utf8]{inputenc}                  % AAB inserido
 \usepackage{rotating}                        % AAB inserido
 
-\usepackage{bbm}
+\usepackage{bm,bbm}
 \usepackage[binary-units]{siunitx}
 
 \usepackage[caption=false,font=footnotesize]{subfig}
@@ -74,118 +74,104 @@ The value function is the total likelihood.
 It is non-differentiable at most points in the domain. 
 It is known that classical methods have difficulties in finding the maximum of a non-differentiable functions. 
 We used the Generalized Simulated Annealing (GenSA)~\cite{xgsh} method to solve this problem. 
- 
-Further, the present work presenting two fusion methods, the methods DWT~\cite{n_r} and SVD~\cite{naidu}. It aims to show the feasibility of a procedure for edge detection in PolSAR images. The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
+
+We discuss two fusion methods: 
+DWT~\cite{n_r}, and 
+SVD~\cite{naidu}. 
+It aims to show the feasibility of a procedure for edge detection in PolSAR images. 
+The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
 Section~\ref{sec_02} describes statistical modeling.
 Section~\ref{sec_03} describes edge detection for PolSAR data.
 Section~\ref{sec_04} describes the approach to edge evidence fusing.
-Section~\ref{sec_05} presents the numerical results.
+Section~\ref{sec_05} presents numerical results.
 Finally, Section~\ref{sec_06} concludes the work with observations, future directions of research, and the feasibility of detecting edges in each channel of PolSAR images.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
+
 Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
     f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z})),
     \label{eq_04}
 \end{equation} 
-where, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is a multivariate Gamma function defined by
-\begin{equation*}
-	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
-\end{equation*}
+where, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)$,
 and $\Gamma(\cdot)$ is the Gamma function.
-In this study, $m=3$ is used. 
+We used three $m=3$ channels in this study. 
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
-This assumption usually holds on targets where the speckle is fully developed.
+This assumption usually holds on targets where the speckle is fully developed but, since we will estimate $L$ on each sample (instead of considering the same number of looks for the whole image), we will in part take into account departures from such hypothesis.
+
+Fully polarimetric data may be modeled by~\eqref{eq_04}.
+Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{lee,hsbmp}.
+In particular, we assume that the distribution of each intensity channel is a 
+Gamma law with probability density function
+\begin{equation}
+f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
+\label{func_dens_uni_gamma}
+\end{equation}
+where $L>0$ (rather than $L\geq1$ to allow for flexibility), and
+$\mu>0$ is the mean.
+
+Given the sample $\bm z = (z_1,\dots,z_n)$,
+the reduced log-likelihood of this model is
+\begin{equation}
+\ell(\bm z; L,\mu) = 
+n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
++L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
+\label{eq:LogLikelihoodGamma}
+\end{equation}
+
+We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
+We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
 \section{Edge Detection}\label{sec_03}
-%The noise in these kinds of images is multiplicative, making edge detection in PolSAR images a challenging task. 
-The main idea for edge detection is based in~\cite{gmbf, fbgm, nhfc} and show how to detect the transition point in a thin strip between two regions of the image. The transition point is considered as edge evidence. 
 
-The following procedure is proposed:
+We approach edge detection with the Gambini Algorithm~\cite{gmbf, fbgm, nhfc}.
+%%% ACF
+This technique is convenient for our subsequent fusion step, since it provides estimates of the edge location over the same ray.
+It consists of the following steps:
 \begin{enumerate}
 	\item Identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
-	\item casting radial line from the centroid to the outside of the area;
-	\item collect data around the radial lines using the  Bresenham's midpoint line algorithm, ideally of the size of a pixel;
-	\item detect points in the data strips which provide evidence of changes in their statistical properties, i.e., a transition point;
-	\item use the GenSA method,~\cite{xgsh}, to find maximum points in the functions of interest;
+	\item cast rays from the centroid to the outside of the area;
+	\item collect data on a strip, ideally of the size of a pixel, around the rays using the  Bresenham's midpoint line algorithm;
+	\item compute the value function on every point of the ray;
+	\item use the GenSA method~\cite{xgsh}, to find points of maxima in the functions of interest;
 	\item fuse the evidence of detected edges in the (hh), (hv) and (vv) channels.
 \end{enumerate}
 
-The Maximum Likelihood Estimator (MLE) method found in~\cite{gmbf, nhfc} is used to detect transition points described in item (4) above. Thus, for each radial line of a ROI, a data range is considered,
+The value function is the reduced log-likelihood of the inner and external samples of the strip denoted, respectively, as $\bm z_\text{I}$ and $\bm z_\text{E}$.
+Each strip $z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
+$$
+z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
+$$
+We assume two (possibly) different models for each partition:
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
+$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
 
-\begin{equation}\nonumber
-	z = (z_1,z_2,\dots,z_N)
-\end{equation}
-with partition represented by
-\begin{equation}\label{func_max_ver_uni_gamma} 
-\begin{array}{lll}
-	Z_k&\sim& f_Z(z_k;\mu_\text{I},L_\text{I}), k=1,\dots,j\\
-	Z_k&\sim& f_Z(z_k;\mu_\text{E},L_\text{E}), k=j+1,\dots,N
-\end{array}
-\end{equation}
-where, for each $k$, $z_k$ is the realization of the random variable $Z_k$, and they are distributed according to their PDF. The indices I e E define if the point is internal (I) or external (E) of a ROI.
-
-The Gamma model is used to estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$:
-\begin{equation}\label{func_dens_uni_gamma}
-	f_Z(z_k;\mu,L)=\frac{L^{L}z_k^{L-1}}{\mu^{L}\Gamma(L)} \exp\Big\{-L\frac{z_k}{\mu}\Big\}.
-\end{equation}
-Applying the natural logarithm on both sides of~\eqref{func_dens_uni_gamma}, and performing  the necessary algebra,  the function \eqref{func_max_ver_uni_gamma} is found
-\begin{equation}\label{func_max_ver_uni_gamma}
+The total log-likelihood at point $j$ is, then,
+\begin{equation}
 \begin{split}
-	\ln f_Z(z_k;\mu,L)&= L\ln L +(L - 1) \ln z_k-L \ln \mu \\
-	 	                  &{}- \ln \Gamma(L) -\frac{L}{\mu} z_k.\\
+\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
+\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
+&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
 \end{split}
 \end{equation}
-
-The function of maximum likelihood $\ell$ is considered for each partition of the data:
-\begin{equation}\nonumber
-\ell(j;\mu, L)=\sum_{k=1}^{j}\ln f_{Z}(z_k;\mu,L)
-             +\sum_{k=j+1}^{N}\ln f_{Z}(Z_k;\mu,L).
-\end{equation}
- 
-Using~\eqref{func_max_ver_uni_gamma} and performing the necessary algebra, the resulting equation is 
-\begin{equation}\label{func_l_param}
-  \ell(j;\mu, L)=j\ell_1(\mu, L) + (N - j)\ell_2(\mu, L),
- \end{equation}
-where
-\begin{equation}\label{func_l_param_1_2}
-\begin{split}
-    \ell_1(\mu, L)&=L\ln L+\frac{L-1}{j}\sum_{k=1}^{j}\ln z_k-L\ln\mu\\
-    &{}-\ln\Gamma(L) -\frac{L}{j\mu}\sum_{k=1}^{j} z_k,\text{ and}\\
-    \ell_2(\mu, L)&=L\ln L+\frac{L-1}{N-j}\sum_{k=j+1}^{N}\ln z_k-L\ln\mu\\
-    &{}-\ln\Gamma(L) -\frac{L}{(N-j)\mu}\sum_{k=j+1}^{N} z_k.
- \end{split}
-\end{equation}
- 
-The functions defined in~\eqref{func_l_param_1_2} are used to estimate the parameters $(\mu, L)$ by solving the following optimization problems 
-\begin{equation}\label{optimiz_l_1}
-(\widehat{\mu}_\text{I},\widehat{L}_\text{I})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_1(\mu,L),
-\end{equation}
-and
-\begin{equation}\label{optimiz_l_2}
-(\widehat{\mu}_\text{E},\widehat{L}_\text{E})= \arg\max\limits_{(\mu,L)\in \mathrm{R}^{+}\times\mathrm{R}^{+}}\ell_2(\mu,L).
-\end{equation} 
-
-The BFGS optimization method implemented in the maxLik package~\cite{ht} to estimate $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$, for every $j$ in the data strip is used.
-
-As the parameters $(\widehat{\mu}_I, \widehat{L}_I)$ and $(\widehat{\mu}_E, \widehat{L}_E)$ are known, the $\ell$ function based on~\eqref{func_l_param} is constructed as follows,
-\begin{equation}\label{l_com_paremetros}
- \begin{split}
-\ell&(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=j\Bigg[  \widehat{L}_I(\ln \widehat{L}_I -\ln \widehat{\mu}_I) \\
-                                          &{}- \ln \Gamma(\widehat{L}_I) + \frac{\widehat{L}_I  - 1}{j} \sum_{k=1}^{j}  \ln z_k -\frac{\widehat{L}_I}{j\widehat{\mu}_I} \sum_{k=1}^{j}   z_k\Bigg] \\
-                                   &{}+(N-j)\Bigg[\widehat{L}_E(\ln \widehat{L}_E - \ln \widehat{\mu}_E)\\
-                                   &{}-\ln \Gamma(\widehat{L}_E) + \frac{\widehat{L}_E - 1}{N-j} \sum_{k=j+1}^{N}\ln z_k
-                                   -\frac{\widehat{L}_E}{(N-j)\widehat{\mu}_E} \sum_{k=j+1}^{N}z_k\Bigg]. \\
- \end{split}
- \end{equation}
- 
-The GenSA is used to find  
+We then apply GenSA to find  
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
 $$ 
 where $\min_s$ is a minimum sample size that we set to $14$.
+
+In this way, we obtain three estimates for the edge: one for each intensity channel.
+Notice that this approach can be extended and/or modified to cope with any kind of data.
+
+We will see ways of fusing these evidences in the next section.
 
 \section{Methods of fusion of edge evidence}\label{sec_04}
 
