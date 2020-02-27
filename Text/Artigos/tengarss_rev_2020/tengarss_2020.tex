@@ -187,13 +187,11 @@ multi-resolution singular value decomposition (MR-SVD).
 %We describe the two latter below.
 
 \subsection{Simple average}
-The simple average fusion method proposes the arithmetic mean of the edge evidence in each channel. 
-The edge evidence fusion can be calculated by
-\begin{equation}
-	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
-\end{equation} 
-where $nc$ is the number of channels to be used in the fusion, $IE$ is image with edges evidences in each channel, and $IF$ is image fusion.
-More details are presented on~\cite{mit}.
+The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels.
+
+Since the $n_c$ estimates are on the same line, the final edge estimate is located at
+$(n_c)^{-1}\sum_{c=1}^{n_c} \widehat\jmath_c$,
+where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
