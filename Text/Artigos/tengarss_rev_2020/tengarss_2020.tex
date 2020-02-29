@@ -125,11 +125,11 @@ n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
-\section{Edge Detection}\label{sec_03}
+\section{Edge Detection on a Single Data Strip}\label{sec_03}
 
 We approach edge detection with the Gambini Algorithm~\cite{gmbf, fbgm, nhfc}.
 %%% ACF
-This technique is convenient for our subsequent fusion step, since it provides estimates of the edge location over the same ray.
+%This technique is convenient for our subsequent fusion step, since it provides estimates of the edge location over the same ray.
 It consists of the following steps:
 \begin{enumerate}
 	\item Identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
@@ -168,12 +168,15 @@ $$
 $$ 
 where $\min_s$ is a minimum sample size that we set to $14$.
 
-In this way, we obtain three estimates for the edge: one for each intensity channel.
+In this way, we obtain one estimates for the edge for each intensity channel.
 Notice that this approach can be extended and/or modified to cope with any kind of data.
 
 We will see ways of fusing these evidences in the next section.
 
 \section{Fusion of Evidences}\label{sec_04}
+
+Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$, where $1$ denotes an estimate of edge and $0$ otherwise.
+We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $I_F$.
 
 We compare the results of six fusion techniques, namely:
 simple average, 
@@ -183,23 +186,24 @@ ROC statistics,
 multi-resolution stationary wavelet transform (MR-SWT), and
 multi-resolution singular value decomposition (MR-SVD).
 
-The estimated evidence image and the fusion image are defined to perform the fusion techniques. The first can be defined as $\widehat\jmath_c(x,y)$, where $x$ and $y$, indicate the range of pixels in an image equal in size to the data image chosen for analysis. The image is binary, where the value one is put on the pixel estimated as edge evidence by the MLE method, and zero on the other pixels, for each channel. The second called $\text{I}_F(x,y)$ is the result of the fusion method. 
+%The estimated evidence image and the fusion image are defined to perform the fusion techniques. The first can be defined as $\widehat\jmath_c(x,y)$, where $x$ and $y$, indicate the range of pixels in an image equal in size to the data image chosen for analysis. The image is binary, where the value one is put on the pixel estimated as edge evidence by the MLE method, and zero on the other pixels, for each channel. The second called $\text{I}_F(x,y)$ is the result of the fusion method. 
 
 %Refs.~\cite{bmf_2019,n_r,mit,gs,fawcett} provide details about the three first.
 %We describe the two latter below.
 
 \subsection{Simple average}
-The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels.
-
-Since the $n_c$ estimates are on the same line, the final edge estimate is located at
-$\text{I}_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat\jmath_c(x,y)$.
+The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels:
+$\text{I}_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
 %where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
-The filters DWT are applied separately in vertical and horizontal directions and down-sampled by a factor of two in image $\widehat\jmath_c$. In this way, the image is filtered by the low pass filter L in the vertical direction and the high pass filter H in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $\widehat\jmath_{c\text{L}}$ and $\widehat\jmath_{c\text{H}}$. After this, the decompositions are submitted to the low pass and high pass filters again  in both direction and newly down-sampled by a factor of two to create sub-images named $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, and $\widehat\jmath_{c\text{HH}}$. The successive levels of decomposition can be achieved by repeating this procedure.
+We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sample by a factor of two. 
+In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$. 
+These operations are repeated, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, and so on achieving successive levels of decomposition.
 
-The DWT fusion method for each channel has following steps:
+%%% ACF Detalhar as operações usando a notação acima: a média é pixel-a-pixel? quais bandas são promediadas?
+The DWT fusion method has thefollowing steps:
 \begin{enumerate}
 \item Calculate the DWT decomposition by getting $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, and $\widehat\jmath_{c\text{HH}}$, for each channel;
 \item in the decomposition $\widehat\jmath_{c\text{HH}}$, the arithmetic mean of all channels is computed, pixel by pixel, and in the decomposition $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bar\jmath_{c\text{LL}}$, $\bar\jmath_{c\text{LH}}$, $\bar\jmath_{c\text{HL}}$, and $\bar\jmath_{c\text{HH}}$;
