@@ -176,7 +176,7 @@ We will see ways of fusing these evidences in the next section.
 \section{Fusion of Evidences}\label{sec_04}
 
 Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$, where $1$ denotes an estimate of edge and $0$ otherwise.
-We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $I_F$.
+We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\text{I}_F$.
 
 We compare the results of six fusion techniques, namely:
 simple average, 
@@ -198,15 +198,19 @@ $\text{I}_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
-We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sample by a factor of two. 
-In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$. 
-These operations are repeated, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, and so on achieving successive levels of decomposition.
+%We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sampled by a factor of two. 
+%In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
+We apply DWT filters for each the binary image $\bm{\widehat\jmath}_c$, the images are filtered by low pass filter $\text{L}$ in the vertical direction and high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
+These operations are repeated for the coefficient matrices, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, and so on achieving successive resolution levels.
 
 %%% ACF Detalhar as operações usando a notação acima: a média é pixel-a-pixel? quais bandas são promediadas?
-The DWT fusion method has thefollowing steps:
+%%% AAB A média é pixel a pixel. Todas as bandas são usadas na média. Vou tentar deixar claro no texto. Creio que respondi no item 2 abaixo.
+%%% AAB Eu entendo que investigar outros tipo de ponderação (suprimir canais, por exemplo) pode ser realizado. Ainda não consegui fazer esses testes.
+%%% AAB O nivel de decomposição que uso é 1, esse é outro ponto de investigação, seria interessante aumentar esse nível e ver o que acontece na fusão. Tb não consegui realizar esses teste. Inseri no item 1) abaixo esta info.
+The DWT fusion method has the following steps:
 \begin{enumerate}
-\item Calculate the DWT decomposition by getting $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, and $\widehat\jmath_{c\text{HH}}$, for each channel;
-\item in the decomposition $\widehat\jmath_{c\text{HH}}$, the arithmetic mean of all channels is computed, pixel by pixel, and in the decomposition $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bar\jmath_{c\text{LL}}$, $\bar\jmath_{c\text{LH}}$, $\bar\jmath_{c\text{HL}}$, and $\bar\jmath_{c\text{HH}}$;
+\item Calculate the DWT decomposition by getting $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, for each channel. In this work is used one resolution level;
+\item in the decomposition $\bm{\widehat\jmath}_{c\text{HH}}$, the arithmetic mean of all channels are computed, pixel by pixel, and in the decomposition $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, $\bm{\bar\jmath}_{c\text{HL}}$, and $\bm{\bar\jmath}_{c\text{HH}}$;
 \item used these operators, the image with the fusion of edge evidence $\text{I}_F(x, y)$ is computed performing the inverse DWT transformation.
 \end{enumerate}
 
@@ -214,41 +218,42 @@ The DWT fusion method has thefollowing steps:
 
 This section is based on~\cite{n_r,mit}.
 The method is comprised of the following steps:
-\begin{itemize}
-\item[-] organize the data in such a way that $\widehat\jmath_c$ is a column vector, forming a Y matrix of dimension $l\times nc$, where $l=m\cdot n$, the lines times the columns of $\widehat\jmath_c$;
-\item[-] calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
-\item[-] subtract the average of each column from the Y matrix, resulting a matrix of the same dimension X; 
-\item[-] find C, the covariance matrix of X;
-\item[-] calculate its eigenvalues $\Lambda$ and eigenvectors D, and sort the eigenvalues and eigenvectors in descending order. The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in column, have dimensions $nc\times nc$;
-\item[-] compute the components $\text{P}_c=\frac{\text{V}_c}{\sum_{c=1}^{nc} \text{V}_c}$. %with $i=1,\dots,nc$;
-\item[-] fuse $\text{I}_F(x,y)=\sum_{c=1}^{nc}\text{P}_c\widehat\jmath_c(x,y)$, recalling that $\sum_{c=1}^{nc}\text{P}_c=1$.
-\end{itemize}
+\begin{enumerate}
+\item organize the data in such a way that $\bm{\widehat\jmath}_c$ is a column vector, forming a Y matrix of dimension $\ell\times nc$, where $\ell=m\cdot n$, the lines times the columns of $\bm{\widehat\jmath}_c$;
+\item calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
+\item subtract the average of each column from the Y matrix, resulting a matrix of the same dimension X; 
+\item find C, the covariance matrix of X, with dimensions $nc\times nc$;
+\item compute the eigenvalues $\Lambda$ and eigenvectors V of C, and sort the eigenvalues and eigenvectors in descending order. %The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in columns;
+\item compute the components $\text{P}_c=\frac{\text{V}_c}{\sum_{c=1}^{nc} \text{V}_c}$. %with $i=1,\dots,nc$;
+\item fuse $\text{I}_F(x,y)=\sum_{c=1}^{nc}\text{P}_c\bm{\widehat\jmath}_c(x,y)$, recalling that $\sum_{c=1}^{nc}\text{P}_c=1$.
+\end{enumerate}
 
 \subsection{ROC statistics}
 
 The ROC method was proposed and described on~\cite{gs,fawcett}:
-\begin{itemize}
-\item[-] obtain the evidence of edges in each channels $\widehat\jmath_c$, and store it in $\text{E}_c$ matrices, with $c=1,\dots,nc$ in a binary way;
-\item[-] define a V edge frequency matrix. The V matrix is generated by adding the evidence of $\text{E}_c$ matrices;
-\item[-] use thresholds ranging from $t=1,\dots,nc$ generating $\text{M}_t$ matrices;
-\item[-] compare each $\text{M}_t$ fixed with all $\text{E}_c$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
-\item[-] the $\text{M}_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
-\end{itemize}
+\begin{enumerate}
+%\item the evidence of edges in each channels $\bm{\widehat\jmath}_c$, with $c=1,\dots,nc$ in a binary way;
+\item define a V edge frequency matrix. The V matrix is generated by adding the evidence of $\bm{\widehat\jmath}_c$ matrices;
+\item use thresholds ranging from $t=1,\dots,nc$ generating $\text{M}_t$ matrices;
+\item compare each $\text{M}_t$ fixed with all $\bm{\widehat\jmath}_c$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
+\item the $\text{M}_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
+\end{enumerate}
 
 \subsection{Multi-Resolution Stationary Wavelet Transform -- MR-SWT}  
 This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-SWT method is in the replacement of the filters used in the DWT by the filters used in the SWT.
 
 \subsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
 
-Multi-Resolution Singular Value Decomposition MR-SVD Fusion~\cite{naidu} works similar to the MR-DWT method. The difference consists in changing the DWT filters by the SVD filters. The MR-SVD fusion method can be summarized for each $\widehat\jmath_c$, as follows:
+MR-SVD Fusion~\cite{naidu} works similar to the MR-DWT method. The difference consists in changing the DWT filters by the SVD filters. The MR-SVD fusion method can be summarized as follows:
 \begin{enumerate}
-\item Organize the image $\widehat\jmath_c$ in matrices $\text{X}_\ell$ with dimension $4\times\text{MN}$ according to~\cite{naidu}. Where M is the number of rows and N is the number of columns in $\widehat\jmath_c$, and $\ell$ is the level resolution to set;  
+%\item Organize the binary image $\bm{\widehat\jmath}_c$ in matrices $\text{X}_\ell$ with dimension $4\times\frac{\text{M}}{2}\frac{\text{N}}{2}$ according to~\cite{naidu}, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, and $\ell$ is the level resolution to set. In this work is used one resolution level;
+\item Organize the binary image $\bm{\widehat\jmath}_c$ in matrices into non-overlapping $2\times 2$ blocks and arrange each block into a $4\times 1$ vector by stacking columns to form the data matrix $\text{X}_\ell$, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, and $\ell$ is the level resolution to set. In this work is used one resolution level;
 \item find the SVD decomposition to matrix $\text{T}=\text{X}_\ell \text{X}_\ell^\text{T}=\text{U}_\ell \text{S}^2 \text{U}_\ell^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix S, and U is an real or complex unitary matrix;
-\item put $\widehat{\text{X}}_\ell=\text{U}_\ell^T\text{X}_\ell$ and transform the lines on this matrix in new matrices with dimensions $\frac{\text{M}}{2}\times\frac{\text{N}}{2}$, named respectively $\{\Phi_\ell, \Psi_\ell^\text{V}, \Psi_\ell^\text{H}, \Psi_\ell^\text{D}\}$. In the next level decomposition, the $\widehat{\text{X}}_\ell$ is replaced by $\Phi_\ell$ until the level L is reached. The MR-SVD method is represented as:
+\item put $\widehat{\text{X}}_\ell=\text{U}_\ell^T\text{X}_\ell$ and transform the lines on this matrix in new matrices with dimensions $\frac{\text{M}}{2}\times\frac{\text{N}}{2}$, named respectively $\{\Phi_\ell, \Psi_\ell^\text{V}, \Psi_\ell^\text{H}, \Psi_\ell^\text{D}\}$. In the next level decomposition, the $\text{X}_\ell$ is replaced by $\Phi_\ell$ until the level L is reached. The MR-SVD method is represented as:
 \begin{equation}\label{msvd_iter}
 \widehat{\text{X}}\leftarrow \left\{\Phi_L,\{\Psi_\ell^\text{V},\Psi_\ell^\text{H},\Psi_\ell^\text{D} \}_{\ell=1}^L,\{\text{U}_\ell\}_{\ell=1}^L \right\}
 \end{equation}
-\item once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Phi_\ell^\text{V}$, $\Phi_\ell^\text{H}$ and $\Phi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Phi}_\ell^\text{V}$, $\bar{\Phi}_\ell^\text{H}$ and $\bar{\Phi}_\ell^\text{D}$. The other operators $\Psi_\ell$, and $U_\ell$, are averaged over all the channels;
+\item once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Psi_\ell^\text{V}$, $\Psi_\ell^\text{H}$ and $\Psi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Psi}_\ell^\text{V}$, $\bar{\Psi}_\ell^\text{H}$ and $\bar{\Psi}_\ell^\text{D}$. The operators $\Phi_L$, and $\text{U}_\ell$ are averaged over all the channels, pixel by pixel;
 \item the image with the fusion of edge evidence $\text{I}_F(x,y)$ is performed with the SVD transformation for each level $\ell$. 
 \end{enumerate}
 \section{Numerical results}\label{sec_05}
