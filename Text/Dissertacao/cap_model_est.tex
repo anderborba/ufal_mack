@@ -415,11 +415,58 @@ O speckle dificulta a interpretação e analise das imagens reduzindo a efetivid
 \subsection{Formação do speckle}   
  A formação do speckle surge quando o radar ilumina uma superfície rugosa com escala do comprimento de onda do radar. O sinal de retorno consiste em ondas refletidas de muitos elementos de espalhamentos. 
  
- Os elementos de espalhamento tem geometrias complexas e distribuições aleatórias, tornamdo a modelagem estatística um tarefa indispensável.  
+ Os elementos de espalhamento tem geometrias complexas e distribuições aleatórias, tornando a modelagem estatística um tarefa indispensável. Podemos considerar três tipos de processos de espalhamento da onda em alvos(elementos de espalhamento). A dispersão de superfície, a dispersão de volume e o volume-superfície espalhamneto. O primeiro é o espalhamento que acontece quando a onda eletromagnética atravessa uma mudança de meio de propagação. Segundo, o espalhamento de volume, que consiste no espalhamento que econtece na profundidade de um meio, por exemplo, o espalhamento no interior de uma floresta. E por último, o espalhamento volume superfície, que consiste em a onda atingir outra troca de meio de propagação, por exemplo o solo de uma floresta.
+ 
+ As distancia entre os elementos de espalhamento e o recebimento no radar varia devido a natureza randomica da disposição desse elemento. A onda recebida de cada elemento espalhador embora coerente em frequência não são coerentes em fase. O sinal é forte se as ondas são construtivas, ou seja em fase, e fraco se a ondas não estão em fase.
+ 
+ Podemos escrever um sinal complexo da seguinte forma.
 
+\begin{equation}\label{eq:speckle_soma}
+\sum_{i=1}^{M}(x_i+\dot{\jmath} y_i)=\sum_{i=1}^{M}x_i+\dot{\jmath}\sum_{i=1}^{M} y_i=x+\dot{\jmath}=r\exp(\dot{\jmath}\theta),
+\end{equation}
+onde, $x_i+\dot{\jmath} y_i$ é o retorno do espalhamento para cada elemento $i$, $x+\dot{\jmath}y$ é o retorno dos $M$ espalhadores somados.
 
+As imagens SAR / PolSAR são formadas pelo processamento de retornos dos elementos de espalhamento coerentemente vindo de diferentes pulsos. Este efeito causa uma variação na intensidade pixel a pixel dando a imagem um aspecto granular, que definimos como o ruído \textit{speckle}.  
 
+\subsection{Modelo de Rayleigh para o \textit{speckle}}
+Podemos determinar as seguintes condições para a modelagem,
+\begin{itemize}
+\item 1) um número grande de espalhadores na resolução de célula em um meio homogêneo,
+\item 2) a distancia do radar é muito maior que o comprimento de onda,
+\item 3) A superfície tem rugosidade na escala do comprimento de onda de um radar.
+\end{itemize}
 
+A equação $\eqref{eq:speckle_soma}$ para o \textit{speckle} completamente desenvolvido é distribuído uniformemente no intervalo $[-\pi,\pi]$, podemos dizer que $x$ e $y$ são distribuídas independentemente e gaussiana com média zero. Podemos representar a suas probabilidades da seguinte maneira,
+\begin{equation}\label{eq:pdf_gaussiana_xy}
+p_{xy}(x,y)=p_x(x)p_y(y)=\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{x^2}{\sigma^2}\right)\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{y^2}{\sigma^2}\right)=\frac{1}{\pi\sigma^2}\exp\left(-\frac{x^2+y^2}{\sigma^2}\right),
+\end{equation}
+sendo $x=A\cos(\theta)$ e $y=A\sin(\theta)$ teremos,
+\begin{equation}\label{eq:pdf_gaussiana_Atheta}
+p_{A\theta}(A,\theta)=\frac{A}{\pi\sigma^2}\exp\left(-\frac{A^2(\cos^2(\theta)+\sin^2(\theta)}{\sigma^2}\right)=\frac{A}{\pi\sigma^2}\exp\left(-\frac{A^2}{\sigma^2}\right),
+\end{equation}
+Essa é a distribuição conjunta. Integrando a variável $\theta$ no intervalo de $[-\pi,\pi]$ teremos a distribuição para a amplitude.
+\begin{equation}\nonumber
+p_1(A)=\int_{-\pi}^{\pi}\frac{A}{\pi\sigma^2}\exp\left(-\frac{A^2}{\sigma^2}\right)d\theta=\frac{A}{\pi\sigma^2}\exp\left(-\frac{A^2}{\sigma^2}\right)\int_{-\pi}^{\pi}d\theta,
+\end{equation}
+definida como,
+\begin{equation}\nonumber
+p_1(A)=\frac{2A}{\sigma^2}\exp\left(-\frac{A^2}{\sigma^2}\right).
+\end{equation}
+
+A média $$E[A]=\int_0^\infty Af(A)dA=\int_0^	\infty \frac{2A^2}{\sigma^2}\exp\left(-\frac{A^2}{\sigma^2}\right) dA=\frac{\sqrt{\pi}\sigma}{2}$$. A variância $var= E[X^2]-E[x]^2$, assim a $$E[A^2]=\int_0^\infty A^2f(A)dA=\int_0^	\infty \frac{2A^3}{\sigma^2}\exp\left(-\frac{A^2}{\sigma^2}\right) dA=\sigma^2$$.
+Então $$var=E[X^2]-E[x]^2=\sigma^2-\left(\frac{\sqrt{\pi}\sigma}{2}\right)^2=\sigma^2-\frac{\pi\sigma^2}{4}$$
+
+A medida chamada de coeficiente de variação $CV(Z_A) =\frac{\sqrt{var}}{E[x]}=\frac{\sigma^2-\frac{\pi\sigma^2}{4}}{\frac{\sqrt{\pi}\sigma}{2}}=\sqrt{\frac{\sigma^2-\frac{\pi\sigma^2}{4}}{\frac{\pi\sigma^2}{4}}}=\sqrt{\frac{4}{\pi}-1}=0,5227$
+
+Definindo $I=A^2$ a pdf para intensidade é 
+
+\begin{equation}\nonumber
+p_1(Z_I)=\frac{1}{\sigma^2}\exp\left(-\frac{z}{\sigma^2}\right).
+\end{equation}
+
+Sendo $E[I]=\sigma^2$, e $E[I^2]=2\sigma^2$ então $var=\sigma^4$, então o $CV(Z_I)=\frac{\sqrt{\sigma^2}}{\sigma^2}=1$. 
+
+Comparando os valores $CV(Z_A)$ e $CV(Z_I)$ podemos afirmar que o valor do \textit{speckle} á mais pronunciado mas imagens de intensidade comparado com as imagens de amplitude.
 
 A distribuição gaussiana circular complexa multivariada com média zero pode ser definida de acordo com \citet{goodman}, assim, sendo $\mathbf{S}_i= x_j+\hat{\imath}y_j$ é exigido que $x_j$ e $y_j$ com $j=1,2,3$ tenham distribuições conjuntas gaussianas e satisfaçam as seguintes condições 
 \begin{itemize}

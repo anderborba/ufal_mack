@@ -36,7 +36,7 @@ Synthetic Polarimetric Aperture Radar (PolSAR) sensors have reached an essential
 The images coming from PolSAR sensors have speckle noise, making their processing and analysis challenging tasks. 
 The present study discusses a detection method based on the fusion of evidence obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi-look images. 
 The method consists of detecting transition points in the thinnest range of data that covers two regions using the maximum likelihood with estimates parameters from the Wishart distribution. 
-The fusion methods used are the simple average, the discrete wavelet (DWT), and stationary (SWT) transform, the principal component analysis (PCA), the ROC statistic, and a multi-resolution method based on singular values (MSVD). 
+The fusion methods used are the simple average, the discrete wavelet (MR-DWT), and stationary (MR-SWT) transform with multi-resolution, the principal component analysis (PCA), the ROC statistic, and a multi-resolution method based on singular values (MR-SVD). 
 The results indicate an assessment of the influence of each intensity channel in the fusion of evidence with possible paths for future research.
 \end{abstract}
 
@@ -76,8 +76,8 @@ It is known that classical methods have difficulties in finding the maximum of a
 We used the Generalized Simulated Annealing (GenSA)~\cite{xgsh} method to solve this problem. 
 
 We discuss two fusion methods: 
-DWT~\cite{n_r}, and 
-SVD~\cite{naidu}. 
+MR-DWT~\cite{n_r}, and 
+MR-SVD~\cite{naidu}. 
 It aims to show the feasibility of a procedure for edge detection in PolSAR images. 
 The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
@@ -122,7 +122,7 @@ n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 \label{eq:LogLikelihoodGamma}
 \end{equation}
 
-We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
+We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
 \section{Edge Detection}\label{sec_03}
@@ -183,6 +183,8 @@ ROC statistics,
 multi-resolution stationary wavelet transform (MR-SWT), and
 multi-resolution singular value decomposition (MR-SVD).
 
+The estimated evidence image and the fusion image are defined to perform the fusion techniques. The first can be defined as $\widehat\jmath_c(x,y)$, where $x$ and $y$, indicate the range of pixels in an image equal in size to the data image chosen for analysis. The image is binary, where the value one is put on the pixel estimated as edge evidence by the MLE method, and zero on the other pixels, for each channel. The second called $\text{I}_F(x,y)$ is the result of the fusion method. 
+
 %Refs.~\cite{bmf_2019,n_r,mit,gs,fawcett} provide details about the three first.
 %We describe the two latter below.
 
@@ -190,44 +192,43 @@ multi-resolution singular value decomposition (MR-SVD).
 The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels.
 
 Since the $n_c$ estimates are on the same line, the final edge estimate is located at
-$(n_c)^{-1}\sum_{c=1}^{n_c} \widehat\jmath_c$,
-where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
+$\text{I}_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat\jmath_c(x,y)$.
+%where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
-The filters DWT are applied separately in vertical and horizontal directions and down-sampled by a factor of two in image I. In this way, the image is filtered by the low pass filter L in the vertical direction and the high pass filter H in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $\text{I}_\text{L}$ and $\text{I}_\text{H}$. After this, the decomposition $\text{I}_\text{L}$ and $\text{I}_\text{H}$ are submitted to the low pass and high pass filters again  in both direction and newly down-sampled by a factor of two to create sub-images named $\text{I}_\text{LL}$,$\text{I}_\text{LH}$, $\text{I}_\text{HL}$ and $\text{I}_\text{HH}$. The successive levels of decomposition can be achieved by repeating this procedure.
+The filters DWT are applied separately in vertical and horizontal directions and down-sampled by a factor of two in image $\widehat\jmath_c$. In this way, the image is filtered by the low pass filter L in the vertical direction and the high pass filter H in the horizontal direction and then down-sampled by a factor of two to create the coefficients matrices $\widehat\jmath_{c\text{L}}$ and $\widehat\jmath_{c\text{H}}$. After this, the decompositions are submitted to the low pass and high pass filters again  in both direction and newly down-sampled by a factor of two to create sub-images named $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, and $\widehat\jmath_{c\text{HH}}$. The successive levels of decomposition can be achieved by repeating this procedure.
 
 The DWT fusion method for each channel has following steps:
 \begin{enumerate}
-\item Calculate the DWT decomposition by getting $\text{I}_\text{HH}$, $\text{I}_\text{HL}$, $\text{I}_\text{LH}$ and $\text{I}_\text{LL}$ for each channel;
-\item in the decomposition $\text{I}_\text{HH}$, the arithmetic mean of all channels is computed, pixel by pixel, and in the decomposition $\text{I}_\text{HL}$, $\text{I}_\text{LH}$, and $\text{I}_\text{LL}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bar{\text{I}}_\text{HH}$, $\bar{\text{I}}_\text{HL}$, $\bar{\text{I}}_\text{LH}$, and $\bar{\text{I}}_\text{LL}$;
-\item the image with the fusion of edge evidence IF(x, y) is computed performing the inverse DWT transformation to operators $\bar{\text{I}}_\text{HH}$, $\bar{\text{I}}_\text{HL}$, $\bar{\text{I}}_\text{LH}$, and $\bar{\text{I}}_\text{LL}$.
+\item Calculate the DWT decomposition by getting $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, and $\widehat\jmath_{c\text{HH}}$, for each channel;
+\item in the decomposition $\widehat\jmath_{c\text{HH}}$, the arithmetic mean of all channels is computed, pixel by pixel, and in the decomposition $\widehat\jmath_{c\text{LL}}$, $\widehat\jmath_{c\text{LH}}$, $\widehat\jmath_{c\text{HL}}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bar\jmath_{c\text{LL}}$, $\bar\jmath_{c\text{LH}}$, $\bar\jmath_{c\text{HL}}$, and $\bar\jmath_{c\text{HH}}$;
+\item used these operators, the image with the fusion of edge evidence $\text{I}_F(x, y)$ is computed performing the inverse DWT transformation.
 \end{enumerate}
-
 
 \subsection{Principal component analysis -- PCA}
 
 This section is based on~\cite{n_r,mit}.
 The method is comprised of the following steps:
 \begin{itemize}
-\item[-] organize the data in such a way that each image has a column vector, forming a $Y$ matrix of dimension $l\times nc$, where $l=m n$, the lines times the columns of the matrices to be used in the fusion;
+\item[-] organize the data in such a way that $\widehat\jmath_c$ is a column vector, forming a Y matrix of dimension $l\times nc$, where $l=m\cdot n$, the lines times the columns of $\widehat\jmath_c$;
 \item[-] calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
-\item[-] subtract the average of each column from the $Y$ matrix, resulting in $X$, a matrix of the same dimension of $Y$; 
-\item[-] find $C$, the covariance matrix of $X$;
-\item[-] calculate its eigenvalues $\Lambda$ and eigenvectors $D$, and sort the eigenvalues and eigenvectors in descending order. The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in column, have dimensions $nc\times nc$;
-\item[-] compute the components $P_i=\frac{V_i}{\sum_{i=1}^{nc} V_i}$ with $i=1,\dots,nc$;
-\item[-] fuse $IF(x,y)=\sum_{i=1}^{nc}P_iIE_i(x,y)$, recalling that $\sum_{i=1}^{nc}P_i=1$.
+\item[-] subtract the average of each column from the Y matrix, resulting a matrix of the same dimension X; 
+\item[-] find C, the covariance matrix of X;
+\item[-] calculate its eigenvalues $\Lambda$ and eigenvectors D, and sort the eigenvalues and eigenvectors in descending order. The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in column, have dimensions $nc\times nc$;
+\item[-] compute the components $\text{P}_c=\frac{\text{V}_c}{\sum_{c=1}^{nc} \text{V}_c}$. %with $i=1,\dots,nc$;
+\item[-] fuse $\text{I}_F(x,y)=\sum_{c=1}^{nc}\text{P}_c\widehat\jmath_c(x,y)$, recalling that $\sum_{c=1}^{nc}\text{P}_c=1$.
 \end{itemize}
 
 \subsection{ROC statistics}
 
 The ROC method was proposed and described on~\cite{gs,fawcett}:
 \begin{itemize}
-\item[-] obtain the evidence of edges in each channels, and store it in $E_i$ matrices, with $i=1,\dots,nc$ in a binary way;
-\item[-] define a $V$ edge frequency matrix. The $V$ matrix is generated by adding the evidence of $E_i$ edges;
-\item[-] use thresholds ranging from $t=1,\dots,nc$ generating $M_t$ matrices;
-\item[-] compare each $M_t$ fixed with all $E_i$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
-\item[-] the $M_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
+\item[-] obtain the evidence of edges in each channels $\widehat\jmath_c$, and store it in $\text{E}_c$ matrices, with $c=1,\dots,nc$ in a binary way;
+\item[-] define a V edge frequency matrix. The V matrix is generated by adding the evidence of $\text{E}_c$ matrices;
+\item[-] use thresholds ranging from $t=1,\dots,nc$ generating $\text{M}_t$ matrices;
+\item[-] compare each $\text{M}_t$ fixed with all $\text{E}_c$, find the confusion matrix to generate the ROC curve. The point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line will have its threshold considered optimal;
+\item[-] the $\text{M}_t$ matrix which corresponds to the threshold closest to the diagnostic line is the result of the fusion.
 \end{itemize}
 
 \subsection{Multi-Resolution Stationary Wavelet Transform -- MR-SWT}  
@@ -235,22 +236,22 @@ This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-
 
 \subsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
 
-Multi-Resolution Singular Value Decomposition MR-SVD Fusion~\cite{naidu} works similar to the DWT method. The difference consists in changing the DWT filters by the SVD filters. The SVD fusion method can be summarized for each channel, as follows:
+Multi-Resolution Singular Value Decomposition MR-SVD Fusion~\cite{naidu} works similar to the MR-DWT method. The difference consists in changing the DWT filters by the SVD filters. The MR-SVD fusion method can be summarized for each $\widehat\jmath_c$, as follows:
 \begin{enumerate}
-\item Organize the data in matrices $X_\ell$ with dimension $4\times\text{MN}$ according to~\cite{naidu}. Where M is the number of rows and N is the number of columns in the image, and $\ell$ is the level resolution to set;  
-\item find the SVD decomposition to matrix $T=X_\ell X_\ell^T=U_\ell S^2 U_\ell^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $S$, and $U$ is an real or complex unitary matrix;
-\item put $\widehat{X}_\ell=U_\ell^TX_\ell$ and transform the lines on this matrix in new matrices with dimensions $\frac{\text{M}}{2}\times\frac{\text{N}}{2}$, named respectively $\{\Phi_\ell, \Psi_\ell^\text{V}, \Psi_\ell^\text{H}, \Psi_\ell^\text{D}\}$. In the next level decomposition, the $\widehat{X}_\ell$ is replaced by $\Phi_\ell$ until the level L is reached. The MR-SVD method is represented as:
+\item Organize the image $\widehat\jmath_c$ in matrices $\text{X}_\ell$ with dimension $4\times\text{MN}$ according to~\cite{naidu}. Where M is the number of rows and N is the number of columns in $\widehat\jmath_c$, and $\ell$ is the level resolution to set;  
+\item find the SVD decomposition to matrix $\text{T}=\text{X}_\ell \text{X}_\ell^\text{T}=\text{U}_\ell \text{S}^2 \text{U}_\ell^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix S, and U is an real or complex unitary matrix;
+\item put $\widehat{\text{X}}_\ell=\text{U}_\ell^T\text{X}_\ell$ and transform the lines on this matrix in new matrices with dimensions $\frac{\text{M}}{2}\times\frac{\text{N}}{2}$, named respectively $\{\Phi_\ell, \Psi_\ell^\text{V}, \Psi_\ell^\text{H}, \Psi_\ell^\text{D}\}$. In the next level decomposition, the $\widehat{\text{X}}_\ell$ is replaced by $\Phi_\ell$ until the level L is reached. The MR-SVD method is represented as:
 \begin{equation}\label{msvd_iter}
-\widehat{X}\leftarrow \left\{\Phi_L,\{\Psi_\ell^\text{V},\Psi_\ell^\text{H},\Psi_\ell^\text{D} \}_{\ell=1}^L,\{U_\ell\}_{\ell=1}^L \right\}
+\widehat{\text{X}}\leftarrow \left\{\Phi_L,\{\Psi_\ell^\text{V},\Psi_\ell^\text{H},\Psi_\ell^\text{D} \}_{\ell=1}^L,\{\text{U}_\ell\}_{\ell=1}^L \right\}
 \end{equation}
 \item once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Phi_\ell^\text{V}$, $\Phi_\ell^\text{H}$ and $\Phi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Phi}_\ell^\text{V}$, $\bar{\Phi}_\ell^\text{H}$ and $\bar{\Phi}_\ell^\text{D}$. The other operators $\Psi_\ell$, and $U_\ell$, are averaged over all the channels;
-\item the image with the fusion of edge evidence $\text{IF}(x,y)$ is performed with the SVD transformation for each level $\ell$. 
+\item the image with the fusion of edge evidence $\text{I}_F(x,y)$ is performed with the SVD transformation for each level $\ell$. 
 \end{enumerate}
 \section{Numerical results}\label{sec_05}
 
 \subsection{Real PolSAR image}
 The PolSAR image of the Flevoland region in the Netherlands is used for the numerical tests. 
-Fig.~(\ref{flevoland_radial_4look}) shows the ROI, with the radial lines for edge detection.
+Fig.~(\ref{flevoland_radial_4look}) shows the ROI, with the radial lines for edge detection. The Flevoland image has dimension ($750\times 1024$) pixels.
 
 \begin{figure}[hbt]
 \centering
@@ -287,7 +288,7 @@ The MR-SVD method shows excellent performance to indicate pixels of edges; the n
 
 The ROC Fusion shown edge pixels with good accuracy and a small number of outliers, but it doesn't show pixels that are edges. One way to get around this problem would be to increase the number of channels considered using other PDF.
 
-The post-processing is an option to be used in all the fusion methods. An idea can be found in Ref.~\cite{gmbf}. 
+The post-processing is an option to be used in all the fusion methods. An idea can be found in Ref.~\cite{fbgm}. 
 
 \begin{figure*}[hbt]
 	\centering
@@ -318,7 +319,7 @@ The post-processing is an option to be used in all the fusion methods. An idea c
 \subsection{Implementation Details}
 The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
 The method for detecting edge evidence MLE was implemented in R language; on the other hand, the fusion methods were implemented in Matlab language. 
-Table~\ref{metrica_de_tempo} shows the computational cost of each of the fusion methods.
+%Table~\ref{metrica_de_tempo} shows the computational cost of each of the fusion methods.
 
 \subsection{Processing times} 
 
@@ -339,7 +340,7 @@ Initially, evidence of edges was found using the maximum likelihood method and B
 
 It is essential to point out that the maximum likelihood method when inserting the $L$ and $\mu$ parameters results in a non-smooth function presenting many local maxima. The difficulty of using the classical optimization methods in this kind function is known, then to get around this problem the simulated annealing method was applied because it is appropriate to optimize non-differentiate functions.
 
-The fusion methods like simple average, SWT, PCA, ROC, DWT, and MSVD were applied to the results of the maximum likelihood methods on each channel. The purpose of applying the fusion methods was to obtain better edge detection accuracy and measure the importance of each channel in the final fusion result. On this sense are can notice that mainly the (vv) channel did not contribute to get a good accuracy of the fusion methods.
+The fusion methods like simple average, MR-DWT, PCA, ROC, MR-SWT, and MR-SVD were applied to the results of the maximum likelihood methods on each channel. The purpose of applying the fusion methods was to obtain better edge detection accuracy and measure the importance of each channel in the final fusion result. On this sense are can notice that mainly the (vv) channel did not contribute to get a good accuracy of the fusion methods.
 
 From the obtained results, the feasibility of procedure proposes for edge detection in PolSAR images is shown.
 
