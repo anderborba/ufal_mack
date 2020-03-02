@@ -154,12 +154,13 @@ We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ wit
 The total log-likelihood at point $j$ is, then,
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
-\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
+%\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
 \ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
 +\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
 +\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
+\raisetag{2.2em}
 \end{split}
 \end{equation}
 We then apply GenSA to find  
@@ -175,7 +176,7 @@ We will see ways of fusing these evidences in the next section.
 
 \section{Fusion of Evidences}\label{sec_04}
 
-Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$, where $1$ denotes an estimate of edge and $0$ otherwise.
+Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
 We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\text{I}_F$.
 
 We compare the results of six fusion techniques, namely:
@@ -200,8 +201,8 @@ $\text{I}_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
 This section is based on~\cite{n_r}.
 %We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sampled by a factor of two. 
 %In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
-We apply DWT filters for each the binary image $\bm{\widehat\jmath}_c$, the images are filtered by low pass filter $\text{L}$ in the vertical direction and high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
-These operations are repeated for the coefficient matrices, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, and so on achieving successive resolution levels.
+We apply DWT filters on each binary image $\bm{\widehat\jmath}_c$: a low-pass filter $\text{L}$ in the vertical direction, and a high-pass filter $\text{H}$ in the horizontal direction, then both are down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
+These operations are repeated on the coefficient matrices, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$.
 
 %%% ACF Detalhar as operações usando a notação acima: a média é pixel-a-pixel? quais bandas são promediadas?
 %%% AAB A média é pixel a pixel. Todas as bandas são usadas na média. Vou tentar deixar claro no texto. Creio que respondi no item 2 abaixo.
@@ -209,21 +210,26 @@ These operations are repeated for the coefficient matrices, leading to $\bm{\wid
 %%% AAB O nivel de resolução que uso é 1, esse é outro ponto de investigação, seria interessante aumentar esse nível e ver o que acontece na fusão. Tb não consegui realizar esses teste. Inseri no item 1) abaixo a info sobre o nível de resolução.
 The DWT fusion method has the following steps:
 \begin{enumerate}
-\item Calculate the DWT decomposition by getting $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, for each channel. In this work is used one resolution level;
-\item in the decomposition $\bm{\widehat\jmath}_{c\text{HH}}$, the arithmetic mean of all channels are computed, pixel by pixel, and in the decomposition $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, the maximum is found among all channel, pixel by pixel, finding a new operators $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, $\bm{\bar\jmath}_{c\text{HL}}$, and $\bm{\bar\jmath}_{c\text{HH}}$;
-\item used these operators, the image with the fusion of edge evidence $\text{I}_F(x, y)$ is computed performing the inverse DWT transformation.
+\item Calculate the DWT decomposition $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, for each channel.
+\item Compute $\bm{\bar\jmath}_{c\text{HH}}$, the pixel-wise mean of all $\bm{\widehat\jmath}_{c\text{HH}}$ decompositions.
+\item Find the pixel-wise maximum of $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
+\item The result of the fusion $\text{I}_F$ is the inverse DWT transformation.
 \end{enumerate}
+%%% ACF Aqui dizer que é a Inverse DWT do que
 
 \subsection{Principal component analysis -- PCA}
 
+%%% ACF Revisar e corrigir a notação; usar notação matemática sempre que necessário
 This section is based on~\cite{n_r,mit}.
 The method is comprised of the following steps:
 \begin{enumerate}
-\item organize the data in such a way that $\bm{\widehat\jmath}_c$ is a column vector, forming a Y matrix of dimension $\ell\times nc$, where $\ell=m\cdot n$, the lines times the columns of $\bm{\widehat\jmath}_c$;
-\item calculate the average of the elements of these columns, generating a vector dimension of $1\times nc$;
-\item subtract the average of each column from the Y matrix, resulting a matrix of the same dimension X; 
-\item find C, the covariance matrix of X, with dimensions $nc\times nc$;
-\item compute the eigenvalues $\Lambda$ and eigenvectors V of C, and sort the eigenvalues and eigenvectors in descending order. %The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in columns;
+\item organize the data in such a way that $\bm{\widehat\jmath}_c$ is a column vector, forming the matrix $\text Y$ of dimension $\ell\times n_c$;
+\item calculate the average of the elements of these columns, generating a vector of dimension of $1\times nc$;
+%%% ACF A matriz de covariância é invariante a traslações. Precisa deste passo?
+\item subtract the average of each column from $\text Y$, resulting in a matrix of the same dimension of $\text X$; 
+\item find $C$, the covariance matrix of $\text X$, of dimension $nc\times nc$;
+\item compute the eigenvalues $\Lambda$ and eigenvectors $V$ of $C$, and sort the eigenvalues and eigenvectors in descending order. %The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in columns;
+%%% ACF O que é V_c?
 \item compute the components $\text{P}_c=\frac{\text{V}_c}{\sum_{c=1}^{nc} \text{V}_c}$. %with $i=1,\dots,nc$;
 \item fuse $\text{I}_F(x,y)=\sum_{c=1}^{nc}\text{P}_c\bm{\widehat\jmath}_c(x,y)$, recalling that $\sum_{c=1}^{nc}\text{P}_c=1$.
 \end{enumerate}
