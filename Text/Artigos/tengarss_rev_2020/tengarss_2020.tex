@@ -33,11 +33,17 @@ UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
 
 \begin{abstract}
 Synthetic Polarimetric Aperture Radar (PolSAR) sensors have reached an essential position in the area of remote sensing. 
-The images coming from PolSAR sensors have speckle noise, making their processing and analysis challenging tasks. 
-The present study discusses a detection method based on the fusion of evidence obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi-look images. 
-The method consists of detecting transition points in the thinnest range of data that covers two regions using the maximum likelihood with estimates parameters from the Wishart distribution. 
-The fusion methods used are the simple average, the discrete wavelet (MR-DWT), and stationary (MR-SWT) transform with multi-resolution, the principal component analysis (PCA), the ROC statistic, and a multi-resolution method based on singular values (MR-SVD). 
-The results indicate an assessment of the influence of each intensity channel in the fusion of evidence with possible paths for future research.
+But images coming from PolSAR sensors have speckle noise, making their processing and analysis challenging tasks. 
+The present study discusses a detection method based on the fusion of evidences obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi-look images. 
+The method consists of detecting transition points in the thinnest strip of data that covers two regions using the maximum likelihood under the Wishart model. 
+The fusion methods used are 
+the simple average, 
+the multi-resolution discrete wavelet transform (MR-DWT), 
+the multi-resolution stationary wavelet transform (MR-SWT), 
+principal component analysis (PCA), 
+ROC statistics, and 
+a multi-resolution method based on singular value decomposition (MR-SVD). 
+The results indicate an assessment of the influence of each intensity channel in the fusion of evidences, with possible paths for future research.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -55,7 +61,7 @@ Among the available edge detection techniques for SAR and PolSAR images, it is w
 \item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
 \item Markov random fields~\cite{bf};	
 \item the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and,
-\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR / SAR imagery.
+\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR/SAR imagery.
 \end{itemize}
 
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
@@ -85,7 +91,7 @@ We discuss six fusion methods:
 \item Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 \end{itemize}
 
-It aims to show the feasibility of a procedure for edge detection in PolSAR images. 
+We show the feasibility of these procedures for edge detection in PolSAR images. 
 The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
@@ -268,24 +274,25 @@ The MR-SVD fusion method can be summarized as follows:
 %, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, 
 %and $\ell$ is the level resolution to set. In this work is used one resolution level.
 %%% ACF Repare que não usou M nem N
-\item Find the SVD decomposition of $\text{X}_1$, and calculate $\text{T}_1=\text{X}_1 \text{X}_1^\text{T}=\text{U}_1 \text{S}_1^2 \text{U}_1^\text{T}$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $\text{S}_1$, 
+\item Find $\text{T}_1=\text{X}_1 \text{X}_1^\text{T}=\text{U}_1 \text{S}_1^2 \text{U}_1^\text{T}$, the SVD decomposition of $\text{X}_1$, where $\text U_1$ is unitary.
+\item Calculate $s(1)\geq s(2) \geq s(3) \geq s(4)$ which comprise the singular value matrix $\text{S}_1$.
 %%% ACF Não definiu nem usou s(1), s(2) etc
 %%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$
- and $\text U_1$ is unitary.
+
 \item 
 Transform the lines of $\widehat{\text{X}}_1=\text{U}_1^\text{T}\text{X}_1$ into new matrices with dimensions $\frac{m}{2}\times\frac{n}{2}$: $\{\Phi_1, \Psi_1^\text{V}, \Psi_1^\text{H}, \Psi_1^\text{D}\}$. 
 %\item Repeat the procedure on $\Phi_r$ $R$ times. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
-\item Repeat the procedure on $\Phi_r$. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
+\item Repeat the procedure on $\Phi_r$. Where $r=1,\dots,R$, with $R$ the lowest resolution index. 
 \item The MR-SVD method is represented as
 \begin{equation}\label{msvd_iter}
-\widehat{\text{X}}\leftarrow \left\{\Phi_\text{R},\{\Psi_r^\text{V},\Psi_r^\text{H},\Psi_r^\text{D} \}_{r=1}^\text{R},\{\text{U}_r\}_{r=1}^\text{R} \right\}.
+\widehat{\text{X}}\leftarrow \left\{\Phi_R,\{\Psi_r^\text{V},\Psi_r^\text{H},\Psi_r^\text{D} \}_{r=1}^R,\{\text{U}_r\}_{r=1}^R \right\}.
 \end{equation}
 %\item Once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Psi_\ell^\text{V}$, $\Psi_\ell^\text{H}$ and $\Psi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Psi}_\ell^\text{V}$, $\bar{\Psi}_\ell^\text{H}$ and $\bar{\Psi}_\ell^\text{D}$. 
 %The operators $\Phi_L$, and $\text{U}_\ell$ are averaged over all the channels, pixel by pixel.
 \item Once decomposition is applied to all channels.
-\item Compute $\overline{\Phi}_\text{R}$ averaged $\Phi_R$, and $\overline{\text{U}}_r$ averaged $\text{U}_r$ decompositions.
+\item Compute $\overline{\Phi}_R$, the average of all $\Phi_r$; and $\overline{\text{U}}_r$, the average of all $\text{U}_r$.
 \item Find the pixel-wise maximum of $\Psi_r^\text{V}$, $\Psi_r^\text{H}$ and $\Psi_r^\text{D}$ : $\overline{\Psi}_r^\text{V}$, $\overline{\Psi}_r^\text{H}$ and $\overline{\Psi}_r^\text{D}$ .
-\item The fusion $\text{I}_\text{F}(x,y)$ is the SVD transformation to $\overline{\Phi}_R$, $\overline{\text{U}}_r$, $\overline{\Psi}_r^\text{V}$, $\overline{\Psi}_r^\text{H}$ and $\overline{\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
+\item The fusion $\text{I}_\text{F}(x,y)$ is the SVD transformation of $\overline{\Phi}_R$, $\overline{\text{U}}_r$, $\overline{\Psi}_r^\text{V}$, $\overline{\Psi}_r^\text{H}$ and $\overline{\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
 \end{enumerate}
 
 \section{Results}\label{sec_05}
@@ -381,7 +388,7 @@ The processing times reported in Table~\ref{metrica_de_tempo} are the average of
 \begin{table}[hbt]
 	\centering
 	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
-	\begin{tabular}{@{}lcccccc@{}} \toprule
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
 		Method       & Aver   &   PCA      &  MR-DWT  & MR-SWT &  ROC  &  MR-SVD \\ \midrule
 		Time (s)      & 0.01      & 0.02       &  0.08 & 0.18      &  0.40       & 1.11  \\
 		Rel. time     & 1.00      & 2.19       &  9.25 & 21.05     &  46.59      & 129.57  \\ \bottomrule
