@@ -1,4 +1,4 @@
-\section{Detecção de bordas em imagens PolSAR}\label{cap_det_borda}
+\chapter{Detecção de bordas em imagens PolSAR}\label{cap_det_borda}
 
 Na literatura encontramos uma grande oferta de métodos clássicos para detectar bordas, por exemplo Sobel, Canny, Laplaciano da gaussiana(LoG) e LoG piramidal. Os métodos clássicos de detecção de bordas são construídos assumindo que o ruído é aditivo, tornando esses métodos ineficientes para aplicação em imagens PolSAR, entretanto, nas imagens PolSAR o ruído é multiplicativo. 
 
@@ -15,7 +15,7 @@ O tamanho da janela pode influenciar em alguns aspectos como por exemplo, em uma
 
 Em linhas gerais seguiremos as seguintes afirmações: 
 \begin{enumerate}
-	\item tentar encontrar finas faixas de dados, idealmente do tamanho de um pixel;
+	\item tentar encontrar faixas finas de dados, idealmente do tamanho de um pixel;
 	\item será usado o método de máxima verossimilhança;
 	\item de que maneira a detecção trabalha em diferentes canais da imagem PolSAR. 
 \end{enumerate}
@@ -142,52 +142,50 @@ O estimador de máxima verossimilhança $\widehat{\jmath}_{ML}$ é uma evidênci
 \end{array}
 \end{equation}
 
-\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
-A \textbf{função de verossimilhança} da amostra descrita por (\ref{}) é dada pela produtório das funções de densidade respectivamente associadas a cada amostra gerando a a função $L$
-\begin{equation}
-	L(j)=\prod_{k=1}^{j}p(\mathbf{Z}_{k}^{'}) \prod_{k=j+1}^{N}p(\mathbf{Z}_{k}^{'}), \\
-\end{equation}
-onde $\mathbf{Z}_{k}^{'}$ é uma possível aproximação da matriz randômica descrita em (ref).
-Usando a equação (\ref) e propriedades de logaritmos natural teremos para cada termo do produtório (\ref{cap_acf_18}) uma \textbf{função de log-verossimilhança}. Assim, encontramos uma função dependente de $j$
-\begin{equation}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln p(\mathbf{Z}_{k}^{'})\\
-	             &+&\sum_{k=j+1}^{N}\ln p(\mathbf{Z}_{k}^{'}).
-\end{array}
-\end{equation}
-
-Substituindo a função de densidade e realizando as operações algébricas teremos
-\begin{equation}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&N\ln 4+N(L+1)\ln L\\
-	             &-&N\ln\Gamma(L)-N\ln(1-|\rho|^2)\\
-	             &+&L\sum_{k=1}^{j}\ln\xi +L\sum_{k=j+1}^{N}\ln\xi \\
-	             &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} \ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)        \\
-	             &+&\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)         \\
-\end{array}
-\end{equation}
-
-
-\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
-As funções de verossimilhança das amostras descritas por (\ref{eq_10}) e (\ref{eq_11}) serão usadas juntamente com a função de densidade (pdf) para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$. Partindo de 
-\begin{equation*}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
-	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
-\end{array}
-\end{equation*}
-e usando a distribuição (\ref{eq_08}) para duas amostras diferentes $A$ e $B$ teremos,
-\begin{equation}
-\begin{array}{rcl}
-	l(j)=\ln L(j)&=&N\ln 4+N(L+1)\ln L\\
-	             &-&N\ln\Gamma(L)-N\ln(1-|\rho|^2)\\
-	             &+&L\sum_{k=1}^{j}\ln g_k+L\sum_{k=j+1}^{N}\ln g_k \\
-	             &-&(L+1)\sum_{k=1}^{j}\ln h_k\\
-	             &-&(L+1)\sum_{k=j+1}^{N}\ln h_k \\
-	             &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\\ 
-	             &+&\sum_{k=j+1}^{N} \ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\\
-	             &+&\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\\
-	             &+&\sum_{k=j+1}^{N}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\\
-	             
-\end{array}
-\end{equation}
+%\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+%A \textbf{função de verossimilhança} da amostra descrita por (\ref{}) é dada pela produtório das funções de densidade respectivamente associadas a cada amostra gerando a a função $L$
+%\begin{equation}
+%	L(j)=\prod_{k=1}^{j}p(\mathbf{Z}_{k}^{'}) \prod_{k=j+1}^{N}p(\mathbf{Z}_{k}^{'}), \\
+%\end{equation}
+%onde $\mathbf{Z}_{k}^{'}$ é uma possível aproximação da matriz randômica descrita em (ref).
+%Usando a equação (\ref) e propriedades de logaritmos natural teremos para cada termo do produtório (\ref{cap_acf_18}) uma \textbf{função de log-verossimilhança}. Assim, encontramos uma função dependente de $j$
+%\begin{equation}
+%\begin{array}{rcl}
+%	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln p(\mathbf{Z}_{k}^{'})\\
+%	             &+&\sum_{k=j+1}^{N}\ln p(\mathbf{Z}_{k}^{'}).
+%\end{array}
+%\end{equation}
+%
+%Substituindo a função de densidade e realizando as operações algébricas teremos
+%\begin{equation}
+%\begin{array}{rcl}
+%	l(j)=\ln L(j)&=&N\ln 4+N(L+1)\ln L\\
+%	             &-&N\ln\Gamma(L)-N\ln(1-|\rho|^2)\\
+%	             &+&L\sum_{k=1}^{j}\ln\xi +L\sum_{k=j+1}^{N}\ln\xi \\
+%	             &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} \ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)        \\
+%	             &+&\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right) +\sum_{k=j+1}^{N} \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)         \\
+%\end{array}
+%\end{equation}
+%\subsection{Estimativa de máxima verossimilhança aplicada na densidade de magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
+%As funções de verossimilhança das amostras descritas por (\ref{eq_10}) e (\ref{eq_11}) serão usadas juntamente com a função de densidade (pdf) para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$. Partindo de 
+%\begin{equation*}
+%\begin{array}{rcl}
+%	l(j)=\ln L(j)&=&\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{A}},L)\\
+%	             &+&\sum_{k=j+1}^{N}\ln f_{\mathbf{Z}}(\mathbf{Z}_{k}^{'};\mathbf{\Sigma_{B}},L).
+%\end{array}
+%\end{equation*}
+%e usando a distribuição (\ref{eq_08}) para duas amostras diferentes $A$ e $B$ teremos,
+%\begin{equation}
+%\begin{array}{rcl}
+%	l(j)=\ln L(j)&=&N\ln 4+N(L+1)\ln L\\
+%	             &-&N\ln\Gamma(L)-N\ln(1-|\rho|^2)\\
+%	             &+&L\sum_{k=1}^{j}\ln g_k+L\sum_{k=j+1}^{N}\ln g_k \\
+%	             &-&(L+1)\sum_{k=1}^{j}\ln h_k\\
+%	             &-&(L+1)\sum_{k=j+1}^{N}\ln h_k \\
+%	             &+&\sum_{k=1}^{j}\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\\ 
+%	             &+&\sum_{k=j+1}^{N} \ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)\\
+%	             &+&\sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\\
+%	             &+&\sum_{k=j+1}^{N}\ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\\
+%	             
+%\end{array}
+%\end{equation}

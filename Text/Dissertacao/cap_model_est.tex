@@ -1389,50 +1389,118 @@ A discusão será limitada para estatística da razão $\nu$ amplitude normaliza
 \textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variância.}
 
 
-\section{Densidades para o artigo}
-\subsection{Função densidade de probabilidade Univariada - $\Gamma$ Univariada - Lee}
-\begin{equation}\label{cap_acf_23}
-	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
+\section{Método da máxima verossimilhança aplicado nas funções densidades de probabilidades}
+
+\subsection{Método da verossimilhança aplicado na pdf univariada $\Gamma$.}
+Considerando a função distribuição de densidade univariada gaussiana 
+\begin{equation}\label{pdf_gauss_univ}
+	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-L\frac{z}{\mu}\right\}, \\
 \end{equation}
-
-\subsection{Razão de intensidades univariada}
-A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
-
-\begin{equation}\label{eqn63}
-\begin{array}{ccccccc}
-	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
+onde, $\mu>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{pdf_gauss_univ}  e realizando algumas manipulações algébricas teremos:
+\begin{equation}\nonumber
+\begin{array}{ccc}
+	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-L\frac{z}{\mu}\right\}\right), \\
+	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln z^{L-1} + \ln \exp\left\{-L\frac{z}{\mu}\right\}, \\
+	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z,\\
+	                                         
+\end{array}
+\end{equation}
+resultanto na função logarítmica da PDF~\eqref{pdf_gauss_univ} .
+\begin{equation}\label{func_log_univ_gaussiana}
+\begin{array}{ccc}
+	\ln f_{Z}(z;\mu,L)&=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z\\
 \end{array}
 \end{equation}
 
-Onde $\tau=\frac{C_{11}}{C_{22}}$.
+Sendo uma amostra $\bm z=(z_1,\dots,z_n)$ e aplicando o método da máxima verossimilhança,
+\begin{equation}\nonumber
+\begin{array}{ccc}
+  \ell(\mu, L;\bm z)&=&\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
+  \ell(\mu, L;\bm z)&=&\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)
+ \end{array}
+ \end{equation}
+na PDF~\eqref{func_log_univ_gaussiana}. teremos,
+\begin{equation}\nonumber
+\begin{array}{lcl}
+    \ell(\mu, L;\bm z)&=&\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
+                      &=&\sum_{k=1}^{n}\left(L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z_k - \frac{L}{\mu} z_k\right)\\
+                      &=&\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
+                      &=&L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
+                      &=&L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.\\                
+ \end{array}
+ \end{equation}
 
-A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
+Definimos a equação reduzida log-verossimilhança para a PDF univariada $\Gamma$.
+\begin{equation}\label{eq_log_vero_red_gauss}
+    \ell(\mu, L;\bm z)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.\\                
+ \end{equation}
 
+\subsection{Método da verossimilhança aplicado na PDF univariada magnitude do produto}
+%A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+%
+%\begin{equation}
+%	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+%\end{equation}
+%onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+Considerando a função a PDF univariada magnitude do produto, 
+\begin{equation}\label{pdf_mag_prod}
+\begin{array}{lcl}
+	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+onde, $\xi>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{pdf_mag_prod} e realizando algumas manipulações algébricas teremos:
+\begin{equation}
+\begin{array}{lcl}\nonumber
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right),\\
+	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right),\\
+	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right),\\
+	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right),\\
+	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
 
-\begin{equation}\label{eqn64}
+Definimos a equação reduzida log-verossimilhança para a PDF univariada magnitude do produto
+\begin{equation}
+\begin{array}{lcl}\label{eq_log_vero_red_mag_produto}
+	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+		\end{array}
+\end{equation}
+
+\subsection{Método da verossimilhança aplicado na PDF univariada razão de intensidades}
+%A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
+
+%\begin{equation}\label{eqn63}
+%\begin{array}{ccccccc}
+%	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
+%\end{array}
+%\end{equation}
+%
+%Onde $\tau=\frac{C_{11}}{C_{22}}$.
+%
+%A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
+Considerando a função a PDF univariada magnitude do produto,
+\begin{equation}\label{pdf_razao_intensidades}
 	p^{(L)}(\mu)=\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\\
 \end{equation}
-
-\begin{equation}\label{eqn64}
-	\ln p^{(L)}(\mu)=\ln\left(\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\right)\\
-\end{equation}
-\begin{equation}\label{eqn64}
-\begin{array}{ccc}
+onde, $\mu>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{pdf_razao_intensidades} e realizando algumas manipulações algébricas teremos:
+\begin{equation}\nonumber
+\begin{array}{lcl}
+	\ln p^{(L)}(\mu)&=&\ln\left(\frac{\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}}\right),\\
 	\ln p^{(L)}(\mu)&=&\ln\left(\Gamma(2L)(1-|\rho_c|^2)^{L}(1+\mu)\mu^{L-1}\right)\\
-	&-&\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
-\end{array}
-\end{equation}
-\begin{equation}\label{eqn64}
-\begin{array}{ccc}
+	&-&\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right),\\
 	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +\ln(1-|\rho_c|^2)^{L}+\ln(1+\mu)+\ln\mu^{L-1}\\
-	&-&\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right)\\
+	&-&\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2L+1}{2}}\right),\\
+	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
+	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right].\\
 \end{array}
 \end{equation}
 
-\begin{equation}\label{eqn64}
-\begin{array}{ccl}
+Definimos a equação reduzida log-verossimilhança para a PDF univariada razão de intensidades
+
+\begin{equation}\label{eq_log_vero_red_razao_intensidade}
+\begin{array}{lcl}	
 	\ln p^{(L)}(\mu)&=&\ln\Gamma(2L) +L\ln(1-|\rho_c|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
-	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right]\\
+	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho_c|^2\mu \right].\\
 \end{array}
 \end{equation}
 
@@ -1474,47 +1542,47 @@ A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $
 %		\caption{$\sigma=13.1298 $.}\label{cap_acf_fig05}
 %\endminipage\hfill
 %\end{figure}
-\subsection{Distribuição univariada da magnitude do produto}
-A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
-
-\begin{equation}
-	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
-\end{equation}
-onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
-\begin{equation}
-\begin{array}{ccc}
-	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right).
-		\end{array}
-\end{equation}
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
-\begin{equation}
-\begin{array}{ccc}
-	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
-		\end{array}
-\end{equation}
-
+%\subsection{Distribuição univariada da magnitude do produto}
+%A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 
+%
+%\begin{equation}
+%	\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+%\end{equation}
+%onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
+%\begin{equation}
+%\begin{array}{ccc}
+%	f(\xi)&=&\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+%		\end{array}
+%\end{equation}
+%\begin{equation}
+%\begin{array}{ccc}
+%	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right)\right).
+%		\end{array}
+%\end{equation}
+%\begin{equation}
+%\begin{array}{ccc}
+%	\ln f(\xi)&=&\ln\left(\frac{4L^{L+1}\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+%		\end{array}
+%\end{equation}
+%
+%\begin{equation}
+%\begin{array}{ccc}
+%	\ln f(\xi)&=&\ln (4L^{L+1}\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+%		\end{array}
+%\end{equation}
+%
+%\begin{equation}
+%\begin{array}{ccc}
+%	\ln f(\xi)&=&\ln (4)+\ln L^{L+1}+\ln \xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+%		\end{array}
+%\end{equation}
+%
+%\begin{equation}
+%\begin{array}{ccc}
+%	\ln f(\xi)&=&\ln (4)+(L+1)\ln L+L\ln \xi-\ln\Gamma(L)-\ln(1-|\rho|^2)+\ln I_0\left(\frac{2|\rho|L\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi}{1-|\rho|^2}\right).
+%		\end{array}
+%\end{equation}
+%
 %\begin{figure}[hbt]
 %\minipage{0.5\textwidth}
 %  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flev_produto.pdf}
@@ -1555,362 +1623,110 @@ onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i
 %\end{figure}
 
 
-\subsection{Distribuição bivariada produto de intensidades - Lee } 
+%\subsection{Distribuição bivariada produto de intensidades - Lee } 
+%
+%O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
+%
+%\begin{equation}\label{eqn59}
+%\begin{array}{ccccc}
+%	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
+%	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
+%\end{array}
+%\end{equation}
+%
+%Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
+%
+%\begin{equation}\label{eqn60}
+%	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+%\end{equation}
 
-O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
-
-\begin{equation}\label{eqn59}
-\begin{array}{ccccc}
-	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
-	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
-\end{array}
-\end{equation}
-
-Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
-
-\begin{equation}\label{eqn60}
-	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
-\end{equation}
-
-Sendo
-\begin{equation}\label{eqn61}
-	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
-\end{equation}
-
-\begin{equation}\label{eqn62}
-	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
-\end{equation}
-\subsection{Distribuição $\Gamma$ trivariada - Hagedorn }
-\begin{equation}\label{eqn62}
-\begin{array}{ccc}
-	p(I_1,I_2,I_3)&=& \frac{\exp(-\frac{1}{2}(a_1I_1+b_1I_2+c_1I_3))}{8(n-1)|C|^{\frac{n}{2}}(d_1d_2d_3)^{n-1}}\sum_{k=n-1}^{\infty}k(-1)^{k-n+1}C_{k-n+1}^{n-1}(cos(\gamma))\\
-	&&I_k(d_1\sqrt{I_1I_2})I_k(d_2\sqrt{I_2I_3})I_k(d_3\sqrt{I_1I_3})
-\end{array}
-\end{equation}
-
-
-
-\subsection{Método da verossimilhança para a pdf univariada $\Gamma$.}
-\begin{equation}\label{cap_acf_23}
-	f_{Z_{i}}(Z_{i};\mu,L)=\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{Z_{i}}{\mu}\right), \\
-\end{equation}
-Aplicando o logaritmo natural na igualdade teremos:
-\begin{equation}\label{cap_acf_23}
-\begin{array}{ccc}
-	\ln f_{Z_{i}}(Z_{i};\mu,L)&=&\ln \left(\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)} \exp\left(-L\frac{Z_{i}}{\mu}\right)\right), \\
-	                                         &=&\ln \left(\frac{L^{L}Z_{i}^{L-1}}{\mu^{L}\Gamma(L)}\right) + \ln\left(\exp\left(-L\frac{Z_{i}}{\mu}\right)\right), \\
-	                                         &=&\ln \left(L^{L}Z_{i}^{L-1} \right)-\ln\left(\mu^{L}\Gamma(L)\right) -\frac{L}{\mu} Z_i\\
-	                                         &=&L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
-\end{array}
-\end{equation}
-
-
-A função 
-\begin{equation}\label{func_log_univ_gaussiana}
-\begin{array}{ccc}
-	\ln f_{Z_{i}}(Z_{i};\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} Z_i\\
-\end{array}
-\end{equation}
-
-A imagem de flevoland é usada para ilustrar a busca pelos parâmetros ($L, \mu$). As figura mostram a distribuição de dados em uma faixa fixa $r=50$, e sua sua função de máxima verossimilhança com os parâmetros fixos $L=4$ e $\mu$, o mesmo é calculado como média dos pontos internos e externos da faixa de dados. 
-
-\begin{figure}[hbt]
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{faixa_dados_r_50_flevoland.pdf}
-  	\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig04}
-\endminipage\hfill
-\minipage{0.5\textwidth}
-  \includegraphics[width=\linewidth]{funcao_l_faixa_r_50_flevoland.pdf}
-		\caption{Distribuição de dados na radial $r=50$.}\label{cap_acf_fig05}
-\endminipage\hfill
-%\endminipage\hfill
-\end{figure}
-
-As figuras abaixo mostram a radial de número $r=50$ na imagem de Flevoland, com os respectivos correspondentes sigmas fixos, ou seja, para cada sigma fixado é mostrado a função 
-\begin{equation}\label{cap_acf_23}
-\begin{array}{ccc}
-	\ln f_{\sigma_i}(\sigma_i;\mu,L)&=& L\ln L +(L - 1) \ln Z_{i}-L \ln \mu-\ln \Gamma(L) -\frac{L}{\mu} \sigma_i\\
-\end{array}
-\end{equation}
-
-
-As derivadas da função (\ref{func_max_ver_uni_gamma}) com relação a $L$ e $\mu$ podem ser calculadas, iniciamos pela derivada em relação a $\mu$,
-\begin{equation}\label{der_mu_func_max_ver_uni_gamma}
-\begin{array}{ccc}
-	\frac{\partial}{\partial \mu}\ln f_{Z_{i}}(z_{i};\mu,L)&=& -\frac{L}{\mu} + \frac{L}{\mu^2} z_i.\\
-\end{array}
-\end{equation}
-e a derivada em relação a $L$
-\begin{equation}\label{der_l_func_max_ver_uni_gamma}
-\begin{array}{ccc}
-	\frac{\partial}{\partial L}\ln f_{Z_{i}}(z_{i};\mu,L)&=&1 + \ln L + \ln z_{i}-\ln \mu -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{\mu} z_i.\\
-\end{array}
-\end{equation}
-
-
-As equações podem ser resolvidas da seguinte forma, seja (\ref{der_mu_func_max_ver_uni_gamma}) 
-\begin{equation}\label{der_mu_func_max_ver_uni_gamma_equal_to_zero}
-\begin{array}{ccc}
-\frac{\partial}{\partial \mu}\ln f_{Z_{i}}(z_{i};\mu,L)&=&0.\\
-	 -\frac{L}{\mu} + \frac{L}{\mu^2} z_i&=&0.\\%
-	 \mu &=& z_i
-\end{array}
-\end{equation}
-e, usando a equação (\ref{der_l_func_max_ver_uni_gamma}),
-\begin{equation}\label{der_l_func_max_ver_uni_gamma_equal_to_zero}
-\begin{array}{ccc}
-	\frac{\partial}{\partial L}\ln f_{Z_{i}}(z_{i};\mu,L)&=&0.\\
-	1 + \ln L + \ln z_{i}-\ln \mu -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{\mu} z_i&=&0.\\
-\end{array}
-\end{equation}
-
-Considerando $\mu=z_i$ teremos
-\begin{equation}\nonumber
-\begin{array}{ccc}
-	1 + \ln L + \ln z_{i}-\ln z_i -\frac{\partial}{\partial L}\ln \Gamma(L)-\frac{1}{z_i} z_i&=&0.\\
-	1 + \ln L + \ln z_{i}-\ln z_i -\frac{\partial}{\partial L}\ln \Gamma(L)-1&=&0.\\
-\end{array}
-\end{equation}
-portanto,
-\begin{equation}\label{eq_der_l_equal_to_zero}
-\begin{array}{ccc}
-	\ln L -\frac{\partial}{\partial L}\ln \Gamma(L)&=&0.\\
-\end{array}
-\end{equation}
-definindo,
-\begin{equation}\label{poly_gamma_function_order_zero}
-\begin{array}{ccc}
-	\psi^0(L)&=&\frac{\partial}{\partial L}\ln \Gamma(L).\\
-\end{array}
-\end{equation}
-desta maneira podemos reescrever a equação (\ref{eq_der_l_equal_to_zero}) 
-\begin{equation}\label{eq_der_l_equal_to_zero_psi}
-\begin{array}{ccc}
-	\ln L -\psi^0(L)&=&0.\\
-\end{array}
-\end{equation}
-
-Tais equações podem estimar os parâmetros $L$ e $\mu$ de um região em uma imagem PolSAR.
-
+%Sendo
+%\begin{equation}\label{eqn61}
+%	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
+%\end{equation}
+%
+%\begin{equation}\label{eqn62}
+%	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
+%\end{equation}
+%\subsection{Distribuição $\Gamma$ trivariada - Hagedorn }
+%\begin{equation}\label{eqn62}
+%\begin{array}{ccc}
+%	p(I_1,I_2,I_3)&=& \frac{\exp(-\frac{1}{2}(a_1I_1+b_1I_2+c_1I_3))}{8(n-1)|C|^{\frac{n}{2}}(d_1d_2d_3)^{n-1}}\sum_{k=n-1}^{\infty}k(-1)^{k-n+1}C_{k-n+1}^{n-1}(cos(\gamma))\\
+%	&&I_k(d_1\sqrt{I_1I_2})I_k(d_2\sqrt{I_2I_3})I_k(d_3\sqrt{I_1I_3})
+%\end{array}
+%\end{equation}
+%
+%
+%
+%Para cada $i$:
+%  
+%Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_I)$ em uma primeira metade da faixa de dados.
+%
+%Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_E)$ em uma segunda metade da faixa de dados.
+%
+%Usando o estimador de máxima verossimilhança, 
+%\begin{equation}\label{cap_acf_16}
+%    (\hat{\mu}_i, \hat{L}_i)(Z_{\bigodot})= \text{arg}\,\max\limits_{(\mu, L)\in \mathbb{R}^{+}\times \mathbb{R}^{+}}%\ell(\mu,L;Z_i).\\
+%\end{equation}
+%Assim
+%\begin{equation}\label{cap_acf_16}
+%\begin{array}{ccc}
+% \ell(\mu, L)&=&\ln\left(\prod_{k=1}^{n}f_{Z_{i}}(Z_{k};\mu,L)\right)\\
+%  \ell(\mu, L)&=&\sum_{k=1}^{n}\ln\left(f_{Z_{i}}(Z_{k};\mu,L)\right)
+% \end{array}
+% \end{equation}
+%Temos duas amostras
+%\begin{equation}\label{cap_acf_16}
+% \begin{array}{lll}
+%\ell(\mu_I, L_I,\mu_E, L_E, j)&=&\sum_{k=1}^{j}     \left[   L_I\ln L_I +(L_I   - 1) \ln Z_{i}-L_I \ln \mu_I-\ln \Gamma(L_i) -%\frac{L_I}{\mu_I} Z_i \right]\\
+%                                               &+&\sum_{k=j+1}^{N}\left[   L_E\ln L_E +(L_E - 1) \ln Z_{i}-L_E \ln \mu_E-\ln \Gamma(L_E) -\frac{L_E}{\mu_E} Z_i \right]\\
+%\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I \sum_{k=1}^{j} 1 +(L_I   - 1) \sum_{k=1}^{j}  \ln Z_{i}-L_I \ln \mu_I\sum_{k=1}^{j} 1-\ln \Gamma(L_i) \sum_{k=1}^{j} 1  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
+%                                               &+&  L_E\ln L_E \sum_{k=j+1}^{N}1+(L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}- \ln %\mu_E\sum_{k=j+1}^{N}1-\ln \Gamma(L_E)\sum_{k=j+1}^{N} 1-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
+%\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I j-L_I \ln \mu_I j-\ln \Gamma(L_i) j \\
+%&+& (L_I  - 1) \sum_{k=1}^{j}  \ln Z_{i}  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
+%                                               &+&  L_E\ln L_E (N-j)-L_E \ln \mu_E(N-j)-\ln \Gamma(L_E)(N-j)- \\
+%                                               &+& (L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
+%                                                \end{array}
+% \end{equation}
+%
+%
+%\section{Imagens PolSAR reais}
 %\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_10_flevoland.pdf}
-%  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_20_flevoland.pdf}
-%		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
-%\endminipage\hfill
 %\centering
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_30_flevoland.pdf}
-%  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_40_flevoland.pdf}
-%		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
-%\endminipage\hfill
+%\includegraphics[width=4.0in]{grafico_pdf_lee_1994_razao_amplitude.pdf}
+%	\caption{Distribuição razão de amplitudes {\it L- visadas}.}
+%\label{fig2}
 %\end{figure}
+%\begin{figure}[hbt]
+%\centering
+%	\includegraphics[width=4.0in]{sf_amostras_b_r_y.pdf}
+%	\vspace{-2.5cm}
+%	\caption{Regiões de interesses (ROIs).}
+%\label{fig2}
+%\end{figure}
+% A tabela mostra os coeficientes de correlação para as regiões destacadas na figura. Os coeficientes correlacionam os canais $(hh-hv)$, $(hh-vv)$ e $(vv-hv)$ respectivamente para o mar ( ROI azul), floresta (ROI vermelho) e zona urbana (ROI amarelo).
+%\begin{table}[hbt]
+%	\centering
+%	\caption{Coeficientes de correlação.}\label{cap_acf_tab04}
+%\begin{tabular}{@{}lccc@{}} \toprule
+%	Coeficiente de correlação & Mar  & Floresta & Zona urbana \\ \midrule
+%	$(hh-hv)$ & 0.5548 & 0.7024 &  0.7177 \\ 
+%	$(hh-vv)$ & 0.8743 & 0.6633 &  0.6483\\ 
+%	$(vv-hv)$ & 0.5128 & 0.6065 &  0.6175\\ \bottomrule
+%\end{tabular}
+%\end{table}
+%
+%A figura acima mostra a baía de San Francisco ($450 \times 600$) com três regiões de interesses destacadas oceâno, floresta e zona urbana respectivamente nas cores azul, vermelho e amarelo. As ROI's têm dimensão ($50 \times 50$) adquirindo dados nos três canais de intensidade. O histograma e as pdf's teóricas são mostradas na figura abaixo. No cálculo das pdf's foi usado a equação 
+%\begin{equation}\label{cap_acf_23}
+%	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
+%\end{equation}
+%sendo $L=\{2,3,4\}$ e $\sigma_{i}^2$ a média de todos as entradas das respectivas regiões de interesses conforme \cite{nhfc}.
 %
 %\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_50_flevoland.pdf}
-%  	\caption{$\sigma= 0.000878$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_60_flevoland.pdf}
-%		\caption{ $\sigma= 0.000725$.}\label{cap_acf_fig05}
-%\endminipage\hfill
 %\centering
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_70_flevoland.pdf}
-%  	\caption{$\sigma=0.001358 $.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{funv_max_ver_j_80_flevoland.pdf}
-%		\caption{$\sigma= 0.001011$.}\label{cap_acf_fig05}
-%\endminipage\hfill
+%	\includegraphics[width=4.0in]{graf_pdf_roi_mar_hh.pdf}
+%	\caption{Regiões de interesses (ROIs).}
+%\label{fig2}
 %\end{figure}
-%\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_10_flev_wishart.pdf}
-%  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_20_flev_wishart.pdf}
-%		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\centering
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_30_flev_wishart.pdf}
-%  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_40_flev_wishart.pdf}
-%		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\end{figure}
-%\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_50_flev_wishart.pdf}
-%  	\caption{$\sigma= 0.007097$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_60_flev_wishart.pdf}
-%		\caption{$\sigma=0.003186$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\centering
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_70_flev_wishart.pdf}
-%  	\caption{$\sigma=0.00582$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_L_4_z_80_flev_wishart.pdf}
-%		\caption{$\sigma=0.044068$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\end{figure}
-
-%\begin{table}[hbt]
-%	\centering
-%	\caption{Estimativa de parâmetros.}\label{cap_acf_tab04}
-%\begin{tabular}{@{}ll@{}} \toprule
-%	Parâmetro $\sigma$  & Estimativa $\hat{\sigma}$ \\ \midrule
-%	0.007097 &  0.007096999 \\ 
-%	0.003186 & 0.003186001 \\
-%	0.00582&  0.00582\\
-%	0.044068 & 0.044068 \\
-%	0.000878&  0.0008780002\\
-%	 0.000725& 0.000725 \\
-%	 0.001358&  0.001357997\\ 
-%	 0.001011&  0.001009432 \\ \bottomrule
-%\end{tabular}
-%\end{table}
-%\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_01_flev_wishart.pdf}
-%  	\caption{$\mu= 0.1$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_02_flev_wishart.pdf}
-%		\caption{ $\mu= 0.2$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\centering
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_03_flev_wishart.pdf}
-%  	\caption{$\mu=0.3$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_04_flev_wishart.pdf}
-%		\caption{$\mu= 0.4$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\end{figure}
-%\begin{figure}[hbt]
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_05_flev_wishart.pdf}
-%  	\caption{$\mu= 0.5$.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_06_flev_wishart.pdf}
-%		\caption{ $\mu= 0.6$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\centering
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_07_flev_wishart.pdf}
-%  	\caption{$\mu=0.7 $.}\label{cap_acf_fig04}
-%\endminipage\hfill
-%\minipage{0.5\textwidth}
-%  \includegraphics[width=\linewidth]{func_max_ver_sigma_08_flev_wishart.pdf}
-%		\caption{$\mu= 0.8$.}\label{cap_acf_fig05}
-%\endminipage\hfill
-%\end{figure}
-%\begin{table}[hbt]
-%	\centering
-%	\caption{Estimativa de parâmetros.}\label{cap_acf_tab04}
-%\begin{tabular}{@{}ll@{}} \toprule
-%	Parâmetro $\mu$  & Estimativa $\hat{L}$ \\ \midrule
-%	0.1 &  0.3856407 \\ 
-%	0.2 & 0.2917647  \\
-%	0.3 & 0.2557148 \\
-%	0.4 & 0.2352014  \\
-%	0.5 & 0.2215195 \\
-%	0.6 & 0.2115041 \\
-%	0.7 & 0.2037434 \\ 
-%	0.8 & 0.1974852  \\ \bottomrule
-%\end{tabular}
-%\end{table}
-
-
-
-Para cada $i$:
-  
-Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_I)$ em uma primeira metade da faixa de dados.
-
-Estimar $(\mu_i, L_i )$ por $(\hat{\mu}_i, \hat{L}_i)(Z_E)$ em uma segunda metade da faixa de dados.
-
-Usando o estimador de máxima verossimilhança, 
-\begin{equation}\label{cap_acf_16}
-    (\hat{\mu}_i, \hat{L}_i)(Z_{\bigodot})= \text{arg}\,\max\limits_{(\mu, L)\in \mathbb{R}^{+}\times \mathbb{R}^{+}}\ell(\mu,L;Z_i).\\
-\end{equation}
-Assim
-\begin{equation}\label{cap_acf_16}
-\begin{array}{ccc}
- \ell(\mu, L)&=&\ln\left(\prod_{k=1}^{n}f_{Z_{i}}(Z_{k};\mu,L)\right)\\
-  \ell(\mu, L)&=&\sum_{k=1}^{n}\ln\left(f_{Z_{i}}(Z_{k};\mu,L)\right)
- \end{array}
- \end{equation}
-Temos duas amostras
-\begin{equation}\label{cap_acf_16}
- \begin{array}{lll}
-\ell(\mu_I, L_I,\mu_E, L_E, j)&=&\sum_{k=1}^{j}     \left[   L_I\ln L_I +(L_I   - 1) \ln Z_{i}-L_I \ln \mu_I-\ln \Gamma(L_i) -\frac{L_I}{\mu_I} Z_i \right]\\
-                                               &+&\sum_{k=j+1}^{N}\left[   L_E\ln L_E +(L_E - 1) \ln Z_{i}-L_E \ln \mu_E-\ln \Gamma(L_E) -\frac{L_E}{\mu_E} Z_i \right]\\
-\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I \sum_{k=1}^{j} 1 +(L_I   - 1) \sum_{k=1}^{j}  \ln Z_{i}-L_I \ln \mu_I\sum_{k=1}^{j} 1-\ln \Gamma(L_i) \sum_{k=1}^{j} 1  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
-                                               &+&  L_E\ln L_E \sum_{k=j+1}^{N}1+(L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}- \ln \mu_E\sum_{k=j+1}^{N}1-\ln \Gamma(L_E)\sum_{k=j+1}^{N} 1-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
-\ell(\mu_I, L_I,\mu_E, L_E, j)&=&  L_I\ln L_I j-L_I \ln \mu_I j-\ln \Gamma(L_i) j \\
-&+& (L_I  - 1) \sum_{k=1}^{j}  \ln Z_{i}  -\frac{L_I}{\mu_I} \sum_{k=1}^{j}   Z_i \\
-                                               &+&  L_E\ln L_E (N-j)-L_E \ln \mu_E(N-j)-\ln \Gamma(L_E)(N-j)- \\
-                                               &+& (L_E - 1) \sum_{k=j+1}^{N}\ln Z_{i}-\frac{L_E}{\mu_E} \sum_{k=j+1}^{N}Z_i \\
-                                                \end{array}
- \end{equation}
-
-
-\section{Imagens PolSAR reais}
-\begin{figure}[hbt]
-\centering
-\includegraphics[width=4.0in]{grafico_pdf_lee_1994_razao_amplitude.pdf}
-	\caption{Distribuição razão de amplitudes {\it L- visadas}.}
-\label{fig2}
-\end{figure}
-\begin{figure}[hbt]
-\centering
-	\includegraphics[width=4.0in]{sf_amostras_b_r_y.pdf}
-	\vspace{-2.5cm}
-	\caption{Regiões de interesses (ROIs).}
-\label{fig2}
-\end{figure}
- A tabela mostra os coeficientes de correlação para as regiões destacadas na figura. Os coeficientes correlacionam os canais $(hh-hv)$, $(hh-vv)$ e $(vv-hv)$ respectivamente para o mar ( ROI azul), floresta (ROI vermelho) e zona urbana (ROI amarelo).
-\begin{table}[hbt]
-	\centering
-	\caption{Coeficientes de correlação.}\label{cap_acf_tab04}
-\begin{tabular}{@{}lccc@{}} \toprule
-	Coeficiente de correlação & Mar  & Floresta & Zona urbana \\ \midrule
-	$(hh-hv)$ & 0.5548 & 0.7024 &  0.7177 \\ 
-	$(hh-vv)$ & 0.8743 & 0.6633 &  0.6483\\ 
-	$(vv-hv)$ & 0.5128 & 0.6065 &  0.6175\\ \bottomrule
-\end{tabular}
-\end{table}
-
-A figura acima mostra a baía de San Francisco ($450 \times 600$) com três regiões de interesses destacadas oceâno, floresta e zona urbana respectivamente nas cores azul, vermelho e amarelo. As ROI's têm dimensão ($50 \times 50$) adquirindo dados nos três canais de intensidade. O histograma e as pdf's teóricas são mostradas na figura abaixo. No cálculo das pdf's foi usado a equação 
-\begin{equation}\label{cap_acf_23}
-	f_{Z_{i}}(Z_{i};\frac{L}{\sigma_{i}^2},L)=\frac{L^{L}Z_{i}^{L-1}}{\sigma_{i}^{2L}\Gamma(L)} \exp(-L\frac{Z_{i}}{\sigma_{i}^2}), \\
-\end{equation}
-sendo $L=\{2,3,4\}$ e $\sigma_{i}^2$ a média de todos as entradas das respectivas regiões de interesses conforme \cite{nhfc}.
-
-\begin{figure}[hbt]
-\centering
-	\includegraphics[width=4.0in]{graf_pdf_roi_mar_hh.pdf}
-	\caption{Regiões de interesses (ROIs).}
-\label{fig2}
-\end{figure}
-\textcolor{red}{OBS: Tem algo errado no gráfico, provavelmente a estimativa de $\sigma_{i}$.}
-
+%\textcolor{red}{OBS: Tem algo errado no gráfico, provavelmente a estimativa de $\sigma_{i}$.}
 % ****************************************************************
