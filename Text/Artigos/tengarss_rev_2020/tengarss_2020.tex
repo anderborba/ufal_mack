@@ -33,17 +33,11 @@ UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
 
 \begin{abstract}
 Synthetic Polarimetric Aperture Radar (PolSAR) sensors have reached an essential position in the area of remote sensing. 
-But images coming from PolSAR sensors have speckle noise, making their processing and analysis challenging tasks. 
-The present study discusses a detection method based on the fusion of evidences obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi-look images. 
-The method consists of detecting transition points in the thinnest strip of data that covers two regions using the maximum likelihood under the Wishart model. 
-The fusion methods used are 
-the simple average, 
-the multi-resolution discrete wavelet transform (MR-DWT), 
-the multi-resolution stationary wavelet transform (MR-SWT), 
-principal component analysis (PCA), 
-ROC statistics, and 
-a multi-resolution method based on singular value decomposition (MR-SVD). 
-The results indicate an assessment of the influence of each intensity channel in the fusion of evidences, with possible paths for future research.
+The images coming from PolSAR sensors have speckle noise, making their processing and analysis challenging tasks. 
+The present study discusses a detection method based on the fusion of evidence obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi-look images. 
+The method consists of detecting transition points in the thinnest range of data that covers two regions using the maximum likelihood with estimates parameters from the Wishart distribution. 
+The fusion methods used are the simple average, the discrete wavelet (MR-DWT), and stationary (MR-SWT) transform with multi-resolution, the principal component analysis (PCA), the ROC statistic, and a multi-resolution method based on singular values (MR-SVD). 
+The results indicate an assessment of the influence of each intensity channel in the fusion of evidence with possible paths for future research.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -61,7 +55,7 @@ Among the available edge detection techniques for SAR and PolSAR images, it is w
 \item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
 \item Markov random fields~\cite{bf};	
 \item the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and,
-\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR/SAR imagery.
+\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR / SAR imagery.
 \end{itemize}
 
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
@@ -91,7 +85,7 @@ We discuss six fusion methods:
 \item Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 \end{itemize}
 
-We show the feasibility of these procedures for edge detection in PolSAR images. 
+It aims to show the feasibility of a procedure for edge detection in PolSAR images. 
 The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
@@ -190,7 +184,7 @@ We will see ways of fusing these evidences in the next section.
 \section{Fusion of Evidences}\label{sec_04}
 
 Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
-We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\text{I}_F$.
+We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
 
 We compare the results of six fusion techniques, namely:
 simple average, 
@@ -207,14 +201,14 @@ multi-resolution singular value decomposition (MR-SVD).
 
 \subsection{Simple Average}
 The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels:
-$\text{I}_\text{F}(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
+$\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
 %where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
 %We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sampled by a factor of two. 
 %In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
-We apply DWT filters on each binary image $\bm{\widehat\jmath}_c$: a low-pass filter $\text{L}$ in the vertical direction, and a high-pass filter $\text{H}$ in the horizontal direction, then both are down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
+We apply DWT filters on each binary image $\bm{\widehat\jmath}_c$: a low-pass filter $\bm L$ in the vertical direction, and a high-pass filter $\bm H$ in the horizontal direction, then both are down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
 These operations are repeated on the coefficient matrices, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$.
 
 %%% ACF Detalhar as operações usando a notação acima: a média é pixel-a-pixel? quais bandas são promediadas?
@@ -227,7 +221,7 @@ The DWT fusion method has the following steps:
 \item Compute $\bm{\bar\jmath}_{c\text{HH}}$, the pixel-wise mean of all $\bm{\widehat\jmath}_{c\text{HH}}$ decompositions.
 \item Find the pixel-wise maximum of $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 %%% AAB(03/03/2020) tenho uma dúvida, o máximo(pixel a pixel) deve ser calculada entre os operadores da decomposiçcao em cada canal. Não seria bom deixar claro como no item anterior?
-\item The result of the fusion $\text{I}_\text{F}$ is the inverse DWT transformation of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
+\item The result of the fusion $\text{I}_F$ is the inverse DWT transformation of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 \end{enumerate}
 %%% ACF Aqui dizer que é a Inverse DWT do que
 \subsection{Principal Component Analysis -- PCA}
@@ -236,15 +230,15 @@ The DWT fusion method has the following steps:
 This section is based on~\cite{n_r,mit}.
 The method is comprised of the following steps:
 \begin{enumerate}
-\item Stack the binary images $\bm{\widehat\jmath}_c$ in column vectors to obtain the matrix $\text{X}_{\ell\times n_c}$.
+\item Stack the binary images $\bm{\widehat\jmath}_c$ in column vectors to obtain the matrix $\bm X_{\ell\times n_c}$.
 %\item Calculate the average of the elements of these columns, generating a vector of dimension of $1\times nc$.
 %%% ACF A matriz de covariância é invariante a traslações. Precisa deste passo?
 %\item subtract the average of each column from $\text Y$, resulting in a matrix of the same dimension of $\text X$; 
-\item Calculate the covariance matrix $\text{C}_{n_c\times n_c}$ of $\text{X}_{\ell\times n_c}$.
-\item Compute the matrices of eigenvalues ($\Lambda$) and eigenvectors ($\text V$) of the covariance matrix, sorted in decreasing order by the eigenvalues. %The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in columns;
+\item Calculate the covariance matrix $\bm C_{n_c\times n_c}$ of $\bm X_{\ell\times n_c}$.
+\item Compute the matrices of eigenvalues ($\bm\Lambda$) and eigenvectors ($\bm V$) of the covariance matrix, sorted in decreasing order by the eigenvalues. %The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in columns;
 %%% ACF O que é V_c?
-\item Compute the components $\text{P}_c=({\sum_{m=1}^{n_c} \text{V}_m})^{-1}{\text{V}_c}$, where $\text{V}_c$ is a column of $\text V$; notice that $\sum_{c=1}^{n_c}\text{P}_c=1$.
-\item Fuse $\text{I}_\text{F}(x,y)=\sum_{c=1}^{n_c}\text{P}_c\bm{\widehat\jmath}_c(x,y)$.
+\item Compute the components $\bm P_c=(\sum_{m=1}^{n_c} \bm V_c(m))^{-1}{\bm V_c}$, where $\bm V_c$ is eigenvector associated with the highest eigenvalue of $\bm X$; notice that $\sum_{c=1}^{n_c}\bm P_c=1$.
+\item Fuse $\bm I_F(x,y)=\sum_{c=1}^{n_c}\bm P_c\bm{\widehat\jmath}_c(x,y)$.
 \end{enumerate}
 
 \subsection{ROC Statistics}
@@ -252,11 +246,11 @@ The ROC method was proposed and described on~\cite{gs,fawcett}:
 \begin{enumerate}
 %\item the evidence of edges in each channels $\bm{\widehat\jmath}_c$, with $c=1,\dots,nc$ in a binary way;
 %%% AAB(03/03/2020) Aqui fico em dúvida se coloco "matrices" ou  "binary images".  
-\item Add the binary images $\bm{\widehat\jmath}_c$ to produce the frequency matrix ($\text V$).
-\item Use thresholds ranging from $t=1,\dots,n_c$ on $\text V$ to generate matrices $\text{M}_t$.
-\item Compare each $\text{M}_t$ with all $\bm{\widehat\jmath}_c$, find the confusion matrix to generate the ROC curve. 
+\item Add the binary images $\bm{\widehat\jmath}_c$ to produce the frequency matrix ($\bm V$).
+\item Use thresholds ranging from $t=1,\dots,n_c$ on $\bm V$ to generate matrices $\bm M_t$.
+\item Compare each $\bm M_t$ with all $\bm{\widehat\jmath}_c$, find the confusion matrix to generate the ROC curve. 
 The optimal threshold corresponds to the point of the ROC curve closest (in the sense of the Euclidean distance) to the diagnostic line.
-\item The fusion $\text{I}_\text{F}$ is the matrix $\text{M}_t$ which corresponds to the optimal threshold.
+\item The fusion $\bm I_F$ is the matrix $\bm M_t$ which corresponds to the optimal threshold.
 \end{enumerate}
 
 \subsection{Multi-Resolution Stationary Wavelet Transform -- MR-SWT}  
@@ -270,29 +264,28 @@ The difference consists in changing the DWT filters by the SVD filters.
 The MR-SVD fusion method can be summarized as follows:
 \begin{enumerate}
 %\item Organize the binary image $\bm{\widehat\jmath}_c$ in matrices $\text{X}_\ell$ with dimension $4\times\frac{\text{M}}{2}\frac{\text{N}}{2}$ according to~\cite{naidu}, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, and $\ell$ is the level resolution to set. In this work is used one resolution level;
-\item Organize the binary image $\bm{\widehat\jmath}_c$ as non-overlapping $2\times 2$ blocks, and arrange each block as a $4\times 1$ vector by stacking columns to form the data matrix $\text{X}_1$.
+\item Organize the binary image $\bm{\widehat\jmath}_c$ as non-overlapping $2\times 2$ blocks, and arrange each block as a $4\times 1$ vector by stacking columns to form the data matrix $\bm X_1$.
 %, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, 
 %and $\ell$ is the level resolution to set. In this work is used one resolution level.
 %%% ACF Repare que não usou M nem N
-\item Find $\text{T}_1=\text{X}_1 \text{X}_1^\text{T}=\text{U}_1 \text{S}_1^2 \text{U}_1^\text{T}$, the SVD decomposition of $\text{X}_1$, where $\text U_1$ is unitary.
-\item Calculate $s(1)\geq s(2) \geq s(3) \geq s(4)$ which comprise the singular value matrix $\text{S}_1$.
+\item Find the SVD decomposition of $\bm X_1$, and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $\bm S_1$, 
 %%% ACF Não definiu nem usou s(1), s(2) etc
 %%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$
-
+ and $\bm U_1$ is unitary.
 \item 
-Transform the lines of $\widehat{\text{X}}_1=\text{U}_1^\text{T}\text{X}_1$ into new matrices with dimensions $\frac{m}{2}\times\frac{n}{2}$: $\{\Phi_1, \Psi_1^\text{V}, \Psi_1^\text{H}, \Psi_1^\text{D}\}$. 
+Transform the lines of $\widehat{\bm X}_1=\bm U_1^T\bm X_1$ into new matrices with dimensions $\frac{m}{2}\times\frac{n}{2}$: $\{\bm\Phi_1, \bm\Psi_1^\text{V}, \bm\Psi_1^\text{H}, \bm\Psi_1^\text{D}\}$. 
 %\item Repeat the procedure on $\Phi_r$ $R$ times. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
-\item Repeat the procedure on $\Phi_r$. Where $r=1,\dots,R$, with $R$ the lowest resolution index. 
+\item Repeat the procedure on $\bm\Phi_r$. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
 \item The MR-SVD method is represented as
 \begin{equation}\label{msvd_iter}
-\widehat{\text{X}}\leftarrow \left\{\Phi_R,\{\Psi_r^\text{V},\Psi_r^\text{H},\Psi_r^\text{D} \}_{r=1}^R,\{\text{U}_r\}_{r=1}^R \right\}.
+\widehat{\bm X}\leftarrow \left\{\bm \Phi_\text{R},\{\bm\Psi_r^\text{V},\bm\Psi_r^\text{H},\bm\Psi_r^\text{D} \}_{r=1}^\text{R},\{\bm U_r\}_{r=1}^\text{R} \right\}.
 \end{equation}
 %\item Once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Psi_\ell^\text{V}$, $\Psi_\ell^\text{H}$ and $\Psi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Psi}_\ell^\text{V}$, $\bar{\Psi}_\ell^\text{H}$ and $\bar{\Psi}_\ell^\text{D}$. 
 %The operators $\Phi_L$, and $\text{U}_\ell$ are averaged over all the channels, pixel by pixel.
 \item Once decomposition is applied to all channels.
-\item Compute $\overline{\Phi}_R$, the average of all $\Phi_r$; and $\overline{\text{U}}_r$, the average of all $\text{U}_r$.
-\item Find the pixel-wise maximum of $\Psi_r^\text{V}$, $\Psi_r^\text{H}$ and $\Psi_r^\text{D}$ : $\overline{\Psi}_r^\text{V}$, $\overline{\Psi}_r^\text{H}$ and $\overline{\Psi}_r^\text{D}$ .
-\item The fusion $\text{I}_\text{F}(x,y)$ is the SVD transformation of $\overline{\Phi}_R$, $\overline{\text{U}}_r$, $\overline{\Psi}_r^\text{V}$, $\overline{\Psi}_r^\text{H}$ and $\overline{\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
+\item Compute $\overline{\bm\Phi}_\text{R}$ averaged $\bm\Phi_R$, and $\overline{\bm U}_r$ averaged $\bm U_r$ decompositions.
+\item Find the pixel-wise maximum of $\bm\Psi_r^\text{V}$, $\bm\Psi_r^\text{H}$ and $\bm\Psi_r^\text{D}$ : $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$ .
+\item The fusion $\bm I_F(x,y)$ is the SVD transformation to $\overline{\bm\Phi}_R$, $\overline{\bm U}_r$, $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
 \end{enumerate}
 
 \section{Results}\label{sec_05}
