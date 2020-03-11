@@ -148,9 +148,9 @@ It consists of the following steps:
 \end{enumerate}
 
 The value function is the reduced log-likelihood of the inner and external samples of the strip denoted, respectively, as $\bm z_\text{I}$ and $\bm z_\text{E}$.
-Each strip $z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
+Each strip $\bm z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
 $$
-z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
 $$
 We assume two (possibly) different models for each partition:
@@ -268,24 +268,25 @@ The MR-SVD fusion method can be summarized as follows:
 %, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, 
 %and $\ell$ is the level resolution to set. In this work is used one resolution level.
 %%% ACF Repare que não usou M nem N
-\item Find the SVD decomposition of $\bm X_1$, and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ compose the singular value matrix $\bm S_1$, 
+\item Find the SVD decomposition of $\bm X_1$, and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ comprise the singular value matrix $\bm S_1$, 
 %%% ACF Não definiu nem usou s(1), s(2) etc
 %%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$
  and $\bm U_1$ is unitary.
 \item 
 Transform the lines of $\widehat{\bm X}_1=\bm U_1^T\bm X_1$ into new matrices with dimensions $\frac{m}{2}\times\frac{n}{2}$: $\{\bm\Phi_1, \bm\Psi_1^\text{V}, \bm\Psi_1^\text{H}, \bm\Psi_1^\text{D}\}$. 
 %\item Repeat the procedure on $\Phi_r$ $R$ times. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
-\item Repeat the procedure on $\bm\Phi_r$. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
+\item Repeat the procedure on $\bm\Phi_r$, where $r=1,\dots,\text{R}$ and $\text{R}$ is lowest resolution index. 
 \item The MR-SVD method is represented as
 \begin{equation}\label{msvd_iter}
 \widehat{\bm X}\leftarrow \left\{\bm \Phi_\text{R},\{\bm\Psi_r^\text{V},\bm\Psi_r^\text{H},\bm\Psi_r^\text{D} \}_{r=1}^\text{R},\{\bm U_r\}_{r=1}^\text{R} \right\}.
 \end{equation}
 %\item Once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Psi_\ell^\text{V}$, $\Psi_\ell^\text{H}$ and $\Psi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Psi}_\ell^\text{V}$, $\bar{\Psi}_\ell^\text{H}$ and $\bar{\Psi}_\ell^\text{D}$. 
 %The operators $\Phi_L$, and $\text{U}_\ell$ are averaged over all the channels, pixel by pixel.
-\item Once decomposition is applied to all channels.
-\item Compute $\overline{\bm\Phi}_\text{R}$ averaged $\bm\Phi_R$, and $\overline{\bm U}_r$ averaged $\bm U_r$ decompositions.
-\item Find the pixel-wise maximum of $\bm\Psi_r^\text{V}$, $\bm\Psi_r^\text{H}$ and $\bm\Psi_r^\text{D}$ : $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$ .
-\item The fusion $\bm I_F(x,y)$ is the SVD transformation to $\overline{\bm\Phi}_R$, $\overline{\bm U}_r$, $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
+\item Once the decomposition is applied to all channels, 
+compute the averages of $\bm\Phi_r$ ($\overline{\bm\Phi}_\text{R}$), and 
+of $\bm U_r$ ($\overline{\bm U}_\text{R}$).
+\item Find the pixel-wise maxima of $\bm\Psi_r^\text{V}$, $\bm\Psi_r^\text{H}$ and $\bm\Psi_r^\text{D}$ : $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$.
+\item The fusion $\bm I_F$ is the SVD transformation of $\overline{\bm\Phi}_\text{R}$, $\overline{\bm U}_r$, $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
 \end{enumerate}
 
 \section{Results}\label{sec_05}
@@ -306,7 +307,7 @@ Fig.~(\ref{flevoland_radial_4look}) shows the ROI, with the radial lines where e
 
 Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \subref{evidencias_hh_hv_vv:b} and~\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidence in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels as obtained by MLE.
 
-It is worth noting that GenSA has accurately identified the maximum value of function $\ell(j)$, even in the presence of multiple local maxima. 
+It is worth noting that GenSA has accurately identified the maximum value of function $\ell$~\eqref{eq:TotalLogLikelihood}, even in the presence of multiple local maxima. 
 A visual assessment leads to conclude that the best results are provided by the $\text{hv}$, although with a few points far from the actual edge.
 
    \begin{figure*}[hbt]
@@ -364,20 +365,6 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
      \label{fusion_met}
 \end{figure*}
 
-\subsection{Processing times} 
-
-The processing times reported in Table~\ref{metrica_de_tempo} are the average of $20$ runs, measuring only the fusion step.
-%\begin{table}[hbt]
-%	\centering
-%	\tiny
-%	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
-%	\begin{tabular}{@{}lrrrrrr@{}} \toprule
-%		Method       & Average    &   PCA      &  ROC      & MR-DWT   &  MR-SWT        &  MR-SVD \\ \midrule
-%		Time (s)      & 0.01      &  0.02      &0.40       &0.08      &  0.18 & 1.11  \\
-%		Rel. time     & 1.00      & 2.19       &46.59      & 9.25     & 21.05 & 129.57  \\ \bottomrule
-%	\end{tabular}
-%\end{table}
-%
 \begin{table}[hbt]
 	\centering
 	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
