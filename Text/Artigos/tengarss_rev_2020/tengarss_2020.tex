@@ -12,6 +12,7 @@
 \usepackage{booktabs}                        % AAB inserido
 \usepackage[utf8]{inputenc}                  % AAB inserido
 \usepackage{rotating}                        % AAB inserido
+\usepackage{mathtools}                       % AAB inserido
 
 \usepackage{bm,bbm}
 \usepackage[binary-units]{siunitx}
@@ -85,8 +86,9 @@ We discuss six fusion methods:
 \item Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 \end{itemize}
 
-It aims to show the feasibility of a procedure for edge detection in PolSAR images. 
-The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
+%It aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods.
+
+%The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
 Section~\ref{sec_02} describes statistical modeling.
@@ -264,29 +266,35 @@ The difference consists in changing the DWT filters by the SVD filters.
 The MR-SVD fusion method can be summarized as follows:
 \begin{enumerate}
 %\item Organize the binary image $\bm{\widehat\jmath}_c$ in matrices $\text{X}_\ell$ with dimension $4\times\frac{\text{M}}{2}\frac{\text{N}}{2}$ according to~\cite{naidu}, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, and $\ell$ is the level resolution to set. In this work is used one resolution level;
-\item Organize the binary image $\bm{\widehat\jmath}_c$ as non-overlapping $2\times 2$ blocks, and arrange each block as a $4\times 1$ vector by stacking columns to form the data matrix $\bm X_1$.
+\item Organize the binary image $\bm{\widehat\jmath}_c$ as non-overlapping $2\times 2$ blocks, and arrange each block as a $4\times 1$ vector by stacking columns to form the data matrix $\bm X_1$ with dimension ${4\times\frac{\ell}{4}}$.
 %, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, 
 %and $\ell$ is the level resolution to set. In this work is used one resolution level.
 %%% ACF Repare que não usou M nem N
-\item Find the SVD decomposition of $\bm X_1$, and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ comprise the singular value matrix $\bm S_1$, 
+\item Find the SVD decomposition
+ of $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, where $\bm U_1$ and $\bm V_1$ are  unitary and they have dimensions ${4\times 4}$ e $\frac{\ell}{4}\times\frac{\ell}{4}$ respectively. The diagonal entries $s_{i}= S_{ii}$ of $\bm S_1$ are known as the singular values of $\bm X_1$ and it have dimension $4\times\frac{\ell}{4}$ . The singular values are sorted in descending, and they are putting in the diagonal principal of the matrix, other entries must be zeros. 
+% and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T\Sigma \bm V^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ comprise the singular value matrix $\bm S_1$, 
 %%% ACF Não definiu nem usou s(1), s(2) etc
 %%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$
- and $\bm U_1$ is unitary.
+% and $\bm U_1$ is unitary.
 \item 
-Transform the lines of $\widehat{\bm X}_1=\bm U_1^T\bm X_1$ into new matrices with dimensions $\frac{m}{2}\times\frac{n}{2}$: $\{\bm\Phi_1, \bm\Psi_1^\text{V}, \bm\Psi_1^\text{H}, \bm\Psi_1^\text{D}\}$. 
+Transform the lines of $\widehat{\bm X}_1=\bm U_1^T\bm X_1=\bm S_1 \bm V_1^T$ into new matrices with dimensions $\frac{m}{2}\times\frac{n}{2}$: $\{\bm\Phi_1, \bm\Psi_{1\text{V}}, \bm\Psi_{1\text{H}}, \bm\Psi_{1\text{D}}\}$. 
 %\item Repeat the procedure on $\Phi_r$ $R$ times. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
-\item Repeat the procedure on $\bm\Phi_r$, where $r=1,\dots,\text{R}$ and $\text{R}$ is lowest resolution index. 
-\item The MR-SVD method is represented as
-\begin{equation}\label{msvd_iter}
-\widehat{\bm X}\leftarrow \left\{\bm \Phi_\text{R},\{\bm\Psi_r^\text{V},\bm\Psi_r^\text{H},\bm\Psi_r^\text{D} \}_{r=1}^\text{R},\{\bm U_r\}_{r=1}^\text{R} \right\}.
+\item Repeat the procedure (1) on $\bm\Phi_r$ by $r=2$ until lowest resolution level $R$. 
+\item The MR-SVD method for each channel is represented as
+\begin{equation}\nonumber
+\widehat{\bm X}_c\rightarrow \left\{\bm \Phi_\text{R}^c,\{\bm\Psi_{r\text{V}}^c,\bm\Psi_{r\text{H}}^c,\bm\Psi_{r\text{D}}^c \}_{r=1}^\text{R},\{\bm U_r^c	\}_{r=1}^\text{R} \right\}.
 \end{equation}
 %\item Once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Psi_\ell^\text{V}$, $\Psi_\ell^\text{H}$ and $\Psi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Psi}_\ell^\text{V}$, $\bar{\Psi}_\ell^\text{H}$ and $\bar{\Psi}_\ell^\text{D}$. 
 %The operators $\Phi_L$, and $\text{U}_\ell$ are averaged over all the channels, pixel by pixel.
 \item Once the decomposition is applied to all channels, 
-compute the averages of $\bm\Phi_r$ ($\overline{\bm\Phi}_\text{R}$), and 
-of $\bm U_r$ ($\overline{\bm U}_\text{R}$).
-\item Find the pixel-wise maxima of $\bm\Psi_r^\text{V}$, $\bm\Psi_r^\text{H}$ and $\bm\Psi_r^\text{D}$ : $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$.
-\item The fusion $\bm I_F$ is the SVD transformation of $\overline{\bm\Phi}_\text{R}$, $\overline{\bm U}_r$, $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$,  for each level $r=1,\dots,\text{R}$. 
+compute the average of $\bm\Phi_R^c$ ($\bm\Phi_\text{R}^f$) in the lowest resolution level, and the average 
+of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$. The supra-index $f$ shows the fusion among the channels. 
+%\item Find the pixel-wise maxima of $\bm\Psi_r^\text{V}$, $\bm\Psi_r^\text{H}$ and $\bm\Psi_r^\text{D}$ :$ \prescript{}{2}{\mathbf{\bm\Psi}}^{V}_{r}$ $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$.
+\item Find the pixel-wise maxima of $\bm\Psi_{r\text{V}}^c$, $\bm\Psi_{r\text{H}}^c$ and $\bm\Psi_{r\text{D}}^c$ :$ \bm\Psi_{rV}^f$ $\bm\Psi_{r\text{V}}^f$, $\bm\Psi_{r\text{H}}^f$ and $\bm\Psi_{r\text{D}}^f$.
+\item The fusion $\bm I_F$ is the SVD transformation for each level $r=\text{R},\dots,1$,  
+\begin{equation}\nonumber
+\bm I_f\leftarrow \left\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
+\end{equation}
 \end{enumerate}
 
 \section{Results}\label{sec_05}
@@ -294,13 +302,24 @@ of $\bm U_r$ ($\overline{\bm U}_\text{R}$).
 \subsection{PolSAR image}
 
 We used a $750\times 1024$ pixels AIRSAR PolSAR image of Flevoland, L-band, for the tests. 
-Fig.~(\ref{flevoland_radial_4look}) shows the ROI, with the radial lines where edges are detected. 
+Fig.~(\ref{flevoland_radial_4look}) shows the ROI, with the radial lines where edges are detected. In Fig.~(\ref{gt_flevoland}) is showed a ground truth image.  
 
-\begin{figure}[hbt]
-\centering
-	\includegraphics[width=\linewidth]{flevoland_radial_4_look_black}
-	\caption{Flevoland image in Pauli decomposition, with Region of Interest (ROI) and rays.}
-\label{flevoland_radial_4look}
+%\begin{figure}[hbt]
+%\centering
+%	\includegraphics[width=0.50\linewidth]{flevoland_radial_4_look_black}
+%	\caption{Flevoland image in Pauli decomposition, with Region of Interest (ROI) and rays.}
+%\label{flevoland_radial_4look}
+%\end{figure}
+   \begin{figure}[hbt]
+   \centering
+     \subfloat[Flevoland image in Pauli decomposition, in Region of Interest (ROI) and rays. \label{flevoland_radial_4look}]{%
+%       \includegraphics[viewport= 0 50 500 550, clip=true, width=0.23\textwidth]{flevoland_radial_4_look_black_crop}}      
+       \includegraphics[width=0.229\textwidth]{flevoland_radial_4_look_black_crop}}
+     \subfloat[Ground truth - GT\label{gt_flevoland}]{%
+       \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
+     }
+    \caption{ROI and GT AIRSAR PolSAR Flevoland image}
+    \label{roi_gt}
 \end{figure}
 
 %The estimates from equation~\eqref{eq:LogLikelihoodGamma} is used in equation~\eqref{eq:TotalLogLikelihood} generating an oscillation at the end of each radial line, depending on the radial considered. In order to get around this problem, in this PolSAR image, 14 pixels on each side of radial lines were not considered. The number of pixel were determined empirically.
@@ -375,6 +394,21 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 	\end{tabular}
 \end{table}
 
+The figure~\ref{probability_edge_detc} shows the error that is measured by $100$ radial lines and finding $\widehat\jmath$. The ground truth pixel is considered as the real edge in each radial line, so the error for each radial line is the euclidean distance minimum of among the ground truth pixel and the several pixels detected in the fusion methods.
+
+we use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
+Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)=\frac{H(k)}{n_r}$, where $n_r$ is the radial number. 
+In the tests performed to calculate , $k$ varies between $1$ and $10$. 
+The algorithm is described in Ref.~\cite{fbgm}.
+Fig.~\ref{probability_edge_detc} shows these probabilities as computed to the fusion methods. 
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=0.60\linewidth]{metricas_6_fusao_flevoland}
+	\caption{Probability of detecting in fusion methods.}
+\label{probability_edge_detc}
+\end{figure}
+
 \subsection{Implementation Details}
 
 The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
@@ -387,11 +421,11 @@ The fusion methods were implemented in Matlab.
 We found evidence of edges using the maximum likelihood method under the Wishart model for PolSAR data. 
 The evidence was found in each of the three intensity channels of an AIRSAR L-band image over Flevoland.
 
-The best edge evidence was observed on the hv channel.
+The best edge evidence was observed on the hv channel. We assessed the result by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
 We applied simple average, MR-DWT, PCA, ROC, MR-SWT, and MR-SVD fusion methods to aggregate the evidence obtained in the three channels.
-The best results, from a visual standpoint, were produced by the Multi-Resolution Singular Value Decomposition (MR-SVD), at the cost of the highest processing time.
-We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
+The best result was produced by the Multi-Resolution Stationary Wavelet Transform (MR-SVD) with a moderate cost of the processing time.
+%We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
 We highlight two avenues for future improvement of the fusion:
 \begin{enumerate}
@@ -400,6 +434,7 @@ We highlight two avenues for future improvement of the fusion:
 	\item post-processing both the partial evidences and the fusion.
 \end{enumerate}
 
+%The aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods was reach. 
 \bibliographystyle{IEEEtran}
 \bibliography{../../../Text/bibliografia}
 \end{document}
