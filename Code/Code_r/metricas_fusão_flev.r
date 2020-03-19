@@ -7,6 +7,8 @@
 rm(list = ls())
 require(ggplot2)
 require(latex2exp)
+library(hrbrthemes)
+require(extrafont)
 #
 setwd("../..")
 setwd("Data")
@@ -35,15 +37,21 @@ alpha <- c(1,2,3,4,5,6)
 p <- ggplot(df) 
 #  Retirei para reconfigurar para os artigos em ingles
 ##pp <- p + geom_line(aes(x = x, y = y1, color = "Ihh"))+  geom_line(aes(x = x, y = y2, color = "Ihv"))+  geom_line(aes(x = x, y = y3, color = "Ivv")) + scale_y_log10(limits = c(0.002, 1))+ ggtitle(TeX('Probabilidade de detecção das evidências de bordas')) + ylab(TeX('Probabilidade de detecção estimada')) + xlab(TeX('Erros de detecção')) 
-pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")) +
-          geom_line(aes(x = x, y = y2, color = "PCA")) +
-	  geom_line(aes(x = x, y = y4, color = "MR-DWT")) +
-          geom_line(aes(x = x, y = y3, color = "MR-SWT")) +
-          geom_line(aes(x = x, y = y5, color = "ROC")) +
-          geom_line(aes(x = x, y = y6, color = "MR-SVD")) +
+pp <- p + geom_line(aes(x = x, y = y1, color = "Aver"), size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y2, color = "PCA"), size=2, alpha=.7) +
+	  geom_line(aes(x = x, y = y4, color = "MR-DWT"), size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y3, color = "MR-SWT"), size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y5, color = "ROC"), size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y6, color = "MR-SVD"), size=2, alpha=.7) +
 	 scale_y_log10(limits = c(0.002, 1)) +
+  ylim(.01,1) +
 	 ylab(TeX('Probability')) +
-	 xlab(TeX('Detection error')) 
+	 xlab(TeX('Detection error')) +
+  theme_ipsum(base_family = "Times New Roman", 
+              base_size = 10, axis_title_size = 10) +
+  scale_fill_ipsum() +
+  theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
+
 print(pp) 
 setwd("../..")
 setwd("Text/Dissertacao/figuras")
