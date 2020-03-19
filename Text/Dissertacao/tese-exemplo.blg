@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/dev/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: tese-exemplo.aux
+The style file: plainnat-ime.bst
+Database file #1: ../bibliografia.bib
+You've used 12 entries,
+            2750 wiz_defined-function locations,
+            696 strings with 7352 characters,
+and the built_in function-call counts, 5433 in all, are:
+= -- 510
+> -- 318
+< -- 5
++ -- 108
+- -- 96
+* -- 451
+:= -- 880
+add.period$ -- 51
+call.type$ -- 12
+change.case$ -- 54
+chr.to.int$ -- 12
+cite$ -- 24
+duplicate$ -- 209
+empty$ -- 409
+format.name$ -- 112
+if$ -- 1116
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 14
+newline$ -- 82
+num.names$ -- 48
+pop$ -- 109
+preamble$ -- 1
+purify$ -- 44
+quote$ -- 0
+skip$ -- 145
+stack$ -- 0
+substring$ -- 224
+swap$ -- 12
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 122
+warning$ -- 0
+while$ -- 49
+width$ -- 0
+write$ -- 214

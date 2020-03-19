@@ -1398,42 +1398,88 @@ Considerando a função distribuição de densidade univariada gaussiana
 \end{equation}
 onde, $\mu>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{pdf_gauss_univ}  e realizando algumas manipulações algébricas teremos:
 \begin{equation}\nonumber
-\begin{array}{ccc}
+\begin{array}{ccl}
 	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-L\frac{z}{\mu}\right\}\right), \\
 	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln z^{L-1} + \ln \exp\left\{-L\frac{z}{\mu}\right\}, \\
-	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z,\\
-	                                         
+%	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z,\\	                                         
 \end{array}
 \end{equation}
-resultanto na função logarítmica da PDF~\eqref{pdf_gauss_univ} .
+resultanto na função,
 \begin{equation}\label{func_log_univ_gaussiana}
-\begin{array}{ccc}
-	\ln f_{Z}(z;\mu,L)&=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z\\
-\end{array}
+	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
 \end{equation}
 
-Sendo uma amostra $\bm z=(z_1,\dots,z_n)$ e aplicando o método da máxima verossimilhança,
+A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm z = (z_1,\dots,z_n)$, 
 \begin{equation}\nonumber
-\begin{array}{ccc}
-  \ell(\mu, L;\bm z)&=&\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
-  \ell(\mu, L;\bm z)&=&\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)
- \end{array}
+\begin{split}
+  \ell(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
+  \ell(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L),
+ \end{split}
  \end{equation}
-na PDF~\eqref{func_log_univ_gaussiana}. teremos,
+usando a funçcão~\eqref{func_log_univ_gaussiana} teremos,
 \begin{equation}\nonumber
-\begin{array}{lcl}
-    \ell(\mu, L;\bm z)&=&\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
-                      &=&\sum_{k=1}^{n}\left(L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z_k - \frac{L}{\mu} z_k\right)\\
-                      &=&\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
-                      &=&L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
-                      &=&L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.\\                
- \end{array}
+\begin{split}
+    \ell(\bm z;\mu, L)&=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
+                      &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z_k - \frac{L}{\mu} z_k\right]\\
+                      &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
+                      &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
+                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.\\                
+ \end{split}
  \end{equation}
 
-Definimos a equação reduzida log-verossimilhança para a PDF univariada $\Gamma$.
-\begin{equation}\label{eq_log_vero_red_gauss}
-    \ell(\mu, L;\bm z)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.\\                
+Definimos a equação log-verossimilhança para a PDF univariada~(\ref{func_log_univ_gaussiana}).
+\begin{equation}\nonumber
+    \ell(\mu, L;\bm z)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,\\                
  \end{equation}
+e a forma reduzida, 
+\begin{equation}
+\ell(\bm z; L,\mu) = 
+n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
++L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
+\label{eq:LogLikelihoodGamma_red}
+\end{equation}
+
+
+We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma_red} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
+We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
+
+
+
+The value function is the reduced log-likelihood of the inner and external samples of the strip denoted, respectively, as $\bm z_\text{I}$ and $\bm z_\text{E}$.
+Each strip $\bm z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
+$$
+We assume two (possibly) different models for each partition:
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
+$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+
+The total log-likelihood at point $j$ is, then,
+\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{split}
+%\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
+\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
+&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
+\raisetag{2.2em}
+\end{split}
+\end{equation}
+We then apply GenSA to find  
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
+$$ 
+where $\min_s$ is a minimum sample size that we set to $14$.
+
+In this way, we obtain one estimates for the edge for each intensity channel.
+Notice that this approach can be extended and/or modified to cope with any kind of data.
+
+We will see ways of fusing these evidences in the next section.
+
+
 
 \subsection{Método da verossimilhança aplicado na PDF univariada magnitude do produto}
 %A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica. Definimos a magnitude normalizada por 

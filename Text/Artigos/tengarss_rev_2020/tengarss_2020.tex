@@ -293,7 +293,7 @@ of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$. The supra-index $f$ shows the
 \item Find the pixel-wise maxima of $\bm\Psi_{r\text{V}}^c$, $\bm\Psi_{r\text{H}}^c$ and $\bm\Psi_{r\text{D}}^c$ :$ \bm\Psi_{rV}^f$ $\bm\Psi_{r\text{V}}^f$, $\bm\Psi_{r\text{H}}^f$ and $\bm\Psi_{r\text{D}}^f$.
 \item The fusion $\bm I_F$ is the SVD transformation for each level $r=\text{R},\dots,1$,  
 \begin{equation}\nonumber
-\bm I_f\leftarrow \left\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
+\bm I_F\leftarrow \left\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
 \end{equation}
 \end{enumerate}
 
@@ -424,7 +424,7 @@ The evidence was found in each of the three intensity channels of an AIRSAR L-ba
 The best edge evidence was observed on the hv channel. We assessed the result by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
 We applied simple average, MR-DWT, PCA, ROC, MR-SWT, and MR-SVD fusion methods to aggregate the evidence obtained in the three channels.
-The best result was produced by the Multi-Resolution Stationary Wavelet Transform (MR-SVD) with a moderate cost of the processing time.
+The best result was produced by the Multi-Resolution Stationary Wavelet Transform (MR-SWT) with a moderate cost of the processing time.
 %We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
 We highlight two avenues for future improvement of the fusion:
