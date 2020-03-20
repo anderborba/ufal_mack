@@ -37,13 +37,12 @@ alpha <- c(1,2,3,4,5,6)
 p <- ggplot(df) 
 #  Retirei para reconfigurar para os artigos em ingles
 ##pp <- p + geom_line(aes(x = x, y = y1, color = "Ihh"))+  geom_line(aes(x = x, y = y2, color = "Ihv"))+  geom_line(aes(x = x, y = y3, color = "Ivv")) + scale_y_log10(limits = c(0.002, 1))+ ggtitle(TeX('Probabilidade de detecção das evidências de bordas')) + ylab(TeX('Probabilidade de detecção estimada')) + xlab(TeX('Erros de detecção')) 
-pp <- p + geom_line(aes(x = x, y = y1, color = "Aver"), size=2, alpha=.7) +
-          geom_line(aes(x = x, y = y2, color = "PCA"), size=2, alpha=.7) +
-	  geom_line(aes(x = x, y = y4, color = "MR-DWT"), size=2, alpha=.7) +
+pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")  , size=2, alpha=0.5) +
+          geom_line(aes(x = x, y = y2, color = "PCA")   , size=0.5, alpha=1.0, linetype = 5) +
+	        geom_line(aes(x = x, y = y4, color = "MR-DWT"), size=2, alpha=.7) +
           geom_line(aes(x = x, y = y3, color = "MR-SWT"), size=2, alpha=.7) +
-          geom_line(aes(x = x, y = y5, color = "ROC"), size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y5, color = "ROC")   , size=2, alpha=.7) +
           geom_line(aes(x = x, y = y6, color = "MR-SVD"), size=2, alpha=.7) +
-	 scale_y_log10(limits = c(0.002, 1)) +
   ylim(.01,1) +
 	 ylab(TeX('Probability')) +
 	 xlab(TeX('Detection error')) +
@@ -53,11 +52,11 @@ pp <- p + geom_line(aes(x = x, y = y1, color = "Aver"), size=2, alpha=.7) +
   theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
 
 print(pp) 
-setwd("../..")
-setwd("Text/Dissertacao/figuras")
-ggsave("metricas_6_fusao_flevoland.pdf")
-setwd("../../..")
-setwd("Code/Code_r")
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave(p, file = "metricas_6_fusao_flevoland.pdf")
+#setwd("../../..")
+#setwd("Code/Code_r")
 
 
 
