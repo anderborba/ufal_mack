@@ -9,6 +9,7 @@ require(ggplot2)
 require(latex2exp)
 library(hrbrthemes)
 require(extrafont)
+loadfonts()
 #
 setwd("../..")
 setwd("Data")
@@ -49,12 +50,14 @@ pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")  , size=2, alpha=.7) +
   theme_ipsum(base_family = "Times New Roman", 
               base_size = 10, axis_title_size = 10) +
   scale_fill_ipsum() +
-  theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
+  theme(legend.title = element_blank()) +
+  theme(plot.margin=grid::unit(c(0,0,0,0), "mm"),
+        )
 
 print(pp) 
-#setwd("../..")
-#setwd("Text/Dissertacao/figuras")
-#ggsave(p, file = "metricas_6_fusao_flevoland.pdf")
+setwd("../..")
+setwd("Text/Dissertacao/figuras")
+ggsave(pp, file = "metricas_6_fusao_flevoland.pdf")
 #setwd("../../..")
 #setwd("Code/Code_r")
 
