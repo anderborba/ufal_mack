@@ -94,13 +94,13 @@
 
 @Article{nhfc,
   author    = {Nascimento, Abraão and Horta, Michelle and Frery, Alejandro and Cintra, Renato},
-  journal   = {J. Sel. Topics Appl. Earth Observ. Remote Sens.},
   title     = {Comparing Edge Detection Methods Based on Stochastic Entropies and Distances for {P}ol{SAR} Imagery},
-  year      = {2014},
   number    = {2},
   pages     = {648-663},
   volume    = {7},
+  journal   = {Journal of Selected Topics in Applied Earth Observations and Remote Sensing},
   publisher = {IEEE},
+  year      = {2014},
 }
 
 @Article{bac,
