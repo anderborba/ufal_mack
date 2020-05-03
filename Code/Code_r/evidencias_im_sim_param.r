@@ -10,79 +10,70 @@ require(latex2exp)
 require(GenSA)
 require(maxLik)
 #
-source("func_obj_l_L_mu_razao.r")
-source("func_obj_l_razao_inten.r")
-source("loglike_razao.r")
-source("loglikd_razao.r")
+source("func_obj_l_L_mu.r")
+source("loglike.r")
+source("loglikd.r")
 # Programa principal
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat1 <- scan('real_flevoland_1.txt')
-mat2 <- scan('real_flevoland_3.txt')
-#mat <- scan('Phantom_nhfc_prod_0.000_1_2_1.txt')
-#mat1 <- scan('Phantom_nhfc_0.000_1_2_1.txt')
-#mat2 <- scan('Phantom_nhfc_0.000_1_2_2.txt')
+mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
 setwd("..")
 setwd("Code/Code_r")
-r <- 120
-#mat  <- matrix(mat,  ncol = 400, byrow = TRUE)
-mat1 <- matrix(mat1, ncol = r, byrow = TRUE)
-mat2 <- matrix(mat2, ncol = r, byrow = TRUE)
-d <- dim(mat1)
-nrows <- d[1]
-N  <- d[2]
-#
+########## setup para a imagens simuladas
+r <- 400
+nr <- r
+N  <- r
+mat <- matrix(mat, ncol = r, byrow = TRUE)
 # Loop para toda a imagem
-evidencias          <- rep(0, nrows)
-evidencias_valores  <- rep(0, nrows)
-xev  <- seq(1, nrows, 1 )
-#for (k in 1 : nrows){# j aqui varre o número de radiais
-for (k in 4 : 4){# k aqui varre o número de radiais
-         print(k)
-	z1 <- rep(0, N)
-	z2 <- rep(0, N)
-	zaux <- rep(0, N)
-        z1 <- mat1[k, 1: N] 
-        z2 <- mat2[k, 1: N]
+#matdf1 <- matrix(0, nrow = N, ncol = 2)
+#matdf2 <- matrix(0, nrow = N, ncol = 2)
+evidencias          <- rep(0, nr)
+evidencias_valores  <- rep(0, nr)
+xev  <- seq(1, nr, 1 )
+for (k in 1 : nr){# j aqui varre o número de radiais
+        print(k)
+	N <- r
+	z <- rep(0, N)
+	z <- mat[k, 1: N]
+        zaux1 <- rep(0, N)
 	conta = 0
   	for (i in 1 : N){
-	  if (z2[i] > 0){
+	  if (z[i] > 0){
           	conta <- conta + 1
-		zaux[conta] <- z1[i] / z2[i]
+	        zaux1[conta] = z[i]
 	  }
 	}
-	indx  <- which(zaux != 0)
-	N <- length(indx)
-	z  <- rep(0, N)
-	z[1: N] <- zaux[1: N]
+	indx  <- which(zaux1 != 0)
+	N <- floor(max(indx))
+	z     <-  zaux1[1:N]
 	matdf1 <- matrix(0, nrow = N, ncol = 2)
 	matdf2 <- matrix(0, nrow = N, ncol = 2)
-	for (j in 1 : N){
-          r1 <- 1
-	  r2 <- 0.00005
-	  res1 <- maxBFGS(loglike_razao, start=c(r1, r2))
+	for (j in 1 : N ){
+	  r1 <- 1
+	  r2 <- sum(z[1: j]) / j
+	  res1 <- maxBFGS(loglike, start=c(r1, r2))
+	  r1 <- 1
+	  r2 <- sum(z[(j + 1): N]) / (N - j)
+	  res2 <- maxBFGS(loglikd, start=c(r1, r2))
 	  matdf1[j, 1] <- res1$estimate[1]
 	  matdf1[j, 2] <- res1$estimate[2]
-	  r1 <- 1
-          r2 <- 0.00005
-	  res2 <- maxBFGS(loglikd_razao, start=c(r1, r2))
 	  if (j < N){
 	    matdf2[j, 1] <- res2$estimate[1]
 	    matdf2[j, 2] <- res2$estimate[2]
 	  }
 	}
-	cf <- 14
-	lower <- as.numeric(cf) 
-	upper <- as.numeric(N - cf)
-	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_razao_inten, control=list( maxit =200))
+	lower <- as.numeric(14)
+	upper <- as.numeric(N - 14)
+	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
 	evidencias[k] <- out$par
 	evidencias_valores[k] <- out$value
 }
 x <- seq(N - 1)
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){
-  lobj[j] <- func_obj_l_razao_inten(j)
+#  Tomar cuidado com o sinal o mesmo é inserido pois o GenSA minimiza funçoes
+  lobj[j] <- func_obj_l_L_mu(j)
 }
 df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
@@ -92,8 +83,9 @@ print(p)
 #names(dfev) <- NULL
 #setwd("../..")
 #setwd("Data")
-#sink("evid_real_flevoland_hh_vh_param_razao.txt")
+#sink("evid_sim_nhfc_3_param_L_mu_14_pixel.txt")
 #print(dfev)
 #sink()
 #setwd("..")
 #setwd("Code/Code_r")
+

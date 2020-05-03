@@ -79,12 +79,12 @@ for (k in 1 : 1){# j aqui varre o número de radiais
 	    matdf2[j, 2] <- res2$estimate[2]
 	  }
 	}
-	#temp  <- sample(1: N, 1)
-	#lower <- 1 
-	#upper <- N
-	#out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu_produto, control=list( maxit =100, temperature = temp))
-	#evidencias[k] <- out$par
-	#evidecias_valores[k] <- out$value
+	temp  <- sample(1: N, 1)
+	lower <- 1 
+	upper <- N
+	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu_produto, control=list( maxit =100, temperature = temp))
+	evidencias[k] <- out$par
+	evidecias_valores[k] <- out$value
 }
 x <- seq(N - 1)
 lobj <- rep(0, (N - 1))

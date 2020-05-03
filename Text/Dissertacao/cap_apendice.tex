@@ -235,173 +235,155 @@ completando as simplificaçãoes
 
 \textcolor{blue}{OBS: Esta relação mostra que o coeficiente de correlação da intensidade não depende dos {\it nlooks}.}
 
-\subsubsection{Diferença de fase {\it Multilook}}
-
-A $PDF$ diferença de fase é derivafda nesta seção para cada duas componentes do $SAR$ polarimetrico. A {\it 1ook} diferença de fase é definida como 
 
 
-\begin{equation}\label{eqn27}
-	\psi_1=\angle(\mathbf{S_iS_j^{H}}). \\
+\subsection{Diferença de fase com múltiplas visadas}
+
+A distribuição densidade de probabilidade diferença de fase múltiplas visadas é derivada nesta seção para componentes da matriz de espalhamento. A diferença de fase para uma visada é definida 
+\begin{equation}\label{ap:eq_dif_fase_1look}
+	\psi_1=\angle(\mathbf{S_iS_j}^H), \\
 \end{equation}
+e a diferença de fase múltiplas visadas é definida 
+\begin{equation}\label{ap:eq_dif_fase_nlook}
+	\psi_L=\angle\left(\frac{1}{L}\sum_{k=1}^{L}\mathbf{S}_i(k)\mathbf{S}_j^H(k)\right). \\
+\end{equation} 
 
-A fase {\it multilook} é obtida por 
-
-\begin{equation}\label{eqn28}
-	\psi_n=\angle\left(\frac{1}{n}\sum_{k=1}^{n}\mathbf{S_i(k)S_j^{H}(k)}\right). \\
-\end{equation}
-
-A $\psi_n$ são os elementos fora da diagonal principal da matriz de covariança $Z$. Podemos pensar como uma média de {\it 1-looks}.
-
-Para derivar estas $PDF's$ vamos usar duas componentes de seguinte forma
-
-\begin{equation}\label{eqn29}
-	A=\left[
-\begin{array}{cc}
-	A_{11}              & \alpha e^{i\psi_n} \\
-	\alpha e^{-i\psi_n} & A_{22} \\
-\end{array}\right]
-\end{equation}
-
-
-\begin{equation}\label{eqn30}
-	C=E[\mathbf{SS^{H}}]=\left[
-\begin{array}{cc}
-	C_{11}              & \sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta} \\
- \sqrt{C_{11}C_{22}}|\rho_c |e^{-i\theta} & C_{22}\\
-\end{array}\right]
-\end{equation}
-
-Onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ e $C_{ii}=E[|\mathbf{S_i}|^2]$, assim podemos rescrever a matriz (\ref{eqn29})
-
-\begin{equation}\label{eqn31}
+Para encontrar a $PDF$ vamos usar a matriz $A$ definida como $A=LZ$
+\begin{equation*}
 	A=\left[
 \begin{array}{cc}
 	A_{11}              & A_{12R}+iA_{12I} \\
 	A_{12R}-iA_{12I}    & A_{22} \\
+\end{array}\right],
+\end{equation*}
+que pode ser representada por,
+\begin{equation*}
+	A=\left[
+\begin{array}{cc}
+	A_{11}              & \alpha e^{i\psi_n} \\
+	\alpha e^{-i\psi_n} & A_{22} \\
+\end{array}\right],
+\end{equation*}
+onde $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$, então $|A_{12R}+iA_{12I}|=|\alpha e^{i\psi_n}|$ assim $\alpha=\sqrt{A_{12R}^2+A_{12I}^2}$.
+
+Considerando a matriz de covariância
+\begin{equation*}
+	\Sigma = E[\mathbf{SS}^H]=
+	\left[
+\begin{array}{cc}
+	\Sigma_{11}              & \Sigma_{12}\\
+    \Sigma_{21}              & \Sigma_{22}\\
 \end{array}\right]
-\end{equation}
+=\left[
+\begin{array}{cc}
+	\Sigma_{11}              & \sqrt{\Sigma_{11}\Sigma_{22}}\rho \\
+ \sqrt{\Sigma_{11}\Sigma_{22}}\rho & \Sigma_{22}\\
+\end{array}\right]
+	=\left[
+\begin{array}{cc}
+	\Sigma_{11}              & \sqrt{\Sigma_{11}\Sigma_{22}}|\rho| e^{i\theta} \\
+ \sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{-i\theta} & \Sigma_{22}\\
+\end{array}\right],
+\end{equation*}
+onde $\Sigma_{ii}=E[|\mathbf{S_i}|^2]$.
 
-
-\begin{equation}\label{eqn32}
-	p_A^{(n)}(A)=\frac{|A|^{n-p}}{K(n,p)|C|^n} \exp(-tr(C^{-1}A)), \\
-\end{equation}
+A função densidade de probabilidade Wishart 
+\begin{equation*}
+	f_A(A; L,\Sigma)=\frac{|A|^{L-m}}{\Gamma_m(L)|\Sigma|^L} \exp(-\traco(\Sigma^{-1}A)), \\
+\end{equation*}
 onde
-\begin{equation}\label{eqn33}
-	K(n,p)=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\dots\Gamma(n-p+1), \\
-\end{equation}
+\begin{equation*}
+\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)}\Gamma(L)\cdots\Gamma(L-m+1), \\
+\end{equation*}
 sendo $\Gamma(\cdot)$ a função Gamma.
 
-Como nesse caso estamos usando $p=2$ podemos rescrever,
-\begin{equation}\label{eqn34}
-	p_A^{(n)}(A)=\frac{|A|^{n-2}}{K(n,2)|C|^n} \exp(-tr(C^{-1}A)), \\
+Estamos usando $m=2$, então
+\begin{equation}\label{ap:eq_wishart}
+	f_A(A; L, \Sigma)=\frac{|A|^{L-2}}{\Gamma_2(L)|\Sigma|^n} \exp(-\traco(\Sigma^{-1}A)), \\
 \end{equation}
-\begin{equation}\label{eqn35}
-	K(n,2)=\pi\Gamma(n)\Gamma(n-1), \\
-\end{equation}
-Efetuando as manipulações algébricas
-\begin{equation}\label{eqn36}
-\begin{array}{ccc}
-	|A|&=&A_{11}A_{22}-(A_{12R}+iA_{12I})(A_{12R}-iA_{12I})\\
-	|A|&=&A_{11}A_{22}-(A_{12R}^2+A_{12I}^2)\\
-\end{array}
-\end{equation}
-\begin{equation}\label{eqn37}
-\begin{array}{ccc}
-	|C|&=&C_{11}C_{22}-C_{11}C_{22}|\rho_c|^2\\
-	|C|&=&C_{11}C_{22}(1-|\rho_c|^2)\\
-\end{array}
-\end{equation}
+\begin{equation*}
+	\Gamma_2(L)=\pi\Gamma(L)\Gamma(L-1). \\
+\end{equation*}
+
+Efetuando as manipulações algébricas com as matrizes
+\begin{align*} 
+	|A|&=A_{11}A_{22}-(A_{12R}+iA_{12I})(A_{12R}-iA_{12I})\\
+	|A|&=A_{11}A_{22}-(A_{12R}^2+A_{12I}^2)\\	
+\end{align*}
+\begin{align*} 
+	|\Sigma|&=\Sigma_{11}\Sigma_{22}-\Sigma_{11}\Sigma_{22}|\rho|^2\\
+	|\Sigma|&=\Sigma_{11}\Sigma_{22}(1-|\rho|^2)\\
+\end{align*}
 assim temos
-\begin{equation}\label{eqn38}
-\begin{array}{ccc}
-	|A|^{n-2}&=&(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}\\
-	|C|^{n}&=&(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}\\
-\end{array}
+\begin{align*} 
+	|A|^{L-2}&=(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{L-2}\\
+	|\Sigma|^{L}  &=(\Sigma_{11}\Sigma_{22})^{L}(1-|\rho|^2)^{L}\\
+\end{align*}
+dividindo a primeira equação pela segunda,
+\begin{align*}
+	\frac{|A|^{L-2}}{|\Sigma|^{L}}&=\frac{(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{L-2}}{(\Sigma_{11}\Sigma_{22})^{L}(1-|\rho|^2)^{L}}\\
+	\frac{|A|^{L-2}}{|\Sigma|^{L}}&=\frac{(A_{11}A_{22}-\alpha^2)^{L-2}}{(\Sigma_{11}\Sigma_{22})^{L}(1-|\rho|^2)^{L}}\\
+\end{align*}
+reescrevendo
+\begin{align*}
+	\frac{|A|^{L-2}}{|\Sigma|^{L}}&=\frac{(A_{11}A_{22}-\alpha^2)^{L-2}}{(\Sigma_{11}\Sigma_{22})^{L}\left(\frac{\Sigma_{11}\Sigma_{22}}{\Sigma_{11}\Sigma_{22}}\right)^2(1-|\rho|^2)^{L}}\\
+	&=\frac{(A_{11}A_{22}-\alpha^2)^{L-2}}{\frac{(\Sigma_{11}\Sigma_{22})^{L-2}}{\left(\Sigma_{11}\Sigma_{22}\right)^2}(1-|\rho|^2)^{L}}\\
+	&=\frac{\left(\frac{A_{11}A_{22}}{\Sigma_{11}\Sigma_{22}}-\frac{\alpha^2}{\Sigma_{11}\Sigma_{22}}\right)^{L-2}(\Sigma_{11}\Sigma_{22})^{-2}}{(1-|\rho|^2)^{L}}.\\
+\end{align*}
+
+Usando a equação 
+\begin{align*}
+	\frac{|A|^{L-2}}{|\Sigma|^{L}}&=\frac{\left(\frac{A_{11}A_{22}}{\Sigma_{11}\Sigma_{22}}-\frac{\alpha^2}{\Sigma_{11}\Sigma_{22}}\right)^{L-2}(\Sigma_{11}\Sigma_{22})^{-2}}{(1-|\rho|^2)^{L}},\\
+\end{align*}
+e fazendo uma mudança de variável 
+\begin{equation*}
+	B_1=\frac{A_{11}}{\Sigma_{11}},\quad B_2=\frac{A_{22}}{\Sigma_{22}},\quad \eta=\frac{\alpha}{\sqrt{\Sigma_{11}\Sigma_{22}}},
+\end{equation*}
+e substituindo na equação
+\begin{equation}\label{ap:eq_aux1}
+	\frac{|A|^{L-2}}{|C|^{L}}=\frac{\left(B_1B_2-\eta^2\right)^{L-2}\eta}{(1-|\rho_c|^2)^{L}}\\
 \end{equation}
 
-Agora será verificado somente quociente,
-\begin{equation}\label{eqn39}
-	\frac{|A|^{n-2}}{|C|^{n}}=\frac{(A_{11}A_{22}-(A_{12R}^2+A_{12I}^2))^{n-2}}{(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}}\\
-\end{equation}
-Como  $A_{12R}+iA_{12I}=\alpha e^{i\psi_n}$ então $|A_{12R}+iA_{12I}|=|\alpha e^{i\psi_n}|$ portanto $\alpha=A_{12R}^2+A_{12I}^2$ 
-\begin{equation}\label{eqn40}
-	\frac{|A|^{n-2}}{|C|^{n}}=\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}(1-|\rho_c|^2)^{n}}\\
-\end{equation}
-reescrevendo a equação (\ref{eqn40})
-\begin{equation}\label{eqn41}
-\begin{array}{ccc}
-	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{(C_{11}C_{22})^{n}\left(\frac{C_{11}C_{22}}{C_{11}C_{22}}\right)^2(1-|\rho_c|^2)^{n}}\\
-	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{(A_{11}A_{22}-\alpha^2)^{n-2}}{\frac{(C_{11}C_{22})^{n-2}}{\left(C_{11}C_{22}\right)^2}(1-|\rho_c|^2)^{n}}\\
-	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(\frac{A_{11}A_{22}}{C_{11}C_{22}}-\frac{\alpha^2}{C_{11}C_{22}}\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
-\end{array}
-\end{equation}
-Definindo a seguinte normalização 
-\begin{equation}\label{eqn42}
-	B_1=\frac{A_{11}}{C_{11}},\quad B_2=\frac{A_{22}}{C_{22}},\quad\eta=\frac{\alpha}{\sqrt{C_{11}C_{22}}}.\\
-\end{equation}
-
-Substituindo na equação (\ref{eqn41})
-\begin{equation}\label{eqn43}
-\begin{array}{ccc}
-	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
-	\frac{|A|^{n-2}}{|C|^{n}}&=&\frac{\left(B_1B_2-\eta^2\right)^{n-2}(C_{11}C_{22})^{-2}}{(1-|\rho_c|^2)^{n}}\\
-\end{array}
-\end{equation}
-\textcolor{red}{OBS:Entender melhor o fator $(C_{11}C_{22})^{-2}$, não está compatível com o artigo \cite{lee}- verificar o Jacobiano.}
-
-Encontrando a matriz inversa de $C$,
-\begin{equation}\label{eqn44}
-	C^{-1}=\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
-\begin{array}{cc}
-	C_{22}              & -\sqrt{C_{11}C_{22}}|\rho_c |e^{i\theta} \\
- -\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta} & C_{11}\\
+Calculando a matriz inversa de $\Sigma$,
+\begin{equation}\label{ap:mat_sig_inv}
+	\Sigma^{-1}=\frac{1}{\Sigma_{11}\Sigma_{22}(1-|\rho|^2)}\left[
+\begin{array}{ll}
+	\Sigma_{22}              & -\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{i\theta} \\
+ -\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{-i\theta} & \Sigma_{11}\\
 \end{array}\right]
 \end{equation}
-\begin{equation}\label{eqn45}
-	C^{-1}A=\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
-\begin{array}{cc}
-	C_{22}A_{11}-\sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta}\alpha e^{-i\psi_n} & C_{22} \alpha e^{i\psi_n}-A_{22}\sqrt{C_{11}C_{22}}|\rho_c|e^{i\theta} \\
-	C_{11}\alpha e^{-i\psi_n}-A_{11}\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta} & C_{11}A_{22}-\sqrt{C_{11}C_{22}}\rho_c|e^{-i\theta}\alpha e^{i\psi_n} \\
-\end{array}\right]
+e multiplicando por $A$, teremos
+\begin{equation*}
+	\Sigma^{-1}A=\frac{1}{\Sigma_{11}\Sigma_{22}(1-|\rho|^2)}\left[
+\begin{array}{ll}
+	_\Sigma{22}A_{11}-\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{i\theta}\alpha e^{-i\psi_L} & \Sigma_{22} \alpha e^{i\psi_L}-A_{22}\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{i\theta} \\
+	\Sigma_{11}\alpha e^{-i\psi_L}-A_{11}\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{-i\theta} & \Sigma_{11}A_{22}-\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{-i\theta}\alpha e^{i\psi_L} \\
+\end{array}\right],
+\end{equation*}
+aplicando o operador traço para a matriz $\Sigma^{-1}A$,
+\begin{equation*}
+\begin{split}
+	\traco(-\Sigma^{-1}A)&=-\frac{1}{\Sigma_{11}\Sigma_{22}(1-|\rho|^2)}\left[
+	\Sigma_{22}A_{11}-\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{i\theta}\alpha e^{-i\psi_L}\right. \\
+	                &+\left. \Sigma_{11}A_{22}-\sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{-i\theta}\alpha e^{i\psi_L} \right]\\
+	                     &=-\frac{1}{\Sigma_{11}\Sigma_{22}(1-|\rho|^2)}\left[
+		\Sigma_{22}A_{11}-\alpha \sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{i(\theta-\psi_L)}\right.\\
+		            &+\left. \Sigma_{11}A_{22}-\alpha \sqrt{\Sigma_{11}\Sigma_{22}}|\rho|e^{i(\psi_L-\theta)}\right]\\
+		       	    &=-\frac{1}{(1-|\rho|^2)}\left[\frac{\Sigma_{22}A_{11}}{\Sigma_{11}\Sigma_{22}}+\frac{\Sigma_{11}A_{22}}{\Sigma_{11}\Sigma_{22}}-\frac{2\alpha \sqrt{\Sigma_{11}\Sigma_{22}}|\rho| \cos(\psi_L-\theta)}{\Sigma_{11}\Sigma_{22}}\right]\\
+		       	    &=-\frac{1}{(1-|\rho|^2)}\left[
+	\frac{A_{11}}{\Sigma_{11}}+\frac{A_{22}}{\Sigma_{22}}-\frac{2\alpha \sqrt{\Sigma_{11}\Sigma_{22}}|\rho|\cos(\psi_L-\theta)}{\Sigma_{11}\Sigma_{22}}\right]\\
+	&=-\frac{1}{(1-|\rho|^2)}\left[B_1+B_2-2\eta |\rho_c |\cos(\psi_L-\theta)\right].
+	\end{split}
+\end{equation*}
+
+Finalmente resulta na equação
+\begin{equation}\label{ap:eq_traco}
+	tr(-C^{-1}A)=-\frac{B_1+B_2-2\eta |\rho_c|\cos(\psi_L-\theta)}{(1-|\rho_c|^2)}
 \end{equation}
-
-Aplicando o traço para a matriz $C^{-1}A$,
-{\footnotesize
-\begin{equation}\label{eqn46}
-	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
-	C_{22}A_{11}-\sqrt{C_{11}C_{22}}|\rho_c |e^{i\theta}\alpha e^{-i\psi_n} + C_{11}A_{22}-\sqrt{C_{11}C_{22}}|\rho_c|e^{-i\theta}\alpha e^{i\psi_n} \right]
-\end{equation}}
-
-{\footnotesize
-\begin{equation}\label{eqn47}
-	tr(-C^{-1}A)=-\frac{1}{C_{11}C_{22}(1-|\rho_c|^2)}\left[
-		C_{22}A_{11}-\alpha \sqrt{C_{11}C_{22}}|\rho_c|e^{i(\theta-\psi_n)} + C_{11}A_{22}-\alpha \sqrt{C_{11}C_{22}}|\rho_c|e^{i(\psi_n-\theta)}\right]
-\end{equation}}
-{\footnotesize
-\begin{equation}\label{eqn48}
-	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[
-	\frac{C_{22}A_{11}}{C_{11}C_{22}}+\frac{C_{11}A_{22}}{C_{11}C_{22}}-\frac{2\alpha \sqrt{C_{11}C_{22}}|\rho_c \cos(\psi_n-\theta)}{C_{11}C_{22}}\right]
-\end{equation}}
-{\footnotesize
-\begin{equation}\label{eqn49}
-	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[
-	\frac{A_{11}}{C_{11}}+\frac{A_{22}}{C_{22}}-\frac{2\alpha \sqrt{C_{11}C_{22}}|\rho_c |\cos(\psi_n-\theta)}{C_{11}C_{22}}\right]
-\end{equation}}
-
-{\footnotesize
-\begin{equation}\label{eqn50}
-	tr(-C^{-1}A)=-\frac{1}{(1-|\rho_c|^2)}\left[B_1+B_2-2\eta |\rho_c |\cos(\psi_n-\theta)\right]
-\end{equation}}
-{\footnotesize
-\begin{equation}\label{eqn51}
-	tr(-C^{-1}A)=-\frac{B_1+B_2-2\eta |\rho_c|\cos(\psi_n-\theta)}{(1-|\rho_c|^2)}
-\end{equation}}
-
-portanto usando e equação (\ref{eqn43}), (\ref{eqn51}),   (\ref{eqn34}), (\ref{eqn35}) termos   
-{\footnotesize
-\begin{equation}\label{eqn52}
-	p(B_1,B_2,\eta,\psi_n)=\frac{\left(B_1B_2-\eta^2\right)^{n-2}\eta}{\pi(1-|\rho_c|^2)^{n}\Gamma(n)\Gamma(n-1)}\exp\left(-\frac{B_1+B_2-2\eta |\rho_c |\cos(\psi_n-\theta)}{(1-|\rho_c|^2)}\right)
-\end{equation}}
+e portanto substituindo as equações \eqref{ap:eq_aux1} e \eqref{ap:eq_traco} na função densidade de probabilidade \eqref{ap:eq_wishart}   
+\begin{equation}\label{ap:eq_pdf_aux}
+	p(B_1,B_2,\eta,\psi_L)=\frac{\left(B_1B_2-\eta^2\right)^{L-2}\eta}{\pi(1-|\rho|^2)^{L}\Gamma(L)\Gamma(L-1)}\exp\left(-\frac{B_1+B_2-2\eta |\rho|\cos(\psi_L-\theta)}{(1-|\rho|^2)}\right).
+\end{equation}
 
 Derivando e equação (\ref{eqn52}) com relação a $B_1$, $B_2$ e $\eta$ podemos afirmar que a distribuição diferença de fase {\it multilook} é 
 \begin{equation}\label{eqn53}
@@ -439,6 +421,8 @@ Da mesma forma podemos obter $2-look$, $3-look$ e $4-look$,
 	\caption{Distribuição diferença de fase {\it n-looks}.}
 \label{fig1}
 \end{figure}
+
+
 
 A  figura (\ref{fig1}) mostra a equação (\ref{eqn53}) para seus diferentes {\it 1,2,3 e 4 - looks} que são $p_{\psi}^{(1)}(\psi)$, $p_{\psi}^{(2)}(\psi)$, $p_{\psi}^{(3)}(\psi)$ e $p_{\psi}^{(4)}(\psi)$.
 

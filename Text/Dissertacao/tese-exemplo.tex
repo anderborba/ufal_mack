@@ -34,6 +34,7 @@
 \usepackage{bm,bbm}                     % AAB inserido
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 %\usepackage[caption=false,font=footnotesize]{subfig}
+%\usepackage[caption=false,font=footnotesize]{subfig}
 %\usepackage{amsmath,bm,times}           % AAB inserido
 %%%<
 %\usepackage[alf,abnt-etal-cite=2]{abntcite} % AAB verificar as citacoes
@@ -328,13 +329,14 @@ LoG            & Detector de borda usando o laplaciano da gaussiana\\
 
 \singlespacing              % espaçamento simples
 %\onehalfspacing            % espaçamento um e meio
-%\input cap_intro              % AAB - Arquivo inserido
-\input cap_model_est           % AAB - Arquivo inserido
-\input cap_det_borda           % AAB - Arquivo inserido 
-%\input cap_resul_num          % AAB - Arquivo inserido
-%\input cap_fusao              % AAB - Arquivo inserido 
-%\input cap_metrica            % AAB - Arquivo inserido
-%\input cap_apendice           % AAB - Arquivo inserido
+%\input cap_intro               % AAB - Arquivo inserido
+\input cap_model_est            % AAB - Arquivo inserido
+\input cap_resul_num_sem_fusao  % AAB - Arquivo inserido
+%\input cap_det_borda           % AAB - Arquivo inserido 
+%\input cap_resul_num_com_fusao % AAB - Arquivo inserido
+%\input cap_fusao               % AAB - Arquivo inserido 
+%\input cap_metrica             % AAB - Arquivo inserido
+\input cap_apendice             % AAB - Arquivo inserido
 
 % cabeçalho para os apêndices
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }

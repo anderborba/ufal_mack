@@ -39,12 +39,12 @@ The present study discusses an edge detection method based on the fusion of evid
 The method consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
 The fusion methods used are 
 simple average, 
-multi-resolution discrete (MR-DWT) 
-and stationary (MR-SWT) wavelet transforms, 
+multi-resolution discrete (MR-DWT) and 
+stationary (MR-SWT) wavelet transforms, 
 principal component analysis (PCA), 
 ROC statistics, 
 and a multi-resolution method based on singular value decomposition (MR-SVD). 
-A quantitative analysis suggests that MR-SVD provides the best results.
+A quantitative analysis suggests that MR-SWT provides the best results.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -229,7 +229,7 @@ The DWT fusion method has the following steps:
 \item Compute $\bm{\bar\jmath}_{c\text{HH}}$, the pixel-wise mean of all $\bm{\widehat\jmath}_{c\text{HH}}$ decompositions.
 \item Find the pixel-wise maximum of $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 %%% AAB(03/03/2020) tenho uma dúvida, o máximo(pixel a pixel) deve ser calculada entre os operadores da decomposiçcao em cada canal. Não seria bom deixar claro como no item anterior?
-\item The result of the fusion $\text{I}_F$ is the inverse DWT transformation of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
+\item The result of the fusion $I_F$ is the inverse DWT transformation of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 \end{enumerate}
 %%% ACF Aqui dizer que é a Inverse DWT do que
 \subsection{Principal Component Analysis -- PCA}
@@ -277,7 +277,7 @@ The MR-SVD fusion method can be summarized as follows:
 %and $\ell$ is the level resolution to set. In this work is used one resolution level.
 %%% ACF Repare que não usou M nem N
 \item Find the SVD decomposition
- of $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, where $\bm U_1$ and $\bm V_1$ are  unitary and they have dimensions ${4\times 4}$ e ${\ell}/{4}\times{\ell}/{4}$ respectively. The diagonal entries $s_{i}= S_{ii}$ of $\bm S_1$ are known as the singular values of $\bm X_1$ and it have dimension $4\times{\ell}/{4}$. The singular values are sorted in descending, and they are putting in the diagonal principal of the matrix, other entries must be zeros. 
+ of $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, where $\bm U_1$ and $\bm V_1$ are  unitary and they have dimensions ${4\times 4}$ e ${\ell}/{4}\times{\ell}/{4}$ respectively. The diagonal entries $S_{ii}$ of $\bm S_1$ are known as the singular values of $\bm X_1$ and it have dimension $4\times{\ell}/{4}$. The singular values are sorted in descending, and they are putting in the diagonal principal of the matrix, other entries must be zeros. 
 % and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T\Sigma \bm V^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ comprise the singular value matrix $\bm S_1$, 
 %%% ACF Não definiu nem usou s(1), s(2) etc
 %%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$

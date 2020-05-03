@@ -70,8 +70,8 @@ for (k in 200 : 200){# j aqui varre o número de radiais
 	    matdf2[j, 2] <- res2$estimate[2]
 	  }
 	}
-	lower <- 15
-	upper <- N - 15
+	lower <- 20
+	upper <- N - 20
 	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
 	evidencias[k] <- out$par
 	evidencias_valores[k] <- out$value

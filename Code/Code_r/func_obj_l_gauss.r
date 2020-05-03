@@ -5,33 +5,26 @@
 # assim a subrotina define a funcão objetivo l(j) descrita na eq(5) do artigo NHFC_2014
 # Distribuicao de gauss
 func_obj_l_gauss <- function(param){
-  #Le <- matdf1[j,1]
-  #Ld <- matdf2[j,1]
-  #rhoe <- matdf1[j,2]
-  #rhod <- matdf2[j,2]
-  #he <- matdf1[j,3]
-  #hd <- matdf2[j,3]
-  Le <- L
-  Ld <- L
-  rhoe <- rho1
-  rhod <- rho2
-  for (i in 1: j){
-          he <- sqrt(sum(z1[1: j])  * sum(z2[1: j]) / (j^2))
-  	  }
-  aux1 <- log(4) + (Le + 1) * log(Le) + Le * sum(log(z[1: j])) / j
-  aux2 <- log(gamma(Le)) + log(1 - rhoe^2) + (Le + 1) * log(he) 
-  aux3 <- sum(log(besselI((2 * rhoe * Le * z[1: j]) / ((1 - rhoe^2) * he) , 0))) / j
-  aux4 <- sum(log(besselK((2 * Le * z[1: j]) / ((1 - rhoe^2) * he), Le - 1))) / j
-  soma1 <- aux1 - aux2 + aux3 + aux4
-  for (i in (j + 1) : N){
-    hd <- sqrt(sum(z1[(j + 1): N])  * sum(z2[(j + 1): N]) / (N - j)^2)
-   }
-  aux1 <- log(4) + (Ld + 1) * log(Ld) + Ld * sum(log(z[(j + 1): N])) / (N - j)
-  aux2 <- log(gamma(Ld)) + log(1 - rhod^2) + (Ld + 1) * log(hd)
-  aux3 <- sum(log(besselI((2 * rhod * Ld * z[(j + 1): N]) / ((1 - rhod^2) * hd) , 0))) / (N - j)
-  aux4 <- sum(log(besselK((2 * Ld * z[(j + 1): N]) / ((1 - rhod^2) * hd), Ld - 1))) / (N - j)
-  soma2 <- aux1 - aux2 + aux3 + aux4
-  func_obj_l_gauss <- j * soma1 + (N - j) * soma2 
+  j <- param
+  Le <- matdf1[j,1]
+  Ld <- matdf2[j,1]
+  rhoe <- matdf1[j,2]
+  rhod <- matdf2[j,2]
+  aux1 <- (Le + 1) * log(Le)
+  aux2 <- Le * sum(log(z[1: j])) / j
+  aux3 <- log(gamma(Le)) 
+  aux4 <- log(1 - rhoe^2)
+  aux5 <- sum(log(besselI((2 * rhoe * Le * z[1: j]) / (1 - rhoe^2) , 0))) / j
+  aux6 <- sum(log(besselK((2 * Le * z[1: j]) / (1 - rhoe^2), Le - 1))) / j
+  soma1 <- aux1 + aux2 - aux3 - aux4 + aux5 + aux6 
+  aux1 <- (Ld + 1) * log(Ld) 
+  aux2 <- Ld * sum(log(z[(j + 1): N])) / (N - j)
+  aux3 <- log(gamma(Ld)) 
+  aux4 <- log(1 - rhod^2)
+  aux5 <- sum(log(besselI((2 * rhod * Ld * z[(j + 1): N]) / (1 - rhod^2), 0))) / (N - j)
+  aux6 <- sum(log(besselK((2 * Ld * z[(j + 1): N]) / (1 - rhod^2), Ld - 1))) / (N - j)
+  soma2 <- aux1 + aux2 - aux3 - aux4 + aux5 + aux6
+  func_obj_l_gauss <- - (j * soma1 + (N - j) * soma2)
   return(func_obj_l_gauss)
 }
 

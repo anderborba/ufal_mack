@@ -62,7 +62,10 @@ MY = zeros(num_radial, r, nc);
 ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_1_param_L_mu_14_pixel.txt');
 ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_2_param_L_mu_14_pixel.txt');
 ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_3_param_L_mu_14_pixel.txt');
-%ev_hh_hv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_1.txt');
+ev_hh_hv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_2.txt'); 
+ev_hh_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_3.txt'); 
+ev_hv_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_2_3.txt'); 
+
 %ev_hh_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_2.txt');
 %ev_hv_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_3.txt');
 xc = load('/home/aborba/ufal_mack/Data/xc_flevoland.txt');
@@ -72,11 +75,13 @@ for i = 1: num_radial
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
 ev(i, 3) = round(ev_vv(i, 3));
-%ev(i, 4) = round(ev_hh_hv(i, 3));
+ev(i, 4) = round(ev_hh_hv_pm(i, 3));
+ev(i, 5) = round(ev_hh_vv_pm(i, 3));
+ev(i, 6) = round(ev_hv_vv_pm(i, 3));
 %ev(i, 5) = round(ev_hh_vv(i, 3));
 %ev(i, 6) = round(ev_hv_vv(i, 3));
 end
-nc = 3;
+nc = 6;
 m = 750;
 n = 1024;
 %x0 = m / 2 + 10;
@@ -98,13 +103,13 @@ nt = 20
 tempo = zeros(1, nt);
 for i=1: nt
 tic;
-%[IF] = fus_media(IM, m, n, nc);
+[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-[IF] = fus_svd(IM, m, n, nc);
+%[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;
@@ -123,9 +128,9 @@ hby = y0 + 60;
 
 imshow(II)
 % plot com fusion
-[xpixel, ypixel, valor] = find(IF > 0);
+%[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-%[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
+[xpixel, ypixel, valor] = find(IM(:, :, 6) > 0);
 %
 axis on
 hold on;

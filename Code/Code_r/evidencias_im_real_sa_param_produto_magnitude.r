@@ -8,6 +8,7 @@ rm(list = ls())
 require(ggplot2)
 require(latex2exp)
 require(GenSA)
+require(maxLik)
 #
 source("func_obj_l_gauss.r")
 source("func_obj_l_gauss_copia1.r")
@@ -17,89 +18,101 @@ source("loglikd_prod_mag.r")
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-# canais para a + bi 
-mat <- scan('real_flevoland_produto_1.txt')
+# canais para a + bi
+#mat1 <- scan('Phantom_nhfc_0.000_1_2_1.txt')
+#mat2 <- scan('Phantom_nhfc_0.000_1_2_2.txt')
+#mat1 <- scan('Phantom_gamf_0.000_1_2_1.txt')
+#mat2 <- scan('Phantom_gamf_0.000_1_2_2.txt')
 mat1 <- scan('real_flevoland_1.txt')
-mat2 <- scan('real_flevoland_2.txt')
+mat2 <- scan('real_flevoland_3.txt')
+mat3 <- scan('real_flevoland_6.txt')
+mat4 <- scan('real_flevoland_7.txt')
 setwd("..")
 setwd("Code/Code_r")
-mat <- matrix(mat, ncol = 120, byrow = TRUE)
 mat1 <- matrix(mat1, ncol = 120, byrow = TRUE)
 mat2 <- matrix(mat2, ncol = 120, byrow = TRUE)
-d <- dim(mat)
+mat3 <- matrix(mat3, ncol = 120, byrow = TRUE)
+mat4 <- matrix(mat4, ncol = 120, byrow = TRUE)
+d <- dim(mat1)
 nrows <- d[1]
 ncols <- d[2]
-rho1 <- 0.4
-rho2 <- 0.3
-L  = 4
 # Loop para toda a imagem
 evidencias          <- rep(0, nrows)
 evidencias_valores  <- rep(0, nrows)
 xev  <- seq(1, nrows, 1 )
-#for (k in 1 : nrows){
-for (k in 1 : 1){
+for (k in 1 : nrows){
+#for (k in 72 : 72){
+	print(k)
 	N <- ncols
-	z     <- rep(0, N)
 	z1    <- rep(0, N)
 	z2    <- rep(0, N)
+	z3    <- rep(0, N)
+	z4    <- rep(0, N)
+	zc    <- rep(0, N)
 	zaux  <- rep(0, N)
-        zaux1 <- rep(0, N)
-	zaux  <-  mat[k,1:N]
+	zaux1  <- rep(0, N)
 	z1  <-  mat1[k,1:N]
 	z2  <-  mat2[k,1:N]
+	z3  <-  mat3[k,1:N]
+	z4  <-  mat4[k,1:N]
+	for (i in 1: N){
+		zaux[i] = sqrt(z3[i]^2 + z4[i]^2)
+	}
 	conta = 0
         for (i in 1 : N){
-	       if (zaux[i] > 0){
+	       if (zaux[i] > 0 && z1[i] > 0 && z2[i] > 0){
 		       conta <- conta + 1
-		       zaux1[conta] = zaux[i]
+	               zaux[conta] <- zaux[i]
+		       z1[conta] <- z1[i]
+		       z2[conta] <- z2[i]
+		       zaux1[conta] <-  zaux[i] / sqrt(z1[i] * z2[i])
 	       }
         }
 	indx  <- which(zaux1 != 0)
-	N <- floor(max(indx))
-	z     <-  zaux1[1:N]
-        #matdf1 <- matrix(0, nrow = N, ncol = 3)
-        #matdf2 <- matrix(0, nrow = N, ncol = 3)
-        #for (j in 1 : N){
-	#	print(j)
-        #      	r1 <- 1
-        #      	r2 <- 0.5
-	#	r3 <- 1
-	#        res1 <- maxBFGS(loglike_prod_mag, start=c(r1, r2, r3))
-	#        matdf1[j, 1] <- res1$estimate[1]
-	#        matdf1[j, 2] <- res1$estimate[2]
-	#        matdf1[j, 3] <- res1$estimate[3]
-  	#	r1 <- 1
-        #      	r2 <- 0.5
-  	#	r3 <- 1
-	#	res2 <- maxBFGS(loglikd_prod_mag, start=c(r1, r2, r3))
-        #       if (j < N){
-	#            matdf2[j, 1] <- res2$estimate[1]
-	#            matdf2[j, 2] <- res2$estimate[2]
-	#            matdf2[j, 3] <- res2$estimate[3]
-	#       }
-        #}
-	#temp  <- sample(1: N, 1)
-	#lower <- 1 
-	#upper <- N
-	#out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_gauss, control=list( maxit =100, temperature = temp))
-	#evidencias[j] <- out$par
-	#evidencias_valores[j] <- out$value
+	N <- length(indx)
+	z     <- rep(0, N)
+	z[1: N]  <- zaux1[1: N]  
+        matdf1 <- matrix(0, nrow = N, ncol = 2)
+        matdf2 <- matrix(0, nrow = N, ncol = 2)
+        for (j in 1 : N){
+              	r1 <- 1
+              	r2 <- 0.00005
+	        #res1 <- maxBFGS(loglike_prod_mag, start=c(r1, r2))
+	        res1 <- maxNM(loglike_prod_mag, start=c(r1, r2))
+	        matdf1[j, 1] <- res1$estimate[1]
+	        matdf1[j, 2] <- res1$estimate[2]
+  		r1 <- 1 
+              	r2 <- 0.00005
+		#res2 <- maxBFGS(loglikd_prod_mag, start=c(r1, r2))
+		res2 <- maxNM(loglikd_prod_mag, start=c(r1, r2))
+               	if (j < N){
+        		matdf2[j, 1] <- res2$estimate[1]
+	           	matdf2[j, 2] <- res2$estimate[2]
+	       }
+        }
+	cf    <- 14
+	lower <- as.numeric(cf)
+	upper <- as.numeric(N - cf)
+	out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_gauss, control=list(maxit = 100))
+	evidencias[k] <- out$par
+	evidencias_valores[k] <- out$value
 }
 x <- seq(N - 1)
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){
+# GenSA minimiza funções
   lobj[j] <- func_obj_l_gauss(j)
 }
 df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 print(p)
 # imprime em arquivo no diretorio  ~/Data/
-#dfev <- data.frame(xev, evidencias)
-#names(dfev) <- NULL
-#setwd("../..")
-#setwd("Data")
-#sink("evid_real_flevoland_produto_3.txt")
-#print(dfev)
-#sink()
-#setwd("..")
-#setwd("Code/Code_r")
+dfev <- data.frame(xev, evidencias)
+names(dfev) <- NULL
+setwd("../..")
+setwd("Data")
+sink("evid_real_flevoland_produto_mag_param_L_rho_1_3.txt")
+print(dfev)
+sink()
+setwd("..")
+setwd("Code/Code_r")
