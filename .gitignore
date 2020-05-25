@@ -610,3 +610,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/r,tex,linux,macos,matlab,python,pycharm,windows
 
 *.pdf
+/Misc/R Tests/

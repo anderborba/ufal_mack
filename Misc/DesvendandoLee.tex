@@ -15,6 +15,7 @@
 \begin{document}
 \maketitle
 
+\section{O modelo}
 Reescreveremos a notação que \citet{lee} utilizam, pois ela nem sempre é clara ou precisa.
 
 O vetor de retornos complexos é
@@ -30,9 +31,9 @@ e a sua distribuição é gaussiana complexa de média nula e matriz de covariâ
 Com isso,
 $$
 \Sigma= \E\begin{pmatrix}
-\|S_{\text{HH}}\|^2	& S_{\text{HH}} S_{\text{HV}}^{*T}	& S_{\text{HH}} S_{\text{VV}}^{*T}\\
-				& \|S_{\text{HV}}\|^2					& S_{\text{HV}} S_{\text{VV}}^{*T}\\
-				&										& \|S_{\text{VV}}\|^2
+\|S_{\text{HH}}\|	& S_{\text{HH}} S_{\text{HV}}^{*T}	& S_{\text{HH}} S_{\text{VV}}^{*T}\\
+				& \|S_{\text{HV}}\|					& S_{\text{HV}} S_{\text{VV}}^{*T}\\
+				&										& \|S_{\text{VV}}\|
 \end{pmatrix},
 $$
 em que omitimos as entradas que são os conjungados das simétricas.
@@ -64,25 +65,28 @@ Uma quantidade de interesse é a razão das intensidades, por exemplo $R_{\text{
 $$
 R_{\text{HH,VV}} = \frac{\frac1{\sigma_{\text{HH}}^2}I_{\text{HH}}}
 						{\frac1{\sigma_{\text{VV}}^2}I_{\text{VV}}} = 
-	\frac{\frac1{\sigma_{\text{HH}}^2} \frac1L \sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|^2}
-	{\frac1{\sigma_{\text{VV}}^2} \frac1L \sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|^2}.
+	\frac{\frac1{\sigma_{\text{HH}}^2} \frac1L \sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|}
+	{\frac1{\sigma_{\text{VV}}^2} \frac1L \sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|}.
 $$
 Denotando $\tau = \sigma_{\text{HH}}^2 / \sigma_{\text{VV}}^2$ e simplificando, temos
 $$
 R_{\text{HH,VV}} = \frac{1}{\tau}
-\frac{\sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|^2}
-{\sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|^2}.
+\frac{\sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|}
+{\sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|}.
 $$
 Verificando os parâmetros de cada componente de $\bm Z$, concluímos que $R_{\text{HH,VV}}$ depende, no máximo, de $L$, $\sigma_{\text{HH}}^2$, $\sigma_{\text{VV}}^2$, e de $C_{\text{HH,HV}}$.
 Note-se que $\tau$ é a razão de dois parâmetros e, portanto, não é um novo parâmetro.
 
+\citet{lee} obtêm a distribuição de $R_{\text{HH,VV}}$ de tal forma que não depende da covariância complexa $C_{\text{HH,HV}}$, mas sim do seu módulo $\rho_{\text{HH,VV}}=|C_{\text{HH,HV}}|$, e que depende apenas da razão das intensidades médias $\tau$.
+Com isso, esta distribuição envolve três parâmetros.
 
-\subsection{Método da verossimilhança aplicado na PDF univariada razão de intensidades múltiplas visadas}
+
+\section{Método da verossimilhança aplicado na PDF univariada razão de intensidades múltiplas visadas}
 A razão de intensidades ou amplitudes entre $\mathbf{S}_i$ e $\mathbf{S}_j$ são importantes no estudo de radares polarimétricos. Seja a razão de intensidade normalizada,
 \begin{equation}\label{eq:razao_intensidades}
  \mu=R_{\text{HH,VV}} = \frac{1}{\tau}
-\frac{\sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|^2}
-{\sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|^2}.
+\frac{\sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|}
+{\sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|}.
 \end{equation}
 onde $\tau=\frac{\sigma^2_{\text{HH}}}{\sigma^2_{\text{VV}}}$.
   
