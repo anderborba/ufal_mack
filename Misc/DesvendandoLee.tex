@@ -77,6 +77,112 @@ Verificando os parâmetros de cada componente de $\bm Z$, concluímos que $R_{\t
 Note-se que $\tau$ é a razão de dois parâmetros e, portanto, não é um novo parâmetro.
 
 
+\subsection{Método da verossimilhança aplicado na PDF univariada razão de intensidades múltiplas visadas}
+A razão de intensidades ou amplitudes entre $\mathbf{S}_i$ e $\mathbf{S}_j$ são importantes no estudo de radares polarimétricos. Seja a razão de intensidade normalizada,
+\begin{equation}\label{eq:razao_intensidades}
+ \mu=R_{\text{HH,VV}} = \frac{1}{\tau}
+\frac{\sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|^2}
+{\sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|^2}.
+\end{equation}
+onde $\tau=\frac{\sigma^2_{\text{HH}}}{\sigma^2_{\text{VV}}}$.
+  
+Considerando a função densidade de probabilidade univariada razão de intensidades múltiplas visadas,
+\begin{equation}\label{eq:pdf_razao_intensidades}
+	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
+\end{equation}
+onde, $\rho>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{eq:pdf_razao_intensidades} e realizando algumas manipulações algébricas teremos:
+\begin{equation}\nonumber
+\begin{split}
+	\ln f(\mu;\rho,L)&=\ln\left(\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\right),\\
+	                &=\ln\left(\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}\right)\\
+	                &-\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}\right),\\
+	                &=\ln\Gamma(2L) +\ln(1-|\rho|^2)^{L}+\ln(1+\mu)+\ln\mu^{L-1}\\
+	                &-\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}\right),\\
+	                &=\ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
+	                &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho|^2\mu \right].\\
+\end{split}
+\end{equation}
+
+Definimos a equação log-verossimilhança para a PDF univariada razão de intensidades múltiplas visadas,
+\begin{equation}\label{eq_log_vero_razao_intensidade}
+\begin{array}{lcl}	
+	\ln f(\mu;\rho,L)&=&\ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
+	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho|^2\mu \right].\\
+\end{array}
+\end{equation}
+
+A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm\mu = (\mu_1,\dots,\mu_n)$, 
+\begin{equation}\nonumber
+\begin{split}
+  \ell(\bm \mu;\rho, L)=\ln\prod_{k=1}^{n}f(\mu_k;\rho,L)\\
+  \ell(\bm \mu;\rho, L)=\sum_{k=1}^{n}\ln f(\mu_k;\rho,L),
+ \end{split}
+ \end{equation}
+usando a função~\eqref{eq_log_vero_razao_intensidade} teremos,
+\begin{equation}\nonumber
+\begin{split}
+    \ell(\bm \mu;\rho, L)&=\sum_{k=1}^{n}\ln f(\mu_k;\rho, L)\\
+                         &=\sum_{k=1}^{n}\left[\ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(1+\mu_k)+(L-1)\ln\mu_k\right.\\
+                         &-\left.2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\right]\\
+ \end{split}
+ \end{equation}
+ 
+ \begin{equation}\nonumber
+\begin{split} 
+    \ell(\bm \mu;\rho, L)&=\ln\Gamma(2L)\sum_{k=1}^{n} 1+L\ln(1-|\rho|^2)\sum_{k=1}^{n} 1+\sum_{k=1}^{n}\ln(1+\mu_k)+(L-1)\sum_{k=1}^{n}\ln\mu_k\\
+                         &-2\ln\Gamma(L)\sum_{k=1}^{n} 1-\frac{2L+1}{2}\sum_{k=1}^{n}\ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+                         &=n\left(\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(1+\mu_k)\\
+                         &+L\sum_{k=1}^{n}\ln\mu_k-\sum_{k=1}^{n}\ln\mu_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+\end{split}
+\end{equation}
+ 
+Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq_log_vero_razao_intensidade}).
+\begin{equation}\nonumber
+\begin{split}
+    \ell(\bm \mu;\rho, L)&=n\left(\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(1+\mu_k)\\
+                         &+L\sum_{k=1}^{n}\ln\mu_k-\sum_{k=1}^{n}\ln\mu_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+\end{split}
+ \end{equation}
+e a forma reduzida,
+\begin{equation}\label{eq_log_vero_razao_intensidade_red}
+\begin{split}
+    \ell(\bm \mu;\rho, L)&=n\left(\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)\\
+                         &+L\sum_{k=1}^{n}\ln\mu_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+\end{split}
+ \end{equation} 
+
+Vamos obter $(\widehat \rho, \widehat L)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L)$ baseado $\bm \mu$, por maximizar~\eqref{eq_log_vero_razao_intensidade_red} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
+
+O função é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm \mu_\text{I}$ e $\bm \mu_\text{E}$. Cada faixa de dados $\bm \mu = (\mu_1,\mu_2,\dots,\mu_n)$ é particionada em duas amostras disjuntas na posição $j$:  
+$$
+\bm \mu = (\underbrace{\mu_1,\mu_2,\dots,\mu_j}_{\bm \mu_\text{I}}, 
+\underbrace{\mu_{j+1}, \mu_{j+2},\dots,\mu_n}_{\bm \mu_\text{E}}).
+$$
+%Vamos assumir dois diferentes modelos para cada partição:
+%$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
+%$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+Vamos estimar $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm \mu_\text{I}$ e $\bm \mu_\text{E}$, respectivamente, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E})$.
+
+A log-verossimilhança no ponto $j$ é, então
+\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{split}
+\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E})&=n\left(\ln\Gamma(2\widehat{L}_\text{I})+\widehat{L}_\text{I}\ln(1-|\widehat{\rho}_\text{I}|^2)-2\ln\Gamma(\widehat{L}_\text{I})\right)\\
+                         &+\widehat{L}_\text{I}\sum_{k=1}^{n}\ln\mu_k-\frac{2\widehat{L}_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\widehat{\rho}_\text{I}|^2\mu_k\right]\\
+                         &=n\left((\ln\Gamma(2\widehat{L}_\text{E})+\widehat{L}_\text{E}\ln(1-|\widehat{\rho}_\text{E}|^2)-2\ln\Gamma(\widehat{L}_\text{E})\right)\\
+                         &+\widehat{L}_\text{E}\sum_{k=1}^{n}\ln\mu_k-\frac{2\widehat{L}_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\widehat{\rho}_\text{E}|^2\mu_k\right]
+%\raisetag{2.2em}
+\end{split}
+\end{equation}
+
+Vamos aplicar o método GenSA para encontrar
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\rho}_E, \widehat{L}_E),
+$$ 
+onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
+
+Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
+Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
+
 
 \bibliographystyle{agsm}
 \bibliography{../Text/bibliografia}

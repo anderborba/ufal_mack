@@ -23,10 +23,10 @@ setwd("Data")
 #mat2 <- scan('Phantom_nhfc_0.000_1_2_2.txt')
 #mat1 <- scan('Phantom_gamf_0.000_1_2_1.txt')
 #mat2 <- scan('Phantom_gamf_0.000_1_2_2.txt')
-mat1 <- scan('real_flevoland_1.txt')
+mat1 <- scan('real_flevoland_2.txt')
 mat2 <- scan('real_flevoland_3.txt')
-mat3 <- scan('real_flevoland_6.txt')
-mat4 <- scan('real_flevoland_7.txt')
+mat3 <- scan('real_flevoland_8.txt')
+mat4 <- scan('real_flevoland_9.txt')
 setwd("..")
 setwd("Code/Code_r")
 mat1 <- matrix(mat1, ncol = 120, byrow = TRUE)
@@ -40,8 +40,8 @@ ncols <- d[2]
 evidencias          <- rep(0, nrows)
 evidencias_valores  <- rep(0, nrows)
 xev  <- seq(1, nrows, 1 )
-for (k in 1 : nrows){
-#for (k in 72 : 72){
+#for (k in 1 : nrows){
+for (k in 72 : 72){
 	print(k)
 	N <- ncols
 	z1    <- rep(0, N)

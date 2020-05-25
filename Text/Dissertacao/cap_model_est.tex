@@ -1461,6 +1461,105 @@ e a forma reduzida,
 \end{split}
  \end{equation} 
 
+
+
+As figuras \eqref{fig:prod_mag_l_50_r_35} até \eqref{fig:prod_mag_l_350_r_35} mostram a função de log-verossimilhança da pdf magnitude de produtos \eqref{eq:eq_log_vero_mag_prod_red} aplicada para a amostra de duas folhas simulada. No processo fixamos arbitrariamente a linha 35 da amostra e variamos o número de pixel entre 50, 150, 250 e 250. Desta maneira construímos duas funções $\ell{j}$, uma para cada lado da amostra.
+ \begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 50 na linha 35.  \label{fig:prod_mag_l_rho_1_50}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_50}
+     }
+     \subfloat[Pixel variando de 51 até 400 na linha 35. \label{fig:prod_mag_l_rho_51_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_51_to_400}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 50.}
+     \label{fig:prod_mag_l_50_r_35} 
+   \end{figure*}
+   
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 150 na linha 35.  \label{fig:prod_mag_l_rho_1_150}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_150}
+     }
+     \subfloat[Pixel variando de 151 até 400 na linha 35. \label{fig:prod_mag_l_rho_151_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_151_to_400}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 150.}
+     \label{fig:prod_mag_l_150_r_35} 
+   \end{figure*}
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 250 na linha 35.  \label{fig:prod_mag_l_rho_1_250}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_250}
+     }
+     \subfloat[Pixel variando de 251 até 400 na linha 35. \label{fig:prod_mag_l_rho_251_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_251_to_400}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 250.}
+     \label{fig:prod_mag_l_250_r_35} 
+   \end{figure*}
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 350 na linha 35.  \label{fig:prod_mag_l_rho_1_350}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_350}
+     }
+     \subfloat[Pixel variando de 351 até 400 na linha 35. \label{fig:prod_mag_l_rho_351_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_351_to_400}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 350.}
+     \label{fig:prod_mag_l_350_r_35} 
+   \end{figure*}
+
+As figuras \eqref{fig:prod_mag_l_25_r_50_hh}, \eqref{fig:prod_mag_l_25_r_50_hv} e \eqref{fig:prod_mag_l_25_r_50_vv} mostram a função de log-verossimilhança da pdf magnitude de produtos \eqref{eq:eq_log_vero_mag_prod_red} aplicada na ROI da imagem de flevoland. No processo fixamos arbitrariamente a radial 50 da amostra e fixamos o número de pixel 50. Desta maneira construímos duas funções $\ell{j}$ em cada lado da radial. Os gráficos das funções foram gerados para os canais de intensidades.
+
+
+
+Na figura \eqref{fig:prod_mag_l_rho_1_25_hh} podemos identificar o problema da função ser plana dificultando muito o processo de encontrar o ponto de máximo gerando oscilação na função $\ell(j)$. Na \eqref{fig:prod_mag_l_rho_26_120_hh} ocorre o problema das funções de bessel serem infinitas quando seu argumento assume valores grande, também dificultando o cálculo do valor máximo.  
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (hh).  \label{fig:prod_mag_l_rho_1_25_hh}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev}
+     }
+     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (hh). \label{fig:prod_mag_l_rho_26_120_hh}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (hh).}
+     \label{fig:prod_mag_l_25_r_50_hh} 
+   \end{figure*}
+   
+
+Nas figuras de \eqref{fig:prod_mag_l_25_r_50_hv} destacamos o problema da função ser plana. Assim como em no gráfico da função \eqref{fig:prod_mag_l_rho_1_25_hh} 
+
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (hv).  \label{fig:prod_mag_l_rho_1_25_hv}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev_hv}
+     }
+     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (hv). \label{fig:prod_mag_l_rho_26_120_hv}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev_hv}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (hv).}
+     \label{fig:prod_mag_l_25_r_50_hv} 
+   \end{figure*}
+
+Nas figuras de \eqref{fig:prod_mag_l_25_r_50_vv} destacamos o problema da função ser plana. Assim como em no gráfico da função \eqref{fig:prod_mag_l_rho_1_25_hh} 
+
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (vv).  \label{fig:prod_mag_l_rho_1_25_vv}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev_vv}
+     }
+     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (vv). \label{fig:prod_mag_l_rho_26_120_vv}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev_vv}
+     }
+     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (vv).}
+     \label{fig:prod_mag_l_25_r_50_vv} 
+   \end{figure*}
+
+
 Vamos obter $(\widehat \rho, \widehat L)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L)$ baseado $\bm \xi$, por maximizar~\eqref{eq:eq_log_vero_mag_prod_red} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Preferimos otimizar resolvendo $\nabla\ell=\bm 0$ com objetivo de melhorar a estabilidade numérica do método.
 
 A função otimizada é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamente como $\bm \xi_\text{I}$ e $\bm \xi_\text{E}$. Cada faixa de dados $\bm \xi = (\xi_1,\xi_2,\dots,\xi_n)$ é particionada em duas amostras disjuntas na posição $j$,  
@@ -1472,7 +1571,7 @@ $$
 Vamos estimar $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm \xi_\text{I}$ e $\bm \xi_\text{E}$, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E})$.
 
 A log-verossimilhança no ponto $j$ é
-\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{equation}\label{eq:TotalLogLikelihood_prod_mag}
 \begin{split}
 \ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E})&
 =j\left[(\widehat{L}_\text{I}+1)\ln \widehat{L}_\text{I}-\ln\Gamma(\widehat{L}_\text{I})-\ln(1-|\widehat{\rho}_\text{I}|^2)\right]
@@ -1492,8 +1591,8 @@ $$
 $$ 
 onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
 
-Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
-Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
+Podemos concluir que o uso da função densidade magnitude do produtos não é adequado para gerar a função log-verossimilhança. Essas funções resultantes tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado dos coeficientes $L$  e $\rho$ geram uma função \eqref{eq:TotalLogLikelihood_prod_mag} com muita oscilação degenerando o ponto onde o argumento é máximo.
+
 
 \subsection{Método da verossimilhança aplicado na PDF univariada razão de intensidades múltiplas visadas}
 A razão de intensidades ou amplitudes entre $\mathbf{S}_i$ e $\mathbf{S}_j$ são importantes no estudo de radares polarimétricos. Seja a razão de intensidade normalizada,

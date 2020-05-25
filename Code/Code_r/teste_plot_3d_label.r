@@ -1,20 +1,19 @@
 library(plotly)
-set.seed(123)
+fig <- plot_ly(
+  x = c(1, 2, 3, 4), 
+  y = c(1, 4, 9, 16),
+  name = TeX("\\alpha_{1c} = 352 \\pm 11 \\text{ km s}^{-1}"))
+fig <- fig %>% add_trace(
+  x = c(1, 2, 3, 4), 
+  y = c(0.5, 2, 4.5, 8),
+  name = TeX("\\beta_{1c} = 25 \\pm 11 \\text{ km s}^{-1}"))
+fig <- fig %>% layout(
+  xaxis = list(
+    title = TeX("\\sqrt{(n_\\text{c}(t|{T_\\text{early}}))}")),
+  yaxis = list(
+    title = TeX("d, r \\text{ (solar radius)}")))
+fig <- fig %>% config(mathjax = 'cdn')
 
-n <- 100
-theta <- runif(n, 0, 2*pi)
-u <- runif(n, -1, 1)
+print(fig)
 
-p <- plot_ly(x = ~sqrt(1 - u^2) * cos(theta), y = ~sqrt(1 - u^2) * sin(theta), z = ~u) %>%
-  layout(
-    title = "Layout options in a 3d scatter plot",
-    scene = list(
-      xaxis = list(title = "Cos"),
-      yaxis = list(title = "Sin"),
-      zaxis = list(title = "Z")
-    ))
 
-# Create a shareable link to your chart
-# Set up API credentials: https://plot.ly/r/getting-started
-#chart_link = api_create(p, filename="scatter3d-axis-labels")
-#hart_link

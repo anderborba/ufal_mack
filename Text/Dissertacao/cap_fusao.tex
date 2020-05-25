@@ -1,150 +1,295 @@
 \chapter{Fusão de evidências} \label{cap_fusao}
 
-\section{Método de fusão de evidências de bordas optimal}
 
-Nesta seção serão desenvolvidas as ideias dos artigos \citet{gs} e \citet{fawcett}, baseadas nas propriedades estatísticas do índice Kappa e da curva \textit{Receiver Operating Characteristics} (ROC) aplicadas no contexto de imagens PolSAR.
+\section{Fusão por média simples}
+A fusão por média simples processa a média aritmética das evidências de bordas para cada cada canal,
+$\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
+onde $nc$ é o número de canais a serem utilizados na fusão. Podemos obter mais detalhes na referência \cite{mit} e veja a figura \eqref{fig:cap_fusao_media_simples}.
 
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=15em, fill=red!20, 
+    minimum height=6em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\centering
+\begin{tikzpicture}
+	\node (wa) [wa]  {$\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$};
+	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_3(x,y)$};    
+%
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (wa.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (wa.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (wa.200);   
+\end{tikzpicture}
+	\caption{Fusão por média simples.}
+\label{fig:cap_fusao_media_simples}
+\end{figure}
 
-As curvas ROC são técnicas para visualizar, organizar e selecionar classificadores com base no seu desempenho.   Atualmente temos encontrado a aplicação das curvas ROC em aprendizado de máquina, visão computacional, inteligência artificial entre outras áreas similares demostrando a capacidade deste método para efetuar avaliações e comparações de algoritmos. 
+\section{Transformação wavelet discreta Multi-Resolução -- MR-DWT} 
+Esta seção é baseada em~\cite{n_r}. Vamos aplicar os filtros DWT em cada imagem binaria $\bm{\widehat\jmath}_c$: um filtro de passa baixa $\bm L$  na direção vertical, e um filtro de passa alta $\bm H$ na direção horizontal, então ambos são \textit{down-sampled}  para formar as matrizes $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.  
 
-As curvas ROC têm a capacidade de representar satisfatoriamente a compensação entre taxas de acertos e taxas de alarmes falsos dos classificadores tornando-se uma boa ferramente para aplicarmos no presente trabalho. 
+As operações são repetidas nas matizes de coeficientes conduzindo para $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$.
 
-Na construção da curva ROC  teremos a tarefa de realizar um problema de classificação com duas classe rotuladas como elementos ou instâncias do conjunto $\{\mathbf{p},\mathbf{n}\}$, onde $\mathbf{p}$ representa a classe positiva e $\mathbf{n}$ representa a classe negativa. O conjunto assim definido será considerado o conjunto com as expectativas verdadeira, ou seja, pode representar a quantidade real de bordas ou não bordas em uma imagem de referência (\textit{ground truth}) ou imagens as quais vamos considerar como imagens de referência.
+O método de fusão DWT tem os seguintes passos:
+\begin{enumerate}
+\item Calculate a decomposiçao DWT $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, para cada canal.
+\item Compute $\bm{\bar\jmath}_{c\text{HH}}$, a média pixal a pixel para todas as $\bm{\widehat\jmath}_{c\text{HH}}$ decomposições.
+\item Encontrar o máximo pixel a pixel de $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, e $\bm{\bar\jmath}_{c\text{HL}}$.
+\item Encontrar o máximo pixel a pixel de $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, e $\bm{\bar\jmath}_{c\text{HL}}$.
+\item O resultado da fusão $I_F$ e a transformação inversa DWT para os coeficientes das matrizes $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, e $\bm{\bar\jmath}_{c\text{HL}}$.
+\end{enumerate}
 
-O processo de classificação pode ser aplicado resultando em uma predição rotulada como $\{\mathbf{P},\mathbf{N}\}$, onde $\mathbf{P}$ é predita positiva e $\mathbf{N}$ é predita negativa. Com as definições anteriores e sendo dado um classificador e um conjunto de instâncias podemos construir uma matriz $2\times 2$, chamada de matriz de confusão (matriz de contingências). 
+A representação esquemático pode ser visto na figura \eqref{fig:cap_fusao_dwt}.
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5.5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef DWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef DWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef DWT}_N$};  
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_N(x,y)$};    
+    \path (wa.west)+(1.5,1.0) node (swtnodefus) [wa] {Fusão dos coeficientes\\
+                                                       wavelets};                                                      
+    \path (wa.west)+(6.0,1.0) node (imagefus) [wa] {Imagem fusão};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.east) -- node [above] {$W^{-1}$}      
+        (imagefus.west);        
+        
+%        %
+%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{DWT Fusion.}
+\label{fig:cap_fusao_dwt}
+\end{figure}
 
+\section{Analise das Componentes principais -- PCA}
+Esta seção é baseada em~\cite{n_r,mit}. O método pode ser resumido nos seguinte passos:
 
-Definido como as instâncias podem ser classificadas a tabela (\ref{cap_fusao_tab01}) mostra a matriz de confusão.
-\begin{itemize}
-	\item [-] Se a instância é positiva e classificada como positiva é contada como verdadeiro positivo $TP$;
-	\item [-] Se a instância é positiva e classificada como negativa é contada como falso negativo $FN$;
-	\item [-] Se a instância é negativa e classificada como negativa é contada como verdadeiro negativo $TN$;
-	\item [-] Se a instância é negativa e classificada como positiva é contada como falso positivo $FP$.
-\end{itemize}
+\begin{enumerate}
+\item Armazene as imagens binárias $\bm{\widehat\jmath}_c$ em colunas para obter am matriz $\bm X_{\ell\times n_c}$.
+\item Calcule a matriz de covariância $\bm C_{n_c\times n_c}$ de $\bm X_{\ell\times n_c}$.
+\item Calcule as matrizes de autovalores ($\bm\Lambda$) e autovetores ($\bm\Lambda$) da matriz de covariência, ordene de meneira decrescente usando os autovalores.
+\item Encontre as componentes $\bm P_c=(\sum_{m=1}^{n_c} \bm V_c(m))^{-1}{\bm V_c}$, onde $\bm V_c$ é um autovetor associado com o maior autovalor de $\bm X$; note que $\sum_{c=1}^{n_c}\bm P_c=1$.
+\item Realize a fusão $\bm I_F(x,y)=\sum_{c=1}^{n_c}\bm P_c\bm{\widehat\jmath}_c(x,y)$.
+\end{enumerate}
+A representação esquemático pode ser visto na figura \eqref{fig:cap_fusao_pca}.
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-2.0,0.0) node (pcanode) [wa] {$\text{PCA}$};
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_N(x,y)$};    
+    \path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+                                                      \\$p=V_m(i)/||V_m||$
+                                                      \\$IF=\sum_{i=1}^{nc}p_i\widehat{\bm\jmath}_i(x,y)$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+    \path [draw, ->] (pcanode.east) -- node [above] {} 
+        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{Fusão PCA.}
+\label{fig:cap_fusao_pca}
+\end{figure}
 
+\section{Fusão usando a estatítica ROC}
+The ROC method was proposed and described on~\cite{gs,fawcett}:
+O método ROC foi proposto e descrito em~\cite{gs,fawcett}:
+\begin{enumerate}
+\item  Adicione as imagens binárias $\bm{\widehat\jmath}_c$ para produzir a matriz de frequência ($\bm V$). 
+\item Aplique os limiares $t=1,\dots,n_c$ em $\bm V$ para gerar as matrizes $\bm M_t$.
+\item Compare cada $\bm M_t$ com todos $\bm{\widehat\jmath}_c$, ache a matriz de confusão para gerar a curva ROC. O limiar ótimo corresponde ao ponto da curva ROC mais perto (no sentido da distancia euclidiana) da linha de diagnóstico.
+\item A fusão $\bm I_F$ é a matriz $\bm M_t$ que corresponde ao limiar ótimo.
+\end{enumerate}
+
+O procedimento foi desenvolvido baseado na seguinte teoria.
+\subsection{Método de fusão de evidências de bordas baseado na estatística ROC}
+Serão desenvolvidas as ideias dos artigos \citet{gs} e \citet{fawcett}, baseadas nas propriedades estatísticas do índice $\kappa$ e da curva \textit{Receiver Operating Characteristics} (ROC) aplicadas em imagens PolSAR.
+
+As curvas ROC são técnicas para visualizar, organizar e selecionar classificadores aplicados em aprendizado de máquina, visão computacional, inteligência artificial entre outras áreas similares demostrando a capacidade do método para efetuar avaliações e comparações de algoritmos. As mesmas têm a capacidade de representar uma compensação entre taxas de acertos e taxas de alarmes falsos dos classificadores tornando-se uma boa ferramente para aplicarmos no presente trabalho. 
+
+A construção da curva ROC consiste em um problema de classificação com duas classe rotuladas como instâncias do conjunto $\{\mathbf{p},\mathbf{n}\}$, onde $\mathbf{p}$ representa a classe positiva e $\mathbf{n}$ representa a classe negativa. Definindo as instancias e o classificador podemos definir uma matriz $2\times 2$, chamada de matriz de confusão. 
+
+A tabela (\ref{tab01:cap_fusao}) mostra a matriz de confusão, onde
+\begin{enumerate}
+    \item Se a instância é positiva e classificada como positiva então definida como positivo verdadeiro $TP$.
+    \item Se a instância é positiva e classificada como negativa então definida como negativo falso $FN$.
+	\item Se a instância é negativa e classificada como negativa então definida como negativo verdadeiro $TN$.
+	\item Se a instância é negativa e classificada como positiva então definida como positivo falso $FP$.
+\end{enumerate}
 
 \begin{table}[hbt]
 	\centering
-	\caption{Matriz de confusão.}\label{cap_fusao_tab01}
+	\caption{Matriz de confusão.}\label{tab01:cap_fusao}
 \begin{tabular}{@{}cll@{}} \toprule
-	                        & \multicolumn{2}{c}{Classes definidas como verdadeiras}                              \\ \midrule
-	 Classes preditas       & $\mathbf{p}$                       & $\mathbf{n}$                        \\
-                         $\mathbf{P}$& Verdadeiros Positivos (TP) & Falsos Positivos (FP)      \\ 
-	                     $\mathbf{N}$& Falsos Negativos (FN)      & Verdadeiros Negativos (TN) \\ \bottomrule 
+	                        & \multicolumn{2}{c}{Classes definidas como verdadeiras}           \\ \midrule
+	 Classes preditas       & $\mathbf{p}$                & $\mathbf{n}$                \\
+                 $\mathbf{p}$& Positivos Verdadeiros (TP) & Positivos Falsos (FP)      \\ 
+	             $\mathbf{n}$& Negativos Falsos      (FN) & Negativos verdadeiros (TN) \\ \bottomrule 
 \end{tabular}
 \end{table}
 
-Os valores da diagonal principal desta matriz representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária representam a classificação incorreta.
-Adicionalmente, observamos que a soma de todas as possibilidades de resultados em uma classificação retorna o valor $1$, isto é, $TP+FN+FP+TN=1$.
+Os valores da diagonal principal matriz de confusão representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária representam as classificações incorretas. A soma de todas as possibilidades de resultados em uma classificação retorna o valor TP+FN+FP+TN=1.
 
-No auxílio para a definição de várias métricas vamos definir dois parâmetros usados, respectivamente o parâmetro $P$ é definido como a prevalência, e pode ser calculado por $P=TP+FN$. Podemos afirmar que a prevalência leva em conta os resultados falsos negativos, assim sendo, idealmente a prevalência deveria aproximar-se de $TP$. 
-O parâmetro $Q$ , chamado de \textit{Nível-Q} pode ser calculado por $Q=TP+FP$. 
-Observando então que o \textit{Nível-Q} leva em conta os resultados falsos positivos, similarmente com a prevalência, 
-o \textit{Nível-Q} deveria aproximar-se de $TP$ em situações ideais. 
-Analisando a definição do parâmetro \textit{Nível-Q} podemos afirmar que  é uma predição de todos os pixel de bordas, mesmo que sejam uma instância negativa e classificada como positiva. 
-Ainda podemos definir $N=FP+TN$, recorrendo ao fato $TP+FN+FP+TN=1$ redefinimos $P+N=1$  
+Definimos os parâmetros P=TP+FN chamado de prevalência, e Q=TP+FP chamado de \textit{Nível}-Q. A prevalência leva em conta a soma dos positivos verdadeiros com os negativos falso, portanto podemos afirmar que idealmente a prevalência deveria aproximar-se de TP. Enquanto o que \textit{Nível}-Q leva em conta a soma dos positivos verdadeiros com os positivos falsos, e similarmente com a prevalência, o \textit{Nível}-Q deveria aproximar-se de TP em situações ideais. Em uma situação ideal no detector de bordas otimizado, a prevalência e o \textit{Nível-Q} são iguais, isto é, P=\textit{Nível}-Q.
 
-Com as definições de prevalência e \textit{Nível-Q} e as tendências observada podemos afirmar que em um detector de bordas ótimo a prevalência e o \textit{Nível-Q} deveriam ser iguais, isto é, $P=Q$.
+Sendo definido N=FP+TN, e recorrendo ao fato TP+FN+FP+TN=1 teremos P+N=1.  
 
-A matriz de confusão serve de origem para definirmos métricas como as seguintes:
-\begin{equation}\label{cap_fusao_eq_01}
-	tp_{rate}=\frac{TP}{P},
+A matriz de confusão serve de origem para definirmos métricas como as seguintes,
+\begin{equation}\label{eq:tp_rate}
+	tp_{\text{rate}}=\frac{\text{TP}}{\text{P}},
 \end{equation}
-\begin{equation}\label{cap_fusao_eq_02}
-	fp_{rate}=\frac{FP}{N}
+\begin{equation}\label{eq:fp_rate}
+	fp_{\text{rate}}=\frac{\text{FP}}{\text{N}}
 \end{equation}
-as quais serão usada para a construção da curva ROC, a métrica $tp_{rate}$ pode ser chamada por razão de verdadeiros positivos, taxa de acerto, \textit{recall} ou  sensibilidade. 
-E a $fp_{rate}$ pode ser chamada por razão de falsos positivos.
+usadas para a construção da curva ROC, $tp_{\text{rate}}$ é conhecida por razão de verdadeiros positivos, taxa de acerto, \textit{recall} ou  sensibilidade, e a $fp_{\text{rate}}$ é conhecida de razão de falsos positivos. Na métrica $tp_{\text{rate}}=\frac{\text{TP}}{\text{P}}=\frac{\text{TP}}{\text{TP+FN}}$ podemos notar que se o número de falsos negativos tende a zero o a métrica aproxima-se do valor 1, mostrando assim o comportamento da métrica com a variação dos falsos negativos.
 
-Na métrica chamada $recall= tp_{rate}=\frac{TP}{P}=\frac{TP}{TP+FN}$ podemos notar que se o número de falsos negativos tende a zero o \textit{recall} aproxima-se do valor unitário, mostrando o comportamento da métrica com a variação dos falsos negativos.
+A precisão definida como $prec = \frac{\text{TP}}{\text{Q}}=\frac{\text{TP}}{\text{TP+FP}}$ mostra uma tendência assintótica para o valor unitário quando os falsos positivos tendem para zero.
 
-A precisão $\frac{TP}{Q}=\frac{TP}{TP+FP}$ definida desta forma pode medir uma tendência assintótica para o valor unitário quando os falsos positivos  tende para zero.  
+A acurácia definida como $acc = \frac{\text{TP+TN}}{\text{P+N}}$ juntamente com o fato de $P+N=1$ resulta igual a $TP+TN$ sendo a soma da diagonal principal da matriz de confusão.
 
-A acurácia $\frac{TP+TN}{P+N}$ definida dessa forma juntamente com o fato de $P+N=1$ resulta que igual a $TP+TN$, nos mostrando uma maneira de estudar a acurácia em relação a tendência de verdadeiros positivos. 
-A acurácia é medida pela soma da diagonal principal da matriz de confusão.
-
-As métricas $recall$, precisão e acurácia nos mostram uma maneira de observar os resultados baseados em diferentes propriedades de classificação, respectivamente vamos analisar as métricas com relação aos comportamentos de falsos negativos, falsos positivos e verdadeiros negativos.  
-
-A medida$-F$ pode ser definida e interpretada como, 
+A $\text{medida}_F$ pode ser definida e interpretada como 
 \begin{equation}\nonumber
-medida-F=\frac{2}{\frac{1}{recall}+\frac{1}{precisao}}
+\text{medida}_F=\frac{2}{\frac{1}{recall}+\frac{1}{prec}},
+\end{equation}
+considerando somente o denominador
+\begin{equation}\nonumber
+	\frac{1}{recall}+\frac{1}{prec}=\frac{1}{\frac{TP}{Q}}+\frac{1}{\frac{TP}{P}}= \frac{Q+P}{TP},
+\end{equation}
+logo
+\begin{equation}\nonumber
+	medida-F=\frac{2TP}{Q+P}.
 \end{equation}
 
-Realizando manipulações algébricas, seja inicialmente considerando somente o denominador
+Definindo
 \begin{equation}\nonumber
-	\frac{1}{recall}+\frac{1}{precisao}=\frac{1}{\frac{TP}{Q}}+\frac{1}{\frac{TP}{P}}
+     Q+P=2TP+FP+FN,
 \end{equation}
+teremos portanto
 \begin{equation}\nonumber
-	\frac{1}{\frac{TP}{Q}}+\frac{1}{\frac{TP}{P}} = \frac{Q+P}{TP}
+	medida-F=\frac{2TP}{2TP+FP+FN}.
 \end{equation}
-logo,
-\begin{equation}\nonumber
-	medida-F=\frac{2}{\frac{Q+P}{TP}}
-\end{equation}
-\begin{equation}\nonumber
-	medida-F=\frac{2TP}{Q+P}
-\end{equation}
-e definindo
-\begin{equation}\nonumber
-     Q+P=2TP+FP+FN
-\end{equation}
-portanto
-\begin{equation}\nonumber
-	medida-F=\frac{2TP}{2TP+FP+FN}
-\end{equation}
-a métrica considera conjuntamente as classificações de $FP$ e $FN$, ou seja, se ambas as métricas tendem para zero, o valor da $medida-F$ tende para $1$. Temos assim uma maneira de observar o comportamento da classificação dependendo dos falsos positivos e falsos negativos.
 
-\section{A curva ROC}
-A curva ROC é um gráfico bidimensional no qual o valor de $tp_{rate}$ é imposto no eixo das ordenadas e $fp_{rate}$ será imposto no eixo das abscissas gerando um ponto do gráfico, neste trabalho será gerado um ponto para cada canal considerado. Podemos afirmar que o gráfico gerado descreve uma relação entre as razões de verdadeiros positivos e as razões de falsos positivos. 
-
-Consideraremos um número finito de classificadores vamos gerar uma curva ROC onde cada classificador produz um ponto no espaço da curva ROC, a ser descrito por ($fp_{rate}, tp_{rate}$).
-
-Alguma observações podem ser realizadas, primeiro, o ponto $(0,0)$ pouco acrescenta de informação, pois não produz falsos positivos e também não produz verdadeiros positivos, como uma segunda informação, podemos afirmar que o ponto de classificação ideal é o ponto $(1,0)$, pelo motivo de mostrar alta probabilidade de detecção de verdadeiros positivo, enquanto apresenta baixa probabilidade de detectar falsos positivos. 
-
- Resumidamente, para gerar os pontos ($fp_{rate}, tp_{rate}$) da curva ROC neste trabalho serão detectadas as evidências de bordas nos diferentes canais da imagem PolSAR usando como detector (classificador) de evidências de bordas o método descrito no capítulo (\ref{cap_acf}). No próxima seção será mostrado os detalhes.
+Se FP e FN tendem para zero, o valor da $\text{medida}_F$ tende para $1$, desta forma temos uma maneira de observar o comportamento da classificação dependendo do retorno da métrica.
  
-\section{Detector de borda automático}
+\subsection{Detector de borda}
+O método baseado na curva ROC consiste em aplicar a estimativa de máxima verossimilhança em cada canal da imagem PolSAR, gerando imagens binárias de evidências de bordas $\text{E}_i$ com $i=1,\dots,n_c$, onde $n_c$ é o número de canais usados. Construímos ma matriz de frequência V de mesmo tamanho de $\text{E}_i$, tal que em cada pixel é armazenado um valor ao qual corresponde a frequência de ocorrências de evidências de bordas em cada canal $\text{E}_i$. Ou seja, A matriz V é a soma pixel a pixel de todas as imagens de  evidências de bordas $\text{E}_i$. Podemos afirmar que quanto maior o valor de um pixel, maior sua probabilidade de ser uma borda, ou seja, podemos usar o valor do pixel como uma maneira de distinguir entre bordas verdadeira ou falsas.
 
-O método baseado na curva ROC consiste em aplicar o classificador proposto em cada canal da imagem PolSAR gerando mapas binários de evidências de bordas nomeados $E_i$ com $i=1,\dots,N$, onde $N$ é o número de canais da imagem PolSAR. Tendo os mapas $E_i$  para cada canal, construímos uma matriz fusão $F$ de mesmo tamanho de $E_i$, tal que em cada pixel é armazenado um valor ao qual corresponde a uma frequência de ocorrências de bordas nos diferentes mapa de evidências de bordas $E_i$. Ou seja, para construir a matriz de fusão $F$ basta fazer a soma pixel a pixel de todas os mapas de evidências $E_i$ retornando assim uma matriz com a frequência de cada evidências de borda. Podemos afirmar que quanto maior a correspondência que um pixel possui, maior sua probabilidade de ser uma borda, ou seja, podemos usar essa correspondência como uma maneira de distinguir entre bordas verdadeira ou falsas.
+Na matriz de frequência V é aplicado os limiares variando da seguinte forma  $CT_j=1,\dots,n_c$ gerando as matrizes chamadas de mapa de de evidências de borda $\text{M}_j$. O objetivo do método é estimar automaticamente o limiar correspondente ($CT$),  proveniente de um conjunto de limiares parciais ($CT_j$). O limiar encontrado será considerado o limiar que produz melhor acurácia.  
 
-Desta maneira a matriz de fusão $F$ tem valores variando entre $0$ e $N$. Podemos então definir $N$ limiares variando de $1$ até $N$ com o intuito de obter um limiar correspondente o qual fornece melhor acurácia. Assim, na matriz de fusão $F$ é aplicado um conjunto de limiares variando da seguinte forma  $CT_j=1,\dots,N$ gerando as matrizes chamadas de mapa de bordas com limiares $M_j$.
+O detector de bordas baseado nas estatística ROC será proposto como um método de fusão de evidências de bordas em diferentes canais da imagem PolSAR. A estatística ROC será usada como ferramenta para obter o detector de borda .
 
-O objetivo do método é estimar automaticamente o limiar correspondente otimizado ($CT$),  proveniente de um conjunto de limiares parciais ($CT_j$) aplicados na matriz de fusão $F$. O limiar encontrado será considerado o limiar otimizado.  
-
-\subsection{Análise ROC}
-	A análise ROC será proposta como um método de fusão de evidências de bordas em diferentes canais da imagem PolSAR. A curva ROC será usada para selecionar o limiar correspondente buscando um fator de equilíbrio ótimo entre a taxa de verdadeiros positivos e a taxa de falsos positivos classificadas.
-
-Inúmeras  definições são propostas para desenvolver o algoritmo e a analisar a teoria envolvida. Então, seja $\{e, ne\}$ respectivamente bordas e não bordas reais na imagem, e $\{E, NE\}$ respectivamente bordas preditas e preditas. 
-Podemos redefinir a matriz de confusão para a detecção de bordas como na tabela~\ref{cap_fusao_tab02}.
+Definições são propostas para desenvolver o algoritmo de detecção de bordas e a analisar a teoria análise ROC. Então, de maneira similar a tabela \eqref{tab01:cap_fusao} definimos $\{e, ne\}$ respectivamente como bordas e não bordas reais na imagem, e $\{E, NE\}$ respectivamente como bordas preditas e não bordas preditas. 
+Podemos redefinir a matriz de confusão para a detecção de bordas como na tabela~\ref{tab02:cap_fusao}.
  
 \begin{table}[hbt]
 	\centering
-	\caption{Matriz de confusão para a detecção de borda.}\label{cap_fusao_tab02}
+	\caption{Matriz de confusão para a detecção de borda.}\label{tab02:cap_fusao}
 \begin{tabular}{@{}lll@{}} \toprule
 	     & $e$  & $ne$  \\ \midrule
-	$E$  & Positivos verdadeiros (TP)& Positivos Falsos (FP)  \\ 
-	$NE$ & Negativo falsos (FN)      & Negativos verdadeiros (TN)\\ \bottomrule  
+	$E$  & Verdadeiros Positivos (TP)& Falsos Positivos      (FP)  \\ 
+	$NE$ & Falsos negativos      (FN)& Verdadeiros Negativos (TN)\\ \bottomrule  
 \end{tabular}
 \end{table}
 
-%%% ACF Use sempre \ell ao invés de "l" em modo matemático
-Com intuito de definir as probabilidades condicionais da matriz de confusão consideramos as dimensões das matrizes de dados que geram $E_i$, $M_j$ e $F$ por $K\times L$. 
-Denotamos respectivamente $p_{k,l}$ como sendo a probabilidade de um pixel ser uma borda verdadeira, e $q_{k,l}$ como sendo a probabilidade de um pixel ser detectado como uma borda, onde $k=1,\dots,K$ e $l=1,\dots,L$. 
+A dimensão das matrizes de dados $E_i$, $M_j$ e $F$ é $K\times L$. Denotamos respectivamente $p_{k,\ell}$ como sendo a probabilidade de um pixel ser uma borda verdadeira, e $q_{k,\ell}$ como sendo a probabilidade de um pixel ser detectado como uma borda, onde $k=1,\dots,K$ e $\ell=1,\dots,L$. 
 
-Tendo em mãos essas definições, a probabilidade de resultados verdadeiros positivos $(TP)$ sobre todos os pixeis da imagem é designado por,
-\begin{equation}\label{cap_fusao_eq_03}
-TP=\text{media}(p_{k,l}\cdot q_{k,l}).
+Tendo em vista essas definições, a probabilidade de resultados verdadeiros positivos $(TP)$ sobre todos os pixeis da imagem é designado por,
+\begin{equation}\label{eq:pos_ver_media}
+TP=\text{media}(p_{k,\ell}\cdot q_{k,\ell}).
 \end{equation}
 
-A definição (\ref{cap_fusao_eq_03}) conduz a seguinte equação:
-\begin{equation}\label{cap_fusao_eq_04}
+A definição \eqref{eq:pos_ver_media} conduz a seguinte equação:
+\begin{equation}\label{eq:pos_ver}
 TP=P \cdot Q + \rho \sigma_p \sigma_q,
 \end{equation}
-sendo que $\rho$ denota o coeficiente de  correlação entre as probabilidades $p_{k,l}$ e $q_{k,l}$, e $\sigma_p$ e $\sigma_q$ denotam, respectivamente o desvio padrão das respectivas distribuições de probabilidade.
+sendo que $\rho$ denota o coeficiente de correlação entre as probabilidades $p_{k,l}$ e $q_{k,l}$, e $\sigma_p$ e $\sigma_q$ denotam, respectivamente o desvio padrão das respectivas distribuições de probabilidade. No presente trabalho vamos considerar $\rho > 0$, o que podemos considerar realista pelo fato da detecção de borda ser baseada em métodos que exploram as informações de bordas locais.
 
-Sendo $\rho$ o coeficiente de correlação definido acima, e sabendo que quando as probabilidades têm as mesmas tendências, $\rho$ deve ser maior que zero. Portanto, no presente trabalho vamos considerar $\rho > 0$, e que podemos considerar realista pelo fato da detecção de borda ser baseada em métodos que exploram as informações de bordas locais.
-
-Para construir a curva ROC aplicamos o detector de bordas em cada canal da imagem PolSAR, gerando assim matrizes (imagens) binárias com evidências de bordas $E_i$, lembrando que $i$ representa os canais disponíveis. Realizando a soma de todas a matrizes $E_i$ temos como resultado a matriz fusão $F=\sum_{i=1}^{N}E_i$. Na matriz $F$ é aplicado os limiares $CT_j=1,\dots,N$ gerando os mapas de bordas com limiares $M_j$, o esquema gerado por esse processo pode ser representado como na figura (\ref{cap_fusao_fig01}).
+Para construir a curva ROC aplicamos o método da estimativa de máxima verossimilhança em cada canal da imagem PolSAR, gerando assim matrizes (imagens) binárias com evidências de bordas $E_i$. Realizando a soma de todas a matrizes $E_i$ temos como resultado a matriz de frequência $\text{V}=\sum_{i=1}^{n_c}E_i$. Na matriz V é aplicado os limiares $CT_j=1,\dots,n_c$ gerando os mapas de evidências de bordas $M_j$, o esquema gerado por esse processo pode ser representado como na figura (\ref{fig:cap_fusao_roc1}).
 
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -199,68 +344,63 @@ Para construir a curva ROC aplicamos o detector de bordas em cada canal da image
     \end{pgfonlayer}
    
 \end{tikzpicture}
-	\caption{Estrutura geral da fusão de evidência proposta.}
-\label{cap_fusao_fig01}
+	\caption{Estrutura para os limiares na fusão de evidência ROC.}
+\label{fig:cap_fusao_roc1}
 \end{figure}
 
-Sendo as $E_i$ e $M_j$ matrizes de dimensões $R\times C$ encontramos a intersecção dos pixeis da imagem mapa de bordas estimados com limiar $M_j$ fixada arbitrariamente com os pixeis da imagem inicial de referência $E_i$, para todo índice $i$. 
+Nas matrizes $\text{E}_i$ e $\text{M}_j$ encontramos a intersecção dos pixeis da imagem mapa de bordas estimados com limiar $\text{M}_j$ fixada arbitrariamente com os pixeis das imagens de referências $\text{E}_i$, para todos índices $i$. 
 
-Definimos as possíveis classificações por  
+Definimos as classificações por  
 
-\begin{equation}\label{cap_fusao_05}
-	TP_j= \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{E_j}\cap E_{E_i}, \\
+\begin{equation}\label{eq:verdadeiro_positivo_j}
+	TP_j= \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{E_j}\cap E_{E_i}, \\
 \end{equation}
-\begin{equation}\label{cap_fusao_06}
-	FP_j= \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{E_j}\cap E_{NE_i}, \\
+\begin{equation}\label{eq:falso_positivo_j}
+	FP_j= \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{E_j}\cap E_{NE_i}, \\
 \end{equation}
-\begin{equation}\label{cap_fusao_07}
-	TN_j= \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{NE_j}\cap E_{NE_i}, \\
+\begin{equation}\label{eq:verdadeiro_negativo_j}
+	TN_j= \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{NE_j}\cap E_{NE_i}, \\
 \end{equation}
-\begin{equation}\label{cap_fusao_08}
-	FN_j= \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{NE_j}\cap E_{E_i}. \\
+\begin{equation}\label{eq:falso_negativo_j}
+	FN_j= \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{NE_j}\cap E_{E_i}. \\
 \end{equation}
 
-Em vista disso, construímos uma matriz de confusão para cada $j$ fixado arbitrariamente, assim teremos $N$ matrizes de confusão como a mostrada na tabela (\ref{cap_fusao_tab03}).
-
+Com essa classificação construímos a matriz de confusão para cada $j$ fixado arbitrariamente, assim teremos $n_c$ matrizes de confusão como a mostrada na tabela (\ref{tab03:cap_fusao})
 \begin{table}[htb!]
 	\centering
-	\caption{Matriz de confusão para cada $M_j$.}\label{cap_fusao_tab03}
+	\caption{Matriz de confusão para cada $M_j$.}\label{tab03:cap_fusao}
 \begin{tabular}{@{}lll@{}} \toprule
 	& $E_{e_i}$  & $E_{ne_i}$  \\ \midrule
 	$M_{E_j}$    & $TP_j$ &  $FP_j$  \\ 
 	$M_{NE_j}$   & $FN_j$ &  $TN_j$\\ \bottomrule 
 \end{tabular}
 \end{table}
+como $j$ está fixado e $i$ variando com a quantidade de canais considerados definimos as médias,
 
-Como $j$ está fixado e $i$ variando com a quantidade de canais considerados definimos as seguintes média,
-
-\begin{equation}\label{cap_fusao_09}
-	\overline{TP}_j=\frac{1}{N}\sum_{i=1}^{N} \left[ \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{E_j}\cap E_{E_i}\right]. \\
+\begin{equation}\label{eq:verdadeiro_positivo_media}
+	\overline{TP}_j=\frac{1}{n_c}\sum_{i=1}^{n_c} \left[ \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{E_j}\cap E_{E_i}\right]. \\
 \end{equation}
-\begin{equation}\label{cap_fusao_10}
-	\overline{FP_j}=\frac{1}{N}\sum_{i=1}^{N} \left[ \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{E_j}\cap E_{NE_i}\right]. \\
+\begin{equation}\label{eq:falso_positivo_media}
+	\overline{FP_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} \left[ \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{E_j}\cap E_{NE_i}\right]. \\
 \end{equation}
-\begin{equation}\label{cap_fusao_11}
-	\overline{TN_j}=\frac{1}{N}\sum_{i=1}^{N} \left[ \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{NE_j}\cap E_{NE_i}\right]. \\
+\begin{equation}\label{eq:verdadeiro_negativo_media}
+	\overline{TN_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} \left[ \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{NE_j}\cap E_{NE_i}\right]. \\
 \end{equation}
-\begin{equation}\label{cap_fusao_12}
-	\overline{FN_j}=\frac{1}{N}\sum_{i=1}^{N} \left[ \frac{1}{R\cdot C}\sum_{r=1}^{R}\sum_{c=1}^{C} M_{NE_j}\cap E_{E_i}\right]. \\
+\begin{equation}\label{eq:falso_negativo_media}
+	\overline{FN_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} \left[ \frac{1}{K\cdot L}\sum_{r=1}^{K}\sum_{c=1}^{L} M_{NE_j}\cap E_{E_i}\right]. \\
 \end{equation}
-
-%A métrica $\overline{TP}_j$ é uma probabilidade que indica o número médio de pixeis detectados como bordas no mapa de borda $M_j$ comparado com os pixeis de bordas em cada detecção nos canais $E_i$. 
-
-De forma mais compacta teremos,
-\begin{equation}\label{cap_fusao_13}
-\overline{TP_j}=\frac{1}{N}\sum_{i=1}^{N} TP_i. \\
+de forma mais compacta teremos,
+\begin{equation}\label{eq:verdadeiro_positivo_media_comp}
+\overline{TP_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} TP_i. \\
 \end{equation}
-\begin{equation}\label{cap_fusao_14}
-\overline{TN_j}=\frac{1}{N}\sum_{i=1}^{N} TN_i. \\
+\begin{equation}\label{eq:falso_positivo_media_comp}
+\overline{TN_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} TN_i. \\
 \end{equation}
-\begin{equation}\label{cap_fusao_15}
-\overline{FP_j}=\frac{1}{N}\sum_{i=1}^{N} FP_i. \\
+\begin{equation}\label{eq:verdadeiro_negativo_media_comp}
+\overline{FP_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} FP_i. \\
 \end{equation}
-\begin{equation}\label{cap_fusao_16}
-\overline{FN_j}=\frac{1}{N}\sum_{i=1}^{N} FN_i. \\
+\begin{equation}\label{eq:falso_negativo_media_comp}
+\overline{FN_j}=\frac{1}{n_c}\sum_{i=1}^{n_c} FN_i. \\
 \end{equation}
 
 A figura (\ref{cap_fusao_fig02}) mostra a comparação entre o $M_j$ fixado arbitrariamente com todos os $E_i$ para gerar cada métrica $TP_j$. A notação $\overline{\cap E_1}$ na figura significa que a comparação realizada é a intersecção pixel a pixel entre $M_j$ e $E_i$ e posterior realização da média levando em conta as dimensões das matrizes, para isso usamos as equações (\ref{cap_fusao_05}), (\ref{cap_fusao_06})), (\ref{cap_fusao_07})) e (\ref{cap_fusao_08})). A notação $+$ refere-se a soma de todos os $TP_j$ ou demais probabilidades $FP_j$, $FN_j$ e $TN_j$realizando sua média.
@@ -814,6 +954,95 @@ Derivando em relação a $r$ teremos
 \begin{equation}\label{cap_fusao_26}
 	\frac{d}{dr} \kappa_r= \frac{\rho \sigma_p\sigma_q(Q-P)}{(rPQ^{'} +r^{'}P^{'}Q)^2}.
 \end{equation}
+
+
+\section{Transformação wavelet estacionária Multi-Resolução -- MR-SWT} 
+Esta sectão é baseada em~\cite{n_r, jjly}. A diferenção entre os métodos MR-DWT e MR-SWT é a substituição do operador transformada discrete wavelet (DWT) por operador transformada estacionária wavelet (SWT).
+
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5.5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SWT}_N$};  
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_N(x,y)$};    
+    \path (wa.west)+(1.5,1.0) node (swtnodefus) [wa] {Fusão dos coeficientes\\
+                                                       wavelets};                                                      
+    \path (wa.west)+(6.0,1.0) node (imagefus) [wa] {Imagem fusão};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.east) -- node [above] {$W^{-1}$}      
+        (imagefus.west);        
+        
+%        %
+%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%        (pcanodefus.180) ;
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{SWT Fusão.}
+\label{fig04:cap_fusao}
+\end{figure}
+
+\section{Método Decomposição em valores singulares Multi-Resolução -- MR-SVD}
+O método fusão MR-SVD~\cite{naidu} trabalha de maneira similar ao MR-DWT. A diferença consiste em mudar os filtros DWT por filtros SVD.
+
+O método fusão MR-SVD pode ser resumido com os seguinte passos: 
+\begin{enumerate}
+\item Organize as imagens binarias $\bm{\widehat\jmath}_c$ como blocos $2\times 2$ não sobreposto, e coloque cada bloco como um vetor $4\times 1$ ordenando em colunas para formar a matrix de dados $\bm X_1$ com dimensão ${4\times{\ell}/{4}}$.   
+\item Ache a decomposição SVD de  $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, onde $\bm U_1$ e $\bm V_1$ são unitárias e têm dimensões ${4\times 4}$ e ${\ell}/{4}\times{\ell}/{4}$ resepctivamente. Os valores singulares são ordenados de maneira descrescente, e são colocados na diagonal principal da matriz, outras entradas são zeros.  
+\item Transforme a linhas de $\widehat{\bm X}_1=\bm U_1^T\bm X_1=\bm S_1 \bm V_1^T$ sobre novas matrizes com dimensões ${m}/{2}\times{n}/{2}$: $\{\bm\Phi_1, \bm\Psi_{1\text{V}}, \bm\Psi_{1\text{H}}, \bm\Psi_{1\text{D}}\}$. 
+\item Repita o procedimento (1) em $\bm\Phi_r$ para $r=2$ até o menor nível de resolution $R$.
+\item A MR-SVD decomposição em cada canal é  
+\begin{equation}\nonumber
+\widehat{\bm X}_c\rightarrow \left\{\bm \Phi_\text{R}^c,\{\bm\Psi_{r\text{V}}^c,\bm\Psi_{r\text{H}}^c,\bm\Psi_{r\text{D}}^c \}_{r=1}^\text{R},\{\bm U_r^c	\}_{r=1}^\text{R} \right\}.
+\end{equation}
+\item Depois da decomposição ser aplicadas em todos os canais, compute a média dos $\bm\Phi_R^c$ ($\bm\Phi_\text{R}^f$) no menor nível de resolução, e a média $\bm U_r^c$ ($\bm U_\text{r}^f$), para cada $r$, onde $f$ denota a fusão entre os canais.  
+\item Find o máximo pixel a pixel de $\bm\Psi_{r\text{V}}^c$, $\bm\Psi_{r\text{H}}^c$ e $\bm\Psi_{r\text{D}}^c$: $ \bm\Psi_{rV}^f$ $\bm\Psi_{r\text{V}}^f$, $\bm\Psi_{r\text{H}}^f$ e $\bm\Psi_{r\text{D}}^f$.
+\item A fusão $\bm I_F$ é a transformação SVD para cada nível $r=\text{R},\dots,1$, 
+\begin{equation}\nonumber
+\bm I_F\leftarrow \left\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
+\end{equation}
+\end{enumerate}
+
+
 \section{Analise das componentes principais - PCA}
 Considere imagens $I_i$, com $i=1,\cdots,n$ e dimensão $M\times N$, a qual podemos realocar em um vetor $G$ de dimensão $n \times MN$ e construir a matriz de covariância $\Sigma=GG^T$. A ideia é procurar uma combinação linear $Y=W^TG$, onde $W=\left[w_1,w_2,\cdots,w_n\right]$ cuja variância $W^T\Sigma W$ é máxima, com restrições sobre a norma de cada $w_i$ que deve ser unitária. Isto é,
 \begin{equation*}
@@ -879,7 +1108,7 @@ A primeira componente principal tem $VAR(Y_1)=\lambda_1$, a segunda componente p
 
 Se as imagens são altamente correlacionadas, então as primeiras componentes principais contribuem para uma alta porcentagem do total da variância das imagens.
 
-\subsection{Fusão usando o PCA}
+\section{Fusão usando o PCA}
 A fusão das imagens foi realizada da seguinte maneira 
 \begin{equation*}
 \begin{aligned}

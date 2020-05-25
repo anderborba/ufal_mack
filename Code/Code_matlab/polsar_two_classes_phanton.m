@@ -132,13 +132,13 @@ Height
 Width
 
     % geração de canais interferometricos
-    for i = 1: Height
-	for j = 1: Width
-	     	SS(i, j, 1)  = sqrt(phantom(i, j, 4)^2 + phantom(i, j, 5)^2);
-     		SS(i, j, 2)  = sqrt(phantom(i, j, 6)^2 + phantom(i, j, 7)^2);
-     		SS(i, j, 3)  = sqrt(phantom(i, j, 8)^2 + phantom(i, j, 9)^2);
-	end
-    end
+    %for i = 1: Height
+       	%for j = 1: Width
+	%     	SS(i, j, 1)  = sqrt(phantom(i, j, 4)^2 + phantom(i, j, 5)^2);
+     	%	SS(i, j, 2)  = sqrt(phantom(i, j, 6)^2 + phantom(i, j, 7)^2);
+     	%	SS(i, j, 3)  = sqrt(phantom(i, j, 8)^2 + phantom(i, j, 9)^2);
+	%end
+    %end
     
     % Activate to visualize the Monte Carlo phantom generated
     % Visualize Pauli's representation of phantom generated
@@ -149,10 +149,6 @@ Width
     Ivv=mat2gray(real(phantom(:,:,3)));
     Ivv=imadjust(Ivv);
    
-    %S0 = abs(Ihh + Ivv);
-    %S1 = abs(Ihh - Ivv);
-    %IMG = abs(S1/S0)
-    
     %imshow(IMG)
     II=cat(3,abs(Ihh + Ivv), abs(Ihv), abs(Ihh - Ivv));
     escala=mean2(II)*3;figure(1),imshow(imresize(II,1),[0,escala]);
@@ -162,40 +158,40 @@ Width
     % save data to .txt 
     %the 9 matrices
     % AAB - renomear arquivo de saida para diferentes sigmas
-%    cd results_vert
+    cd result_gamf
 %      % plain format
-%    for j = 1: 9
-%        fname = sprintf('Phantom_vert_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
-%        fid = fopen(fname,'w');
-%        fprintf(fid,'%d %d\r\n', Height, Width);
-%        for ii = 1: Height
-%            for jj = 1: Width
-%                fprintf(fid,'%f ',phantom(ii,jj,j));
-%            end
-%            fprintf(fid,'\r\n');
-%        end
-%        fclose(fid);       
-%    end    
-%    ii = ii + 1;
-%    cd ..
-end
-cd ..
-cd ..
-cd Data
-    for j = 1: 3
-        fname = sprintf('Phantom_nhfc_prod_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
+    for j = 1: 9
+        fname = sprintf('Phantom_gamf_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
         fid = fopen(fname,'w');
-        fprintf(fid,'%d %d\r\n', Height, Width);
+%        fprintf(fid,'%d %d\r\n', Height, Width);
         for ii = 1: Height
             for jj = 1: Width
-                fprintf(fid,'%f ', SS(ii,jj,j));
+                fprintf(fid,'%f ',phantom(ii,jj,j));
             end
             fprintf(fid,'\r\n');
         end
         fclose(fid);       
-    end
-cd ..
-cd Code/Code_matlab
+    end    
+    ii = ii + 1;
+    cd ..
+end
+%cd ..
+%cd ..
+%cd Data
+%    for j = 1: 3
+%        fname = sprintf('Phantom_nhfc_prod_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
+%        fid = fopen(fname,'w');
+%        fprintf(fid,'%d %d\r\n', Height, Width);
+%        for ii = 1: Height
+%            for jj = 1: Width
+%                fprintf(fid,'%f ', SS(ii,jj,j));
+%            end
+%            fprintf(fid,'\r\n');
+%        end
+%        fclose(fid);       
+%    end
+%cd ..
+%cd Code/Code_matlab
 toc  %stop measuring time
 
 
