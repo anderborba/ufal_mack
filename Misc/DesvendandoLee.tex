@@ -1,0 +1,84 @@
+\documentclass[12pt]{article}
+
+\usepackage{fourier}
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{natbib}
+\usepackage{bm}
+\usepackage{amsmath}
+\newcommand{\E}{\operatorname{E}}
+
+\title{Desvendando a Notação de Lee}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+Reescreveremos a notação que \citet{lee} utilizam, pois ela nem sempre é clara ou precisa.
+
+O vetor de retornos complexos é
+$$
+\bm S =
+	\begin{bmatrix}
+	S_{\text{HH}}\\
+	S_{\text{HV}}\\
+	S_{\text{VV}}
+	\end{bmatrix},
+$$
+e a sua distribuição é gaussiana complexa de média nula e matriz de covariância $\Sigma=\E\big(\bm S \bm S^{*T}\big)$.
+Com isso,
+$$
+\Sigma= \E\begin{pmatrix}
+\|S_{\text{HH}}\|^2	& S_{\text{HH}} S_{\text{HV}}^{*T}	& S_{\text{HH}} S_{\text{VV}}^{*T}\\
+				& \|S_{\text{HV}}\|^2					& S_{\text{HV}} S_{\text{VV}}^{*T}\\
+				&										& \|S_{\text{VV}}\|^2
+\end{pmatrix},
+$$
+em que omitimos as entradas que são os conjungados das simétricas.
+Os elementos da diagonal de $\Sigma$ são as esperanças das intensidades,
+enquanto os elementos fora da diagonal são as covarâncias complexas entre os canais.
+Podemos, então usar a seguinte notação:
+$$
+\Sigma = \begin{pmatrix}
+\sigma_{\text{HH}}^2		& \sigma_{\text{HH,HV}}		& \sigma_{\text{HH,VV}} \\
+\sigma_{\text{HH,HV}}^* 	& \sigma_{\text{HV}}^2		& \sigma_{\text{HV,VV}} \\
+\sigma_{\text{HH,VV}}^*		& \sigma_{\text{HV,VV}}^*	& \sigma_{\text{VV}}^2
+\end{pmatrix}.
+$$
+Reforçamos que se trata de parâmetros e, portanto, de quantidades fixas porém, em geral, desconhecidas.
+
+Estamos interessados em obter distribuições de transformações destes dados, dentre elas a distribuição da matriz de covariância amostral multilook (repare no uso que eu faço da palavra \textit{amostral} para evitar a confusão da matriz aleatória $\bm Z$ com o parâmetro $\Sigma$):
+$$
+\bm Z = \frac1L \sum_{\ell=1}^L \bm S(\ell) S^{*T}(\ell) = 
+\begin{pmatrix}
+I_{\text{HH}}	& C_{\text{HH,HV}}	& C_{\text{HH,VV}} \\
+				& I_{\text{HV}}		& C_{\text{HV,VV}} \\
+				&					& I_{\text{VV}} 
+\end{pmatrix},
+$$
+que segue uma lei Wishart com parâmetros $L$ e $\Sigma$.
+
+Uma quantidade de interesse é a razão das intensidades, por exemplo $R_{\text{HH,VV}} = I_{\text{HH}} / I_{\text{VV}}$.
+\citet{lee} tratam de forma genérica a razão de intensidades normalizada que, para o nosso caso, é
+$$
+R_{\text{HH,VV}} = \frac{\frac1{\sigma_{\text{HH}}^2}I_{\text{HH}}}
+						{\frac1{\sigma_{\text{VV}}^2}I_{\text{VV}}} = 
+	\frac{\frac1{\sigma_{\text{HH}}^2} \frac1L \sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|^2}
+	{\frac1{\sigma_{\text{VV}}^2} \frac1L \sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|^2}.
+$$
+Denotando $\tau = \sigma_{\text{HH}}^2 / \sigma_{\text{VV}}^2$ e simplificando, temos
+$$
+R_{\text{HH,VV}} = \frac{1}{\tau}
+\frac{\sum_{\ell=1}^{L}\|S_{\text{HH}}(\ell)\|^2}
+{\sum_{\ell=1}^{L}\|S_{\text{VV}}(\ell)\|^2}.
+$$
+Verificando os parâmetros de cada componente de $\bm Z$, concluímos que $R_{\text{HH,VV}}$ depende, no máximo, de $L$, $\sigma_{\text{HH}}^2$, $\sigma_{\text{VV}}^2$, e de $C_{\text{HH,HV}}$.
+Note-se que $\tau$ é a razão de dois parâmetros e, portanto, não é um novo parâmetro.
+
+
+
+\bibliographystyle{agsm}
+\bibliography{../Text/bibliografia}
+
+\end{document}
