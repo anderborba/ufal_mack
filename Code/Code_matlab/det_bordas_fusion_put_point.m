@@ -12,9 +12,9 @@ for i =1: nrows
      		I11(i, j)   = S(i, j, 1);
      		I22(i, j)   = S(i, j, 2);
      		I33(i, j)   = S(i, j, 3);
-     		SS(i, j, 1)  = sqrt(S(i, j, 4)^2 + S(i, j, 7)^2);
-     		SS(i, j, 2)  = sqrt(S(i, j, 5)^2 + S(i, j, 8)^2);
-     		SS(i, j, 3)  = sqrt(S(i, j, 6)^2 + S(i, j, 9)^2);
+%     		SS(i, j, 1)  = sqrt(S(i, j, 4)^2 + S(i, j, 7)^2);
+%     		SS(i, j, 2)  = sqrt(S(i, j, 5)^2 + S(i, j, 8)^2);
+%     		SS(i, j, 3)  = sqrt(S(i, j, 6)^2 + S(i, j, 9)^2);
 	end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,12 +62,10 @@ MY = zeros(num_radial, r, nc);
 ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_1_param_L_mu_14_pixel.txt');
 ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_2_param_L_mu_14_pixel.txt');
 ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_3_param_L_mu_14_pixel.txt');
-ev_hh_hv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_2.txt'); 
-ev_hh_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_3.txt'); 
-ev_hv_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_2_3.txt'); 
-
-%ev_hh_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_2.txt');
-%ev_hv_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_3.txt');
+ev_hh_hv_razao = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_hh_hv_param_razao.txt');
+ev_hh_vv_razao = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_hh_vv_param_razao.txt');
+ev_hv_vv_razao = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_hv_vv_param_razao.txt');
+%
 xc = load('/home/aborba/ufal_mack/Data/xc_flevoland.txt');
 yc = load('/home/aborba/ufal_mack/Data/yc_flevoland.txt');
 %num_radial = 100;
@@ -75,11 +73,9 @@ for i = 1: num_radial
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
 ev(i, 3) = round(ev_vv(i, 3));
-ev(i, 4) = round(ev_hh_hv_pm(i, 3));
-ev(i, 5) = round(ev_hh_vv_pm(i, 3));
-ev(i, 6) = round(ev_hv_vv_pm(i, 3));
-%ev(i, 5) = round(ev_hh_vv(i, 3));
-%ev(i, 6) = round(ev_hv_vv(i, 3));
+ev(i, 4) = round(ev_hh_hv_razao(i, 3));
+ev(i, 5) = round(ev_hh_vv_razao(i, 3));
+ev(i, 6) = round(ev_hv_vv_razao(i, 3));
 end
 nc = 6;
 m = 750;
@@ -103,7 +99,7 @@ nt = 20
 tempo = zeros(1, nt);
 for i=1: nt
 tic;
-[IF] = fus_media(IM, m, n, nc);
+%[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);

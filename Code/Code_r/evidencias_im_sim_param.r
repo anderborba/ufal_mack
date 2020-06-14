@@ -17,7 +17,7 @@ source("loglikd.r")
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat <- scan('Phantom_nhfc_0.000_1_2_3.txt')
+mat <- scan('Phantom_gamf_0.000_1_2_1.txt')
 setwd("..")
 setwd("Code/Code_r")
 ########## setup para a imagens simuladas
@@ -31,7 +31,8 @@ mat <- matrix(mat, ncol = r, byrow = TRUE)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
-for (k in 1 : nr){# j aqui varre o número de radiais
+#for (k in 1 : nr){# j aqui varre o número de radiais
+for (k in 10 : 10){# j aqui varre o número de radiais
         print(k)
 	N <- r
 	z <- rep(0, N)
@@ -83,7 +84,7 @@ print(p)
 #names(dfev) <- NULL
 #setwd("../..")
 #setwd("Data")
-#sink("evid_sim_nhfc_3_param_L_mu_14_pixel.txt")
+#sink("evid_sim_gamf_3_param_L_mu_14_pixel.txt")
 #print(dfev)
 #sink()
 #setwd("..")

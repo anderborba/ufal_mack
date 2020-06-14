@@ -1372,6 +1372,35 @@ onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
 Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
 Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
 
+
+
+\subsubsection*{Aplicação em imagem simulada}
+
+O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado na imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura. \textcolor{red}{Base de dados gamf}
+ \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidências no canal $\text{hh}$ \label{evidencias_hh_hv_vv_gamf:a}]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
+     }
+     \subfloat[Evidências no canal $\text{hv}$ \label{evidencias_hh_hv_vv_gamf:b}]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hv_evid_param_L_mu_14_pixel}
+     }      
+   %  \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
+    %   \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
+    % }
+    \caption{Evidências de bordas para os três canais de intensidade}
+     \label{evidencias_hh_hv_vv_gamf} 
+   \end{figure*}
+   
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_vv_evid_param_L_mu_14_pixel}
+     }
+    \caption{Evidências de bordas para os três canais de intensidade}
+     \label{evidencias_hh_hv_vv_gamf} 
+   \end{figure*}
+
 \subsection{Método da verossimilhança aplicado na PDF univariada magnitude do produto}
 %\subsection{Função de densidade para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
 A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica, definimos a magnitude normalizada por 
@@ -1605,99 +1634,188 @@ Considerando a função densidade de probabilidade univariada razão de intensid
 \begin{equation}\label{eq:pdf_razao_intensidades}
 	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
 \end{equation}
-onde, $\rho>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{eq:pdf_razao_intensidades} e realizando algumas manipulações algébricas teremos:
+onde, $\rho>0$ e $L>0$. 
+Podemos definir 
+\begin{equation}\label{eq:razao_intensidades_w}
+ w=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
+\end{equation}
+realizando a mudança de variável na PDF, \eqref{eq:pdf_razao_intensidades} teremos, 
+\begin{equation}\label{eq:pdf_razao_intensidades_tau_w}
+	f(w;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}}\\
+\end{equation}
+
+Aplicando o logaritmo natural na equação~\eqref{eq:pdf_razao_intensidades_tau_w} e realizando algumas manipulações algébricas teremos:
+
 \begin{equation}\nonumber
 \begin{split}
-	\ln f(\mu;\rho,L)&=\ln\left(\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\right),\\
-	                &=\ln\left(\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}\right)\\
-	                &-\ln\left(\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}\right),\\
-	                &=\ln\Gamma(2L) +\ln(1-|\rho|^2)^{L}+\ln(1+\mu)+\ln\mu^{L-1}\\
-	                &-\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}\right),\\
-	                &=\ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
-	                &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho|^2\mu \right].\\
+	\ln f(w;\rho,L,\tau)&=\ln\left(\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}}\right),\\
+	                &=\ln\left(\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}\right)\\
+	                &-\ln\left(\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}\right),\\
+	                &=\ln\tau^L + \ln\Gamma(2L) +\ln(1-|\rho|^2)^{L}+\ln(\tau+w)+\ln w^{L-1}\\
+	                &-\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}\right),\\
+	                &=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+w)+(L-1)\ln w\\
+	                &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right].\\
 \end{split}
 \end{equation}
 
 Definimos a equação log-verossimilhança para a PDF univariada razão de intensidades múltiplas visadas,
-\begin{equation}\label{eq_log_vero_razao_intensidade}
-\begin{array}{lcl}	
-	\ln f(\mu;\rho,L)&=&\ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(1+\mu)+(L-1)\ln\mu\\
-	&-&2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu)^2-4|\rho|^2\mu \right].\\
-\end{array}
+\begin{equation}\label{eq_log_vero_razao_intensidade_tau_w}
+\begin{split}	
+	\ln f(w;\rho,L,\tau)&=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+w)+(L-1)\ln w\\
+	                      &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right].\\
+\end{split}
 \end{equation}
 
-A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm\mu = (\mu_1,\dots,\mu_n)$, 
+A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm w = (w_1,\dots,w_n)$, 
 \begin{equation}\nonumber
 \begin{split}
-  \ell(\bm \mu;\rho, L)=\ln\prod_{k=1}^{n}f(\mu_k;\rho,L)\\
-  \ell(\bm \mu;\rho, L)=\sum_{k=1}^{n}\ln f(\mu_k;\rho,L),
+  \ell(\bm w;\rho, L)=\ln\prod_{k=1}^{n}f(w_k;\rho,L)\\
+  \ell(\bm w;\rho, L)=\sum_{k=1}^{n}\ln f(w_k;\rho,L),
  \end{split}
  \end{equation}
-usando a função~\eqref{eq_log_vero_razao_intensidade} teremos,
+usando a função~\eqref{eq_log_vero_razao_intensidade_tau_w} teremos,
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm \mu;\rho, L)&=\sum_{k=1}^{n}\ln f(\mu_k;\rho, L)\\
-                         &=\sum_{k=1}^{n}\left[\ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(1+\mu_k)+(L-1)\ln\mu_k\right.\\
-                         &-\left.2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\right]\\
+    \ell(\bm w;\rho, L, \tau)&=\sum_{k=1}^{n}\ln f(\mu_k;\rho, L)\\
+                         &=\sum_{k=1}^{n}\left[L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+w)+(L-1)\ln w\right.\\
+	                     &-\left.2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right]\right].\\
  \end{split}
  \end{equation}
  
  \begin{equation}\nonumber
 \begin{split} 
-    \ell(\bm \mu;\rho, L)&=\ln\Gamma(2L)\sum_{k=1}^{n} 1+L\ln(1-|\rho|^2)\sum_{k=1}^{n} 1+\sum_{k=1}^{n}\ln(1+\mu_k)+(L-1)\sum_{k=1}^{n}\ln\mu_k\\
-                         &-2\ln\Gamma(L)\sum_{k=1}^{n} 1-\frac{2L+1}{2}\sum_{k=1}^{n}\ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
-                         &=n\left(\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(1+\mu_k)\\
-                         &+L\sum_{k=1}^{n}\ln\mu_k-\sum_{k=1}^{n}\ln\mu_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+    \ell(\bm w;\rho, L, \tau)&=L\ln\tau\sum_{k=1}^{n}1+\ln\Gamma(2L)\sum_{k=1}^{n} 1+L\ln(1-|\rho|^2)\sum_{k=1}^{n} 1+\sum_{k=1}^{n}\ln(\tau+w_k)+(L-1)\sum_{k=1}^{n}\ln w_k\\
+                         &-2\ln\Gamma(L)\sum_{k=1}^{n} 1-\frac{2L+1}{2}\sum_{k=1}^{n}\ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right]\\
+                         &=n\left(L\ln\tau+\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+w_k)\\
+                         &+L\sum_{k=1}^{n}\ln w_k-\sum_{k=1}^{n}\ln w_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+ w_k)^2-4\tau|\rho|^2w_k\right].\\
 \end{split}
 \end{equation}
  
-Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq_log_vero_razao_intensidade}).
+Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq_log_vero_razao_intensidade_tau_w}).
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm \mu;\rho, L)&=n\left(\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(1+\mu_k)\\
-                         &+L\sum_{k=1}^{n}\ln\mu_k-\sum_{k=1}^{n}\ln\mu_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+    \ell(\bm w;\rho, L, \tau)&=n\left(L\ln\tau + \ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+w_k)\\
+                         &+L\sum_{k=1}^{n}\ln w_k-\sum_{k=1}^{n}\ln w_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right]\\
 \end{split}
  \end{equation}
 e a forma reduzida,
-\begin{equation}\label{eq_log_vero_razao_intensidade_red}
+\begin{equation}\label{eq_log_vero_razao_intensidade_red_tau_w}
 \begin{split}
-    \ell(\bm \mu;\rho, L)&=n\left(\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)\\
-                         &+L\sum_{k=1}^{n}\ln\mu_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\rho|^2\mu_k\right]\\
+    \ell(\bm w;\rho, L, \tau)&=n\left(L\ln\tau +\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)\\
+                         &+\sum_{k=1}^{n}\ln(\tau+w_k)+L\sum_{k=1}^{n}\ln w_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right]\\
 \end{split}
  \end{equation} 
 
-Vamos obter $(\widehat \rho, \widehat L)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L)$ baseado $\bm \mu$, por maximizar~\eqref{eq_log_vero_razao_intensidade_red} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
+Vamos obter $(\widehat \rho, \widehat L, \widehat \tau)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L, \tau)$ baseado em $\bm w$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_w} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
 
-O função é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm \mu_\text{I}$ e $\bm \mu_\text{E}$. Cada faixa de dados $\bm \mu = (\mu_1,\mu_2,\dots,\mu_n)$ é particionada em duas amostras disjuntas na posição $j$:  
+A função é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamente como $\bm w_\text{I}$ e $\bm w_\text{E}$. Cada faixa de dados $\bm w = (w_1,w_2,\dots,w_n)$ é particionada em duas amostras disjuntas na posição $j$:  
 $$
-\bm \mu = (\underbrace{\mu_1,\mu_2,\dots,\mu_j}_{\bm \mu_\text{I}}, 
-\underbrace{\mu_{j+1}, \mu_{j+2},\dots,\mu_n}_{\bm \mu_\text{E}}).
+\bm w = (\underbrace{w_1,w_2,\dots,w_j}_{\bm w_\text{I}}, 
+\underbrace{w_{j+1}, w_{j+2},\dots,w_n}_{\bm w_\text{E}}).
 $$
 %Vamos assumir dois diferentes modelos para cada partição:
 %$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
 %$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-Vamos estimar $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm \mu_\text{I}$ e $\bm \mu_\text{E}$, respectivamente, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E})$.
+Vamos estimar $(\rho_\text{I},L_\text{I}, \tau_\text{I})$ e $(\rho_\text{E},L_\text{E}, \tau_\text{E})$ com $\bm w_\text{I}$ e $\bm w_\text{E}$, respectivamente, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E}, \widehat{\tau}_\text{E})$.
 
 A log-verossimilhança no ponto $j$ é, então
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E})&=n\left(\ln\Gamma(2\widehat{L}_\text{I})+\widehat{L}_\text{I}\ln(1-|\widehat{\rho}_\text{I}|^2)-2\ln\Gamma(\widehat{L}_\text{I})\right)\\
-                         &+\widehat{L}_\text{I}\sum_{k=1}^{n}\ln\mu_k-\frac{2\widehat{L}_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\widehat{\rho}_\text{I}|^2\mu_k\right]\\
-                         &=n\left((\ln\Gamma(2\widehat{L}_\text{E})+\widehat{L}_\text{E}\ln(1-|\widehat{\rho}_\text{E}|^2)-2\ln\Gamma(\widehat{L}_\text{E})\right)\\
-                         &+\widehat{L}_\text{E}\sum_{k=1}^{n}\ln\mu_k-\frac{2\widehat{L}_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(1+\mu_k)^2-4|\widehat{\rho}_\text{E}|^2\mu_k\right]
+\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E},\widehat{\tau}_\text{E})&=n\left(\widehat{L}_\text{I}\ln\widehat{\tau}_\text{I} +\ln\Gamma(2\widehat{L}_\text{I})+\widehat{L}_\text{I}\ln(1-|\widehat{\rho}_\text{I}|^2)-2\ln\Gamma(\widehat{L}_\text{I})\right)\\
+                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+w_k)+\widehat{L}_\text{I}\sum_{k=1}^{n}\ln w_k-\frac{2\widehat{L}_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+w_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2w_k\right]\\
+                         &+n\left(\widehat{L}_\text{E}\ln\widehat{\tau}_\text{E}+\ln\Gamma(2\widehat{L}_\text{E})+\widehat{L}_\text{E}\ln(1-|\widehat{\rho}_\text{E}|^2)-2\ln\Gamma(\widehat{L}_\text{E})\right)\\
+                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+w_k)+\widehat{L}_\text{E}\sum_{k=1}^{n}\ln w_k-\frac{2\widehat{L}_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+w_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2w_k\right]
 %\raisetag{2.2em}
 \end{split}
 \end{equation}
 
 Vamos aplicar o método GenSA para encontrar
 $$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\rho}_E, \widehat{L}_E),
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\tau}_I,\widehat{\rho}_E, \widehat{L}_E, \widehat{\tau}_E),
 $$ 
 onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
 
 Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
 Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
 
+\subsubsection{Aplicação na imagem simulada com duas amostras}
+
+
+As figuras \eqref{fig:razao_tau_rho_1_50} até \eqref{fig:razao_tau_rho_51_400} mostram a função de log-verossimilhança da pdf razão de intensidades \eqref{eq:pdf_razao_intensidades_tau_w} aplicada na imagem de duas amostras simulada. No processo fixamos arbitrariamente a linha 80 da amostra e variamos o número de pixel entre 50, 150, 250 e 250. Desta maneira construímos duas funções $\ell{j}$, uma para cada lado da amostra. Nessas figuras fixamos o L = 4 e os canais (hh) e (vv).
+ \begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 50 na linha 80.  \label{fig:razao_tau_rho_1_50}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_1_to_50}
+     }
+     \subfloat[Pixel variando de 51 até 400 na linha 80. \label{fig:razao_tau_rho_51_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_50_to_400}
+     }
+     \caption{Funções de máxima verossimilhança razão de intensidades com pixel fixo 50.}
+     \label{fig:razao_l_50_r_80} 
+   \end{figure*}
+\begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 150 na linha 80.  \label{fig:razao_tau_rho_1_150}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_1_to_150}
+     }
+     \subfloat[Pixel variando de 151 até 400 na linha 80. \label{fig:razao_tau_rho_151_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_150_to_400}
+     }
+     \caption{Funções de máxima verossimilhança razão de intensidades com pixel fixo 150.}
+     \label{fig:razao_l_150_r_80} 
+   \end{figure*}   
+   
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 250 na linha 80.  \label{fig:razao_tau_rho_1_250}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_1_to_250}
+     }
+     \subfloat[Pixel variando de 251 até 400 na linha 80. \label{fig:razao_tau_rho_251_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_250_to_400}
+     }
+     \caption{Funções de máxima verossimilhança razão de intensidades com pixel fixo 250.}
+     \label{fig:razao_l_250_r_80} 
+   \end{figure*}   
+   
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Pixel variando de 1 até 350 na linha 80.  \label{fig:razao_tau_rho_1_350}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_1_to_350}
+     }
+     \subfloat[Pixel variando de 351 até 400 na linha 80. \label{fig:razao_tau_rho_351_400}]{%
+       \includegraphics[width=0.50\linewidth]{fig_pdf_razao_r_80_350_to_400}
+     }
+     \caption{Funções de máxima verossimilhança razão de intensidades com pixel fixo 350.}
+     \label{fig:razao_l_250_r_80} 
+   \end{figure*}   
+   
+
+O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado na imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura. \textcolor{red}{Base de dados gamf}
+ \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidências no canal $\text{hh}$ \label{evidencias_hh_hv_vv_gamf:a}]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_hv_param_tau_rho_14_pixel}
+     }
+     \subfloat[xxxxxxxxxxxxxxxxxx $\text{hv}$ \label{evidencias_hh_hv_vv_gamf:b}]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_vv_param_tau_rho_14_pixel}
+     }      
+   %  \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
+    %   \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
+    % }
+    \caption{Evidências de bordas para os três canais de intensidade}
+     \label{evidencias_hh_hv_vv_gamf} 
+   \end{figure*}
+   
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hv_vv_param_tau_rho_14_pixel}
+     }
+    \caption{Evidências de bordas para os três canais de intensidade}
+     \label{evidencias_hh_hv_vv_gamf} 
+   \end{figure*}   
+   
+   
 \subsection{Distribuição bivariada produto de intensidades - Lee } 
 
 Seja a função distribuição de probabilidade 
@@ -1712,28 +1830,28 @@ Considerando as seguintes relações
 \end{array}
 \end{equation}
 \begin{equation}\label{fun_pdf_biv_inten}
-	f(R_1,R_2;\rho,L)=\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+	f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})=\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
 \end{equation}
 
 Aplicando o logaritmo natural na equação em ambos os lados da  (\ref{fun_pdf_biv_inten})
 \begin{equation}\nonumber
 \begin{split}
-	\ln f(R_1,R_2;\rho, L)&=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right)\\
+	\ln f(R_1,R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right)\\
 	\end{split}
 \end{equation}
 \begin{equation}\nonumber
 \begin{split}
-	\ln p(R_1,R_2;\rho,L)&=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}\right)
+	\ln f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}\right)
 	 +\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\\
-	             &=\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho|^2}\right)\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
+	             &=\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
 	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
 	\end{split}
 \end{equation}
 \begin{equation}\nonumber
 \begin{split}
-	\ln p(R_1,R_2;\rho,L)&=\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\right) + \ln \exp\left(-\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho|^2}\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
+	\ln f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\right) + \ln \exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
 	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\\
-	&=\ln L^{L+1} + \ln (R_1R_2)^{\frac{L-1}{2}} -\frac{L(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}})}{1-|\rho|^2}-\ln(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}} - \ln\Gamma(L)- \ln(1-|\rho|^2)-\ln|\rho|^{L-1} \\
+	&=\ln L^{L+1} + \ln (R_1R_2)^{\frac{L-1}{2}} -\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}-\ln(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}} - \ln\Gamma(L)- \ln(1-|\rho|^2)-\ln|\rho|^{L-1} \\
 	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\\
 	&=(L+1)\ln L +\frac{L-1}{2} \ln (R_1R_2) -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\\
 	&-\frac{L+1}{2}\ln(\Sigma_{11}\Sigma_{22}) - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
@@ -1743,7 +1861,7 @@ Aplicando o logaritmo natural na equação em ambos os lados da  (\ref{fun_pdf_b
 	 	
 \begin{equation}\label{fun_log_biv_inten}
 \begin{split}
-	\ln f(R_1,R_2;\rho,L)&=(L+1)\ln L +\frac{L-1}{2} \ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\\
+	\ln f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=(L+1)\ln L +\frac{L-1}{2} \ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\\
 	&-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
 	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
 \end{split}
@@ -1753,14 +1871,14 @@ Aplicando o logaritmo natural na equação em ambos os lados da  (\ref{fun_pdf_b
 A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm\mu = (\mu_1,\dots,\mu_n)$, 
 \begin{equation}\nonumber
 \begin{split}
-  \ell(R_1, R_2;\rho, L)=\ln\prod_{k=1}^{n}f(R_1, R_2;\rho,L)\\
-  \ell(R_1, R_2;\rho, L)=\sum_{k=1}^{n}\ln f(R_1, R_2;\rho,L),
+  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\ln\prod_{k=1}^{n}f(R_1, R_2;\rho,L, \Sigma_{11}, \Sigma_{22})\\
+  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\sum_{k=1}^{n}\ln f(R_1, R_2;\rho,L, \Sigma_{11}, \Sigma_{22}),
  \end{split}
  \end{equation}
 usando a função~\eqref{fun_log_biv_inten} teremos,
 \begin{equation}\nonumber
 \begin{split}
-    \ell(R_1, R_2;\rho, L)&=\sum_{k=1}^{n}\ln f(R_1, R_2;\rho, L)\\
+    \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\sum_{k=1}^{n}\ln f(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})\\
                          &=\sum_{k=1}^{n}\left[(L+1)\ln L +\frac{L-1}{2} \ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\right.\\
 	&-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
 	&\left.+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right]
@@ -1769,7 +1887,7 @@ usando a função~\eqref{fun_log_biv_inten} teremos,
  
  \begin{equation}\nonumber
 \begin{split} 
-  \ell(R_1, R_2;\rho, L)&=(L+1)\ln L\sum_{k=1}^{n}1 +\frac{L-1}{2}\sum_{k=1}^{n} \ln R_1 +\frac{L-1}{2} \sum_{k=1}^{n}\ln R_2\\
+  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=(L+1)\ln L\sum_{k=1}^{n}1 +\frac{L-1}{2}\sum_{k=1}^{n} \ln R_1 +\frac{L-1}{2} \sum_{k=1}^{n}\ln R_2\\
                         &-L\sum_{k=1}^{n}\frac{R_1}{\Sigma_{11}(1-|\rho|^2)}-L\sum_{k=1}^{n}\frac{R_2}{\Sigma_{22}(1-|\rho|^2)}\\
 	&-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
 	&- \ln\Gamma(L)\sum_{k=1}^{n}1- \ln(1-|\rho|^2)\sum_{k=1}^{n}1-(L-1)\ln|\rho|\sum_{k=1}^{n}1\\
@@ -1780,7 +1898,7 @@ usando a função~\eqref{fun_log_biv_inten} teremos,
 Definimos a equação log-verossimilhança para a PDF univariada~(\ref{fun_log_biv_inten}).
 \begin{equation}\nonumber
 \begin{split} 
-  \ell(R_1, R_2;\rho, L)&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right] \\
+  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right] \\
                         &+\frac{L-1}{2}\sum_{k=1}^{n} \ln R_1 +\frac{L-1}{2} \sum_{k=1}^{n}\ln R_2\\
                         &-L\sum_{k=1}^{n}\frac{R_1}{\Sigma_{11}(1-|\rho|^2)}-L\sum_{k=1}^{n}\frac{R_2}{\Sigma_{22}(1-|\rho|^2)}\\
 	&-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
@@ -1790,10 +1908,10 @@ Definimos a equação log-verossimilhança para a PDF univariada~(\ref{fun_log_b
 e a forma reduzida,
 \begin{equation}\label{eq_log_vero_biv_prod_red}
 \begin{split}
-\ell(R_1, R_2;\rho, L)&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right] \\
+\ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right. \\
+	                    &-\left.\frac{L}{2}\ln\Sigma_{11}-\frac{L}{2}\ln\Sigma_{22}\right] \\
                         &+\frac{L}{2}\sum_{k=1}^{n} \ln R_1 +\frac{L}{2} \sum_{k=1}^{n}\ln R_2\\
-                        &-\frac{L}{1-|\rho|^2}\sum_{k=1}^{n}\frac{R_1}{\Sigma_{11}}-\frac{L}{1-|\rho|^2}\sum_{k=1}^{n}\frac{R_2}{\Sigma_{22}}\\
-	&-\frac{L}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{L}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
+                        &-\frac{L}{\Sigma_{11}(1-|\rho|^2)}\sum_{k=1}^{n}R_1-\frac{L}{\Sigma_{22}(1-|\rho|^2)}\sum_{k=1}^{n}R_2\\
 	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
 \end{split}
  \end{equation} 

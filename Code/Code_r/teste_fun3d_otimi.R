@@ -5,12 +5,14 @@
 #      2) Progama preparado para rodar amostras em duas metades com sigmas propostos me \cite{nhfc} e \cite{gamf}.
 #      3) Desabilitei o print em arquivo depois de rodar os testes de interesse com o intuito de não modificar arquivos indevidamente.
 rm(list = ls())
-library(plotly)
+require(ggplot2)
+require(latex2exp)
+require(GenSA)
+require(maxLik)
 #
-source("func_obj_l_gauss_lee_eq26.r")
-source("loglik_razao.r")
-#source("loglikd_prod_mag_lee_eq26.r")
-# Programa principal
+source("teste_fun3d.R")
+source("loglik_produto_biv.r")
+res <- maxBFGS(teste_fun3d, start=c(0.5, 0.5, 0.5))
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
@@ -44,40 +46,33 @@ N <- length(indx)
 z <- rep(0, N)
 z[1: N]  <- zaux1[1: N]
 ## Discretizacao de L
-nx <- 100
-ny <- 20
-x    <- rep(0, nx)
+#nx <- 100
+#ny <- 20
+#x    <- rep(0, nx)
 ## Discretizacao de rho
-y    <- rep(0, ny - 1)
-li <- 0.05
-lf <- 10
-ri <- 0
-rf <- 1
-hl <- (lf - li) / (nx - 1)
-hr <- (rf - ri) / (ny - 1)
-for (i in 1 : nx){
-  x[i] <- li + (i - 1) * hl
-}
-for (i in 1 : ny - 1){
-  y[i] <- ri + (i - 1) * hr
-}
-matf <- matrix(0, nrow = nx, ncol = ny - 1)
-Ni <- 50
-Nf <- N
+#y    <- rep(0, ny - 1)
+#li <- 0.005
+#lf <- 1
+#ri <- 0.005
+#rf <- 1
+#hl <- (lf - li) / (nx - 1)
+#hr <- (rf - ri) / (ny - 1)
+#for (i in 1 : nx){
+#  x[i] <- li + (i - 1) * hl
+#}
+#for (i in 1 : ny - 1){
+#  y[i] <- ri + (i - 1) * hr
+#}
+#matf <- matrix(0, nrow = nx, ncol = ny - 1)
+Ni <- 1
+Nf <- 50
 L <- 4
-for (i in 1 : nx ){
-  for (j in 1 : ny - 1){
-    r1 <- x[i]
-    r2 <- y[j]
-    matf[i,j] = loglik_razao(c(r1, r2))
-  }
-}
-p <- plot_ly(x = y, y = x, z = matf, type = "surface") 
-p <- p %>%  layout(title = TeX("\\rho"),
-                   scene = list(
-                     xaxis = list(title = TeX("&frac{1}{4}")),
-                     yaxis = list(title = TeX("\\frac{1}{4}")),  
-                     zaxis = list(title = TeX("f(x,y)=x^2\\dot y"))
-                   ))
-p <- p %>% config(mathjax = 'cdn')
-print(p) 
+#for (i in 1 : nx ){
+#  for (j in 1 : ny - 1){
+#    r1 <- x[i]
+#    r2 <- y[j]
+#    r3 <- rho
+#    matf[i,j] = loglik_produto_biv(c(r1, r2, r3))
+#  }
+#}
+res1 <- maxBFGS(loglik_produto_biv, start=c(0.5, 0.5, 0.5))

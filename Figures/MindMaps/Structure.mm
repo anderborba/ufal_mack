@@ -1,8 +1,8 @@
-<map version="freeplane 1.8.0">
+<map version="freeplane 1.7.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="Fusion of Edge Location Evidence from Partial Information in PolSAR Imagery" FOLDED="false" ID="ID_1506436616" CREATED="1592040618323" MODIFIED="1592041733148" STYLE="oval">
 <font SIZE="18"/>
-<hook NAME="MapStyle" zoom="3.0">
+<hook NAME="MapStyle">
     <properties edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" fit_to_viewport="false"/>
 
 <map_styles>
@@ -80,6 +80,7 @@
 <node TEXT="Univariate" ID="ID_834683364" CREATED="1592040780256" MODIFIED="1592040783610">
 <node TEXT="Gamma" ID="ID_1120005622" CREATED="1592040795592" MODIFIED="1592040798913"/>
 <node TEXT="Product of Intensities" ID="ID_540876929" CREATED="1592040799348" MODIFIED="1592040809208"/>
+<node TEXT="Intensity Ratio" ID="ID_46505368" CREATED="1592054298276" MODIFIED="1592054319600"/>
 </node>
 <node TEXT="Bivariate: Two Intensities" ID="ID_1821329703" CREATED="1592040783812" MODIFIED="1592040794267"/>
 <node TEXT="Parameter Estimation" ID="ID_186542533" CREATED="1592040759050" MODIFIED="1592041380025" HGAP_QUANTITY="14.74999997764826 pt" VSHIFT_QUANTITY="4.499999865889553 pt"/>

@@ -15,12 +15,12 @@ setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
 # canais para a + bi
-mat1 <- scan('Phantom_gamf_0.000_1_2_1.txt')
-mat2 <- scan('Phantom_gamf_0.000_1_2_2.txt')
+mat1 <- scan('real_flevoland_2.txt')
+mat2 <- scan('real_flevoland_3.txt')
 setwd("..")
 setwd("Code/Code_r")
-mat1 <- matrix(mat1, ncol = 400, byrow = TRUE)
-mat2 <- matrix(mat2, ncol = 400, byrow = TRUE)
+mat1 <- matrix(mat1, ncol = 120, byrow = TRUE)
+mat2 <- matrix(mat2, ncol = 120, byrow = TRUE)
 d <- dim(mat1)
 nrows <- d[1]
 ncols <- d[2]
@@ -29,12 +29,12 @@ z1    <- rep(0, N)
 z2    <- rep(0, N)
 zaux1  <- rep(0, N)
 #
-nr <- 50
+nr <- 2
 z1  <-  mat1[nr,1:N]
 z2  <-  mat2[nr,1:N]
 conta = 0
 for (i in 1 : N){
-  if (z2[i] > 0){
+  if (z1[i] > 0 & z2[i] > 0){
     conta <- conta + 1
     zaux1[conta] <-  z1[i] / z2[i] 
   }
@@ -49,7 +49,7 @@ ny <- 20
 x    <- rep(0, nx)
 ## Discretizacao de rho
 y    <- rep(0, ny - 1)
-li <- 0.05
+li <- 0.0005
 lf <- 10
 ri <- 0
 rf <- 1
@@ -62,7 +62,7 @@ for (i in 1 : ny - 1){
   y[i] <- ri + (i - 1) * hr
 }
 matf <- matrix(0, nrow = nx, ncol = ny - 1)
-Ni <- 50
+Ni <- 51
 Nf <- N
 L <- 4
 for (i in 1 : nx ){

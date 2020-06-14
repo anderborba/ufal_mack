@@ -56,7 +56,7 @@ imshow(II)
 % plot com fusion
 %[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-[xpixel, ypixel, valor] = find(IM(:, :, 6) > 0);
+[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
 %
 axis on
 hold on;

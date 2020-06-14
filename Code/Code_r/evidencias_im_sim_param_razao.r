@@ -10,19 +10,14 @@ require(latex2exp)
 require(GenSA)
 require(maxLik)
 #
-source("func_obj_l_L_mu_razao.r")
-source("func_obj_l_razao_inten.r")
 source("func_obj_l_razao_inten_tau.r")
-source("loglike_razao.r")
-source("loglikd_razao.r")
-source("loglike_razao_tau.r")
-source("loglikd_razao_tau.r")
+source("loglik_razao.r")
 # Programa principal
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat1 <- scan('Phantom_nhfc_0.000_1_2_1.txt')
-mat2 <- scan('Phantom_nhfc_0.000_1_2_2.txt')
+mat1 <- scan('Phantom_gamf_0.000_1_2_2.txt')
+mat2 <- scan('Phantom_gamf_0.000_1_2_3.txt')
 setwd("..")
 setwd("Code/Code_r")
 r <- 400
@@ -35,8 +30,8 @@ N  <- d[2]
 evidencias          <- rep(0, nrows)
 evidencias_valores  <- rep(0, nrows)
 xev  <- seq(1, nrows, 1 )
-#for (k in 1 : nrows){# j aqui varre o número de radiais
-for (k in 1 : 1){# k aqui varre o número de radiais
+for (k in 1 : nrows){# j aqui varre o número de radiais
+#for (k in 230 : 230){# k aqui varre o número de radiais
   print(k)
   z1 <- rep(0, N)
 	z2 <- rep(0, N)
@@ -58,15 +53,20 @@ for (k in 1 : 1){# k aqui varre o número de radiais
 	tau[1: N] <- zaux[1: N]
 	matdf1 <- matrix(0, nrow = N, ncol = 2)
 	matdf2 <- matrix(0, nrow = N, ncol = 2)
+	L = 4
 	for (j in 1 : N){
-    r1 <- 1
-	  r2 <- 0.00005
-	  res1 <- maxBFGS(loglike_razao_tau, start=c(r1, r2))
+    r1 <- 2
+	  r2 <- 0.5
+	  Ni <- 1
+	  Nf <- j
+	  res1 <- maxBFGS(loglik_razao, start=c(r1, r2))
 	  matdf1[j, 1] <- res1$estimate[1]
 	  matdf1[j, 2] <- res1$estimate[2]
-	  r1 <- 1
-    r2 <- 0.00005
-	  res2 <- maxBFGS(loglikd_razao_tau, start=c(r1, r2))
+	  r1 <- 2
+    r2 <- 0.5
+    Ni <- j + 1
+    Nf <- N
+	  res2 <- maxBFGS(loglik_razao, start=c(r1, r2))
 	  if (j < N){
 	    matdf2[j, 1] <- res2$estimate[1]
 	    matdf2[j, 2] <- res2$estimate[2]
@@ -82,18 +82,18 @@ for (k in 1 : 1){# k aqui varre o número de radiais
 x <- seq(N - 1)
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){
-  lobj[j] <- func_obj_l_razao_inten(j)
+  lobj[j] <- func_obj_l_razao_inten_tau(j)
 }
 df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 print(p)
 # imprime em arquivo no diretorio  ~/Data/
-#dfev <- data.frame(xev, evidencias)
-#names(dfev) <- NULL
-#setwd("../..")
-#setwd("Data")
-#sink("evid_real_flevoland_hh_vh_param_razao.txt")
-#print(dfev)
-#sink()
-#setwd("..")
-#setwd("Code/Code_r")
+dfev <- data.frame(xev, evidencias)
+names(dfev) <- NULL
+setwd("../..")
+setwd("Data")
+sink("evid_sim_gamf_hv_vv_razao_param_tau_rho_14_pixel.txt")
+print(dfev)
+sink()
+setwd("..")
+setwd("Code/Code_r")
