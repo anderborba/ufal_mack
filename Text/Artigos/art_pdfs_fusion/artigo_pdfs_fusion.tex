@@ -103,7 +103,7 @@ Section~\ref{sec_04} describes the approach to edge evidence fusing.
 Section~\ref{sec_05} presents numerical results.
 Finally, Section~\ref{sec_06} concludes the work with observations, future directions of research, and the feasibility of detecting edges in each channel of PolSAR images.
 
-\section{Statistical modeling for PolSAR data}\label{sec_02}
+\section{Methodology}\label{sec_02}
 
 Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
@@ -117,12 +117,35 @@ We used three $m=3$ channels in this study.
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
 This assumption usually holds on targets where the speckle is fully developed but, since we will estimate $L$ on each sample (instead of considering the same number of looks for the whole image), we will in part take into account departures from such hypothesis.
 
+\subsection{Sharp Edge Model}\label{sec_03}
+We approach edge detection with the Gambini Algorithm~\cite{gmbf, fbgm, nhfc}.
 
-\section{Probabilities Densities functions to intensities channels}
+It consists of the following steps:
+\begin{enumerate}
+	\item Identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner.
+	\item Cast rays from the centroid to the outside of the area.
+	\item Collect data on a strip, ideally of the size of a pixel, around the rays using the  Bresenham's midpoint line algorithm.
+	\item Compute the value function on every point of the ray.
+	\item Use the GenSA method~\cite{xgsh}, to find points of maxima in the functions of interest.
+	\item Fuse the evidence of detected edges in the (hh), (hv) and (vv) channels.
+\end{enumerate}
+
+The value function is the reduced log-likelihood of the inner and external samples of the strip denoted, respectively, as $\bm z_\text{I}$ and $\bm z_\text{E}$.
+Each strip $\bm z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
+$$
+We assume two (possibly) different models for each partition:
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
+$\bm Z_\text{E} \sim \Gamma(\mu_ext{E},L_\text{E})$.
+We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+
+\subsection{Marginal Models}
 Fully polarimetric data may be modeled by~\eqref{eq:DistWishart}.
 Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{lee,hsbmp}.
 
-\subsection{Probability density Gamma function }
+\subsubsection{Probability density Gamma function}
 We assume that the distribution of each intensity channel is a 
 Gamma law with probability density function
 \begin{equation}
@@ -144,18 +167,8 @@ n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
-Figure \eqref{fig:loglikelihood_im_sim_gamma}\subref{fig:loglikelihood_im_sim_gamma_l_1_100} shows the log-likelihood function to simulated image with radial equal to 50 and the fixed point in sample k from 1 to 100, and Figure \eqref{fig:loglikelihood_im_sim_gamma}\subref{fig:loglikelihood_im_sim_gamma_l_100_400} is similar with the fixed point in sample k from 100 to 400.
-   \begin{figure}[hbt]
-   \centering
-     \subfloat[Pixel from 1 to k. \label{fig:loglikelihood_im_sim_gamma_l_1_100}]{%
-       \includegraphics[width=0.26\textwidth]{fig_l_100_gamma_sim_L_mu_radial_50}}
-       \subfloat[Pixel from k+1 to n .\label{fig:loglikelihood_im_sim_gamma_l_100_400}]{%
-       \includegraphics[width=0.26\textwidth]{fig_l_100_to400_gamma_sim_L_mu_radial_50}
-     }
-    \caption{Log-likelihood gamma function to simulated image.} \label{fig:loglikelihood_im_sim_gamma}   
-\end{figure}
 
-\subsection{Probability density univariate magnitude of product}
+\subsubsection{Probability density univariate magnitude of product}
 
 The magnitude of product $\sigma_i$ e $\sigma_j$, where $i,j=\{\text{HH},\text{HV}, \text{VV}\}$, is an important measure of the polarimetric SAR image. Let normalized magnitude defined to, 
 \begin{equation}
@@ -180,7 +193,7 @@ Given the sample $z = (z_1,\dots,z_n)$, the reduced log-likelihood of this model
 \end{split}
  \end{equation} 
 %
-\subsection{Probability density univariate ratio intensity}
+\subsubsection{Probability density univariate ratio intensity}
 
 The probability density ratio intensity among $\mathbf{S}_i$ e $\mathbf{S}_j$, where $i,j=\{\text{HH},\text{HV}, \text{VV}\}$, are important discriminators in the study of PolSar image. Let the normalized intensity ratio be  
 \begin{equation}\label{eq:razao_intensidades}
@@ -210,31 +223,8 @@ The log-likelihood function is obtained by applying the natural logarithm in the
 \end{split}
  \end{equation} 
 %
-\section{Edge Detection on a Single Data Strip}\label{sec_03}
-We approach edge detection with the Gambini Algorithm~\cite{gmbf, fbgm, nhfc}.
-
-It consists of the following steps:
-\begin{enumerate}
-	\item Identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner.
-	\item Cast rays from the centroid to the outside of the area.
-	\item Collect data on a strip, ideally of the size of a pixel, around the rays using the  Bresenham's midpoint line algorithm.
-	\item Compute the value function on every point of the ray.
-	\item Use the GenSA method~\cite{xgsh}, to find points of maxima in the functions of interest.
-	\item Fuse the evidence of detected edges in the (hh), (hv) and (vv) channels.
-\end{enumerate}
-
-The value function is the reduced log-likelihood of the inner and external samples of the strip denoted, respectively, as $\bm z_\text{I}$ and $\bm z_\text{E}$.
-Each strip $\bm z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
-$$
-\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
-\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
-$$
-We assume two (possibly) different models for each partition:
-$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
-$\bm Z_\text{E} \sim \Gamma(\mu_ext{E},L_\text{E})$.
-We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
-
-\subsection{Probability density Gamma value function}
+\subsection{Edge Point Estimation}
+\subsubsection{Probability density Gamma value function}
 The total log-likelihood at point $j$ is, then,
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
@@ -254,25 +244,8 @@ where $\min_s$ is a minimum sample size that we set to $14$.
 In this way, we obtain one estimates for the edge for each intensity channel.
 Notice that this approach can be extended and/or modified to cope with any kind of data.
 
-Figures \eqref{ev_gamma_sim_gamf_hh_hv_vv}\subref{evidencias_gamma_sim_gamf_hh:a}\subref{evidencias_gamma_sim_gamf_hv:b}\subref{evidencias_gamma_sim_gamf_vv:c} shows evidence edges to simulated image in each channel. 
 
- \begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_gamma_sim_gamf_hh:a}]{%
-       \includegraphics[width=0.32\linewidth]{ev_gamma_sim_gamf_hh_14_pixel}
-     }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_gamma_sim_gamf_hv:b}]{%
-       \includegraphics[width=0.32\linewidth]{ev_gamma_sim_gamf_hv_14_pixel}
-     }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_gamma_sim_gamf_vv:c}]{%
-       \includegraphics[width=0.32\linewidth]{ev_gamma_sim_gamf_vv_14_pixel}
-     }
-     \caption{Edges evidences from the three intensity channels}
-     \label{ev_gamma_sim_gamf_hh_hv_vv} 
-   \end{figure*}
-
-
-\subsection{Probability density magnitude of product value function}
+\subsubsection{Probability density magnitude of product value function}
 Using probability density magnitude of product value function \eqref{eq:TotalLogLikelihood_prod_mag} in the sample
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
@@ -299,15 +272,6 @@ The total log-likelihood at point j is, then
 \end{split}
 \end{equation}
 
-   \begin{figure}[hbt]
-   \centering
-     \subfloat[Pixel from 1 to k. \label{fig:loglikelihood_im_sim_gamma_l_1_100}]{%
-       \includegraphics[width=0.26\textwidth]{fig_pdf_mag_prod_r_35_1_to_100_ingles}}
-       \subfloat[Pixel from k+1 to n .\label{fig:loglikelihood_im_sim_gamma_l_100_400}]{%
-       \includegraphics[width=0.26\textwidth]{fig_pdf_mag_prod_r_35_101_to_400_ingles}
-     }
-    \caption{Log-likelihood gamma function to simulated image.} \label{fig:loglikelihood_im_sim_gamma}   
-\end{figure}
 
 
 We then apply GenSA to find  
@@ -322,7 +286,7 @@ Notice that this approach can be extended and/or modified to cope with any kind 
 We will see ways of fusing these evidences in the next section.
 
 
-\subsection{Probability density ratio intensity value function}
+\subsubsection{Probability density ratio intensity value function}
 Given the sample $\bm w = (w_1,\dots,w_n)$, is to obtain $(\widehat \rho, L, \widehat \tau)$, the maximum likelihood estimator (MLE) of $(\rho, L, \tau)$ based on $\bm w$ maximizing~\eqref{eq_log_vero_razao_intensidade_red_tau_w} with the BFGS method implemented in the \texttt{maxLik}~cite{ht} package. We prefer optimization by solving $\nabla\ell=\bm 0$ in order to improve numerical stability.
 
 The function is the reduced log-likelihood for the internal and external samples of the data strip denoted respectively as $\bm w_\text{I}$ and $\bm w_\text{E}$. Each data strip $\bm w = (w_1,w_2,\dots,w_n)$ is split into two disjointed samples at the $j$ position:
@@ -359,9 +323,7 @@ Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensid
 Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
 
 
-
-
-\section{Fusion of Evidences}\label{sec_04}
+\subsection{Fusion of Evidences}\label{sec_04}
 
 Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
 We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
@@ -379,12 +341,12 @@ multi-resolution singular value decomposition (MR-SVD).
 %Refs.~\cite{bmf_2019,n_r,mit,gs,fawcett} provide details about the three first.
 %We describe the two latter below.
 
-\subsection{Simple Average}
+\subsubsection{Simple Average}
 The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels:
 $\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
 %where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
-\subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
+\subsubsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
 %We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sampled by a factor of two. 
 %In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
@@ -404,7 +366,7 @@ The DWT fusion method has the following steps:
 \item The result of the fusion $I_F$ is the inverse DWT transformation of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 \end{enumerate}
 %%% ACF Aqui dizer que é a Inverse DWT do que
-\subsection{Principal Component Analysis -- PCA}
+\subsubsection{Principal Component Analysis -- PCA}
 
 %%% ACF Revisar e corrigir a notação; usar notação matemática sempre que necessário
 This section is based on~\cite{n_r,mit}.
@@ -421,7 +383,7 @@ The method is comprised of the following steps:
 \item Fuse $\bm I_F(x,y)=\sum_{c=1}^{n_c}\bm P_c\bm{\widehat\jmath}_c(x,y)$.
 \end{enumerate}
 
-\subsection{ROC Statistics}
+\subsubsection{ROC Statistics}
 The ROC method was proposed and described on~\cite{gs,fawcett}:
 \begin{enumerate}
 %\item the evidence of edges in each channels $\bm{\widehat\jmath}_c$, with $c=1,\dots,nc$ in a binary way;
@@ -433,11 +395,11 @@ The optimal threshold corresponds to the point of the ROC curve closest (in the 
 \item The fusion $\bm I_F$ is the matrix $\bm M_t$ which corresponds to the optimal threshold.
 \end{enumerate}
 
-\subsection{Multi-Resolution Stationary Wavelet Transform -- MR-SWT}  
+\subsubsection{Multi-Resolution Stationary Wavelet Transform -- MR-SWT}  
 This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-SWT method is the replacement of the method discrete wavelet transform (DWT) by the method stationary wavelet transform SWT. 
 %%% ACF Esclarecer quais são estes filtros
 
-\subsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
+\subsubsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
 
 MR-SVD Fusion~\cite{naidu} works similarly to MR-DWT. 
 The difference consists in changing the DWT filters by the SVD filters. 
@@ -475,12 +437,53 @@ of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$, where $f$ denotes the fusion 
 \end{equation}
 \end{enumerate}
 
-\section{Results}\label{sec_05}
+\section{Results}
+\subsection{Simulated Image}
+Figure \eqref{fig:loglikelihood_im_sim_gamma}\subref{fig:loglikelihood_im_sim_gamma_l_1_100} shows the log-likelihood function to simulated image with radial equal to 50 and the fixed point in sample k from 1 to 100, and Figure \eqref{fig:loglikelihood_im_sim_gamma}\subref{fig:loglikelihood_im_sim_gamma_l_100_400} is similar with the fixed point in sample k from 100 to 400.
+   \begin{figure}[hbt]
+   \centering
+     \subfloat[Pixel from 1 to k. \label{fig:loglikelihood_im_sim_gamma_l_1_100}]{%
+       \includegraphics[width=0.26\textwidth]{fig_l_100_gamma_sim_L_mu_radial_50}}
+       \subfloat[Pixel from k+1 to n .\label{fig:loglikelihood_im_sim_gamma_l_100_400}]{%
+       \includegraphics[width=0.26\textwidth]{fig_l_100_to400_gamma_sim_L_mu_radial_50}
+     }
+    \caption{Log-likelihood gamma function to simulated image.} \label{fig:loglikelihood_im_sim_gamma}   
+\end{figure}
 
-\subsection{PolSAR image}
+
+Figures \eqref{ev_gamma_sim_gamf_hh_hv_vv}\subref{evidencias_gamma_sim_gamf_hh:a}\subref{evidencias_gamma_sim_gamf_hv:b}\subref{evidencias_gamma_sim_gamf_vv:c} shows evidence edges to simulated image in each channel. 
+
+ \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_gamma_sim_gamf_hh:a}]{%
+       \includegraphics[width=0.32\linewidth]{ev_gamma_sim_gamf_hh_14_pixel}
+     }
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_gamma_sim_gamf_hv:b}]{%
+       \includegraphics[width=0.32\linewidth]{ev_gamma_sim_gamf_hv_14_pixel}
+     }
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_gamma_sim_gamf_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{ev_gamma_sim_gamf_vv_14_pixel}
+     }
+     \caption{Edges evidences from the three intensity channels}
+     \label{ev_gamma_sim_gamf_hh_hv_vv} 
+   \end{figure*}
+
+
+
+   \begin{figure}[hbt]
+   \centering
+     \subfloat[Pixel from 1 to k. \label{fig:loglikelihood_im_sim_gamma_l_1_100}]{%
+       \includegraphics[width=0.26\textwidth]{fig_pdf_mag_prod_r_35_1_to_100_ingles}}
+       \subfloat[Pixel from k+1 to n .\label{fig:loglikelihood_im_sim_gamma_l_100_400}]{%
+       \includegraphics[width=0.26\textwidth]{fig_pdf_mag_prod_r_35_101_to_400_ingles}
+     }
+    \caption{Log-likelihood gamma function to simulated image.} \label{fig:loglikelihood_im_sim_gamma}   
+\end{figure}
+
+\subsection{PolSAR Image}
 
 We used a $750\times 1024$ pixels AIRSAR PolSAR image of Flevoland, L-band, for the tests. 
-Fig.~\ref{flevoland_radial_4look} shows the ROI, with the radial lines where edges are detected. 
+Fig.~ shows the ROI, with the radial lines where edges are detected. 
 Fig.~\ref{gt_flevoland} shows the ground reference in red.  
 
 %\begin{figure}[hbt]
@@ -593,7 +596,7 @@ Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to t
 	\end{tabular}
 \end{table}
 
-\section{Conclusion}\label{sec_06}
+\section{Discussion}\label{sec_06}
 
 We found evidence of edges using the maximum likelihood method under the Wishart model for PolSAR data. 
 The evidence was found in each of the three intensity channels of an AIRSAR L-band image over Flevoland.
