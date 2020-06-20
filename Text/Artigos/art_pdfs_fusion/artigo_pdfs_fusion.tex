@@ -145,7 +145,7 @@ We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ wit
 Fully polarimetric data may be modeled by~\eqref{eq:DistWishart}.
 Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{lee,hsbmp}.
 
-\subsubsection{Probability density Gamma function}
+\subsubsection{Univariate probability density Gamma function}
 We assume that the distribution of each intensity channel is a 
 Gamma law with probability density function
 \begin{equation}
@@ -168,12 +168,7 @@ We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) o
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
 
-\subsubsection{Probability density univariate magnitude of product}
-
-The magnitude of product $\sigma_i$ e $\sigma_j$, where $i,j=\{\text{HH},\text{HV}, \text{VV}\}$, is an important measure of the polarimetric SAR image. Let normalized magnitude defined to, 
-\begin{equation}
-	z = \frac{\left|\frac{1}{L} \sum_{k=1}^L\sigma_i(k)\sigma_j^H(k) \right|}{\sqrt{E[|\sigma_i|^2]E[|\sigma_j|^2]}}.
-\end{equation}
+\subsubsection{Univariate probability density magnitude of product}
 
 The probability density univariate magnitude of product
 \begin{equation}\label{eq:pdf_mag_prod}
@@ -183,7 +178,7 @@ The probability density univariate magnitude of product
 \end{equation}
 where $I_0$ e $K_{L-1}$ are modified Bessel functions, with $\rho>0$, and $L>0$.
 
-Given the sample $z = (z_1,\dots,z_n)$, the reduced log-likelihood of this model is
+Given the sample $\bm z = (z_1,\dots,z_n)$, the reduced log-likelihood of this model is
 \begin{equation}\label{eq:eq_log_vero_mag_prod_red}
 \begin{split}
     \ell(z;\rho, L)&=n\left[(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]\\
@@ -193,28 +188,22 @@ Given the sample $z = (z_1,\dots,z_n)$, the reduced log-likelihood of this model
 \end{split}
  \end{equation} 
 %
-\subsubsection{Probability density univariate ratio intensity}
+\subsubsection{Univariate probability density ratio intensity}
 
-The probability density ratio intensity among $\mathbf{S}_i$ e $\mathbf{S}_j$, where $i,j=\{\text{HH},\text{HV}, \text{VV}\}$, are important discriminators in the study of PolSar image. Let the normalized intensity ratio be  
-\begin{equation}\label{eq:razao_intensidades}
- z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{\sigma}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{\sigma}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{\sigma}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{\sigma}_j(k)|^2},\\
-\end{equation}
-where $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$.
-  
 Considering the univariate probability density function ratio of multi-look intensities,
 \begin{equation}\label{eq:pdf_razao_intensidades}
 	f(z;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+z)^2-4|\rho|^2z \right]^{\frac{2L+1}{2}}}\\
 \end{equation}
 where, $\rho>0$ and $L>0$.  Assuming
 \begin{equation}\label{eq:razao_intensidades_w}
- w=\frac{\sum_{k=1}^{n}\frac{|\mathbf{\sigma}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{\sigma}_j(k)|^2}{\Sigma_{22}}}=\tau z,\\ 
+ w=\tau z,\\ 
 \end{equation} 
 and performing the variable change in~\eqref{eq:pdf_razao_intensidades}, we have 
 \begin{equation}\label{eq:pdf_razao_intensidades_tau_w}
 	f(w;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}}.\\
 \end{equation}
 
-The log-likelihood function is obtained by applying the natural logarithm in the equation~\eqref{eq:pdf_razao_intensidades_tau_w} 
+Given the sample $\bm w = (w_1,\dots,w_n)$, the reduced log-likelihood of this model is 
 \begin{equation}\label{eq_log_vero_razao_intensidade_red_tau_w}
 \begin{split}
     \ell(\bm w;\rho, L, \tau)&=n\left(L\ln\tau +\ln\Gamma(2L)+L\ln(1-|\rho|^2)\right.\\
@@ -223,6 +212,114 @@ The log-likelihood function is obtained by applying the natural logarithm in the
 \end{split}
  \end{equation} 
 %
+\subsubsection{Bivariate probability density product of intensity} 
+
+Let the probabilities density function 
+%\begin{equation}\label{func_biv_produto_inten_b1_b2}
+%	f(B_1,B_2;\rho, L)=\frac{\left(B_1B_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho|^2}\right)}{\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}I_{L-1}\left(2\sqrt{B_1B_2}\frac{|\rho|}{1-|\rho|^2}\right)
+%\end{equation}
+%Considerando as seguintes relações 
+%\begin{equation}\label{eqn59}
+%\begin{array}{ccccc}
+%	R_1&=&\frac{1}{L}\sum_{k=1}^{L}|S_i(k)|^2&=&\frac{B_1\Sigma_{11}}{L}\\
+%	R_2&=&\frac{1}{L}\sum_{k=1}^{L}|S_j(k)|^2&=&\frac{B_2\Sigma_{22}}{L}\\
+%\end{array}
+%\end{equation}
+\begin{equation}\label{fun_pdf_biv_inten}
+\begin{split}
+	f(z_1,z_2;\rho,L, \Sigma_{11}, \Sigma_{22}) =\\
+	&\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}\\
+	&I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+\end{split}
+\end{equation}
+Given the samples $\bm z_1 = (z_1^1,\dots,z_n^1)$ and $\bm z_2 = (z_1^2,\dots,z_n^2)$, the reduced log-likelihood of this model is
+
+%Aplicando o logaritmo natural na equação em ambos os lados da  (\ref{fun_pdf_biv_inten})
+%\begin{equation}\nonumber
+%\begin{split}
+%	\ln f(R_1,R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right)\\
+%	\end{split}
+%\end{equation}
+%\begin{equation}\nonumber
+%\begin{split}
+%	\ln f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}\right)
+%	 +\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\\
+%	             &=\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
+%	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+%	\end{split}
+%\end{equation}
+%\begin{equation}\nonumber
+%\begin{split}
+%	\ln f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=\ln\left(L^{L+1}\left(R_1R_2\right)^{\frac{L-1}{2}}\right) + \ln \exp\left(-\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
+%	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\\
+%	&=\ln L^{L+1} + \ln (R_1R_2)^{\frac{L-1}{2}} -\frac{L\left(\frac{R_1}{\Sigma_{11}}+\frac{R_2}{\Sigma_{22}}\right)}{1-|\rho|^2}-\ln(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}} - \ln\Gamma(L)- \ln(1-|\rho|^2)-\ln|\rho|^{L-1} \\
+%	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\\
+%	&=(L+1)\ln L +\frac{L-1}{2} \ln (R_1R_2) -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\\
+%	&-\frac{L+1}{2}\ln(\Sigma_{11}\Sigma_{22}) - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
+%	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+%\end{split}
+%\end{equation}
+	 	
+%\begin{equation}\label{fun_log_biv_inten}
+%\begin{split}
+%	\ln f(R_1,R_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=(L+1)\ln L +\frac{L-1}{2} \ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\\
+%	&-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
+%	&+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+%\end{split}
+%\end{equation}
+%
+
+%A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm\mu = (\mu_1,\dots,\mu_n)$, 
+%\begin{equation}\nonumber
+%\begin{split}
+%  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\ln\prod_{k=1}^{n}f(R_1, R_2;\rho,L, \Sigma_{11}, \Sigma_{22})\\
+%  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\sum_{k=1}^{n}\ln f(R_1, R_2;\rho,L, \Sigma_{11}, \Sigma_{22}),
+% \end{split}
+% \end{equation}
+%usando a função~\eqref{fun_log_biv_inten} teremos,
+%\begin{equation}\nonumber
+%\begin{split}
+%    \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\sum_{k=1}^{n}\ln f(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})\\
+%                         &=\sum_{k=1}^{n}\left[(L+1)\ln L +\frac{L-1}{2} \ln R_1 +\frac{L-1}{2} \ln R_2 -\frac{LR_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{LR_2}{\Sigma_{22}(1-|\rho|^2)}\right.\\
+%	&-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
+%	&\left.+\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right]
+% \end{split}
+% \end{equation}
+ 
+% \begin{equation}\nonumber
+%\begin{split} 
+%  \ell(R_1, R_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=(L+1)\ln L\sum_{k=1}^{n}1 +\frac{L-1}{2}\sum_{k=1}^{n} \ln R_1 +\frac{L-1}{2} \sum_{k=1}^{n}\ln R_2\\
+%                        &-L\sum_{k=1}^{n}\frac{R_1}{\Sigma_{11}(1-|\rho|^2)}-L\sum_{k=1}^{n}\frac{R_2}{\Sigma_{22}(1-|\rho|^2)}\\
+%	&-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
+%	&- \ln\Gamma(L)\sum_{k=1}^{n}1- \ln(1-|\rho|^2)\sum_{k=1}^{n}1-(L-1)\ln|\rho|\sum_{k=1}^{n}1\\
+%	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+%\end{split}
+%\end{equation}
+%
+%Definimos a equação log-verossimilhança para a PDF univariada~(\ref{fun_log_biv_inten}).
+%\begin{equation}\nonumber
+%\begin{split} 
+%  \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right] \\
+%                        &+\frac{L-1}{2}\sum_{k=1}^{n} \ln z_k^1 +\frac{L-1}{2} \sum_{k=1}^{n}\ln z_k^2\\
+%                        &-L\sum_{k=1}^{n}\frac{z_k^1}{\Sigma_{11}(1-|\rho|^2)}-L\sum_{k=1}^{n}\frac{z_k^2}{\Sigma_{22}(1-|\rho|^2)}\\
+%	&-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{L+1}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
+%	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{z_k^1z_k^2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+%\end{split}
+%\end{equation} 
+%e a forma reduzida,
+\begin{equation}\label{eq_log_vero_biv_prod_red}
+\begin{split}
+\ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)\right. \\
+                        &- \ln(1-|\rho|^2)-(L-1)\ln|\rho| \\
+	                    &-\left.\frac{L}{2}\ln\Sigma_{11}-\frac{L}{2}\ln\Sigma_{22}\right] \\
+                        &+\frac{L}{2}\sum_{k=1}^{n} \ln z_k^1 +\frac{L}{2} \sum_{k=1}^{n}\ln z_k^2\\
+                        &-\frac{L}{\Sigma_{11}(1-|\rho|^2)}\sum_{k=1}^{n}z_k^1\\
+                        &-\frac{L}{\Sigma_{22}(1-|\rho|^2)}\sum_{k=1}^{n}z_k^2\\
+	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{z_k^1R_k^2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
+\end{split}
+ \end{equation} 
+
+
 \subsection{Edge Point Estimation}
 \subsubsection{Probability density Gamma value function}
 The total log-likelihood at point $j$ is, then,
@@ -246,6 +343,13 @@ Notice that this approach can be extended and/or modified to cope with any kind 
 
 
 \subsubsection{Probability density magnitude of product value function}
+
+The magnitude of product $\sigma_i$ e $\sigma_j$, where $i,j=\{\text{HH},\text{HV}, \text{VV}\}$, is an important measure of the polarimetric SAR image. Let normalized magnitude defined to, 
+\begin{equation}
+	z = \frac{\left|\frac{1}{L} \sum_{k=1}^L\sigma_i(k)\sigma_j^H(k) \right|}{\sqrt{E[|\sigma_i|^2]E[|\sigma_j|^2]}}.
+\end{equation}
+
+
 Using probability density magnitude of product value function \eqref{eq:TotalLogLikelihood_prod_mag} in the sample
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
@@ -272,8 +376,6 @@ The total log-likelihood at point j is, then
 \end{split}
 \end{equation}
 
-
-
 We then apply GenSA to find  
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\rho}_E, \widehat{L}_E),
@@ -285,8 +387,9 @@ Notice that this approach can be extended and/or modified to cope with any kind 
 
 We will see ways of fusing these evidences in the next section.
 
-
 \subsubsection{Probability density ratio intensity value function}
+The probability density ratio intensity among $\mathbf{S}_i$ e $\mathbf{S}_j$, where $i,j=\{\text{HH},\text{HV}, \text{VV}\}$, are important discriminators in the study of PolSar image. Let the normalized intensity ratio be  
+ 
 Given the sample $\bm w = (w_1,\dots,w_n)$, is to obtain $(\widehat \rho, L, \widehat \tau)$, the maximum likelihood estimator (MLE) of $(\rho, L, \tau)$ based on $\bm w$ maximizing~\eqref{eq_log_vero_razao_intensidade_red_tau_w} with the BFGS method implemented in the \texttt{maxLik}~cite{ht} package. We prefer optimization by solving $\nabla\ell=\bm 0$ in order to improve numerical stability.
 
 The function is the reduced log-likelihood for the internal and external samples of the data strip denoted respectively as $\bm w_\text{I}$ and $\bm w_\text{E}$. Each data strip $\bm w = (w_1,w_2,\dots,w_n)$ is split into two disjointed samples at the $j$ position:
@@ -321,6 +424,50 @@ onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
 
 Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
 Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
+
+\subsubsection{Probability density product intensity value function}
+
+Vamos obter $(\widehat \rho, \widehat L)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L)$ baseado $\bm \mu$, por maximizar~\eqref{eq_log_vero_razao_intensidade_red} com o método BFGS implementado no pacote \texttt{maxLik}~\cite{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
+
+O função é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm \mu_\text{I}$ e $\bm \mu_\text{E}$. Cada faixa de dados $\bm \mu = (\mu_1,\mu_2,\dots,\mu_n)$ é particionada em duas amostras disjuntas na posição $j$:  
+$$
+\bm \mu = (\underbrace{\mu_1,\mu_2,\dots,\mu_j}_{\bm \mu_\text{I}}, 
+\underbrace{\mu_{j+1}, \mu_{j+2},\dots,\mu_n}_{\bm \mu_\text{E}}).
+$$
+%Vamos assumir dois diferentes modelos para cada partição:
+%$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
+%$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+Vamos estimar $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm \mu_\text{I}$ e $\bm \mu_\text{E}$, respectivamente, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{•}t{L}_\text{E})$.
+
+A log-verossimilhança no ponto $j$ é, então
+\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{split}
+\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E})&=n\left[(\widehat{L}_\text{I}+1)\ln \widehat{L}_\text{I} - \ln\Gamma(\widehat{L}_\text{I})\right.\\
+                        &- \left.\ln(1-|\widehat{\rho}_\text{I}|^2)-(\widehat{L}_\text{I}-1)\ln|\widehat{\rho}_\text{I}|\right] \\
+                        &+\frac{\widehat{L}_\text{I}}{2}\sum_{k=1}^{n} \ln R_1 +\frac{\widehat{L}_\text{I}}{2} \sum_{k=1}^{n}\ln R_2\\
+                        &-\frac{\widehat{L}_\text{I}}{1-|\widehat{\rho}_\text{I}|^2}\sum_{k=1}^{n}\frac{R_1}{\Sigma_{11}}-\frac{\widehat{L}_\text{I}}{1-|\widehat{\rho}_\text{I}|^2}\sum_{k=1}^{n}\frac{R_2}{\Sigma_{22}}\\
+	&-\frac{\widehat{L}_\text{I}}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{\widehat{L}_\text{I}}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
+	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{I}-1}\left(2\widehat{L}_\text{I}\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\widehat{\rho}_\text{I}|}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
+	&+n\left[(\widehat{L}_\text{E}+1)\ln \widehat{L}_\text{E} - \ln\Gamma(\widehat{L}_\text{E})\right.\\
+	                    & \left[- \ln(1-|\widehat{\rho}_\text{E}|^2)-(\widehat{L}_\text{E}-1)\ln|\widehat{\rho}_\text{E}|\right] \\
+                        &+\frac{\widehat{L}_\text{E}}{2}\sum_{k=1}^{n} \ln R_1 +\frac{\widehat{L}_\text{E}}{2} \sum_{k=1}^{n}\ln R_2\\
+                        &-\frac{\widehat{L}_\text{E}}{1-|\widehat{\rho}_\text{E}|^2}\sum_{k=1}^{n}\frac{R_1}{\Sigma_{11}}-\frac{\widehat{L}_\text{E}}{1-|\widehat{\rho}_\text{E}|^2}\sum_{k=1}^{n}\frac{R_2}{\Sigma_{22}}\\
+	&-\frac{\widehat{L}_\text{E}}{2}\sum_{k=1}^{n}\ln\Sigma_{11}-\frac{\widehat{L}_\text{E}}{2}\sum_{k=1}^{n}\ln\Sigma_{22} \\
+	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{E}-1}\left(2\widehat{L}_\text{E}\sqrt{\frac{R_1R_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\widehat{\rho}_\text{E}|}{1-|\widehat{\rho}_\text{E}|^2}\right)
+\end{split}
+\end{equation}
+
+Vamos aplicar o método GenSA para encontrar
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\rho}_E, \widehat{L}_E),
+$$ 
+onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
+
+Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
+Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
+
+
+
 
 
 \subsection{Fusion of Evidences}\label{sec_04}
@@ -615,7 +762,7 @@ We highlight two avenues for future improvement of the fusion:
 \end{enumerate}
 
 %The aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods was reach. 
-\bibliographystyle{IEEEtran}
+\bibliographystyle{mdpi}
 \bibliography{../../../Text/bibliografia}
 \end{document}
 

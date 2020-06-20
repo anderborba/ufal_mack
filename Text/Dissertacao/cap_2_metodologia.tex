@@ -1287,9 +1287,19 @@ A discusão será limitada para estatística da razão $\nu$ amplitude normaliza
 \textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variância.}
 
 
-\section{Método da máxima verossimilhança aplicado nas funções densidades de probabilidades}
+\section{Metodologia}
 
-\subsection{Método da verossimilhança aplicado na pdf univariada $\Gamma$.}
+Os modelos marginais são derivados dos modelos mariados Gamma como a distribuíção complexa Wishart.
+ Nesta seção serão apresentados os modelos marginais usados no trabalho.
+
+\section{Número Equivalente de Visadas}
+O coeficiente de variação definido como a razão do desvio padrãoem uma imagem com a média para as intenidades na imagem PolSAR $\text{CV}=\frac{\sqrt{\text{Var(I)}}}{\text{E(I)}}$ é um bom indicador para no nível de ruído \textit{Speckle}. O coeficiente de variação (CV) será usado para definir o número equivalente de visadas para a intensidade (ENL(I)), 
+\begin{equation}\label{eq:ENL}
+	\text{ENL(I)} = \frac{1}{\text{CV}^2}, \\
+\end{equation}
+para mais detalhes codemos consultar \citet{ljdwo}.
+\section{Modelos de Densidades de Probabilidades Marginais}
+\subsection{Função Densidade de Probabilidade Univariada Gamma}
 Considerando a função distribuição de densidade univariada gaussiana 
 \begin{equation}\label{pdf_gauss_univ}
 	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-L\frac{z}{\mu}\right\}, \\
@@ -1314,7 +1324,7 @@ A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a am
   \ell(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L),
  \end{split}
  \end{equation}
-usando a funçcão~\eqref{func_log_univ_gaussiana} teremos,
+usando a função~\eqref{func_log_univ_gaussiana} teremos,
 \begin{equation}\nonumber
 \begin{split}
     \ell(\bm z;\mu, L)&=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
@@ -1372,75 +1382,70 @@ onde $\min_s$ é o tamanho mínimo da amostra definido por $14$.
 Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
 Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
 
+%\subsubsection*{Aplicação em imagem simulada}
+%
+%O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado na imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura. \textcolor{red}{Base de dados gamf}
+% \begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Evidências no canal $\text{hh}$ \label{evidencias_hh_hv_vv_gamf:a}]{%
+%       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
+%     }
+%     \subfloat[Evidências no canal $\text{hv}$ \label{evidencias_hh_hv_vv_gamf:b}]{%
+%       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hv_evid_param_L_mu_14_pixel}
+%     }      
+%   %  \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
+%    %   \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
+%    % }
+%    \caption{Evidências de bordas para os três canais de intensidade}
+%     \label{evidencias_hh_hv_vv_gamf} 
+%   \end{figure*}
+%   
+%   \begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
+%       \includegraphics[width=0.5\linewidth]{im_sim_gamf_vv_evid_param_L_mu_14_pixel}
+%     }
+%    \caption{Evidências de bordas para os três canais de intensidade}
+%     \label{evidencias_hh_hv_vv_gamf} 
+%   \end{figure*}
+\subsection{Função Densidade de Probabilidade Univariada produto de magnitudes das intensidades}
+%A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica, definimos a magnitude normalizada por 
+%\begin{equation}
+%	\bm\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
+%\end{equation}
+%onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
 
-
-\subsubsection*{Aplicação em imagem simulada}
-
-O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado na imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura. \textcolor{red}{Base de dados gamf}
- \begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidências no canal $\text{hh}$ \label{evidencias_hh_hv_vv_gamf:a}]{%
-       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
-     }
-     \subfloat[Evidências no canal $\text{hv}$ \label{evidencias_hh_hv_vv_gamf:b}]{%
-       \includegraphics[width=0.5\linewidth]{im_sim_gamf_hv_evid_param_L_mu_14_pixel}
-     }      
-   %  \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
-    %   \includegraphics[width=0.5\linewidth]{im_sim_gamf_hh_evid_param_L_mu_14_pixel}
-    % }
-    \caption{Evidências de bordas para os três canais de intensidade}
-     \label{evidencias_hh_hv_vv_gamf} 
-   \end{figure*}
-   
-   \begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf:c}]{%
-       \includegraphics[width=0.5\linewidth]{im_sim_gamf_vv_evid_param_L_mu_14_pixel}
-     }
-    \caption{Evidências de bordas para os três canais de intensidade}
-     \label{evidencias_hh_hv_vv_gamf} 
-   \end{figure*}
-
-\subsection{Método da verossimilhança aplicado na PDF univariada magnitude do produto}
-%\subsection{Função de densidade para a magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$}
-A magnitude do produto $\mathbf{S}_i$ e $\mathbf{S}_j$ é uma importante medida para as imagem SAR polarimétrica, definimos a magnitude normalizada por 
-\begin{equation}
-	\bm\xi = \frac{\left|\frac{1}{L} \sum_{k=1}^L\mathbf{S}_i(k)\mathbf{S}_j^H(k) \right|}{\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}}=\frac{g}{h}.
-\end{equation}
-onde é definido por $g=|\mathbf{S}_i\mathbf{S}_j^H|$ e $h=\sqrt{E[|\mathbf{S}_i|^2]E[|\mathbf{S}_i|^2]}$.
-
-A  função densidade de probabilidade univariada para $\xi$ é obtida da integração da equação \eqref{ap:eq_pdf_aux} com respeito a $B_1$, $B_2$ e $\psi$ é
+A  função densidade de probabilidade univariada produto de magnitudes das intensidades $z$ é definida por
 \begin{equation}\label{eq:pdf_mag_prod}
 \begin{array}{lcl}
-	f(\bm \xi;\rho, L)&=&\frac{4L^{L+1}\bm\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\bm\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\bm\xi}{1-|\rho|^2}\right),
+	f(z;\rho, L)&=&\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
 		\end{array}
 \end{equation}
 onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas,e onde, $\rho>0$ e $L>0$.
 
 
-A figura \eqref{fig:pdf_mag_prod} mostra a função densidade magnitude do produto com a variação das visadas $L=2,3,4$, e $8$, 
-\begin{figure}[hbt]
-\centering
-\includegraphics[width=4.0in]{dist_interferograma_multi_visadas.pdf}
-	\caption{Distribuição magnitude do produto múltiplas visadas.}
-\label{fig:pdf_mag_prod}
-\end{figure}
+%A figura \eqref{fig:pdf_mag_prod} mostra a função densidade magnitude do produto com a variação das visadas $L=2,3,4$, e $8$, 
+%\begin{figure}[hbt]
+%\centering
+%\includegraphics[width=4.0in]{dist_interferograma_multi_visadas.pdf}
+%	\caption{Distribuição magnitude do produto múltiplas visadas.}
+%\label{fig:pdf_mag_prod}
+%\end{figure}
 
-
-O logaritmo natural é aplicado na equação~\eqref{eq:pdf_mag_prod} com o objetivo de construir o método de máxima verossimilhança, realizando algumas manipulações algébricas, teremos
+Aolicando  o logaritmo natural na equação~\eqref{eq:pdf_mag_prod} com o objetivo de construir o método de máxima verossimilhança, teremos
 \begin{equation}\nonumber
 \begin{split}
-	\ln f(\bm\xi;\rho,L)&=\ln\left(\frac{4L^{L+1}\bm\xi^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|L\bm\xi}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2L\bm\xi}{1-|\rho|^2}\right)\right),\\
-	&=\ln\left(\frac{4L^{L+1}\bm\xi^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|L\bm\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\bm\xi}{1-|\rho|^2}\right),\\
-	&=\ln (4L^{L+1}\bm\xi^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|L\bm\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\bm\xi}{1-|\rho|^2}\right),\\
-     &=\ln (4)+\ln L^{L+1}+\ln \bm\xi^L-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
-     &+\ln I_0\left(\frac{2|\rho|L\bm\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\bm\xi}{1-|\rho|^2}\right),\\
-	&=\ln (4)+(L+1)\ln L+L\ln \bm\xi-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
-	&+\ln I_0\left(\frac{2|\rho|L\bm\xi}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\bm\xi}{1-|\rho|^2}\right).
+	\ln f(z;\rho,L)&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right)\right),\\
+	&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
+	&=\ln (4L^{L+1}z^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
+     &=\ln (4)+\ln L^{L+1}+\ln z^L-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
+     &+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
+	&=\ln (4)+(L+1)\ln L+L\ln z-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
+	&+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right).
 		\end{split}
 \end{equation}
 
-Encontramos a função logarítmica para a \textbf{PDF} univariada magnitude do produto
+Definimos a função logarítmica para a densidade de probabilidade univariada produto de magnitudes das intensidades
 \begin{equation}\label{eq:log_vero_mag_produto}
 \begin{split}
 	\ln f(\bm\xi; \rho,\L)&=\ln (4)+(L+1)\ln L+L\ln \bm\xi-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
@@ -1448,19 +1453,19 @@ Encontramos a função logarítmica para a \textbf{PDF} univariada magnitude do 
 	\end{split}
 \end{equation}
 
-A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm\xi = (\xi_1,\dots,\xi_n)$, 
+A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm z = (z_1,\dots,z_n)$, 
 \begin{equation}\nonumber
 \begin{split}
-  \ell(\bm \xi;\rho, L)=\ln\prod_{k=1}^{n}f(\xi_k;\rho,L)\\
-  \ell(\bm \xi;\rho, L)=\sum_{k=1}^{n}\ln f(\xi_k;\rho,L),
+  \ell(\bm z;\rho, L)=\ln\prod_{k=1}^{n}f(z_k;\rho,L)\\
+  \ell(\bm z;\rho, L)=\sum_{k=1}^{n}\ln f(z_k;\rho,L),
  \end{split}
  \end{equation}
 usando a função~\eqref{eq:log_vero_mag_produto} teremos,
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm \xi;\rho, L)&=\sum_{k=1}^{n}\ln f(\xi_k;\rho,L)\\
-                         &=\sum_{k=1}^{n}\left[\ln (4)+(L+1)\ln L+L\ln \xi_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\right.\\
-                         &\left.+\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right)\right],\\
+    \ell(\bm z;\rho, L)&=\sum_{k=1}^{n}\ln f(z_k;\rho,L)\\
+                         &=\sum_{k=1}^{n}\left[\ln (4)+(L+1)\ln L+L\ln z_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\right.\\
+                         &\left.+\ln I_0\left(\frac{2|\rho|Lz_k}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right)\right],\\
 	 \end{split}
  \end{equation}
  
@@ -1478,139 +1483,134 @@ usando a função~\eqref{eq:log_vero_mag_produto} teremos,
 Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq:pdf_mag_prod}).
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm\xi;\rho, L)&=n\left[\ln (4)+(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln\xi_k\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right),\\
+    \ell(\bm z;\rho, L)&=n\left[\ln (4)+(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln z_k\\
+                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|Lz_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right),\\
 \end{split}
  \end{equation}
 e a forma reduzida,
 \begin{equation}\label{eq:eq_log_vero_mag_prod_red}
 \begin{split}
-    \ell(\bm \xi;\rho, L)&=n\left[(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln\xi_k\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L\xi_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2L\xi_k}{1-|\rho|^2}\right).\\
+    \ell(\bm z;\rho, L)&=n\left[(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln z_k\\
+                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right).\\
 \end{split}
  \end{equation} 
 
 
+%
+%As figuras \eqref{fig:prod_mag_l_50_r_35} até \eqref{fig:prod_mag_l_350_r_35} mostram a função de log-verossimilhança da pdf magnitude de produtos \eqref{eq:eq_log_vero_mag_prod_red} aplicada para a amostra de duas folhas simulada. No processo fixamos arbitrariamente a linha 35 da amostra e variamos o número de pixel entre 50, 150, 250 e 250. Desta maneira construímos duas funções $\ell{j}$, uma para cada lado da amostra.
+% \begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 50 na linha 35.  \label{fig:prod_mag_l_rho_1_50}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_50}
+%     }
+%     \subfloat[Pixel variando de 51 até 400 na linha 35. \label{fig:prod_mag_l_rho_51_400}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_51_to_400}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 50.}
+%     \label{fig:prod_mag_l_50_r_35} 
+%   \end{figure*}
+%   
+%   \begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 150 na linha 35.  \label{fig:prod_mag_l_rho_1_150}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_150}
+%     }
+%     \subfloat[Pixel variando de 151 até 400 na linha 35. \label{fig:prod_mag_l_rho_151_400}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_151_to_400}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 150.}
+%     \label{fig:prod_mag_l_150_r_35} 
+%   \end{figure*}
+%
+%\begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 250 na linha 35.  \label{fig:prod_mag_l_rho_1_250}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_250}
+%     }
+%     \subfloat[Pixel variando de 251 até 400 na linha 35. \label{fig:prod_mag_l_rho_251_400}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_251_to_400}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 250.}
+%     \label{fig:prod_mag_l_250_r_35} 
+%   \end{figure*}
+%   \begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 350 na linha 35.  \label{fig:prod_mag_l_rho_1_350}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_350}
+%     }
+%     \subfloat[Pixel variando de 351 até 400 na linha 35. \label{fig:prod_mag_l_rho_351_400}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_351_to_400}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 350.}
+%     \label{fig:prod_mag_l_350_r_35} 
+%   \end{figure*}
 
-As figuras \eqref{fig:prod_mag_l_50_r_35} até \eqref{fig:prod_mag_l_350_r_35} mostram a função de log-verossimilhança da pdf magnitude de produtos \eqref{eq:eq_log_vero_mag_prod_red} aplicada para a amostra de duas folhas simulada. No processo fixamos arbitrariamente a linha 35 da amostra e variamos o número de pixel entre 50, 150, 250 e 250. Desta maneira construímos duas funções $\ell{j}$, uma para cada lado da amostra.
- \begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 50 na linha 35.  \label{fig:prod_mag_l_rho_1_50}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_50}
-     }
-     \subfloat[Pixel variando de 51 até 400 na linha 35. \label{fig:prod_mag_l_rho_51_400}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_51_to_400}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 50.}
-     \label{fig:prod_mag_l_50_r_35} 
-   \end{figure*}
+%As figuras \eqref{fig:prod_mag_l_25_r_50_hh}, \eqref{fig:prod_mag_l_25_r_50_hv} e \eqref{fig:prod_mag_l_25_r_50_vv} mostram a função de log-verossimilhança da pdf magnitude de produtos \eqref{eq:eq_log_vero_mag_prod_red} aplicada na ROI da imagem de flevoland. No processo fixamos arbitrariamente a radial 50 da amostra e fixamos o número de pixel 50. Desta maneira construímos duas funções $\ell{j}$ em cada lado da radial. Os gráficos das funções foram gerados para os canais de intensidades.
+
+%Na figura \eqref{fig:prod_mag_l_rho_1_25_hh} podemos identificar o problema da função ser plana dificultando muito o processo de encontrar o ponto de máximo gerando oscilação na função $\ell(j)$. Na \eqref{fig:prod_mag_l_rho_26_120_hh} ocorre o problema das funções de bessel serem infinitas quando seu argumento assume valores grande, também dificultando o cálculo do valor máximo.  
+
+%\begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (hh).  \label{fig:prod_mag_l_rho_1_25_hh}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev}
+%     }
+%     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (hh). \label{fig:prod_mag_l_rho_26_120_hh}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (hh).}
+%     \label{fig:prod_mag_l_25_r_50_hh} 
+%   \end{figure*}
    
-   \begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 150 na linha 35.  \label{fig:prod_mag_l_rho_1_150}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_150}
-     }
-     \subfloat[Pixel variando de 151 até 400 na linha 35. \label{fig:prod_mag_l_rho_151_400}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_151_to_400}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 150.}
-     \label{fig:prod_mag_l_150_r_35} 
-   \end{figure*}
-
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 250 na linha 35.  \label{fig:prod_mag_l_rho_1_250}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_250}
-     }
-     \subfloat[Pixel variando de 251 até 400 na linha 35. \label{fig:prod_mag_l_rho_251_400}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_251_to_400}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 250.}
-     \label{fig:prod_mag_l_250_r_35} 
-   \end{figure*}
-   \begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 350 na linha 35.  \label{fig:prod_mag_l_rho_1_350}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_1_to_350}
-     }
-     \subfloat[Pixel variando de 351 até 400 na linha 35. \label{fig:prod_mag_l_rho_351_400}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_35_351_to_400}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 350.}
-     \label{fig:prod_mag_l_350_r_35} 
-   \end{figure*}
-
-As figuras \eqref{fig:prod_mag_l_25_r_50_hh}, \eqref{fig:prod_mag_l_25_r_50_hv} e \eqref{fig:prod_mag_l_25_r_50_vv} mostram a função de log-verossimilhança da pdf magnitude de produtos \eqref{eq:eq_log_vero_mag_prod_red} aplicada na ROI da imagem de flevoland. No processo fixamos arbitrariamente a radial 50 da amostra e fixamos o número de pixel 50. Desta maneira construímos duas funções $\ell{j}$ em cada lado da radial. Os gráficos das funções foram gerados para os canais de intensidades.
-
-
-
-Na figura \eqref{fig:prod_mag_l_rho_1_25_hh} podemos identificar o problema da função ser plana dificultando muito o processo de encontrar o ponto de máximo gerando oscilação na função $\ell(j)$. Na \eqref{fig:prod_mag_l_rho_26_120_hh} ocorre o problema das funções de bessel serem infinitas quando seu argumento assume valores grande, também dificultando o cálculo do valor máximo.  
-
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (hh).  \label{fig:prod_mag_l_rho_1_25_hh}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev}
-     }
-     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (hh). \label{fig:prod_mag_l_rho_26_120_hh}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (hh).}
-     \label{fig:prod_mag_l_25_r_50_hh} 
-   \end{figure*}
-   
-
-Nas figuras de \eqref{fig:prod_mag_l_25_r_50_hv} destacamos o problema da função ser plana. Assim como em no gráfico da função \eqref{fig:prod_mag_l_rho_1_25_hh} 
-
-
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (hv).  \label{fig:prod_mag_l_rho_1_25_hv}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev_hv}
-     }
-     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (hv). \label{fig:prod_mag_l_rho_26_120_hv}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev_hv}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (hv).}
-     \label{fig:prod_mag_l_25_r_50_hv} 
-   \end{figure*}
-
-Nas figuras de \eqref{fig:prod_mag_l_25_r_50_vv} destacamos o problema da função ser plana. Assim como em no gráfico da função \eqref{fig:prod_mag_l_rho_1_25_hh} 
-
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (vv).  \label{fig:prod_mag_l_rho_1_25_vv}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev_vv}
-     }
-     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (vv). \label{fig:prod_mag_l_rho_26_120_vv}]{%
-       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev_vv}
-     }
-     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (vv).}
-     \label{fig:prod_mag_l_25_r_50_vv} 
-   \end{figure*}
+%Nas figuras de \eqref{fig:prod_mag_l_25_r_50_hv} destacamos o problema da função ser plana. Assim como em no gráfico da função \eqref{fig:prod_mag_l_rho_1_25_hh} 
+%\begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (hv).  \label{fig:prod_mag_l_rho_1_25_hv}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev_hv}
+%     }
+%     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (hv). \label{fig:prod_mag_l_rho_26_120_hv}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev_hv}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (hv).}
+%     \label{fig:prod_mag_l_25_r_50_hv} 
+%   \end{figure*}
+%
+%Nas figuras de \eqref{fig:prod_mag_l_25_r_50_vv} destacamos o problema da função ser plana. Assim como em no gráfico da função \eqref{fig:prod_mag_l_rho_1_25_hh} 
+%
+%\begin{figure*}[hbt]
+%	\centering
+%     \subfloat[Pixel variando de 1 até 25 na radial 50 no canal (vv).  \label{fig:prod_mag_l_rho_1_25_vv}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_1_to_25_flev_vv}
+%     }
+%     \subfloat[Pixel variando de 26 até 120 na radial 50 no canal (vv). \label{fig:prod_mag_l_rho_26_120_vv}]{%
+%       \includegraphics[width=0.50\linewidth]{fig_pdf_mag_prod_r_50_26_to_120_flev_vv}
+%     }
+%     \caption{Funções de máxima verossimilhança produto de magnitude com pixel fixo 25 no canal (vv).}
+%     \label{fig:prod_mag_l_25_r_50_vv} 
+%   \end{figure*}
 
 
 Vamos obter $(\widehat \rho, \widehat L)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L)$ baseado $\bm \xi$, por maximizar~\eqref{eq:eq_log_vero_mag_prod_red} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Preferimos otimizar resolvendo $\nabla\ell=\bm 0$ com objetivo de melhorar a estabilidade numérica do método.
 
-A função otimizada é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamente como $\bm \xi_\text{I}$ e $\bm \xi_\text{E}$. Cada faixa de dados $\bm \xi = (\xi_1,\xi_2,\dots,\xi_n)$ é particionada em duas amostras disjuntas na posição $j$,  
+A função otimizada é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamente como $\bm z_\text{I}$ e $\bm z_\text{E}$. Cada faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ é particionada em duas amostras disjuntas na posição $j$,  
 $$
-\bm \xi = (\underbrace{\xi_1,\xi_2,\dots,\xi_j}_{\bm \xi_\text{I}}, 
-\underbrace{\xi_{j+1}, \xi_{j+2},\dots,\xi_n}_{\bm \xi_\text{E}}).
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
 $$
 
-Vamos estimar $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm \xi_\text{I}$ e $\bm \xi_\text{E}$, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E})$.
+Vamos estimar $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm z_\text{I}$ e $\bm z_\text{E}$, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E})$.
 
 A log-verossimilhança no ponto $j$ é
 \begin{equation}\label{eq:TotalLogLikelihood_prod_mag}
 \begin{split}
 \ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E})&
 =j\left[(\widehat{L}_\text{I}+1)\ln \widehat{L}_\text{I}-\ln\Gamma(\widehat{L}_\text{I})-\ln(1-|\widehat{\rho}_\text{I}|^2)\right]
-+\widehat{L}_\text{I}\sum_{k=1}^{j} \ln\xi_k\\
-&+\sum_{k=1}^{j}\ln I_0\left(\frac{2|\widehat{\rho}_\text{I}|\widehat{L}_\text{I}\xi_k}{1-|\widehat{\rho}_\text{I}|^2}\right)
-+ \sum_{k=1}^{j}\ln K_{\widehat{L}_\text{I}-1}\left(\frac{2\widehat{L}_\text{I}\xi_k}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
++\widehat{L}_\text{I}\sum_{k=1}^{j} \ln z_k\\
+&+\sum_{k=1}^{j}\ln I_0\left(\frac{2|\widehat{\rho}_\text{I}|\widehat{L}_\text{I}z_k}{1-|\widehat{\rho}_\text{I}|^2}\right)
++ \sum_{k=1}^{j}\ln K_{\widehat{L}_\text{I}-1}\left(\frac{2\widehat{L}_\text{I}z_k}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
 &+(n-j)\left[(\widehat{L}_\text{E}+1)\ln \widehat{L}_\text{E}-\ln\Gamma(\widehat{L}_\text{E})-\ln(1-|\widehat{\rho}_\text{E}|^2)\right]
-+\widehat{L}_\text{E}\sum_{k=j+1}^{n} \ln\xi_k\\
-&+\sum_{k=j+1}^{n}\ln I_0\left(\frac{2|\widehat{\rho}_\text{E}|\widehat{L}_\text{E}\xi_k}{1-|\widehat{\rho}_\text{E}|^2}\right)
-+ \sum_{k=j+1}^{n}\ln K_{\widehat{L}_\text{E}-1}\left(\frac{2\widehat{L}_\text{E}\xi_k}{1-|\widehat{\rho}_\text{E}|^2}\right).\\
++\widehat{L}_\text{E}\sum_{k=j+1}^{n} \ln z_k\\
+&+\sum_{k=j+1}^{n}\ln I_0\left(\frac{2|\widehat{\rho}_\text{E}|\widehat{L}_\text{E}z_k}{1-|\widehat{\rho}_\text{E}|^2}\right)
++ \sum_{k=j+1}^{n}\ln K_{\widehat{L}_\text{E}-1}\left(\frac{2\widehat{L}_\text{E}z_k}{1-|\widehat{\rho}_\text{E}|^2}\right).\\
 \end{split}
 \end{equation}
 
@@ -2011,6 +2011,13 @@ Uma avaliação visual leva à conclusão de que os melhores resultados são for
      \caption{Evidências de bordas para os três canais de intensidade}
      \label{evidencias_hh_hv_vv} 
    \end{figure*}
+
+
+
+
+
+
+
 
 
 %\begin{figure}[hbt]
