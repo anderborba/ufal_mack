@@ -1,0 +1,311 @@
+\RequirePackage{xr}
+
+\documentclass[journal,onecolumn,draftcls,11pt]{IEEEtran}
+
+\usepackage{graphicx}
+\graphicspath{{../Figures/GRSL_2020/}%
+	{../Figures/GRSL_2020/FactorPlots/}%
+	{../Images/GRSL_2020/}}
+
+\usepackage{subcaption}
+\captionsetup[table]{font=small,size=smaller,textfont=sc}
+\captionsetup[figure]{font=small,size=smaller}
+
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+\usepackage[cmex10]{amsmath}
+\usepackage{color}
+\usepackage{bm,bbm}
+\usepackage{wasysym}
+\usepackage{texnames}
+\usepackage{url}
+
+\externaldocument{StatisticalGeodesicFeaturesR1}
+\usepackage[listings]{tcolorbox}
+
+\usepackage{siunitx}
+\DeclareSIUnit\pertenmille{\text{\textpertenthousand}}
+\usepackage{multirow,bigstrut}
+
+\DeclareMathOperator{\Tr}{Tr}
+
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+\newcommand{\DIFscaledelfig}{0.5}
+%DIF HIGHLIGHTGRAPHICS PREAMBLE %DIF PREAMBLE
+\RequirePackage{settobox} %DIF PREAMBLE
+\RequirePackage{letltxmacro} %DIF PREAMBLE
+\newsavebox{\DIFdelgraphicsbox} %DIF PREAMBLE
+\newlength{\DIFdelgraphicswidth} %DIF PREAMBLE
+\newlength{\DIFdelgraphicsheight} %DIF PREAMBLE
+% store original definition of \includegraphics %DIF PREAMBLE
+\LetLtxMacro{\DIFOincludegraphics}{\includegraphics} %DIF PREAMBLE
+\newcommand{\DIFaddincludegraphics}[2][]{{\color{blue}\fbox{\DIFOincludegraphics[#1]{#2}}}} %DIF PREAMBLE
+\newcommand{\DIFdelincludegraphics}[2][]{% %DIF PREAMBLE
+\sbox{\DIFdelgraphicsbox}{\DIFOincludegraphics[#1]{#2}}% %DIF PREAMBLE
+\settoboxwidth{\DIFdelgraphicswidth}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\settoboxtotalheight{\DIFdelgraphicsheight}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\scalebox{\DIFscaledelfig}{% %DIF PREAMBLE
+	\parbox[b]{\DIFdelgraphicswidth}{\usebox{\DIFdelgraphicsbox}\\[-\baselineskip] \rule{\DIFdelgraphicswidth}{0em}}\llap{\resizebox{\DIFdelgraphicswidth}{\DIFdelgraphicsheight}{% %DIF PREAMBLE
+			\setlength{\unitlength}{\DIFdelgraphicswidth}% %DIF PREAMBLE
+			\begin{picture}(1,1)% %DIF PREAMBLE
+			\thicklines\linethickness{2pt} %DIF PREAMBLE
+			{\color[rgb]{1,0,0}\put(0,0){\framebox(1,1){}}}% %DIF PREAMBLE
+			{\color[rgb]{1,0,0}\put(0,0){\line( 1,1){1}}}% %DIF PREAMBLE
+			{\color[rgb]{1,0,0}\put(0,1){\line(1,-1){1}}}% %DIF PREAMBLE
+			\end{picture}% %DIF PREAMBLE
+		}\hspace*{3pt}}} %DIF PREAMBLE
+} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbegin}{\DIFaddbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddend}{\DIFaddend} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbegin}{\DIFdelbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelend}{\DIFdelend} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbegin}{\DIFOaddbegin \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbegin}{\DIFOdelbegin \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbeginFL}{\DIFaddbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddendFL}{\DIFaddendFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbeginFL}{\DIFdelbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelendFL}{\DIFdelendFL} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbeginFL}{\DIFOaddbeginFL \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbeginFL}{\DIFOdelbeginFL \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+%DIF LISTINGS PREAMBLE %DIF PREAMBLE
+\RequirePackage{listings} %DIF PREAMBLE
+\RequirePackage{color} %DIF PREAMBLE
+\lstdefinelanguage{DIFcode}{ %DIF PREAMBLE
+%DIF DIFCODE_UNDERLINE %DIF PREAMBLE
+moredelim=[il][\color{red}\sout]{\%DIF\ <\ }, %DIF PREAMBLE
+moredelim=[il][\color{blue}\uwave]{\%DIF\ >\ } %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstdefinestyle{DIFverbatimstyle}{ %DIF PREAMBLE
+language=DIFcode, %DIF PREAMBLE
+basicstyle=\ttfamily, %DIF PREAMBLE
+columns=fullflexible, %DIF PREAMBLE
+keepspaces=true %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\begin{document}
+
+\title{Statistical Properties of Geodesic Roll-Invariant Indexes in PolSAR Data over Crops\\
+	Revision R1}
+
+\author{Danilo~Fernandes,
+	Debanshu~Ratha,
+	Avik~Bhattacharya,~\IEEEmembership{Senior~Member,~IEEE},
+	and~Alejandro~C.~Frery,~\IEEEmembership{Senior~Member,~IEEE}}
+
+\markboth{IEEE Geoscience and Remote Sensing Letters}%
+{D.\ Fernandes et al.\MakeLowercase{\textit{et al.}}: Statistics Geodesic Distances}
+
+\maketitle
+
+\IEEEpeerreviewmaketitle
+
+\section{Editor-in-Chief}
+
+Your paper GRSL-00474-2020 Statistical Properties of Geodesic Roll-Invariant Indexes in PolSAR Data over Crops has been carefully reviewed by the GRSL review panel and found to be unacceptable in its present form. The reviewers did suggest, however, that if completely revised the paper might be found acceptable. We encourage you to revise and resubmit this manuscript as a new paper to GRSL.
+
+
+\section{Associate Editor}
+
+Both reviewers suggest many weaknesses and inconsistencies that need to be corrected.
+Importantly, the overall motivation needs to be clearer and targeted towards the geosciences and remote sensing audience. For example, why is roll-invariance useful, and why is it important to know their statistical distributions.
+The overall quality needs to be significantly lifted, with better referencing of key terms and more careful checking of important terms and symbols, among other noted comments.
+I recommend to reject with an invitation to resubmit a much improved paper. Please consider whether a 5 page letter may be too restrictive for the revised work and whether TGRS or JSTARS may be an appropriate avenue for resubmission.
+
+
+\section{Reviewer \#1}
+
+Overall, the manuscript provides a good description of empirical statistical properties of geodesic roll-invariant, polarimetric parameters. There are however a number of apparent inconsistencies to correct and clarifications that should be made prior to publication. One concern I have is whether the required revisions can be accomplished in a Letter format. That concern I leave to the authors and Editor.  
+My comments that need to be addressed prior to publication generally follow their appearance in the Letter:
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#1]
+	I found no reference to [9] in the Letter.
+\end{tcolorbox}
+
+We are sorry for this.
+We will certify to run \BibTeX\ before submitting the revised version and, with this, no extra references will be added.
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#2]
+	Named techniques, e.g. Hellinger, Freedman-Diaconis, etc., are not referenced; they should be.
+\end{tcolorbox}
+
+Thank you very much for noting this.
+Please notice that we provide a reference for the Hellinger distance in Section~IV (Temporal Evolution).
+Regarding the Feedman-Diaconis rule, we provide the reference to the article which discusses its optimality.
+
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#2]
+	Fig.~3a shows the histogram of the data with the worst fit (Wheat, 16~May), and the fitted density; we used the Freedman-Diaconis rule to compute the number of bins \DIFaddbegin \DIFadd{because of its optimality~\mbox{%DIFAUXCMD
+			\cite{OntheHistogramAsaDensityEstimatorL2Theory1981}}\hspace{0pt}%DIFAUXCMD
+	}\DIFaddend
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#3]
+	The last sentence in the paragraph containing eq. (3) is unnecessary (and wrong). GD(K,L) is normalized [0,1]; it is not an "angle".
+\end{tcolorbox}
+
+Agreed. We deleted that sentence.
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#4]
+	Table I is difficult to read. Tabulations of matrices are more accessible in matrix form.	
+\end{tcolorbox}
+
+Agreed.
+We changed the way of presenting the Kennaugh matrices, 
+and limited them to those used in the work.
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#5]
+	Eq. (4), the purity index is wrongly normalized. An aside: Why is the purity index the square of GD? Wouldn't a linear relationship work just as well?	
+\end{tcolorbox}
+
+We followed the definition of Geodesic Purity Index derived in Ref.~\cite{AGeneralizedVolumeScatteringModelBasedVegetationIndexfromPolarimetricSARData2019} (which is cited in our manuscript).
+That work discusses the rationale behind the quadratic form.
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#6]
+	The last paragraph in Section II refers to "scattering type angle" and "purity index" but the equations are for "scattering type angle" and "helicity parameter".	
+\end{tcolorbox}
+
+Agreed.
+We rephrased the paragraph.
+
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#6]
+	We will analyze \DIFdelbegin \DIFdel{the geodesic }\DIFdelend \DIFaddbegin \DIFadd{these three geodesic parameters:
+		purity, }\DIFaddend scattering type angle\DIFdelbegin \DIFdel{and the geodesic purity index }\DIFdelend \DIFaddbegin \DIFadd{, and helicity, the two last }\DIFaddend without scaling, i.e., $\alpha_{\text{GD}}(\bm{K}) = \text{GD}(\bm{K},\bm{K}_{\text{t}})$, and 
+	$\tau_{\text{GD}} = 1 - \sqrt{\text{GD}(\bm{K},\bm{K}_{\text{lh}})\text{GD}(\bm{K},\bm{K}_{\text{rh}})}$.
+	With this, \DIFdelbegin \DIFdel{both }\DIFdelend \DIFaddbegin \DIFadd{these two last }\DIFaddend measures lie in $[0,1]$.
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#7]
+	Bottom of the page, the sentence beginning with "Beta random variables..." needs grammatical editing.	
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#8]
+	Fig. 1 did not convey much information to me. An Overview image of the area with fields highlighted would be useful, then the temporal development of the fields has context. 	
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#9]
+	Fig. 2 \& others: Captions, labels general text must be legible. The fonts used are just too small. 	
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#10]
+	The first full paragraph below eq. (8) is not consistent with the definition of scattering type angle given in Section II.B. The Scattering Type is defined as a distance from the ideal trihedral - not some down-selection of pixels based on relative closeness to a set of canonical scattering types.
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#11]
+	The discussion of Table IV states that "five out of twenty samples .. below 1", but the Table shows 7 such samples.	
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#12]
+	Section IV finds that the statistical description of Soy Bean purity index can not distinguish between the July 27 \& the August 20 data. However, looking at the tabulated values in Table II, shows that July 3 \& August 20 fits have parameters that are within ~0.001, which naively are nearly identical. They are much closer to each other than the July 27 \& August 20 parameters are. Please explain.	
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#13]
+	Fig. 4 discussion, it appears that both wheat and oats equally span the parameter range, not just wheat as mentioned in the paragraph.	
+\end{tcolorbox}
+
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#14]
+	The Plant Area Index (PAI) is mentioned in the discussion of biomass and temporal development of the crops. It is never defined. I realize that the PAI is the subject of a publication in press, but if you rely on PAI for your analysis it must be defined here. General terms like the relative "biomass" are appropriately inferred from the ground truth / crop reports.	
+\end{tcolorbox}
+
+In plant physiology, PAI (Plant Area Index) is expressed as a square meter of plant area per square meter ground~\cite{TheArchitectureofaDeciduousForestCanopyinEasternTennessee}.
+It is assumed that the scattered EM waves have interacted with entire vegetative parts of a crop canopy. However, LAI is defined as the one-sided leaf area per unit ground surface area (i.e., LAI stans for Leaf Area per Ground Area, \SI{}{\square\meter\per\square\meter}). 
+Thus LAI, in general, is unable to take into account other canopy elements, e.g. stems, shoots, and flowers~\cite{ReviewofMethodsforinSituLeafAreaIndexDetermination}.
+
+Moreover, for indirect measurement of LAI using the digital hemispherical photography (used during the SMAPVEX16 campaign), usually, no distinction is made between leaves and other elements of a plant. 
+Thus, PAI is a proper canopy descriptor rather than LAI \cite{SeasonalVariationofLeafAreaIndexLAIOverPaddyRiceFieldsinNEChinaIntercomparisonofDestructiveSamplingLAI2200DigitalHemisphericalPhotographyDHPandAccuPARMethods,EvaluationofHemisphericalPhotographyforDeterminingPlantAreaIndexandGeometryofaForestStand}. 
+In fact, indirect methods do not measure leaf area index, as all canopy elements interacting with the EM waves are included.
+
+We also want to clarify the reviewer's concern on the SMAPVEX16 experimental plan for vegetation parameter estimation. The "ISO 19131 SMAPVEX16 MB Crop LAI Dataset Data Product Specifications" protocol (\url{https://nsidc.org/sites/nsidc.org/files/technical-references/ISO_19131_CropLAI.pdf}) was followed, which is specified in the data report \cite{SMAPVEX16MBSMAPValidationExperiment2016inManitobaCanadaExperimentalPlan}. The Plant Area Index (PAI) (actual) is utilized, which is an estimate of LAI calculated by CanEye Version 5.1 software from Digital Hemispheric Photos (DHP). Therefore, we have used PAI in our study.
+
+The revised version provides a reference to PAI.
+
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#14]
+In-situ measurements of the SMAPVEX16 campaign confirm that majority of the wheat and oat fields were at tillering during the second week of June. 
+The Manitoba weekly crop reports~\cite{manitobaagriculture} suggest that soybean seeding finished during this period, and the plants were in their unifoliate to third trifoliate growth stage indicating very low Plant Area Index (\DIFdelbegin \DIFdel{PAI}\DIFdelend \DIFaddbegin \DIFadd{a square meter of plant area per square meter ground; cf. Ref.~\mbox{%DIFAUXCMD
+		\cite{TheArchitectureofaDeciduousForestCanopyinEasternTennessee}}\hspace{0pt}%DIFAUXCMD
+}\DIFaddend ) and biomass values. 
+\DIFdelbegin %DIFDELCMD < 
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#15]
+	The coloured dots in Fig. 4 are hard to follow. A larger font would definitely help. Another approach would colour-code the dots by date, or possibly connect the dots by lines (though that may be distracting). 	
+\end{tcolorbox}
+
+\section{Reviewer \#2}
+
+In this paper, Here, authors have proposed a new paper on their recently proposed roll-invariance geodesic features. This time, they study the statistical properties of three indexes, namely $P_{GD}$, $\alpha_{GD}$ and $\tau_{GD}$. The paper is quite well written and
+easy to follow. But authors fail to convince me on the interest of their statistical study. The motivations are not clear enough.
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#1]
+	The proposition of the Lognormal and beta models for the distribution of the three roll-invariant parameters seems to be
+	a bit empirical. Is there any clear physical/theoretical reason for choosing such models? One solution (but not so easy)
+	might be to consider a Gaussian distribution for K on the manifold S15, and then derive the probability density function
+	for $P_{GD}$, $\alpha_{GD}$ and $\tau_{GD}$.
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#2]
+	In section II, you have modified GD and GD such that they lie in the interval $[0; 1]$. Why not transforming $P_{GD}$ too?
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#3]
+	According to (4), one can easily prove that $P_{GD}$ lie in $[0; 9/
+	4 ]$. But in section III, you propose to model it by a Lognormal
+	distribution which has the support $]0;\infty[$. This can be problematic. I recommend authors to better motivate this choice.
+	Since you consider a beta distribution for $\alpha_{GD}$ and $\tau_{GD}$, why not considering a generalized beta distribution for $\frac49 P_{GD}$?	
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#4]
+	In section III-C-1, you have considered the Anderson-Darling test while the Kolmogorov-Smirnoff test has been used in
+	section III-C-2. Why not using the same goodness-of-fit test all along the paper? This is a bit suspicious.	
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#5]
+	The experimental part is interesting but I believe that all the conclusion can be supported without considering the
+	stochastic modeling of the three indexes, for example by using a cumulant or log-cumulant representation of the time
+	series. The added value of the Lognormal and beta distributions are not sufficiently proved.	
+\end{tcolorbox}
+
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#5]
+	Some parts should be rewritten such as the abstract and the conclusion. For example, it is no use to explain that the R
+	software has been used for the experiments.	
+\end{tcolorbox}
+
+\bibliographystyle{IEEEtran}
+\bibliography{articles,acfrery}
+
+\end{document}
