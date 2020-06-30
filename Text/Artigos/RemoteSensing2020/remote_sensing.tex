@@ -59,6 +59,7 @@
 \usepackage{siunitx}                    % AAB inserido
 \usepackage{rotating}                   % AAB inserido
 \usepackage[utf8]{inputenc}             % AAB inserido
+\usepackage{bm,bbm}                     % AAB inserido
 %\usepackage{biblatex}                    % AAB inserido
 %================================
 % Add packages and commands here. The following packages are loaded in our class file: fontenc, calc, indentfirst, fancyhdr, graphicx, lastpage, ifthen, lineno, float, amsmath, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, amsthm, hyphenat, natbib, hyperref, footmisc, geometry, caption, url, mdframed, tabto, soul, multirow, microtype, tikz
@@ -155,29 +156,159 @@ We quantify the amount of information each combination of bands brings, and comp
 \subsection{Models}
 \subsubsection{Fully PolSAR}
 \subsubsection{Marginal Models}
-\begin{itemize}[leftmargin=*,labelsep=5.8mm]
+%Numbered lists can be added as follows:
+\begin{enumerate}[leftmargin=*,labelsep=4.9mm]
 	\item Univariate Distribution
 		\begin{enumerate}[leftmargin=*,labelsep=4.9mm]
-		\item	Gamma 
+		\item	Gamma -  
+			We assume that the distribution of each intensity channel is a 
+			Gamma law with probability density function
+			\begin{equation}
+			f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
+			\label{func_dens_uni_gamma}
+			\end{equation}
+			where $L>0$ (rather than $L\geq1$ to allow for flexibility), and $\mu>0$ is the mean.
+
+			Given the sample $\bm z = (z_1,\dots,z_n)$, the reduced log-likelihood of this model is
+			\begin{equation}
+			\ell(\bm z; L,\mu) = n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]+L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n}z_k.
+			\label{eq:LogLikelihoodGamma_2_param}
+			\end{equation}
+			With the multi-look L fixed, 	
+			\begin{equation}
+			\ell(\bm z; \mu) = -n\ln (\mu) - \frac{1}{\mu}\sum_{k=1}^{n}z_k.
+			\label{eq:LogLikelihoodGamma_1_param}
+			\end{equation}
+			We obtain $\widehat \mu$, the maximum likelihood estimator (MLE) of $\mu$ based on $\bm z$, by 					maximizing~\eqref{eq:LogLikelihoodGamma_1_param} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}. Note that $\mu=\sum_{k=1}^{n}z_k$ is a maximum candidate.  
 		\item	Product of Intensities
 		\item	Ratio of Intensities
 		\end{enumerate}
 	\item Bivariate Distribution
 	\item Trivariate Distribution
 	\item Parameter Estimation
-\end{itemize}
+%\end{itemize}
+\end{enumerate}
 \subsection{Edge Point Estimator}
 \subsection{Data}
 \section{Results}
 \subsection{Accuracy and Precision in Edge Detection}
+\subsubsection{Simulated image}
+The methodology (MLE) for detecting edge evidence will be applied to a simulated image based on Refs.~\cite{nhfc,gamf}. 
+The image has $400\times400$ pixels and is composed of two samples obeying the Wishart distribution; cf.\ Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}.
+
+For each pair of covariance matrices $\Sigma_{k_1}$, $\Sigma_{k_2}$ a PolSAR image $I_{k_1,k_2}$ is simulated: 
+samples of $W_G(\Sigma_{k_1}, 4)$ in the left half, and 
+samples of $W_G(\Sigma_{k_2}, 4)$ in the right half.
+The image has $400 \times 400$ pixels.
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{phanton_gamf_dec_pauli}%
+	\caption{Pauli decomposition}
+\label{simulada_gamf_dec_pauli}
+\end{figure}
+
+
+The Pauli decomposition is based on the linear combination of intensity channels: $(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}-I_{\text{vv}}}, \mathbf{I_\text{hv}})$. This decomposition shows the evidence of edge in the middle line, as presented in Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:a}. 
+
+Fig.~\ref{fig_Edges-Evidence}\subref{fig_Edges-Evidence:b}. 
+shows the density function of $\sigma_\text{hh}$ with parameters extracted from real data for forest and urban areas: $\sigma_\text{hh}=962892$ and $\sigma_\text{hh}= 360932$.  
+    
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{fig_evid_bordas:1a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu}}
+     \subfloat[Channel $\text{hv}$ \label{fig_evid_bordas:1b}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahv_param_mu}}
+     \subfloat[Channel $\text{vv}$ \label{fig_evid_bordas:1c}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu}}
+     \caption{Edges evidences in one radial}
+     \label{fig_evid_bordas}
+   \end{figure}	
+
+
+
+
+
+The functions have a peak indicating the evidence of the edge that should be captured, but the functions are not smooth, hindering the use of optimization methods that require the calculation of the derivative.
+This problem was solved using Generalized Simulated Annealing (GenSA)~\cite{xgsh}, suitable for non-differentiable functions.
+    
+The error is measured simulating $400$ independent images and finding $\widehat\jmath$ in a line fixed.
+By construction, the vertical line $200$ is considered as the real edge in each replication, so the error for this replication is the absolute value of the difference between this point and the estimated value, and it is computed by $E(r) = |200 - \widehat{\jmath}(r)|$, $1\leq r \leq 400$.
+
+Relative frequencies to estimate the probability of having an error smaller than a number of pixels is used. 
+Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)=\frac{H(k)}{400}$. 
+In the tests performed in this section, $k$ varies between $1$ and $10$. 
+The algorithm is described in Ref.~\cite{fbgm}.
+Fig.~\ref{probability_edge_detc} shows these probabilities as computed in each channel $I_\text{hh}$, $I_\text{hv}$ and $I_{vv}$ of the image. 
+  
+%\begin{figure}[hbt]
+%	\centering
+%	\includegraphics[width=.7\linewidth]{metricas_ihh_ivh_ivv_nhfc_artigos}%
+%	\caption{Probability of detecting edges evidences.}
+%\label{probability_edge_detc}
+%\end{figure}
+
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_evid_param_mu_14_pixel}
+     }
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hv_evid_param_mu_14_pixel}
+     }
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_vv_evid_param_mu_14_pixel}
+     }
+     \caption{Edges evidences from the three intensity channels to estimated $\mu$}
+     \label{evidencias_hh_hv_vv} 
+   \end{figure*}
+   
+   
+   \begin{figure*}[hbt]
+	\centering
+     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_evid_media_mu_14_pixel}
+     }
+     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hv_evid_media_mu_14_pixel}
+     }
+     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_vv_evid_media_mu_14_pixel}
+     }
+     \caption{Edges evidences from the three intensity channels to estimated (media) $\mu$}
+     \label{evidencias_hh_hv_vv} 
+   \end{figure*}   
+   
+   
+   
+   
+\subsubsection{Distribution univariate the product of intensity to several L fixed}
+
+
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Function $\ell$ from pixels 1 to 150 \label{fig:evid_bordas_l:1a}]{%
+       \includegraphics[width=0.32\linewidth]{log_like_prod_mag_L_fixo_ing}}
+     \subfloat[Function $\ell$ from Pixels 150 to 400 \label{fig:evid_bordas_l:1b}]{%
+       \includegraphics[width=0.32\linewidth]{log_like_prod_mag_L_fixo_ing_150_to_400}}
+     %\subfloat[Canal $\text{vv}$ \label{fig:evid_bordas_l:1c}]{%
+     %  \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu}}
+     \caption{Distribution product of intensities to several L fixed and radial equal 35}
+     \label{fig:evid_bordas_l}
+   \end{figure}	
+
 \subsection{Application to Actual Data}
 \section{Discussion}
 
 
 %This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
-%\begin{quote}
-%This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
-%\end{quote}
+\begin{quote}
+This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
+\end{quote}
 
 %%%%%%%%%%%%%%%%%%%%%\begin{equation}
 %\end{equation}%%%%%%%%%%%%%%%%%%%%%

@@ -55,9 +55,9 @@ pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")  , size=2, alpha=.7) +
         )
 
 print(pp) 
-setwd("../..")
-setwd("Text/Dissertacao/figuras")
-ggsave(pp, file = "metricas_6_fusao_flevoland.pdf")
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave(pp, file = "metricas_6_fusao_flevoland.pdf")
 #setwd("../../..")
 #setwd("Code/Code_r")
 

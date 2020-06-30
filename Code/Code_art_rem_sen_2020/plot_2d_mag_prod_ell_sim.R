@@ -5,12 +5,14 @@
 #      2) Progama preparado para rodar amostras em duas metades com sigmas propostos me \cite{nhfc} e \cite{gamf}.
 #      3) Desabilitei o print em arquivo depois de rodar os testes de interesse com o intuito de não modificar arquivos indevidamente.
 rm(list = ls())
-library(plotly)
+require(ggplot2)
+require(latex2exp)
+library(hrbrthemes)
+require(extrafont)
 #
 source("func_obj_l_prod_mag.r")
 source("loglike_prod_mag.r")
 source("loglikd_prod_mag.r")
-#source("loglikd_prod_mag_lee_eq26.r")
 # Programa principal
 setwd("../..")
 setwd("Data")
@@ -52,40 +54,45 @@ indx  <- which(zaux1 != 0)
 N <- length(indx)
 z <- rep(0, N)
 z[1: N]  <- zaux1[1: N]
-## Discretizacao de L
-nx <- 100
-ny <- 20
-x    <- rep(0, nx)
+ny <- 100
 ## Discretizacao de rho
 y    <- rep(0, ny - 1)
-li <- 1
-lf <- 20
 ri <- 0
 rf <- 1
-hl <- (lf - li) / (nx - 1)
 hr <- (rf - ri) / (ny - 1)
-for (i in 1 : nx){
-  x[i] <- li + (i - 1) * hl
-}
 for (i in 1 : ny - 1){
   y[i] <- ri + (i - 1) * hr
 }
-matf <- matrix(0, nrow = nx, ncol = ny - 1)
-Ni <- 50
-Nf <- N
-for (i in 1 : nx ){
-  for (j in 1 : ny - 1){
-    r1 <- x[i]
-    r2 <- y[j]
-    matf[i,j] = loglik_prod_mag_lee_eq26(c(r1, r2))
-  }
+j <- 150
+lobj1 <- rep(0, ny - 1)
+lobj2 <- rep(0, ny - 1)
+lobj3 <- rep(0, ny - 1)
+lobj4 <- rep(0, ny - 1)
+for (i in 1 : ny - 1){
+    r1 <- y[i]
+    L  <- 1
+    #lobj1[i] = loglike_prod_mag(y[i]) # essa linha muda para o lado esquerdo da imagem duas folhas
+    lobj1[i] = loglikd_prod_mag(y[i])
+    L  <- 2
+    lobj2[i] = loglikd_prod_mag(y[i])
+    L  <- 4
+    lobj3[i] = loglikd_prod_mag(y[i])
+    L  <- 8
+    lobj4[i] = loglikd_prod_mag(y[i])
 }
-p <- plot_ly(x = y, y = x, z = matf, type = "surface") 
-p <- p %>%  layout(title = TeX("\\rho"),
-    scene = list(
-      xaxis = list(title = TeX("&frac{1}{4}")),
-      yaxis = list(title = TeX("\\frac{1}{4}")),  
-      zaxis = list(title = TeX("f(x,y)=x^2\\dot y"))
-    ))
-p <- p %>% config(mathjax = 'cdn')
-print(p) 
+df <- data.frame(x = y, y1 = lobj1, y2 =  lobj2, y3 =  lobj3, y4 =  lobj4)
+alpha <- c(1,2,3,4)
+p <- ggplot(df) 
+pp <- p + geom_line(aes(x = x, y = y1, color = "L=1") , size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y2, color = "L=2") , size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y3, color = "L=4") , size=2, alpha=.7) +
+          geom_line(aes(x = x, y = y4, color = "L=8") , size=2, alpha=.7) +
+          ylim(-10,0) +
+          ylab(TeX('Log-likelihood')) +
+          xlab(TeX('$\\rho$')) +
+          theme_ipsum(base_family = "Times New Roman", 
+          base_size = 10, axis_title_size = 10) +
+          scale_fill_ipsum() +
+          theme(legend.title = element_blank()) +
+          theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
+print(pp)

@@ -1,6 +1,6 @@
 <map version="freeplane 1.7.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="Edge Location from Partial Information in PolSAR Imagery" FOLDED="false" ID="ID_1506436616" CREATED="1592040618323" MODIFIED="1592594543124" STYLE="oval">
+<node TEXT="Edge Location from Partial Information in PolSAR Imagery" FOLDED="false" ID="ID_1506436616" CREATED="1592040618323" MODIFIED="1592692553042" STYLE="oval" TEXT_SHORTENED="true">
 <font SIZE="18"/>
 <hook NAME="MapStyle">
     <properties edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" fit_to_viewport="false"/>
