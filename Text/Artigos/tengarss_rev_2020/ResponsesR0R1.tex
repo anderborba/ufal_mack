@@ -1,4 +1,5 @@
 \RequirePackage{xr}
+\externaldocument{FusionEvidencesPolSAR-R1}
 
 \documentclass[journal,onecolumn,draftcls,11pt]{IEEEtran}
 
@@ -21,14 +22,13 @@
 \usepackage{texnames}
 \usepackage{url}
 
-\externaldocument{StatisticalGeodesicFeaturesR1}
 \usepackage[listings]{tcolorbox}
 
 \usepackage{siunitx}
-\DeclareSIUnit\pertenmille{\text{\textpertenthousand}}
 \usepackage{multirow,bigstrut}
 
-\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\traco}{tr}
+
 
 %DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
 %DIF UNDERLINE PREAMBLE %DIF PREAMBLE
@@ -127,36 +127,65 @@ keepspaces=true %DIF PREAMBLE
 \IEEEpeerreviewmaketitle
 
 \section{Editor-in-Chief}
-%%% AAB inserido
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#1]
 Your manuscript GRSL-00400-2020 Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images has been reviewed by the GRSL  Editorial Review Board and found to be not acceptable without  major revisions.
 
 It is recommended that you revise your paper and resubmit it in  accordance with the Editorial Review Board comments given below.   Complete instructions for submitting a revision can be found at the bottom of this letter.
+\end{tcolorbox}
 
+Thank you very much for handling this manuscript.
+
+We have prepared a revised version taking into account all the comments and suggestions made by the reviewers.
+
+In fact, we found the reviews well-informed and constructive, and we would like to thank the reviewers, the Associate Editor, and Prof.\ Avik Bhattacharya for helping us make a better contribution.
+
+This response letter addresses all the comments in red, followed by
+our reactions, and, whenever necessary, the changes made.
+
+We also include a \texttt{diff} article between the prior and current versions, where deletions are in red and additions are in blue.
 
 \section{Associate Editor}
-% AAB inserido
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#1]
 Both reviewers have given valuable comments and suggested that a major revision is necessary.
+\end{tcolorbox}
 
+Thank you very much.
+To the best of our knowledge, we have addressed all the comments and suggestions.
 
 \section{Reviewer \#1}
 % AAB inserido
-This paper discusses the fusion of evidences in PolSAR images for the edge detection. Here are some suggestions.
+
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#1]
-% AAB inserido
+This paper discusses the fusion of evidences in PolSAR images for the edge detection. Here are some suggestions.
+
 In the abstract, “fusion of evidence” should be “fusion of evidences”. “in the intensity (hh), (hv), and (vv)
 channels” should be “in the intensity channels (hh, hv and vv)”.
 \end{tcolorbox}
-%%% AAB - Resposta
+
+Thank you very much for this suggestion.
+We made the changes, as requested:
+
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#1]
+The present study discusses an edge detection method based on the fusion of \DIFdelbegin \DIFdel{evidence }\DIFdelend \DIFaddbegin \DIFadd{evidences }\DIFaddend obtained in the intensity \DIFaddbegin \DIFadd{channels }\DIFaddend (hh), (hv), and (vv) \DIFdelbegin \DIFdel{channels }\DIFdelend of PolSAR multi-look images. 
+\end{tcolorbox}
+
+
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#2]
 % AAB inserido
 In the introduction part, the paragraph “We adopted the Gambini Algorithm...”,what is the purpose to
 use Gambini Algorithm? It should be elaborated to help the reader understand.
 \end{tcolorbox}
-%%% AAB - Resposta
+
+We added a rationale for the choice of this Algorithm:
+
 \begin{tcolorbox}[colback=white,colframe=black,title=Changes \#2]
-%%% AAB - mudanças	
+\DIFdelbegin \DIFdel{We adopted the }\DIFdelend \DIFaddbegin \DIFadd{The }\DIFaddend Gambini Algorithm~\cite{gmbf_sc} \DIFdelbegin \DIFdel{, which }\DIFdelend \DIFaddbegin \DIFadd{is an attractive edge detection technique.
+It is local, as it finds evidence of an edge over a thin strip of data; 
+it works with any model, which makes it suitable for SAR data; 
+and it has shown better performance than other approaches.
+This algorithm }\DIFaddend consists in casting rays\DIFaddbegin \DIFadd{, }\DIFaddend and then finding the evidence of an edge in the ray by maximizing a value function.
 \end{tcolorbox}
 
 
@@ -169,47 +198,87 @@ More detailed description for Gambini Algorithm in Section III is suggested.
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#4]
 % AAB inserido
 	For Eq. (1), the meaning of variable L should be explained.
+	On Page 2, what is the meaning of “we will estimate L on each sample” ?	
 \end{tcolorbox}
-% AAB resposta 
+
+Thank you very much for noticing this omission.
+We now clarify the meaning of $L$ and of its local estimation:
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#4]
+Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
+\begin{equation}
+f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z})),
+\label{eq:DistWishart}
+\end{equation} 
+where, \DIFaddbegin \DIFadd{$L$ is the number of looks, }\DIFaddend $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
+\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)$,
+and $\Gamma(\cdot)$ is the Gamma function.
+We used three $m=3$ channels in this study. 
+This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
+This assumption usually holds \DIFdelbegin \DIFdel{on targets where the speckle is fully developed }\DIFdelend \DIFaddbegin \DIFadd{for fully developed speckle }\DIFaddend but, since we will estimate $L$ \DIFdelbegin \DIFdel{on each sample (}\DIFdelend \DIFaddbegin \DIFadd{locally }\DIFaddend instead of considering the same number of looks for the whole image\DIFdelbegin \DIFdel{)}\DIFdelend , we will in part take into account departures from such hypothesis.
+\end{tcolorbox}
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#5]
-% AAB Inserido
-On Page 2, what is the meaning of “we will estimate L on each sample” ?	
-\end{tcolorbox}
-% AAB resposta 
-
-\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#6]
 % AAB inserido
 In Section IV, different symbol for $\ell=mn$ should be used to distinguish the $\ell$ in Eq. (3).
 \end{tcolorbox}
-% AAB resposta
+
+Thank you very much for your careful reading.
+In fact, we used the same symbol for two different entities.
+We opted for denoting the likelihood with $\mathcal L$, and keeping $\ell$ for the image size.
+The equations that changed appear highlighted in the \texttt{diff} manuscript.
 
 
-\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#7]
+\vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#6]
 % AAB inserido
-		What is the relationship between and ? Make it clear.
+What is the relationship between and $m$, $n$, $c$ and $n_c$? Make it clear.
 \end{tcolorbox}
-% AAB resposta
+
+We now explain the notation more clearly:
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#6]
+\DIFdelbegin \DIFdel{Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where }\DIFdelend \DIFaddbegin \DIFadd{Assume we have $n_c$ binary images $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$ in which~}\DIFaddend $1$ denotes an estimate of edge and $0$ otherwise.
+\DIFdelbegin \DIFdel{We have $n_c$ of these image to fuse, and the result of the fusion will be denoted }\DIFdelend \DIFaddbegin \DIFadd{They have common size $m\times n$; denote $\ell=mn$.
+	These images will be fused to obtain the binary image }\DIFaddend $\bm I_F$.
+
+%DIF > Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
+%DIF > We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
+\DIFaddbegin 
+\DIFaddend
+\end{tcolorbox}
 
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#8]
 % AAB inserido
-In Section III-A, the meaning of should be explained.
+In Section III-A, the meaning of $(x,y)$ should be explained.
 \end{tcolorbox}
-% AAB resposta
+
+We now explain that these are the image coordinates:
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#6]
+The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels:
+$\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$\DIFaddbegin \DIFadd{,
+	where $1\leq x\leq m$ indexes the rows, and $1\leq y\leq n$ the columns of the image}\DIFaddend .
+%where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
+\end{tcolorbox}
+
 
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#9]
 % AAB inserido
 	 In Section V-A Line 16, correct the “Fig. 1a” and “Fig. 1b”.	
 \end{tcolorbox}
-% AAB resposta
+
+Thank you very much.
+Corrected.
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#10]
 % AAB inserido
 What is the meaning of “$\ell(4)$” in Section V-A?	
 \end{tcolorbox}
-% AAB resposta
+
+This was unclear, indeed; thanks for noticing.
+The new version states:
+\begin{tcolorbox}[colback=white,colframe=black,title=Changes \#6]
+It is worth noting that GenSA has accurately identified the maximum value of $\ell$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima
+\end{tcolorbox}
 
 
 \vskip3em\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Comment \#11]
@@ -223,6 +292,8 @@ For the experiments, more examples are suggested to verify the conclusion.
 (PolSAR)”
 \end{tcolorbox}
 
+Corrected.
+Thank you very much.
 
 \section{Reviewer \#2}
 % AAB Inserido
@@ -237,7 +308,7 @@ Therefore, I encourage the authors to consider at least one other test-case (pre
 \end{tcolorbox}
 % AAB resposta
 
-\bibliographystyle{IEEEtran}
-\bibliography{articles,acfrery}
+%\bibliographystyle{IEEEtran}
+%\bibliography{articles,acfrery}
 
 \end{document}

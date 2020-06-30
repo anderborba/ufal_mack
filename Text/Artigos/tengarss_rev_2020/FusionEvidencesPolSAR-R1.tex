@@ -1,4 +1,4 @@
-	\documentclass[journal]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
@@ -33,9 +33,9 @@ UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
 \maketitle
 
 \begin{abstract}
-Synthetic Polarimetric Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
+Polarimetric Synthetic Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
 The images they provide have speckle noise, making their processing and analysis challenging tasks. 
-The present study discusses an edge detection method based on the fusion of evidence obtained in the intensity (hh), (hv), and (vv) channels of PolSAR multi-look images. 
+We discuss an edge detection method based on the fusion of evidences obtained in the intensity channels (hh), (hv), and (vv) of PolSAR multi-look images. 
 The method consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
 The fusion methods used are 
 simple average, 
@@ -52,18 +52,16 @@ PolSAR, edge detection, maximum likelihood estimation, fusion methods.
 \end{IEEEkeywords}
 
 \section{Introduction}\label{sec_01}
-\IEEEPARstart{P}{olarimetric} synthetic aperture radar (PolSAR) has achieved an essential position as a remote sensing technology. 
+\IEEEPARstart{P}{olarimetric} synthetic aperture radar (PolSAR) has achieved an essential position in remote sensing. 
 The data such sensors provide require specifically tailored signal processing techniques.
 Among such techniques, edge detection is one of the most important operations for extracting information.
 Edges are at a higher level of abstraction than mere data and, as such, provide relevant insights about the scene.
 
-Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning:
-\begin{itemize}
-\item techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
-\item Markov random fields~\cite{bf};	
-\item the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and,
-\item statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR / SAR imagery.
-\end{itemize}
+Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning:techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
+Markov random fields~\cite{bf};	
+the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and
+statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR and SAR imagery.
+
 
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
 Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
@@ -71,26 +69,27 @@ Our approach does not attempt to reduce the speckle, but to extract information 
 Instead of handling fully polarimetric data, we treat each intensity channel separately, obtain evidence of edges, and then produce a single estimator of the edge position.
 With this, we quantify the contribution each channel provides to the solution of the problem.
 
-We adopted the Gambini Algorithm~\cite{gmbf_sc}, which consists in casting rays and then finding the evidence of an edge in the ray by maximizing a value function.
+The Gambini Algorithm~\cite{gmbf_sc} is an attractive edge detection technique.
+It is local, as it finds evidence of an edge over a thin strip of data; 
+it works with any model, which makes it suitable for SAR data; 
+and it has shown better performance than other approaches.
+This algorithm consists in casting rays, and then finding the evidence of an edge in the ray by maximizing a value function.
 The value function we use is the likelihood of two samples: one inside the edge, another outside the edge.
 Without loss of generality, we assume the complex scaled Wishart distribution for the fully polarimetric observations~\cite{ade}, from which Gamma laws stem for each intensity channel.
 The value function depends on the estimates that index such Gamma laws.
 We estimate them by maximum likelihood with the BFGS optimization method implemented in the \texttt{maxLik} package~\cite{ht}.
 
 The value function is the total likelihood.
-It is non-differentiable at most points in the domain. 
-It is known that classical methods have difficulties in finding the maximum of a non-differentiable functions. 
+It is non-differentiable at most points, and classical methods have difficulties in finding the maximum of a non-differentiable functions. 
 We used the Generalized Simulated Annealing (GenSA)~\cite{xgsh} method to solve this problem. 
 
-We discuss six fusion methods:
-\begin{itemize}
-\item Simple average~\cite{mit}, 
-\item Multi-Resolution Discrete Wavelet, MR-DWT~\cite{n_r},
-\item Principal Component Analysis, PCA~\cite{n_r,mit},
-\item ROC statistics~\cite{gs,fawcett},
-\item Multi-Resolution Stationary Wavelet Transform, MR-SWT~\cite{n_r, jjly}, and 
-\item Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
-\end{itemize}
+We discuss and compare six fusion methods:
+Simple average~\cite{mit}, 
+Multi-Resolution Discrete Wavelet, MR-DWT~\cite{n_r},
+Principal Component Analysis, PCA~\cite{n_r,mit},
+ROC statistics~\cite{gs,fawcett},
+Multi-Resolution Stationary Wavelet Transform, MR-SWT~\cite{n_r, jjly}, and 
+Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 
 %It aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods.
 
@@ -110,12 +109,12 @@ Multi-looked fully polarimetric data follow the Wishart distribution with PDF de
     f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z})),
     \label{eq:DistWishart}
 \end{equation} 
-where, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
+where, $L$ is the number of looks, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)$,
 and $\Gamma(\cdot)$ is the Gamma function.
 We used three $m=3$ channels in this study. 
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
-This assumption usually holds on targets where the speckle is fully developed but, since we will estimate $L$ on each sample (instead of considering the same number of looks for the whole image), we will in part take into account departures from such hypothesis.
+This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
 
 Fully polarimetric data may be modeled by~\eqref{eq:DistWishart}.
 Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{lee,hsbmp}.
@@ -127,17 +126,15 @@ f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad
 \end{equation}
 where $L>0$ (rather than $L\geq1$ to allow for flexibility), and
 $\mu>0$ is the mean.
-
-Given the sample $\bm z = (z_1,\dots,z_n)$,
-the reduced log-likelihood of this model is
+The reduced log-likelihood of the sample $\bm z = (z_1,\dots,z_n)$ under this model is
 \begin{equation}
-\ell(\bm z; L,\mu) = 
+\mathcal L( L,\mu; \bm z) = 
 n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 +L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
 \label{eq:LogLikelihoodGamma}
 \end{equation}
 
-We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}.
+We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method~\cite{ht}.
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
 \section{Edge Detection on a Single Data Strip}\label{sec_03}
@@ -170,7 +167,7 @@ The total log-likelihood at point $j$ is, then,
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
 %\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
-\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+\mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
 +\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
@@ -180,19 +177,22 @@ The total log-likelihood at point $j$ is, then,
 \end{equation}
 We then apply GenSA to find  
 $$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
 $$ 
 where $\min_s$ is a minimum sample size that we set to $14$.
 
 In this way, we obtain one estimates for the edge for each intensity channel.
 Notice that this approach can be extended and/or modified to cope with any kind of data.
-
 We will see ways of fusing these evidences in the next section.
 
 \section{Fusion of Evidences}\label{sec_04}
 
-Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
-We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
+Assume we have $n_c$ binary images $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$ in which~$1$ denotes an estimate of edge and $0$ otherwise.
+They have common size $m\times n$; denote $\ell=mn$.
+These images will be fused to obtain the binary image $\bm I_F$.
+
+%Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
+%We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
 
 We compare the results of six fusion techniques, namely:
 simple average, 
@@ -209,7 +209,8 @@ multi-resolution singular value decomposition (MR-SVD).
 
 \subsection{Simple Average}
 The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels:
-$\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$.
+$\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$,
+where $1\leq x\leq m$ indexes the rows, and $1\leq y\leq n$ the columns of the image.
 %where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
@@ -229,7 +230,7 @@ The DWT fusion method has the following steps:
 \item Compute $\bm{\bar\jmath}_{c\text{HH}}$, the pixel-wise mean of all $\bm{\widehat\jmath}_{c\text{HH}}$ decompositions.
 \item Find the pixel-wise maximum of $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 %%% AAB(03/03/2020) tenho uma dúvida, o máximo(pixel a pixel) deve ser calculada entre os operadores da decomposiçcao em cada canal. Não seria bom deixar claro como no item anterior?
-\item The result of the fusion $I_F$ is the inverse DWT transformation of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
+\item The result of the fusion $I_F$ is the inverse DWT transform of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 \end{enumerate}
 %%% ACF Aqui dizer que é a Inverse DWT do que
 \subsection{Principal Component Analysis -- PCA}
@@ -308,19 +309,12 @@ of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$, where $f$ denotes the fusion 
 \subsection{PolSAR image}
 
 We used a $750\times 1024$ pixels AIRSAR PolSAR image of Flevoland, L-band, for the tests. 
-Fig.~\ref{flevoland_radial_4look} shows the ROI, with the radial lines where edges are detected. 
-Fig.~\ref{gt_flevoland} shows the ground reference in red.  
+Fig.~\ref{roi_gt}\subref{flevoland_radial_4look} shows the ROI, with the radial lines where edges are detected. 
+Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.  
 
-%\begin{figure}[hbt]
-%\centering
-%	\includegraphics[width=0.50\linewidth]{flevoland_radial_4_look_black}
-%	\caption{Flevoland image in Pauli decomposition, with Region of Interest (ROI) and rays.}
-%\label{flevoland_radial_4look}
-%\end{figure}
-   \begin{figure}[hbt]
+\begin{figure}[hbt]
    \centering
-     \subfloat[Image, Region of Interest (ROI), and rays. \label{flevoland_radial_4look}]{%
-%       \includegraphics[viewport= 0 50 500 550, clip=true, width=0.23\textwidth]{flevoland_radial_4_look_black_crop}}      
+     \subfloat[Image, Region of Interest (ROI), and rays. \label{flevoland_radial_4look}]{%  
        \includegraphics[width=0.229\textwidth]{flevoland_radial_4_look_black_crop}}
      \subfloat[Ground reference\label{gt_flevoland}]{%
        \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
@@ -329,11 +323,9 @@ Fig.~\ref{gt_flevoland} shows the ground reference in red.
     \label{roi_gt}
 \end{figure}
 
-%The estimates from equation~\eqref{eq:LogLikelihoodGamma} is used in equation~\eqref{eq:TotalLogLikelihood} generating an oscillation at the end of each radial line, depending on the radial considered. In order to get around this problem, in this PolSAR image, 14 pixels on each side of radial lines were not considered. The number of pixel were determined empirically.
-
 Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, and~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidences in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels as obtained by MLE.
 
-It is worth noting that GenSA has accurately identified the maximum value of $\ell$~\eqref{eq:TotalLogLikelihood}, even in the presence of multiple local maxima. 
+It is worth noting that GenSA has accurately identified the maximum value of $\ell$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima. 
 A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few points far from the actual edge.
 
    \begin{figure*}[hbt]
