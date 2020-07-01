@@ -2,7 +2,7 @@
 
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
+\usepackage[boxed]{algorithm2e}
 
 \usepackage{graphicx}
 \graphicspath{{../../Dissertacao/figuras/}}
@@ -139,21 +139,12 @@ We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stab
 
 \section{Edge Detection on a Single Data Strip}\label{sec_03}
 
-We approach edge detection with the Gambini Algorithm~\cite{gmbf, fbgm, nhfc}.
-%%% ACF
-%This technique is convenient for our subsequent fusion step, since it provides estimates of the edge location over the same ray.
-It consists of the following steps:
-\begin{enumerate}
-	\item Identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner.
-	\item Cast rays from the centroid to the outside of the area.
-	\item Collect data on a strip, ideally of the size of a pixel, around the rays using the  Bresenham's midpoint line algorithm.
-	\item Compute the value function on every point of the ray.
-	\item Use the GenSA method~\cite{xgsh}, to find points of maxima in the functions of interest.
-	\item Fuse the evidence of detected edges in the (hh), (hv) and (vv) channels.
-\end{enumerate}
+The Gambini algorithm estimates the point at which the properties of a sample change.
+It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR imagery.
+It can be adapted to any suitable measure of dissimilarity between two samples.
 
-The value function is the reduced log-likelihood of the inner and external samples of the strip denoted, respectively, as $\bm z_\text{I}$ and $\bm z_\text{E}$.
-Each strip $\bm z = (z_1,z_2,\dots,z_n)$ is, thus, partitioned in two disjoint samples at position $j$:
+The algorithm starts by casting rays from a point inside the candidate region, e.g., the centroid.
+Data are collected around each ray to form the sample $\bm z = (z_1,z_2,\dots,z_n)$, which is partitioned at position $j$:
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
@@ -163,7 +154,7 @@ $\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
 We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
 
-The total log-likelihood at point $j$ is, then,
+We then compute the reduced log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
 %\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
@@ -171,19 +162,42 @@ The total log-likelihood at point $j$ is, then,
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
 +\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
 \raisetag{2.2em}
 \end{split}
 \end{equation}
-We then apply GenSA to find  
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
-$$ 
-where $\min_s$ is a minimum sample size that we set to $14$.
+and the estimate of the edge position on the ray is the coordinate $\widehat\jmath$ which maximizes it.
 
-In this way, we obtain one estimates for the edge for each intensity channel.
-Notice that this approach can be extended and/or modified to cope with any kind of data.
-We will see ways of fusing these evidences in the next section.
+Algorithm~\ref{Algo:GambiniEdgeDetection} is the pseudocode of the basic edge detection with the Gambini Algorithm.
+We found that one hundred rays is a good compromise between spatial continuity and computational load.
+Also, $\min_s$ is the minimum sample size that we set to $14$.
+
+\begin{algorithm}[hbt]
+\SetAlgoLined
+\KwData{$n_c$ intensity bands, centroid, number of rays}
+\KwResult{$n_c$ binary images with evidences of edges}
+%initialization\;
+\For{each band $1\leq c\leq n_c$}{
+	\For{each ray passing through the centroid}{
+		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray with the Bresenham's midpoint line algorithm\;
+		\For{each $\min_s\leq j\leq \max_s$}{\nllabel{Line:InitFor}
+			Partition the sample as $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ and 
+			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{\max_s})$; where $\max_s=n-\min_s$\;
+			Compute $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ with $\bm z_{\text{I}}$, and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$ with $\bm z_{\text{E}}$\;
+			Compute the total log-likelihood at $j$ as $\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$\;
+		}
+		$\widehat\jmath\leftarrow$ the value of $j$ at which the log-likelihood function is maximized\;
+		\Return $(\widehat x, \widehat y)$, the coordinates of each $\widehat\jmath$\;
+	}
+\Return the binary image $\widehat{\bm\jmath}_c$ with $1$ at every $(\widehat x, \widehat y)$, and $0$ otherwise.
+}
+\caption{Gambini algorithm for intensity channels}\label{Algo:GambiniEdgeDetection}
+\end{algorithm}
+
+In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Simulated Annealing.
+
+%Notice that this approach can be extended and/or modified to cope with any kind of data.
+%We will see ways of fusing these evidences in the next section.
 
 \section{Fusion of Evidences}\label{sec_04}
 
@@ -384,8 +398,8 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 
 Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge, as measured on $100$ radial lines: the minimum Euclidean distance among the ground truth pixel and the several pixels detected in the fusion methods.
 We use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
-Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is the radial number. 
-In our analysis, $k$ varies between $1$ and $10$. 
+Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is number of radii. 
+In our analysis, $k$ varies between $1$ and $10$, and $n_r=100$. 
 The algorithm is described in Ref.~\cite{fbgm}.
 
 \begin{figure}[hbt]
