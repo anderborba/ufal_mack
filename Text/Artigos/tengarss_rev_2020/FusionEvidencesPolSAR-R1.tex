@@ -75,9 +75,9 @@ it works with any model, which makes it suitable for SAR data;
 and it has shown better performance than other approaches.
 This algorithm consists in casting rays, and then finding the evidence of an edge in the ray by maximizing a value function.
 The value function we use is the likelihood of two samples: one inside the edge, another outside the edge.
-Without loss of generality, we assume the complex scaled Wishart distribution for the fully polarimetric observations~\cite{ade}, from which Gamma laws stem for each intensity channel.
-The value function depends on the estimates that index such Gamma laws.
-We estimate them by maximum likelihood with the BFGS optimization method implemented in the \texttt{maxLik} package~\cite{ht}.
+Without loss of generality, we assume the complex scaled Wishart distribution for the fully polarimetric observations, from which Gamma laws stem for each intensity channel.
+The value function depends on the estimates that index such Gamma laws; and
+we estimate them by maximum likelihood.
 
 The value function is the total likelihood.
 It is non-differentiable at most points, and classical methods have difficulties in finding the maximum of a non-differentiable functions. 
@@ -87,7 +87,7 @@ We discuss and compare six fusion methods:
 Simple average~\cite{mit}, 
 Multi-Resolution Discrete Wavelet, MR-DWT~\cite{n_r},
 Principal Component Analysis, PCA~\cite{n_r,mit},
-ROC statistics~\cite{gs,fawcett},
+ROC statistics~\cite{gs},
 Multi-Resolution Stationary Wavelet Transform, MR-SWT~\cite{n_r, jjly}, and 
 Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 
@@ -117,7 +117,7 @@ This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satis
 This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
 
 Fully polarimetric data may be modeled by~\eqref{eq:DistWishart}.
-Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{lee,hsbmp}.
+Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{hsbmp}.
 In particular, we assume that the distribution of each intensity channel is a 
 Gamma law with probability density function
 \begin{equation}
@@ -180,9 +180,9 @@ Also, $\min_s$ is the minimum sample size that we set to $14$.
 \For{each band $1\leq c\leq n_c$}{
 	\For{each ray passing through the centroid}{
 		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray with the Bresenham's midpoint line algorithm\;
-		\For{each $\min_s\leq j\leq \max_s$}{\nllabel{Line:InitFor}
+		\For{each $\min_s\leq j\leq n-\min_s$}{\nllabel{Line:InitFor}
 			Partition the sample as $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ and 
-			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{\max_s})$; where $\max_s=n-\min_s$\;
+			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{n-\min_s})$\;
 			Compute $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ with $\bm z_{\text{I}}$, and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$ with $\bm z_{\text{E}}$\;
 			Compute the total log-likelihood at $j$ as $\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$\;
 		}
@@ -194,7 +194,7 @@ Also, $\min_s$ is the minimum sample size that we set to $14$.
 \caption{Gambini algorithm for intensity channels}\label{Algo:GambiniEdgeDetection}
 \end{algorithm}
 
-In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Simulated Annealing.
+In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Generalized Simulated Annealing~\cite{xgsh}.
 
 %Notice that this approach can be extended and/or modified to cope with any kind of data.
 %We will see ways of fusing these evidences in the next section.
@@ -265,7 +265,7 @@ The method is comprised of the following steps:
 \end{enumerate}
 
 \subsection{ROC Statistics}
-The ROC method was proposed and described on~\cite{gs,fawcett}:
+The ROC method was proposed and described on~\cite{gs}:
 \begin{enumerate}
 %\item the evidence of edges in each channels $\bm{\widehat\jmath}_c$, with $c=1,\dots,nc$ in a binary way;
 %%% AAB(03/03/2020) Aqui fico em dúvida se coloco "matrices" ou  "binary images".  
@@ -333,7 +333,7 @@ Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.
      \subfloat[Ground reference\label{gt_flevoland}]{%
        \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
      }
-    \caption{Flevoland image in Pauli decomposition, region of interest, and ground reference}
+    \caption{Flevoland image in Pauli decomposition, and ground reference}
     \label{roi_gt}
 \end{figure}
 
@@ -342,20 +342,20 @@ Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_h
 It is worth noting that GenSA has accurately identified the maximum value of $\ell$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima. 
 A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few points far from the actual edge.
 
-   \begin{figure*}[hbt]
+   \begin{figure}[hbt]
 	\centering
-     \subfloat[Evidences in channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+     \subfloat[Channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop}
      }
-     \subfloat[Evidences in channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+     \subfloat[Channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_14_pixel_crop}
      }
-     \subfloat[Evidences in channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+     \subfloat[Channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
      }
      \caption{Edges evidences from the three intensity channels}
      \label{evidencias_hh_hv_vv} 
-   \end{figure*}
+   \end{figure}
 
 Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, \subref{fusion_met:d}, \subref{fusion_met:e}, and~\subref{fusion_met:f} show the results of fusing these evidences. 
 
@@ -370,31 +370,31 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 %The post-processing is an option to be used in all the fusion methods. 
 %An idea can be found in Ref.~\cite{fbgm}. 
 
-\begin{figure*}[hbt]
+\begin{figure}[hbt]
 	\centering
      \subfloat[Average fusion\label{fusion_met:a}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
+       \includegraphics[width=0.48\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
      }
      \subfloat[DWT fusion\label{fusion_met:b}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
-     }
+       \includegraphics[width=0.48\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
+     }\\
      \subfloat[PCA fusion \label{fusion_met:c}]{%
        %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
-     }\\
-     \subfloat[ROC fusion\label{fusion_met:d}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+       \includegraphics[width=0.48\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
      }
+     \subfloat[ROC fusion\label{fusion_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+     }\\
      \subfloat[MR-SWT fusion\label{fusion_met:e}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
+       \includegraphics[width=0.48\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
      }
      \subfloat[MR-SVD fusion\label{fusion_met:f}]{%
-       \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
+       \includegraphics[width=0.48\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
      }
      \caption{Results of applying the six fusion methods}
      \label{fusion_met}
-\end{figure*}
+\end{figure}
 
 Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge, as measured on $100$ radial lines: the minimum Euclidean distance among the ground truth pixel and the several pixels detected in the fusion methods.
 We use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
@@ -441,7 +441,7 @@ The best result was produced by the Multi-Resolution Stationary Wavelet Transfor
 We highlight two avenues for future improvement of the fusion:
 \begin{enumerate}
 	\item increasing the number of evidences.
-	This is possible, since fully polarimetric data is richer than mere intensity channels; and
+	This is possible, since fully polarimetric data are richer than mere intensity channels; and
 	\item post-processing of both partial evidences and fusion.
 \end{enumerate}
 
