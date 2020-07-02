@@ -156,7 +156,7 @@ We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ wit
 
 We then compute the reduced log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
 \begin{equation}\label{eq:TotalLogLikelihood}
-\begin{split}
+\begin{aligned}
 %\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
 \mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
@@ -164,7 +164,7 @@ We then compute the reduced log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
 +\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
 \raisetag{2.2em}
-\end{split}
+\end{aligned}
 \end{equation}
 and the estimate of the edge position on the ray is the coordinate $\widehat\jmath$ which maximizes it.
 
@@ -194,7 +194,7 @@ Also, $\min_s$ is the minimum sample size that we set to $14$.
 \caption{Gambini algorithm for intensity channels}\label{Algo:GambiniEdgeDetection}
 \end{algorithm}
 
-In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Generalized Simulated Annealing~\cite{xgsh}.
+In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Generalized Simulated Annealing (GenSA~\cite{xgsh}).
 
 %Notice that this approach can be extended and/or modified to cope with any kind of data.
 %We will see ways of fusing these evidences in the next section.
