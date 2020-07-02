@@ -3,7 +3,7 @@
 #
 #
 
-BASE_NAME = tengarss_2020
+BASE_NAME = tengarss_rev_ander
 
 LATEX     = latex
 PDFLATEX  = pdflatex

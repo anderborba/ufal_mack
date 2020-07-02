@@ -86,9 +86,9 @@ end
 % Escreve em arquivo *.txt as informações das retas radiais nas imagens
 % reais nos canais (hh, hv, vv)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-cd ..
-cd ..
-cd Data
+%cd ..
+%cd ..
+%cd Data
 %for canal = 1: 3
 %	fname = sprintf('real_sanfran_%d.txt', canal);
 %	fid = fopen(fname,'w');
@@ -100,21 +100,21 @@ cd Data
 %        end
 %        fclose(fid);       
 %end
-for canal = 1: 3
-	fnamexc = sprintf('xc_sanfran_%d.txt', canal);
-	fnameyc = sprintf('yc_sanfran_%d.txt', canal);
-	fidxc = fopen(fnamexc,'w');
-	fidyc = fopen(fnameyc,'w');
-	for i = 1: num_radial
-		for j = 1: r
-	                fprintf(fidxc,'%f ',MXC(i, j, canal));
-	                fprintf(fidyc,'%f ',MYC(i, j, canal));
-	      	end
-    		fprintf(fidxc,'\n');
-    		fprintf(fidyc,'\n');
-        end
-	fclose(fidxc);       
-	fclose(fidyc);       
-end
-cd ..
-cd Code/Code_matlab
+%for canal = 1: 3
+%	fnamexc = sprintf('xc_sanfran_%d.txt', canal);
+%	fnameyc = sprintf('yc_sanfran_%d.txt', canal);
+%	fidxc = fopen(fnamexc,'w');
+%	fidyc = fopen(fnameyc,'w');
+%	for i = 1: num_radial
+%		for j = 1: r
+%	                fprintf(fidxc,'%f ',MXC(i, j, canal));
+%	                fprintf(fidyc,'%f ',MYC(i, j, canal));
+%	      	end
+%    		fprintf(fidxc,'\n');
+%    		fprintf(fidyc,'\n');
+%        end
+%	fclose(fidxc);       
+%	fclose(fidyc);       
+%end
+%cd ..
+%cd Code/Code_matlab
