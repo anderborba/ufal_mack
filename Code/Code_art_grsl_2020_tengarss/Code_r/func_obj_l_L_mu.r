@@ -11,13 +11,13 @@ func_obj_l_L_mu <- function(param){
   mud <- matdf2[j,2]
   #
   aux1 <- Le * log(Le)
-  aux2 <- (Le - 1) * sum(log(z[1: j])) / j
+  aux2 <- Le * sum(log(z[1: j])) / j
   aux3 <- Le * log(mue)
   aux4 <- log(gamma(Le))
   aux5 <- (Le / mue) *  sum(z[1:j]) / j
   #
   aux6  <- Ld * log(Ld)
-  aux7  <- (Ld - 1) * sum(log(z[(j + 1): N])) / (N - j)
+  aux7  <- Ld * sum(log(z[(j + 1): N])) / (N - j)
   aux8  <- Ld * log(mud) 
   aux9  <- log(gamma(Ld)) 
   aux10 <- (Ld / mud) * sum(z[(j + 1): N]) / (N - j) 

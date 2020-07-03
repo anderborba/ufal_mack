@@ -7,6 +7,16 @@ load AirSAR_Flevoland_Enxuto.mat
 [nrows, ncols, nc] = size(S);
 cd ..
 cd Code/Code_matlab
+for i =1: nrows
+	for j = 1: ncols
+     		I11(i, j)   = S(i, j, 1);
+     		I22(i, j)   = S(i, j, 2);
+     		I33(i, j)   = S(i, j, 3);
+     		SS(i, j, 1)  = sqrt(S(i, j, 4)^2 + S(i, j, 7)^2);
+     		SS(i, j, 2)  = sqrt(S(i, j, 5)^2 + S(i, j, 8)^2);
+     		SS(i, j, 3)  = sqrt(S(i, j, 6)^2 + S(i, j, 9)^2);
+	end
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,6 +32,28 @@ axis on
 hold on;
 impixelinfo;
 
+%dpixel = size(xpixel);
+%for i= 1: dpixel(1)
+%			plot(ypixel(i), xpixel(i),'ro',...
+%    				'LineWidth',1.0,...
+%    				'MarkerSize',3.5,...
+%    				'MarkerEdgeColor',[0.85 0.325 0.089],...
+%    				'MarkerFaceColor', [0.85 0.325 0.089])
+%end	
+%for i= 181:220
+%plot(i, 287,'ro',...
+%    				'LineWidth',1.0,...
+%    				'MarkerSize',3.5,...
+%    				'MarkerEdgeColor',[0.85 0.325 0.089],...
+%    				'MarkerFaceColor', [0.85 0.325 0.089])
+%end	
+%for i= 221:268
+%plot(i, 286,'ro',...
+%    				'LineWidth',1.0,...
+%    				'MarkerSize',3.5,...
+%    				'MarkerEdgeColor',[0.85 0.325 0.089],...
+%    				'MarkerFaceColor', [0.85 0.325 0.089])
+%end	
 for i= 159:310
 GT(287, i) = 1;
 plot(i, 287,'ro',...

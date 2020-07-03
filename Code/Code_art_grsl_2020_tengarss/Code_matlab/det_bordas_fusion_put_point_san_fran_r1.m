@@ -14,20 +14,20 @@ II = show_Pauli(S, 1, 0);
 IT = zeros(nrows, ncols); 
 IF = zeros(nrows, ncols); 
 
-x0 = nrows / 2 + 95;
-y0 = ncols / 2 - 12;
-r = 40;
-num_radial = 100;
+x0 = nrows / 2 + 120;
+y0 = ncols / 2 - 260;
+r = 120;
+num_radial = 25;
 t = linspace(0, 2 * pi, num_radial) ;
 x = x0 + r .* cos(t);
 y = y0 + r .* sin(t);
 xr= round(x);
 yr= round(y);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_sf_1_param_L_mu_8_pixel_r1.txt');
-ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_sf_2_param_L_mu_8_pixel_r1.txt');
-ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_sf_3_param_L_mu_8_pixel_r1.txt');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_sf_1_param_L_mu_25_pixel_r1.txt');
+ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_sf_2_param_L_mu_25_pixel_r1.txt');
+ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_sf_3_param_L_mu_25_pixel_r1.txt');
 %
 xc = load('/home/aborba/ufal_mack/Data/xc_san_fran_r1.txt');
 yc = load('/home/aborba/ufal_mack/Data/yc_san_fran_r1.txt');
@@ -76,7 +76,7 @@ dpixel = size(xpixel);
 for i= 1: dpixel(1)
 			plot(ypixel(i), xpixel(i),'ro',...
     				'LineWidth',1.0,...
-    				'MarkerSize',2.5,...
+    				'MarkerSize',3.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
 end	

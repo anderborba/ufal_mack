@@ -11,19 +11,20 @@ source("loglikd.r")
 setwd("../../..")
 setwd("Data")
 # canais hh, hv, and vv 
-mat <- scan('real_flevoland_r2_3.txt')
+mat <- scan('real_flevoland_r3_3.txt')
 setwd("..")
 setwd("Code/Code_art_grsl_2020_tengarss/Code_r")
 ########## setup para a imagem de flevoland
-r <- 80
+r <- 100
 nr <- 100
 mat <- matrix(mat, ncol = r, byrow = TRUE)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
-for (k in 1 : 50){# j aqui varre o número de radiais
+for (k in 1 : nr){# j aqui varre o número de radiais
+#for (k in 85 : 85){# j aqui varre o número de radiais
   print(k)
-  N <- 60
+  N <- r
   z <- rep(0, N)
   z <- mat[k, 1: N]
   zaux1 <- rep(0, N)
@@ -56,87 +57,7 @@ for (k in 1 : 50){# j aqui varre o número de radiais
   lim <- as.numeric(14)
   lower <- lim
   upper <- N - lim 
-  out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
-  evidencias[k] <- out$par
-  print(evidencias[k])
-  evidencias_valores[k] <- out$value
-}
-for (k in 51 : 64){# j aqui varre o número de radiais
-  print(k)
-  N <- 80
-  z <- rep(0, N)
-  z <- mat[k, 1: N]
-  zaux1 <- rep(0, N)
-  conta = 0
-  for (i in 1 : N){
-    if (z[i] > 0){
-      conta <- conta + 1
-      zaux1[conta] = z[i]
-    }
-  }
-  indx  <- which(zaux1 != 0)
-  N <- floor(max(indx))
-  z     <-  zaux1[1:N]
-  matdf1 <- matrix(0, nrow = N, ncol = 2)
-  matdf2 <- matrix(0, nrow = N, ncol = 2)
-  for (j in 1 : N ){
-    r1 <- 1
-    r2 <- sum(z[1: j]) / j
-    res1 <- maxBFGS(loglike, start=c(r1, r2))
-    r1 <- 1
-    r2 <- sum(z[(j + 1): N]) / (N - j)
-    res2 <- maxBFGS(loglikd, start=c(r1, r2))
-    matdf1[j, 1] <- res1$estimate[1]
-    matdf1[j, 2] <- res1$estimate[2]
-    if (j < N){
-      matdf2[j, 1] <- res2$estimate[1]
-      matdf2[j, 2] <- res2$estimate[2]
-    }
-  }
-  lim <- as.numeric(14)
-  lower <- lim
-  upper <- N - lim 
-  out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
-  evidencias[k] <- out$par
-  print(evidencias[k])
-  evidencias_valores[k] <- out$value
-}
-for (k in 65 : 100){# j aqui varre o número de radiais
-  print(k)
-  N <- 60
-  z <- rep(0, N)
-  z <- mat[k, 1: N]
-  zaux1 <- rep(0, N)
-  conta = 0
-  for (i in 1 : N){
-    if (z[i] > 0){
-      conta <- conta + 1
-      zaux1[conta] = z[i]
-    }
-  }
-  indx  <- which(zaux1 != 0)
-  N <- floor(max(indx))
-  z     <-  zaux1[1:N]
-  matdf1 <- matrix(0, nrow = N, ncol = 2)
-  matdf2 <- matrix(0, nrow = N, ncol = 2)
-  for (j in 1 : N ){
-    r1 <- 1
-    r2 <- sum(z[1: j]) / j
-    res1 <- maxBFGS(loglike, start=c(r1, r2))
-    r1 <- 1
-    r2 <- sum(z[(j + 1): N]) / (N - j)
-    res2 <- maxBFGS(loglikd, start=c(r1, r2))
-    matdf1[j, 1] <- res1$estimate[1]
-    matdf1[j, 2] <- res1$estimate[2]
-    if (j < N){
-      matdf2[j, 1] <- res2$estimate[1]
-      matdf2[j, 2] <- res2$estimate[2]
-    }
-  }
-  lim <- as.numeric(14)
-  lower <- lim
-  upper <- N - lim 
-  out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
+  out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list(maxit =100))
   evidencias[k] <- out$par
   print(evidencias[k])
   evidencias_valores[k] <- out$value
@@ -156,7 +77,7 @@ dfev <- data.frame(xev, evidencias)
 names(dfev) <- NULL
 setwd("../../..")
 setwd("Data")
-sink("flev_r2_vv_evid_L_mu_14_60_80strip_pixel_crop.txt")
+sink("flev_r3_vv_evid_L_mu_14_100_pixel.txt")
 print(dfev)
 sink()
 setwd("..")

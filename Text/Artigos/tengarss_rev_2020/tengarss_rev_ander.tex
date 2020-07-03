@@ -511,6 +511,66 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 \end{figure}
 
 
+%% Teste com a região I San Francisco
+%%% radial lenght 120 - com folga 25
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Image, Region of Interest (ROI), and rays. \label{san_francisco_radial_25}]{%  
+       \includegraphics[width=0.229\textwidth]{san_francisco_radial_25_crop}}
+    % \subfloat[Ground reference\label{gt_flevoland}]{%
+     %  \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
+     %}
+    \caption{San Francisco image in Pauli decomposition, and ground reference}
+    \label{roi_gt}
+\end{figure}
+
+%%% AAB inserido 
+% Figura da região san francisco
+% tamanho da radial 25
+% folga nas extremidades das radiais 25 pixels
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_sf_1_param_L_mu_25_pixel_r1_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_sf_2_param_L_mu_25_pixel_r1_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_sf_3_param_L_mu_25_pixel_r1_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to San Francisco}
+     \label{evidencias_sf_hh_hv_vv} 
+   \end{figure}
+
+
+%%%% sf  pixel
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Average fusion\label{fusion_sf_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_sf_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
+     }\\
+     \subfloat[PCA fusion \label{fusion_sf_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
+     }
+     \subfloat[ROC fusion\label{fusion_sf_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
+     }\\
+     \subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
+     }
+     \caption{Results of applying the six fusion methods to San Francisco}
+     \label{fusion_sf_met}
+\end{figure}
+
 
 
 

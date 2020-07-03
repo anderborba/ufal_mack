@@ -40,12 +40,17 @@ II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 IT = zeros(nrows, ncols); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ROI control to lake
+%x0 = nrows / 2 + 95;
+%y0 = ncols / 2 + 12;
+%r = 40;
 % ROI control
-x0 = nrows / 2 + 95;
-y0 = ncols / 2 + 12;
-r = 40;
-num_radial = 100;
-t = linspace(0, 2 * pi, num_radial) ;
+x0 = nrows / 2 + 30;
+y0 = ncols / 2 + 120;
+r = 120;
+
+num_radial = 25;
+t = linspace(pi, 3 * pi / 2, num_radial) ;
 x = x0 + r .* cos(t);
 y = y0 + r .* sin(t);
 xr= round(x);

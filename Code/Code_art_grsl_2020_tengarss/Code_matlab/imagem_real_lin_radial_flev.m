@@ -37,17 +37,18 @@ cd Code/Code_art_grsl_2020_tengarss/Code_matlab
 % PolSAR images with a structure tensor filter"
 % More infomation see function coded
 II = show_Pauli(S, 1, 0);
+% Region III pixels and lenght to radial
+%x0 = nrows / 2 + 410;
+%y0 = ncols / 2 - 140 ;
+%r = 80;
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 IT = zeros(nrows, ncols); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ROI control
-x0 = nrows / 2 + 90;
-y0 = ncols / 2 - 450 ;
+x0 = nrows / 2 + 120;
+y0 = ncols / 2 - 150;
 % Radial lenght variable
-% r = 60
-rd = 60;
-re = 20;
-r = rd + re;
+r = 100;
 num_radial = 100;
 t = linspace(0, 2 * pi, num_radial) ;
 x = x0 + r .* cos(t);
@@ -61,28 +62,7 @@ const =  5 * max(max(max(II)));
 MXC = zeros(num_radial, r);
 MYC = zeros(num_radial, r);
 MY  = zeros(num_radial, r, nc);
-%for i = 1: num_radial
-for i = 1: 64 % used to limited the image
-%for i = 50: 64 % used to a strip fixed
-	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
-	for canal = 1 :nc
-		Iaux = S(:, :, canal);
-		dim = length(XC);
-		for j = 1: dim
-			MXC(i, j) = YC(j);
-			MYC(i, j) = XC(j);
-			MY(i, j, canal)  = Iaux( XC(j), YC(j)) ;
-	       		IT(XC(j), YC(j)) = const;
-	       		II(XC(j), YC(j)) = const;
-        	end
-	end
-end
-r = 60
-x = x0 + r .* cos(t);
-y = y0 + r .* sin(t);
-xr= round(x);
-yr= round(y);
-for i = 65: 100
+for i = 1: num_radial
 	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
 	for canal = 1 :nc
 		Iaux = S(:, :, canal);
@@ -98,45 +78,38 @@ for i = 65: 100
 end
 imshow(II);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% return to r = 80 - lenght of the radial
-r = 80
-x = x0 + r .* cos(t);
-y = y0 + r .* sin(t);
-xr= round(x);
-yr= round(y);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Print radials
-%cd ..
-%cd ..
-%cd ..
-%cd Data
-%for canal = 1: nc 
-%	fname = sprintf('real_flevoland_r2_%d.txt', canal);
-%	fid = fopen(fname,'w');
-%	for i = 1: num_radial
-%		for j = 1: r
-%                fprintf(fid,'%f ',MY(i, j, canal));
-%	      	end
-%    		fprintf(fid,'\n');
-%        end
-%        fclose(fid);       
-%end
+cd ..
+cd ..
+cd ..
+cd Data
+for canal = 1: nc 
+	fname = sprintf('real_flevoland_r3_%d.txt', canal);
+	fid = fopen(fname,'w');
+	for i = 1: num_radial
+		for j = 1: r
+                fprintf(fid,'%f ',MY(i, j, canal));
+	      	end
+    		fprintf(fid,'\n');
+        end
+        fclose(fid);       
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % command print (xc, yc)
-%	fnamexc = sprintf('xc_flevoland_r2.txt');
-%	fnameyc = sprintf('yc_flevoland_r2.txt');
-%	fidxc = fopen(fnamexc,'w');
-%	fidyc = fopen(fnameyc,'w');
-%        for i = 1: num_radial
-%		for j = 1: r
-%	                fprintf(fidxc,'%f ', MXC(i,j));
-%	                fprintf(fidyc,'%f ', MYC(i,j));
-%	      	end
-%    		fprintf(fidxc,'\n');
-%    		fprintf(fidyc,'\n');
-%	end
-%	fclose(fidxc);       
-%	fclose(fidyc);       
-%cd ..
-%cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+	fnamexc = sprintf('xc_flevoland_r3.txt');
+	fnameyc = sprintf('yc_flevoland_r3.txt');
+	fidxc = fopen(fnamexc,'w');
+	fidyc = fopen(fnameyc,'w');
+        for i = 1: num_radial
+		for j = 1: r
+	                fprintf(fidxc,'%f ', MXC(i,j));
+	                fprintf(fidyc,'%f ', MYC(i,j));
+	      	end
+    		fprintf(fidxc,'\n');
+    		fprintf(fidyc,'\n');
+	end
+	fclose(fidxc);       
+	fclose(fidyc);       
+cd ..
+cd Code/Code_art_grsl_2020_tengarss/Code_matlab
 
