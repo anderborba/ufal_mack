@@ -43,20 +43,46 @@ IT = zeros(nrows, ncols);
 % ROI control
 x0 = nrows / 2 + 90;
 y0 = ncols / 2 - 450 ;
-r = 60;
+% Radial lenght variable
+% r = 60
+rd = 60;
+re = 20;
+r = rd + re;
 num_radial = 100;
 t = linspace(0, 2 * pi, num_radial) ;
 x = x0 + r .* cos(t);
 y = y0 + r .* sin(t);
 xr= round(x);
 yr= round(y);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extract Radial
 const =  5 * max(max(max(II)));
 MXC = zeros(num_radial, r);
 MYC = zeros(num_radial, r);
 MY  = zeros(num_radial, r, nc);
-for i = 1: num_radial
+%for i = 1: num_radial
+for i = 1: 64 % used to limited the image
+%for i = 50: 64 % used to a strip fixed
+	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
+	for canal = 1 :nc
+		Iaux = S(:, :, canal);
+		dim = length(XC);
+		for j = 1: dim
+			MXC(i, j) = YC(j);
+			MYC(i, j) = XC(j);
+			MY(i, j, canal)  = Iaux( XC(j), YC(j)) ;
+	       		IT(XC(j), YC(j)) = const;
+	       		II(XC(j), YC(j)) = const;
+        	end
+	end
+end
+r = 60
+x = x0 + r .* cos(t);
+y = y0 + r .* sin(t);
+xr= round(x);
+yr= round(y);
+for i = 65: 100
 	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
 	for canal = 1 :nc
 		Iaux = S(:, :, canal);
@@ -71,6 +97,13 @@ for i = 1: num_radial
 	end
 end
 imshow(II);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% return to r = 80 - lenght of the radial
+r = 80
+x = x0 + r .* cos(t);
+y = y0 + r .* sin(t);
+xr= round(x);
+yr= round(y);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Print radials
 %cd ..
@@ -89,7 +122,7 @@ imshow(II);
 %        fclose(fid);       
 %end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Print (xc, yc)
+% command print (xc, yc)
 %	fnamexc = sprintf('xc_flevoland_r2.txt');
 %	fnameyc = sprintf('yc_flevoland_r2.txt');
 %	fidxc = fopen(fnamexc,'w');

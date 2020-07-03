@@ -360,6 +360,60 @@ A visual assessment leads to conclude that the best results are provided by $\te
 
 Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, \subref{fusion_met:d}, \subref{fusion_met:e}, and~\subref{fusion_met:f} show the results of fusing these evidences. 
 
+%%% AAB inserido 
+% Figura da região 2 com 80 pixel para as radiais 1 até 64 e 60 pixel para as radiais 65 até 100.
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_r2_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hh_evid_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_r2_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hv_evid_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_r2_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_vv_evid_L_mu_14_80_60strip_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to ROI II - cuidado}
+     \label{evidencias_r2_hh_hv_vv} 
+   \end{figure}
+
+%%% AAB inserido 
+% Figura da região 2 com 60 pixel para todas radiais menos na faixa de radiais 51 até 64 (80 pixel).
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_r2_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hh_evid_L_mu_14_60_80strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_r2_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hv_evid_L_mu_14_60_80strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_r2_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_vv_evid_L_mu_14_60_80strip_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to ROI II - cuidado 2}
+     \label{evidencias_r2_hh_hv_vv} 
+   \end{figure}
+
+%%% AAB inserido 
+% Figura da região san francisco
+% tamanho da radial 40
+% folga nas extremidades das radiais 8 pixels
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{sf_hh_evid_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{sf_hv_evid_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{sf_vv_evid_param_L_mu_8_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to San Francisco}
+     \label{evidencias_sf_hh_hv_vv} 
+   \end{figure}
+
+
 %Thus, one can see that the time for the PCA method is 2.19 times longer than the simple average.  
 
 The simple average and PCA produce similar results.
@@ -370,6 +424,7 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 
 %The post-processing is an option to be used in all the fusion methods. 
 %An idea can be found in Ref.~\cite{fbgm}. 
+
 
 \begin{figure}[hbt]
 	\centering
@@ -396,6 +451,68 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
      \caption{Results of applying the six fusion methods}
      \label{fusion_met}
 \end{figure}
+
+%%% AAB inserido 
+% Figura para a fusão da região 2 com 80 pixel para as radiais 1 até 64 e 60 pixel para as radiais 65 até 100.
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Average fusion\label{fusion_r2_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r2_media_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_r2_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_dwt_L_mu_14_80_60strip_pixel_crop}
+     }\\
+     \subfloat[PCA fusion \label{fusion_r2_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r2_pca_L_mu_14_80_60strip_pixel_crop}       
+     }
+     \subfloat[ROC fusion\label{fusion_r2_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_roc_L_mu_14_80_60strip_pixel_crop}
+     }\\
+     \subfloat[MR-SWT fusion\label{fusion_r2_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_swt_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[MR-SVD fusion\label{fusion_r2_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_svd_L_mu_14_80_60strip_pixel_crop}
+     }
+     \caption{Results of applying the six fusion methods to ROI II}
+     \label{fusion_r2_met}
+\end{figure}
+
+
+
+%%%% sf 40 pixel
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Average fusion\label{fusion_sf_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_media_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_sf_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_dwt_param_L_mu_8_pixel_crop}
+     }\\
+     \subfloat[PCA fusion \label{fusion_sf_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_8_pixel_crop}       
+     }
+     \subfloat[ROC fusion\label{fusion_sf_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_roc_param_L_mu_8_pixel_crop}
+     }\\
+     \subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_swt_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_8_pixel_crop}
+     }
+     \caption{Results of applying the six fusion methods to San Francisco}
+     \label{fusion_sf_met}
+\end{figure}
+
+
+
+
 
 Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge, as measured on $100$ radial lines: the minimum Euclidean distance among the ground truth pixel and the several pixels detected in the fusion methods.
 We use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 

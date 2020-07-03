@@ -16,7 +16,7 @@ IF = zeros(nrows, ncols);
 
 x0 = nrows / 2 + 90;
 y0 = ncols / 2 - 450;
-r = 60;
+r = 80;
 num_radial = 100;
 t = linspace(0, 2 * pi, num_radial) ;
 x = x0 + r .* cos(t);
@@ -24,7 +24,8 @@ y = y0 + r .* sin(t);
 xr= round(x);
 yr= round(y);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+flev_r2_hh_evid_L_mu_14_60_80strip_pixel_crop
 ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_flev_1_param_L_mu_14_pixel_r2.txt');
 ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_flev_2_param_L_mu_14_pixel_r2.txt');
 ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_flev_3_param_L_mu_14_pixel_r2.txt');
@@ -53,12 +54,12 @@ tempo = zeros(1, nt);
 for i=1: nt
 tic;
 %[IF] = fus_media(IM, m, n, nc);
-[IF] = fus_pca(IM, m, n, nc);
+%[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-%[IF] = fus_svd(IM, m, n, nc);
+[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;
@@ -76,7 +77,7 @@ dpixel = size(xpixel);
 for i= 1: dpixel(1)
 			plot(ypixel(i), xpixel(i),'ro',...
     				'LineWidth',1.0,...
-    				'MarkerSize',3.5,...
+    				'MarkerSize',2.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
 end	

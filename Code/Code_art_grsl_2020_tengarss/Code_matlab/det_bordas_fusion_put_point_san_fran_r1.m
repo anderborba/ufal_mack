@@ -54,11 +54,11 @@ for i=1: nt
 tic;
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
-[IF] = fus_swt(IM, m, n, nc);
+%[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-%[IF] = fus_svd(IM, m, n, nc);
+[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;
@@ -76,7 +76,7 @@ dpixel = size(xpixel);
 for i= 1: dpixel(1)
 			plot(ypixel(i), xpixel(i),'ro',...
     				'LineWidth',1.0,...
-    				'MarkerSize',3.5,...
+    				'MarkerSize',2.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
 end	
