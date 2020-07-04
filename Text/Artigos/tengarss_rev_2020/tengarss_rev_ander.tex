@@ -516,10 +516,10 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 \begin{figure}[hbt]
    \centering
      \subfloat[Image, Region of Interest (ROI), and rays. \label{san_francisco_radial_25}]{%  
-       \includegraphics[width=0.229\textwidth]{san_francisco_radial_25_crop}}
-    % \subfloat[Ground reference\label{gt_flevoland}]{%
-     %  \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
-     %}
+       \includegraphics[width=0.216\textwidth]{san_francisco_radial_25_crop}}
+     \subfloat[Ground reference\label{gt_flevoland}]{%
+       \includegraphics[width=0.216\textwidth]{gt_san_fran_r1_crop}
+     }
     \caption{San Francisco image in Pauli decomposition, and ground reference}
     \label{roi_gt}
 \end{figure}
@@ -576,10 +576,10 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 \begin{figure}[hbt]
    \centering
      \subfloat[Image, Region of Interest (ROI), and rays. \label{san_francisco_radial_25}]{%  
-       \includegraphics[width=0.229\textwidth]{flevoland_r3_radial_crop}}
-    % \subfloat[Ground reference\label{gt_flevoland}]{%
-     %  \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
-     %}
+       \includegraphics[width=0.216\textwidth]{flevoland_r3_radial_crop}}
+     \subfloat[Ground reference\label{gt_flevoland_r3_crop}]{%
+       \includegraphics[width=0.216\textwidth]{gt_flevoland_r3_crop}
+     }
     \caption{San Francisco image in Pauli decomposition, and ground reference}
     \label{roi_gt}
 \end{figure}
@@ -680,6 +680,22 @@ The algorithm is described in Ref.~\cite{fbgm}.
 \centering
 	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland}
 	\caption{Probability of detecting in fusion methods.}
+\label{probability_edge_detc}
+\end{figure}
+
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland_r3}
+	\caption{Probability of detecting in fusion methods. Região III - FLEV} 
+\label{probability_edge_detc}
+\end{figure}
+
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.8\linewidth]{metricas_6_fusao_sf_r3}
+	\caption{Probability of detecting in fusion methods. Região I - SF} 
 \label{probability_edge_detc}
 \end{figure}
 
