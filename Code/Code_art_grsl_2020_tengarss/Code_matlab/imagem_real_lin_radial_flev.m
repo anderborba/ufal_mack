@@ -45,12 +45,12 @@ II = show_Pauli(S, 1, 0);
 IT = zeros(nrows, ncols); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ROI control
-x0 = nrows / 2 + 120;
-y0 = ncols / 2 - 150;
+x0 = nrows / 2 + 305;
+y0 = ncols / 2 + 20;
 % Radial lenght variable
-r = 100;
-num_radial = 100;
-t = linspace(0, 2 * pi, num_radial) ;
+r = 120;
+num_radial = 25;
+t = linspace(0.5 * pi, pi, num_radial) ;
 x = x0 + r .* cos(t);
 y = y0 + r .* sin(t);
 xr= round(x);

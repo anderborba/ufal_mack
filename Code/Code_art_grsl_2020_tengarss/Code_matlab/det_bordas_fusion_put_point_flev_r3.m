@@ -14,20 +14,15 @@ II = show_Pauli(S, 1, 0);
 IT = zeros(nrows, ncols); 
 IF = zeros(nrows, ncols); 
 %
-x0 = nrows / 2 + 120;
-y0 = ncols / 2 - 150;
-r = 100;
-num_radial = 100;
-t = linspace(0, 2 * pi, num_radial) ;
-x = x0 + r .* cos(t);
-y = y0 + r .* sin(t);
-xr= round(x);
-yr= round(y);
+x0 = nrows / 2 - 50;
+y0 = ncols / 2 + 30;
+r = 120;
+num_radial = 25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ev_hh = load('/home/aborba/ufal_mack/Data/flev_r3_hh_evid_L_mu_14_100_pixel.txt');
-ev_hv = load('/home/aborba/ufal_mack/Data/flev_r3_hv_evid_L_mu_14_100_pixel.txt');
-ev_vv = load('/home/aborba/ufal_mack/Data/flev_r3_vv_evid_L_mu_14_100_pixel.txt');
+ev_hh = load('/home/aborba/ufal_mack/Data/flev_r3_hh_evid_L_mu_25_120_pixel.txt');
+ev_hv = load('/home/aborba/ufal_mack/Data/flev_r3_hv_evid_L_mu_25_120_pixel.txt');
+ev_vv = load('/home/aborba/ufal_mack/Data/flev_r3_vv_evid_L_mu_25_120_pixel.txt');
 %
 xc = load('/home/aborba/ufal_mack/Data/xc_flevoland_r3.txt');
 yc = load('/home/aborba/ufal_mack/Data/yc_flevoland_r3.txt');
@@ -58,16 +53,16 @@ tic;
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-%[IF] = fus_svd(IM, m, n, nc);
+[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;
 %%%%%%%%%%% ROIs %%%%%%%%%%%%%%%%%%
 imshow(II)
 % plot com fusion
-%[xpixel, ypixel, valor] = find(IF > 0);
+[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
+%[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
 %
 axis on
 hold on;
