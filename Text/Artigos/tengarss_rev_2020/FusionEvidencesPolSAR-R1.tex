@@ -291,8 +291,7 @@ The MR-SVD fusion method can be summarized as follows:
 %, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, 
 %and $\ell$ is the level resolution to set. In this work is used one resolution level.
 %%% ACF Repare que não usou M nem N
-\item Find the SVD decomposition
- of $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, where $\bm U_1$ and $\bm V_1$ are  unitary and they have dimensions ${4\times 4}$ e ${\ell}/{4}\times{\ell}/{4}$ respectively. The diagonal entries $S_{ii}$ of $\bm S_1$ are known as the singular values of $\bm X_1$ and it have dimension $4\times{\ell}/{4}$. The singular values are sorted in descending, and they are putting in the diagonal principal of the matrix, other entries must be zeros. 
+\item Find the SVD decomposition of $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, where $\bm U_1$ is a ${4\times 4}$ unitary matrix, $\bm S_1$ is a rectangular diagonal matrix $4\times{\ell}/{4}$ known as singular values matrix, and $\bm V_1$ is a ${\ell}/{4}\times{\ell}/{4}$~unitary matrix. The singular values are ordered in a decreasing order.
 % and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T\Sigma \bm V^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ comprise the singular value matrix $\bm S_1$, 
 %%% ACF Não definiu nem usou s(1), s(2) etc
 %%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$
