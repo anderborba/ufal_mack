@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/dev/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: FusionEvidencesPolSAR-R1.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: RefsTengars2020.bib
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+
+Done.
+You've used 21 entries,
+            4087 wiz_defined-function locations,
+            955 strings with 11045 characters,
+and the built_in function-call counts, 18538 in all, are:
+= -- 1540
+> -- 440
+< -- 189
++ -- 259
+- -- 77
+* -- 929
+:= -- 2721
+add.period$ -- 42
+call.type$ -- 21
+change.case$ -- 20
+chr.to.int$ -- 411
+cite$ -- 21
+duplicate$ -- 1295
+empty$ -- 1352
+format.name$ -- 90
+if$ -- 4339
+int.to.chr$ -- 0
+int.to.str$ -- 21
+missing$ -- 213
+newline$ -- 86
+num.names$ -- 21
+pop$ -- 425
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 1424
+stack$ -- 0
+substring$ -- 1000
+swap$ -- 1174
+text.length$ -- 52
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 21
+warning$ -- 0
+while$ -- 83
+width$ -- 23
+write$ -- 241

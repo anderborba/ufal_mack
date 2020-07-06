@@ -3,7 +3,9 @@
 #
 #
 
-BASE_NAME = tengarss_rev_ander
+#BASE_NAME = tengarss_rev_ander
+BASE_NAME = FusionEvidencesPolSAR-R1
+
 
 LATEX     = latex
 PDFLATEX  = pdflatex
@@ -13,6 +15,8 @@ pdf: $(BASE_NAME).pdf
 ps: $(BASE_NAME).ps
 
 $(BASE_NAME).pdf: $(BASE_NAME).tex 
+
+
 	$(PDFLATEX) $<
 	$(BIBTEX) $(BASE_NAME) 
 	$(PDFLATEX) $< 

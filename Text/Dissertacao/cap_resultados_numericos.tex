@@ -1,7 +1,7 @@
 \chapter{Resultado Numéricos}\label{resul_numericos}
 
 
-\section*{Aplicação em imagem simulada}
+\section{Aplicação em imagem simulada}
 A metodologia (MLE) para a detecção será aplicada para uma imagem simulada baseada em~\cite{nhfc,gamf}. A imagem tem $400\times400$ pixels e foi gerada por duas amostras obedecendo a distribuíção Wishart. Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ a imagem $I_{k_1,k_2}$ é simulada de acordo com, amostras de $W_G(\Sigma_{k_1}, 4)$ para a metade esquerda da imagem, e  amostras $W_G(\Sigma_{k_2}, 4)$ para a metade direita da imagem.
 
 
@@ -144,6 +144,319 @@ A figura \eqref{fig:pdf_prod_mag_flat} mostra a distribuição univariada produt
 
 \subsubsection{Distribuição bivariada produto de intensidades com L fixo}
 
+
+\subsubsection{Distribuição univariada span com L fixo}    
+    
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{im_sim_gamf_span_param_mu_14_pixel}%
+	\caption{Evidências de bordas para o span}
+\label{fig:evidencias_span_gamf}
+\end{figure}
+    
+    
+    
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{im_sim_gamf_span_media_mu_14_pixel}%
+	\caption{Evidências de bordas para o span (media estimada)}
+\label{fig:evidencias_span_gamf}
+\end{figure}
+
+
+\section{Aplicação em imagem de sensores PolSAR}
+
+\subsection{Imagem de Flevoland}
+
+A imagem da região de Flevoland de dimensão $750\times 1024$ pixeis é uma imagem PolSAR capturada pelo sensor AIRSAR com banda-L. Usamos a imagem capturando várias sub-regiões para realizar teste numéricos. A imagem capturada no sensor é mostrada na figura~\ref{flevoland_4_look} 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.5\linewidth]{flevoland_4_look}%
+	\caption{Imagem da região de Flevoland}
+\label{flevoland_4_look}
+\end{figure}
+
+O primeiro teste é realizado com a figura ~\ref{flevoland_4_look_radial} onde é mostrado as radiais usada para extrair as informações. 
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.5\linewidth]{flevoland_radial_4_look}%
+	\caption{Imagem da região de Flevoland com radiais}
+\label{flevoland_4_look_radial}
+\end{figure}
+
+Para facilitar a visualização é capturado uma região de interesse (ROI) na imagem com as radiais que mostramos na figura~\ref{roi_gt}\subref{flevoland_radial_4_look_crop}. A figura~\ref{roi_gt}\subref{gt_flevoland_crop} mostra as bordas em pixeis vermelhos que usaremos de referência a qual chamaremos de \textit{Ground Truth} (GT). Chamaremos de região de interesse I, (ROI-I)  
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Imagem, ROI, e radiais. \label{flevoland_radial_4_look_crop}]{%  
+       \includegraphics[width=0.229\textwidth]{flevoland_radial_4_look_black_crop}}
+     \subfloat[Ground truth\label{gt_flevoland_crop}]{%
+       \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
+     }
+    \caption{Decomposição de Pauli para a imagem, e \textit{ground truth} de referência para a (ROI-I)}
+    \label{roi_gt}
+\end{figure}
+
+As Figuras.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, e~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} mostrem, respectivamente, as evidências de bordas no canais $\text{hh}$, $\text{hv}$ e $\text{vv}$ obtidos pelo método estimativa de máxima verossimilhança MLE. Para a ROI-I estabelecemos 100 radiais com comprimento de 120 pixeis. Utilizamos em cada radial uma folga nas extremidades de  14 pixeis, a folga é usada pois constatamos uma forte oscilação da função de máxima verossimilhança nos pixeis. Escolhemos esse valor empiricamente e pode variar de acordo com a região, canal e figura. Na ROI-I os 14 pixeis escolhidos em cada extremidade foram suficientes para contornar o problema da oscilação.
+
+É digno de nota que o esquema proposto com a estimativa de parâmetros sendo realizada pelo programa MaxLik aplicado nas equações reduzidas e aplicação para gerar as funções de máxima verossimilhança total, encontrando seu máximo usando o programa GenSA obteve as evidências de bordas acuradamente.   
+\begin{figure}[hbt]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+
+Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, \subref{fusion_met:d}, \subref{fusion_met:e}, and~\subref{fusion_met:f} mostram os resultados numéricos para os métodos de fusão para evidência de bordas propostos. 
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média\label{fusion_met:a}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[Fusão DWT\label{fusion_met:b}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA \label{fusion_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_met:d}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT \label{fusion_met:e}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD\label{fusion_met:f}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
+     }
+     \caption{Resultados da apliação dos seis métodos de fusão}
+     \label{fusion_met}
+\end{figure}
+
+Os métodos de fusão por média e fusão PCA produzem resultados similares. MR-SVD produz uma considerável perda de \text{outliers} em relação ao outro métodos, porém o tempo de processamento é maior relativamente aos outro métodos. O método usando a estatística ROC produz bordas acuradas, com poucos \text{outliers}, porém de forma esparsa. O autor acredita que é um método com ótimo potencial quando consideramos mais canais oo outras funções de densidades de probabilidades para obter evidências de bordas. Ambos métodos baseados em \textit{wavelets} produzem densas bordas e muitos \text{outliers}, o autor destaca nesse momento o uso de pós-processamento que podemos ver na referência~\cite{fbgm}. O pós-processamento pode ser usado em todos em métodos. 
+      
+
+%%% Imagem de são francisco
+A imagem da baía de São Francisco de dimensão $450\times 600$ pixeis é uma imagem PolSAR capturada pelo sensor AIRSAR com banda-L. Usamos a imagem para realizar teste numéricos. A imagem capturada pelo sensor é mostrada na figura~\ref{san_francisco}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.5\linewidth]{san_francisco_2020}%
+	\caption{Imagem da baía de São Francisco}
+\label{san_francisco}
+\end{figure}
+%% Teste com a região I San Francisco
+%%% radial lenght 120 - com folga 25
+
+A figura~\ref{roi_gt}\subref{san_francisco_radial_25} a região de interesse (ROI) escolhida com 25 radiais, para cada radial vamos extrais os dados para obter a informação da localização da evidência de borda. A figura~\ref{roi_gt}\subref{gt_san_fran_r1_crop} mostra a imagem \textit{Ground Truth} (GT) que geramos para mostrar os resultados quantitativos.  
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Imagem, ROI e radiais. \label{san_francisco_radial_25}]{%  
+       \includegraphics[width=0.216\textwidth]{san_francisco_radial_25_crop}}
+     \subfloat[Ground Truth\label{gt_flevoland}]{%
+       \includegraphics[width=0.216\textwidth]{gt_san_fran_r1_crop}
+     }%
+     \caption{Decomposição de Pauli para imagem de São Francisco, e a ground truth}
+    \label{roi_gt}
+\end{figure}
+
+%%% AAB inserido 
+% Figura da região san francisco
+% tamanho da radial 25
+% folga nas extremidades das radiais 25 pixels
+
+As Figuras.~\ref{evidencias_sf_hh_hv_vv}\subref{evidencias_sf_hh_hv_vv:a}, \ref{evidencias_sf_hh_hv_vv}\subref{evidencias_sf_hh_hv_vv:b}, e~\ref{evidencias_sf_hh_hv_vv}\subref{evidencias_sf_hh_hv_vv:c} mostrem, respectivamente, as evidências de bordas no canais $\text{hh}$, $\text{hv}$ e $\text{vv}$ obtidos pelo método estimativa de máxima verossimilhança MLE. Para a ROI estabelecemos 25 radiais com comprimento de 120 pixeis. Utilizamos em cada radial uma folga nas extremidades de  25 pixeis, a folga é usada pois constatamos uma forte oscilação da função de máxima verossimilhança nos pixeis. Escolhemos esse valor empiricamente e pode variar de acordo com a região, canal e figura. Na ROI os 25 pixeis escolhidos em cada extremidade foram suficientes para contornar o problema  da oscilação.
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Canal $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_sf_1_param_L_mu_25_pixel_r1_crop}
+     }
+     \subfloat[Canal $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_sf_2_param_L_mu_25_pixel_r1_crop}
+     }
+     \subfloat[Canal $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_sf_3_param_L_mu_25_pixel_r1_crop}
+     }
+     \caption{Evidências de bordas para os três canais de intensidades na imagem de são Francisco}
+     \label{evidencias_sf_hh_hv_vv} 
+\end{figure}
+
+
+Figuras~\ref{fusion_sf_met}\subref{fusion_sf_met:a}, \subref{fusion_sf_met:b}, \subref{fusion_sf_met:c}, \subref{fusion_sf_met:d}, \subref{fusion_sf_met:e}, and~\subref{fusion_sf_met:f} mostram os resultados numéricos para os métodos de fusão para evidência de bordas propostos. 
+%%%% sf  pixel
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média\label{fusion_sf_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[Fusão DWT\label{fusion_sf_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA\label{fusion_sf_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_sf_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT\label{fusion_sf_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD\label{fusion_sf_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
+     }
+     \caption{Resultado da aplicação dos seis método de fusão para a imagem de São Francisco}
+     %\caption{Results of applying the six fusion methods to San Francisco}
+     \label{fusion_sf_met}
+\end{figure}
+
+%% Teste com a região III Flevoland
+%%%  25 radials lenght 120 - com folga 14
+
+Uma segunda região na imagem de Flevoland é capturado para os testes e chamaremos de região de interesse II (ROI - II). A imagem com as radiais é mostrada na figura~\ref{roi_gt_roi_ii}\subref{flevoland_radial_25_crop_roi_ii}. A figura~\ref{roi_gt_roi_ii}\subref{gt_flevoland_crop_roi_ii} mostra as bordas em pixeis vermelhos que usaremos de referência a qual chamaremos de \textit{Ground Truth} (GT).
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Imagem, ROI, e radiais. \label{flevoland_radial_25_crop_roi_ii}]{%  
+       \includegraphics[width=0.216\textwidth]{flevoland_r3_radial_crop}}
+     \subfloat[Ground reference\label{gt_flevoland_r3_crop_roi_ii}]{%
+       \includegraphics[width=0.216\textwidth]{gt_flevoland_r3_crop}
+     }
+    \caption{Decomposição de Pauli para a ROI-II da imagem de Flevoland, e a \textit{ground truth}}
+    \label{roi_gt_roi_ii}
+\end{figure}
+
+As Figuras.~\ref{evidencias_flev_roi_ii_hh_hv_vv}\subref{evidencias_flev_roi_ii_hh_hv_vv:a}, \ref{evidencias_flev_roi_ii_hh_hv_vv}\subref{evidencias_flev_roi_ii_hh_hv_vv:b}, e~\ref{evidencias_flev_roi_ii_hh_hv_vv}\subref{evidencias_flev_roi_ii_hh_hv_vv:c} mostrem, respectivamente, as evidências de bordas no canais $\text{hh}$, $\text{hv}$ e $\text{vv}$ obtidos pelo método estimativa de máxima verossimilhança MLE. Para a ROI-II estabelecemos 25 radiais com comprimento de 120 pixeis. Utilizamos em cada radial uma folga nas extremidades de  14 pixeis, a folga é usada pois constatamos uma forte oscilação da função de máxima verossimilhança nos pixeis. Escolhemos esse valor empiricamente e pode variar de acordo com a região, canal e figura. Na ROI-II os 14 pixeis escolhidos em cada extremidade foram suficientes para contornar o problema da oscilação.
+
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Canal $\text{hh}$ \label{evidencias_flev_roi_ii_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hh_param_L_mu_14_pixel_r3_crop}
+     }
+     \subfloat[Canal $\text{hv}$ \label{evidencias_flev_roi_ii_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hv_param_L_mu_14_pixel_r3_crop}
+     }
+     \subfloat[Canal $\text{vv}$ \label{evidencias_flev_roi_ii_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hv_param_L_mu_14_pixel_r3_crop}
+     }
+     \caption{Evidências de bordas para os três canais de intensidades para ROI-II na imagem de Flevoland com folga de 14 pixel}
+     \label{evidencias_flev_roi_ii_hh_hv_vv} 
+   \end{figure}
+
+Figuras~\ref{fusion__flev_roi_ii_met}\subref{fusion_flev_roi_ii_met:a}, \subref{fusion_flev_roi_ii_met:b}, \subref{fusion_flev_roi_ii_met:c}, \subref{fusion_flev_roi_ii_met:d}, \subref{fusion_flev_roi_ii_met:e}, and~\subref{fusion_flev_roi_ii_met:f} mostram os resultados numéricos para os métodos de fusão para evidência de bordas propostos.
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média \label{fusion_flev_roi_ii_met:a}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_media_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[Fusão DWT\label{fusion_flev_roi_ii_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_dwt_param_L_mu_14_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA\label{fusion_flev_roi_ii_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_pca_param_L_mu_14_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_flev_roi_ii_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_roc_param_L_mu_14_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT\label{fusion_flev_roi_ii_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_swt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD\label{fusion_flev_roi_ii_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_svd_param_L_mu_14_pixel_crop}
+     }
+     \caption{Resultado da aplicação dos seis métodos de fusão para a ROI-II de flevoland com 14 pixeis de folga}
+     \label{fusion_flev_roi_ii_met}
+\end{figure}
+%% Teste com a região III Flevoland
+%%%  25 radials lenght 120 - com folga 25
+As Figuras.~\ref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv}\subref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:a}, \ref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv}\subref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:b}, e~\ref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv}\subref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:c} mostrem, respectivamente, as evidências de bordas no canais $\text{hh}$, $\text{hv}$ e $\text{vv}$ obtidos pelo método estimativa de máxima verossimilhança MLE. Para a ROI-II estabelecemos 25 radiais com comprimento de 120 pixeis. Utilizamos em cada radial uma folga nas extremidades de  25 pixeis, a folga é usada pois constatamos uma forte oscilação da função de máxima verossimilhança nos pixeis. Escolhemos esse valor empiricamente e pode variar de acordo com a região, canal e figura. Na ROI-II os 25 pixeis escolhidos em cada extremidade foram suficientes para contornar o problema da oscilação.  
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Canal $\text{hh}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hh_param_L_mu_25_pixel_r3_crop}
+     }
+     \subfloat[Canal $\text{hv}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hv_param_L_mu_25_pixel_r3_crop}
+     }
+     \subfloat[Canal $\text{vv}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_vv_param_L_mu_25_pixel_r3_crop}
+     }
+          \caption{Evidências de bordas para os três canais de intensidades para ROI-II na imagem de Flevoland com folga de 25 pixel}
+     \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv} 
+   \end{figure}
+
+
+
+Figuras~\ref{fusion_flev_roi_ii_25_pixel_met}\subref{fusion_flev_roi_ii_25_pixel_met:a}, \subref{fusion_flev_roi_ii_25_pixel_met:b}, \subref{fusion_flev_roi_ii_25_pixel_met:c}, \subref{fusion_flev_roi_ii_25_pixel_met:d}, \subref{fusion_flev_roi_ii_25_pixel_met:e}, and~\subref{fusion_flev_roi_ii_25_pixel_met:f} mostram os resultados numéricos para os métodos de fusão para evidência de bordas propostos.
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média\label{fusion_flev_roi_ii_25_pixel_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_media_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_flev_roi_ii_25_pixel_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_dwt_param_L_mu_25_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA \label{fusion_flev_roi_ii_25_pixel_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_pca_param_L_mu_25_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_flev_roi_ii_25_pixel_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_roc_param_L_mu_25_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT \label{fusion_flev_roi_ii_25_pixel_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_swt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD \label{fusion_flev_roi_ii_25_pixel_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r3_fus_svd_param_L_mu_25_pixel_crop}
+     }
+     \caption{Resultado da aplicação dos seis métodos de fusão para a ROI-II de flevoland com 25 pixeis de folga}
+     \label{fusion_sf_met}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Metricas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge, as measured on $100$ radial lines: the minimum Euclidean distance among the ground truth pixel and the several pixels detected in the fusion methods.
+We use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
+Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is number of radii. 
+In our analysis, $k$ varies between $1$ and $10$, and $n_r=100$. 
+The algorithm is described in Ref.~\cite{fbgm}.
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland}
+	\caption{Probability of detecting in fusion methods.}
+\label{probability_edge_detc}
+\end{figure}
+
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland_r3}
+	\caption{Probability of detecting in fusion methods. Região III - FLEV} 
+\label{probability_edge_detc}
+\end{figure}
+
+
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.8\linewidth]{metricas_6_fusao_sf_r3}
+	\caption{Probability of detecting in fusion methods. Região I - SF} 
+\label{probability_edge_detc}
+\end{figure}
+
+
+\subsection{Imagem da Baía de São Francisco}
+
 %\begin{figure}[hbt]
 %	\centering
 %     \subfloat[Canal $\text{hh}$ \label{fig:evid_bordas_l:1a}]{%
@@ -172,24 +485,120 @@ A figura \eqref{fig:pdf_prod_mag_flat} mostra a distribuição univariada produt
 %     \label{evidencias_hh_hv_vv_gamf} 
 %   \end{figure*}    
     
-\subsubsection{Distribuição univariada span com L fixo}    
     
+
+%%% AAB inserido 
+% Figura da região 2 com 80 pixel para as radiais 1 até 64 e 60 pixel para as radiais 65 até 100.
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_r2_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hh_evid_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_r2_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hv_evid_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_r2_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_vv_evid_L_mu_14_80_60strip_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to ROI II - cuidado}
+     \label{evidencias_r2_hh_hv_vv} 
+   \end{figure}
+
+%%% AAB inserido 
+% Figura da região 2 com 60 pixel para todas radiais menos na faixa de radiais 51 até 64 (80 pixel).
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_r2_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hh_evid_L_mu_14_60_80strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_r2_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_hv_evid_L_mu_14_60_80strip_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_r2_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_vv_evid_L_mu_14_60_80strip_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to ROI II - cuidado 2}
+     \label{evidencias_r2_hh_hv_vv} 
+   \end{figure}
+
+%%% AAB inserido 
+% Figura da região san francisco
+% tamanho da radial 40
+% folga nas extremidades das radiais 8 pixels
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{sf_hh_evid_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{sf_hv_evid_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{sf_vv_evid_param_L_mu_8_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels to San Francisco}
+     \label{evidencias_sf_hh_hv_vv} 
+   \end{figure}
+
+
+%%% AAB inserido 
+% Figura para a fusão da região 2 com 80 pixel para as radiais 1 até 64 e 60 pixel para as radiais 65 até 100.
+
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=.7\linewidth]{im_sim_gamf_span_param_mu_14_pixel}%
-	\caption{Evidências de bordas para o span}
-\label{fig:evidencias_span_gamf}
+     \subfloat[Average fusion\label{fusion_r2_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r2_media_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_r2_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_dwt_L_mu_14_80_60strip_pixel_crop}
+     }\\
+     \subfloat[PCA fusion \label{fusion_r2_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{flev_r2_pca_L_mu_14_80_60strip_pixel_crop}       
+     }
+     \subfloat[ROC fusion\label{fusion_r2_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_roc_L_mu_14_80_60strip_pixel_crop}
+     }\\
+     \subfloat[MR-SWT fusion\label{fusion_r2_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_swt_L_mu_14_80_60strip_pixel_crop}
+     }
+     \subfloat[MR-SVD fusion\label{fusion_r2_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{flev_r2_svd_L_mu_14_80_60strip_pixel_crop}
+     }
+     \caption{Results of applying the six fusion methods to ROI II}
+     \label{fusion_r2_met}
 \end{figure}
-    
-    
-    
+
+
+
+%%%% sf 40 pixel
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=.7\linewidth]{im_sim_gamf_span_media_mu_14_pixel}%
-	\caption{Evidências de bordas para o span (media estimada)}
-\label{fig:evidencias_span_gamf}
+     \subfloat[Average fusion\label{fusion_sf_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_media_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_sf_met:b}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_dwt_param_L_mu_8_pixel_crop}
+     }\\
+     \subfloat[PCA fusion \label{fusion_sf_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_8_pixel_crop}       
+     }
+     \subfloat[ROC fusion\label{fusion_sf_met:d}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_roc_param_L_mu_8_pixel_crop}
+     }\\
+     \subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_swt_param_L_mu_8_pixel_crop}
+     }
+     \subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
+       \includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_8_pixel_crop}
+     }
+     \caption{Results of applying the six fusion methods to San Francisco}
+     \label{fusion_sf_met}
 \end{figure}
-    
+
     
     
 %The error is measured simulating $400$ independent images and finding $\widehat\jmath$ in a line fixed.
