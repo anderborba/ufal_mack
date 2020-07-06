@@ -3,8 +3,8 @@
 #
 #
 
-#BASE_NAME = tengarss_rev_ander
-BASE_NAME = FusionEvidencesPolSAR-R1
+BASE_NAME = tengarss_rev_ander
+#BASE_NAME = FusionEvidencesPolSAR-R1
 
 
 LATEX     = latex
