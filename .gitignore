@@ -609,5 +609,7 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/r,tex,linux,macos,matlab,python,pycharm,windows
 
-*.pdf
 /Misc/R Tests/
+/Text/Artigos/tengarss_rev_2020/tengarss_rev_ander.aux
+/Text/Artigos/tengarss_rev_2020/tengarss_rev_ander.log
+/Text/Artigos/tengarss_rev_2020/tengarss_rev_ander.pdf
