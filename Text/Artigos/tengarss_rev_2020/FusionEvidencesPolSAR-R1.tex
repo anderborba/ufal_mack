@@ -57,9 +57,9 @@ The data such sensors provide require specifically tailored signal processing te
 Among such techniques, edge detection is one of the most important operations for extracting information.
 Edges are at a higher level of abstraction than mere data and, as such, provide relevant insights about the scene.
 
-Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning: techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
+Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning: techniques based on denoising~\cite{sjx, lzly, wxbzw, cgaf};   
 Markov random fields~\cite{bf};	
-the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and
+the deep learning approach~\cite{ztmxzxf} applied to segmentation and classification; and
 statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR and SAR imagery.
 
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
@@ -155,11 +155,14 @@ We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{aligned}
 %\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
-\mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+\mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)= -\Bigg(
+	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
+	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
+	\Bigg)+\mbox{}\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
-+\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k + \mbox{}\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k .%-\\ 
 \raisetag{2.2em}
 \end{aligned}
 \end{equation}
