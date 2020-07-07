@@ -62,9 +62,8 @@ Markov random fields~\cite{bf};
 the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and
 statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR and SAR imagery.
 
-
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
-Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
+%Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
 
 Instead of handling fully polarimetric data, we treat each intensity channel separately, obtain evidence of edges, and then produce a single estimator of the edge position.
 With this, we quantify the contribution each channel provides to the solution of the problem.
@@ -116,15 +115,13 @@ We used three $m=3$ channels in this study.
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
 This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
 
-Fully polarimetric data may be modeled by~\eqref{eq:DistWishart}.
-Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{hsbmp}.
-In particular, we assume that the distribution of each intensity channel is a 
+Since we are interested in describing the information conveyed by parts of such matrix under the Wishart model, we assume that the distribution of each intensity channel is a 
 Gamma law with probability density function
 \begin{equation}
 f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
 \label{func_dens_uni_gamma}
 \end{equation}
-where $L>0$ (rather than $L\geq1$ to allow for flexibility), and
+where $L>0$, and
 $\mu>0$ is the mean.
 The log-likelihood of the sample $\bm z = (z_1,\dots,z_n)$ under this model is
 \begin{equation}
@@ -179,7 +176,7 @@ Also, $\min_s$ is the minimum sample size.% that we set to $14$.
 %initialization\;
 \For{each band $1\leq c\leq n_c$}{
 	\For{each ray passing through the centroid}{
-		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray with the Bresenham's midpoint line algorithm\;
+		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray\;
 		\For{each $\min_s\leq j\leq n-\min_s$}{\nllabel{Line:InitFor}
 			Partition the sample as $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ and 
 			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{n-\min_s})$\;
@@ -208,7 +205,7 @@ These images will be fused to obtain the binary image $\bm I_F$.
 %Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
 %We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
 
-We compare the results of six fusion techniques, namely:
+We compare the results of six fusion techniques:
 simple average, 
 multi-resolution discrete wavelet transform (MR-DWT),
 principal components analysis (PCA), 
