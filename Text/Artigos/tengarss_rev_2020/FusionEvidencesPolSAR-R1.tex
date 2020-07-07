@@ -57,14 +57,13 @@ The data such sensors provide require specifically tailored signal processing te
 Among such techniques, edge detection is one of the most important operations for extracting information.
 Edges are at a higher level of abstraction than mere data and, as such, provide relevant insights about the scene.
 
-Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning: techniques based on denoising~\cite{sjx, lzly, wxbzw, law, cgaf};   
+Among the available edge detection techniques for SAR and PolSAR images, it is worth mentioning: techniques based on denoising~\cite{sjx, lzly, wxbzw, cgaf};   
 Markov random fields~\cite{bf};	
-the deep learning approach~\cite{bac, ztmxzxf} applied to segmentation and classification; and
+the deep learning approach~\cite{ztmxzxf} applied to segmentation and classification; and
 statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR and SAR imagery.
 
-
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
-Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
+%Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
 
 Instead of handling fully polarimetric data, we treat each intensity channel separately, obtain evidence of edges, and then produce a single estimator of the edge position.
 With this, we quantify the contribution each channel provides to the solution of the problem.
@@ -79,8 +78,7 @@ Without loss of generality, we assume the complex scaled Wishart distribution fo
 The value function depends on the estimates that index such Gamma laws; and
 we estimate them by maximum likelihood.
 
-The value function is the total likelihood.
-It is non-differentiable at most points, and classical methods have difficulties in finding the maximum of a non-differentiable functions. 
+The total likelihood function is non-differentiable at most points, and classical methods have difficulties in finding its maximum. 
 We used the Generalized Simulated Annealing (GenSA)~\cite{xgsh} method to solve this problem. 
 
 We discuss and compare six fusion methods:
@@ -96,11 +94,11 @@ Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 %The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
-Section~\ref{sec_02} describes statistical modeling.
-Section~\ref{sec_03} describes edge detection for PolSAR data.
-Section~\ref{sec_04} describes the approach to edge evidence fusing.
-Section~\ref{sec_05} presents numerical results.
-Finally, Section~\ref{sec_06} concludes the work with observations, future directions of research, and the feasibility of detecting edges in each channel of PolSAR images.
+Section~\ref{sec_02} describes the models.
+Section~\ref{sec_03} describes the edge detection.
+Section~\ref{sec_04} describes the approaches for fusing edge evidences.
+Section~\ref{sec_05} presents the results.
+In Section~\ref{sec_06} we discuss the results, and outline future research directions.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
 
@@ -116,17 +114,15 @@ We used three $m=3$ channels in this study.
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
 This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
 
-Fully polarimetric data may be modeled by~\eqref{eq:DistWishart}.
-Since we are interested in describing the information conveyed by parts of such matrix, we rely on the results presented in~\cite{hsbmp}.
-In particular, we assume that the distribution of each intensity channel is a 
+Since we are interested in describing the information conveyed by parts of such matrix under the Wishart model, we assume that the distribution of each intensity channel is a 
 Gamma law with probability density function
 \begin{equation}
 f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
 \label{func_dens_uni_gamma}
 \end{equation}
-where $L>0$ (rather than $L\geq1$ to allow for flexibility), and
+where $L>0$, and
 $\mu>0$ is the mean.
-The reduced log-likelihood of the sample $\bm z = (z_1,\dots,z_n)$ under this model is
+The log-likelihood of the sample $\bm z = (z_1,\dots,z_n)$ under this model is
 \begin{equation}
 \mathcal L( L,\mu; \bm z) = 
 n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
@@ -154,15 +150,18 @@ $\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
 We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
 
-We then compute the reduced log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
+We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{aligned}
 %\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
-\mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+\mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)= -\Bigg(
+	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
+	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
+	\Bigg)+\mbox{}\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
-+\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k + \mbox{}\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k -\\ &\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k .%-\\ 
 \raisetag{2.2em}
 \end{aligned}
 \end{equation}
@@ -170,23 +169,23 @@ and the estimate of the edge position on the ray is the coordinate $\widehat\jma
 
 Algorithm~\ref{Algo:GambiniEdgeDetection} is the pseudocode of the basic edge detection with the Gambini Algorithm.
 We found that one hundred rays is a good compromise between spatial continuity and computational load.
-Also, $\min_s$ is the minimum sample size that we set to $14$.
+Also, $\min_s$ is the minimum sample size.% that we set to $14$.
 
 \begin{algorithm}[hbt]
 \SetAlgoLined
-\KwData{$n_c$ intensity bands, centroid, number of rays}
+\KwData{$n_c$ intensity channels, centroid, number of rays}
 \KwResult{$n_c$ binary images with evidences of edges}
 %initialization\;
 \For{each band $1\leq c\leq n_c$}{
 	\For{each ray passing through the centroid}{
-		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray with the Bresenham's midpoint line algorithm\;
+		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray\;
 		\For{each $\min_s\leq j\leq n-\min_s$}{\nllabel{Line:InitFor}
 			Partition the sample as $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ and 
 			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{n-\min_s})$\;
 			Compute $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ with $\bm z_{\text{I}}$, and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$ with $\bm z_{\text{E}}$\;
 			Compute the total log-likelihood at $j$ as $\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$\;
 		}
-		$\widehat\jmath\leftarrow$ the value of $j$ at which the log-likelihood function is maximized\;
+		$\widehat\jmath\leftarrow$ the value of $j$ which maximizes the total log-likelihood function\;
 		\Return $(\widehat x, \widehat y)$, the coordinates of each $\widehat\jmath$\;
 	}
 \Return the binary image $\widehat{\bm\jmath}_c$ with $1$ at every $(\widehat x, \widehat y)$, and $0$ otherwise.
@@ -208,7 +207,7 @@ These images will be fused to obtain the binary image $\bm I_F$.
 %Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
 %We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
 
-We compare the results of six fusion techniques, namely:
+We compare the results of six fusion techniques:
 simple average, 
 multi-resolution discrete wavelet transform (MR-DWT),
 principal components analysis (PCA), 
@@ -283,7 +282,7 @@ This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-
 \subsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
 
 MR-SVD Fusion~\cite{naidu} works similarly to MR-DWT. 
-The difference consists in changing the DWT filters by the SVD filters. 
+%The difference consists in changing the DWT filters by the SVD filters. 
 The MR-SVD fusion method can be summarized as follows:
 \begin{enumerate}
 %\item Organize the binary image $\bm{\widehat\jmath}_c$ in matrices $\text{X}_\ell$ with dimension $4\times\frac{\text{M}}{2}\frac{\text{N}}{2}$ according to~\cite{naidu}, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, and $\ell$ is the level resolution to set. In this work is used one resolution level;
@@ -321,13 +320,12 @@ of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$, where $f$ denotes the fusion 
 
 \subsection{Flevoland images}
 
-We used a $750\times 1024$ pixels AIRSAR PolSAR image of Flevoland, L-band, for the tests. 
-Fig.~\ref{roi_gt}\subref{flevoland_radial_4look} shows the ROI, with the radial lines where edges are detected. 
+Fig.~\ref{roi_gt}\subref{flevoland_radial_4look} shows a $750\times 1024$ pixels AIRSAR PolSAR image of Flevoland, L-band, with the radial lines where edges are detected. 
 Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.  
 
 \begin{figure}[hbt]
    \centering
-     \subfloat[Image, Region of Interest (ROI), and rays. \label{flevoland_radial_4look}]{%  
+     \subfloat[Image and rays. \label{flevoland_radial_4look}]{%  
        \includegraphics[width=0.229\textwidth]{flevoland_radial_4_look_black_crop}}
      \subfloat[Ground reference\label{gt_flevoland}]{%
        \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
@@ -338,7 +336,7 @@ Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.
 
 Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, and~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidences in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels as obtained by MLE.
 
-It is worth noting that GenSA has accurately identified the maximum value of $\ell$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima. 
+It is worth noting that GenSA has accurately identified the maximum value of $\mathcal L$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima. 
 A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few points far from the actual edge.
 
    \begin{figure}[hbt]
@@ -356,7 +354,12 @@ A visual assessment leads to conclude that the best results are provided by $\te
      \label{evidencias_hh_hv_vv} 
    \end{figure}
 
-Figs.~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, \subref{fusion_met:d}, \subref{fusion_met:e}, and~\subref{fusion_met:f} show the results of fusing these evidences. 
+Figs.~\ref{fusion_met}\subref{fusion_met:a}, 
+\ref{fusion_met}\subref{fusion_met:b}, 
+\ref{fusion_met}\subref{fusion_met:c}, 
+\ref{fusion_met}\subref{fusion_met:d}, 
+\ref{fusion_met}\subref{fusion_met:e}, 
+and~\ref{fusion_met}\subref{fusion_met:f} show the results of fusing these evidences. 
 
 %Thus, one can see that the time for the PCA method is 2.19 times longer than the simple average.  
 
@@ -395,80 +398,88 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
      \label{fusion_met}
 \end{figure}
 
-
+Fig.~\ref{roi_gt_2} shows another region in the Flevoland image.
+In this case, it is a bright target surrounded by darker fields.
+Fig.~\ref{evidencias_flev_hh_hv_vv} shows the edges detected in each intensity channel.
 
 \begin{figure}[hbt]
 	\centering
-	\subfloat[Image and rays. \label{san_francisco_radial_25}]{%  
+	\subfloat[Image and rays. \label{flevoland_radial_25}]{%  
 		\includegraphics[width=.48\linewidth]{flevoland_r3_radial_crop}}
 	\subfloat[Ground reference\label{gt_flevoland_r3_crop}]{%
 		\includegraphics[width=.48\linewidth]{gt_flevoland_r3_crop}
 	}
-	\caption{San Francisco image in Pauli decomposition, and ground reference}
-	\label{roi_gt}
+	\caption{Flevoland image in Pauli decomposition, and ground reference}
+	\label{roi_gt_2}
 \end{figure}
 
 %% Teste com a região III Flevoland
 %%%  25 radials lenght 120 - com folga 25
 \begin{figure}[hbt]
 	\centering
-	\subfloat[Channel $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+	\subfloat[Channel $\text{hh}$ \label{evidencias_flev_hh_hv_vv:a}]{%
 		\includegraphics[width=0.32\linewidth]{evid_real_flev_hh_param_L_mu_25_pixel_r3_crop}
 	}
-	\subfloat[Channel $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+	\subfloat[Channel $\text{hv}$ \label{evidencias_flev_hh_hv_vv:b}]{%
 		\includegraphics[width=0.32\linewidth]{evid_real_flev_hv_param_L_mu_25_pixel_r3_crop}
 	}
-	\subfloat[Channel $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+	\subfloat[Channel $\text{vv}$ \label{evidencias_flev_hh_hv_vv:c}]{%
 		\includegraphics[width=0.32\linewidth]{evid_real_flev_vv_param_L_mu_25_pixel_r3_crop}
 	}
-	\caption{Edges evidences from the three intensity channels to San Francisco - 25 pixel}
-	\label{evidencias_sf_hh_hv_vv} 
+	\caption{Edges evidences from the three intensity channels, Flevoland image}
+	\label{evidencias_flev_hh_hv_vv} 
 \end{figure}
+
+Fig.~\ref{fusion_flev_met} shows the two best fusion results: PCA and MR-SWD.
+Notice that the latter (Fig.~\ref{fusion_flev_met}\subref{fusion_flev_met:f}) eliminates the wrong detection close to the center of the area, and has fewer wrongly detected points outside the region of interest.
 
 \begin{figure}[hbt]
 	\centering
-	\subfloat[Average fusion\label{fusion_sf_met:a}]{%
+%	\subfloat[Average fusion\label{fusion_flev_met:a}]{%
+%		%\includegraphics[width=0.2\textwidth]{example-image-a}
+%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_media_param_L_mu_25_pixel_crop}
+%	}
+%	\subfloat[DWT fusion\label{fusion_flev_met:b}]{%
+%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_dwt_param_L_mu_25_pixel_crop}
+%	}
+	\subfloat[PCA fusion \label{fusion_flev_met:c}]{%
 		%\includegraphics[width=0.2\textwidth]{example-image-a}
-		\includegraphics[width=0.32\linewidth]{flev_r3_fus_media_param_L_mu_25_pixel_crop}
+		\includegraphics[width=0.48\linewidth]{flev_r3_fus_pca_param_L_mu_25_pixel_crop}       
 	}
-	\subfloat[DWT fusion\label{fusion_sf_met:b}]{%
-		\includegraphics[width=0.32\linewidth]{flev_r3_fus_dwt_param_L_mu_25_pixel_crop}
+%	\subfloat[ROC fusion\label{fusion_flev_met:d}]{%
+%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_roc_param_L_mu_25_pixel_crop}
+%	}
+%	\subfloat[MR-SWT fusion\label{fusion_flev_met:e}]{%
+%		\includegraphics[width=0.3\linewidth]{flev_r3_fus_swt_param_L_mu_25_pixel_crop}
+%	}
+	\subfloat[MR-SVD fusion\label{fusion_flev_met:f}]{%
+		\includegraphics[width=0.48\linewidth]{flev_r3_fus_svd_param_L_mu_25_pixel_crop}
 	}
-	\subfloat[PCA fusion \label{fusion_sf_met:c}]{%
-		%\includegraphics[width=0.2\textwidth]{example-image-a}
-		\includegraphics[width=0.32\linewidth]{flev_r3_fus_pca_param_L_mu_25_pixel_crop}       
-	}\\
-	\subfloat[ROC fusion\label{fusion_sf_met:d}]{%
-		\includegraphics[width=0.32\linewidth]{flev_r3_fus_roc_param_L_mu_25_pixel_crop}
-	}
-	\subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
-		\includegraphics[width=0.3\linewidth]{flev_r3_fus_swt_param_L_mu_25_pixel_crop}
-	}
-	\subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
-		\includegraphics[width=0.32\linewidth]{flev_r3_fus_svd_param_L_mu_25_pixel_crop}
-	}
-	\caption{Results of applying the six fusion methods to Flevoland area III}
-	\label{fusion_sf_met}
+	\caption{Two best fusion results in the Flevoland image}
+	\label{fusion_flev_met}
 \end{figure}
 
 
-\subsection{??? Image}
+\subsection{San Francisco Image}
+
+Fig.~\ref{roi_gt_SF} shows an area of the L-band AIRSAR image over San Francisco.
+The distinctive areas are urban, sea, and vegetation.
+The aim is finding the edge between the former and the other two.
 
 \begin{figure}[hbt]
 	\centering
 	\subfloat[Image and rays. \label{san_francisco_radial_25}]{%  
 		\includegraphics[width=0.48\linewidth]{san_francisco_radial_25_crop}}\  
-	\subfloat[Ground reference\label{gt_flevoland}]{%
+	\subfloat[Ground reference\label{gt_san_francisco}]{%
 		\includegraphics[width=0.48\linewidth]{gt_san_fran_r1_crop}
 	}
 	\caption{San Francisco image in Pauli decomposition, and ground reference}
-	\label{roi_gt}
+	\label{roi_gt_SF}
 \end{figure}
 
-%%% AAB inserido 
-% Figura da região san francisco
-% tamanho da radial 25
-% folga nas extremidades das radiais 25 pixels
+Fig.~\ref{evidencias_sf_hh_hv_vv} shows the evidences of edges found in each of the three intensity channels.
+A visual inspection suggests that the hh channel is the one that produces the best estimation.
+
 \begin{figure}[hbt]
 	\centering
 	\subfloat[Channel $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
@@ -478,36 +489,38 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 		\includegraphics[width=0.32\linewidth]{evid_real_sf_2_param_L_mu_25_pixel_r1_crop}
 	}
 	\subfloat[Channel $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
-		\includegraphics[width=0.32\linewidth]{evid_real_sf_3_param_L_mu_25_pixel_r1_crop}
+		\includegraphics[width=0.333\linewidth]{evid_real_sf_3_param_L_mu_25_pixel_r1_crop}
 	}
 	\caption{Edges evidences from the three intensity channels to San Francisco}
 	\label{evidencias_sf_hh_hv_vv} 
 \end{figure}
 
+Fig.~\ref{fusion_sf_met} shows the two best fusion results: PCA and MR-SWD.
+Again, the latter is more resistant to outliers, both inside and outside the region of interest.
 
 \begin{figure}[hbt]
 	\centering
-	\subfloat[Average fusion\label{fusion_sf_met:a}]{%
-		%\includegraphics[width=0.2\textwidth]{example-image-a}
-		\includegraphics[width=0.32\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
-	}
-	\subfloat[DWT fusion\label{fusion_sf_met:b}]{%
-		\includegraphics[width=0.32\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
-	}
+%	\subfloat[Average fusion\label{fusion_sf_met:a}]{%
+%		%\includegraphics[width=0.2\textwidth]{example-image-a}
+%		\includegraphics[width=0.32\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
+%	}
+%	\subfloat[DWT fusion\label{fusion_sf_met:b}]{%
+%		\includegraphics[width=0.32\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
+%	}
 	\subfloat[PCA fusion \label{fusion_sf_met:c}]{%
 		%\includegraphics[width=0.2\textwidth]{example-image-a}
-		\includegraphics[width=0.32\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
-	}\\
-	\subfloat[ROC fusion\label{fusion_sf_met:d}]{%
-		\includegraphics[width=0.32\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
+		\includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
 	}
-	\subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
-		\includegraphics[width=0.32\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
-	}
+%	\subfloat[ROC fusion\label{fusion_sf_met:d}]{%
+%		\includegraphics[width=0.32\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
+%	}
+%	\subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
+%		\includegraphics[width=0.32\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
+%	}
 	\subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
-		\includegraphics[width=0.32\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
+		\includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
 	}
-	\caption{Results of applying the six fusion methods to San Francisco}
+	\caption{Two best fusion results in the San Francisco image}
 	\label{fusion_sf_met}
 \end{figure}
 
@@ -522,9 +535,11 @@ The algorithm is described in Ref.~\cite{fbgm}.
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland}
-	\caption{Probability of detecting in fusion methods.}
+	\caption{Probability of detecting the edge by the fusion methods in Fig.~\ref{roi_gt}.}
 	\label{probability_edge_detc}
 \end{figure}
+
+We obtained similar results on the images shown in Figs.~\ref{roi_gt_2} and~\ref{roi_gt_SF}, which we omit for brevity.
 
 \subsection{Implementation Details}
 
@@ -538,7 +553,7 @@ Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to t
 	\centering
 	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
 	\begin{tabular}{@{}lrrrrrr@{}} \toprule
-		Method       & Aver   &   PCA      &  MR-DWT  & MR-SWT &  ROC  &  MR-SVD \\ \midrule
+		Method       & Aver.   &   PCA      &  MR-DWT  & MR-SWT &  ROC  &  MR-SVD \\ \midrule
 		Time (s)      & 0.01      & 0.02       &  0.08 & 0.18      &  0.40       & 1.11  \\
 		Rel. time     & 1.00      & 2.19       &  9.25 & 21.05     &  46.59      & 129.57  \\ \bottomrule
 	\end{tabular}
