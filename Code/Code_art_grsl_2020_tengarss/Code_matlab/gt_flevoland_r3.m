@@ -1,3 +1,20 @@
+% Coded by Anderson Borba data: 01/07/2020 version 1.0
+% Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+% GRSL - IEEE Geoscience and Remote Sensing Letters 
+% Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+% 
+% Description
+% 1) GT to Flevoland region 2 
+%  
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Output 
+% 1) Print this information in txt files
+% 2) Show the imege to Flevoland with ROI-II 
+% Obs: 1) prints commands are commented with %  
+%      2) contact email: anderborba@gmail.com
+
 clear all;
 format long;
 cd ..

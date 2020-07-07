@@ -1,9 +1,14 @@
-# AAB - versao 1.0 17/11/2018
-# O programa le as evidencia de bordas para cada canal no diretorio ~/Data e calcula a probabilidade de detecçao de borda e imprime para arquivo em /Text/Dissertacao/figuras
-# Obs (1) Trocar os nomes das amostras de interesse na leitura de dados,
-#     (2) trocar os nomes do arquivo de impressão, 
-#     (3) amostras definidas em \cite{nhfc} e \cite{gamf},
-#     (4) impressão comentada.
+# Coded by Anderson Borba data: 07/07/2020 version 1.0
+# Article submitted: 
+# Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+# GRSL - IEEE Geoscience and Remote Sensing Letters 
+# Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+# Description
+# Does the error probability function
+# Input:  Ground Truth to San Francisco Bay        
+#         Fusion image to San Francisco Bay (all methods) 
+# Output: Plot the error probability function
+#
 rm(list = ls())
 require(ggplot2)
 require(latex2exp)
@@ -36,8 +41,6 @@ for(k in 1: nk){
 df <- data.frame(x = x, y1 = freq_f1, y2 = freq_f2, y3 = freq_f3, y4 = freq_f4, y5 = freq_f5, y6 = freq_f6)
 alpha <- c(1,2,3,4,5,6)
 p <- ggplot(df) 
-#  Retirei para reconfigurar para os artigos em ingles
-##pp <- p + geom_line(aes(x = x, y = y1, color = "Ihh"))+  geom_line(aes(x = x, y = y2, color = "Ihv"))+  geom_line(aes(x = x, y = y3, color = "Ivv")) + scale_y_log10(limits = c(0.002, 1))+ ggtitle(TeX('Probabilidade de detecção das evidências de bordas')) + ylab(TeX('Probabilidade de detecção estimada')) + xlab(TeX('Erros de detecção')) 
 pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")  , size=4, alpha=.7) +
           geom_line(aes(x = x, y = y2, color = "PCA")   , size=4, alpha=.7, linetype = 3) +
           geom_line(aes(x = x, y = y4, color = "MR-DWT"), size=4, alpha=.7) +

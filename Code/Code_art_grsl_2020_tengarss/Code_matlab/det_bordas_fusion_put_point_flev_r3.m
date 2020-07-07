@@ -1,3 +1,18 @@
+% Coded by Anderson Borba data: 01/07/2020 version 1.0
+% Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+% GRSL - IEEE Geoscience and Remote Sensing Letters 
+% Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+% 
+% Description
+% 1) Read *.txt with edge evidence  
+% 2) Does the fusion method to flevoland(one at a times)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Output 
+% 2) Show the image (evidences ou fusion)  
+% Obs:  1) contact email: anderborba@gmail.com
+%       2) Change *.txt to flevoland region II
 clear all;
 format long;
 cd ..
@@ -75,16 +90,3 @@ for i= 1: dpixel(1)
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
 end	
-
-%for i=1: nrows
-%	for j=1: ncols
-%%		if IF(i, j) ~= 0
-%%%		if IM(i, j, 3) ~= 0
-%			plot(xpixel(j), ypixel(i),'ro',...
-%    				'LineWidth',1,...
-%    				'MarkerSize',3.5,...
-%    				'MarkerEdgeColor',[0.85 0.325 0.089],...
-%    				'MarkerFaceColor', [0.85 0.325 0.089])
-%%		end
-%	end
-%end

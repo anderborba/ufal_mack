@@ -1,10 +1,10 @@
 % Coded by Anderson Borba data: 01/07/2020 version 1.0
 % Extract information from Flevoland image to edge detection evidences
-% Article to appear 
+% Article: Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
 % GRSL - IEEE Geoscience and Remote Sensing Letters 	
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
 % 
-% Descriptiom
+% Description
 % 1) Show flevoland with ROI and radial lines (Use show_Pauli)
 % 2) Extract information in the 9 channels to radial lines (use Bresenham)
 % 3) Print this information in txt files
@@ -14,7 +14,7 @@
 % 1) Print this information in txt files
 %
 % Obs: 1) prints commands are commented with %  
-%
+%      2) contact email: anderborba@gmail.com
 clc       
 clear       
 close all 

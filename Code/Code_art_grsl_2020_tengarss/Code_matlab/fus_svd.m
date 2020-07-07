@@ -1,9 +1,14 @@
+% Adapted by Anderson Borba data: 01/07/2020 version 1.0
+% Ref see article
+% Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+% GRSL - IEEE Geoscience and Remote Sensing Letters 
+% Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+%
 function[IF] = fus_svd(IM, m, n, nc)
 % MSVD based image fusion demo 
 % by Dr. VPS Naidu, MSDF Lab
-% ref: Image Fusion Technique using Multi-resolution Singular Value Decomposition,
+% ref:Image Fusion Technique using Multi-resolution Singular Value Decomposition,
 %       Defence Science Journal, Vol. 61, No.5, pp.479-484, Sep. 2011.
-
 %apply MSVD
 [X1, U1] = MSVD(IM(:, :, 1));
 [X2, U2] = MSVD(IM(:, :, 2));

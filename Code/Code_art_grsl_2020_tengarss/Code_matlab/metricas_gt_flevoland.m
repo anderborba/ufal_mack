@@ -1,3 +1,19 @@
+% Coded by Anderson Borba data: 01/07/2020 version 1.0
+% Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+% GRSL - IEEE Geoscience and Remote Sensing Letters 
+% Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+% 
+% Description
+% 1) Calculate metricas to Flevoland 
+%  
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Output 
+% 1) Print this information in txt files
+% Obs: 1) Prints commands are commented with %  
+%      2) Contact email: anderborba@gmail.com
+%      3) Change *.txt to Flevoland region II 
 clear all;
 format long;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +54,6 @@ cd Data
 GT = load('gt_flevoland_r3.txt');
 cd ..
 cd Code/Code_art_grsl_2020_tengarss/Code_matlab
-%TESTE = zeros(m, n);
 r = 120;
 erro_gt = 0;
 nk = 10;
@@ -209,36 +224,36 @@ for k= 1: nk
 	end
 	freq_f6(k + 1) = contador_f6 / num_radial;
 end
-cd ..
-cd ..
-cd ..
-cd Data
-       fname = sprintf('metricas_fusao_flevoland_r3.txt', canal);
-       fid = fopen(fname,'w');
-       for i = 1: nk
-                fprintf(fid,'%f ', freq_f1(i));
-        end
-	fprintf(fid,'\n');
-      	for i = 1: nk
-        	fprintf(fid,'%f ', freq_f2(i));
-        end
-	fprintf(fid,'\n');
-       	for i = 1: nk
-                fprintf(fid,'%f ', freq_f3(i));
-        end
-	fprintf(fid,'\n');
-       	for i = 1: nk
-                fprintf(fid,'%f ', freq_f4(i));
-        end
-	fprintf(fid,'\n');
-       	for i = 1: nk
-                fprintf(fid,'%f ', freq_f5(i));
-        end
-	fprintf(fid,'\n');
-       	for i = 1: nk
-                fprintf(fid,'%f ', freq_f6(i));
-        end
-	fprintf(fid,'\n');
-        fclose(fid);       
-cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+%cd ..
+%cd ..
+%cd ..
+%cd Data
+%       fname = sprintf('metricas_fusao_flevoland_r3.txt', canal);
+%       fid = fopen(fname,'w');
+%       for i = 1: nk
+%                fprintf(fid,'%f ', freq_f1(i));
+%        end
+%	fprintf(fid,'\n');
+%      	for i = 1: nk
+%        	fprintf(fid,'%f ', freq_f2(i));
+%        end
+%	fprintf(fid,'\n');
+%       	for i = 1: nk
+%                fprintf(fid,'%f ', freq_f3(i));
+%        end
+%	fprintf(fid,'\n');
+%       	for i = 1: nk
+%                fprintf(fid,'%f ', freq_f4(i));
+%        end
+%	fprintf(fid,'\n');
+%       	for i = 1: nk
+%                fprintf(fid,'%f ', freq_f5(i));
+%        end
+%	fprintf(fid,'\n');
+%       	for i = 1: nk
+%                fprintf(fid,'%f ', freq_f6(i));
+%        end
+%	fprintf(fid,'\n');
+%        fclose(fid);       
+%cd ..
+%cd Code/Code_art_grsl_2020_tengarss/Code_matlab

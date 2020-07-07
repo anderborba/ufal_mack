@@ -1,3 +1,16 @@
+# Coded by Anderson Borba data: 07/07/2020 version 1.0
+# Article submitted 
+# Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+# GRSL - IEEE Geoscience and Remote Sensing Letters 
+# Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+# Despriction
+# Finds evince edge in each channel
+# Input: Radial information to region
+#        
+# Output: Edge evidence estimated
+# obs: 1) Change the channels in the input and output files.
+#      2) Disable the print in file after running the tests of interest in order not to modify files unduly.
+#
 rm(list = ls())
 require(ggplot2)
 require(latex2exp)
@@ -7,23 +20,21 @@ require(maxLik)
 source("func_obj_l_L_mu.r")
 source("loglike.r")
 source("loglikd.r")
-# Programa principal
+#
 setwd("../../..")
 setwd("Data")
-# canais hh, hv, and vv 
+# channais hh, hv, and vv 
 mat <- scan('real_san_fran_r1_3.txt')
 setwd("..")
 setwd("Code/Code_art_grsl_2020_tengarss/Code_r")
-########## setup para a imagem de flevoland
+########## setup to San Francisco Bay
 r <- 120
 nr <- 25
 mat <- matrix(mat, ncol = r, byrow = TRUE)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
-for (k in 1 : nr){# j aqui varre o número de radiais
-#for (k in 20: 20){# j aqui varre o número de radiais
-  print(k)
+for (k in 1 : nr){
   N <- r
   z <- rep(0, N)
   z <- mat[k, 1: N]
@@ -57,7 +68,6 @@ for (k in 1 : nr){# j aqui varre o número de radiais
   upper <- N - lim 
   out   <- GenSA(lower = lower, upper = upper, fn = func_obj_l_L_mu, control=list( maxit =100))
   evidencias[k] <- out$par
-  print(evidencias[k])
   evidencias_valores[k] <- out$value
 }
 x <- seq(N - 1)

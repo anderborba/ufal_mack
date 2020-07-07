@@ -1,8 +1,13 @@
-# Autor: AAB data: 12/09/2018 versao 1.0
-# A funcao recebe  parametros ao qual atribui param como variavel da funcao,
-# L como numero de visadas,  m (< L) como o número de canais da imagens, 
-# N como o tamanho da imagem e z como valores da imagem (dist Wishart),
-# assim a subrotina define a funcão objetivo l(j) descrita na eq(5) do artigo NHFC_2014
+# Coded by Anderson Borba data: 07/07/2020 version 1.0
+# Article submitted 
+# Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+# GRSL - IEEE Geoscience and Remote Sensing Letters 
+# Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+# Despriction (function)
+# Finds the l(j) using total-likelihood
+# Input: Le, Ld, mue e mud > 0 estimed parameters 
+#        
+# Output: pixel j - Edge evidence estimated
 func_obj_l_L_mu <- function(param){
   j <- param
   Le <- matdf1[j,1]
@@ -24,7 +29,7 @@ func_obj_l_L_mu <- function(param){
   #
   a1 <-  aux1 + aux2 - aux3 - aux4 - aux5
   a2 <-  aux6 + aux7 - aux8 - aux9 - aux10
-  #### O sinal negativo, pois o GenSA minimiza uma funcao
+  #### Beware! The signal is negative because GenSA finds the point of minimum
   func_obj_l_L_mu <- -(j * a1 + (N - j) * a2)   
   return(func_obj_l_L_mu)
 }

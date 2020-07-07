@@ -1,3 +1,18 @@
+% Coded by Anderson Borba data: 01/07/2020 version 1.0
+% Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
+% GRSL - IEEE Geoscience and Remote Sensing Letters 
+% Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
+% 
+% Description
+% 1) Read *.txt with edge evidence  
+% 2) Does the fusion method to San Francisco Bay (one at a times)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Output 
+% 2) Show the image (evidences ou fusion)  
+% Obs:  1) contact email: anderborba@gmail.com
+%       
 clear all;
 format long;
 cd ..

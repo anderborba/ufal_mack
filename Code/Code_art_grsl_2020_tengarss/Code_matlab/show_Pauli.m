@@ -13,9 +13,9 @@ function [Pauli_Image] = show_Pauli(S,index,control)
 % data is represented resembling Pauli's -like representation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SDNLM: Stochastic Non-local Means Polarimetric Filter
-% From: (1) L. Torres, S. J. Sant’Anna, C. da Costa Freitas, and A. C. Frery, 
-% “Speckle reduction in polarimetric SAR imagery with stochastic distances
-% and nonlocal means,” Pattern Recognition, vol. 47, no. 1, pp. 141–157, 2014.
+% From: (1) L. Torres, S. J. SantAnna, C. da Costa Freitas, and A. C. Frery, 
+% Speckle reduction in polarimetric SAR imagery with stochastic distances
+% and nonlocal means, Pattern Recognition, vol. 47, no. 1, pp. 141-157, 2014.
 % Coded in Matlab by Luis Gomez, July 2018 for getting result shown in:
 % (2) D. Santana-Cedrés, L. Gomez, L. Alvarez and A. C. Frery,"Despeckling
 % PolSAR images with a structure tensor filter", under revision in
