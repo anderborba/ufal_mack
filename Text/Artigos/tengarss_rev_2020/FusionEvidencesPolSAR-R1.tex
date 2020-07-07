@@ -78,8 +78,7 @@ Without loss of generality, we assume the complex scaled Wishart distribution fo
 The value function depends on the estimates that index such Gamma laws; and
 we estimate them by maximum likelihood.
 
-The value function is the total likelihood.
-It is non-differentiable at most points, and classical methods have difficulties in finding the maximum of a non-differentiable functions. 
+The total likelihood function is non-differentiable at most points, and classical methods have difficulties in finding its maximum. 
 We used the Generalized Simulated Annealing (GenSA)~\cite{xgsh} method to solve this problem. 
 
 We discuss and compare six fusion methods:
@@ -95,11 +94,11 @@ Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
 %The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
-Section~\ref{sec_02} describes statistical modeling.
-Section~\ref{sec_03} describes edge detection for PolSAR data.
-Section~\ref{sec_04} describes the approach to edge evidence fusing.
-Section~\ref{sec_05} presents numerical results.
-Finally, Section~\ref{sec_06} concludes the work with observations, future directions of research, and the feasibility of detecting edges in each channel of PolSAR images.
+Section~\ref{sec_02} describes the models.
+Section~\ref{sec_03} describes the edge detection.
+Section~\ref{sec_04} describes the approaches for fusing edge evidences.
+Section~\ref{sec_05} presents the results.
+In Section~\ref{sec_06} we discuss the results, and outline future research directions.
 
 \section{Statistical modeling for PolSAR data}\label{sec_02}
 
@@ -186,7 +185,7 @@ Also, $\min_s$ is the minimum sample size.% that we set to $14$.
 			Compute $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ with $\bm z_{\text{I}}$, and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$ with $\bm z_{\text{E}}$\;
 			Compute the total log-likelihood at $j$ as $\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$\;
 		}
-		$\widehat\jmath\leftarrow$ the value of $j$ at which the total log-likelihood function is maximized\;
+		$\widehat\jmath\leftarrow$ the value of $j$ which maximizes the total log-likelihood function\;
 		\Return $(\widehat x, \widehat y)$, the coordinates of each $\widehat\jmath$\;
 	}
 \Return the binary image $\widehat{\bm\jmath}_c$ with $1$ at every $(\widehat x, \widehat y)$, and $0$ otherwise.
@@ -432,7 +431,7 @@ Fig.~\ref{evidencias_flev_hh_hv_vv} shows the edges detected in each intensity c
 \end{figure}
 
 Fig.~\ref{fusion_flev_met} shows the two best fusion results: PCA and MR-SWD.
-Notice that the latter (Fig.~\ref{fusion_flev_met}\subref{fusion_flev_met:c}) eliminates the wrong detection close to the center of the area, and has fewer wrongly detected points outside the region of interest.
+Notice that the latter (Fig.~\ref{fusion_flev_met}\subref{fusion_flev_met:f}) eliminates the wrong detection close to the center of the area, and has fewer wrongly detected points outside the region of interest.
 
 \begin{figure}[hbt]
 	\centering
@@ -540,6 +539,8 @@ The algorithm is described in Ref.~\cite{fbgm}.
 	\label{probability_edge_detc}
 \end{figure}
 
+We obtained similar results on the images shown in Figs.~\ref{roi_gt_2} and~\ref{roi_gt_SF}, which we omit for brevity.
+
 \subsection{Implementation Details}
 
 The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
@@ -552,7 +553,7 @@ Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to t
 	\centering
 	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
 	\begin{tabular}{@{}lrrrrrr@{}} \toprule
-		Method       & Aver   &   PCA      &  MR-DWT  & MR-SWT &  ROC  &  MR-SVD \\ \midrule
+		Method       & Aver.   &   PCA      &  MR-DWT  & MR-SWT &  ROC  &  MR-SVD \\ \midrule
 		Time (s)      & 0.01      & 0.02       &  0.08 & 0.18      &  0.40       & 1.11  \\
 		Rel. time     & 1.00      & 2.19       &  9.25 & 21.05     &  46.59      & 129.57  \\ \bottomrule
 	\end{tabular}
