@@ -1,6 +1,7 @@
 \documentclass[journal]{IEEEtran}
 
 \usepackage{cite}
+\usepackage{times}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage[boxed]{algorithm2e}
 
@@ -104,10 +105,11 @@ In Section~\ref{sec_06} we discuss the results, and outline future research dire
 
 Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
-    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z})),
+    f_{\mathbf{Z}}(\mathbf{z};\mathbf{\Sigma},L)=\frac{L^{mL}|\mathbf{z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{z})),
     \label{eq:DistWishart}
 \end{equation} 
-where, $L$ is the number of looks, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
+where $\mathbf z$ is a positive-definite Hermitian matrix, 
+$L$ is the number of looks, $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
 	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)$,
 and $\Gamma(\cdot)$ is the Gamma function.
 We used three $m=3$ channels in this study. 
@@ -130,7 +132,7 @@ n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 \label{eq:LogLikelihoodGamma}
 \end{equation}
 
-We obtain $(\widehat L, \widehat \mu)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method~\cite{ht}.
+We obtain $\big(\widehat L, \widehat \mu\big)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method~\cite{ht}.
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
 \section{Edge Detection on a Single Data Strip}\label{sec_03}
@@ -148,13 +150,12 @@ $$
 We assume two (possibly) different models for each partition:
 $\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $\big(\widehat{\mu}_\text{I}, \widehat{L}_\text{I}\big)$ and $\big(\widehat{\mu}_\text{E}, \widehat{L}_\text{E}\big)$.
 
 We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{aligned}
-%\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
-\mathcal L(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)= -\Bigg(
+\mathcal L\big(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)= -\Bigg(
 	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
 	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
 	\Bigg)+\mbox{}\\
@@ -173,17 +174,17 @@ Also, $\min_s$ is the minimum sample size.% that we set to $14$.
 
 \begin{algorithm}[hbt]
 \SetAlgoLined
-\KwData{$n_c$ intensity channels, centroid, number of rays}
+\KwData{$n_c$ intensity channels, interior point, number of rays}
 \KwResult{$n_c$ binary images with evidences of edges}
 %initialization\;
 \For{each band $1\leq c\leq n_c$}{
-	\For{each ray passing through the centroid}{
+	\For{each ray passing through the interior point}{
 		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ data collected around the ray\;
 		\For{each $\min_s\leq j\leq n-\min_s$}{\nllabel{Line:InitFor}
 			Partition the sample as $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ and 
 			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{n-\min_s})$\;
-			Compute $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ with $\bm z_{\text{I}}$, and $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$ with $\bm z_{\text{E}}$\;
-			Compute the total log-likelihood at $j$ as $\mathcal L(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)$\;
+			Compute $\big(\widehat{\mu}_\text{I}, \widehat{L}_\text{I}\big)$ with $\bm z_{\text{I}}$, and $\big(\widehat{\mu}_\text{E}, \widehat{L}_\text{E}\big)$ with $\bm z_{\text{E}}$\;
+			Compute the total log-likelihood at $j$ as $\mathcal L\big(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)$\;
 		}
 		$\widehat\jmath\leftarrow$ the value of $j$ which maximizes the total log-likelihood function\;
 		\Return $(\widehat x, \widehat y)$, the coordinates of each $\widehat\jmath$\;
@@ -276,7 +277,9 @@ The optimal threshold corresponds to the point of the ROC curve closest (in the 
 \end{enumerate}
 
 \subsection{Multi-Resolution Stationary Wavelet Transform -- MR-SWT}  
-This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-SWT method is the replacement of the method discrete wavelet transform (DWT) by the method stationary wavelet transform SWT. 
+This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-SWT method is the replacement of the 
+Discrete Wavelet Transform (DWT) by the
+Stationary Wavelet Transform SWT. 
 %%% ACF Esclarecer quais são estes filtros
 
 \subsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
@@ -400,7 +403,7 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 
 Fig.~\ref{roi_gt_2} shows another region in the Flevoland image.
 In this case, it is a bright target surrounded by darker fields.
-Fig.~\ref{evidencias_flev_hh_hv_vv} shows the edges detected in each intensity channel.
+Fig.~\ref{evidencias_flev_hh_hv_vv} shows the edges detected in each intensity channel and, again, the hv data are the one which produce the most accurate results.
 
 \begin{figure}[hbt]
 	\centering
@@ -462,7 +465,7 @@ Notice that the latter (Fig.~\ref{fusion_flev_met}\subref{fusion_flev_met:f}) el
 
 \subsection{San Francisco Image}
 
-Fig.~\ref{roi_gt_SF} shows an area of the L-band AIRSAR image over San Francisco.
+Fig.~\ref{roi_gt_SF} shows an area of an L-band AIRSAR image over San Francisco.
 The distinctive areas are urban, sea, and vegetation.
 The aim is finding the edge between the former and the other two.
 
@@ -528,7 +531,7 @@ Again, the latter is more resistant to outliers, both inside and outside the reg
 
 Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge shown in Fig.~\ref{roi_gt}\subref{gt_flevoland}, as measured on $100$ radial lines: the minimum Euclidean distance among the ground truth pixel and the several pixels detected in the fusion methods.
 We use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
-Denoting $H(k)$ the number of replications for which the error is less than $k$ pixels, an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is number of radii. 
+Denoting $H(k)$ the number of lines for which the error is less than $k$ pixels, an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is number of radii. 
 In our analysis, $k$ varies between $1$ and $10$, and $n_r=100$. 
 The algorithm is described in Ref.~\cite{fbgm}.
 
@@ -562,12 +565,19 @@ Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to t
 \section{Conclusion}\label{sec_06}
 
 We found evidence of edges using the maximum likelihood method under the Wishart model for PolSAR data. 
-The evidence was found in each of the three intensity channels of an AIRSAR L-band image over Flevoland.
+The evidence was found in each of the three intensity channels of AIRSAR L-band images over Flevoland and San Francisco.
 
-The best edge evidence was observed on the hv channel. We assessed the result by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
+Over the agricultural fields of Flevoland, the best edge evidence was observed on the hv channel. 
+The vv channel provided the best estimates of the edges between the urban and both sea and vegetation areas of San Francisco.
+Such diversity of information content enhances the need of fusing the edge evidences.
 
 We applied simple average, MR-DWT, PCA, ROC, MR-SWT, and MR-SVD fusion methods to aggregate the evidence obtained in the three channels.
-The best result was produced by the Multi-Resolution Stationary Wavelet Transform (MR-SWT) with a moderate cost of the processing time.
+The best results were produced by PCA and by the Multi-Resolution Stationary Wavelet Transform (MR-SWT).
+Such enhancement comes at additional computational cost in terms of processing time.
+
+We quantitatively assessed the result by checking the closeness of the fused points to the actual edge, and by the presence of outliers.
+
+
 %We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
 We highlight two avenues for future improvement of the fusion:
