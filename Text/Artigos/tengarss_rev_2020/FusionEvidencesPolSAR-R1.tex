@@ -17,6 +17,7 @@
 
 \usepackage{bm,bbm}
 \usepackage[binary-units]{siunitx}
+\usepackage{url}
 
 \usepackage[caption=false,font=footnotesize]{subfig}
 \DeclareMathOperator{\traco}{tr}
@@ -552,7 +553,7 @@ We obtained similar results on the images shown in Figs.~\ref{roi_gt_2} and~\ref
 \subsection{Implementation Details}
 
 Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to the fastest method).
-The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
+The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer. 
 
 \begin{table}[hbt]
 	\centering
@@ -566,6 +567,7 @@ The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU 
 
 The method for detecting edge evidence MLE was implemented in the R language.
 The fusion methods were implemented in Matlab. 
+Code and data are available at \url{https://github.com/anderborba/Code_GRSL_2020_1}.
 
 
 \section{Conclusion}\label{sec_06}

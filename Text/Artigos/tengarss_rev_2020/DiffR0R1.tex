@@ -1,7 +1,7 @@
 \documentclass[journal]{IEEEtran}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL FusionEvidencesPolSAR-R0.tex   Sun May  3 16:47:48 2020
-%DIF ADD FusionEvidencesPolSAR-R1.tex   Sun Jul 12 08:02:15 2020
+%DIF ADD FusionEvidencesPolSAR-R1.tex   Sun Jul 12 09:44:24 2020
 
 \usepackage{cite}
 %DIF 4a4
@@ -26,6 +26,9 @@
 
 \usepackage{bm,bbm}
 \usepackage[binary-units]{siunitx}
+%DIF 19a20
+\usepackage{url} %DIF > 
+%DIF -------
 
 \usepackage[caption=false,font=footnotesize]{subfig}
 \DeclareMathOperator{\traco}{tr}
@@ -267,7 +270,7 @@ $\mu>0$ is the mean.
 the reduced log-likelihood of }\DIFdelend \DIFaddbegin \DIFadd{under }\DIFaddend this model is
 \begin{equation}
 \DIFdelbegin \DIFdel{\ell}\DIFdelend \DIFaddbegin \DIFadd{\mathcal L}\DIFaddend ( \DIFdelbegin %DIFDELCMD < \bm %%%
-\DIFdel{z}\DIFadd{\bm z}\DIFdelend L,\mu\DIFaddbegin \DIFadd{; } \DIFaddend ) = 
+\DIFdel{z }\DIFadd{\bm z;}\DIFdelend L,\mu\DIFaddbegin\DIFaddend ) = 
 n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 +L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
 \label{eq:LogLikelihoodGamma}
@@ -346,7 +349,7 @@ We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ wit
 %DIFDELCMD < \end{split}%%%
 \DIFdelend \DIFaddbegin \begin{aligned}
 \mathcal L\big(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)= -\Bigg(
-	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
+	\frac{\widehat{•}idehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
 	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
 	\Bigg)+\mbox{}\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
@@ -821,7 +824,7 @@ The fusion methods were implemented in Matlab.}%DIFDELCMD <
 \SI{2.6}{\giga\hertz} }\hspace{0pt}%DIFAUXCMD
 \mbox{%DIFAUXCMD
 \SI{16}{\giga\byte} }\hspace{0pt}%DIFAUXCMD
-RAM computer.  
+RAM computer. 
 }\DIFaddend 
 
 \begin{table}[hbt]
@@ -836,6 +839,7 @@ RAM computer.
 
 \DIFaddbegin \DIFadd{The method for detecting edge evidence MLE was implemented in the R language.
 The fusion methods were implemented in Matlab. 
+Code and data are available at }\url{https://github.com/anderborba/Code_GRSL_2020_1}\DIFadd{.
 }
 
 
