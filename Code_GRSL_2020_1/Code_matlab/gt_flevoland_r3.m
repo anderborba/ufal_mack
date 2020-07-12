@@ -18,26 +18,24 @@
 clear all;
 format long;
 cd ..
-cd ..
-cd ..
 cd Data
 load AirSAR_Flevoland_Enxuto.mat
 [nrows, ncols, nc] = size(S);
 cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 m = 750;
 n = 1024;
 GT = zeros(m, n);
-%%%%%%%%%%% ROIs %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% show flevond image %%%%%%%%%%%%%%%%%%
 imshow(II)
 %
 axis on
 hold on;
 impixelinfo;
-
+% set region
 x0 = m / 2 + 305;
 y0 = n / 2 + 77;
 xf = m / 2 + 237;
@@ -66,18 +64,19 @@ plot(y(i), x(i),'ro',...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
 end	
-%cd ..
-%cd ..
-%cd ..
-%cd Data
-%fname = sprintf('gt_flevoland_r3.txt');
-%fid = fopen(fname,'w');
-%for i = 1: m
-%	for j = 1: n
-%        	fprintf(fid,'%f ', GT(i,j));
-%        end
-%        fprintf(fid,'\r\n');
-%end
-%fclose(fid); 
-%cd ..
-%cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+%%%%%%%%%%% show gt %%%%%%%%%%%%%%%%%%
+imshow(GT)
+%
+cd ..
+cd Data
+fname = sprintf('gt_flevoland.txt');
+fid = fopen(fname,'w');
+for i = 1: m
+	for j = 1: n
+        	fprintf(fid,'%f ', GT(i,j));
+        end
+        fprintf(fid,'\r\n');
+end
+fclose(fid); 
+cd ..
+cd Code_matlab

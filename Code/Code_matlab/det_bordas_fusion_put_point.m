@@ -37,6 +37,7 @@ const =  5 * max(max(max(II)));
 MXC = zeros(num_radial, r);
 MYC = zeros(num_radial, r);
 MY = zeros(num_radial, r, nc);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Insere as linhas radiais
 %const =  1
 %for i = 1:4: num_radial

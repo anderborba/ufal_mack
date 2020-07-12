@@ -4,6 +4,7 @@
 % GRSL - IEEE Geoscience and Remote Sensing Letters 
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
 %
+% Coded by VPS Naidu, MSDF Lab, NAL, Bangalore
 function [F] = fus_pca(E, m, n, nc)
 for i = 1: nc
 	COVAR(:, i) = reshape(E(:, :, i), m * n, 1);

@@ -4,6 +4,7 @@
 % GRSL - IEEE Geoscience and Remote Sensing Letters 
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
 %
+% Coded by VPS Naidu, MSDF Lab, NAL, Bangalore
 function [F] = fus_dwt(E, m, n, nc)
 [A1,H1,V1,D1] = dwt2(E(:, :, 1), 'db2');
 [A2,H2,V2,D2] = dwt2(E(:, :, 2), 'db2');

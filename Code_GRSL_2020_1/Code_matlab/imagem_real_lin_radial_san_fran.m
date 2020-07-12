@@ -21,14 +21,12 @@ close all
 format long;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 cd ..
-cd ..
-cd ..
 cd Data
 % Read date
 load SanFrancisco_Bay.mat
 [nrows, ncols, nc] = size(S);
 cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % AAB
 % show_Pauli coded by
@@ -81,37 +79,35 @@ hold on;
 impixelinfo;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Print radials
-%cd ..
-%cd ..
-%cd ..
-%cd Data
-%for canal = 1: nc 
-%	fname = sprintf('real_san_fran_r1_%d.txt', canal);
-%	fid = fopen(fname,'w');
-%	for i = 1: num_radial
-%		for j = 1: r
-%                fprintf(fid,'%f ',MY(i, j, canal));
-%	      	end
-%    		fprintf(fid,'\n');
-%        end
-%        fclose(fid);       
-%end
+cd ..
+cd Data
+for canal = 1: nc 
+	fname = sprintf('san_fran_%d.txt', canal);
+	fid = fopen(fname,'w');
+	for i = 1: num_radial
+		for j = 1: r
+                fprintf(fid,'%f ',MY(i, j, canal));
+	      	end
+    		fprintf(fid,'\n');
+        end
+        fclose(fid);       
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Print (xc, yc)
-%	fnamexc = sprintf('xc_san_fran_r1.txt');
-%	fnameyc = sprintf('yc_san_fran_r1.txt');
-%	fidxc = fopen(fnamexc,'w');
-%	fidyc = fopen(fnameyc,'w');
-%        for i = 1: num_radial
-%		for j = 1: r
-%	                fprintf(fidxc,'%f ', MXC(i,j));
-%	                fprintf(fidyc,'%f ', MYC(i,j));
-%	      	end
-%  		fprintf(fidxc,'\n');
-%    		fprintf(fidyc,'\n');
-%	end
-%	fclose(fidxc);       
-%	fclose(fidyc);       
-%cd ..
-%cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+	fnamexc = sprintf('xc_san_fran.txt');
+	fnameyc = sprintf('yc_san_fran.txt');
+	fidxc = fopen(fnamexc,'w');
+	fidyc = fopen(fnameyc,'w');
+        for i = 1: num_radial
+		for j = 1: r
+	                fprintf(fidxc,'%f ', MXC(i,j));
+	                fprintf(fidyc,'%f ', MYC(i,j));
+	      	end
+  		fprintf(fidxc,'\n');
+    		fprintf(fidyc,'\n');
+	end
+	fclose(fidxc);       
+	fclose(fidyc);       
+cd ..
+cd Code_matlab
 

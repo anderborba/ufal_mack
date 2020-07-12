@@ -18,13 +18,11 @@
 clear all;
 format long;
 cd ..
-cd ..
-cd ..
 cd Data
 load SanFrancisco_Bay.mat
 [m, n, nc] = size(S);
 cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,19 +74,19 @@ plot(y(i), x(i),'ro',...
     				'MarkerSize',3.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
-end	
-%cd ..
-%cd ..
-%cd ..
-%cd Data
-%fname = sprintf('gt_san_fran_r1.txt');
-%fid = fopen(fname,'w');
-%for i = 1: m
-%	for j = 1: n
-%               fprintf(fid,'%f ', GT(i,j));
-%        end
-%        fprintf(fid,'\r\n');
-%end
-%fclose(fid); 
-%cd ..
-%cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+end
+%%% Show ground truth %%%%%%%%%%%%%%%%%
+imshow(GT)
+cd ..
+cd Data
+fname = sprintf('gt_san_fran.txt');
+fid = fopen(fname,'w');
+for i = 1: m
+	for j = 1: n
+               fprintf(fid,'%f ', GT(i,j));
+        end
+        fprintf(fid,'\r\n');
+end
+fclose(fid); 
+cd ..
+cd Code_matlab

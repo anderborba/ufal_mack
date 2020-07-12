@@ -4,7 +4,8 @@
 #
 
 #BASE_NAME = tengarss_rev_ander
-BASE_NAME = FusionEvidencesPolSAR-R1
+#BASE_NAME = FusionEvidencesPolSAR-R1
+BASE_NAME = DiffR0R1
 
 
 LATEX     = latex

@@ -21,12 +21,12 @@ source("func_obj_l_L_mu.r")
 source("loglike.r")
 source("loglikd.r")
 #
-setwd("../../..")
-setwd("Data")
-# channais hh, hv, and vv 
-mat <- scan('real_san_fran_r1_3.txt')
 setwd("..")
-setwd("Code/Code_art_grsl_2020_tengarss/Code_r")
+setwd("Data")
+# channais hh(1), hv(2), or vv(3) 
+mat <- scan('san_fran_3.txt')
+setwd("..")
+setwd("Code_r")
 ########## setup to San Francisco Bay
 r <- 120
 nr <- 25
@@ -35,6 +35,7 @@ evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
 for (k in 1 : nr){
+  print(k)
   N <- r
   z <- rep(0, N)
   z <- mat[k, 1: N]
@@ -79,12 +80,12 @@ df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 print(p)
 # imprime em arquivo no diretorio  ~/Data/
-#dfev <- data.frame(xev, evidencias)
-#names(dfev) <- NULL
-#setwd("../../..")
-#setwd("Data")
-#sink("evid_real_sf_3_param_L_mu_25_pixel_r1.txt")
-#print(dfev)
-#sink()
-#setwd("..")
-#setwd("Code/Code_art_grsl_2020_tengarss/Code_r")
+dfev <- data.frame(xev, evidencias)
+names(dfev) <- NULL
+setwd("..")
+setwd("Data")
+sink("evidence_san_fran_vv.txt")
+print(dfev)
+sink()
+setwd("..")
+setwd("Code_r")

@@ -16,13 +16,11 @@
 clear all;
 format long;
 cd ..
-cd ..
-cd ..
 cd Data
 load SanFrancisco_Bay.mat
 [nrows, ncols, nc] = size(S);
 cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,12 +38,16 @@ xr= round(x);
 yr= round(y);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ev_hh = load('/home/aborba/ufal_mack/Data/evid_real_sf_1_param_L_mu_25_pixel_r1.txt');
-ev_hv = load('/home/aborba/ufal_mack/Data/evid_real_sf_2_param_L_mu_25_pixel_r1.txt');
-ev_vv = load('/home/aborba/ufal_mack/Data/evid_real_sf_3_param_L_mu_25_pixel_r1.txt');
+cd ..
+cd Data
+ev_hh = load('evidence_san_fran_hh.txt');
+ev_hv = load('evidence_san_fran_hv.txt');
+ev_vv = load('evidence_san_fran_vv.txt');
 %
-xc = load('/home/aborba/ufal_mack/Data/xc_san_fran_r1.txt');
-yc = load('/home/aborba/ufal_mack/Data/yc_san_fran_r1.txt');
+xc = load('xc_san_fran.txt');
+yc = load('yc_san_fran.txt');
+cd ..
+cd Code_matlab
 for i = 1: num_radial 
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
@@ -67,21 +69,21 @@ nt = 20
 tempo = zeros(1, nt);
 for i=1: nt
 tic;
-%[IF] = fus_media(IM, m, n, nc);
+[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-[IF] = fus_svd(IM, m, n, nc);
+%[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;
 %%%%%%%%%%% ROIs %%%%%%%%%%%%%%%%%%
 imshow(II)
-% plot com fusion
+% plot fusion
 [xpixel, ypixel, valor] = find(IF > 0);
-%plot das evidencias em cada canal
+%plot edge evidences hh(1), hv(2) e vv(3)
 %[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
 %
 axis on
@@ -96,15 +98,3 @@ for i= 1: dpixel(1)
     				'MarkerFaceColor', [0.85 0.325 0.089])
 end	
 
-%for i=1: nrows
-%	for j=1: ncols
-%%		if IF(i, j) ~= 0
-%%%		if IM(i, j, 3) ~= 0
-%			plot(xpixel(j), ypixel(i),'ro',...
-%    				'LineWidth',1,...
-%    				'MarkerSize',3.5,...
-%    				'MarkerEdgeColor',[0.85 0.325 0.089],...
-%    				'MarkerFaceColor', [0.85 0.325 0.089])
-%%		end
-%	end
-%end

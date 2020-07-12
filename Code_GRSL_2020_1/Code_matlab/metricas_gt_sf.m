@@ -4,24 +4,27 @@
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
 % 
 % Description
-% 1) Calculate metricas to Flevoland 
+% 1) Calculate metricas to San Francisco
 %  
 % 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Output 
 % 1) Print this information in txt files
-% Obs: 1) Prints commands are commented with %  
-%      2) Contact email: anderborba@gmail.com
-%      3) Change *.txt to Flevoland region II 
+% Obs: 1) prints commands are commented with %  
+%      2) contact email: anderborba@gmail.com
 clear all;
 format long;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ev_hh = load('/home/aborba/ufal_mack/Data/flev_r3_hh_evid_L_mu_25_120_pixel.txt');
-ev_hv = load('/home/aborba/ufal_mack/Data/flev_r3_hv_evid_L_mu_25_120_pixel.txt');
-ev_vv = load('/home/aborba/ufal_mack/Data/flev_r3_vv_evid_L_mu_25_120_pixel.txt');
-xc = load('/home/aborba/ufal_mack/Data/xc_flevoland_r3.txt');
-yc = load('/home/aborba/ufal_mack/Data/yc_flevoland_r3.txt');
+cd ..
+cd Data
+ev_hh = load('evidence_san_fran_hh.txt');
+ev_hv = load('evidence_san_fran_hv.txt');
+ev_vv = load('evidence_san_fran_vv.txt');
+xc = load('xc_san_fran.txt');
+yc = load('yc_san_fran.txt');
+cd ..
+cd Code_matlab
 num_radial = 25;
 for i = 1: num_radial 
 ev(i, 1) = round(ev_hh(i, 3));
@@ -29,8 +32,8 @@ ev(i, 2) = round(ev_hv(i, 3));
 ev(i, 3) = round(ev_vv(i, 3));
 end
 nc = 3;
-m = 750;
-n = 1024;
+m = 450;
+n = 600;
 for i = 1: nc
 	IM = zeros(m, n, nc);
 end
@@ -48,12 +51,10 @@ end
 [IF6] = fus_svd(IM, m, n, nc);
 GT = zeros(m, n);
 cd ..
-cd ..
-cd ..
 cd Data
-GT = load('gt_flevoland_r3.txt');
+GT = load('gt_san_fran.txt');
 cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd Code_matlab
 r = 120;
 erro_gt = 0;
 nk = 10;
@@ -224,36 +225,34 @@ for k= 1: nk
 	end
 	freq_f6(k + 1) = contador_f6 / num_radial;
 end
-%cd ..
-%cd ..
-%cd ..
-%cd Data
-%       fname = sprintf('metricas_fusao_flevoland_r3.txt', canal);
-%       fid = fopen(fname,'w');
-%       for i = 1: nk
-%                fprintf(fid,'%f ', freq_f1(i));
-%        end
-%	fprintf(fid,'\n');
-%      	for i = 1: nk
-%        	fprintf(fid,'%f ', freq_f2(i));
-%        end
-%	fprintf(fid,'\n');
-%       	for i = 1: nk
-%                fprintf(fid,'%f ', freq_f3(i));
-%        end
-%	fprintf(fid,'\n');
-%       	for i = 1: nk
-%                fprintf(fid,'%f ', freq_f4(i));
-%        end
-%	fprintf(fid,'\n');
-%       	for i = 1: nk
-%                fprintf(fid,'%f ', freq_f5(i));
-%        end
-%	fprintf(fid,'\n');
-%       	for i = 1: nk
-%                fprintf(fid,'%f ', freq_f6(i));
-%        end
-%	fprintf(fid,'\n');
-%        fclose(fid);       
-%cd ..
-%cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd ..
+cd Data
+       fname = sprintf('metricas_fusao_san_fran.txt', canal);
+       fid = fopen(fname,'w');
+       for i = 1: nk
+                fprintf(fid,'%f ', freq_f1(i));
+        end
+	fprintf(fid,'\n');
+      	for i = 1: nk
+        	fprintf(fid,'%f ', freq_f2(i));
+        end
+	fprintf(fid,'\n');
+       	for i = 1: nk
+                fprintf(fid,'%f ', freq_f3(i));
+        end
+	fprintf(fid,'\n');
+       	for i = 1: nk
+                fprintf(fid,'%f ', freq_f4(i));
+        end
+	fprintf(fid,'\n');
+       	for i = 1: nk
+                fprintf(fid,'%f ', freq_f5(i));
+        end
+	fprintf(fid,'\n');
+       	for i = 1: nk
+                fprintf(fid,'%f ', freq_f6(i));
+        end
+	fprintf(fid,'\n');
+        fclose(fid);       
+cd ..
+cd Code_matlab

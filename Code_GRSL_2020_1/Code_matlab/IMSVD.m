@@ -4,6 +4,7 @@
 % GRSL - IEEE Geoscience and Remote Sensing Letters 
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
 %
+% Coded by VPS Naidu, MSDF Lab, NAL, Bangalore
 function[x] = IMSVD(Y,U)
 % inverse MSVD (IMSVD)
 % Inputs-> Y: MSVD coefficients & U: unitary matrix (U in SVD)

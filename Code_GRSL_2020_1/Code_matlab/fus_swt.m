@@ -3,8 +3,7 @@
 % Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images 
 % GRSL - IEEE Geoscience and Remote Sensing Letters 
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
-%
-%function[] = SWTimfuse1L_demo()
+% Autor
 % Image fusion by (one level)discrete stationary wavelet transform  - demo
 % by VPS Naidu, MSDF Lab, NAL, Bangalore
 % image decomposition using discrete stationary wavelet transform

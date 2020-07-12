@@ -15,11 +15,11 @@ library(hrbrthemes)
 require(extrafont)
 loadfonts()
 #
-setwd("../../..")
-setwd("Data")
-mat <- scan('metricas_fusao_flevoland_r3.txt')
 setwd("..")
-setwd("Code/Code_art_grsl_2020_tengarss/Code_r")
+setwd("Data")
+mat <- scan('metricas_fusao_flevoland.txt')
+setwd("..")
+setwd("Code_r")
 mat <- matrix(mat,  ncol = 10, byrow = TRUE)
 nk <- 10
 x       <- seq(0, nk - 1, 1)
@@ -55,7 +55,6 @@ pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")  , size=4, alpha=.7) +
   theme(legend.title = element_blank()) +
   theme(plot.margin=grid::unit(c(0,0,0,0), "mm"),
         )
-
 print(pp) 
 
 

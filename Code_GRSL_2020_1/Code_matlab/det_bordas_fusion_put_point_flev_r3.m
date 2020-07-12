@@ -4,25 +4,25 @@
 % Anderson A. de Borba, Maurı́cio Marengoni, and Alejandro C Frery
 % 
 % Description
-% 1) Read *.txt with edge evidence  
-% 2) Does the fusion method to flevoland(one at a times)
+% 1) Read AirSAR_Flevoland_Enxuto.mat
+% 2) Read *.txt with edge evidence  
+% 3) Does the fusion method to flevoland(one at a times)
 % 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Output 
-% 2) Show the image (evidences ou fusion)  
+% 1) Show the image (evidences ou fusion)
+% 2) Show the image (evidences ou fusion)
 % Obs:  1) contact email: anderborba@gmail.com
 %       2) Change *.txt to flevoland region II
 clear all;
 format long;
 cd ..
-cd ..
-cd ..
 cd Data
 load AirSAR_Flevoland_Enxuto.mat
 [nrows, ncols, nc] = size(S);
 cd ..
-cd Code/Code_art_grsl_2020_tengarss/Code_matlab
+cd Code_matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,12 +35,16 @@ r = 120;
 num_radial = 25;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ev_hh = load('/home/aborba/ufal_mack/Data/flev_r3_hh_evid_L_mu_25_120_pixel.txt');
-ev_hv = load('/home/aborba/ufal_mack/Data/flev_r3_hv_evid_L_mu_25_120_pixel.txt');
-ev_vv = load('/home/aborba/ufal_mack/Data/flev_r3_vv_evid_L_mu_25_120_pixel.txt');
+cd ..
+cd Data
+ev_hh = load('evidence_flev_hh.txt');
+ev_hv = load('evidence_flev_hv.txt');
+ev_vv = load('evidence_flev_vv.txt');
+xc = load('xc_flevoland.txt');
+yc = load('yc_flevoland.txt');
+cd ..
+cd Code_matlab
 %
-xc = load('/home/aborba/ufal_mack/Data/xc_flevoland_r3.txt');
-yc = load('/home/aborba/ufal_mack/Data/yc_flevoland_r3.txt');
 for i = 1: num_radial 
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
@@ -62,6 +66,7 @@ nt = 20
 tempo = zeros(1, nt);
 for i=1: nt
 tic;
+% Set fusion methods
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
@@ -76,7 +81,7 @@ t= sum(tempo(1:nt)) / nt;
 imshow(II)
 % plot com fusion
 [xpixel, ypixel, valor] = find(IF > 0);
-%plot das evidencias em cada canal
+%plot edge evidences hh(1), hv(2) or vv(3)
 %[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
 %
 axis on

@@ -16,7 +16,9 @@ library(hrbrthemes)
 require(extrafont)
 loadfonts()
 #
-setwd("../../..")
+setwd("..")
+setwd("..")
+setwd("..")
 setwd("Data")
 mat <- scan('metricas_fusao_san_fran_r1.txt')
 setwd("..")
@@ -41,15 +43,15 @@ for(k in 1: nk){
 df <- data.frame(x = x, y1 = freq_f1, y2 = freq_f2, y3 = freq_f3, y4 = freq_f4, y5 = freq_f5, y6 = freq_f6)
 alpha <- c(1,2,3,4,5,6)
 p <- ggplot(df) 
-pp <- p + geom_line(aes(x = x, y = y1, color = "Aver")  , size=4, alpha=.7) +
+pp <- p + geom_line(aes(x = x, y = y1, color = "Média")  , size=4, alpha=.7) +
           geom_line(aes(x = x, y = y2, color = "PCA")   , size=4, alpha=.7, linetype = 3) +
           geom_line(aes(x = x, y = y4, color = "MR-DWT"), size=4, alpha=.7) +
           geom_line(aes(x = x, y = y3, color = "MR-SWT"), size=4, alpha=.7, linetype = 3) +
           geom_line(aes(x = x, y = y5, color = "ROC")   , size=4, alpha=.7) +
           geom_line(aes(x = x, y = y6, color = "MR-SVD"), size=4, alpha=.7) +
           ylim(.01,1) +
-          ylab(TeX('Probability')) +
-          xlab(TeX('Detection error')) +
+          ylab(TeX('Probabilidade')) +
+          xlab(TeX('Erro de Detecção')) +
           theme_ipsum(base_family = "Times New Roman", 
           base_size = 20, axis_title_size = 20) +
           scale_fill_ipsum() +
