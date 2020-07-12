@@ -1,7 +1,7 @@
 \documentclass[journal]{IEEEtran}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL FusionEvidencesPolSAR-R0.tex   Sun May  3 16:47:48 2020
-%DIF ADD FusionEvidencesPolSAR-R1.tex   Sat Jul 11 14:53:37 2020
+%DIF ADD FusionEvidencesPolSAR-R1.tex   Sun Jul 12 08:02:15 2020
 
 \usepackage{cite}
 %DIF 4a4
@@ -121,16 +121,17 @@ UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
 \begin{abstract}
 \DIFdelbegin \DIFdel{Synthetic Polarimetric }\DIFdelend \DIFaddbegin \DIFadd{Polarimetric Synthetic }\DIFaddend Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
 The images they provide have speckle noise, making their processing and analysis challenging tasks. 
-\DIFdelbegin \DIFdel{The present study discusses }\DIFdelend \DIFaddbegin \DIFadd{We discuss }\DIFaddend an edge detection method based on the fusion of \DIFdelbegin \DIFdel{evidence }\DIFdelend \DIFaddbegin \DIFadd{evidences }\DIFaddend obtained in the intensity \DIFdelbegin \DIFdel{(hh), (hv), and (vv) channels }\DIFdelend \DIFaddbegin \DIFadd{channels (hh, hv, and vv) }\DIFaddend of PolSAR multi-look images. 
+\DIFdelbegin \DIFdel{The present study discusses }\DIFdelend \DIFaddbegin \DIFadd{We discuss }\DIFaddend an edge detection method based on the fusion of \DIFdelbegin \DIFdel{evidence }\DIFdelend \DIFaddbegin \DIFadd{evidences }\DIFaddend obtained in the intensity \DIFdelbegin \DIFdel{(hh), (hv), and (vv ) channels }\DIFdelend \DIFaddbegin \DIFadd{channels hh, hv, and vv }\DIFaddend of PolSAR multi-look images. 
 The method consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
-The fusion methods used are 
-simple average, 
-multi-resolution discrete (MR-DWT) and 
-stationary (MR-SWT) wavelet transforms, 
+The fusion methods used are\DIFaddbegin \DIFadd{: 
+}\DIFaddend simple average, 
+multi-resolution discrete \DIFaddbegin \DIFadd{wavelet transform }\DIFaddend (MR-DWT)\DIFdelbegin \DIFdel{and 
+stationary (MR-SWT) wavelet transforms}\DIFdelend ,
 principal component analysis (PCA), 
 ROC statistics, 
-and a multi-resolution method based on singular value decomposition (MR-SVD). 
-A quantitative analysis suggests that MR-SWT provides the best results.
+\DIFaddbegin \DIFadd{multi-resolution stationary (MR-SWT) wavelet transform, 
+}\DIFaddend and a multi-resolution method based on singular value decomposition (MR-SVD). 
+A quantitative analysis suggests that \DIFdelbegin \DIFdel{MR-SWT provides }\DIFdelend \DIFaddbegin \DIFadd{PCA and MR-SVD provide }\DIFaddend the best results.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -233,14 +234,16 @@ In }\DIFaddend Section~\ref{sec_06} \DIFdelbegin \DIFdel{concludes the work with
 
 Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
-    f_{\mathbf{Z}}(\DIFdelbegin \DIFdel{\mathbf{Z}}\DIFdelend \DIFaddbegin \DIFadd{\mathbf{z}}\DIFaddend ;\mathbf{\Sigma},L)=\DIFdelbegin \DIFdel{\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} }\DIFdelend \DIFaddbegin \DIFadd{\frac{L^{mL}|\mathbf{z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} }\DIFaddend \exp(-L\traco(\mathbf{\Sigma}^{-1}\DIFdelbegin \DIFdel{\mathbf{Z}}\DIFdelend \DIFaddbegin \DIFadd{\mathbf{z}}\DIFaddend )),
+    f_{\mathbf{Z}}(\DIFdelbegin \DIFdel{\mathbf{Z}}\DIFdelend \DIFaddbegin \DIFadd{\mathbf{z}}\DIFaddend ;\mathbf{\Sigma},L)=\DIFdelbegin \DIFdel{\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} }\DIFdelend \DIFaddbegin \DIFadd{\frac{L^{pL}|\mathbf{z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_p(L)} }\DIFaddend \exp(-L\traco(\mathbf{\Sigma}^{-1}\DIFdelbegin \DIFdel{\mathbf{Z}}\DIFdelend \DIFaddbegin \DIFadd{\mathbf{z}}\DIFaddend )),
     \label{eq:DistWishart}
 \end{equation} 
 where \DIFdelbegin \DIFdel{, }\DIFdelend \DIFaddbegin \DIFadd{$\mathbf z$ is a positive-definite Hermitian matrix, 
-$L$ is the number of looks, }\DIFaddend $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_m(L)$ is the multivariate Gamma function defined by $
-	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)$,
+$L$ is the number of looks, 
+}\DIFaddend $\traco(\cdot)$ is the trace operator of a matrix, \DIFdelbegin \DIFdel{$\Gamma_m(L)$ }\DIFdelend \DIFaddbegin \DIFadd{$\Gamma_p(L)$ }\DIFaddend is the multivariate Gamma function defined by \DIFdelbegin \DIFdel{$
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)$}\DIFdelend \DIFaddbegin \DIFadd{$
+	\Gamma_p(L)=\pi^{\frac{1}{2}p(p-1)} \prod_{i=0}^{p-1}\Gamma(L-i)$}\DIFaddend ,
 and $\Gamma(\cdot)$ is the Gamma function.
-We used three $m=3$ channels in this study. 
+We used three \DIFdelbegin \DIFdel{$m=3$ }\DIFdelend \DIFaddbegin \DIFadd{$p=3$ }\DIFaddend channels in this study. 
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
 This assumption usually holds \DIFdelbegin \DIFdel{on targets where the speckle is fully developed }\DIFdelend \DIFaddbegin \DIFadd{for fully developed speckle }\DIFaddend but, since we will estimate $L$ \DIFdelbegin \DIFdel{on each sample (}\DIFdelend \DIFaddbegin \DIFadd{locally }\DIFaddend instead of considering the same number of looks for the whole image\DIFdelbegin \DIFdel{)}\DIFdelend , we will in part take into account departures from such hypothesis.
 
@@ -264,7 +267,8 @@ $\mu>0$ is the mean.
 the reduced log-likelihood of }\DIFdelend \DIFaddbegin \DIFadd{under }\DIFaddend this model is
 \begin{equation}
 \DIFdelbegin \DIFdel{\ell}\DIFdelend \DIFaddbegin \DIFadd{\mathcal L}\DIFaddend ( \DIFdelbegin %DIFDELCMD < \bm %%%
-\DIFdel{z; }\DIFdelend L,\mu\DIFaddbegin \DIFadd{;}\DIFaddend \DIFaddbegin \DIFadd{z}\DIFaddend ) = n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
+\DIFdel{z}\DIFadd{\bm z}\DIFdelend L,\mu\DIFaddbegin \DIFadd{; } \DIFaddend ) = 
+n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 +L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
 \label{eq:LogLikelihoodGamma}
 \end{equation}
@@ -436,6 +440,8 @@ This section is based on~\cite{n_r}.
 %In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
 We apply DWT filters on each binary image $\bm{\widehat\jmath}_c$: a low-pass filter $\bm L$ in the vertical direction, and a high-pass filter $\bm H$ in the horizontal direction, then both are down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
 These operations are repeated on the coefficient matrices, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$.
+\DIFaddbegin \DIFadd{We, thus, use two resolution levels.
+}\DIFaddend 
 
 %%% ACF Detalhar as operações usando a notação acima: a média é pixel-a-pixel? quais bandas são promediadas?
 %%% AAB A média é pixel a pixel. Todas as bandas são usadas na média. Vou tentar deixar claro no texto. Creio que respondi no item 2 abaixo.
@@ -526,6 +532,8 @@ of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$, where $f$ denotes the fusion 
 \bm I_F\leftarrow \left\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
 \end{equation}
 \end{enumerate}
+\DIFaddbegin \DIFadd{We also used two resolution levels.
+}\DIFaddend 
 
 \section{Results}\label{sec_05}
 
@@ -677,7 +685,7 @@ Fig.~\ref{evidencias_flev_hh_hv_vv} shows the edges detected in each intensity c
 	\label{evidencias_flev_hh_hv_vv} 
 \end{figure}
 
-\DIFadd{Fig.~\ref{fusion_flev_met} shows the two best fusion results: PCA and MR-SWD.
+\DIFadd{Fig.~\ref{fusion_flev_met} shows the two best fusion results: PCA and MR-SVD.
 Notice that the latter (Fig.~\ref{fusion_flev_met}}\subref{fusion_flev_met:f}\DIFadd{) eliminates the wrong detection close to the center of the area, and has fewer wrongly detected points outside the region of interest.
 }
 
@@ -745,7 +753,7 @@ A visual inspection suggests that the hh channel is the one that produces the be
 	\label{evidencias_sf_hh_hv_vv} 
 \end{figure}
 
-\DIFadd{Fig.~\ref{fusion_sf_met} shows the two best fusion results: PCA and MR-SWD.
+\DIFadd{Fig.~\ref{fusion_sf_met} shows the two best fusion results: PCA and MR-SVD.
 Again, the latter is more resistant to outliers, both inside and outside the region of interest.
 }
 
@@ -777,16 +785,20 @@ Again, the latter is more resistant to outliers, both inside and outside the reg
 
 \subsection{\DIFadd{Error analysis}}
 
-\DIFaddend Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge \DIFaddbegin \DIFadd{shown in Fig.~\ref{roi_gt}}\subref{gt_flevoland}\DIFaddend , as measured on $100$ radial lines: the minimum Euclidean distance among the ground truth pixel and the several pixels detected in the fusion methods.
+\DIFaddend Figure~\ref{probability_edge_detc} shows the error of $\widehat\jmath$ in finding the true edge \DIFaddbegin \DIFadd{shown in Fig.~\ref{roi_gt}}\subref{gt_flevoland}\DIFaddend , as measured on $100$ \DIFdelbegin \DIFdel{radial lines : }\DIFdelend \DIFaddbegin \DIFadd{lines with
+}\DIFaddend the minimum Euclidean distance \DIFdelbegin \DIFdel{among }\DIFdelend \DIFaddbegin \DIFadd{between }\DIFaddend the ground truth \DIFdelbegin \DIFdel{pixel and the several pixels detected }\DIFdelend \DIFaddbegin \DIFadd{and the detected pixel }\DIFaddend in the fusion methods.
 We use relative frequencies to estimate the probability of having an error smaller than a number of pixels. 
-Denoting $H(k)$ the number of \DIFdelbegin \DIFdel{replications }\DIFdelend \DIFaddbegin \DIFadd{lines }\DIFaddend for which the error is less than $k$ pixels, an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is \DIFdelbegin \DIFdel{the radial number }\DIFdelend \DIFaddbegin \DIFadd{number of radii}\DIFaddend . 
+Denoting $H(k)$ the number of \DIFdelbegin \DIFdel{replications }\DIFdelend \DIFaddbegin \DIFadd{lines }\DIFaddend for which the error is less than $k$ pixels, 
+an estimate of this probability is $f(k)={H(k)}/{n_r}$, where $n_r$ is \DIFdelbegin \DIFdel{the radial number }\DIFdelend \DIFaddbegin \DIFadd{number of lines}\DIFaddend . 
 In our analysis, $k$ varies between $1$ and $10$\DIFaddbegin \DIFadd{, and $n_r=100$}\DIFaddend . 
 The algorithm is described in Ref.~\cite{fbgm}.
 
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland}
-	\caption{Probability of detecting \DIFdelbeginFL \DIFdelFL{in }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{the edge by the }\DIFaddendFL fusion methods \DIFaddbeginFL \DIFaddFL{in Fig}\DIFaddendFL .\DIFaddbeginFL \DIFaddFL{~\ref{roi_gt}.}\DIFaddendFL }
+	\DIFdelbeginFL %DIFDELCMD < \includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland}
+%DIFDELCMD < 	%%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[width=.7\linewidth]{metricas_6_fusao_flevoland}
+	\DIFaddendFL \caption{Probability of detecting \DIFdelbeginFL \DIFdelFL{in }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{the edge by the }\DIFaddendFL fusion methods \DIFaddbeginFL \DIFaddFL{in Fig}\DIFaddendFL .\DIFaddbeginFL \DIFaddFL{~\ref{roi_gt}.}\DIFaddendFL }
 	\label{probability_edge_detc}
 \end{figure}
 
@@ -795,11 +807,22 @@ The algorithm is described in Ref.~\cite{fbgm}.
 
 \DIFaddend \subsection{Implementation Details}
 
-The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer.  
+\DIFdelbegin \DIFdel{The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \mbox{%DIFAUXCMD
+\SI{2.6}{\giga\hertz} }\hspace{0pt}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\SI{16}{\giga\byte} }\hspace{0pt}%DIFAUXCMD
+RAM computer.  
 The method for detecting edge evidence MLE was implemented in the R language.
-The fusion methods were implemented in Matlab. 
+The fusion methods were implemented in Matlab.}%DIFDELCMD < 
 
-Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to the fastest method).
+%DIFDELCMD < %%%
+\DIFdelend Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to the fastest method).
+\DIFaddbegin \DIFadd{The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \mbox{%DIFAUXCMD
+\SI{2.6}{\giga\hertz} }\hspace{0pt}%DIFAUXCMD
+\mbox{%DIFAUXCMD
+\SI{16}{\giga\byte} }\hspace{0pt}%DIFAUXCMD
+RAM computer.  
+}\DIFaddend 
 
 \begin{table}[hbt]
 	\centering
@@ -811,32 +834,43 @@ Table~\ref{metrica_de_tempo} shows the running times (absolute and relative to t
 	\end{tabular}
 \end{table}
 
-\section{Conclusion}\label{sec_06}
+\DIFaddbegin \DIFadd{The method for detecting edge evidence MLE was implemented in the R language.
+The fusion methods were implemented in Matlab. 
+}
+
+
+\DIFaddend \section{Conclusion}\label{sec_06}
 
 We found evidence of edges using the maximum likelihood method under the Wishart model for PolSAR data. 
 The evidence was found in each of the three intensity channels of \DIFdelbegin \DIFdel{an }\DIFdelend AIRSAR L-band \DIFdelbegin \DIFdel{image over Flevoland }\DIFdelend \DIFaddbegin \DIFadd{images over Flevoland and San Francisco}\DIFaddend .
 
 \DIFdelbegin \DIFdel{The }\DIFdelend \DIFaddbegin \DIFadd{Over the agricultural fields of Flevoland, the }\DIFaddend best edge evidence was observed on the hv channel. 
-\DIFdelbegin \DIFdel{We assessed the result by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect}\DIFdelend \DIFaddbegin \DIFadd{The vv channel provided the best estimates of the edges between the urban and both sea and vegetation areas of San Francisco.
-Such diversity of information content enhances the need of fusing the edge evidences}\DIFaddend .
+\DIFdelbegin \DIFdel{We assessed the result by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect}\DIFdelend \DIFaddbegin \DIFadd{The hh channel provided the best estimates of the edges between the urban and both sea and vegetation areas of San Francisco.
+Such diversity of information content justifies the need of fusing the edge evidences}\DIFaddend .
 
 We applied simple average, MR-DWT, PCA, ROC, MR-SWT, and MR-SVD fusion methods to aggregate the evidence obtained in the three channels.
-The best \DIFdelbegin \DIFdel{result was produced by }\DIFdelend \DIFaddbegin \DIFadd{results were produced by PCA and by }\DIFaddend the Multi-Resolution Stationary Wavelet Transform (MR-SWT)\DIFdelbegin \DIFdel{with a moderate cost of the }\DIFdelend \DIFaddbegin \DIFadd{.
+The best \DIFdelbegin \DIFdel{result was produced by }\DIFdelend \DIFaddbegin \DIFadd{results were produced by PCA and by }\DIFaddend the Multi-Resolution \DIFdelbegin \DIFdel{Stationary Wavelet Transform (MR-SWT)with a moderate cost of the }\DIFdelend \DIFaddbegin \DIFadd{Singular Value Decomposition (MR-SVD).
 Such enhancement comes at additional computational cost in terms of }\DIFaddend processing time.
-\DIFaddbegin 
+%DIF < We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
-\DIFadd{We quantitatively assessed the result by checking the closeness of the fused points to the actual edge, and by the presence of outliers.
+We \DIFdelbegin \DIFdel{highlight two }\DIFdelend \DIFaddbegin \DIFadd{quantitatively assessed the results by checking the closeness of the fused points to the actual edge, and by the presence of outliers.
+Although the average and PCA are similar with respect to the probability of correctly detecting the edge, the latter provides a more effective weight of the evidences.
+In fact, PCA is able to completely discard misleading evidences, while the average cannot.
 }
 
+%DIF > We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
 
-\DIFaddend %We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
-
-We highlight two avenues for future improvement of the fusion:
-\begin{enumerate}
-	\item increasing the number of evidences.
+\DIFadd{Two }\DIFaddend avenues for future improvement of the fusion \DIFdelbegin \DIFdel{:
+}%DIFDELCMD < \begin{enumerate}
+%DIFDELCMD < 	\item %%%
+\DIFdelend \DIFaddbegin \DIFadd{are:
+(1)~}\DIFaddend increasing the number of evidences.
 	This is possible, since fully polarimetric data \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{are }\DIFaddend richer than mere intensity channels; and
-	\item post-processing of both partial evidences and fusion.
-\end{enumerate}
+\DIFdelbegin %DIFDELCMD < \item %%%
+\DIFdelend \DIFaddbegin \DIFadd{(2)~}\DIFaddend post-processing of both partial evidences and fusion.
+\DIFdelbegin %DIFDELCMD < \end{enumerate}
+%DIFDELCMD < %%%
+\DIFdelend 
 
 %The aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods was reach. 
 \bibliographystyle{IEEEtran}
