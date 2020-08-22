@@ -6,7 +6,7 @@
 #BASE_NAME = tengarss_rev_ander
 BASE_NAME = FusionEvidencesPolSAR-R1
 #BASE_NAME = DiffR0R1
-
+#BASE_NAME = Responses_bmf
 
 LATEX     = latex
 PDFLATEX  = pdflatex

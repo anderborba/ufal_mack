@@ -32,8 +32,8 @@ N  <- d[2]
 evidencias          <- rep(0, nrows)
 evidencias_valores  <- rep(0, nrows)
 xev  <- seq(1, nrows, 1 )
-for (k in 1 : nrows){# j aqui varre o número de radiais
-#for (k in 150 : 150){# k aqui varre o número de radiais
+#for (k in 1 : nrows){# j aqui varre o número de radiais
+for (k in 150 : 150){# k aqui varre o número de radiais
   print(k)
   z1 <- rep(0, N)
 	z2 <- rep(0, N)

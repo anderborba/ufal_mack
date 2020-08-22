@@ -88,10 +88,10 @@ pp <- p + geom_line(aes(x = x, y = y1, color = "L=1") , size=2, alpha=.7) +
           geom_line(aes(x = x, y = y3, color = "L=4") , size=2, alpha=.7) +
           geom_line(aes(x = x, y = y4, color = "L=8") , size=2, alpha=.7) +
           ylim(-10,0) +
-          ylab(TeX('Log-likelihood')) +
+          ylab(TeX('Log-verossimilhança')) +
           xlab(TeX('$\\rho$')) +
           theme_ipsum(base_family = "Times New Roman", 
-          base_size = 10, axis_title_size = 10) +
+          base_size = 20, axis_title_size = 20) +
           scale_fill_ipsum() +
           theme(legend.title = element_blank()) +
           theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))

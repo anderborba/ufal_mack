@@ -57,7 +57,6 @@ for (k in 150 : 150){# k aqui varre o número de radiais
   matdf1 <- matrix(0, nrow = N, ncol = 3)
   matdf2 <- matrix(0, nrow = N, ncol = 3)
   for (j in 1 : (N - 1)){
-  #for (j in 100 : 100){
     r1 <- sum(z1[1: j]) / j
     r2 <- sum(z2[1: j]) / j
     r3 <- 0.1

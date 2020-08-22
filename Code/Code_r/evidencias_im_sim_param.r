@@ -17,7 +17,7 @@ source("loglikd.r")
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat <- scan('Phantom_gamf_0.000_1_2_1.txt')
+mat <- scan('Phantom_gamf_0.000_1_2_3.txt')
 setwd("..")
 setwd("Code/Code_r")
 ########## setup para a imagens simuladas
@@ -26,18 +26,16 @@ nr <- r
 N  <- r
 mat <- matrix(mat, ncol = r, byrow = TRUE)
 # Loop para toda a imagem
-#matdf1 <- matrix(0, nrow = N, ncol = 2)
-#matdf2 <- matrix(0, nrow = N, ncol = 2)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
 #for (k in 1 : nr){# j aqui varre o número de radiais
-for (k in 10 : 10){# j aqui varre o número de radiais
-        print(k)
+for (k in 150 : 150){# j aqui varre o número de radiais
+  print(k)
 	N <- r
 	z <- rep(0, N)
 	z <- mat[k, 1: N]
-        zaux1 <- rep(0, N)
+  zaux1 <- rep(0, N)
 	conta = 0
   	for (i in 1 : N){
 	  if (z[i] > 0){
@@ -50,7 +48,7 @@ for (k in 10 : 10){# j aqui varre o número de radiais
 	z     <-  zaux1[1:N]
 	matdf1 <- matrix(0, nrow = N, ncol = 2)
 	matdf2 <- matrix(0, nrow = N, ncol = 2)
-	for (j in 1 : N ){
+	for (j in 1 : (N - 1) ){
 	  r1 <- 1
 	  r2 <- sum(z[1: j]) / j
 	  res1 <- maxBFGS(loglike, start=c(r1, r2))
@@ -59,10 +57,8 @@ for (k in 10 : 10){# j aqui varre o número de radiais
 	  res2 <- maxBFGS(loglikd, start=c(r1, r2))
 	  matdf1[j, 1] <- res1$estimate[1]
 	  matdf1[j, 2] <- res1$estimate[2]
-	  if (j < N){
-	    matdf2[j, 1] <- res2$estimate[1]
-	    matdf2[j, 2] <- res2$estimate[2]
-	  }
+	  matdf2[j, 1] <- res2$estimate[1]
+	  matdf2[j, 2] <- res2$estimate[2]
 	}
 	lower <- as.numeric(14)
 	upper <- as.numeric(N - 14)
@@ -74,7 +70,7 @@ x <- seq(N - 1)
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){
 #  Tomar cuidado com o sinal o mesmo é inserido pois o GenSA minimiza funçoes
-  lobj[j] <- func_obj_l_L_mu(j)
+  lobj[j] <- -func_obj_l_L_mu(j)
 }
 df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
@@ -89,4 +85,3 @@ print(p)
 #sink()
 #setwd("..")
 #setwd("Code/Code_r")
-

@@ -1,5 +1,4 @@
-\chapter{Resultado Numéricos}\label{resul_numericos}
-
+\chapter{Resultados Numéricos}\label{resul_numericos}
 
 \section{Aplicação em imagem simulada}
 A metodologia (MLE) para a detecção será aplicada para uma imagem simulada baseada em~\cite{nhfc,gamf}. A imagem tem $400\times400$ pixels e foi gerada por duas amostras obedecendo a distribuíção Wishart. Para cada par de matrizes de covariância $\Sigma_{k_1}$, $\Sigma_{k_2}$ a imagem $I_{k_1,k_2}$ é simulada de acordo com, amostras de $W_G(\Sigma_{k_1}, 4)$ para a metade esquerda da imagem, e  amostras $W_G(\Sigma_{k_2}, 4)$ para a metade direita da imagem.
@@ -8,15 +7,15 @@ A metodologia (MLE) para a detecção será aplicada para uma imagem simulada ba
 A imagem $400 \times 400$ pixels foi gerada
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=.7\linewidth]{phanton_gamf_dec_pauli}%
-	\caption{Decomposição de Pauli}
+	\includegraphics[width=.5\linewidth]{phanton_gamf_dec_pauli}%
+	\vspace{-2.5cm}
+	\caption{Decomposição de Pauli aplicada a imagem simulada}
 \label{fig:simulada_gamf_dec_pauli}
 \end{figure}
 
 A decomposição de Pauli é baseada na combinação linear dos canais de intensidades, 
 $$(\mathbf{I_\text{hh}+I_{\text{vv}}}, \mathbf{I_\text{hh}-I_{\text{vv}}}, \mathbf{I_\text{hv}}).$$ 
 Esta decomposição mostra a evidência de bordas em uma linha média da imagem, como apresentado na figura~\ref{fig:simulada_gamf_dec_pauli}. 
-\subsubsection*{Distribuição univariada $\Gamma$ com L fixo}
 
 A imagem simulada  usa as intensidades da matriz de covariancia $\Sigma_{k_1}$ e $\Sigma_{k_2}$ definidas por
 \begin{equation}\label{matriz_sigma_gamf_1}
@@ -38,24 +37,55 @@ A imagem simulada  usa as intensidades da matriz de covariancia $\Sigma_{k_1}$ e
 \right],
 \end{equation}
 as intensidades são as entradas da diagonal principal.  
-    
+
+
+\subsection{Função Densidade de Probabilidade Univariada Gamma}\label{pdf_uni_gamma_apl_simulada}
+
+\subsubsection{Estimativa para os parâmetros ($\mu$, L)}\label{pdf_uni_gamma_apl_sim_param_mu_L}
+As figuras~\eqref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1a},~\eqref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1b},~\eqref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1c} mostram os gráficos das funções \eqref{eq:TotalLogLikelihood} indicando as evidências de bordas nos canais considerados, os quais foram gerados com a estimativa dos parâmetros $(\mu,L)$, fixando arbitrariamente a linha 150 da imagem simulada, e definindo o coeficiente de folga para as extremidades igual a 14 pixeis. A característica comum dessas funções é não ser diferenciáveis, dificultando o uso de métodos de otimização que calculam derivada. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~\cite{xgsh}, adequado para funções não diferenciáveis.
+
 \begin{figure}[hbt]
 	\centering
-     \subfloat[Canal $\text{hh}$ \label{fig:evid_bordas_l:1a}]{%
+     \subfloat[Canal $\text{hh}$]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu_L_linha_150}\label{fig:l_uni_gamma_param_mu_l:1a}}
+     \subfloat[Canal $\text{hv}$]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahv_param_mu_L_linha_150}\label{fig:l_uni_gamma_param_mu_l:1b}}
+     \subfloat[Canal $\text{vv}$]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmavv_param_mu_L_linha_150}\label{fig:l_uni_gamma_param_mu_l:1c}}
+     \caption{Funções log-verossimilhanças com a estimativa de parâmetros $(\mu, L)$}
+     \label{fig:l_uni_gamma_param_mu_l}
+   \end{figure}	
+ 
+O método estimativa de máxima verossimilhança (MLE) foi aplicado para cada linha da imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura \eqref{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L}.
+ \begin{figure}[H]
+     \centering
+     \subfloat[Evidências no canal $\text{hh}$]{
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_evid_param_mu_L_14_pixel} \label{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L:a}
+     }
+     \subfloat[Evidências no canal $\text{hv}$]{
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hv_evid_param_mu_L_14_pixel} \label{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L:b}
+     }
+     \subfloat[Evidências no canal $\text{vv}$]{
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_vv_evid_param_mu_L_14_pixel} \label{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L:c}
+     }
+    \caption{Evidências de bordas para os três canais de intensidade com ($\mu, L$) estimados.}
+     \label{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L} 
+   \end{figure}
+\subsubsection{Estimativa para o parâmetro $\mu$ com L fixo} \label{pdf_uni_gamma_apl_sim_param_mu}
+As figuras~\eqref{fig:l_uni_gamma_param_mu}\subref{fig:l_uni_gamma_param_mu:1a},~\eqref{fig:l_uni_gamma_param_mu}\subref{fig:l_uni_gamma_param_mu:1b},~\eqref{fig:l_uni_gamma_param_mu}\subref{fig:l_uni_gamma_param_mu:1c} mostram os gráficos das funções~\eqref{eq:TotalLogLikelihood_L_fixo} indicando as evidências de bordas a serem encontradas nos canais considerados, as quais foram geradas com a estimativa do parâmetro $(\mu)$, com a definição $L=4$, fixando arbitrariamente a linha 150 da imagem simulada, e definindo o coeficiente de folga paras as extremidades igual a 14 pixeis. A característica comum dessas funções é não ser diferenciáveis, dificultando o uso de métodos de otimização que calculam a derivada da função. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~\cite{xgsh}, adequado para funções não diferenciáveis.
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Canal $\text{hh}$ \label{fig:l_uni_gamma_param_mu:1a}]{%
        \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu}}
-     \subfloat[Canal $\text{hv}$ \label{fig:evid_bordas_l:1b}]{%
+     \subfloat[Canal $\text{hv}$ \label{fig:l_uni_gamma_param_mu:1b}]{%
        \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahv_param_mu}}
-     \subfloat[Canal $\text{vv}$ \label{fig:evid_bordas_l:1c}]{%
-       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu}}
-     \caption{Funções log-verossimilhanças para a radial 150}
-     \label{fig:evid_bordas_l}
+     \subfloat[Canal $\text{vv}$ \label{fig:l_uni_gamma_param_mu:1c}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmavv_param_mu}}
+     \caption{Funções log-verossimilhanças com a estimativa do parâmetro $(\mu)$ e L fixo}
+     \label{fig:l_uni_gamma_param_mu}
    \end{figure}	
 
-As funções da figura \eqref{fig:evid_bordas_l} mostram picos indicando evidência de bordas a ser encontrada, porém as funções não são suaves dificultando o uso de métodos de otimização que calculam a derivada da função. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~~\cite{xgsh}, adequado para funções não diferenciáveis.
-
-
-O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado na imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura \eqref{evidencias_hh_hv_vv_gamf}.
-
+O método da estimativa de máxima verossimilhança (MLE) foi aplicado nas linhas da imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura \eqref{evidencias_hh_hv_vv_gamf_mu_estimado}.
  \begin{figure*}[hbt]
 	\centering
      \subfloat[Evidências no canal $\text{hh}$  \label{evidencias_hh_hv_vv_gamf_mu_estimado:a}]{%
@@ -67,13 +97,10 @@ O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado
      \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf_mu_estimado:c}]{%
        \includegraphics[width=0.35\linewidth]{im_sim_gamf_vv_evid_param_mu_14_pixel}
      }
-    \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado.}
-     \label{evidencias_hh_hv_vv_gamf} 
+    \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado e L fixo.}
+     \label{evidencias_hh_hv_vv_gamf_mu_estimado} 
    \end{figure*}
-   
-   
-   
-   
+%   
 \begin{figure*}[hbt]
 	\centering
      \subfloat[Evidências no canal $\text{hh}$  \label{evidencias_hh_hv_vv_gamf_mu_estimado:a}]{%
@@ -85,65 +112,142 @@ O método da máxima verossimilhança \eqref{eq:TotalLogLikelihood} foi aplicado
      \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf_mu_estimado:c}]{%
        \includegraphics[width=0.35\linewidth]{im_sim_gamf_vv_evid_media_mu_14_pixel}
      }
-    \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado (media).}
-     \label{evidencias_hh_hv_vv_gamf} 
-   \end{figure*}
-
-
-
-\subsubsection{Distribuição univariada produto de intensidades com L fixo}
-
-A figura \eqref{fig:pdf_prod_mag_flat} mostra a distribuição univariada produto de magnitudes para radial(linha) 35 fixada e nessa radial escolhemos arbitrariamente o pixel igual a 150 para construir as funçoes de maxima verossimilhança. Notamos nas figuras o quanto a funçao é plana evidenciando a dificuldade para encontrar o $\rho$ máximo. A difuldade de encontrar o máximo teve consequência na construção da função de log-verossimilhança usando as estimativas de $\rho$, as funções apresentaram forte oscilação não sendo possível encontrar evidência de borda para a distribuição produto de intensidades. 
-
-\begin{figure}[hbt]
-	\centering
-     \subfloat[Função $\ell$ para pixels de 1 até 150 \label{fig:pdf_prod_mag_flat:1a}]{%
-       \includegraphics[width=0.32\linewidth]{log_like_prod_mag_L_fixo_por}}
-     \subfloat[Função $\ell$ para pixels de 150 até 400 \label{fig:pdf_prod_mag_flat:1b}]{%
-       \includegraphics[width=0.32\linewidth]{log_like_prod_mag_L_fixo_por_150_to_400}}
-     %\subfloat[Canal $\text{vv}$ \label{fig:evid_bordas_l:1c}]{%
-     %  \includegraphics[width=0.32\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu}}
-     \caption{Distribuição produto de intensidades para diferentes L fixos e radial 35}
-     \label{fig:pdf_prod_mag_flat}
-   \end{figure}	
-
-
-\subsubsection{Distribuição univariada razão de intensidades com L fixo}
-
-
-
-    
-\begin{figure}[hbt]
-	\centering
-     \subfloat[Canal $\text{hh}$ \label{fig:evid_bordas_l:1a}]{%
-       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_hv_param_rho_tau}}
-     \subfloat[Canal $\text{hv}$ \label{fig:evid_bordas_l:1b}]{%
-       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_vv_param_rho_tau}}
-     \subfloat[Canal $\text{vv}$ \label{fig:evid_bordas_l:1c}]{%
-       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hv_vv_param_rho_tau}}
-     \caption{Funções log-verossimilhanças para a radial 150}
-     \label{fig:evid_bordas_l}
-   \end{figure}	
-
-
-\begin{figure*}[hbt]
-	\centering
-     \subfloat[Evidências no canal $\text{hh}$  \label{evidencias_hh_hv_vv_gamf_mu_estimado:a}]{%
-       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_hv_param_tau_rho_14_pixel}
-     }
-     \subfloat[Evidências no canal $\text{hv}$ \label{evidencias_hh_hv_vv_gamf_mu_estimado:b}]{%
-       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_vv_param_tau_rho_14_pixel}
-     }      
-     \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf_mu_estimado:c}]{%
-       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hv_vv_param_tau_rho_14_pixel}
-     }
     \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado.}
      \label{evidencias_hh_hv_vv_gamf} 
    \end{figure*}
+%
+\clearpage
+\subsection{Distribuição univariada produto de intensidades}\label{sec:pdf_uni_prod_int_apl_sim_param}
+Observamos que o uso da função densidade magnitude do produtos não é adequado para gerar a função log-verossimilhança, as mesmas tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado dos parâmetros geram uma função \eqref{eq:TotalLogLikelihood_prod_mag} com oscilação degenerando o ponto ótimo no processo de otimização.
+\subsubsection{Estimativas para os parâmetros ($\rho$, L)}\label{sec:pdf_uni_prod_int_apl_sim_param_rho_L}
+O método estimativa de máxima verossimilhança(MLE) usa a pdf \eqref{eq:pdf_mag_prod} para encotrar a função log-verossimilhança \eqref{eq:eq_log_vero_mag_prod_red}, para qual realizamos as estimativas dos parâmetros ($\rho$, L) usando o método de otimização BFGS.
 
+Notamos que a forma das funções \eqref{eq:eq_log_vero_mag_prod_red} dificultam encontrar o ponto de máximo, devido a suas características de serem planas. Para gerar a figura~\ref{fig:loglikelihood_im_sim_gamma} escolhemos a linha 35 da imagem simulada e o pixel $j=150$, foram realizados testes com outras linhas da imagem simulada, assim como outros pixeis $j$ e os gráficos apresentavam o mesmo comportamento. 
+   \begin{figure}[hbt]
+   \centering
+     \subfloat[Amostra a esquerda do pixel 150\label{fig:loglikelihood_im_sim_gamma_l_1_150}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_mag_prod_r_35_1_to_150}}
+       \subfloat[Amostra a direita do pixel 150\label{fig:loglikelihood_im_sim_gamma_l_100_400}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_mag_prod_r_35_151_to_400}
+     }
+    \caption{Função log-verossimilhança.} \label{fig:loglikelihood_im_sim_gamma}   
+\end{figure}
+\subsubsection{Estimativa para o parâmetros ($\rho$)}\label{sec:pdf_uni_prod_int_apl_sim_param_rho}
+O mesmo comportamento é observado quando fixamos o número de visadas e estimamos o parâmetro $\rho$, isto é, o uso da função densidade magnitude do produtos com o número de visadas fixo não é adequado para gerar a função log-verossimilhança, as mesmas tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado do coeficiente $\rho$ gera uma função \eqref{eq:TotalLogLikelihood_prod_mag_L_fixo} com muita oscilação, degenerando o ponto ótimo no processo de otimização.
 
+O método estimativa de máxima verossimilhança(MLE) usa a pdf \eqref{eq:pdf_mag_prod} com visadas fixas, para encotrar a função log-verossimilhança \eqref{eq:eq_log_vero_mag_prod_red_L_fixo}, para qual realizamos a estimativa do parâmetro $\rho$ usando o método de otimização BFGS.
+
+A figura \eqref{fig:pdf_prod_mag_flat_rho} mostra a função log-verossimilhança para distribuição univariada produto de magnitudes com radial(linha) 35 fixa, na radial escolhemos arbitrariamente o pixel igual a 150, e definimos o número de visadas(L) em 1,2, 4, e 8 para construir as funções. Notamos nas figuras que a função é plana evidenciando a dificuldade para encontrar o $\rho$ máximo. Esse fato tem consequência na construção da função de log-verossimilhança total \eqref{eq:TotalLogLikelihood_prod_mag_L_fixo}  apresentando forte oscilação e dificultando encontrar evidências de bordas para a distribuição produto de intensidades. 
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Função $\ell$ para a amostra dos pixeis 1 até 150 \label{fig:pdf_prod_mag_flat_rho:1a}]{%
+       \includegraphics[width=0.50\linewidth]{log_like_prod_mag_L_fixo_por_1_to_150_l_35}}
+     \subfloat[Função $\ell$ para a amostra dos pixeis 150 até 400 \label{fig:pdf_prod_mag_flat_rho:1b}]{%
+       \includegraphics[width=0.50\linewidth]{log_like_prod_mag_L_fixo_por_150_to_400_l_35}}
+     \caption{Função log-verossimilhança para distribuição produto de intensidades com diferentes L fixos}
+     \label{fig:pdf_prod_mag_flat_rho}
+   \end{figure}	
+
+Podemos concluir que o uso da função densidade magnitude do produtos tanto com estimativas de dois parâmetros como estimativa de um parâmetro não é adequado para gerar a função log-verossimilhança. Nesse ponto sugerimos uma melhor investigação deste tipo de funções para contornar esse problema, a referência~\cite{fcs} relata problemas semelhantes.  
+\subsubsection{Distribuição univariada razão de intensidades com L fixo}
+As figuras~\eqref{fig:l_uni_razao_rho_tau}\subref{fig:l_uni_razao_rho_tau:1a},~\eqref{fig:l_uni_razao_rho_tau}\subref{fig:l_uni_razao_rho_tau:1b},~\eqref{fig:l_uni_razao_rho_tau}\subref{fig:l_uni_razao_rho_tau:1c} mostram os gráficos das funções \eqref{eq:TotalLogLikelihood_razao_L_fixo} indicando as evidências de bordas nos canais considerados, os quais foram gerados com a estimativa dos parâmetros $(\rho,\tau)$, fixando arbitrariamente a linha 150 da imagem simulada, e definindo o coeficiente de folga para as extremidades igual a 14 pixeis. A característica comum dessas funções é não ser diferenciáveis, dificultando o uso de métodos de otimização que calculam derivada. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~\cite{xgsh}, adequado para funções não diferenciáveis.
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Canal hh/hv \label{fig:l_uni_razao_rho_tau:1a}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_hv_param_rho_tau}}
+     \subfloat[Canal hh/vv \label{fig:l_uni_razao_rho_tau:1b}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_vv_param_rho_tau}}
+     \subfloat[Canal hv/vv \label{fig:l_uni_razao_rho_tau:1c}]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hv_vv_param_rho_tau}}
+     \caption{Funções log-verossimilhanças para PDF razão de intensidades}
+     \label{fig:l_uni_razao_rho_tau}
+   \end{figure}	
+
+O método da estimativa de máxima verossimilhança (MLE) aplicado nas linhas da imagem simulada com duas amostras, e as evidências de bordas estão mostradas na figura \eqref{fig:evidencias_razao_int_rho_tau}.
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Evidências no canal hh/hv  \label{fig:evidencias_razao_int_rho_tau:a}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_hv_param_tau_rho_14_pixel}
+     }%
+     \subfloat[Evidências no canal hh/vv \label{fig:evidencias_razao_int_rho_tau:b}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hh_vv_param_tau_rho_14_pixel}
+     }%      
+     \subfloat[Evidências no canal hv/vv \label{fig:evidencias_razao_int_rho_tau:c}]{%
+       \includegraphics[width=0.35\linewidth]{im_sim_gamf_hv_vv_param_tau_rho_14_pixel}
+     }%
+    \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado.}
+     \label{fig:evidencias_razao_int_rho_tau} 
+   \end{figure}
+
+As figuras~\eqref{fig:l_uni_razao_param_rho_tau_1_to_150}\subref{fig:l_uni_razao_param_rho_tau_1_to_150:1a},~\eqref{fig:l_uni_razao_param_rho_tau_1_to_150}\subref{fig:l_uni_razao_param_rho_tau_1_to_150:1b},~\eqref{fig:l_uni_razao_param_rho_tau_1_to_150}\subref{fig:l_uni_razao_param_rho_tau_1_to_150:1c} mostram os gráficos para a razão  das funções \eqref{eq:log_razao_int_w_L_fixo}
+com 
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Razão hh/hv]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_hv_param_rho_tau_1_to_150}\label{fig:l_uni_razao_param_rho_tau_1_to_150:1a}}
+     \subfloat[Razão hh/vv]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_vv_param_rho_tau_1_to_150}\label{fig:l_uni_razao_param_rho_tau_1_to_150:1b}}
+     \subfloat[Razão hv/vv ]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hv_vv_param_rho_tau_1_to_150}\label{fig:l_uni_razao_param_rho_tau_1_to_150:1c}}
+     \caption{Funções log-verossimilhanças com a estimativa de parâmetros $(\rho, \tau)$ e amostra a esquerda do pixel fixado 150}
+     \label{fig:l_uni_razao_param_rho_tau_1_to_150}
+\end{figure}	
+%
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Razão hh/hv]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_hv_param_rho_tau_150_to_400}\label{fig:l_uni_razao_param_rho_tau_1_to_150:1a}}
+     \subfloat[Razão hh/vv]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hh_vv_param_rho_tau_150_to_400}\label{fig:l_uni_razao_param_rho_tau_1_to_150:1b}}
+     \subfloat[Razão hv/vv ]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_gamf_razao_hv_vv_param_rho_tau_150_to_400}\label{fig:l_uni_razao_param_rho_tau_1_to_150:1c}}
+     \caption{Funções log-verossimilhanças com a estimativa de parâmetros $(\rho, \tau)$ e amostra a direita do pixel fixado 150}
+     \label{fig:l_uni_razao_param_rho_tau_1_to_150}
+   \end{figure}	
+\clearpage
 \subsubsection{Distribuição bivariada produto de intensidades com L fixo}
+Observamos que o uso da função densidade de probabilidade bivariada para intensidades mostrou que não é adequada para gerar a função log-verossimilhança, as mesmas tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado dos parâmetros geram uma função \eqref{eq:TotalLogLikelihood_biv_prod} com oscilação degenerando o ponto ótimo no processo de otimização. Nesse processo usamos $\text{L}=4$ fixado a priori.
+\subsubsection{Estimativas para os parâmetros ($\Sigma_{11}$,$\Sigma_{22}$)}\label{sec:pdf_biv_prod_int_apl_sim_param_s1_s2}
+O método estimativa de máxima verossimilhança(MLE) usa a pdf \eqref{func_biv_produto_inten_r1_r2} para encotrar a função log-verossimilhança \eqref{eq:log_vero_biv_prod_red_L_fixo}, para qual realizamos as estimativas dos parâmetros ($\rho$, $\Sigma_{11}$, $\Sigma_{22}$) usando o método de otimização BFGS.
 
+Notamos que a forma das funções \eqref{eq:TotalLogLikelihood_biv_prod} dificultam encontrar o ponto de máximo, devido a suas características de serem planas. Para gerar a figura~\ref{fig:loglikelihood_im_sim_biv_prod_esq} escolhemos a linha 35 da imagem simulada e o pixel $j=150$, foram realizados testes com outras linhas da imagem simulada, assim como outros pixeis $j$ e os gráficos apresentavam o mesmo comportamento. 
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Amostra a esquerda do do produto bivariada 150 para $\rho=0.1$\label{fig:loglikelihood_im_sim_biv_prod_esq_rho_0p1}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_rho_0p1}}
+       \subfloat[Amostra a esquerda do pixel 150 para $\rho=0.5$\label{fig:loglikelihood_im_sim_biv_prod_esq_rho_0p5}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_rho_0p5}}\\
+         \subfloat[Amostra a esquerda do pixel 150 para $\rho=0.9$\label{fig:loglikelihood_im_sim_biv_prod_esq_rho_0p9}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_rho_0p9}}
+    \caption{Função log-verossimilhança para a pdf a bivariada produto de intensidades .} \label{fig:loglikelihood_im_sim_biv_prod_esq}   
+\end{figure}
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Amostra a direita do do produto bivariada 150 para $\rho=0.1$\label{fig:loglikelihood_im_sim_biv_prod_dir_rho_0p1}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_to_400_rho_0p1}}
+       \subfloat[Amostra a direita do pixel 150 para $\rho=0.5$\label{fig:loglikelihood_im_sim_biv_prod_dir_rho_0p5}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_to_400_rho_0p5}}\\
+         \subfloat[Amostra a direita do pixel 150 para $\rho=0.9$\label{fig:loglikelihood_im_sim_biv_prod_dir_rho_0p9}]{%
+       \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_to_400_rho_0p9}}
+    \caption{Função log-verossimilhança para a pdf a bivariada produto de intensidades .} \label{fig:loglikelihood_im_sim_biv_prod_dir}   
+\end{figure}
+\subsubsection{Estimativa para o parâmetros ($\rho$)}\label{sec:pdf_uni_prod_int_apl_sim_param_rho}
+O mesmo comportamento é observado quando fixamos o número de visadas e estimamos o parâmetro $\rho$, isto é, o uso da função densidade magnitude do produtos com o número de visadas fixo não é adequado para gerar a função log-verossimilhança, as mesmas tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado do coeficiente $\rho$ gera uma função \eqref{eq:TotalLogLikelihood_prod_mag_L_fixo} com muita oscilação, degenerando o ponto ótimo no processo de otimização.
+
+O método estimativa de máxima verossimilhança(MLE) usa a pdf \eqref{eq:pdf_mag_prod} com visadas fixas, para encotrar a função log-verossimilhança \eqref{eq:eq_log_vero_mag_prod_red_L_fixo}, para qual realizamos a estimativa do parâmetro $\rho$ usando o método de otimização BFGS.
+
+A figura \eqref{fig:pdf_prod_mag_flat_rho} mostra a função log-verossimilhança para distribuição univariada produto de magnitudes com radial(linha) 35 fixa, na radial escolhemos arbitrariamente o pixel igual a 150, e definimos o número de visadas(L) em 1,2, 4, e 8 para construir as funções. Notamos nas figuras que a função é plana evidenciando a dificuldade para encontrar o $\rho$ máximo. Esse fato tem consequência na construção da função de log-verossimilhança total \eqref{eq:TotalLogLikelihood_prod_mag_L_fixo}  apresentando forte oscilação e dificultando encontrar evidências de bordas para a distribuição produto de intensidades. 
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Função $\ell$ para a amostra dos pixeis 1 até 150 \label{fig:pdf_prod_mag_flat_rho:1a}]{%
+       \includegraphics[width=0.50\linewidth]{log_like_prod_mag_L_fixo_por_1_to_150_l_35}}
+     \subfloat[Função $\ell$ para a amostra dos pixeis 150 até 400 \label{fig:pdf_prod_mag_flat_rho:1b}]{%
+       \includegraphics[width=0.50\linewidth]{log_like_prod_mag_L_fixo_por_150_to_400_l_35}}
+     \caption{Função log-verossimilhança para distribuição produto de intensidades com diferentes L fixos}
+     \label{fig:pdf_prod_mag_flat_rho}
+   \end{figure}	
+
+Podemos concluir que o uso da função densidade magnitude do produtos tanto com estimativas de dois parâmetros como estimativa de um parâmetro não é adequado para gerar a função log-verossimilhança. Nesse ponto sugerimos uma melhor investigação deste tipo de funções para contornar esse problema, a referência~\cite{fcs} relata problemas semelhantes.
 
 \subsubsection{Distribuição univariada span com L fixo}    
     

@@ -1,7 +1,9 @@
 # 
 # makefile para a compilação do documento
 #
-BASE_NAME = apres_ibmec_2019_02
+#BASE_NAME = apres_work_mack_2019
+#BASE_NAME = apres_ibmec_2019_02
+BASE_NAME = apres_ibmec_2020_01
 
 LATEX     = xelatex
 BIBTEX    = bibtex

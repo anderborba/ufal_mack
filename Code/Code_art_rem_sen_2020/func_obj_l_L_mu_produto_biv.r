@@ -22,8 +22,8 @@ func_obj_l_L_mu_produto_biv <- function(param){
   #
   aux1  <- log(1 - rhoe^2)
   aux2  <- (L - 1) * log(rhoe)
-  aux3  <- 0.5 * L * log(s1e)
-  aux4  <- 0.5 * L * log(s2e)
+  aux3  <- 0.5 * (L + 1) * log(s1e)
+  aux4  <- 0.5 * (L + 1) * log(s2e)
   aux5  <- (L / (s1e * (1 - rhoe^2))) * soma1 / j
   aux6  <- (L / (s2e * (1 - rhoe^2))) * soma2 / j
   aux7  <- soma3 / j
@@ -37,8 +37,8 @@ func_obj_l_L_mu_produto_biv <- function(param){
   #
   aux1  <- log(1 - rhod^2)
   aux2  <- (L - 1) * log(rhod)
-  aux3  <- 0.5 * L * log(s1d)
-  aux4  <- 0.5 * L * log(s2d)
+  aux3  <- 0.5 * (L + 1) * log(s1d)
+  aux4  <- 0.5 * (L + 1) * log(s2d)
   aux5  <- (L / (s1d * (1 - rhod^2))) * soma1 / (N - j)
   aux6 <- (L / (s2d * (1 - rhod^2))) * soma2 / (N - j)
   aux7 <- soma3 / (N - j)
