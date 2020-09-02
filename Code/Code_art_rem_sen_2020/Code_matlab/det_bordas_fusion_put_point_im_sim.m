@@ -11,7 +11,7 @@ ev_hh_hv_razao = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_hh_hv_razao_par
 ev_hh_vv_razao = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_hh_vv_razao_param_tau_rho_14_pixel.txt');
 ev_hv_vv_razao = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_hv_vv_razao_param_tau_rho_14_pixel.txt');
 ev_span = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_span_param_mu_14_pixel.txt');
-
+ev_span_media = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_span_media_mu_14_pixel.txt');
 %ev_hh_hv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_2.txt'); 
 %ev_hh_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_3.txt'); 
 %ev_hv_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_2_3.txt'); 
@@ -29,13 +29,14 @@ ev(i, 4) = round(ev_hh_hv_razao(i, 3));
 ev(i, 5) = round(ev_hh_vv_razao(i, 3));
 ev(i, 6) = round(ev_hv_vv_razao(i, 3));
 ev(i, 7) = round(ev_span(i, 3));
+ev(i, 8) = round(ev_span_media(i, 3));
 %ev(i, 4) = round(ev_hh_hv_pm(i, 3));
 %ev(i, 5) = round(ev_hh_vv_pm(i, 3));
 %ev(i, 6) = round(ev_hv_vv_pm(i, 3));
 %ev(i, 5) = round(ev_hh_vv(i, 3));
 %ev(i, 6) = round(ev_hv_vv(i, 3));
 end
-nc = 7;
+nc = 8;
 m = 400;
 n = 400;
 for i = 1: nc
@@ -59,7 +60,7 @@ imshow(II)
 % plot com fusion
 %[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-[xpixel, ypixel, valor] = find(IM(:, :, 6) > 0);
+[xpixel, ypixel, valor] = find(IM(:, :, 8) > 0);
 %
 axis on
 hold on;

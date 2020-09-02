@@ -1881,15 +1881,14 @@ $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E}),
 $$ 
 onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-\subsection{Distribuição univariada para o span}
-
-A referência~\cite{fwzjn} mostra que podemos usar uma distribuição gaussiana para modelar o span, para isso vamos definir S como sendo o span.   
-
-Considerando a função distribuição de densidade univariada gaussiana 
-\begin{equation}\label{!!!!!!!!!!!!!}
+\subsection{Distribuição univariada para o span em meio recíproco}
+A referência~\cite{fwzjn} mostra que podemos usar uma distribuição gaussiana para modelar o \textit{span}, equação~\eqref{span_geral}, considerando a função distribuição de densidade univariada gaussiana 
+\begin{equation}\label{eq:gauss_span}
 	f_{S}(s;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-L\frac{s}{\mu}\right\}, \\
 \end{equation}
-onde, $\mu>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{!!!!!!!!!!!!!}  e realizando algumas manipulações algébricas teremos:
+onde, $\mu>0$, $L>0$, e $s$ é elemento do \textit{span}(S).
+
+Aplicando o logaritmo natural na equação~\eqref{eq:gauss_span}  e realizando operações algébricas teremos:
 \begin{equation}\nonumber
 \begin{array}{ccl}
 	\ln f_{S}(s;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-L\frac{s}{\mu}\right\}\right), \\
@@ -1897,19 +1896,19 @@ onde, $\mu>0$ e $L>0$. Aplicando o logaritmo natural na equação~\eqref{!!!!!!!
 %	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s,\\	                                         
 \end{array}
 \end{equation}
-resultanto na função,
-\begin{equation}\label{!!!!!!!!!!!!!!!!}
+resultanto na função, 
+\begin{equation}\label{eq:func_log_gauss_span}
 	\ln f_{S}(s;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s.
 \end{equation}
 
 A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm s = (s_1,\dots,s_n)$, 
 \begin{equation}\nonumber
 \begin{split}
-  \ell(\bm s;\mu, L)=\ln\prod_{k=1}^{n}f_Z(s_k;\mu,L)\\
-  \ell(\bm s;\mu, L)=\sum_{k=1}^{n}\ln f_Z(s_k;\mu,L),
+  \ell(\bm s;\mu, L)=\ln\prod_{k=1}^{n}f_S(s_k;\mu,L)\\
+  \ell(\bm s;\mu, L)=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L),
  \end{split}
  \end{equation}
-usando a função~\eqref{func_log_univ_gaussiana} teremos,
+usando a função~\eqref{eq:func_log_gauss_span} teremos,
 \begin{equation}\nonumber
 \begin{split}
     \ell(\bm s;\mu, L)&=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L)\\
@@ -1920,7 +1919,7 @@ usando a função~\eqref{func_log_univ_gaussiana} teremos,
  \end{split}
  \end{equation}
 
-Definimos a equação log-verossimilhança para a PDF univariada~\eqref{func_log_univ_gaussiana}.
+Definimos a equação log-verossimilhança para a PDF univariada~\eqref{eq:gauss_span}
 \begin{equation}\nonumber
     \ell(\bm s;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k,\\                
  \end{equation}
@@ -1932,14 +1931,7 @@ n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
 \label{eq:LogLikelihoodGamma_red_span}
 \end{equation}
 
-Considerando o número de visadas L fixo podemos reduzir a equação~ para a seguinte forma
-\begin{equation}
-\ell(\bm s;\mu) = 
--n\ln \mu -\frac{1}{\mu}\sum_{k=1}^{n} s_k.
-\label{eq:!!!!!!!!!!!}
-\end{equation}
-
-Vamos obter $(\widehat L, \widehat \mu)$, o estimador de máxima verossimilhança (MLE) de $(L, \mu)$ baseado $\bm s$, por maximizar~\eqref{eq:LogLikelihoodGamma_red_span} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
+Vamos obter $(\widehat L, \widehat \mu)$, o estimador de máxima verossimilhança (MLE) de $(L, \mu)$ baseado na amostra $\bm s$, por maximizar~\eqref{eq:LogLikelihoodGamma_red_span} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
 
 O função é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm s_\text{I}$ e $\bm s_\text{E}$. Cada faixa de dados $\bm s = (s_1,s_2,\dots,s_n)$ é particionada em duas amostras disjuntas na posição $j$:  
 $$
@@ -1949,11 +1941,10 @@ $$
 assumimos dois diferentes modelos para cada partição:
 $\bm S_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
 $\bm S_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-Vamos estimar $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ com $\bm s_\text{I}$ e $\bm s_\text{E}$, respectivamente, maximizando~\eqref{eq:LogLikelihoodGamma_red}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
-
+Vamos estimar $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ com $\bm s_\text{I}$ e $\bm s_\text{E}$, respectivamente, maximizando~\eqref{eq:LogLikelihoodGamma_red_span}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
 
 A log-verossimilhança no ponto $j$ é, então
-\begin{equation}\label{eq:TotalLogLikelihood!!!!!!!!!!!}
+\begin{equation}\label{eq:TotalLogLikelihood_span}
 \begin{split}
 %\ell(j&;\bm s_\text{I},\bm s_\text{E}) = \\
 \ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
@@ -1964,22 +1955,26 @@ A log-verossimilhança no ponto $j$ é, então
 \raisetag{2.2em}
 \end{split}
 \end{equation}
+
 Vamos aplicar o método GenSA para encontrar
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
 $$ 
-onde $\min_s$ é o tamanho mínimo da amostra definido por $14$. Obeserve que foi estimado a funçao usando dois parâmetros. 
+onde $\min_s$ é o coeficiente de folga definido empiricamente.
 
-Desta maneira, vamos obter uma estimativa para a borda em cada canal de intensidade.
-Note que esse método pode ser estendido e/ou modificado para lidar com qualquer tipo de dados.
-
-Podemos assumir o número de visadas $L$ conhecido a priori e otimizar a função $ \ell(\bm s;\mu, L)$ na variável $\mu$, assumindo dois modelos diferentes para cada partição:
-$\bm S_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
-$\bm S_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-Estimando $\mu_\text{I}$ e $\mu_\text{E}$ com as amostras $\bm s_\text{I}$ e $\bm s_\text{E}$ maximizando~\eqref{eq:LogLikelihoodGamma_red} para cada elemento das amostras. Desta forma teremos os parâmetros $(\widehat{\mu}_\text{I}, L_\text{I})$ e $(\widehat{\mu}_\text{E}, L_\text{E})$ conhacidos.
+Podemos assumir o número de visadas L conhecido a priori, e otimizar a função
+\begin{equation}
+\ell(\bm s;\mu) = 
+-n\ln \mu -\frac{1}{\mu}\sum_{k=1}^{n} s_k.
+\label{eq:LogLikelihoodGamma_red_span_L_fixo}
+\end{equation}
+na variável $\mu$, assumindo dois modelos diferentes para cada partição,
+$\bm S_\text{I} \sim \Gamma(\mu_\text{I})$, e
+$\bm S_\text{E} \sim \Gamma(\mu_\text{E})$.
+Assim, encontramos estimativas~$(\widehat{\mu}_\text{I})$~e~$(\widehat{\mu}_\text{E})$~para os parâmetros~$\mu_\text{I}$~e~$\mu_\text{E}$~com as amostras~$\bm S_\text{I}$~e~$\bm S_\text{E}$.
 
 A log-verossimilhança no ponto $j$ é, então
-\begin{equation}\label{eq:TotalLogLikelihood_L_fixo!!!!!!!}
+\begin{equation}\label{eq:TotalLogLikelihood_L_fixo_span}
 \begin{split}
 \ell(j&;\widehat{\mu}_I,\widehat{\mu}_E)= 
  -j\ln (\widehat{\mu}_\text{I}) 
@@ -1987,8 +1982,9 @@ A log-verossimilhança no ponto $j$ é, então
 - \frac{1}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
 \end{split}
 \end{equation}
-Vamos aplicar o método GenSA para encontrar
+
+O método GenSA é aplicado para encontrar
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I,\widehat{\mu}_E),
 $$ 
-onde $\min_s$ é o tamanho mínimo da amostra definido por $14$. Obeserve que foi estimado a funçao usando um parâmetros.
+onde $\min_s$ é a folga definida empiricamente.

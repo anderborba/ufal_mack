@@ -21,7 +21,7 @@ mat2 = np.loadtxt(f2)
 dim = mat1.shape[0]
 z1 = np.zeros(dim)
 z2 = np.zeros(dim)
-nr = 49
+nr = 34
 for i in range(dim):
     z1[i] = mat1[nr][i]
     z2[i] = mat2[nr][i]
@@ -31,14 +31,13 @@ x = np.arange(0.05, 5, 0.01)
 y = np.arange(0.05, 5, 0.01)
 n = x.shape[0]
 m = y.shape[0]
-level = 49
-nli = 1   
-nlf = level
+level = 149
+nli = level + 1  
+nlf = dim
 s = (n, m)
 fz = np.zeros(s)
 L = 4 
-rho = 0.01
-#rho = 4.057504e-07
+rho = 0.9
 for i in range(n):
     for j in range(m):
         soma1 = 0
@@ -47,11 +46,6 @@ for i in range(n):
         soma1 = sum(z1[nli:nlf]) 
         soma2 = sum(z2[nli:nlf]) 
         soma3 = sum(np.log(kv(L - 1, 2 * L * np.sqrt((z1[nli:nlf] * z2[nli:nlf]) / (x[i] * y[j])) * rho / (1 - rho**2))))
-        #for k in range(nli - 1, nlf):
-            #soma1 = soma1 + z1[k] 
-            #soma2 = soma2 + z2[k]
-            #aux = 2 * L * np.sqrt((z1[k] * z2[k]) / (x[i] * y[j])) * rho / (1 - rho**2)
-            #soma3 = soma3 + np.log(kv(L-1, aux))
         aux1  = np.log(1 - rho**2)
         aux2  = (L - 1) * np.log(rho)
         aux3  = 0.5 * (L + 1) * np.log(x[i])

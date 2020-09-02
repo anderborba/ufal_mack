@@ -112,7 +112,7 @@ O método da estimativa de máxima verossimilhança (MLE) foi aplicado nas linha
      \subfloat[Evidências no canal $\text{vv}$ \label{evidencias_hh_hv_vv_gamf_mu_estimado:c}]{%
        \includegraphics[width=0.35\linewidth]{im_sim_gamf_vv_evid_media_mu_14_pixel}
      }
-    \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado.}
+    \caption{Evidências de bordas para os três canais de intensidade com $\mu$ estimado usando a média.}
      \label{evidencias_hh_hv_vv_gamf} 
    \end{figure*}
 %
@@ -149,7 +149,7 @@ A figura \eqref{fig:pdf_prod_mag_flat_rho} mostra a função log-verossimilhanç
    \end{figure}	
 
 Podemos concluir que o uso da função densidade magnitude do produtos tanto com estimativas de dois parâmetros como estimativa de um parâmetro não é adequado para gerar a função log-verossimilhança. Nesse ponto sugerimos uma melhor investigação deste tipo de funções para contornar esse problema, a referência~\cite{fcs} relata problemas semelhantes.  
-\subsubsection{Distribuição univariada razão de intensidades com L fixo}
+\subsection{Distribuição univariada razão de intensidades com L fixo}
 As figuras~\eqref{fig:l_uni_razao_rho_tau}\subref{fig:l_uni_razao_rho_tau:1a},~\eqref{fig:l_uni_razao_rho_tau}\subref{fig:l_uni_razao_rho_tau:1b},~\eqref{fig:l_uni_razao_rho_tau}\subref{fig:l_uni_razao_rho_tau:1c} mostram os gráficos das funções \eqref{eq:TotalLogLikelihood_razao_L_fixo} indicando as evidências de bordas nos canais considerados, os quais foram gerados com a estimativa dos parâmetros $(\rho,\tau)$, fixando arbitrariamente a linha 150 da imagem simulada, e definindo o coeficiente de folga para as extremidades igual a 14 pixeis. A característica comum dessas funções é não ser diferenciáveis, dificultando o uso de métodos de otimização que calculam derivada. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~\cite{xgsh}, adequado para funções não diferenciáveis.
 \begin{figure}[hbt]
 	\centering
@@ -205,7 +205,7 @@ com
      \label{fig:l_uni_razao_param_rho_tau_1_to_150}
    \end{figure}	
 \clearpage
-\subsubsection{Distribuição bivariada produto de intensidades com L fixo}
+\subsection{Distribuição bivariada produto de intensidades com L fixo}
 Observamos que o uso da função densidade de probabilidade bivariada para intensidades mostrou que não é adequada para gerar a função log-verossimilhança, as mesmas tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado dos parâmetros geram uma função \eqref{eq:TotalLogLikelihood_biv_prod} com oscilação degenerando o ponto ótimo no processo de otimização. Nesse processo usamos $\text{L}=4$ fixado a priori.
 \subsubsection{Estimativas para os parâmetros ($\Sigma_{11}$,$\Sigma_{22}$)}\label{sec:pdf_biv_prod_int_apl_sim_param_s1_s2}
 O método estimativa de máxima verossimilhança(MLE) usa a pdf \eqref{func_biv_produto_inten_r1_r2} para encotrar a função log-verossimilhança \eqref{eq:log_vero_biv_prod_red_L_fixo}, para qual realizamos as estimativas dos parâmetros ($\rho$, $\Sigma_{11}$, $\Sigma_{22}$) usando o método de otimização BFGS.
@@ -223,7 +223,7 @@ Notamos que a forma das funções \eqref{eq:TotalLogLikelihood_biv_prod} dificul
 \end{figure}
 \begin{figure}[hbt]
    \centering
-     \subfloat[Amostra a direita do do produto bivariada 150 para $\rho=0.1$\label{fig:loglikelihood_im_sim_biv_prod_dir_rho_0p1}]{%
+     \subfloat[Amostra a direita do produto bivariada 150 para $\rho=0.1$\label{fig:loglikelihood_im_sim_biv_prod_dir_rho_0p1}]{%
        \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_to_400_rho_0p1}}
        \subfloat[Amostra a direita do pixel 150 para $\rho=0.5$\label{fig:loglikelihood_im_sim_biv_prod_dir_rho_0p5}]{%
        \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_to_400_rho_0p5}}\\
@@ -231,46 +231,33 @@ Notamos que a forma das funções \eqref{eq:TotalLogLikelihood_biv_prod} dificul
        \includegraphics[width=0.50\textwidth]{fig_pdf_biv_prod_l_4_fixo_r_35_j_150_to_400_rho_0p9}}
     \caption{Função log-verossimilhança para a pdf a bivariada produto de intensidades .} \label{fig:loglikelihood_im_sim_biv_prod_dir}   
 \end{figure}
-\subsubsection{Estimativa para o parâmetros ($\rho$)}\label{sec:pdf_uni_prod_int_apl_sim_param_rho}
-O mesmo comportamento é observado quando fixamos o número de visadas e estimamos o parâmetro $\rho$, isto é, o uso da função densidade magnitude do produtos com o número de visadas fixo não é adequado para gerar a função log-verossimilhança, as mesmas tem características de serem planas dificultando o cálculo do valor máximo. O cálculo inadequado do coeficiente $\rho$ gera uma função \eqref{eq:TotalLogLikelihood_prod_mag_L_fixo} com muita oscilação, degenerando o ponto ótimo no processo de otimização.
+%
+\subsection{Distribuição univariada span com L fixo}        
 
-O método estimativa de máxima verossimilhança(MLE) usa a pdf \eqref{eq:pdf_mag_prod} com visadas fixas, para encotrar a função log-verossimilhança \eqref{eq:eq_log_vero_mag_prod_red_L_fixo}, para qual realizamos a estimativa do parâmetro $\rho$ usando o método de otimização BFGS.
-
-A figura \eqref{fig:pdf_prod_mag_flat_rho} mostra a função log-verossimilhança para distribuição univariada produto de magnitudes com radial(linha) 35 fixa, na radial escolhemos arbitrariamente o pixel igual a 150, e definimos o número de visadas(L) em 1,2, 4, e 8 para construir as funções. Notamos nas figuras que a função é plana evidenciando a dificuldade para encontrar o $\rho$ máximo. Esse fato tem consequência na construção da função de log-verossimilhança total \eqref{eq:TotalLogLikelihood_prod_mag_L_fixo}  apresentando forte oscilação e dificultando encontrar evidências de bordas para a distribuição produto de intensidades. 
+As figuras~\eqref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1a},~\eqref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1b}, mostram os gráficos das funções \eqref{eq:TotalLogLikelihood_L_fixo_span} indicando as evidências de bordas. Para gerar o primeiro gráfico usamos a média para da amostra para estimar os parâmetros $\mu$ utilizados, para gerar o segundo gráfico usamos o programa BFGS para estimar o parâmetro $\mu$. Fixamos arbitrariamente a linha 150 da imagem simulada, e definindo o coeficiente de folga para as extremidades igual a 14 pixeis. A característica comum dessas funções é não ser diferenciáveis, dificultando o uso de métodos de otimização que calculam derivada. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~\cite{xgsh}, adequado para funções não diferenciáveis.
 \begin{figure}[hbt]
 	\centering
-     \subfloat[Função $\ell$ para a amostra dos pixeis 1 até 150 \label{fig:pdf_prod_mag_flat_rho:1a}]{%
-       \includegraphics[width=0.50\linewidth]{log_like_prod_mag_L_fixo_por_1_to_150_l_35}}
-     \subfloat[Função $\ell$ para a amostra dos pixeis 150 até 400 \label{fig:pdf_prod_mag_flat_rho:1b}]{%
-       \includegraphics[width=0.50\linewidth]{log_like_prod_mag_L_fixo_por_150_to_400_l_35}}
-     \caption{Função log-verossimilhança para distribuição produto de intensidades com diferentes L fixos}
-     \label{fig:pdf_prod_mag_flat_rho}
+     \subfloat[Canal $\text{hh}$]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_span_gamf_2017_sigma_soma_mu_L_fixo_linha_150}\label{fig:l_span_uni_gamma_param_mu_l:1a}}
+     \subfloat[Canal $\text{hv}$]{%
+       \includegraphics[width=0.32\linewidth]{grafico_l_span_gamf_2017_sigma_param_mu_L_fixo_linha_150}\label{fig:l_span_uni_gamma_param_mu_l:1b}}
+     \caption{Funções log-verossimilhanças com soma e estimativa de parâmetros}
+     \label{fig:l_span_uni_gamma_param_mu_l}
    \end{figure}	
-
-Podemos concluir que o uso da função densidade magnitude do produtos tanto com estimativas de dois parâmetros como estimativa de um parâmetro não é adequado para gerar a função log-verossimilhança. Nesse ponto sugerimos uma melhor investigação deste tipo de funções para contornar esse problema, a referência~\cite{fcs} relata problemas semelhantes.
-
-\subsubsection{Distribuição univariada span com L fixo}    
-    
+ 
+O método estimativa de máxima verossimilhança (MLE) foi aplicado para cada linha da imagem simulada com duas amostras, e as evidências de bordas para as duas técnicas de estimativa de parâmetros estão mostradas na figura \eqref{fig:evidencias_span_gamf}.  
 \begin{figure}[hbt]
 	\centering
-	\includegraphics[width=.7\linewidth]{im_sim_gamf_span_param_mu_14_pixel}%
-	\caption{Evidências de bordas para o span}
-\label{fig:evidencias_span_gamf}
-\end{figure}
-    
-    
-    
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=.7\linewidth]{im_sim_gamf_span_media_mu_14_pixel}%
-	\caption{Evidências de bordas para o span (media estimada)}
-\label{fig:evidencias_span_gamf}
-\end{figure}
-
-\clearpage
+     \subfloat[Estimativa de $\mu$ usando média]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_span_media_mu_14_pixel}\label{fig:evidencias_span_gamf:a}}
+     \subfloat[Estimativa de $\mu$ usando o BFGS]{%
+       \includegraphics[width=0.5\linewidth]{im_sim_gamf_span_param_mu_14_pixel}\label{fig:evidencias_span_gamf:b}}
+     \caption{Funções log-verossimilhanças com soma e estimativa de parâmetros}
+     \label{fig:evidencias_span_gamf}
+   \end{figure}	
+%
+\pagebreak
 \section{Aplicação em imagem de adquiridas por sensores PolSAR}
-
-
 A imagem da região de Flevoland de dimensão $750\times 1024$ pixeis é uma imagem PolSAR capturada pelo sensor AIRSAR com banda-L. Usamos a imagem capturando várias sub-regiões para realizar teste numéricos. A imagem capturada no sensor é mostrada na figura~\ref{flevoland_4_look} 
 \begin{figure}[hbt]
 	\centering

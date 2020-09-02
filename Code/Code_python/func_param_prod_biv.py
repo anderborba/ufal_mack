@@ -38,7 +38,7 @@ nlf = level
 s = (n, m)
 fz = np.zeros(s)
 L = 4 
-rho = 0.01
+rho = 0.1
 #rho = 4.057504e-07
 for i in range(n):
     for j in range(m):

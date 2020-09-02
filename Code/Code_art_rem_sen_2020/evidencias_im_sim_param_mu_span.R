@@ -43,7 +43,8 @@ mat3 <- matrix(mat3, ncol = r, byrow = TRUE)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
-for (k in 1 : nr){# k is radial lines
+#for (k in 1 : nr){# k is radial lines
+for (k in 150 : 150){# k is radial lines
   print(k)
   N <- r
   z1 <- rep(0, N)
@@ -53,7 +54,7 @@ for (k in 1 : nr){# k is radial lines
   z3 <- rep(0, N)
   z3 <- mat1[k, 1: N]
   z  <- rep(0, N)
-  z  <- z1 + z2 + z3
+  z  <- z1 + 2 * z2 + z3
   zaux1 <- rep(0, N)
   conta = 0
   for (i in 1 : N){

@@ -6,7 +6,7 @@
 \usepackage[boxed]{algorithm2e}
 
 \usepackage{graphicx}
-\graphicspath{{../../Dissertacao/figuras/}}
+%\graphicspath{{../../Dissertacao/figuras/}}
 
 \usepackage{textcomp}
 \usepackage{xcolor}
@@ -27,10 +27,12 @@
 \begin{document}
 \title{Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images}
 \author{Anderson A.\ de Borba, Maurício Marengoni, and Alejandro C.\ Frery,~\IEEEmembership{Senior Member,~IEEE}%
-\thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.borba@ibmec.edu.br}
+\thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.aborba@professores.ibmec.edu.br}
 \thanks{M.\ Marengoni is with the Dept.\ Engenharia Elétrica e Computação,
 UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
-\thanks{A.\ C.\ Frery is with the Laboratório de Computação Científica e Análise Numérica (LaCCAN), Universidade Federal de Alagoas (UFAL), Maceió, Brazil. acfrery@laccan.ufal.br}}
+\thanks{A.\ C.\ Frery is with the School of Mathematics and Statistics,
+Victoria University of Wellington, 6140, New Zealand. alejandro.frery@vuw.ac.nz}}
+
 
 \maketitle
 
@@ -65,7 +67,7 @@ the deep learning approach~\cite{ztmxzxf} applied to segmentation and classifica
 statistical techniques~\cite{gmbf, fbgm, nhfc} applied in edge detection in PolSAR and SAR imagery.
 
 This article follows the statistical modeling approach using the techniques described in~\cite{gmbf, fbgm, nhfc} to find edge evidences, followed by fusion processes~\cite{mit, bmf_2019}. 
-%Our approach does not attempt to reduce the speckle, but to extract information from its statistical properties.
+
 
 Instead of handling fully polarimetric data, we treat each intensity channel separately, obtain evidence of edges, and then produce a single estimator of the edge position.
 With this, we quantify the contribution each channel provides to the solution of the problem.
@@ -90,10 +92,6 @@ Principal Component Analysis, PCA~\cite{n_r,mit},
 ROC statistics~\cite{gs},
 Multi-Resolution Stationary Wavelet Transform, MR-SWT~\cite{n_r, jjly}, and 
 Multi-Resolution Singular Value Decomposition, MR-SVD~\cite{naidu}.
-
-%It aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods.
-
-%The objective is to understand and quantify the importance of the information provided by each channel to improve the edge detection process.
 
 The article is structured as follows.
 Section~\ref{sec_02} describes the models.
@@ -128,13 +126,13 @@ where $L>0$, and
 $\mu>0$ is the mean.
 The log-likelihood of the sample $\bm z = (z_1,\dots,z_n)$ under this model is
 \begin{equation}
-\mathcal L( L,\mu; \bm z) = 
+\mathcal L(\mu, L; \bm z) = 
 n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 +L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
 \label{eq:LogLikelihoodGamma}
 \end{equation}
 
-We obtain $\big(\widehat L, \widehat \mu\big)$, the maximum likelihood estimator (MLE) of $(L, \mu)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method~\cite{ht}.
+We obtain $\big(\widehat \mu, \widehat L\big)$, the maximum likelihood estimator (MLE) of $(\mu, L)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method~\cite{ht}.
 We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
 
 \section{Edge Detection on a Single Data Strip}\label{sec_03}
@@ -172,7 +170,7 @@ and the estimate of the edge position on the ray is the coordinate $\widehat\jma
 
 Algorithm~\ref{Algo:GambiniEdgeDetection} is the pseudocode of the basic edge detection with the Gambini Algorithm.
 We found that one hundred rays is a good compromise between spatial continuity and computational load.
-Also, $\min_s$ is the minimum sample size.% that we set to $14$.
+Also, $\min_s$ is the minimum sample size.
 
 \begin{algorithm}[hbt]
 \SetAlgoLined
@@ -198,17 +196,12 @@ Also, $\min_s$ is the minimum sample size.% that we set to $14$.
 
 In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Generalized Simulated Annealing (GenSA~\cite{xgsh}).
 
-%Notice that this approach can be extended and/or modified to cope with any kind of data.
-%We will see ways of fusing these evidences in the next section.
 
 \section{Fusion of Evidences}\label{sec_04}
 
 Assume we have $n_c$ binary images $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$ in which~$1$ denotes an estimate of edge and $0$ otherwise.
 They have common size $m\times n$; denote $\ell=mn$.
 These images will be fused to obtain the binary image $\bm I_F$.
-
-%Denote in the following $\widehat{\bm\jmath}_c$ the binary image with same support as the input data $c$ ($m$ lines and $n$ columns; denote $\ell=mn$), where $1$ denotes an estimate of edge and $0$ otherwise.
-%We have $n_c$ of these image to fuse, and the result of the fusion will be denoted $\bm I_F$.
 
 We compare the results of six fusion techniques:
 simple average, 
@@ -218,60 +211,40 @@ ROC statistics,
 multi-resolution stationary wavelet transform (MR-SWT), and
 multi-resolution singular value decomposition (MR-SVD).
 
-%The estimated evidence image and the fusion image are defined to perform the fusion techniques. The first can be defined as $\widehat\jmath_c(x,y)$, where $x$ and $y$, indicate the range of pixels in an image equal in size to the data image chosen for analysis. The image is binary, where the value one is put on the pixel estimated as edge evidence by the MLE method, and zero on the other pixels, for each channel. The second called $\text{I}_F(x,y)$ is the result of the fusion method. 
-
-%Refs.~\cite{bmf_2019,n_r,mit,gs,fawcett} provide details about the three first.
-%We describe the two latter below.
-
 \subsection{Simple Average}
 The simple average fusion method proposes the arithmetic mean of the edge evidence in each of the $n_c$ channels:
 $\bm I_F(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$,
 where $1\leq x\leq m$ indexes the rows, and $1\leq y\leq n$ the columns of the image.
-%where $\widehat\jmath_c$ denotes the estimate obtained in channel $c$.
 
 \subsection{Multi-Resolution Discrete Wavelet -- MR-DWT} 
 This section is based on~\cite{n_r}.
-%We apply DWT filters separately in the vertical and horizontal directions of each image $\bm{\widehat\jmath}_c$, then down-sampled by a factor of two. 
-%In this way, each image is filtered by the low pass filter $\text{L}$ in the vertical direction and the high pass filter $\text{H}$ in the horizontal direction, then down-sampled to create the matrices coefficients  $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
 We apply DWT filters on each binary image $\bm{\widehat\jmath}_c$: a low-pass filter $\bm L$ in the vertical direction, and a high-pass filter $\bm H$ in the horizontal direction, then both are down-sampled to create the coefficient matrices $\bm{\widehat\jmath}_{c\text{L}}$ and $\bm{\widehat\jmath}_{c\text{H}}$.
 These operations are repeated on the coefficient matrices, leading to $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$.
 We, thus, use two resolution levels.
 
-%%% ACF Detalhar as operações usando a notação acima: a média é pixel-a-pixel? quais bandas são promediadas?
-%%% AAB A média é pixel a pixel. Todas as bandas são usadas na média. Vou tentar deixar claro no texto. Creio que respondi no item 2 abaixo.
-%%% AAB Eu entendo que investigar outros tipo de ponderação (suprimir canais, por exemplo) pode ser realizado. Ainda não consegui fazer esses testes.
-%%% AAB O nivel de resolução que uso é 1, esse é outro ponto de investigação, seria interessante aumentar esse nível e ver o que acontece na fusão. Tb não consegui realizar esses teste. Inseri no item 1) abaixo a info sobre o nível de resolução.
 The DWT fusion method has the following steps:
 \begin{enumerate}
 \item Calculate the DWT decomposition $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, and $\bm{\widehat\jmath}_{c\text{HH}}$, for each channel.
 \item Compute $\bm{\bar\jmath}_{c\text{HH}}$, the pixel-wise mean of all $\bm{\widehat\jmath}_{c\text{HH}}$ decompositions.
 \item Find the pixel-wise maximum of $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$: $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
-%%% AAB(03/03/2020) tenho uma dúvida, o máximo(pixel a pixel) deve ser calculada entre os operadores da decomposiçcao em cada canal. Não seria bom deixar claro como no item anterior?
 \item The result of the fusion $I_F$ is the inverse DWT transform of the coefficient matrices $\bm{\bar\jmath}_{c\text{HH}}$, $\bm{\bar\jmath}_{c\text{LL}}$, $\bm{\bar\jmath}_{c\text{LH}}$, and $\bm{\bar\jmath}_{c\text{HL}}$.
 \end{enumerate}
-%%% ACF Aqui dizer que é a Inverse DWT do que
+
 \subsection{Principal Component Analysis -- PCA}
 
-%%% ACF Revisar e corrigir a notação; usar notação matemática sempre que necessário
 This section is based on~\cite{n_r,mit}.
 The method is comprised of the following steps:
 \begin{enumerate}
 \item Stack the binary images $\bm{\widehat\jmath}_c$ in column vectors to obtain the matrix $\bm X_{\ell\times n_c}$.
-%\item Calculate the average of the elements of these columns, generating a vector of dimension of $1\times nc$.
-%%% ACF A matriz de covariância é invariante a traslações. Precisa deste passo?
-%\item subtract the average of each column from $\text Y$, resulting in a matrix of the same dimension of $\text X$; 
 \item Calculate the covariance matrix $\bm C_{n_c\times n_c}$ of $\bm X_{\ell\times n_c}$.
-\item Compute the matrices of eigenvalues ($\bm\Lambda$) and eigenvectors ($\bm V$) of the covariance matrix, sorted in decreasing order by the eigenvalues. %The matrices generated by the eigenvalues, on the principal diagonal, and the eigenvectors placed in columns;
-%%% ACF O que é V_c?
+\item Compute the matrices of eigenvalues ($\bm\Lambda$) and eigenvectors ($\bm V$) of the covariance matrix, sorted in decreasing order by the eigenvalues. 
 \item Compute the vector $\bm P=(P(1),\dots,P(n_c))=(\sum_{c=1}^{n_c} V(c))^{-1}{\bm V}$, where $\bm V$ is eigenvector associated with the highest eigenvalue of $\bm C_{n_c\times n_c}$; notice that $\sum_{c=1}^{n_c} P(c)=1$.
 \item Fuse $\bm I_F(x,y)=\sum_{c=1}^{n_c} P(c)\bm{\widehat\jmath}_c(x,y)$.
 \end{enumerate}
 
 \subsection{ROC Statistics}
 The ROC method was proposed and described on~\cite{gs}:
-\begin{enumerate}
-%\item the evidence of edges in each channels $\bm{\widehat\jmath}_c$, with $c=1,\dots,nc$ in a binary way;
-%%% AAB(03/03/2020) Aqui fico em dúvida se coloco "matrices" ou  "binary images".  
+\begin{enumerate}  
 \item Add the binary images $\bm{\widehat\jmath}_c$ to produce the frequency matrix ($\bm V$).
 \item Use thresholds ranging from $t=1,\dots,n_c$ on $\bm V$ to generate matrices $\bm M_t$.
 \item Compare each $\bm M_t$ with all $\bm{\widehat\jmath}_c$, find the confusion matrix to generate the ROC curve. 
@@ -283,38 +256,24 @@ The optimal threshold corresponds to the point of the ROC curve closest (in the 
 This section is based on~\cite{n_r, jjly}. The difference between MR-DWT and MR-SWT method is the replacement of the 
 Discrete Wavelet Transform (DWT) by the
 Stationary Wavelet Transform SWT. 
-%%% ACF Esclarecer quais são estes filtros
 
 \subsection{Multi-Resolution Singular Value Decomposition -- MR-SVD}
 
 MR-SVD Fusion~\cite{naidu} works similarly to MR-DWT. 
-%The difference consists in changing the DWT filters by the SVD filters. 
 The MR-SVD fusion method can be summarized as follows:
 \begin{enumerate}
-%\item Organize the binary image $\bm{\widehat\jmath}_c$ in matrices $\text{X}_\ell$ with dimension $4\times\frac{\text{M}}{2}\frac{\text{N}}{2}$ according to~\cite{naidu}, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, and $\ell$ is the level resolution to set. In this work is used one resolution level;
 \item Organize the binary image $\bm{\widehat\jmath}_c$ as non-overlapping $2\times 2$ blocks, and arrange each block as a $4\times 1$ vector by stacking columns to form the data matrix $\bm X_1$ with dimension ${4\times{\ell}/{4}}$.
-%, where M is the number of rows and N is the number of columns in $\bm{\widehat\jmath}_c$, 
-%and $\ell$ is the level resolution to set. In this work is used one resolution level.
-%%% ACF Repare que não usou M nem N
 \item Find the SVD decomposition of $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, where $\bm U_1$ is a ${4\times 4}$ unitary matrix, $\bm S_1$ is a $4\times{\ell}/{4}$ rectangular diagonal matrix known as singular values matrix, and $\bm V_1$ is an ${\ell}/{4}\times{\ell}/{4}$~unitary matrix. The singular values are ordered in a decreasing order.
-% and calculate $\bm T_1=\bm X_1 \bm X_1^T=\bm U_1 \bm S_1^2 \bm U_1^T\Sigma \bm V^T$, where $s(1)\geq s(2) \geq s(3) \geq s(4)$ comprise the singular value matrix $\bm S_1$, 
-%%% ACF Não definiu nem usou s(1), s(2) etc
-%%% AAB Os s(1), s(2), s(3) e s(4) são usados para gerar a matriz $S$
-% and $\bm U_1$ is unitary.
 \item 
-Transform the lines of $\widehat{\bm X}_1=\bm U_1^T\bm X_1=\bm S_1 \bm V_1^T$ into new matrices with dimensions ${m}/{2}\times{n}/{2}$: $\{\bm\Phi_1, \bm\Psi_{1\text{V}}, \bm\Psi_{1\text{H}}, \bm\Psi_{1\text{D}}\}$. 
-%\item Repeat the procedure on $\Phi_r$ $R$ times. Where $r=1,\dots,\text{R}$ and, R is lowest resolution index. 
+Transform the lines of $\widehat{\bm X}_1=\bm U_1^T\bm X_1=\bm S_1 \bm V_1^T$ into new matrices with dimensions ${m}/{2}\times{n}/{2}$: $\{\bm\Phi_1, \bm\Psi_{1\text{V}}, \bm\Psi_{1\text{H}}, \bm\Psi_{1\text{D}}\}$.  
 \item Repeat the procedure (1) on $\bm\Phi_r$ by $r=2$ up to the lowest resolution level $R$. 
 \item The MR-SVD decomposition in each channel is
 \begin{equation}\nonumber
 \widehat{\bm X}_c\rightarrow \left\{\bm \Phi_\text{R}^c,\{\bm\Psi_{r\text{V}}^c,\bm\Psi_{r\text{H}}^c,\bm\Psi_{r\text{D}}^c \}_{r=1}^\text{R},\{\bm U_r^c	\}_{r=1}^\text{R} \right\}.
 \end{equation}
-%\item Once the SVD is applied to level $\ell$ the fusion process is executed as follow: In the operators $\Psi_\ell^\text{V}$, $\Psi_\ell^\text{H}$ and $\Psi_\ell^\text{D}$, the maximum is found among all channel, pixel by pixel, resulting in new operators $\bar{\Psi}_\ell^\text{V}$, $\bar{\Psi}_\ell^\text{H}$ and $\bar{\Psi}_\ell^\text{D}$. 
-%The operators $\Phi_L$, and $\text{U}_\ell$ are averaged over all the channels, pixel by pixel.
 \item Once the decomposition is applied to all channels, 
 compute the average of $\bm\Phi_R^c$ ($\bm\Phi_\text{R}^f$) in the lowest resolution level, and the average 
 of $\bm U_r^c$ ($\bm U_\text{r}^f$), for each $r$, where $f$ denotes the fusion among channels. 
-%\item Find the pixel-wise maxima of $\bm\Psi_r^\text{V}$, $\bm\Psi_r^\text{H}$ and $\bm\Psi_r^\text{D}$ :$ \prescript{}{2}{\mathbf{\bm\Psi}}^{V}_{r}$ $\overline{\bm\Psi}_r^\text{V}$, $\overline{\bm\Psi}_r^\text{H}$ and $\overline{\bm\Psi}_r^\text{D}$.
 \item Find the pixel-wise maxima of $\bm\Psi_{r\text{V}}^c$, $\bm\Psi_{r\text{H}}^c$ and $\bm\Psi_{r\text{D}}^c$: $ \bm\Psi_{rV}^f$ $\bm\Psi_{r\text{V}}^f$, $\bm\Psi_{r\text{H}}^f$ and $\bm\Psi_{r\text{D}}^f$.
 \item The fusion $\bm I_F$ is the SVD transformation for each level $r=\text{R},\dots,1$,  
 \begin{equation}\nonumber
@@ -367,29 +326,21 @@ Figs.~\ref{fusion_met}\subref{fusion_met:a},
 \ref{fusion_met}\subref{fusion_met:d}, 
 \ref{fusion_met}\subref{fusion_met:e}, 
 and~\ref{fusion_met}\subref{fusion_met:f} show the results of fusing these evidences. 
-
-%Thus, one can see that the time for the PCA method is 2.19 times longer than the simple average.  
-
+  
 Simple average and PCA produce similar results.
 MR-SVD produces considerably less outliers than the other methods.
 ROC produces accurate edges, with few outliers, but sparsely. 
-%One way to get around this problem would be to increase the number of channels considered using other PDF.
 Both wavelet-based methods (DWT and SWT) produce too dense edges and many outliers.
-
-%The post-processing is an option to be used in all the fusion methods. 
-%An idea can be found in Ref.~\cite{fbgm}. 
 
 \begin{figure}[hbt]
 	\centering
      \subfloat[Average fusion\label{fusion_met:a}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
        \includegraphics[width=0.32\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
      }
-     \subfloat[DWT fusion\label{fusion_met:b}]{%
+     \subfloat[MR-DWT fusion\label{fusion_met:b}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
      }
      \subfloat[PCA fusion \label{fusion_met:c}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
        \includegraphics[width=0.32\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
      }\\
      \subfloat[ROC fusion\label{fusion_met:d}]{%
@@ -420,8 +371,6 @@ Fig.~\ref{evidencias_flev_hh_hv_vv} shows the edges detected in each intensity c
 	\label{roi_gt_2}
 \end{figure}
 
-%% Teste com a região III Flevoland
-%%%  25 radials lenght 120 - com folga 25
 \begin{figure}[hbt]
 	\centering
 	\subfloat[Channel $\text{hh}$ \label{evidencias_flev_hh_hv_vv:a}]{%
@@ -442,30 +391,15 @@ Notice that the latter (Fig.~\ref{fusion_flev_met}\subref{fusion_flev_met:f}) el
 
 \begin{figure}[hbt]
 	\centering
-%	\subfloat[Average fusion\label{fusion_flev_met:a}]{%
-%		%\includegraphics[width=0.2\textwidth]{example-image-a}
-%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_media_param_L_mu_25_pixel_crop}
-%	}
-%	\subfloat[DWT fusion\label{fusion_flev_met:b}]{%
-%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_dwt_param_L_mu_25_pixel_crop}
-%	}
 	\subfloat[PCA fusion \label{fusion_flev_met:c}]{%
-		%\includegraphics[width=0.2\textwidth]{example-image-a}
 		\includegraphics[width=0.48\linewidth]{flev_r3_fus_pca_param_L_mu_25_pixel_crop}       
 	}
-%	\subfloat[ROC fusion\label{fusion_flev_met:d}]{%
-%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_roc_param_L_mu_25_pixel_crop}
-%	}
-%	\subfloat[MR-SWT fusion\label{fusion_flev_met:e}]{%
-%		\includegraphics[width=0.3\linewidth]{flev_r3_fus_swt_param_L_mu_25_pixel_crop}
-%	}
 	\subfloat[MR-SVD fusion\label{fusion_flev_met:f}]{%
 		\includegraphics[width=0.48\linewidth]{flev_r3_fus_svd_param_L_mu_25_pixel_crop}
 	}
 	\caption{Two best fusion results in the Flevoland image}
 	\label{fusion_flev_met}
 \end{figure}
-
 
 \subsection{San Francisco Image}
 
@@ -507,23 +441,9 @@ Again, the latter is more resistant to outliers, both inside and outside the reg
 
 \begin{figure}[hbt]
 	\centering
-%	\subfloat[Average fusion\label{fusion_sf_met:a}]{%
-%		%\includegraphics[width=0.2\textwidth]{example-image-a}
-%		\includegraphics[width=0.32\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
-%	}
-%	\subfloat[DWT fusion\label{fusion_sf_met:b}]{%
-%		\includegraphics[width=0.32\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
-%	}
 	\subfloat[PCA fusion \label{fusion_sf_met:c}]{%
-		%\includegraphics[width=0.2\textwidth]{example-image-a}
 		\includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
 	}
-%	\subfloat[ROC fusion\label{fusion_sf_met:d}]{%
-%		\includegraphics[width=0.32\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
-%	}
-%	\subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
-%		\includegraphics[width=0.32\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
-%	}
 	\subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
 		\includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
 	}
@@ -587,15 +507,12 @@ We quantitatively assessed the results by checking the closeness of the fused po
 Although the average and PCA are similar with respect to the probability of correctly detecting the edge, the latter provides a more effective weight of the evidences.
 In fact, PCA is able to completely discard misleading evidences, while the average cannot.
 
-%We assessed the results by checking the closeness of the fused points to the actual edge, by the presence of outliers, and by the blurring effect.
-
 Two avenues for future improvement of the fusion are:
 (1)~increasing the number of evidences.
 	This is possible, since fully polarimetric data are richer than mere intensity channels; and
 (2)~post-processing of both partial evidences and fusion.
 
-%The aims to show the feasibility of a procedure for edge detection in PolSAR images using the fusion methods was reach. 
 \bibliographystyle{IEEEtran}
-\bibliography{RefsTengars2020}
+\bibliography{../RefsTengars2020}
 \end{document}
 
