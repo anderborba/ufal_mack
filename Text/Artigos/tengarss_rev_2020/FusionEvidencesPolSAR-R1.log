@@ -1,0 +1,1281 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2019.11.30)  13 JUL 2020 00:11
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**FusionEvidencesPolSAR-R1.tex
+(./FusionEvidencesPolSAR-R1.tex
+LaTeX2e <2018-12-01>
+(./IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpdimenC=\dimen104
+\@IEEEtrantmpcountA=\count80
+\@IEEEtrantmpcountB=\count81
+\@IEEEtrantmpcountC=\count82
+\@IEEEtrantmptoksA=\toks14
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 503.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen105
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen106
+\CLASSINFOnormalsizeunitybaselineskip=\dimen107
+\IEEEnormaljot=\dimen108
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+\IEEEquantizedlength=\dimen109
+\IEEEquantizedlengthdiff=\dimen110
+\IEEEquantizedtextheightdiff=\dimen111
+\IEEEilabelindentA=\dimen112
+\IEEEilabelindentB=\dimen113
+\IEEEilabelindent=\dimen114
+\IEEEelabelindent=\dimen115
+\IEEEdlabelindent=\dimen116
+\IEEElabelindent=\dimen117
+\IEEEiednormlabelsep=\dimen118
+\IEEEiedmathlabelsep=\dimen119
+\IEEEiedtopsep=\skip41
+\c@section=\count83
+\c@subsection=\count84
+\c@subsubsection=\count85
+\c@paragraph=\count86
+\c@IEEEsubequation=\count87
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count88
+\c@table=\count89
+\@IEEEeqnnumcols=\count90
+\@IEEEeqncolcnt=\count91
+\@IEEEsubeqnnumrollback=\count92
+\@IEEEquantizeheightA=\dimen120
+\@IEEEquantizeheightB=\dimen121
+\@IEEEquantizeheightC=\dimen122
+\@IEEEquantizeprevdepth=\dimen123
+\@IEEEquantizemultiple=\count93
+\@IEEEquantizeboxA=\box27
+\@IEEEtmpitemindent=\dimen124
+\IEEEPARstartletwidth=\dimen125
+\c@IEEEbiography=\count94
+\@IEEEtranrubishbin=\box28
+) (/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2018/12/01 v2.17b AMS math features
+\@mathmargin=\skip44
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks15
+\ex@=\dimen126
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen127
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count95
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count96
+\leftroot@=\count97
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count98
+\DOTSCASE@=\count99
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box29
+\strutbox@=\box30
+\big@size=\dimen128
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count100
+\c@MaxMatrixCols=\count101
+\dotsspace@=\muskip10
+\c@parentequation=\count102
+\dspbrk@lvl=\count103
+\tag@help=\toks16
+\row@=\count104
+\column@=\count105
+\maxfields@=\count106
+\andhelp@=\toks17
+\eqnshift@=\dimen129
+\alignsep@=\dimen130
+\tagshift@=\dimen131
+\tagwidth@=\dimen132
+\totwidth@=\dimen133
+\lineht@=\dimen134
+\@envbody=\toks18
+\multlinegap=\skip45
+\multlinetaggap=\skip46
+\mathdisplay@stack=\toks19
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+Package: algorithm2e 2017/07/18 v5.2 algorithms environments
+\c@AlgoLine=\count107
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\algocf@hangindent=\skip47
+
+(/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count108
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+)
+\skiptotal=\skip48
+\skiplinenumber=\skip49
+\skiprule=\skip50
+\skiphlne=\skip51
+\skiptext=\skip52
+\skiplength=\skip53
+\algomargin=\skip54
+\skipalgocfslide=\skip55
+\algowidth=\dimen135
+\inoutsize=\dimen136
+\inoutindent=\dimen137
+\interspacetitleruled=\dimen138
+\interspacealgoruled=\dimen139
+\interspacetitleboxruled=\dimen140
+\algocf@ruledwidth=\skip56
+\algocf@inoutbox=\box31
+\algocf@inputbox=\box32
+\AlCapSkip=\skip57
+\AlCapHSkip=\skip58
+\algoskipindent=\skip59
+\algocf@nlbox=\box33
+\algocf@hangingbox=\box34
+\algocf@untilbox=\box35
+\algocf@skipuntil=\skip60
+\algocf@capbox=\box36
+\algocf@lcaptionbox=\skip61
+\algoheightruledefault=\skip62
+\algoheightrule=\skip63
+\algotitleheightruledefault=\skip64
+\algotitleheightrule=\skip65
+\c@algocfline=\count109
+\c@algocfproc=\count110
+\c@algocf=\count111
+\algocf@algoframe=\box37
+\algocf@algobox=\box38
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks20
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2018/08/11 v2.0j Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+Now handling font encoding TS1 ...
+... processing UTF-8 mapping file for font encoding TS1
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu
+File: ts1enc.dfu 2018/10/05 v1.2f UTF-8 support for inputenc
+   defining Unicode char U+00A2 (decimal 162)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00A4 (decimal 164)
+   defining Unicode char U+00A5 (decimal 165)
+   defining Unicode char U+00A6 (decimal 166)
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00A8 (decimal 168)
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AC (decimal 172)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00AF (decimal 175)
+   defining Unicode char U+00B0 (decimal 176)
+   defining Unicode char U+00B1 (decimal 177)
+   defining Unicode char U+00B2 (decimal 178)
+   defining Unicode char U+00B3 (decimal 179)
+   defining Unicode char U+00B4 (decimal 180)
+   defining Unicode char U+00B5 (decimal 181)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+00B9 (decimal 185)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+00BC (decimal 188)
+   defining Unicode char U+00BD (decimal 189)
+   defining Unicode char U+00BE (decimal 190)
+   defining Unicode char U+00D7 (decimal 215)
+   defining Unicode char U+00F7 (decimal 247)
+   defining Unicode char U+0192 (decimal 402)
+   defining Unicode char U+02C7 (decimal 711)
+   defining Unicode char U+02D8 (decimal 728)
+   defining Unicode char U+02DD (decimal 733)
+   defining Unicode char U+0E3F (decimal 3647)
+   defining Unicode char U+2016 (decimal 8214)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+203B (decimal 8251)
+   defining Unicode char U+203D (decimal 8253)
+   defining Unicode char U+2044 (decimal 8260)
+   defining Unicode char U+204E (decimal 8270)
+   defining Unicode char U+2052 (decimal 8274)
+   defining Unicode char U+20A1 (decimal 8353)
+   defining Unicode char U+20A4 (decimal 8356)
+   defining Unicode char U+20A6 (decimal 8358)
+   defining Unicode char U+20A9 (decimal 8361)
+   defining Unicode char U+20AB (decimal 8363)
+   defining Unicode char U+20AC (decimal 8364)
+   defining Unicode char U+20B1 (decimal 8369)
+   defining Unicode char U+2103 (decimal 8451)
+   defining Unicode char U+2116 (decimal 8470)
+   defining Unicode char U+2117 (decimal 8471)
+   defining Unicode char U+211E (decimal 8478)
+   defining Unicode char U+2120 (decimal 8480)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2126 (decimal 8486)
+   defining Unicode char U+2127 (decimal 8487)
+   defining Unicode char U+212E (decimal 8494)
+   defining Unicode char U+2190 (decimal 8592)
+   defining Unicode char U+2191 (decimal 8593)
+   defining Unicode char U+2192 (decimal 8594)
+   defining Unicode char U+2193 (decimal 8595)
+   defining Unicode char U+2329 (decimal 9001)
+   defining Unicode char U+232A (decimal 9002)
+   defining Unicode char U+2422 (decimal 9250)
+   defining Unicode char U+25E6 (decimal 9702)
+   defining Unicode char U+25EF (decimal 9711)
+   defining Unicode char U+266A (decimal 9834)
+   defining Unicode char U+FEFF (decimal 65279)
+))
+LaTeX Info: Redefining \oldstylenums on input line 334.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
+Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2016/04/27 v1.618033 publication quality tables
+\heavyrulewidth=\dimen143
+\lightrulewidth=\dimen144
+\cmidrulewidth=\dimen145
+\belowrulesep=\dimen146
+\belowbottomsep=\dimen147
+\aboverulesep=\dimen148
+\abovetopsep=\dimen149
+\cmidrulesep=\dimen150
+\cmidrulekern=\dimen151
+\defaultaddspace=\dimen152
+\@cmidla=\count112
+\@cmidlb=\count113
+\@aboverulesep=\dimen153
+\@belowrulesep=\dimen154
+\@thisruleclass=\count114
+\@lastruleclass=\count115
+\@thisrulewidth=\dimen155
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks21
+\inpenc@posthook=\toks22
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+\c@r@tfl@t=\count116
+\rotFPtop=\skip66
+\rotFPbot=\skip67
+\rot@float@box=\box39
+\rot@mess@toks=\toks23
+)
+(/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count117
+\calc@Bcount=\count118
+\calc@Adimen=\dimen156
+\calc@Bdimen=\dimen157
+\calc@Askip=\skip68
+\calc@Bskip=\skip69
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count119
+\calc@Cskip=\skip70
+)
+(/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
+\g_MT_multlinerow_int=\count120
+\l_MT_multwidth_dim=\dimen158
+\origjot=\skip71
+\l_MT_shortvdotswithinadjustabove_dim=\dimen159
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen160
+\l_MT_above_intertext_sep=\dimen161
+\l_MT_below_intertext_sep=\dimen162
+\l_MT_above_shortintertext_sep=\dimen163
+\l_MT_below_shortintertext_sep=\dimen164
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
+LaTeX Info: Redefining \bm on input line 207.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/bbm-macros/bbm.sty
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/siunitx/siunitx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2019-02-15 L3 programming layer (loader) 
+
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.tex
+Package: expl3 2019-02-15 L3 programming layer (code)
+\c_max_int=\count121
+\l_tmpa_int=\count122
+\l_tmpb_int=\count123
+\g_tmpa_int=\count124
+\g_tmpb_int=\count125
+\g__kernel_prg_map_int=\count126
+\c_log_iow=\count127
+\l_iow_line_count_int=\count128
+\l__iow_line_target_int=\count129
+\l__iow_one_indent_int=\count130
+\l__iow_indent_int=\count131
+\c_zero_dim=\dimen165
+\c_max_dim=\dimen166
+\l_tmpa_dim=\dimen167
+\l_tmpb_dim=\dimen168
+\g_tmpa_dim=\dimen169
+\g_tmpb_dim=\dimen170
+\c_zero_skip=\skip72
+\c_max_skip=\skip73
+\l_tmpa_skip=\skip74
+\l_tmpb_skip=\skip75
+\g_tmpa_skip=\skip76
+\g_tmpb_skip=\skip77
+\c_zero_muskip=\muskip11
+\c_max_muskip=\muskip12
+\l_tmpa_muskip=\muskip13
+\l_tmpb_muskip=\muskip14
+\g_tmpa_muskip=\muskip15
+\g_tmpb_muskip=\muskip16
+\l_keys_choice_int=\count132
+\l__intarray_loop_int=\count133
+\c__intarray_sp_dim=\dimen171
+\g__intarray_font_int=\count134
+\c__fp_leading_shift_int=\count135
+\c__fp_middle_shift_int=\count136
+\c__fp_trailing_shift_int=\count137
+\c__fp_big_leading_shift_int=\count138
+\c__fp_big_middle_shift_int=\count139
+\c__fp_big_trailing_shift_int=\count140
+\c__fp_Bigg_leading_shift_int=\count141
+\c__fp_Bigg_middle_shift_int=\count142
+\c__fp_Bigg_trailing_shift_int=\count143
+\c__kernel_randint_max_int=\count144
+\g__fp_array_int=\count145
+\l__fp_array_loop_int=\count146
+\l__sort_length_int=\count147
+\l__sort_min_int=\count148
+\l__sort_top_int=\count149
+\l__sort_max_int=\count150
+\l__sort_true_max_int=\count151
+\l__sort_block_int=\count152
+\l__sort_begin_int=\count153
+\l__sort_end_int=\count154
+\l__sort_A_int=\count155
+\l__sort_B_int=\count156
+\l__sort_C_int=\count157
+\l__tl_analysis_normal_int=\count158
+\l__tl_analysis_index_int=\count159
+\l__tl_analysis_nesting_int=\count160
+\l__tl_analysis_type_int=\count161
+\l__regex_internal_a_int=\count162
+\l__regex_internal_b_int=\count163
+\l__regex_internal_c_int=\count164
+\l__regex_balance_int=\count165
+\l__regex_group_level_int=\count166
+\l__regex_mode_int=\count167
+\c__regex_cs_in_class_mode_int=\count168
+\c__regex_cs_mode_int=\count169
+\l__regex_catcodes_int=\count170
+\l__regex_default_catcodes_int=\count171
+\c__regex_catcode_D_int=\count172
+\c__regex_catcode_S_int=\count173
+\c__regex_catcode_L_int=\count174
+\c__regex_catcode_O_int=\count175
+\c__regex_catcode_A_int=\count176
+\c__regex_all_catcodes_int=\count177
+\l__regex_show_lines_int=\count178
+\l__regex_min_state_int=\count179
+\l__regex_max_state_int=\count180
+\l__regex_left_state_int=\count181
+\l__regex_right_state_int=\count182
+\l__regex_capturing_group_int=\count183
+\l__regex_min_pos_int=\count184
+\l__regex_max_pos_int=\count185
+\l__regex_curr_pos_int=\count186
+\l__regex_start_pos_int=\count187
+\l__regex_success_pos_int=\count188
+\l__regex_curr_char_int=\count189
+\l__regex_curr_catcode_int=\count190
+\l__regex_last_char_int=\count191
+\l__regex_case_changed_char_int=\count192
+\l__regex_curr_state_int=\count193
+\l__regex_step_int=\count194
+\l__regex_min_active_int=\count195
+\l__regex_max_active_int=\count196
+\l__regex_replacement_csnames_int=\count197
+\l__regex_match_count_int=\count198
+\l__regex_min_submatch_int=\count199
+\l__regex_submatch_int=\count266
+\l__regex_zeroth_submatch_int=\count267
+\g__regex_trace_regex_int=\count268
+\c_empty_box=\box40
+\l_tmpa_box=\box41
+\l_tmpb_box=\box42
+\g_tmpa_box=\box43
+\g_tmpb_box=\box44
+\l__box_top_dim=\dimen172
+\l__box_bottom_dim=\dimen173
+\l__box_left_dim=\dimen174
+\l__box_right_dim=\dimen175
+\l__box_top_new_dim=\dimen176
+\l__box_bottom_new_dim=\dimen177
+\l__box_left_new_dim=\dimen178
+\l__box_right_new_dim=\dimen179
+\l__box_internal_box=\box45
+\l__coffin_internal_box=\box46
+\l__coffin_internal_dim=\dimen180
+\l__coffin_offset_x_dim=\dimen181
+\l__coffin_offset_y_dim=\dimen182
+\l__coffin_x_dim=\dimen183
+\l__coffin_y_dim=\dimen184
+\l__coffin_x_prime_dim=\dimen185
+\l__coffin_y_prime_dim=\dimen186
+\c_empty_coffin=\box47
+\l__coffin_aligned_coffin=\box48
+\l__coffin_aligned_internal_coffin=\box49
+\l_tmpa_coffin=\box50
+\l_tmpb_coffin=\box51
+\g_tmpa_coffin=\box52
+\g_tmpb_coffin=\box53
+\c__coffin_empty_coffin=\box54
+\l__coffin_display_coffin=\box55
+\l__coffin_display_coord_coffin=\box56
+\l__coffin_display_pole_coffin=\box57
+\l__coffin_display_offset_dim=\dimen187
+\l__coffin_display_x_dim=\dimen188
+\l__coffin_display_y_dim=\dimen189
+\g__file_internal_ior=\read1
+\l__coffin_bounding_shift_dim=\dimen190
+\l__coffin_left_corner_dim=\dimen191
+\l__coffin_right_corner_dim=\dimen192
+\l__coffin_bottom_corner_dim=\dimen193
+\l__coffin_top_corner_dim=\dimen194
+\l__coffin_scaled_total_height_dim=\dimen195
+\l__coffin_scaled_width_dim=\dimen196
+\l__seq_internal_a_int=\count269
+\l__seq_internal_b_int=\count270
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3pdfmode.def
+File: l3pdfmode.def 2019-02-15 v L3 Experimental driver: PDF mode
+\l__driver_color_stack_int=\count271
+))
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2018-10-17 L3 Experimental document command parser
+\l__xparse_current_arg_int=\count272
+\g__xparse_grabber_int=\count273
+\l__xparse_m_args_int=\count274
+\l__xparse_mandatory_args_int=\count275
+\l__xparse_v_nesting_int=\count276
+)
+Package: siunitx 2018/05/17 v2.7s A comprehensive (SI) units package
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
+\col@sep=\dimen197
+\ar@mcellbox=\box58
+\extrarowheight=\dimen198
+\NC@list=\toks24
+\extratabsurround=\skip78
+\backup@length=\skip79
+\ar@cellbox=\box59
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+Package: l3keys2e 2018-10-17 LaTeX2e option processing using LaTeX3 keys
+)
+\l__siunitx_tmp_box=\box60
+\l__siunitx_tmp_dim=\dimen199
+\l__siunitx_tmp_int=\count277
+\l__siunitx_number_mantissa_length_int=\count278
+\l__siunitx_number_uncert_length_int=\count279
+\l__siunitx_round_int=\count280
+\l__siunitx_process_decimal_int=\count281
+\l__siunitx_process_uncertainty_int=\count282
+\l__siunitx_process_fixed_int=\count283
+\l__siunitx_process_integer_min_int=\count284
+\l__siunitx_process_precision_int=\count285
+\l__siunitx_group_min_int=\count286
+\l__siunitx_angle_marker_box=\box61
+\l__siunitx_angle_unit_box=\box62
+\l__siunitx_angle_marker_dim=\dimen256
+\l__siunitx_angle_unit_dim=\dimen257
+\l__siunitx_unit_int=\count287
+\l__siunitx_unit_denominator_int=\count288
+\l__siunitx_unit_numerator_int=\count289
+\l__siunitx_unit_prefix_int=\count290
+\l__siunitx_unit_prefix_base_int=\count291
+\l__siunitx_unit_prefix_gram_int=\count292
+\l__siunitx_number_product_int=\count293
+\c__siunitx_one_fill_skip=\skip80
+\l__siunitx_table_unit_align_skip=\skip81
+\l__siunitx_table_exponent_dim=\dimen258
+\l__siunitx_table_integer_dim=\dimen259
+\l__siunitx_table_mantissa_dim=\dimen260
+\l__siunitx_table_marker_dim=\dimen261
+\l__siunitx_table_result_dim=\dimen262
+\l__siunitx_table_uncert_dim=\dimen263
+\l__siunitx_table_fill_pre_dim=\dimen264
+\l__siunitx_table_fill_post_dim=\dimen265
+\l__siunitx_table_fill_mid_dim=\dimen266
+\l__siunitx_table_pre_box=\box63
+\l__siunitx_table_post_box=\box64
+\l__siunitx_table_mantissa_box=\box65
+\l__siunitx_table_result_box=\box66
+\l__siunitx_table_number_align_skip=\skip82
+\l__siunitx_table_text_align_skip=\skip83
+
+(/usr/share/texlive/texmf-dist/tex/latex/translator/translator.sty
+Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
+))
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2018/09/12 v1.8c caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 64.
+\captionmargin=\dimen267
+\captionmargin@=\dimen268
+\captionwidth=\dimen269
+\caption@tempdima=\dimen270
+\caption@indent=\dimen271
+\caption@parindent=\dimen272
+\caption@hangindent=\dimen273
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+\c@KVtest=\count294
+\sf@farskip=\skip84
+\sf@captopadj=\dimen274
+\sf@capskip=\skip85
+\sf@nearskip=\skip86
+\c@subfigure=\count295
+\c@subfigure@save=\count296
+\c@lofdepth=\count297
+\c@subtable=\count298
+\c@subtable@save=\count299
+\c@lotdepth=\count300
+\sf@top=\skip87
+\sf@bottom=\skip88
+)
+(./FusionEvidencesPolSAR-R1.aux)
+\openout1 = `FusionEvidencesPolSAR-R1.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 27.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 27.
+
+-- Lines per column: 58 (exact).
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count301
+\scratchdimen=\dimen275
+\scratchbox=\box67
+\nofMPsegments=\count302
+\nofMParguments=\count303
+\everyMPshowfont=\toks25
+\MPscratchCnt=\count304
+\MPscratchDim=\dimen276
+\MPnumerator=\count305
+\makeMPintoPDFobject=\count306
+\everyMPtoPDFconversion=\toks26
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+))))
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-basic-dictionary
+-English.dict
+Dictionary: translator-basic-dictionary, Language: English 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/siunitx/siunitx-abbreviations.cfg
+File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
+)
+(/usr/share/texlive/texmf-dist/tex/latex/siunitx/siunitx-binary.cfg
+File: siunitx-binary.cfg 2017/11/26 v2.7k siunitx: Binary units
+)
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 27.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 27.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+] [2]
+Underfull \hbox (badness 1931) in paragraph at lines 266--267
+[]\OT1/ptm/m/n/10 Compute the vec-tor $\OML/cmm/b/it/10 P \OT1/cmr/m/n/10 = (\O
+ML/cmm/m/it/10 P\OT1/cmr/m/n/10 (1)\OML/cmm/m/it/10 ; [] ; P\OT1/cmr/m/n/10 (\O
+ML/cmm/m/it/10 n[]\OT1/cmr/m/n/10 )) =
+ []
+
+
+Underfull \hbox (badness 3302) in paragraph at lines 305--307
+\OT1/ptm/m/n/10 into new ma-tri-ces with di-men-sions $\OML/cmm/m/it/10 m=\OT1/
+cmr/m/n/10 2 \OMS/cmsy/m/n/10 ^^B \OML/cmm/m/it/10 n=\OT1/cmr/m/n/10 2$\OT1/ptm
+/m/n/10 :
+ []
+
+<../../Dissertacao/figuras/flevoland_radial_4_look_black_crop.pdf, id=26, 167.6
+664pt x 168.3891pt>
+File: ../../Dissertacao/figuras/flevoland_radial_4_look_black_crop.pdf Graphic 
+file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_radial_4_look_black_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_radial_4_look_blac
+k_crop.pdf  used on input line 336.
+(pdftex.def)             Requested size: 118.16602pt x 118.67577pt.
+<../../Dissertacao/figuras/gt_flevoland_crop.pdf, id=27, 162.6075pt x 173.448pt
+>
+File: ../../Dissertacao/figuras/gt_flevoland_crop.pdf Graphic file (type pdf)
+<use ../../Dissertacao/figuras/gt_flevoland_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/gt_flevoland_crop.pdf  used 
+on input line 339.
+(pdftex.def)             Requested size: 111.45776pt x 118.89055pt.
+<../../Dissertacao/figuras/flevoland_hh_evid_param_L_mu_14_pixel_crop.pdf, id=2
+8, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_hh_evid_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_hh_evid_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_hh_evid_param_L_mu
+_14_pixel_crop.pdf  used on input line 353.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_hv_evid_param_L_mu_14_pixel_crop.pdf, id=2
+9, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_hv_evid_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_hv_evid_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_hv_evid_param_L_mu
+_14_pixel_crop.pdf  used on input line 356.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_vv_evid_param_L_mu_14_pixel_crop.pdf, id=3
+0, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_vv_evid_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_vv_evid_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_vv_evid_param_L_mu
+_14_pixel_crop.pdf  used on input line 359.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_fus_media_param_L_mu_14_pixel_crop.pdf, id
+=31, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_fus_media_param_L_mu_14_pixel_crop.pd
+f Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_fus_media_param_L_mu_14_pixel_crop.pdf
+>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_fus_media_param_L_
+mu_14_pixel_crop.pdf  used on input line 387.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_fus_dwt_param_L_mu_14_pixel_crop.pdf, id=3
+2, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_fus_dwt_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_fus_dwt_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_fus_dwt_param_L_mu
+_14_pixel_crop.pdf  used on input line 390.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_fus_pca_param_L_mu_14_pixel_crop.pdf, id=3
+3, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_fus_pca_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_fus_pca_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_fus_pca_param_L_mu
+_14_pixel_crop.pdf  used on input line 394.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_fus_roc_param_L_mu_14_pixel_crop.pdf, id=3
+4, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_fus_roc_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_fus_roc_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_fus_roc_param_L_mu
+_14_pixel_crop.pdf  used on input line 397.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_fus_swt_param_L_mu_14_pixel_crop.pdf, id=3
+5, 162.6075pt x 173.448pt>
+File: ../../Dissertacao/figuras/flevoland_fus_swt_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_fus_swt_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_fus_swt_param_L_mu
+_14_pixel_crop.pdf  used on input line 400.
+(pdftex.def)             Requested size: 80.64185pt x 86.01978pt.
+<../../Dissertacao/figuras/flevoland_fus_svd_param_L_mu_14_pixel_crop.pdf, id=3
+6, 162.6075pt x 172.7253pt>
+File: ../../Dissertacao/figuras/flevoland_fus_svd_param_L_mu_14_pixel_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/flevoland_fus_svd_param_L_mu_14_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_fus_svd_param_L_mu
+_14_pixel_crop.pdf  used on input line 403.
+(pdftex.def)             Requested size: 80.64185pt x 85.66136pt.
+<../../Dissertacao/figuras/flevoland_r3_radial_crop.pdf, id=37, 137.313pt x 115
+.632pt>
+File: ../../Dissertacao/figuras/flevoland_r3_radial_crop.pdf Graphic file (type
+ pdf)
+<use ../../Dissertacao/figuras/flevoland_r3_radial_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flevoland_r3_radial_crop.pdf
+  used on input line 415.
+(pdftex.def)             Requested size: 120.95892pt x 101.8588pt.
+<../../Dissertacao/figuras/gt_flevoland_r3_crop.pdf, id=38, 137.313pt x 115.632
+pt>
+File: ../../Dissertacao/figuras/gt_flevoland_r3_crop.pdf Graphic file (type pdf
+)
+<use ../../Dissertacao/figuras/gt_flevoland_r3_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/gt_flevoland_r3_crop.pdf  us
+ed on input line 418.
+(pdftex.def)             Requested size: 120.95892pt x 101.8588pt.
+<../../Dissertacao/figuras/evid_real_flev_hh_param_L_mu_25_pixel_r3_crop.pdf, i
+d=39, 137.313pt x 115.632pt>
+File: ../../Dissertacao/figuras/evid_real_flev_hh_param_L_mu_25_pixel_r3_crop.p
+df Graphic file (type pdf)
+<use ../../Dissertacao/figuras/evid_real_flev_hh_param_L_mu_25_pixel_r3_crop.pd
+f>
+Package pdftex.def Info: ../../Dissertacao/figuras/evid_real_flev_hh_param_L_mu
+_25_pixel_r3_crop.pdf  used on input line 429.
+(pdftex.def)             Requested size: 80.64185pt x 67.90822pt.
+<../../Dissertacao/figuras/evid_real_flev_hv_param_L_mu_25_pixel_r3_crop.pdf, i
+d=40, 136.5903pt x 115.632pt>
+File: ../../Dissertacao/figuras/evid_real_flev_hv_param_L_mu_25_pixel_r3_crop.p
+df Graphic file (type pdf)
+<use ../../Dissertacao/figuras/evid_real_flev_hv_param_L_mu_25_pixel_r3_crop.pd
+f>
+Package pdftex.def Info: ../../Dissertacao/figuras/evid_real_flev_hv_param_L_mu
+_25_pixel_r3_crop.pdf  used on input line 432.
+(pdftex.def)             Requested size: 80.64185pt x 68.26991pt.
+<../../Dissertacao/figuras/evid_real_flev_vv_param_L_mu_25_pixel_r3_crop.pdf, i
+d=41, 137.313pt x 115.632pt>
+File: ../../Dissertacao/figuras/evid_real_flev_vv_param_L_mu_25_pixel_r3_crop.p
+df Graphic file (type pdf)
+<use ../../Dissertacao/figuras/evid_real_flev_vv_param_L_mu_25_pixel_r3_crop.pd
+f>
+Package pdftex.def Info: ../../Dissertacao/figuras/evid_real_flev_vv_param_L_mu
+_25_pixel_r3_crop.pdf  used on input line 435.
+(pdftex.def)             Requested size: 80.64185pt x 67.90822pt.
+[3 <../../Dissertacao/figuras/flevoland_radial_4_look_black_crop.pdf> <../../Di
+ssertacao/figuras/gt_flevoland_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/gt_flevoland_crop.pdf)
+: PDF inclusion: multiple pdfs with page group included in a single page
+> <../../Dissertacao/figuras/flevoland_hh_evid_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_hh_evid_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_hv_evid_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_hv_evid_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_vv_evid_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_vv_evid_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+>]
+<../../Dissertacao/figuras/flev_r3_fus_pca_param_L_mu_25_pixel_crop.pdf, id=76,
+ 137.313pt x 115.632pt>
+File: ../../Dissertacao/figuras/flev_r3_fus_pca_param_L_mu_25_pixel_crop.pdf Gr
+aphic file (type pdf)
+<use ../../Dissertacao/figuras/flev_r3_fus_pca_param_L_mu_25_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flev_r3_fus_pca_param_L_mu_2
+5_pixel_crop.pdf  used on input line 455.
+(pdftex.def)             Requested size: 120.95892pt x 101.8588pt.
+<../../Dissertacao/figuras/flev_r3_fus_svd_param_L_mu_25_pixel_crop.pdf, id=77,
+ 137.313pt x 115.632pt>
+File: ../../Dissertacao/figuras/flev_r3_fus_svd_param_L_mu_25_pixel_crop.pdf Gr
+aphic file (type pdf)
+<use ../../Dissertacao/figuras/flev_r3_fus_svd_param_L_mu_25_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/flev_r3_fus_svd_param_L_mu_2
+5_pixel_crop.pdf  used on input line 464.
+(pdftex.def)             Requested size: 120.95892pt x 101.8588pt.
+<../../Dissertacao/figuras/san_francisco_radial_25_crop.pdf, id=78, 122.85901pt
+ x 108.405pt>
+File: ../../Dissertacao/figuras/san_francisco_radial_25_crop.pdf Graphic file (
+type pdf)
+<use ../../Dissertacao/figuras/san_francisco_radial_25_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/san_francisco_radial_25_crop
+.pdf  used on input line 479.
+(pdftex.def)             Requested size: 120.95892pt x 106.73405pt.
+<../../Dissertacao/figuras/gt_san_fran_r1_crop.pdf, id=79, 122.85901pt x 108.40
+5pt>
+File: ../../Dissertacao/figuras/gt_san_fran_r1_crop.pdf Graphic file (type pdf)
+
+<use ../../Dissertacao/figuras/gt_san_fran_r1_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/gt_san_fran_r1_crop.pdf  use
+d on input line 482.
+(pdftex.def)             Requested size: 120.95892pt x 106.73405pt.
+<../../Dissertacao/figuras/evid_real_sf_1_param_L_mu_25_pixel_r1_crop.pdf, id=8
+0, 122.85901pt x 108.405pt>
+File: ../../Dissertacao/figuras/evid_real_sf_1_param_L_mu_25_pixel_r1_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/evid_real_sf_1_param_L_mu_25_pixel_r1_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/evid_real_sf_1_param_L_mu_25
+_pixel_r1_crop.pdf  used on input line 494.
+(pdftex.def)             Requested size: 80.64185pt x 71.15714pt.
+<../../Dissertacao/figuras/evid_real_sf_2_param_L_mu_25_pixel_r1_crop.pdf, id=8
+1, 122.85901pt x 108.405pt>
+File: ../../Dissertacao/figuras/evid_real_sf_2_param_L_mu_25_pixel_r1_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/evid_real_sf_2_param_L_mu_25_pixel_r1_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/evid_real_sf_2_param_L_mu_25
+_pixel_r1_crop.pdf  used on input line 497.
+(pdftex.def)             Requested size: 80.64185pt x 71.15714pt.
+<../../Dissertacao/figuras/evid_real_sf_3_param_L_mu_25_pixel_r1_crop.pdf, id=8
+2, 125.7498pt x 106.9596pt>
+File: ../../Dissertacao/figuras/evid_real_sf_3_param_L_mu_25_pixel_r1_crop.pdf 
+Graphic file (type pdf)
+<use ../../Dissertacao/figuras/evid_real_sf_3_param_L_mu_25_pixel_r1_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/evid_real_sf_3_param_L_mu_25
+_pixel_r1_crop.pdf  used on input line 500.
+(pdftex.def)             Requested size: 83.91412pt x 71.37856pt.
+
+Overfull \hbox (3.698pt too wide) in paragraph at lines 494--501
+ [][][][] 
+ []
+
+<../../Dissertacao/figuras/sf_fus_pca_param_L_mu_25_pixel_crop.pdf, id=83, 122.
+85901pt x 108.405pt>
+File: ../../Dissertacao/figuras/sf_fus_pca_param_L_mu_25_pixel_crop.pdf Graphic
+ file (type pdf)
+<use ../../Dissertacao/figuras/sf_fus_pca_param_L_mu_25_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/sf_fus_pca_param_L_mu_25_pix
+el_crop.pdf  used on input line 520.
+(pdftex.def)             Requested size: 120.95892pt x 106.73405pt.
+<../../Dissertacao/figuras/sf_fus_svd_param_L_mu_25_pixel_crop.pdf, id=84, 122.
+85901pt x 108.405pt>
+File: ../../Dissertacao/figuras/sf_fus_svd_param_L_mu_25_pixel_crop.pdf Graphic
+ file (type pdf)
+<use ../../Dissertacao/figuras/sf_fus_svd_param_L_mu_25_pixel_crop.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/sf_fus_svd_param_L_mu_25_pix
+el_crop.pdf  used on input line 529.
+(pdftex.def)             Requested size: 120.95892pt x 106.73405pt.
+[4 <../../Dissertacao/figuras/flevoland_fus_media_param_L_mu_14_pixel_crop.pdf>
+ <../../Dissertacao/figuras/flevoland_fus_dwt_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_fus_dwt_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_fus_pca_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_fus_pca_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_fus_roc_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_fus_roc_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_fus_swt_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_fus_swt_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_fus_svd_param_L_mu_14_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_fus_svd_para
+m_L_mu_14_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/flevoland_r3_radial_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flevoland_r3_radial_cr
+op.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+
+> <../../Dissertacao/figuras/gt_flevoland_r3_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/gt_flevoland_r3_crop.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+> <../../Dissertacao/figuras/evid_real_flev_hh_param_L_mu_25_pixel_r3_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/evid_real_flev_hh_para
+m_L_mu_25_pixel_r3_crop.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <../../Dissertacao/figuras/evid_real_flev_hv_param_L_mu_25_pixel_r3_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/evid_real_flev_hv_para
+m_L_mu_25_pixel_r3_crop.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <../../Dissertacao/figuras/evid_real_flev_vv_param_L_mu_25_pixel_r3_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/evid_real_flev_vv_para
+m_L_mu_25_pixel_r3_crop.pdf): PDF inclusion: multiple pdfs with page group incl
+uded in a single page
+> <../../Dissertacao/figuras/flev_r3_fus_pca_param_L_mu_25_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flev_r3_fus_pca_param_
+L_mu_25_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group included 
+in a single page
+> <../../Dissertacao/figuras/flev_r3_fus_svd_param_L_mu_25_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/flev_r3_fus_svd_param_
+L_mu_25_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group included 
+in a single page
+> <../../Dissertacao/figuras/san_francisco_radial_25_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/san_francisco_radial_2
+5_crop.pdf): PDF inclusion: multiple pdfs with page group included in a single 
+page
+> <../../Dissertacao/figuras/gt_san_fran_r1_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/gt_san_fran_r1_crop.pd
+f): PDF inclusion: multiple pdfs with page group included in a single page
+> <../../Dissertacao/figuras/evid_real_sf_1_param_L_mu_25_pixel_r1_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/evid_real_sf_1_param_L
+_mu_25_pixel_r1_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/evid_real_sf_2_param_L_mu_25_pixel_r1_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/evid_real_sf_2_param_L
+_mu_25_pixel_r1_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/evid_real_sf_3_param_L_mu_25_pixel_r1_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/evid_real_sf_3_param_L
+_mu_25_pixel_r1_crop.pdf): PDF inclusion: multiple pdfs with page group include
+d in a single page
+> <../../Dissertacao/figuras/sf_fus_pca_param_L_mu_25_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/sf_fus_pca_param_L_mu_
+25_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group included in a 
+single page
+> <../../Dissertacao/figuras/sf_fus_svd_param_L_mu_25_pixel_crop.pdf
+
+pdfTeX warning: pdflatex (file ../../Dissertacao/figuras/sf_fus_svd_param_L_mu_
+25_pixel_crop.pdf): PDF inclusion: multiple pdfs with page group included in a 
+single page
+>]
+<../../Dissertacao/figuras/metricas_6_fusao_flevoland.pdf, id=210, 510.90875pt 
+x 357.335pt>
+File: ../../Dissertacao/figuras/metricas_6_fusao_flevoland.pdf Graphic file (ty
+pe pdf)
+<use ../../Dissertacao/figuras/metricas_6_fusao_flevoland.pdf>
+Package pdftex.def Info: ../../Dissertacao/figuras/metricas_6_fusao_flevoland.p
+df  used on input line 546.
+(pdftex.def)             Requested size: 176.39923pt x 123.3734pt.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 556.
+
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+(./FusionEvidencesPolSAR-R1.bbl) [5 <../../Dissertacao/figuras/metricas_6_fusao
+_flevoland.pdf>] (./FusionEvidencesPolSAR-R1.aux) ) 
+Here is how much of TeX's memory you used:
+ 18909 strings out of 492615
+ 369063 string characters out of 6131389
+ 408705 words of memory out of 5000000
+ 22607 multiletter control sequences out of 15000+600000
+ 583680 words of font info for 129 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 41i,21n,63p,521b,791s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-di
+st/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/tim
+es/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on FusionEvidencesPolSAR-R1.pdf (5 pages, 2971861 bytes).
+PDF statistics:
+ 276 PDF objects out of 1000 (max. 8388607)
+ 172 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
+
