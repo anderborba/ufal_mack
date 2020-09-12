@@ -17,11 +17,10 @@
 \usepackage[caption=false,font=footnotesize]{subfig}
 \DeclareMathOperator{\traco}{tr}
 
-
-
 \begin{document}
-\title{Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images}
+\title{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images}
 \author{Anderson A.\ de Borba, Maurício Marengoni, and Alejandro C.\ Frery,~\IEEEmembership{Senior Member,~IEEE}%
+\thanks{This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Finance Code 001}
 \thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.aborba@professores.ibmec.edu.br}
 \thanks{M.\ Marengoni is with the Dept.\ Engenharia Elétrica e Computação,
 UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
@@ -40,7 +39,7 @@ The fusion methods used are:
 simple average, 
 multi-resolution discrete wavelet transform (MR-DWT),
 principal component analysis (PCA), 
-ROC statistics, 
+Receiver operating characteristic (ROC) statistics, 
 multi-resolution stationary (MR-SWT) wavelet transform, 
 and a multi-resolution method based on singular value decomposition (MR-SVD). 
 A quantitative analysis suggests that PCA and MR-SVD provide the best results.
@@ -127,8 +126,8 @@ n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 \label{eq:LogLikelihoodGamma}
 \end{equation}
 
-We obtain $\big(\widehat \mu, \widehat L\big)$, the maximum likelihood estimator (MLE) of $(\mu, L)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS method~\cite{ht}.
-We prefer optimization to solving $\nabla\ell=\bm 0$ for improved numerical stability.
+We obtain $\big(\widehat \mu, \widehat L\big)$, the maximum likelihood estimator (MLE) of $(\mu, L)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS (Broyden-Fletcher-Goldfarb-Shanno) method~\cite{ht}.
+We prefer optimization to solving $\nabla\mathcal L=\bm 0$ for improved numerical stability.
 
 \section{Edge Detection on a Single Data Strip}\label{sec_03}
 
@@ -281,7 +280,7 @@ We also used two resolution levels.
 
 \subsection{Flevoland images}
 
-Fig.~\ref{roi_gt}\subref{flevoland_radial_4look} shows a $750\times 1024$ pixels AIRSAR PolSAR image of Flevoland, L-band, with the radial lines where edges are detected. 
+Fig.~\ref{roi_gt}\subref{flevoland_radial_4look} shows a $750\times 1024$ pixels AIRSAR (Airborne Synthetic Aperture Radar) PolSAR image of Flevoland, L-band, with the radial lines where edges are detected. 
 Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.  
 
 \begin{figure}[hbt]
