@@ -256,7 +256,21 @@ O método estimativa de máxima verossimilhança (MLE) foi aplicado para cada li
      \label{fig:evidencias_span_gamf}
    \end{figure}	
 %
-\pagebreak
+\section{Medida dos erros para a detecção de evidências de bordas nas imagem simuladas}
+
+O erro é medido calculando a menor distância euclidiana do pixel de referência em cada radial (linha) na imagem Ground Truth (GT) para todos os pixeis detectado na mesma radial. Armazenamos as menores distâncias em um vetor de frequência e encontramos o vetor $H(k)$ denotando o número de replicações para qual o vetor de frequência é menor que um número de pixel fixado $k_s$. A estimativa de probabilidade é encontrada por $f(k)={H(k)}/{n_r}$, onde  $n_r$ é o número de radiais, e o índice $k$ varia entre $1$ e $k_s$ definido. O algoritmo é descrito em \citet{fbgm} e definimos $k_s=10$ para encontrar todas as probabilidades para o erro.
+
+O gráfico do erro é mostrado na figura (\ref{metrica_sim_port}),
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_simuladas_port}%
+	\caption{Métricas para a detecção em imagem simulada}
+\label{metrica_sim_port}
+\end{figure}
+
+O gráfico mostra acurado desempenho do algoritmo no canal (hv), assim como a detecção deficitária para o canal formado pela distribuição razão entre as intensidades (hh) e (vv), fato que já poderíamos inferir pela inspeção visual. 
+
+\pagebreak  
 \section{Aplicação em imagem de adquiridas por sensores PolSAR}
 A imagem da região de Flevoland de dimensão $750\times 1024$ pixeis é uma imagem PolSAR capturada pelo sensor AIRSAR com banda-L. Usamos a imagem capturando várias sub-regiões para realizar teste numéricos. A imagem capturada no sensor é mostrada na figura~\ref{flevoland_4_look} 
 \begin{figure}[hbt]
@@ -303,6 +317,8 @@ As Figuras.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{eviden
     \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
     \label{evidencias_hh_hv_vv} 
 \end{figure}
+
+
 \clearpage
 Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, \subref{fusion_met:d}, \subref{fusion_met:e}, and~\subref{fusion_met:f} mostram os resultados numéricos para os métodos de fusão para evidência de bordas propostos. 
 \begin{figure}[H]
@@ -512,6 +528,98 @@ Figuras~\ref{fusion_flev_roi_ii_25_pixel_met}\subref{fusion_flev_roi_ii_25_pixel
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Metricas
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Mais pdfs}
+\begin{figure}[hbt]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_prod_mag_hh_hv_evid_param_L_rho_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ 25 pixeis\label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_prod_mag_hh_vv_evid_param_L_rho_25_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_prod_mag_hv_vv_evid_param_L_rho_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_razao_hh_hv_evid_param_rho_tau_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ 25 pixeis\label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_razao_hh_vv_evid_param_rho_tau_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_razao_hv_vv_evid_param_rho_tau_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais razão de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+%
+\begin{figure}[hbt]
+	\centering
+	\vspace{-2.5cm}
+	\includegraphics[width=.5\linewidth]{flevoland_span_evid_mu_media_14_pixel_crop}%
+	\caption{Span}
+\label{san_francisco}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_evid_flevoland_port}%
+	\caption{Métricas para a detecção de evidências em imagem flevoland}
+\label{metrica_sim_port}
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média\label{fusion_flev_roi_ii_25_pixel_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{flev_7_canais_fus_media_14_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_flev_roi_ii_25_pixel_met:b}]{%
+       \includegraphics[width=0.32\linewidth]{flev_7_canais_fus_dwt_14_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA \label{fusion_flev_roi_ii_25_pixel_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{flev_7_canais_fus_pca_14_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_flev_roi_ii_25_pixel_met:d}]{%
+       \includegraphics[width=0.32\linewidth]{flev_7_canais_fus_roc_14_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT \label{fusion_flev_roi_ii_25_pixel_met:e}]{%
+       \includegraphics[width=0.32\linewidth]{flev_7_canais_fus_swt_14_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD \label{fusion_flev_roi_ii_25_pixel_met:f}]{%
+       \includegraphics[width=0.32\linewidth]{flev_7_canais_fus_svd_14_pixel_crop}
+     }
+     \caption{Resultado da aplicação dos seis métodos de fusão para os 7 canais de flevoland com 14 pixeis de folga}
+     \label{fusion_flev_roi_ii_25_pixel_met}
+\end{figure}
+
+
+\begin{table}[hbt]
+	\centering
+	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
+		Method     & Aver.      &   PCA       &  MR-DWT   & MR-SWT     &  ROC       &  MR-SVD \\ \midrule
+		Time (s)   & 0.01797480 & 0.054634950 & 0.06949015& 0.17152435 &  2.1889033 & 1.14976175  \\
+		Rel. time  & 1.00       &             &           &      &        &   \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_fusao_7_canais_flevoland_14_pixel_port}%
+	\caption{Métricas para fusão de evidências de bordas em imagem flevoland}
+\label{metrica_sim_port}
+\end{figure}
+
 \clearpage
 \subsection{Probabilidade erro de detecção}
 
