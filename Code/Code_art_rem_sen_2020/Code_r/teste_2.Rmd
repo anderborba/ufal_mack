@@ -1,0 +1,68 @@
+---
+title: "Função densidade de probabilidade para o Span de intensidades"
+output: html_notebook
+---
+
+
+
+$\frac{dy}{dt}$
+
+```{r}
+rm(list = ls())
+require(ggplot2)
+require(latex2exp)
+library(hrbrthemes)
+require(extrafont)
+#
+N <- 5
+A = matrix( 
+     c(   1, 0.64, 0.64, 0.64, 0.64,
+       0.64,    1, 0.64, 0.64, 0.64,
+       0.64, 0.64,    1, 0.64, 0.64,
+       0.64, 0.64, 0.64,    1, 0.64,
+       0.64, 0.64, 0.64, 0.64,    1), # the data elements 
+     nrow= N,              # number of rows 
+     ncol= N,              # number of columns 
+     byrow = TRUE)        # fill matrix by rows 
+C <- chol(A)
+L   <- 2.5
+mu  <- 1
+rho <- 0.64
+## Discretizacao de rho
+ny <- 100
+y    <- rep(0, ny - 1)
+ri <- 0
+rf <- 10
+hr <- (rf - ri) / (ny - 1)
+for (i in 1 : ny - 1){
+  y[i] <- ri + (i - 1) * hr
+}
+lobj1 <- rep(0, ny - 1)
+lobj2 <- rep(0, ny - 1)
+for (i in 1 : ny - 1){
+  lobj1[i] = (1 / gamma(L)) * (L / mu)^L * y[i]^(L - 1) * exp(- (L / mu) * y[i])
+  lobj2[i] = (pi^0.5 / (gamma(L) * (1 - rho^2)^L))  
+}
+df <- data.frame(x = y, y1 = lobj1, y2 = lobj2)
+alpha <- c(1)
+p <- ggplot(df) 
+pp <- p + geom_line(aes(x = x, y = y1, color = "L=1") , size=2, alpha=.7) +
+  geom_line(aes(x = x, y = y2, color = "L=2") , size=2, alpha=.7) +
+  #geom_line(aes(x = x, y = y3, color = "L=4") , size=2, alpha=.7) +
+  #geom_line(aes(x = x, y = y4, color = "L=8") , size=2, alpha=.7) +
+  ylim(0,1) +
+  ylab(TeX('Log-likelihood')) +
+  xlab(TeX('$\\rho$')) +
+  theme_ipsum(base_family = "Times New Roman", 
+              base_size = 10, axis_title_size = 10) +
+  scale_fill_ipsum() +
+  theme(legend.title = element_blank()) +
+  theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
+print(pp)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

@@ -620,6 +620,197 @@ Figuras~\ref{fusion_flev_roi_ii_25_pixel_met}\subref{fusion_flev_roi_ii_25_pixel
 \label{metrica_sim_port}
 \end{figure}
 
+
+\newpage
+\section{Flevoland região 2 - mais pdfs}
+Região 2 Flevoland com mais pdfs
+\begin{figure}[hbt]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_hh_evid_L_fixo_mu_media_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_hv_evid_L_fixo_mu_media_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_vv_evid_L_fixo_mu_media_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+\begin{figure}[hbt]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{evid_real_flevoland_r2_hh_hv_param_razao_rho_tau_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{evid_real_flevoland_r2_hh_vv_param_razao_rho_tau_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{evid_real_flevoland_r2_hv_vv_param_razao_rho_tau_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{evid_real_flev_r2_span_mu_media_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média\label{fusion_flev_roi_ii_25_pixel_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{flev_r2_4_canais_fus_media_14_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_flev_roi_ii_25_pixel_met:b}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_4_canais_fus_dwt_14_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA \label{fusion_flev_roi_ii_25_pixel_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{flev_r2_4_canais_fus_pca_14_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_flev_roi_ii_25_pixel_met:d}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_4_canais_fus_roc_14_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT \label{fusion_flev_roi_ii_25_pixel_met:e}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_4_canais_fus_swt_14_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD \label{fusion_flev_roi_ii_25_pixel_met:f}]{%
+       \includegraphics[width=0.32\linewidth]{flev_r2_4_canais_fus_svd_14_pixel_crop}
+     }
+     \caption{Resultado da aplicação dos seis métodos de fusão para os 4 canais de flevoland região 2 com 14 pixeis de folga}
+     \label{fusion_flev_roi_ii_25_pixel_met}
+\end{figure}
+
+\begin{table}[hbt]
+	\centering
+	\caption{Processing times 4 canais (fusion method).}\label{metrica_de_tempo}
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
+		Method     & Aver.      &   PCA       &  MR-DWT   & MR-SWT     &  ROC       &  MR-SVD \\ \midrule
+		Time (s)   &0.0108165   & 0.0499335   &  0.0805634&  0.1802945 &  0.7549132&  1.21855195 \\
+		Rel. time  & 1.00       &             &           &      &        &   \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_evid_4_flev_r2_14_pixel_port}%
+	\caption{Métricas das evidências de bordas em imagem flevoland região 2}
+\label{metrica_sim_port}
+\end{figure}
+
+
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_fusao_4_canais_flev_r2_14_pixel_port}%
+	\caption{Métricas para fusão de evidências de bordas em imagem flevoland região 2 4 canais}
+\label{metrica_sim_port}
+\end{figure}
+
+
+\section{San Francisco}
+
+\begin{figure}[hbt]
+	\centering
+    \subfloat[SF Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{sf_hh_evid_L_fixo_mu_media_25_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{sf_hv_evid_L_fixo_mu_media_25_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{sf_vv_evid_L_fixo_mu_media_25_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+\begin{figure}[hbt]
+	\centering
+    \subfloat[SF Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{evid_real_sf_hh_hv_param_razao_rho_tau_25_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hh/vv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{evid_real_sf_hh_vv_param_razao_rho_tau_25_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{evid_real_sf_hv_vv_param_razao_rho_tau_25_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+\begin{figure}[hbt]
+	\centering
+    \subfloat[SF Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{evid_real_sf_span_mu_media_25_pixel_crop}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na imagem de Flevoland}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_evid_sf_25_pixel_port}%
+	\caption{Métricas das evidências de bordas em imagem San Francisco}
+\label{metrica_sim_port}
+\end{figure}
+%
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Fusão por média\label{fusion_flev_roi_ii_25_pixel_met:a}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{sf_fus_media_25_pixel_crop}
+     }
+     \subfloat[DWT fusion\label{fusion_flev_roi_ii_25_pixel_met:b}]{%
+       \includegraphics[width=0.32\linewidth]{sf_fus_dwt_25_pixel_crop}
+     }\\
+     \subfloat[Fusão PCA \label{fusion_flev_roi_ii_25_pixel_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.32\linewidth]{sf_fus_pca_25_pixel_crop}       
+     }
+     \subfloat[Fusão ROC\label{fusion_flev_roi_ii_25_pixel_met:d}]{%
+       \includegraphics[width=0.32\linewidth]{sf_fus_roc_25_pixel_crop}
+     }\\
+     \subfloat[Fusão MR-SWT \label{fusion_flev_roi_ii_25_pixel_met:e}]{%
+       \includegraphics[width=0.32\linewidth]{sf_fus_swt_25_pixel_crop}
+     }
+     \subfloat[Fusão MR-SVD \label{fusion_flev_roi_ii_25_pixel_met:f}]{%
+       \includegraphics[width=0.32\linewidth]{sf_fus_svd_25_pixel_crop}
+     }
+     \caption{Resultado da aplicação dos seis métodos de fusão para os 7 canais de sf com 25 pixeis de folga}
+     \label{fusion_flev_roi_ii_25_pixel_met}
+\end{figure}
+
+\begin{table}[hbt]
+	\centering
+	\caption{Processing times 7 canais sf (fusion method).}\label{metrica_de_tempo}
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
+		Method     & Aver.      &   PCA       &  MR-DWT   & MR-SWT     &  ROC       &  MR-SVD \\ \midrule
+		Time (s)   &0.0062478   &0.03716775    &0.0318234 &  0.07701785& 0.6952072  & 0.4433903  \\
+		Rel. time  & 1.00       &             &           &      &        &   \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.60\linewidth]{metricas_fus_sf_25_pixel_port}%
+	\caption{Métricas para a fusão das evidências de bordas em imagem San Francisco}
+\label{metrica_sim_port}
+\end{figure}
+
+
+
 \clearpage
 \subsection{Probabilidade erro de detecção}
 
@@ -648,7 +839,7 @@ A figura~\ref{probability_edge_detc_sf_roi_i} mostra o erro para a SF-ROI-II com
 	 \caption{Probabilidade de detecção dos métodos de fusão para a SF-ROI-I}	  
 \label{probability_edge_detc_sf_roi_i}
 \end{figure}
-
+ 
 
 %\subsection{Imagem da Baía de São Francisco}
 
