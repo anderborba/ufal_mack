@@ -1,4 +1,4 @@
-%%%%%%%%%%%% programa inspirado em Download/Image Fusion Dased Transform
+%%%%%%%%%%%% programa inspirado em Download/Image Fusion Based Transform
 function [F] = fus_dwt(E, m, n, nc)
 [A1,H1,V1,D1] = dwt2(E(:, :, 1), 'db2');
 [A2,H2,V2,D2] = dwt2(E(:, :, 2), 'db2');

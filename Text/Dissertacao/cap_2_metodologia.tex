@@ -787,6 +787,8 @@ $R_{hh}$ &$\sigma_{hh}^2$ & 0                  &$\rho_{hh,hv}\sigma_{hh}\sigma_{
 \end{tabular}
 \end{sidewaystable}
 \section{Funções de densidade}
+
+
 \subsection{Função de densidade Wishart para os canais de intensidade}
 Para os canais $(hh)$, $(hv)$ e $(vv)$ vamos usar a distribuição Wishart (PDF) descrita por
 
@@ -1287,8 +1289,6 @@ A discusão será limitada para estatística da razão $\nu$ amplitude normaliza
 \textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variância.}
 
 
-\section{Metodologia}
-
 Os modelos marginais são derivados dos modelos mariados Gamma como a distribuição complexa Wishart.
  Nesta seção serão apresentados os modelos marginais usados no trabalho.
 
@@ -1298,16 +1298,22 @@ O coeficiente de variação definido como a razão do desvio padrãoem uma image
 	\text{ENL(I)} = \frac{1}{\text{CV}^2}, \\
 \end{equation}
 para mais detalhes podemos consultar \citet{ljdwo}.
-\section{Modelos de Densidades de Probabilidades Marginais}
-\subsection{Função Densidade de Probabilidade Univariada Gamma}
+
+\section{Metodologia}
+
+\section{Detecção das evidências de bordas}
+\section{Modelos estatísticos para os dados SAR/PolSAR}
+\subsection{Estimativa de parâmetros usando o método da máxima verossimilhança}
+\subsection{Função densidade de probabilidade univariada}
+\subsubsection{Função densidade de probabilidade $\Gamma$ para os canais de intensidades}
 Na função distribuição de densidade univariada gaussiana 
 \begin{equation}\label{pdf_gauss_univ}
-	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-L\frac{z}{\mu}\right\}, \\
+	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, \\
 \end{equation}
 onde, $\mu>0$ e $L>0$, aplicamos o logaritmo natural e suas propriedades
 \begin{equation}\nonumber
 \begin{array}{ccl}
-	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-L\frac{z}{\mu}\right\}\right), \\
+	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}\right), \\
 	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln z^{L-1} + \ln \exp\left\{-L\frac{z}{\mu}\right\}, \\
 %	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z,\\	                                         
 \end{array}
@@ -1317,14 +1323,14 @@ obtendo a função,
 	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
 \end{equation}
 
-Dado a amostra $\bm z = (z_1,\dots,z_n)$ deduzimos a função log-verossimilhança,  
+Dado a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, deduzimos a função log-verossimilhança,  
 \begin{equation}\nonumber
 \begin{split}
   \ell(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
   \ell(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L),
  \end{split}
  \end{equation}
-com o uso da função~\eqref{func_log_univ_gaussiana}, portanto,
+com o uso da função logarítimica~\eqref{func_log_univ_gaussiana}, teremos
 \begin{equation}\nonumber
 \begin{split}
     \ell(\bm z;\mu, L)&=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
@@ -1339,7 +1345,7 @@ Definimos a função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss
 \begin{equation}\nonumber
     \ell(\bm z;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,\\                
  \end{equation}
-e a sua forma reduzida que chamaremos de função log-verossimilhança reduzida, 
+e a sua forma reduzida chamada de função log-verossimilhança reduzida, 
 \begin{equation}
 \ell(\bm z;\mu, L) = 
 n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
@@ -1349,7 +1355,7 @@ n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
 
 Obtemos os parâmetros $(\widehat \mu, \widehat L)$ com o estimador de máxima verossimilhança (MLE) de $(\mu, L)$ baseado na amostra $\bm z$ maximizando a função~\eqref{eq:LogLikelihoodGamma_red} usando o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Preferimos realizar o processo de otimização resolvendo $\nabla\ell=\bm 0$ com objetivo de melhorar a estabilidade numérica.
 
-Extraindo da imagem uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras disjuntas na posição $j$:  
+Extraindo de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras disjuntas na posição $j$:  
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
@@ -1379,9 +1385,7 @@ $$
 $$ 
 onde $\min_s$ é uma folga mínima definida empiricamente para as extremidades da amostra, a escolha do número de pixeis da amostra pode variar com região de interesse da imagem ou com tipo de sensor para aquisição de imagem.
  
-Destacamos que usamos o método de otimização BFGS para obter uma estimativa dos parâmetros ($\mu, L$) simultaneamente, isto é, otimizamos uma função de duas variáveis.
-
-Alternativamente, podemos estimar, ou fixar, o número de visadas $L$ a priori e otimizar uma função de uma variável em $\mu$. Derivando a equação~\eqref{eq:LogLikelihoodGamma_red} com relação a variável $\mu$ e igualando a zero, encontramos  
+Destacamos que podemos usar o método de otimização BFGS para obter uma estimativa dos parâmetros ($\mu, L$) simultaneamente, isto é, otimizamos funções com duas variáveis, ou, alternativamente, podemos estimar, ou fixar, o número de visadas $L$ a priori e otimizar uma função de uma variável em $\mu$. Derivando a equação~\eqref{eq:LogLikelihoodGamma_red} com relação a variável $\mu$ e igualando a zero, encontramos  
 
 \begin{equation*}
 \begin{split}
@@ -1393,39 +1397,40 @@ n\left[-\frac{L}{\mu}\right] &+ \frac{L}{\mu^2}\sum_{k=1}^{n} z_k=0\\
 uma aproximação para  
 \begin{equation}
 \mu = \frac{1}{n}\sum_{k=1}^{n} z_k,\\  
-\label{eq:est_ini_mu}
+\label{eq:est_media_mu}
 \end{equation}
-a qual podemos usar como estimativa inicial para a função
+a qual podemos usar como estimativa inicial para obter os parâmetros $(\widehat{\mu}, \widehat{L})$ no processo de otimização com duas variáveis, ou como aproximação para o parâmetro $\mu$ quando L fixo ou estimado a priori. 
 \begin{equation}
 \ell(\bm z;\mu) = n \left[\ln \frac{L}{\mu} \right] -\frac{L}{\mu}\sum_{k=1}^{n} z_k,
 \label{eq:LogLikelihoodGamma_red_L_fixo}
 \end{equation}
 para o método BFGS.
 
-Considerando a faixa de dados extraída da imagem e a partição da mesma em
+Quando optamos por usar o L estimado a priori e a média~\eqref{eq:est_media_mu} como estimativa de $\mu$ usamos o seguinte procedimento. Considerando a faixa de dados extraída da imagem e a partição da mesma em
 $\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L)$, e
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L)$.
-Podemos estimar $\mu_\text{I}$ e $\mu_\text{E}$ com as amostras $\bm z_\text{I}$ e $\bm z_\text{E}$ maximizando~\eqref{eq:LogLikelihoodGamma_red_L_fixo} para cada elemento das amostras. Desta forma teremos os parâmetros $(\widehat{\mu}_\text{I}, L)$ e $(\widehat{\mu}_\text{E}, L)$ conhecidos.
-
-A log-verossimilhança no ponto $j$ é, então
+Podemos estimar $\mu_\text{I}$ e $\mu_\text{E}$ com as amostras $\bm z_\text{I}$ e $\bm z_\text{E}$ calculando a média~\eqref{eq:est_media_mu} para cada amostra. Desta forma teremos os parâmetros $(\widehat{\mu}_\text{I}, L)$ e $(\widehat{\mu}_\text{E}, L)$ conhecidos resultando na função log-verossimilhança no ponto $j$, 
 \begin{equation}\label{eq:TotalLogLikelihood_L_fixo}
 \begin{split}
 \ell(j&;\widehat{\mu}_I,\widehat{\mu}_E, L)= 
- -jL\ln (\widehat{\mu}_\text{I}) 
-- \frac{L}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k -(n-j)L\ln (\widehat{\mu}_\text{E})
-- \frac{L}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
+ -j\ln \hat{\mu}_\text{I} 
+ - \frac{L}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k 
+ -(n-j)\ln \widehat{\mu}_\text{E}
+ -\frac{L}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
 \end{split}
 \end{equation}
+
 Vamos aplicar o método GenSA para encontrar
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I,\widehat{\mu}_E, L),
 $$ 
 onde $\min_s$ é uma folga mínima definida empiricamente para as extremidades da amostra, a escolha
 do número de pixeis da amostra pode variar com região de interesse da imagem ou com tipo de
-sensor para aquisição de imagem. Destacamos que foi estimado as evidências de bordas usando a função com uma variável.
-
-\subsection{Função Densidade de Probabilidade Univariada produto de magnitudes das intensidades}
-A  função densidade de probabilidade univariada produto de magnitudes para as intensidades é definida por
+sensor para aquisição de imagem. 
+%
+\subsubsection{Função densidade de probabilidade produto de magnitudes das intensidades}
+%
+A  função densidade de probabilidade univariada produto de magnitudes das intensidades é definida por
 \begin{equation}\label{eq:pdf_mag_prod}
 \begin{array}{lcl}
 	f(z;\rho, L)&=&\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
@@ -1433,35 +1438,34 @@ A  função densidade de probabilidade univariada produto de magnitudes para as 
 \end{equation}
 onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas, e onde, $\rho>0$ e $L>0$.
 
-Aplicando  o logaritmo natural na equação~\eqref{eq:pdf_mag_prod} com o objetivo de construir o método de máxima verossimilhança, teremos
+Aplicando  o logaritmo natural na equação~\eqref{eq:pdf_mag_prod}, teremos
 \begin{equation}\nonumber
 \begin{split}
-	\ln f(z;\rho,L)&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right)\right(),\\
+	\ln f(z;\rho,L)&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right)\right),\\
 	&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
 	&=\ln (4L^{L+1}z^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
      &=\ln (4)+\ln L^{L+1}+\ln z^L-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
      &+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
 	&=\ln (4)+(L+1)\ln L+L\ln z-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
-	&+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right).
+	&+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
 		\end{split}
 \end{equation}
-
-Definimos a função 
+então definimos a função logarítmica
 \begin{equation}\label{eq:log_vero_mag_produto}
 \begin{split}
-	\ell(z; \rho,\L)&=\ln (4)+(L+1)\ln L+L\ln z-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
+	\ell(z; \rho,\	L)&=\ln (4)+(L+1)\ln L+L\ln z-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
 	                      &+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right).
 	\end{split}
 \end{equation}
 
-A função log-verossimilhança pode ser deduzida sendo dado a amostra $\bm z = (z_1,\dots,z_n)$, 
+A função log-verossimilhança pode ser deduzida sendo dado a amostra $\bm z = (z_1,\dots,z_n)$ obtidas das imagens SAR/PolSAR 
 \begin{equation}\nonumber
 \begin{split}
   \ell(\bm z;\rho, L)=\ln\prod_{k=1}^{n}f(z_k;\rho,L)\\
   \ell(\bm z;\rho, L)=\sum_{k=1}^{n}\ln f(z_k;\rho,L),
  \end{split}
  \end{equation}
-usando a função~\eqref{eq:log_vero_mag_produto} teremos,
+usando a função logarítmica~\eqref{eq:log_vero_mag_produto}, teremos
 \begin{equation}\nonumber
 \begin{split}
     \ell(\bm z;\rho, L)&=\sum_{k=1}^{n}\ln f(z_k;\rho,L)\\
@@ -1481,7 +1485,7 @@ usando a função~\eqref{eq:log_vero_mag_produto} teremos,
 \end{split}
  \end{equation}
  
-Definimos a função log-verossimilhança para a PDF univariada~(\ref{eq:pdf_mag_prod})
+Definimos a função log-verossimilhança para a PDF~\eqref{eq:pdf_mag_prod}
 \begin{equation}\nonumber
 \begin{split}
     \ell(\bm z;\rho, L)&=n\left[\ln (4)+(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln z_k\\
@@ -1526,16 +1530,15 @@ $$
 $$ 
 onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
 
-Sendo o número de visadas $L$ conhecido ou estimado a priori podemos reescrever a equação \eqref{eq:eq_log_vero_mag_prod_red} por
+Alternativamente podemos resolver o problema da seguinte forma, considerando o número de visadas $L$ conhecido ou estimado a priori podemos reescrever a equação \eqref{eq:eq_log_vero_mag_prod_red} por
 \begin{equation}\label{eq:eq_log_vero_mag_prod_red_L_fixo}
 \begin{split}
     \ell(\bm z;\rho)&=-n\ln(1-|\rho|^2) +\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right),\\
 \end{split}
  \end{equation}
-assumindo que vamos estimar $\rho_\text{I}$ e $\rho_\text{E}$ nas amostras $\bm z_\text{I}$ e $\bm z_\text{E}$ através da   maximização de~\eqref{eq:eq_log_vero_mag_prod_red_L_fixo} obteremos  $(\widehat{\rho}_{I})$ e $(\widehat{\rho}_\text{E})$.
- 
+assumindo que vamos estimar $\rho_\text{I}$ e $\rho_\text{E}$ nas amostras $\bm z_\text{I}$ e $\bm z_\text{E}$ através da maximização de~\eqref{eq:eq_log_vero_mag_prod_red_L_fixo} obteremos  $(\widehat{\rho}_{I})$ e $(\widehat{\rho}_\text{E})$.
 
-A log-verossimilhança no ponto $j$ com $L_\text{I}=L_\text{E}=L$ definidas a priori é
+A função log-verossimilhança no ponto $j$ com $L_\text{I}=L_\text{E}=L$ definidas a priori é
 \begin{equation}\label{eq:TotalLogLikelihood_prod_mag_L_fixo}
 \begin{split}
 \ell(j;\widehat{\rho}_\text{I}, \widehat{\rho}_\text{E})&
@@ -1544,114 +1547,110 @@ A log-verossimilhança no ponto $j$ com $L_\text{I}=L_\text{E}=L$ definidas a pr
  + \sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
 &-(n-j)\ln(1-|\widehat{\rho}_\text{E}|^2)
 +\sum_{k=j+1}^{n}\ln I_0\left(\frac{2|\widehat{\rho}_\text{E}|Lz_k}{1-|\widehat{\rho}_\text{E}|^2}\right)
-+ \sum_{k=j+1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\widehat{\rho}_\text{E}|^2}\right).\\
++ \sum_{k=j+1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\widehat{\rho}_\text{E}|^2}\right),\\
 \end{split}
 \end{equation}
-
-O método GenSA é aplicado para encontrar
+e aplicando o método GenSA para encontrar
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I,\widehat{\rho}_E),
 $$ 
 onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
+%
+\subsubsection{Função densidade de probabilidade razão de intensidades}
+A razão de intensidades ou amplitudes entre $\mathbf{S}_i$ e $\mathbf{S}_j$ são importantes no estudo de radares polarimétricos. 
 
-\subsection{Método da verossimilhança aplicado na PDF univariada razão de intensidades múltiplas visadas}
-A razão de intensidades ou amplitudes entre $\mathbf{S}_i$ e $\mathbf{S}_j$ são importantes no estudo de radares polarimétricos. Seja a razão de intensidade normalizada,
+Seja a razão de intensidade normalizada,
 \begin{equation}\label{eq:razao_intensidades}
  \mu=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2},\\
 \end{equation}
-onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$.
-  
-Considerando a função densidade de probabilidade univariada razão de intensidades múltiplas visadas,
+onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$, e a função densidade de probabilidade razão de intensidades,
 \begin{equation}\label{eq:pdf_razao_intensidades}
 	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
 \end{equation}
-onde, $\rho>0$ e $L>0$. 
-Podemos definir 
-\begin{equation}\label{eq:razao_intensidades_w}
- w=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
+onde, $\rho>0$ e $L>0$. Definindo 
+\begin{equation}\label{eq:razao_intensidades_z}
+ z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
 \end{equation}
 realizando a mudança de variável na PDF, \eqref{eq:pdf_razao_intensidades} teremos, 
-\begin{equation}\label{eq:pdf_razao_intensidades_tau_w}
-	f(w;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}}\\
+\begin{equation}\label{eq:pdf_razao_intensidades_tau_z}
+	f(z;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}}.\\
 \end{equation}
 
-Aplicando o logaritmo natural na equação~\eqref{eq:pdf_razao_intensidades_tau_w} e realizando manipulações algébricas teremos
+Aplicando o logaritmo natural na equação~\eqref{eq:pdf_razao_intensidades_tau_z} e realizando manipulações algébricas teremos
 \begin{equation}\nonumber
 \begin{split}
-	\ln f(w;\rho,L,\tau)&=\ln\left(\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}}\right),\\
-	                &=\ln\left(\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+w)w^{L-1}\right)\\
-	                &-\ln\left(\Gamma(L)\Gamma(L)\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}\right),\\
-	                &=\ln\tau^L + \ln\Gamma(2L) +\ln(1-|\rho|^2)^{L}+\ln(\tau+w)+\ln w^{L-1}\\
-	                &-\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right]^{\frac{2L+1}{2}}\right),\\
-	                &=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+w)+(L-1)\ln w\\
-	                &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right].\\
+	\ln f(z;\rho,L,\tau)&=\ln\left(\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}}\right),\\
+	                &=\ln\left(\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}\right)\\
+	                &-\ln\left(\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}\right),\\
+	                &=\ln\tau^L + \ln\Gamma(2L) +\ln(1-|\rho|^2)^{L}+\ln(\tau+z)+\ln z^{L-1}\\
+	                &-\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}\right),\\
+	                &=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+z)+(L-1)\ln z\\
+	                &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+z)^2-4\tau|\rho|^2z \right].\\
 \end{split}
 \end{equation}
 
-Definimos a função logarítmica para a PDF univariada razão de intensidades múltiplas visadas,
-\begin{equation}\label{eq_log_vero_razao_intensidade_tau_w}
+Definimos a função logarítmica para a PDF razão de intensidades,
+\begin{equation}\label{eq_log_vero_razao_intensidade_tau_z}
 \begin{split}	
-	\ln f(w;\rho,L,\tau)&=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+w)+(L-1)\ln w\\
-	                      &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w)^2-4\tau|\rho|^2w \right].\\
+	\ln f(z;\rho,L,\tau)&=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+z)+(L-1)\ln z\\
+	                      &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+z)^2-4\tau|\rho|^2z \right].\\
 \end{split}
 \end{equation}
 
-Dado a amostra $\bm w = (w_1,\dots,w_n)$, deduzimos a função log-verossimilhança 
+Dado a amostra $\bm z = (z_1,\dots,z_n)$ obtida das imagens SAR/PolSAR, deduzimos a função log-verossimilhança 
 \begin{equation}\nonumber
 \begin{split}
-  \ell(\bm w;\rho, L, \tau)=\ln\prod_{k=1}^{n}f(w_k;\rho,L, \tau)\\
-  \ell(\bm w;\rho, L, \tau)=\sum_{k=1}^{n}\ln f(w_k;\rho,L, \tau),
+  \ell(\bm z;\rho, L, \tau)=\ln\prod_{k=1}^{n}f(z_k;\rho,L, \tau)\\
+  \ell(\bm z;\rho, L, \tau)=\sum_{k=1}^{n}\ln f(z_k;\rho,L, \tau),
  \end{split}
  \end{equation}
-usando a função~\eqref{eq_log_vero_razao_intensidade_tau_w}, portanto,
+usando a função~\eqref{eq_log_vero_razao_intensidade_tau_z}, teremos,
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm w;\rho, L, \tau)&=\sum_{k=1}^{n}\ln f(w_k;\rho, L, \tau)\\
-                         &=\sum_{k=1}^{n}\left[L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+w_k)+(L-1)\ln w_k\right.\\
-	                     &-\left.2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k \right]\right],\\
+    \ell(\bm z;\rho, L, \tau)&=\sum_{k=1}^{n}\ln f(z_k;\rho, L, \tau)\\
+                         &=\sum_{k=1}^{n}\left[L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+z_k)+(L-1)\ln z_k\right.\\
+	                     &-\left.2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k \right]\right],\\
  \end{split}
  \end{equation}
  \begin{equation}\nonumber
 \begin{split} 
-    \ell(\bm w;\rho, L, \tau)&=L\ln\tau\sum_{k=1}^{n}1+\ln\Gamma(2L)\sum_{k=1}^{n} 1+L\ln(1-|\rho|^2)\sum_{k=1}^{n} 1+\sum_{k=1}^{n}\ln(\tau+w_k)+(L-1)\sum_{k=1}^{n}\ln w_k\\
-                         &-2\ln\Gamma(L)\sum_{k=1}^{n} 1-\frac{2L+1}{2}\sum_{k=1}^{n}\ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right]\\
-                         &=n\left(L\ln\tau+\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+w_k)\\
-                         &+L\sum_{k=1}^{n}\ln w_k-\sum_{k=1}^{n}\ln w_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+ w_k)^2-4\tau|\rho|^2w_k\right].\\
+    \ell(\bm z;\rho, L, \tau)&=L\ln\tau\sum_{k=1}^{n}1+\ln\Gamma(2L)\sum_{k=1}^{n} 1+L\ln(1-|\rho|^2)\sum_{k=1}^{n} 1+\sum_{k=1}^{n}\ln(\tau+z_k)+(L-1)\sum_{k=1}^{n}\ln z_k\\
+                         &-2\ln\Gamma(L)\sum_{k=1}^{n} 1-\frac{2L+1}{2}\sum_{k=1}^{n}\ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right]\\
+                         &=n\left(L\ln\tau+\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+z_k)\\
+                         &+L\sum_{k=1}^{n}\ln z_k-\sum_{k=1}^{n}\ln z_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+ z_k)^2-4\tau|\rho|^2z_k\right].\\
 \end{split}
 \end{equation}
  
-Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq_log_vero_razao_intensidade_tau_w}).
+Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq_log_vero_razao_intensidade_tau_z}).
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm w;\rho, L, \tau)&=n\left(L\ln\tau + \ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+w_k)\\
-                         &+L\sum_{k=1}^{n}\ln w_k-\sum_{k=1}^{n}\ln w_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right]\\
+    \ell(\bm z;\rho, L, \tau)&=n\left(L\ln\tau + \ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+z_k)\\
+                         &+L\sum_{k=1}^{n}\ln z_k-\sum_{k=1}^{n}\ln z_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right]\\
 \end{split}
  \end{equation}
 e a forma reduzida,
-\begin{equation}\label{eq_log_vero_razao_intensidade_red_tau_w}
+\begin{equation}\label{eq_log_vero_razao_intensidade_red_tau_z}
 \begin{split}
-    \ell(\bm w;\rho, L, \tau)&=n\left(L\ln\tau +\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\tau+w_k)+L\sum_{k=1}^{n}\ln w_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right]\\
+    \ell(\bm z;\rho, L, \tau)&=n\left(L\ln\tau +\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)\\
+                         &+\sum_{k=1}^{n}\ln(\tau+z_k)+L\sum_{k=1}^{n}\ln z_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right]\\
 \end{split}
  \end{equation} 
 
-Vamos obter $(\widehat \rho, \widehat L, \widehat \tau)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L, \tau)$ baseado em $\bm w$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_w} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
+Vamos obter $(\widehat \rho, \widehat L, \widehat \tau)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L, \tau)$ baseado na amostra $\bm z$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_z} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
 
-A função log-verossimilhança reduzida é aplicada na faixa de dados $\bm w = (w_1,w_2,\dots,w_n)$ particionada em duas amostras disjuntas na posição $j$,  denotadas respectivamente como $\bm w_\text{I}$ e $\bm w_\text{E}$,  
+A função log-verossimilhança reduzida é aplicada na faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ particionada em duas amostras disjuntas na posição $j$,  denotadas respectivamente como $\bm z_\text{I}$ e $\bm z_\text{E}$,  
 $$
-\bm w = (\underbrace{w_1,w_2,\dots,w_j}_{\bm w_\text{I}}, 
-\underbrace{w_{j+1}, w_{j+2},\dots,w_n}_{\bm w_\text{E}}).
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
 $$
 
-Para cada amostra estimamos os parâmetros $(\rho_\text{I},L_\text{I}, \tau_\text{I})$ e $(\rho_\text{E},L_\text{E}, \tau_\text{E})$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_w_L_fixo}, obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E}, \widehat{\tau}_\text{E})$. Usando as estimativas para cada pixel podemos definir a seguinte função.
-
-A log-verossimilhança total no ponto $j$ é, então
+Para cada amostra estimamos os parâmetros $(\rho_\text{I},L_\text{I}, \tau_\text{I})$ e $(\rho_\text{E},L_\text{E}, \tau_\text{E})$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_z}, obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E}, \widehat{\tau}_\text{E})$. Usando as estimativas para cada pixel podemos definir a função log-verossimilhança total no ponto $j$,
 \begin{equation}\label{eq:log_vero_total_razao_int}
 \begin{split}
 \ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E},\widehat{\tau}_\text{E})&=n\left(\widehat{L}_\text{I}\ln\widehat{\tau}_\text{I} +\ln\Gamma(2\widehat{L}_\text{I})+\widehat{L}_\text{I}\ln(1-|\widehat{\rho}_\text{I}|^2)-2\ln\Gamma(\widehat{L}_\text{I})\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+w_k)+\widehat{L}_\text{I}\sum_{k=1}^{n}\ln w_k-\frac{2\widehat{L}_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+w_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2w_k\right]\\
+                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+z_k)+\widehat{L}_\text{I}\sum_{k=1}^{n}\ln z_k-\frac{2\widehat{L}_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+z_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2z_k\right]\\
                          &+n\left(\widehat{L}_\text{E}\ln\widehat{\tau}_\text{E}+\ln\Gamma(2\widehat{L}_\text{E})+\widehat{L}_\text{E}\ln(1-|\widehat{\rho}_\text{E}|^2)-2\ln\Gamma(\widehat{L}_\text{E})\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+w_k)+\widehat{L}_\text{E}\sum_{k=1}^{n}\ln w_k-\frac{2\widehat{L}_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+w_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2w_k\right]
+                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+z_k)+\widehat{L}_\text{E}\sum_{k=1}^{n}\ln z_k-\frac{2\widehat{L}_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+z_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2z_k\right]
 %\raisetag{2.2em}
 \end{split}
 \end{equation}
@@ -1662,16 +1661,16 @@ $$
 $$ 
 onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
 
-Sendo o número de visadas $L$ conhecido ou estimado a priori, podemos redefinir a função log-verossimilhança 
-\begin{equation}\label{eq:log_razao_int_w_L_fixo}
+Alternativamente, sendo o número de visadas $L$ conhecido ou estimado a priori, podemos redefinir a função log-verossimilhança reduzida por 
+\begin{equation}\label{eq:log_razao_int_z_L_fixo}
 \begin{split}
-    \ell(\bm w;\rho, \tau)&=n\left(L\ln\tau+L\ln(1-|\rho|^2)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\tau+w_k)
-                         -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+w_k)^2-4\tau|\rho|^2w_k\right].\\
+    \ell(\bm z;\rho, \tau)&=n\left(L\ln\tau+L\ln(1-|\rho|^2)\right)\\
+                         &+\sum_{k=1}^{n}\ln(\tau+z_k)
+                         -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right].\\
 \end{split}
  \end{equation}    
  
-Maximizando a função $\ell(\bm w;\rho, \tau)$ com o objetivo de estimar $(\rho_\text{I}, \tau_\text{I})$ e $(\rho_\text{E}, \tau_\text{E})$ para as amostras $\bm w_\text{I}$ e $\bm w_\text{E}$, obtemos $(\widehat{\rho}_\text{I},\widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{\tau}_\text{E})$. O método de otimização BFGS implementado no pacote \texttt{maxLik}~\citep{ht}
+Maximizando a função $\ell(\bm z;\rho, \tau)$ com o objetivo de estimar $(\rho_\text{I}, \tau_\text{I})$ e $(\rho_\text{E}, \tau_\text{E})$ para as amostras $\bm z_\text{I}$ e $\bm z_\text{E}$, obtemos $(\widehat{\rho}_\text{I},\widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{\tau}_\text{E})$. O método de otimização BFGS implementado no pacote \texttt{maxLik}~\citep{ht}
 é usado para estimar os parâmetros.
  
 Estimados os parâmetros definimos a log-verossimilhança total no ponto $j$
@@ -1679,12 +1678,12 @@ Estimados os parâmetros definimos a log-verossimilhança total no ponto $j$
 \begin{split}
 \ell(j;\widehat{\rho}_\text{I}, \widehat{\tau}_\text{I}, \widehat{\rho}_\text{E},\widehat{\tau}_\text{E})&=
                          n\left(L\ln\widehat{\tau}_\text{I} +L\ln(1-|\widehat{\rho}_\text{I}|^2)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+w_k)
-                         -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+w_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2w_k\right]\\
+                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+z_k)
+                         -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+z_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2z_k\right]\\
                          &+n\left(L\ln\widehat{\tau}_\text{E}
                           +L\ln(1-|\widehat{\rho}_\text{E}|^2)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+w_k)
-                          -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+w_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2w_k\right]
+                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+z_k)
+                          -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+z_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2z_k\right].
 %\raisetag{2.2em}
 \end{split}
 \end{equation}
@@ -1693,46 +1692,126 @@ O método GenSA é aplicado para encontrar
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I,\widehat{\tau}_I,\widehat{\rho}_E, \widehat{\tau}_E),
 $$ 
-onde $\min_s$ é o tamanho mínimo da amostra definido empiricamente por $14$.
+onde $\min_s$  é o tamanho da folga em cada extremidade da amostra definida empiricamente.
+\subsubsection{Funçao distribuição de densidade para o span em meio recíproco}
+A referência~\cite{fwzjn} mostra que podemos usar uma distribuição gaussiana para modelar o \textit{span}, equação~\eqref{span_geral}, considerando a função distribuição de densidade univariada gaussiana 
+\begin{equation}\label{eq:gauss_span}
+	f_{S}(s;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-\frac{L}{\mu}s\right\}, \\
+\end{equation}
+onde, $\mu>0$, $L>0$, e $s$ é elemento do \textit{span}(S).
 
-A log-verossimilhança no ponto $j$ com os parêmetros estimados é, então
-\begin{equation}\label{eq:TotalLogLikelihood_razao}
+Aplicando o logaritmo natural na equação~\eqref{eq:gauss_span}  e realizando operações algébricas teremos:
+\begin{equation}\nonumber
+\begin{array}{ccl}
+	\ln f_{S}(s;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-\frac{L}{\mu}s\right\}\right), \\
+	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln s^{L-1} + \ln \exp\left\{-\frac{L}{\mu}s\right\}, \\
+%	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s,\\	                                         
+\end{array}
+\end{equation}
+resultanto na função, 
+\begin{equation}\label{eq:func_log_gauss_span}
+	\ln f_{S}(s;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s.
+\end{equation}
+
+A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm s = (s_1,\dots,s_n)$ obtida das imagens SAR/PolSAR, 
+\begin{equation}\nonumber
 \begin{split}
-\ell(j;\widehat{\rho}_\text{I}, L_\text{I}, \widehat{\tau}_\text{I}, \widehat{\rho}_\text{E}, L_\text{E},\widehat{\tau}_\text{E})&=n\left(L_\text{I}\ln\widehat{\tau}_\text{I} +\ln\Gamma(2L_\text{I})+L_\text{I}\ln(1-|\widehat{\rho}_\text{I}|^2)-2\ln\Gamma(L_\text{I})\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+w_k)+L_\text{I}\sum_{k=1}^{n}\ln w_k-\frac{2L_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+w_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2w_k\right]\\
-                         &+n\left(L_\text{E}\ln\widehat{\tau}_\text{E}+\ln\Gamma(2L_\text{E})+L_\text{E}\ln(1-|\widehat{\rho}_\text{E}|^2)-2\ln\Gamma(L_\text{E})\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+w_k)+L_\text{E}\sum_{k=1}^{n}\ln w_k-\frac{2L_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+w_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2w_k\right]
-%\raisetag{2.2em}
+  \ell(\bm s;\mu, L)=\ln\prod_{k=1}^{n}f_S(s_k;\mu,L)\\
+  \ell(\bm s;\mu, L)=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L),
+ \end{split}
+ \end{equation}
+usando a função~\eqref{eq:func_log_gauss_span} teremos,
+\begin{equation}\nonumber
+\begin{split}
+    \ell(\bm s;\mu, L)&=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L)\\
+                      &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s_k - \frac{L}{\mu} s_k\right]\\
+                      &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k\\
+                      &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k\\
+                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k.\\                
+ \end{split}
+ \end{equation}
+
+Definimos a equação log-verossimilhança para a PDF univariada~\eqref{eq:gauss_span}
+\begin{equation}\nonumber
+    \ell(\bm s;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k,\\                
+ \end{equation}
+e a forma reduzida, 
+\begin{equation}
+\ell(\bm s;\mu, L) = 
+n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
++L \sum_{k=1}^{n}\ln s_k -\frac{L}{\mu}\sum_{k=1}^{n} s_k.
+\label{eq:LogLikelihoodGamma_red_span}
+\end{equation}
+
+Vamos obter $(\widehat L, \widehat \mu)$, o estimador de máxima verossimilhança (MLE) de $(L, \mu)$ baseado na amostra $\bm s$, por maximizar~\eqref{eq:LogLikelihoodGamma_red_span} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
+
+O função é a log-verossimilhança reduzida é aplicada para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm s_\text{I}$ e $\bm s_\text{E}$. Cada faixa de dados $\bm s = (s_1,s_2,\dots,s_n)$ é particionada em duas amostras disjuntas na posição $j$:  
+$$
+\bm s = (\underbrace{s_1,s_2,\dots,s_j}_{\bm s_\text{I}}, 
+\underbrace{s_{j+1}, s_{j+2},\dots,s_n}_{\bm s_\text{E}})
+$$
+assumimos dois diferentes modelos para cada partição:
+$\bm S_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
+$\bm S_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+Vamos estimar $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ com $\bm s_\text{I}$ e $\bm s_\text{E}$, respectivamente, maximizando~\eqref{eq:LogLikelihoodGamma_red_span}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+
+A log-verossimilhança no ponto $j$ é, então
+\begin{equation}\label{eq:TotalLogLikelihood_span}
+\begin{split}
+%\ell(j&;\bm s_\text{I},\bm s_\text{E}) = \\
+\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln s_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} s_k +\\
+&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln s_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
+\raisetag{2.2em}
+\end{split}
+\end{equation}
+
+Vamos aplicar o método GenSA para encontrar
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
+$$ 
+onde $\min_s$ é o coeficiente de folga definido empiricamente.
+
+ Alternativamente, podemos assumir o número de visadas L fixo, ou estimado a priori, e otimizar a função
+\begin{equation}
+\ell(\bm s;\mu) = 
+-n\ln \mu -\frac{1}{\mu}\sum_{k=1}^{n} s_k
+\label{eq:LogLikelihoodGamma_red_span_L_fixo}
+\end{equation}
+na variável $\mu$, assumindo dois modelos diferentes para cada partição,
+$\bm S_\text{I} \sim \Gamma(\mu_\text{I})$,e
+$\bm S_\text{E} \sim \Gamma(\mu_\text{E})$.
+Assim, encontramos estimativas~$\widehat{\mu}_\text{I}$~e~$\widehat{\mu}_\text{E}$~para os parâmetros~$\mu_\text{I}$~e~$\mu_\text{E}$~com as amostras~$\bm S_\text{I}$~e~$\bm S_\text{E}$ usando as médias para a mostra de acordo com a equação~\eqref{eq:est_media_mu}.
+
+Usando as estimativa~$\widehat{\mu_\text{I}}$~e~$\widehat{\mu_\text{E}}$, a log-verossimilhança total no ponto $j$ é, então
+\begin{equation}\label{eq:TotalLogLikelihood_L_fixo_span}
+\begin{split}
+\ell(j&;\widehat{\mu}_I,\widehat{\mu}_E)= 
+ -j\ln (\widehat{\mu}_\text{I}) 
+- \frac{1}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} s_k -(n-j)\ln (\widehat{\mu}_\text{E})
+- \frac{1}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
 \end{split}
 \end{equation}
 
 O método GenSA é aplicado para encontrar
 $$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, L_I,\widehat{\tau}_I,\widehat{\rho}_E, L_E, \widehat{\tau}_E),
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I,\widehat{\mu}_E),
 $$ 
-onde $\min_s$  é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-\subsection{Distribuição bivariada produto de intensidades} 
-Seja a função distribuição de probabilidade bivariada para as intensidades, a qual pode ser encontrada em \citet{lee}
-\begin{equation}\label{func_biv_produto_inten_b1_b2}
-	f(B_1,B_2;\rho, L)=\frac{\left(B_1B_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho|^2}\right)}{\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}I_{L-1}\left(2\sqrt{B_1B_2}\frac{|\rho|}{1-|\rho|^2}\right).
-\end{equation}
-
-Considerando as seguintes relações de igualdade, 
-\begin{equation*}
-\begin{array}{ccccc}
-	z_1&=&\frac{1}{L}\sum_{k=1}^{L}|S_i(k)|^2&=&\frac{B_1\Sigma_{11}}{L},\\
-	z_2&=&\frac{1}{L}\sum_{k=1}^{L}|S_j(k)|^2&=&\frac{B_2\Sigma_{22}}{L},\\
-\end{array}
-\end{equation*}
-que são usadas para realizar uma mudança de variável em \eqref{func_biv_produto_inten_b1_b2} resultando em
-\begin{equation}\label{func_biv_produto_inten_r1_r2}
+onde $\min_s$ é a folga definida empiricamente.
+\subsection{Função densidade de probabilidade bivariada}
+\subsubsection{Função densidade de probabilidade produto de intensidades} 
+Seja a função distribuição de probabilidade bivariada produto de intensidades, a qual pode ser encontrada em \citet{lee}
+\begin{equation}\label{func_biv_produto_inten_z1_z2}
 	f(z_1,z_2;\rho,L, \Sigma_{11}, \Sigma_{22})=\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right).
 \end{equation}
 
-Aplicando o logaritmo natural em ambos os lados na equação \eqref{func_biv_produto_inten_b1_b2}
+Aplicando o logaritmo natural em ambos os lados na equação \eqref{func_biv_produto_inten_z1_z2}
 \begin{equation}\nonumber
 \begin{split}
-	\ln f(z_1,z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho_c|^{L-1}}I_{L-1}\left((2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right),\\
+	\ln f(z_1,z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}
+	+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right),\\
 	\end{split}
 \end{equation}
 \begin{equation}\nonumber
@@ -1766,7 +1845,7 @@ resultando na função logarítmica
 \end{split}
 \end{equation}
 
-A função log-verossimilhança pode ser deduzida da seguinte maneira, sendo dado as amostras $\bm z_1 = (z^1_1,\dots,z^1_n)$ e  $\bm z_2 = (z^2_1,\dots,z^2_n)$ 
+A função log-verossimilhança pode ser deduzida da seguinte maneira, sendo dado as amostras $\bm z_1 = (z^1_1,\dots,z^1_n)$ e  $\bm z_2 = (z^2_1,\dots,z^2_n)$ obtidas das imagens SAR/PolSAR, 
 \begin{equation}\nonumber
 \begin{split}
   \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\ln\prod_{k=1}^{n}f(z^1_k, z^2_k;\rho,L, \Sigma_{11}, \Sigma_{22}),\\
@@ -1788,7 +1867,7 @@ usando a função~\eqref{fun_log_biv_inten} teremos,
 \end{split}
 \end{equation}
 
-Definimos a equação log-verossimilhança para a PDF univariada~(\ref{fun_log_biv_inten})
+Definimos a equação log-verossimilhança para a PDF bivariada~(\ref{fun_log_biv_inten})
 \begin{equation}\nonumber
 \begin{split} 
   \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right. \\
@@ -1809,8 +1888,7 @@ e a forma reduzida,
 \end{split}
  \end{equation} 
 
-Vamos obter $(\widehat \rho, \widehat L, \widehat \Sigma_{11}, \widehat \Sigma_{22})$, a estimativa de máxima verossimilhança (MLE) para $(\rho, L, \Sigma_{11}, \Sigma_{22})$ baseado em  $\bm z_1$, e $\bm z_2$ por maximizar~\eqref{eq:log_vero_biv_prod_red} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Usamos a otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
-
+Vamos obter $(\widehat \rho, \widehat L, \widehat \Sigma_{11}, \widehat \Sigma_{22})$, a estimativa de máxima verossimilhança (MLE) para $(\rho, L, \Sigma_{11}, \Sigma_{22})$ baseado em  $\bm z_1$, e $\bm z_2$ por maximizar~\eqref{eq:log_vero_biv_prod_red} com o método BFGS implementado no pacote \texttt{maxLik} \citep{ht}. Usamos a otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
 
 O função usada é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamente como $\bm z_\text{I}$ e $\bm z_\text{E}$. As faixas de dados $\bm z_1 = (z^1_1,z^1_2,\dots,z^1_n)$  e $\bm z_2 = (z^2_1,z^2_2,\dots,z^2_n)$ são particionadas em duas amostras disjuntas na posição $j$:  
 $$
@@ -1850,9 +1928,7 @@ $$
 $$ 
 onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
 
-%Sendo o número de visadas $L$ conhecido a priori e otimizando a função $\ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})$ nas variáveis $\rho$, $\Sigma_{11}$, e $\Sigma_{22}$ estimamos $(\rho_\text{I}, \Sigma^\text{I}_{11}, \Sigma^\text{I}_{22})$ e $(\rho_\text{E}, \Sigma^\text{E}_{11}, \Sigma^\text{E}_{22})$ com $\bm z^1_\text{I}$, $\bm z^1_\text{E}$ e $\bm z^2_\text{I}$, $\bm z^2_\text{E}$ e maximizando~\eqref{eq:log_vero_biv_prod_red_L_fixo}, obtemos $(\widehat\rho_\text{I}, \widehat\Sigma^\text{I}_{11}, \widehat\Sigma\text{I}_{22})$ e $(\widehat\rho_\text{E}, \widehat\Sigma^\text{E}_{11}, \widehat\Sigma^\text{E}_{22})$.
-
-Sendo o número de visadas $L$ conhecido a priori, reescrevemos a função logarítmica~\eqref{eq:log_vero_biv_prod_red}
+Alternativamente, sendo o número de visadas $L$ conhecido ou estimado a priori, reescrevemos a função logarítmica~\eqref{eq:log_vero_biv_prod_red}
 \begin{equation}\label{eq:log_vero_biv_prod_red_L_fixo}
 \begin{split}
 \ell(\bm z_1, \bm z_2;\rho, \Sigma_{11}, \Sigma_{22})&=n\left[- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right. \\
@@ -1862,7 +1938,7 @@ Sendo o número de visadas $L$ conhecido a priori, reescrevemos a função logar
 \end{split}
  \end{equation}
 
-A log-verossimilhança no ponto $j$ usando os parâmetros estimados é, então
+A log-verossimilhança no ponto $j$ usando os parâmetros estimados é
 \begin{equation}\label{eq:TotalLogLikelihood_biv_prod}
 \begin{split}
 \ell(j;\widehat{\rho}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E})&=n\left[-\ln(1-|\widehat{\rho}_\text{I}|^2)-(\widehat{L}_\text{I}-1)\ln|\widehat{\rho}_\text{I}|\right. \\
@@ -1872,119 +1948,11 @@ A log-verossimilhança no ponto $j$ usando os parâmetros estimados é, então
 	&+n\left[-\ln(1-|\widehat{\rho}_\text{E}|^2)-(\widehat{L}_\text{E}-1)\ln|\widehat{\rho}_\text{E}|\right. \\
 &\left.-\frac{\widehat{L}_\text{E}+1}{2}\ln \widehat\Sigma^\text{E}_{11}-\frac{\widehat{L}_\text{E} + 1}{2}\ln \widehat\Sigma^\text{E}_{22} \right]\\    
                         &-\frac{\widehat{L}_\text{E}}{\widehat\Sigma^\text{E}_{11}(1-|\widehat{\rho}_\text{E}|^2)}\sum_{k=1}^{n}z^1_k-\frac{\widehat{L}_\text{E}}{\widehat\Sigma^\text{E}_{22}(1-|\widehat{\rho}_\text{E}|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{E}-1}\left(2\widehat{L}_\text{E}\sqrt{\frac{z^1_kz^2_k}{\widehat\Sigma^\text{E}_{11}\widehat\Sigma^\text{E}_{22}}}\frac{|\widehat{\rho}_\text{E}|}{1-|\widehat{\rho}_\text{E}|^2}\right).
+	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{E}-1}\left(2\widehat{L}_\text{E}\sqrt{\frac{z^1_kz^2_k}{\widehat\Sigma^\text{E}_{11}\widehat\Sigma^\text{E}_{22}}}\frac{|\widehat{\rho}_\text{E}|}{1-|\widehat{\rho}_\text{E}|^2}\right),
 \end{split}
 \end{equation}
-
-Vamos aplicar o método GenSA para encontrar
+onde podemos aplicar o método GenSA para encontrar
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E}),
 $$ 
 onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-\subsection{Distribuição univariada para o span em meio recíproco}
-A referência~\cite{fwzjn} mostra que podemos usar uma distribuição gaussiana para modelar o \textit{span}, equação~\eqref{span_geral}, considerando a função distribuição de densidade univariada gaussiana 
-\begin{equation}\label{eq:gauss_span}
-	f_{S}(s;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-L\frac{s}{\mu}\right\}, \\
-\end{equation}
-onde, $\mu>0$, $L>0$, e $s$ é elemento do \textit{span}(S).
-
-Aplicando o logaritmo natural na equação~\eqref{eq:gauss_span}  e realizando operações algébricas teremos:
-\begin{equation}\nonumber
-\begin{array}{ccl}
-	\ln f_{S}(s;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-L\frac{s}{\mu}\right\}\right), \\
-	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln s^{L-1} + \ln \exp\left\{-L\frac{s}{\mu}\right\}, \\
-%	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s,\\	                                         
-\end{array}
-\end{equation}
-resultanto na função, 
-\begin{equation}\label{eq:func_log_gauss_span}
-	\ln f_{S}(s;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s.
-\end{equation}
-
-A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm s = (s_1,\dots,s_n)$, 
-\begin{equation}\nonumber
-\begin{split}
-  \ell(\bm s;\mu, L)=\ln\prod_{k=1}^{n}f_S(s_k;\mu,L)\\
-  \ell(\bm s;\mu, L)=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L),
- \end{split}
- \end{equation}
-usando a função~\eqref{eq:func_log_gauss_span} teremos,
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm s;\mu, L)&=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L)\\
-                      &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s_k - \frac{L}{\mu} s_k\right]\\
-                      &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k\\
-                      &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k\\
-                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k.\\                
- \end{split}
- \end{equation}
-
-Definimos a equação log-verossimilhança para a PDF univariada~\eqref{eq:gauss_span}
-\begin{equation}\nonumber
-    \ell(\bm s;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k,\\                
- \end{equation}
-e a forma reduzida, 
-\begin{equation}
-\ell(\bm s;\mu, L) = 
-n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
-+L \sum_{k=1}^{n}\ln s_k -\frac{L}{\mu}\sum_{k=1}^{n} s_k.
-\label{eq:LogLikelihoodGamma_red_span}
-\end{equation}
-
-Vamos obter $(\widehat L, \widehat \mu)$, o estimador de máxima verossimilhança (MLE) de $(L, \mu)$ baseado na amostra $\bm s$, por maximizar~\eqref{eq:LogLikelihoodGamma_red_span} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
-
-O função é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm s_\text{I}$ e $\bm s_\text{E}$. Cada faixa de dados $\bm s = (s_1,s_2,\dots,s_n)$ é particionada em duas amostras disjuntas na posição $j$:  
-$$
-\bm s = (\underbrace{s_1,s_2,\dots,s_j}_{\bm s_\text{I}}, 
-\underbrace{s_{j+1}, s_{j+2},\dots,s_n}_{\bm s_\text{E}}).
-$$
-assumimos dois diferentes modelos para cada partição:
-$\bm S_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
-$\bm S_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-Vamos estimar $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ com $\bm s_\text{I}$ e $\bm s_\text{E}$, respectivamente, maximizando~\eqref{eq:LogLikelihoodGamma_red_span}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
-
-A log-verossimilhança no ponto $j$ é, então
-\begin{equation}\label{eq:TotalLogLikelihood_span}
-\begin{split}
-%\ell(j&;\bm s_\text{I},\bm s_\text{E}) = \\
-\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
-&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
-+\widehat{L}_\text{I} \sum_{k=1}^{j}\ln s_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} s_k +\\
-&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln s_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
-\raisetag{2.2em}
-\end{split}
-\end{equation}
-
-Vamos aplicar o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
-$$ 
-onde $\min_s$ é o coeficiente de folga definido empiricamente.
-
-Podemos assumir o número de visadas L conhecido a priori, e otimizar a função
-\begin{equation}
-\ell(\bm s;\mu) = 
--n\ln \mu -\frac{1}{\mu}\sum_{k=1}^{n} s_k.
-\label{eq:LogLikelihoodGamma_red_span_L_fixo}
-\end{equation}
-na variável $\mu$, assumindo dois modelos diferentes para cada partição,
-$\bm S_\text{I} \sim \Gamma(\mu_\text{I})$, e
-$\bm S_\text{E} \sim \Gamma(\mu_\text{E})$.
-Assim, encontramos estimativas~$(\widehat{\mu}_\text{I})$~e~$(\widehat{\mu}_\text{E})$~para os parâmetros~$\mu_\text{I}$~e~$\mu_\text{E}$~com as amostras~$\bm S_\text{I}$~e~$\bm S_\text{E}$.
-
-A log-verossimilhança no ponto $j$ é, então
-\begin{equation}\label{eq:TotalLogLikelihood_L_fixo_span}
-\begin{split}
-\ell(j&;\widehat{\mu}_I,\widehat{\mu}_E)= 
- -j\ln (\widehat{\mu}_\text{I}) 
-- \frac{1}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} s_k -(n-j)\ln (\widehat{\mu}_\text{E})
-- \frac{1}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
-\end{split}
-\end{equation}
-
-O método GenSA é aplicado para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I,\widehat{\mu}_E),
-$$ 
-onde $\min_s$ é a folga definida empiricamente.

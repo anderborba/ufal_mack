@@ -25,15 +25,18 @@ theme_update(plot.title = element_text(hjust = 0.5))
 p1 <- ggplot(data = df_diagnostico, aes(x, y))
 p <- p1 + geom_line(color = 'red') + 
 	  geom_point(data = df, aes(x = xroc, y = yroc), color = 'blue', shape = 8)+
-          xlab(TeX('Razão de falsos positivos')) +
-          ylab(TeX('Razão de verdadeiros positivos')) +
-          ggtitle(TeX('Curva ROC')) 
+    ggtitle("Curva ROC") +
+    xlab("Razão de positivos falsos") +
+    ylab("Razão de positivos verdadeiros") + 
+    annotate("text", x = df[1,1], y = df[1,2]- 0.05, label = "t == 1", parse = TRUE, color = 'blue')+
+    annotate("text", x = df[2,1], y = df[2,2]- 0.05, label = "t == 2", parse = TRUE, color = 'blue')+
+    annotate("text", x = df[3,1], y = df[3,2]- 0.05, label = "t == 3", parse = TRUE, color = 'blue')
 print(p)
-setwd("../..")
-setwd("Text/Dissertacao/figuras")
-ggsave("curva_roc_3_canais.pdf")
-setwd("../../..")
-setwd("Code/Code_r")
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave("curva_roc_3_canais.pdf")
+#setwd("../../..")
+#setwd("Code/Code_r")
 
 
 
