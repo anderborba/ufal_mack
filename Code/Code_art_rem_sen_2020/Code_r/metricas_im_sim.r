@@ -11,7 +11,7 @@ library(hrbrthemes)
 require(extrafont)
 loadfonts()
 #
-setwd("../..")
+setwd("../../..")
 setwd("Data")
 mat_1 <- read.table('evid_sim_gamf_1_param_mu_14_pixel.txt', dec = ",")
 mat_2 <- read.table('evid_sim_gamf_2_param_mu_14_pixel.txt', dec = ",")
@@ -21,7 +21,7 @@ mat_5 <- read.table('evid_sim_gamf_hh_vv_razao_param_tau_rho_14_pixel.txt', dec 
 mat_6 <- read.table('evid_sim_gamf_hv_vv_razao_param_tau_rho_14_pixel.txt', dec = ",")
 mat_7 <- read.table('evid_sim_gamf_span_media_mu_14_pixel.txt', dec = ",")
 setwd("..")
-setwd("Code/Code_art_rem_sen_2020")
+setwd("Code/Code_art_rem_sen_2020/Code_r")
 N  = 400
 tp <- N / 2
 nk <- 10
@@ -100,20 +100,22 @@ for (k in 1 : nk){
         freq_6[k + 1] <- contador_6 / N
         freq_7[k + 1] <- contador_7 / N
 }
-df <- data.frame(x = x, y1 = freq_1, y2 = freq_2, y3 = freq_3, y4 = freq_4, y5 = freq_5, y6 = freq_6, y7 = freq_7)
-alpha <- c(1,2,3,4,5,6,7)
+#df <- data.frame(x = x, y1 = freq_1, y2 = freq_2, y3 = freq_3, y4 = freq_4, y5 = freq_5, y6 = freq_6, y7 = freq_7)
+#alpha <- c(1,2,3,4,5,6,7)
+df <- data.frame(x = x, y1 = freq_1, y2 = freq_2, y3 = freq_3)
+alpha <- c(1,2,3)
 p <- ggplot(df) 
 pp <- p + 
   geom_line(aes(x = x, y = y1, color = "Canal hh")   , size=2, alpha=.7) +
   geom_line(aes(x = x, y = y2, color = "Canal hv")   , size=2, alpha=.7) +
   geom_line(aes(x = x, y = y3, color = "Canal vv")   , size=2, alpha=.7) +
-  geom_line(aes(x = x, y = y4, color = "Canal hh/hv"), size=2, alpha=.7) +
-  geom_line(aes(x = x, y = y5, color = "Canal hh/vv"), size=2, alpha=.7) +
-  geom_line(aes(x = x, y = y6, color = "Canal hv/vv"), size=2, alpha=.7) +
-  geom_line(aes(x = x, y = y7, color = "Canal Span") , size=2, alpha=.7) +
+#  geom_line(aes(x = x, y = y4, color = "Canal hh/hv"), size=2, alpha=.7) +
+#  geom_line(aes(x = x, y = y5, color = "Canal hh/vv"), size=2, alpha=.7) +
+#  geom_line(aes(x = x, y = y6, color = "Canal hv/vv"), size=2, alpha=.7) +
+#  geom_line(aes(x = x, y = y7, color = "Canal Span") , size=2, alpha=.7) +
   ylim(.01,1) +
   ylab(TeX('Probabilidade')) +
-  xlab(TeX('Error de detecção')) +
+  xlab(TeX('Erro de detecção')) +
   theme_ipsum(base_family = "Times New Roman", 
               base_size = 20, axis_title_size = 20) +
   scale_fill_ipsum() +

@@ -12,16 +12,16 @@ ev_hh_vv_razao = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_hh_vv_razao_par
 ev_hv_vv_razao = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_hv_vv_razao_param_tau_rho_14_pixel.txt');
 ev_span = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_span_param_mu_14_pixel.txt');
 ev_span_media = load('/home/aborba/ufal_mack/Data/evid_sim_gamf_span_media_mu_14_pixel.txt');
-%ev_hh_hv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_2.txt'); 
-%ev_hh_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_3.txt'); 
-%ev_hv_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_2_3.txt'); 
+%ev_hh_hv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_2.txt');
+%ev_hh_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_1_3.txt');
+%ev_hv_vv_pm = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_produto_mag_param_L_rho_2_3.txt');
 
 %ev_hh_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_2.txt');
 %ev_hv_vv = load('/home/aborba/git_ufal_mack/Data/evid_real_flevoland_produto_3.txt');
 %xc = load('/home/aborba/ufal_mack/Data/xc_flevoland.txt');
 %yc = load('/home/aborba/ufal_mack/Data/yc_flevoland.txt');
 num_radial = 400;
-for i = 1: num_radial 
+for i = 1: num_radial
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
 ev(i, 3) = round(ev_vv(i, 3));
@@ -36,7 +36,7 @@ ev(i, 8) = round(ev_span_media(i, 3));
 %ev(i, 5) = round(ev_hh_vv(i, 3));
 %ev(i, 6) = round(ev_hv_vv(i, 3));
 end
-nc = 8;
+nc = 3;
 m = 400;
 n = 400;
 for i = 1: nc
@@ -57,10 +57,18 @@ Ivv=imadjust(Ivv);
 II=cat(3,abs(Ihh + Ivv), abs(Ihv), abs(Ihh - Ivv));
 escala=mean2(II)*3;figure(1),imshow(imresize(II,1),[0,escala]);
 imshow(II)
+IF = zeros(m, n);
+%[IF] = fus_media(IM, m, n, nc);
+%[IF] = fus_pca(IM, m, n, nc);
+%[IF] = fus_swt(IM, m, n, nc);
+%[IF] = fus_dwt(IM, m, n, nc);
+%[IF] = fus_roc(IM, m, n, nc);
+[IF] = fus_svd(IM, m, n, nc);
 % plot com fusion
+[xpixel, ypixel, valor] = find(IF > 0);
 %[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-[xpixel, ypixel, valor] = find(IM(:, :, 8) > 0);
+%[xpixel, ypixel, valor] = find(IM(:, :, 8) > 0);
 %
 axis on
 hold on;
@@ -74,11 +82,11 @@ for i= 1: dpixel(1)
     				'MarkerSize',3.5,...
     				'MarkerEdgeColor',[0.75 1. 0.75],...
     				'MarkerFaceColor', [0.75 1.0 0.75])
-end	
+end
 %for i= 1: dpixel(1)
 %			plot(ypixel(i), xpixel(i),'ro',...
 %    				'LineWidth',1.0,...
 %    				'MarkerSize',3.5,...
 %    				'MarkerEdgeColor',[0.85 0.325 0.089],...
 %    				'MarkerFaceColor', [0.85 0.325 0.089])
-%end	
+%end

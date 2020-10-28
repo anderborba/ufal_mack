@@ -23,9 +23,17 @@
 \usepackage{listings}                   % para formatar código-fonte (ex. em Java)
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 \usepackage[usenames,svgnames,dvipsnames]{xcolor}
-\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
+%\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ right = 30.0mm,
+ left=45.0mm,
+ top=42.0mm,
+ bottom=29mm,
+ }
 \usepackage{titletoc}
-\usepackage{amsmath,amssymb}            % AAB inserido
+\usepackage{amsmath,amssymb}           % AAB inserido
 \usepackage{booktabs}                   % AAB inserido
 \usepackage{siunitx}                    % AAB inserido
 \usepackage{rotating}                   % AAB inserido
@@ -35,6 +43,15 @@
 \usepackage{float}                      % AAB inserido
 %\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \usepackage{subfig}
+
+%%%%
+% Pacotes do artigo GRSL
+\usepackage{times}
+\sisetup{ detect-weight=true, binary-units=true }
+%\usepackage{amsmath,amssymb,amsfonts}
+%\usepackage[boxed]{algorithm2e}
+%\usepackage{textcomp}
+%\usepackage{mathtools}                       
 %\usepackage[caption=false,font=footnotesize]{subfig}
 %\usepackage[caption=false,font=footnotesize]{subfig}
 %\usepackage{amsmath,bm,times}           % AAB inserido
@@ -47,7 +64,8 @@
 \usepackage[all]{hypcap}                    % soluciona o problema com o hyperref e capitulos
 \usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual(plainnat-ime.bst)
 \fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
-
+%
+%\hyphenation{ma-ni-pu-la-cao}
 % ---------------------------------------------------------------------------- %
 % Cabeçalhos similares ao TAOCP de Donald E. Knuth
 \usepackage{fancyhdr}
@@ -117,26 +135,62 @@ framexrightmargin=10pt
 % orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
 \thispagestyle{empty}
 \begin{center}
-    \vspace*{2.3cm}
-    \textbf{\Large{Fusão de evidências na detecção de bordas em Imagens PolSAR}}\\
+    \vspace*{-4.0cm}
+    \textbf{\Large{UNIVERSIDADE PRESBITERIANA MACKENZIE}}\\
+    %\Large{Programa de Pós graduação em}\\
+    %\Large{Engenharia Elétrica e Computação - PPGEEC}\\
     
-    \vspace*{1.2cm}
-    \Large{Anderson Adaime de Borba}
-    
+    \vspace*{0.5cm}
+    \Large{ANDERSON ADAIME DE BORBA}\\
+    \vspace*{4.5cm}
+    \Large{FUSÃO DE EVIDÊNCIAS NOS CANAIS DE INTENSIDADES PARA A DETECÇÃO DE BORDAS EM IMAGENS PolSAR}\\
+    %\vskip 2cm
+    %\textsc{
+    %Exame de qualificação apresentado\\[-0.25cm] 
+    %a\\[-0.25cm]
+    %Faculadade de Computação e informática\\[-0.25cm]
+    %da\\[-0.25cm]
+    %Universidade Presbiteriana Mackenzie\\[-0.25cm]
+    %para\\[-0.25cm]
+    %obtenção do título\\[-0.25cm]
+    %de\\[-0.25cm]
+    %Doutor em Ciências}
+    %
+    %\vskip 1.5cm
+    %Programa de Pós graduação em Engenharia Elétrica e Computação - PPGEEC\\
+    %Orientador: Prof. Dr. Mauricio Marengoni\\
+    %Coorientador: Prof. Dr. Alejandro César Frery Orgambide
+%
+%   	\vskip 1cm
+%    \normalsize{Durante o desenvolvimento deste trabalho o autor recebeu auxílio
+%    financeiro da CAPES}
+%    
+%    \vskip 0.5cm
+    \vspace*{16.5cm}
+    \Large{São Paulo}\\
+    \Large{2020}
+\end{center}
+\newpage
+\begin{center}
+    \vspace*{-4.0cm}
+    \Large{ANDERSON ADAIME DE BORBA}\\
+    \vspace*{4.0cm}
+    \Large{FUSÃO DE EVIDÊNCIAS NOS CANAIS DE INTENSIDADES PARA A DETECÇÃO DE BORDAS EM IMAGENS PolSAR}\\
     \vskip 2cm
     \textsc{
-    Exame de qualificação apresentado\\[-0.25cm] 
-    a\\[-0.25cm]
-    Faculadade de Computação e informática\\[-0.25cm]
-    da\\[-0.25cm]
+    Tese apresentada ao \\[-0.25cm] 
+    Programa de Pós-Graduação em \\[-0.25cm]
+    Engenharia Elétrica e Computação da\\[-0.25cm]
     Universidade Presbiteriana Mackenzie\\[-0.25cm]
     para\\[-0.25cm]
     obtenção do título\\[-0.25cm]
     de\\[-0.25cm]
-    Doutor em Ciências}
+    Doutor.}
+    
+    
     
     \vskip 1.5cm
-    Programa de Pós graduação em Engenharia Elétrica e Computação - PPGEEC\\
+    %Programa de Pós graduação em Engenharia Elétrica e Computação - PPGEEC\\
     Orientador: Prof. Dr. Mauricio Marengoni\\
     Coorientador: Prof. Dr. Alejandro César Frery Orgambide
 
@@ -145,7 +199,7 @@ framexrightmargin=10pt
     financeiro da CAPES}
     
     \vskip 0.5cm
-    \normalsize{São Paulo, 29  de outubro de 2018}
+    \normalsize{São Paulo, 06  de novembro de 2020}
 \end{center}
 
 % ---------------------------------------------------------------------------- %
@@ -238,57 +292,34 @@ framexrightmargin=10pt
 
 % ---------------------------------------------------------------------------- %
 % Resumo
-%\chapter*{Resumo}
-
+\chapter*{Resumo}
 %\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
 %2019. *** f.
 %Tese (Doutorado) - Faculadade de Computação e Informática,
 %Universidade Presbiteriana Mackenzie, São Paulo, 2019.
 %\\
 %
-%Elemento obrigatório, constituído de uma sequência de frases concisas e
-%objetivas, em forma de texto.  Deve apresentar os objetivos, métodos empregados,
-%resultados e conclusões.  O resumo deve ser redigido em parágrafo único, conter
-%no máximo 500 palavras e ser seguido dos termos representativos do conteúdo do
-%trabalho (palavras-chave). 
-%Texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto.
-%Texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto.
-%\\
+Os radares de abertura sintética polarimétrica (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Neste trabalho foram estudados e comparados seis métodos de fusão provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). Os resultados obtidos com a análise quantitativa indicam que os métodos PCA e MR-SVD fornecem os melhores resultados. 
+\\
+\\
 %
-%\noindent \textbf{Palavras-chave:} palavra-chave1, palavra-chave2, palavra-chave3.
-
+\noindent Palavras-chave: PolSAR. Detecção de bordas. Estimativa de máxima verossimilhança. Métodos de fusão.
 % ---------------------------------------------------------------------------- %
 % Abstract
-%\chapter*{Abstract}
-%\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
-%2019. *** f.
-%Tese (Doutorado) - Faculadade de Computação e Informática,
-%Universidade Presbiteriana Mackenzie, São Paulo, 2019.
-%\\
-
-
-%Elemento obrigatório, elaborado com as mesmas características do resumo em
-%língua portuguesa. De acordo com o Regimento da Pós- Graduação, deve ser redigido em inglês para fins de divulgação. 
-%Text text text text text text text text text text text text text text text text
-%text text text text text text text text text text text text text text text text
-%text text text text text text text text text text text text text text text text
-%text text text text text text text text text text text text.
-%Text text text text text text text text text text text text text text text text
-%text text text text text text text text text text text text text text text text
-%text text text.
-%\\
-%
-%\noindent \textbf{Keywords:} keyword1, keyword2, keyword3.
-
+\chapter*{Abstract}
+Polarimetric Synthetic Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
+The images they provide have speckle noise, making their processing and analysis challenging tasks. 
+We discuss an edge detection method based on the fusion of evidences obtained in the intensity channels hh, hv, and vv of PolSAR multi-look images. 
+The method consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
+The fusion methods used are: 
+simple average, 
+multi-resolution discrete wavelet transform (MR-DWT),
+principal component analysis (PCA), 
+Receiver operating characteristic (ROC) statistics, 
+multi-resolution stationary (MR-SWT) wavelet transform, 
+and a multi-resolution method based on singular value decomposition (MR-SVD). 
+A quantitative analysis suggests that PCA and MR-SVD provide the best results.
+\noindent \textbf{Keywords:} PolSAR. Edge detection. Maximum likelihood estimation, Fusion methods. 
 % ---------------------------------------------------------------------------- %
 % Sumário
 \tableofcontents    % imprime o sumário
@@ -296,25 +327,36 @@ framexrightmargin=10pt
 % ---------------------------------------------------------------------------- %
 \chapter{Lista de Abreviaturas}
 \begin{tabular}{ll}
-SAR            & Imagens obtidas com radar de abertura sintética\\
-PolSAR         & Imagens obtidas com radar de abertura sintética polarimética\\
-\textbf{p.d.f} & Função densidade de probabilidade\\
+SAR            & Radar de abertura sintética\\
+RAR            & Radar de abertura real\\
+PolSAR         & Radar de abertura sintética polarimétrica\\
+PDF            & Função densidade de probabilidade\\
+ROI            & Região de Interesse\\
 LoG            & Detector de borda usando o laplaciano da gaussiana\\
-\textbf{MMQ}   & Método dos quadrados mínimos\\
-\textbf{MLE}   & Método de estimativa de máxima verossimilhança\\
-\textbf{GenSA} & Método Simullated anneling\\
-\textbf{ROI} & Método Simullated anneling\\
+MLE            & Método estimativa de máxima verossimilhança\\
+MS             & Média simples\\
+MR-DWT         & Transformada \textit{wavelet} discreta com múltiplas resoluções \\
+PCA            & Analise das componentes principais\\
+E-ROC          & Estatística ROC (\textit{Receiver operating characteristic}) \\
+MR-SWT         & Transformada \textit{wavelet} estacionária com múltiplas resoluções \\
+MR-SVD         & Decomposição em valores singulares com múltiplas resoluções\\
+GenSA          & Método Simullated anneling\\
+BFGS           & Método Broyden-Fletcher-Goldfarb-Shanno\\
+VHR            & \textit{Very High Rsolution}\\
+DLR            & Centro espacial da Alemanha\\
+BSA            & Sistema de coordenadas \textit{Back Scattering Alignment}\\
 \end{tabular}
-
 % ---------------------------------------------------------------------------- %
 \chapter{Lista de Símbolos}
 \begin{tabular}{ll}
         $L$         & Número de visadas em uma imagem PolSAR\\
-        $\Sigma$    & Matriz de covariância hermitiana e definida positiva \\
+        $\Sigma$    & Mariz de covariância hermitiana e definida positiva \\
 	$E[\cdot]$  & Valor esperado\\
 	$\Gamma$    & Função Gamma \\
 	$\Gamma_m$  & Função Gamma multivariada\\
-	$W(\Gamma, L)$ & Distribuíção Wishart\\
+	$W(\Sigma, L)$ & Distribuíção Wishart\\
+	$\mathbb{R}$ & Parte real de um número complexo\\
+	$\mathbb{I}$ & Parte complexa de um número complexo
 \end{tabular}
 
 % ---------------------------------------------------------------------------- %
@@ -331,13 +373,14 @@ LoG            & Detector de borda usando o laplaciano da gaussiana\\
 % cabeçalho para as páginas de todos os capítulos
 \fancyhead[RE,LO]{\thesection}
 
-\singlespacing              % espaçamento simples
+%\singlespacing              % espaçamento simples
 %\onehalfspacing            % espaçamento um e meio
 \input{cap_intro}               % AAB - Arquivo inserido
-\input{cap_det_borda}           % AAB - Arquivo inserido
+\input{cap_aspectos_gerais}           % AAB - Arquivo inserido
 \input{cap_2_metodologia}
 \input{cap_fusao}               % AAB - Arquivo inserido 
 \input{cap_resultados_numericos}
+\input{cap_conclusao}
 %\input cap_intro               % AAB - Arquivo inserido
 %\input cap_model_est            % AAB - Arquivo inserido
 %\input cap_resul_num_sem_fusao  % AAB - Arquivo inserido
@@ -350,9 +393,7 @@ LoG            & Detector de borda usando o laplaciano da gaussiana\\
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
 \fancyhead[RE,LO]{}
 \appendix
-
 %\include{ape-conjuntos}      % associado ao arquivo: 'ape-conjuntos.tex'
-
 % ---------------------------------------------------------------------------- %
 % Bibliografia
 \backmatter \singlespacing   % espaçamento simples
@@ -360,12 +401,6 @@ LoG            & Detector de borda usando o laplaciano da gaussiana\\
 \bibliography{../bibliografia}  % associado ao arquivo: 'bibliografia.bib'
 % ---------------------------------------------------------------------------- %
 % Índice remissivo
-\index{TBP|see{periodicidade região codificante}}
-\index{DSP|see{processamento digital de sinais}}
-\index{STFT|see{transformada de Fourier de tempo reduzido}}
-\index{DFT|see{transformada discreta de Fourier}}
-\index{Fourier!transformada|see{transformada de Fourier}}
-
-%\printindex   % imprime o índice remissivo no documento 
+\printindex   % imprime o índice remissivo no documento 
 
 \end{document}

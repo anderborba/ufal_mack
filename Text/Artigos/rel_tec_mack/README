@@ -1,0 +1,7 @@
+Diretório repositório para a dissertação.
+Descrição dos arquivos deste diretório:
+tese-exemplo.tex   - Arquivo geral para a tese, raiz de arquivos *.tex
+cap2acf.tex     - Documento latex com os estudos realizados/digitados.
+Makefile        - O Makefile para rodar o tese-exemplo.tex e suas dependências
+
+ 

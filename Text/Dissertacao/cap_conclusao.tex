@@ -1,0 +1,26 @@
+\chapter{Discussões e conclusões}
+Esta tese estudou e comparou seis métodos de fusão provenientes da detecção das evidências de bordas, nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível, fornecendo dados que cobrem duas regiões usando o método MLE sob a distribuição de Wishart. Os métodos em questão são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). 
+
+Uma etapa crucial para o desenvolvimento desta pesquisa foi a validação dos algoritmos usados, viabilizando assim, a realização dos testes em imagens adquiridas de sensores PolSAR, dando condições para que as etapas subsequentes pudessem ser realizadas.
+
+Os dados das linhas radiais fornecidos imagens selecionadas foram modelados e posteriormente foi aplicado o MLE. Nesse processo ao ser usado a função de máxima verossimilhança total foi constatado oscilações nas extremidades. Para contornar esse problema foram definidos, conforme a região de interesse, valores de folgas empiricamente. Essa alternativa mostrou-se suficiente para resolver o problema.      
+
+Outro problema apresentado na aplicação da função de máxima verossimilhança total, se refere a sua característica de não ser diferenciável, fato que dificulta o uso de métodos de otimização que calculam a derivada da função. O problema foi resolvido usando o método GenSA.
+
+Com os testes realizados, em que se aplicou os métodos citados, foram encontradas bordas nas imagens de banda L, do sensor aerotransportado AIRSAR sobre Flevoland e São Francisco, comprovando a viabilidade dos métodos de fusão de evidências de bordas.
+
+Sobre os campos agrícolas de Flevoland, a melhor evidência de borda foi observada no canal hv. O canal hh forneceu as melhores estimativas de bordas entre as áreas urbanas e as áreas, de mar e vegetação, de São Francisco. Essa diversidade de conteúdo de informação justifica a necessidade de fusão das evidências de bordas.
+
+Aplicamos métodos de fusão para reunir as evidências de bordas, obtidas nos três canais de intensidade. Ao comparar o desempenho dos métodos, os melhores resultados foram produzidos pelo método PCA e pelo método de múltipla resolução com decomposição em valores singulares, MR-SVD. Essa análise leva em conta o custo computacional em termos de tempo de processamento. 
+
+O método E-ROC mostrou desempenho inferior aos outros métodos, entretanto, seu desempenho pode melhorar a medida que outros canais são inseridos para a detecção de evidências de bordas.
+
+Os resultados foram avaliados quantitativamente, verificando a proximidade dos pontos fundidos com a borda real e pela presença de \textit{outliers}. Embora a fusão por média e a fusão com PCA sejam semelhantes, com relação à probabilidade de detectar corretamente a borda, o última fornece uma ponderação mais eficaz das evidências de bordas. A partir desse fato, a fusão com PCA é capaz de descartar completamente as evidências enganosas, enquanto a fusão por média não.
+
+No decorrer da pesquisa alguns caminhos foram se apresentando como possíveis trabalhos futuros:
+\begin{itemize}
+\item [1-] Aumentar o número de evidências de bordas. Isso é possível, pois dados totalmente polarimétricos são mais ricos do que os canais de intensidades;
+\item [2-] Propor novas técnicas de fusão para evidências de bordas;
+\item [3-] Melhorar a medidas para apriveitamento ou descarte de canais no método de fusão; 
+\item [2-] Pós-processamento, tanto para os métodos de detecção de evidências de bordas parciais, como também para os métodos de fusão das evidências de bordas.
+\end{itemize}

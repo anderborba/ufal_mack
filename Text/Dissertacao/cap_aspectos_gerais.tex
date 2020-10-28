@@ -1,0 +1,209 @@
+
+\chapter{Aspectos gerais}
+Neste capítulo serão apresentadas algumas informações relevantes para situar e contextualizar a área de pesquisa desta tese. Serão abordados alguns assuntos introdutórios, traçando um breve panorama do desenvolvimento e aprimoramento dos radares RAR, SAR e PolSAR. Além de apresentar as características gerais e específicas dos radares, também serão abordadas informações de como são gerados e armazenados os dados provenientes da captação das imagens SAR e PolSAR. 
+\section{Imagens SAR e PolSAR}
+O radar SAR é o desenvolvimento tecnológico do radar de abertura real (RAR), o qual, de maneira geral trabalha com sensores que transmitem sinais de micro-ondas e depois registram os sinais de retorno.
+
+Os radares que dependem diretamente do seu comprimento são conhecidos com radares tipo RAR, os quais têm uma grande restrição de uso em sensoriamento remoto, pois as dimensões da antena inviabilizam o uso em satélites ou aviões, configurando-se em grande problema para essa área de pesquisa até os anos 50.  
+
+Na década de 50, pesquisadores fizeram avanços significativos para resolver as limitações tecnológicas dos radares e desenvolveram uma técnica capaz de sintetizar o efeito de uma antena muito longa, em uma antena de tamanho real, denominada SAR. Essa descoberta foi atribuída a Carl Wiley por volta de 1951 e, em 1954, foi registrada a patente do sistema SAR. Além disso, um sistema SAR foi operacionalizado em torno de 1958, impulsionando fortemente essa área de pesquisa. 
+
+Os dados provenientes do método SAR são gravados de maneira única, como uma faixa de posições para cada tempo avançado na direção da rota (azimute). No início do desenvolvimento dos sistemas SAR, o armazenamento de dados foi um grande problema, a solução foi colocar acoplado aos radares um sistema ótico para armazenar dados em filmes fotográficos. Atualmente, devido ao desenvolvimento da eletrônica, o problema de armazenamento de dados foi atenuado.
+
+Nos sistemas SAR os dados das micro-ondas de retorno armazenados são representadas como imagens, formando assim, as imagens SAR. Estas imagens são geradas de forma que em cada ponto da direção azimute, o radar envia um impulso em direção ao alvo, e depois recebe e armazena o sinal de retorno, com o devido espalhamento. Portanto, durante o tempo de aquisição das imagens são armazenadas as informações em uma linha de dados, gerando um mapeamento azimute \textit{versus} distância lateral das micro-ondas de retorno.
+
+Essa estrutura de dados é típica de armazenamento em matrizes com as dimensões definidas pela resolução característica dos radares. As dimensões das imagens são, respectivamente, as resoluções na direção do azimute, dada pela rota do radar e pela direção perpendicular, definida como distância lateral. Desta forma, os radares geram imagens bidimensionais com resoluções distintas, dependendo do tipo de radar e da tecnologia empregada.
+
+Neste trabalho é usado a generalização do sistema SAR conhecido como sistema polarimétrico SAR (PolSAR). O sistema PolSAR é  definido como a ciência de adquirir, processar e analisar o estado da polarização nas imagens de radar de abertura sintética. 
+
+As imagens geradas por esses radares são formadas por micro-ondas de retorno, combinando as polarizações. O processo de polarização fornece mais informações sobre o alvo comparados com as imagens SAR. As imagens PolSAR têm o objetivo de melhorar o entendimento do efeito do espalhamento das micro-ondas pelos alvos, considerando as diferentes polarizações.
+
+Os símbolos hh, hv, vh, e vv, representam as polarizações disponíveis nos radares, onde a primeira letra é a maneira como a onda é emitida e, a segunda letra é a maneira como a onda é recebida.
+\section{Características gerais dos Radares SAR e PolSAR}
+Os radares que têm a característica de emitir as micro-ondas são definidos como radares ativos e, se os radares transmitem e recebem os sinais, são denominadas mono-estáticos. Importantes informações sobre radares podem ser encontradas na referência \citet{lp}.
+
+O desenvolvimento dos radares pode ser resumidos pelos princípios a seguir:
+\begin{itemize}
+\item Possibilidade de uma antena transmitir micro-ondas em uma direção precisa; 
+\item Possibilidade de detectar com grande precisão o sinal de retorno. Após a interação das micro-ondas com o alvo acontece o espalhamento das micro-ondas refletidas em todas as  direções. Assim o radar pode não captar alguns sinais de retorno. 
+\item Capacidade de medir o tempo entre a transmissão  e a recepção das micro-ondas, consequentemente calcular a distância entre o alvo e o radar;
+\item Habilidade de detectar vários alvos em grandes áreas percorridas.
+\end{itemize}
+
+As micro-ondas podem variar em comprimento e amplitude, dependendo da construção dos sensores para o radar em operação, uma característica importante dessas ondas é a capacidade de penetração no alvo analisado. 
+
+Os radares SAR e PolSAR justificam seu uso por possuírem algumas características operacionais que podem ser resumidas nos seguintes itens:
+\begin{itemize}
+\item Podem estar em plataformas elevadas, aeronaves tripuladas ou não, satélites orbitando a terra ou outros planetas;
+\item É uma técnica de produção de imagem viável e prática;
+\item Possui alta resolução;
+\item Sintetiza longas aberturas de antenas;
+\item Os radares produzem imagens dia e noite;
+\item O clima não interfere na captação de imagens;
+\end{itemize}
+
+As imagens SAR e PolSAR têm um espectro de aplicações amplo, podemos listar algumas dessas aplicações: 
+\begin{itemize}
+\item Sensoriamento remoto;
+\item Topografia;
+\item Oceanografia;
+\item Glaciologia;
+\item Agricultura;
+\item Geologia;
+\item Acompanhamento de florestas;
+\item Alvos fixos ou em movimento;
+\item Monitoramento ambiental;
+\item Controle de derramamento de petróleo;
+\item E no auxílio de sistemas óticos.
+\end{itemize}
+\section{Características específicas dos radares SAR e PolSAR}
+Os radares SAR e PolSAR trabalham no espectro das micro-ondas. A tabela \eqref{tab:micro_onda_espectro} mostra a definição das faixas de micro-ondas que os radares construídos. Definimos $f$ como sendo a frequência e $\lambda$ como sendo o comprimento de onda.  
+\begin{table}[hbt]
+	\centering
+	\caption{Espectro eletromagnético para a faixa de micro-ondas.}\label{tab:micro_onda_espectro}
+\begin{tabular}{@{}llc@{}} \toprule
+	banda & Frequência (\si{Ghz}) & $f\times\lambda(cm)$. \\\midrule
+	P&$(<0.39, 0.39)$  & $0.3\times 100.0$  \\ 
+	L&$(0.39-1.55)$  &  $1.0\times 30.0$\\ 
+	S&$(1.55-3.90)$  &  $3.0\times 10.0$\\ 
+	C&$(3.90-5.75)$  & $\sim(4.0\times 7.0)$ \\ 
+	X&$(5.75-10.9)$  & $10.0\times 3.0$ \\ 
+	K&$(10.9-36.0)$  & $30.0\times 1.0$ \\ 
+	Q&$(36.0-46.0)$  & $\sim(40.0\times 0.8 )$ \\ 
+	V&$(46.0-56.0)$  & $\sim(50.0\times 0.6)$ \\ 
+	W&$(56.0- >56.0)$  & $100.0\times 0.3$ \\ \bottomrule 
+\end{tabular}
+\end{table}
+
+A descoberta da tecnologia SAR impulsionou um grande desenvolvimento na área, levando a construção do SEASAT, primeiro radar SAR comercial projetado. Este projeto foi muito bem sucedido e estabeleceu definitivamente os sistemas SAR e PolSAR como área de pesquisa. 
+
+ O lançamento do satélite foi em junho de 1978, a tabela \eqref{tab:carac_seasat} mostra algumas características do SEASAT, para mais informações pode-se consultar o seguinte sítio eletrônico, \url{https://earth.esa.int/web/eoportal/satellite-missions/s/seasat}.  
+\begin{table}[hbt]
+	\centering
+	\caption{Características do satélite SEASAT (SAR).}\label{tab:carac_seasat}
+\begin{tabular}{@{}llr@{}} \toprule
+	Características específicas& Valores operacionais  \\ \midrule
+	Frequência           & \SI{1.275}{\GHz}  \\ 
+	Altitude             & \SI{780}{\km}   \\
+	Peso                 & \SI{2300}{\kilogram}   \\
+	Ângulo de inclinação & \SI{\sim 23}{\degree}   \\
+	Distância lateral    & \SI{100}{\km}  \\
+	Largura de banda     & \SI{19}{\MHz}   \\
+	Banda - L            & \SI{23.5}{\cm} de comprimento de onda\\
+	Polarização          & hh - Onda emitida e recebida na direção horizontal \\
+	Resolução            & \SI{25}{m} $\times$ \SI{25}{m}  \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Outros projetos de sistema SAR e PolSAR foram lançados e podem ser vistos na tabela \eqref{tab:carac_radares}. Neste trabalho serão usadas imagens capturadas pelo radar AIRSAR, cuja características estão na tabela.
+\begin{sidewaystable}
+\footnotesize
+	\centering
+	\caption{Características operacionais dos satélites SAR ou PolSAR.}\label{tab:carac_radares}
+\begin{tabular}{@{}llllllllr@{}} \toprule
+Satélites      & 	SEASAT  &AIRSAR &SIR-C& Almaz&ERS-2& JERS-1& RADSAT-1&RADSAT-2 \\ \midrule
+Nacionalidade       &EUA    &EUA&Alamanha-Itália&Rússia&Europa&Japão&Canadá&Canadá  \\ 
+Lançamento          &1978   &1988        &1990  &1992  &1995 &1998  &1995  & 2003\\
+Banda (\si{\cm})    &L      &P-L-C       &L-C-X &S     &C    &L     &C     & C \\
+Polarização         &hh&hh-hv-vv&hh-hv-vv&hh&vv&hh&hh&hh-hv-vv\\
+Ângulo de incidência&23&20-60&15-55&30-60&23&35&20-59&20-60\\
+Distância (\si{\km})           &100&10-17&15-90&350&100&75&50-500&10-500\\
+Resolução (\si{\m})         &25&2-8&10-60&10-30&30&18&10-100&3-100\\ \bottomrule
+\end{tabular}
+\end{sidewaystable}
+
+\section{Estrutura de dados paras imagens PolSAR}
+O sistema PolSAR mono-estático gera informações no formato mostrado na tabela \eqref{tab:sistema_polsar}  
+\begin{table}[hbt]
+	\centering
+	\caption{Informações do sistema PolSAR.}\label{tab:sistema_polsar}
+\begin{tabular}{@{}lccc@{}} \toprule
+	Polarização & hh  & hv & vv \\ \midrule
+	hh & $\sigma_\text{hh}$ & $\sigma_\text{hhhv} + \hat{\sigma}_\text{hhhv}\hat{\jmath}$  & $\sigma_\text{hhvv} + \hat{\sigma}_\text{hhvv}\hat{\jmath}$\\ 
+	hv & &$\sigma_\text{hv}$ & $\sigma_\text{hvvv} + \hat{\sigma}_\text{hvvv}\hat{\jmath}$\\ 
+	vv & & &$\sigma_\text{vv}$ \\ \bottomrule 
+\end{tabular}
+\end{table}
+
+As informações de sistema PolSAR podem ser armazenadas em uma matriz tridimensional, onde as duas primeiras indexações da matriz, armazenam os valores para o azimute e a distância lateral, de acordo com a resolução do sistema PolSAR.
+
+ Para cada pixel fixo, na terceira dimensão da matriz, definidos como canais, são colocados os valores, mostrado na tabela \eqref{tab:sistema_polsar}.
+
+Para cada ponto fixo da imagem, os canais estão dispostos conforme a tabela \eqref{tab:canais}, 
+\begin{table}[hbt]	
+	\centering
+	\caption{Ordem de armazenamento para os canais da imagem polSAR.}\label{tab:canais}
+\begin{tabular}{@{}lcccccccc@{}} \toprule
+	 hh &hv&vv &hhhv - $\mathbb{R}$ &hhhv-$\mathbb{I}$&hhvv-$\mathbb{R}$&hhvv-$\mathbb{I}$ & hvvv- $\mathbb{R}$&  hvvv- $\mathbb{I}$ \\ \midrule
+	$\sigma_\text{hh}$&$\sigma_\text{hv}$&$\sigma_\text{vv}$&$\sigma_\text{hhhv}$&$\hat{\sigma}_\text{hhhv}$&$\sigma_\text{hhvv}$&$\hat{\sigma}_\text{hhvv}$&$\sigma_\text{hvvv}$&$\hat{\sigma}_\text{hvvv}$\\ \bottomrule
+\end{tabular}
+\end{table}
+onde, os símbolos $\mathbb{R}$ e $\mathbb{I}$ representam a parte real e a parte imaginária de um número complexo.
+
+Neste trabalho serão usados os três primeiros canais da matriz que armazena os dados da imagem PolSAR, conhecidos como canais de intensidades. 
+
+Um exemplo de dados PolSAR é a imagem da baía de São Francisco (EUA), com suas respectivas polarizações em tons de cinza, mostradas na figura \eqref{fig:sf_hh_hv_vv}. Com essas imagens será realizar o processamento de dados com o objetivo de detectar bordas. 
+\begin{figure}[hbt]
+\minipage{0.35\textwidth}
+  \includegraphics[width=\linewidth]{sf_hh.pdf}
+\endminipage
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vh.pdf}
+\endminipage
+\centering
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vv.pdf}
+\endminipage
+        \vspace{-2.0cm}
+	\caption{Imagem PolSAR com polarizações hh, hv e vv.}\label{fig:sf_hh_hv_vv}
+\end{figure}
+
+A visualização da região da baía de São Franscisco, usando a decomposição de Pauli (RBG), que será abordada no próximo capítulo, é mostrada na figura (\ref{cap_acf_sf_pauli}). As figuras \eqref{cap_acf_sf_hh_blue}, \eqref{cap_acf_sf_hv_green} e \eqref{cap_acf_sf_vv_red} são, respectivamente, a decomposição RBG para cada canal, azul, verde e vermelho das imagens de PolSAR da baía de São Francisco. 
+\begin{figure}[hbt]
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_teste.pdf}
+\caption{Baía de São Francisco.}
+\label{cap_acf_sf_pauli}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_blue.pdf}
+\caption{Polarização vv.}
+\label{cap_acf_sf_hh_blue}
+\end{minipage}
+\end{figure}
+%
+\begin{figure}[hbt]
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_green.pdf}
+\caption{Polarização hv.}
+\label{cap_acf_sf_hv_green}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.450\linewidth}
+\includegraphics[width=\linewidth]{polsar_red.pdf}
+\caption{Polarização hh.}
+\label{cap_acf_sf_vv_red}
+\end{minipage}
+\end{figure}
+
+Atualmente, os sistemas SAR e PolSAR são configuram uma área de pesquisa muito ativa. Entre os interesses atuais, está o desenvolvimento de sistemas tipo SAR e PolSAR com alta resolução (VHR), um exemplo é o sistema Lynx, projetado pelo laboratório nacional Sandia, o qual alcança resoluções de $10$ a $30$ centímetros quadrados.
+
+ Outro exemplo, pode ser visto na referência \cite{rijpbnm} que mostra um sistema PolSAR que produzem imagens com resolução de $25\times 25$ centímetros, conhecido como F-SAR, desenvolvido pelo centro aeroespacial da Alemanha (DLR). Esse sistema pode adquirir, simultaneamente, dados nas bandas, X, C, S,  L e P, gerando em torno de $\SI{20}{\frac{GB}{min}}$ de dados.    
+
+Destacamos ainda o projeto SAOCOM pela atualidade e importância para o monitoramento da América Latina, informações podem ser obtidas no sítio eletrônico \url{https://directory.eoportal.org/web/eoportal/satellite-missions/s/saocom}. O satélite artificial SAOCOM-1B foi colocado em órbita em 2020 conforme \url{https://www.space.com/spacex-saocom-1b-launch-rocket-landing-success.html}.
+
+Como curiosidades, podemos citar: 
+\begin{itemize}
+\item O projeto de um mini-SAR para uso em veículos aéreos não tripulados que focam na evolução da micro-eletrônica para aumentar a eficiência e diminuir o peso; 
+\item As imagens SAR podem ser captadas por satélites, orbitando outros planetas, como o projeto Magellan SAR que  orbita Vênus;  
+\item Outras tecnologias usadas para a captação de imagens SAR denominada de interferométrica SAR (InSAR), que usa dois ou mais radares de abertura sintética para obter imagens.
+\end{itemize}
+
+Os sistemas SAR e PolSAR apresentam algumas características inerentes do processo teórico e tecnológico. E  podemos destacar como desvantagens:
+\begin{itemize}
+\item O sistema requer o conhecimento da rota do radar;
+\item O sistema é sensível ao movimento do alvo;
+\item O processamento para a geração de uma imagem é complexo.
+\end{itemize}
+
+Entretanto, as desvantagens nos sistemas SAR e PolSAR não evitam as mesmas de serem largamente empregadas, o que impulsiona a produção de conhecimento nessa área, gerando um grande interesse, tanto em nível de aplicações, como em pesquisas científicas, como podemos ver na referência \cite{rijpbnm} ou no sítio 
+\url{https://www.dlr.de/hr/en/desktopdefault.aspx/tabid-2326/3776_read-5691/}.

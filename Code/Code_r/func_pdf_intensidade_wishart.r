@@ -3,10 +3,16 @@
 # Obs: (1) Trocar os nomes dos arquivos de entrada,
 #      (2) trocar os nomes dos arquivos de saida,
 #      (3) os arquivos de saida ficarao comentados para não alterar as figuras
+#rm(list = ls())
+#require(ggplot2)
+#require(latex2exp)
+#require(plyr)
 rm(list = ls())
 require(ggplot2)
 require(latex2exp)
-require(plyr)
+library(hrbrthemes)
+require(extrafont)
+loadfonts()
 # Programa principal
 ## Leitura do arquivo *.txt no diretorio /Data 
 setwd("../..")
@@ -36,13 +42,13 @@ df <- data.frame(x, mat, look_1, look_2, look_3, look_4, fix.empty.names = TRUE)
 #data_look <- data.frame(x, look_1, look_2, look_3,fix.empty.names = TRUE)
 pp <- ggplot(df, aes(x = mat, color = Visadas) )                 +
        # geom_histogram(position = 'stack', stat = 'bin', binwidth = 0.0005, alpha = 0.7, color = "lightblue", fill = "darkblue")                 +
-     	geom_line(aes(y = look_1, col= "Visada 2"), size = 1)    +
-     	geom_line(aes(y = look_2, col= "Visada 3"), size = 1)    +
-     	geom_line(aes(y = look_3, col= "Visada 4"), size = 1)    +
-     	geom_line(aes(y = look_4, col= "Visada 8"), size = 1)    +
+     	geom_line(aes(y = look_1, col= "2-Visadas"), size = 1)    +
+     	geom_line(aes(y = look_2, col= "3-Visadas"), size = 1)    +
+     	geom_line(aes(y = look_3, col= "4-Visadas"), size = 1)    +
+     	geom_line(aes(y = look_4, col= "8-Visadas"), size = 1)    +
        	xlab(TeX('Intensidade'))                +
-      	ylab(TeX('Função densidade de probabilidade (PDF)'))     +
-       	ggtitle(TeX('Distribuição intensidade multiplas visadas'))+
+      	ylab(TeX('Funções densidade de probabilidade'))     +
+       	ggtitle(TeX('Distribuições densidade de probabilidade para o canal de intensidade'))+
        	coord_cartesian(ylim=c(0, 130))
 # escrita no diretorio /Text/Dissertacao/figura
 setwd("../..")

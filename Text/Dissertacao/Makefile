@@ -3,7 +3,6 @@
 #
 # Sáb Jun 23 21:13:37 BRT 2007
 #
-
 BASE_NAME = tese-exemplo
 
 LATEX     = latex

@@ -39,16 +39,18 @@ for(k in 1: nk){
   freq_f6[k] <- mat[6, k]
   freq_f7[k] <- mat[7, k]
 }
-df <- data.frame(x = x, y1 = freq_f1, y2 = freq_f2, y3 = freq_f3, y4 = freq_f4, y5 = freq_f5, y6 = freq_f6, y7 = freq_f7)
-alpha <- c(1,2,3,4,5,6,7)
+#df <- data.frame(x = x, y1 = freq_f1, y2 = freq_f2, y3 = freq_f3, y4 = freq_f4, y5 = freq_f5, y6 = freq_f6, y7 = freq_f7)
+#alpha <- c(1,2,3,4,5,6,7)
+df <- data.frame(x = x, y1 = freq_f1, y2 = freq_f2, y3 = freq_f3)
+alpha <- c(1,2,3)
 p <- ggplot(df) 
 pp <- p + geom_line(aes(x = x, y = y1, color = "Canal hh")   , size= 3, alpha=.7) +
           geom_line(aes(x = x, y = y2, color = "Canal hv")   , size= 3, alpha=.7) +
           geom_line(aes(x = x, y = y3, color = "Canal vv")   , size= 3, alpha=.7) +
-          geom_line(aes(x = x, y = y4, color = "Canal hh/hv"), size= 3, alpha=.7) +
-          geom_line(aes(x = x, y = y5, color = "Canal hh/vv"), size= 3, alpha=.7) +
-          geom_line(aes(x = x, y = y6, color = "Canal hv/vv"), size= 3, alpha=.7) +
-          geom_line(aes(x = x, y = y7, color = "Canal span") , size= 3, alpha=.7) +
+          #geom_line(aes(x = x, y = y4, color = "Canal hh/hv"), size= 3, alpha=.7) +
+          #geom_line(aes(x = x, y = y5, color = "Canal hh/vv"), size= 3, alpha=.7) +
+          #geom_line(aes(x = x, y = y6, color = "Canal hv/vv"), size= 3, alpha=.7) +
+          #geom_line(aes(x = x, y = y7, color = "Canal span") , size= 3, alpha=.7) +
   ylim(.01,1) +
   ylab(TeX('Probabilidade')) +
   xlab(TeX('Erro de detecção')) +

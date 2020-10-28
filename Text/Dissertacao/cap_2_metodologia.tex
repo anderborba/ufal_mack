@@ -1,7 +1,7 @@
 \chapter{Metodologia}\label{metodologia}
-
-\section{Modelagem estatística para dados PolSAR}\label{cap_acf_sec1}
-Os sistemas SAR totalmente polarimétricos transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel, a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem no sistema SAR a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
+Com o objetivo de apresentar os aspectos metodológicos e teóricos desta tese, optou-se por organizar este capítulo em seções que se inter-relacionam para fornecer a descrição dos modelos, das detecção de bordas e das abordagens para a fusão das evidências de bordas. 
+\section{Modelagem estatística para dados PolSAR}\label{cap_model_estatistica}
+Os sistemas PolSAR transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel, a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem no sistema SAR a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
 
 A transformação pode ser representada como
 \begin{equation*}
@@ -30,34 +30,34 @@ A matriz de espalhamento complexa $\mathbf{S}$ é definida por
 \begin{equation}\label{matriz_de_espalhamento}
 \mathbf{S} = \left[
 \begin{array}{cc}
-	S_{\text{hh}}   & S_{\text{hv}}   \\
-	S_{\text{vh}}   & S_{\text{vv}}   \\
+	S_\text{hh}   & S_\text{hv}   \\
+	S_\text{vh}   & S_\text{vv}   \\
 \end{array}
 \right],
-\end{equation}
-onde as entradas da matriz $S_{\text{i,j}}$ são os coeficientes de espalhamento complexo, tal que os índices i e j são associados ao  recebimento e a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_{\text{hv}}$ está associado a onda transmitida na direção vertical (v) e recebida na direção horizontal (h).
+\end{equation}\index{Matriz de Espalhamento}
+onde as entradas da matriz $S_\text{i,j}$ são os coeficientes de espalhamento complexo, tal que os índices i e j são associados ao  recebimento e a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_\text{hv}$ está associado a onda transmitida na direção vertical (v) e recebida na direção horizontal (h).
 
 Definindo a diagonal principal da matriz de espalhamento por co-polarização pois relaciona a polarização das ondas transmitidas e recebidas nas mesmas direções, e a os elementos da diagonal secundária da matriz de espalhamento por polarização cruzada relacionando os estados de polarizações ortogonais.
 % ver~\citep{lp}.
  
-A matriz $\mathbf{S}$ depende da definição do sistema de coordenadas, se a antena transmissora e receptora de sinal estão localizadas na mesma posição consideramos as medidas mono estáticas e consideramos o sistema de coordenada \textbf{BSA} - /\textit{Back Scattering Alignment}, desta forma o sistema de coordenadas da transmissão e recepção de sinal são coincidentes.   
+%A matriz $\mathbf{S}$ depende da definição do sistema de coordenadas, se a antena transmissora e receptora de sinal estão localizadas na mesma posição as medidas são mono-estáticas, e consideramos o sistema de coordenada BSA - \textit{Back Scattering Alignment}, assim o sistema de coordenadas da transmissão e recepção de sinal são coincidentes.   
  
-A potência total espalhada no caso de um sistema de radar polarimétrico é o chamado \textit{span}, sendo definido no caso mais geral como,
+A potência total espalhada no caso de um sistema de radar polarimétrico é o chamado \textit{Span}, sendo definido no caso geral como,
 \begin{equation}\label{span_geral}
-\mathbf{Span(S)} = \traco(SS^H)=|S_{hh}|^2+|S_{hv}|^2|+|S_{vh}|^2+|S_{vv}|^2,
-\end{equation}
+\mathit{Span}(\mathbf{S}) = \traco(\mathbf{S}\mathbf{S}^H)=|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2,
+\end{equation}\index{Span}
 onde o operador $\traco(\cdot)$ é o traço de uma matriz.
 
 
-\subsection{Matriz de coerência polarimétrica de Pauli ($T_4$) e matriz de covariância lexicográfica ($C_4$)}
+\subsection{Matriz de coerência polarimétrica de Pauli ($\mathbf{T}_4$) e matriz de covariância lexicográfica ($\mathbf{C}_4$)}
 A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor,
-\begin{equation}\label{def_vet_espalhamento}
-\mathbf{k}=\frac{1}{2}\left[\traco(S\Psi_1)\quad\traco(S\Psi_2)\quad \traco(S\Psi_3)\quad \traco(S\Psi_4)\right]^T,
+\begin{equation}\label{def_vet_espalhamento_4d}
+\mathbf{k}=\frac{1}{2}\left[\traco(\mathbf{S}\Psi_1)\quad\traco(\mathbf{S}\Psi_2)\quad \traco(\mathbf{S}\Psi_3)\quad \traco(\mathbf{S}\Psi_4)\right]^T,
 \end{equation}
 onde $\{\Psi_i\}_{i=1}^4$ é uma base para o espaço das matrizes hermitianas $2\times 2$.
 
-Diferentes bases para o mesmo espaço matricial podem ser definidas, no presente trabalho serão consideradas duas bases chamadas respectivamente de  base de Pauli e base lexicográfica, a  base de Pauli é definida por,
-\begin{equation}\label{base_de_pauli}
+Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos escolher duas bases, a primeira chamada de  base de Pauli,
+\begin{equation}\label{base_de_pauli_4d}
 \{\Psi_P\} = \left\{
 \sqrt{2}\left[\begin{array}{cc}
 	1  & 0  \\
@@ -76,9 +76,9 @@ Diferentes bases para o mesmo espaço matricial podem ser definidas, no presente
 	i  & 0  \\
 \end{array}\right]
 \right\},
-\end{equation}
-e a base lexicográfica é definida como,
-\begin{equation}\label{base_de_lexicografica}
+\end{equation}\index{Base de Pauli de dimensão 4}
+e a segunda chamada de base lexicográfica,
+\begin{equation}\label{base_lexicografica_4d}
 \{\Psi_L\} = \left\{
 2\left[\begin{array}{cc}
 	1  & 0  \\
@@ -97,29 +97,29 @@ e a base lexicográfica é definida como,
 	0  & 1  \\
 \end{array}\right]
 \right\}.
-\end{equation}
+\end{equation}\index{Base Lexicográfica de dimensão 4}
 
-Usando as bases (\ref{base_de_pauli}), (\ref{base_de_lexicografica}) e  a definição do vetor (\ref{def_vet_espalhamento}) representamos a matriz de espalhamento pelo vetor característico de Pauli $4$-D,
+Sendo o vetor \eqref{def_vet_espalhamento_4d}, e usando a base \eqref{base_de_pauli_4d} representamos a matriz de espalhamento pelo vetor característico de Pauli $4$-D,
 \begin{equation}\label{vetor_pauli_4d}
 \mathbf{k}= \frac{1}{\sqrt{2}}\left[
 	\begin{array}{cccc}
-	S_{hh} + S_{vv}& S_{hh} - S_{vv}& S_{hv} + S_{vh} &i (S_{hv} - S_{vh})   \\
-\end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3\quad k_4]
+	S_\text{hh} + S_\text{vv}& S_\text{hh} - S_\text{vv}& S_\text{hv} + S_\text{vh} &i (S_\text{hv} - S_\text{vh})   \\
+\end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3\quad k_4],
 \end{equation}
-e pelo vetor característico lexicográfico $4$-D 
+e usando a base \eqref{base_lexicografica_4d} representamos a matriz de espalhamento pelo vetor característico lexicográfico $4$-D, 
 \begin{equation}\label{vetor_lexicografico_4d}
 \mathbf{\Omega}= \left[
 	\begin{array}{cccc}
-	S_{hh}& S_{hv} &S_{hv}& S_{vv}   \\
-\end{array}\right]^T=[\Omega_1\quad \Omega_2\quad \Omega_3\quad \Omega_4]
+	S_\text{hh}& S_\text{hv} &S_\text{hv}& S_\text{vv}   \\
+\end{array}\right]^T=[\Omega_1\quad \Omega_2\quad \Omega_3\quad \Omega_4].
 \end{equation}
 
-A matriz de espalhamento pode ser relacionada com os vetores (\ref{vetor_pauli_4d}) e (\ref{vetor_lexicografico_4d}) da seguinte maneira,
+A matriz de espalhamento pode ser relacionada com os vetores \eqref{vetor_pauli_4d} e \eqref{vetor_lexicografico_4d} da seguinte maneira,
 \begin{equation}\label{mat_esp_rel_pauli_lex}
 \mathbf{S} = \left[
 \begin{array}{cc}
-	S_{hh}   & S_{hv}   \\
-	S_{vh}   & S_{vv}   \\
+	S_\text{hh}   & S_\text{hv}   \\
+	S_\text{vh}   & S_\text{vv}   \\
 \end{array}
 \right]=
 \left[
@@ -136,26 +136,38 @@ A matriz de espalhamento pode ser relacionada com os vetores (\ref{vetor_pauli_4
 \right]
 \end{equation}
 
-As constantes $2$ e $\sqrt{2}$ nas equações (\ref{base_de_pauli}) e (\ref{base_de_lexicografica}) servem para manter a norma dos vetores de espalhamento iguais independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 4.
+As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_4d} e \eqref{base_lexicografica_4d} ajustam a norma dos vetores de espalhamento para serem iguais, independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 4, isto é, se $\mathbf{u}$ e $\mathbf{v}$ são vetores complexos, o produto interno é $\mathbf{u}^\text{H}\mathbf{v}$.
 
-Podemos assim garantir que a invariância da potência total 
+Podemos assim garantir a invariância do 
 \begin{equation}\label{span_invariante}
-\begin{array}{ccc}
-\mathbf{Span(S)} &=& \traco(SS^H)\\
-	   &=&  \traco(SS^H)=|S_{hh}|^2+|S_{hv}|^2|+|S_{vh}|^2+|S_{vv}|^2  \\
-	   &=&  \mathbf{k}^H\mathbf{k}=|\mathbf{k}|^2\\
-	   &=& \mathbf{\Omega}^H\mathbf{\Omega}=|\mathbf{\Omega}|^2.
+\begin{array}{ccccc}
+\mathit{Span}(\mathbf{S}) &=&\traco(\mathbf{S}\mathbf{S}^\text{H})&=&|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2  \\
+	   &=&  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
+	   &=&\mathbf{\Omega}^\text{H}\mathbf{\Omega} &=&|\mathbf{\Omega}|^2.\\
 \end{array}
 \end{equation}
 
-A transformação linear unitária $U_{4(L \rightarrow P)}$ é definida como uma transformação que aplica o vetor na base lexicográfica em um vetor na base de Pauli. Definimos a notação \textrm{SU(4)} para designar a transformação  unitária
+A matriz unitária $\mathbf{U}_4$ é definida como a representação matricial da transformação linear que aplica o vetor na base lexicográfica em um vetor na base de Pauli. Podemos gerar a  matriz unitária colocando nas linhas da matriz os elementos da base de Pauli, portanto
+\begin{equation}\label{matriz_unit_su4}
+\mathbf{U}_4=	\frac{1}{\sqrt{2}}	
+\left[
+\begin{array}{rrrr}
+	1   & 0 & 0 & 1  \\
+	1   & 0 & 0 & -1  \\
+	0   & 1 & 1 & 0  \\
+	0   & i & -i &0   \\
+\end{array}
+\right].
+\end{equation}
+
+A transformação linear $\mathbf{k}=\mathbf{U}_4\mathbf{\Omega}$, representada na forma matricial,
 \begin{equation}\label{trans_matriz_unit_su4}
 \frac{1}{\sqrt{2}}\left[
 \begin{array}{c}
-	  S_{hh} +  S_{vv}\\  
-	  S_{hh} -  S_{vv}\\
-	  S_{hv} +  S_{vh} \\
-        i(S_{hv} -  S_{vh}) \\
+	  S_\text{hh} +  S_\text{vv}\\  
+	  S_\text{hh} -  S_\text{vv}\\
+	  S_\text{hv} +  S_\text{vh} \\
+        i(S_\text{hv} -  S_\text{vh}) \\
 \end{array}
 \right]=\frac{1}{\sqrt{2}}	
 \left[
@@ -168,30 +180,18 @@ A transformação linear unitária $U_{4(L \rightarrow P)}$ é definida como uma
 \right]
 \left[
 \begin{array}{c}
-	S_{hh} \\  
-	S_{hv} \\
-	S_{vh} \\
-	S_{vv} \\
+	S_\text{hh} \\  
+	S_\text{hv} \\
+	S_\text{vh} \\
+	S_\text{vv} \\
 \end{array}
-\right]
+\right],
 \end{equation}
-desta maneira definimos a matriz unitária,
-\begin{equation}\label{matriz_unit_su4}
-U_{4(L \rightarrow P)}=	\frac{1}{\sqrt{2}}	
-\left[
-\begin{array}{rrrr}
-	1   & 0 & 0 & 1  \\
-	1   & 0 & 0 & -1  \\
-	0   & 1 & 1 & 0  \\
-	0   & i & -i &0   \\
-\end{array}
-\right]
-\end{equation}
+foi definida para demonstrar a transformação similar entre a matriz de coerência, e a matriz de covariância definidas a seguir.  
 
-
-Para o caso biestático definimos a matriz de coerência polarimétrica de Pauli 
+A matriz de coerência polarimétrica de Pauli é definida por, 
 \begin{equation}\label{matriz_polar_pauli}
-	\mathbf{T}_4=\mathbf{k}\mathbf{k}^H=	
+	\mathbf{T}_4=\mathbf{k}\mathbf{k}^\text{H}=	
 \left[
 \begin{array}{rrrr}
 	|k_1|^2       & k_1\bar{k}_2  & k_1\bar{k}_3  & k_1\bar{k}_4  \\
@@ -199,11 +199,11 @@ Para o caso biestático definimos a matriz de coerência polarimétrica de Pauli
 	k_3\bar{k}_1  & k_3\bar{k}_2  &    |k_3|^2    & k_3\bar{k}_4  \\
 	k_4\bar{k}_1  & k_4\bar{k}_2  & k_4\bar{k}_3  & |k_4|^2   \\
 \end{array}
-\right]
-\end{equation}
+\right],
+\end{equation}\index{Matriz polarimétrica de Pauli $4\times 4$}
 e a matriz de covariância lexicográfica
 \begin{equation}\label{matriz_covar_lexic}
-	\mathbf{C}_4=\mathbf{\Omega}\mathbf{\Omega}^H=	
+	\mathbf{C}_4=\mathbf{\Omega}\mathbf{\Omega}^\text{H}=	
 \left[
 \begin{array}{rrrr}
 	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3  & \Omega_1\bar{\Omega}_4  \\
@@ -211,42 +211,38 @@ e a matriz de covariância lexicográfica
 	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2    & \Omega_3\bar{\Omega}_4  \\
 	\Omega_4\bar{\Omega}_1  & \Omega_4\bar{\Omega}_2  & \Omega_4\bar{\Omega}_3  & |\Omega_4|^2   \\
 \end{array}
-\right]
-\end{equation}
+\right].
+\end{equation}\index{Matriz de covariância lexicográfica $4\times 4$}
 
-Usando as definções e as propriedades acima teremos
+As matrizes de coerência polarimétrica de Pauli e covariância lexicográfica são relacionadas usando as definições e a propriedade \eqref{trans_matriz_unit_su4}, assim teremos
 \begin{equation}\nonumber
-\begin{array}{rrrrr}
-	\mathbf{T}_4&=&\mathbf{k}\mathbf{k}^H&=&\mathbf{U_4\Omega}(\mathbf{U_4\Omega})^H	\\
-	   &=&\mathbf{U_4\Omega}\mathbf{\Omega}^H\mathbf{U_4}^H&&	\\
-	   &=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^H&=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^{-1}\\
+\begin{array}{rcccr}
+	\mathbf{T}_4&=&\mathbf{k}\mathbf{k}^\text{H}&=&\mathbf{U}_4\mathbf{\Omega}(\mathbf{U_4\Omega})^H	\\
+	   &=&\mathbf{U_4\Omega}\mathbf{\Omega}^H\mathbf{U_4}^H&=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^H	\\
 \end{array}
 \end{equation}
+então, a relação de similaridade entre as matrizes é,
 \begin{equation}\label{matriz_simil_t4_c4}
 \begin{array}{rrr}
-	 \mathbf{T}_4  &=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^{-1}\\
+	 \mathbf{T}_4  &=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^\text{H}\\
 \end{array}
 \end{equation}
-com isso, podemos concluir que
+lembrando que $\mathbf{U_4}$ é unitária, e o traço é a soma dos autovalores de uma matriz, concluímos
 \begin{equation}\label{traco_t4_c4}
 \begin{array}{rrrrr}
-	\traco({\mathbf{T}_4})  &=&\traco({\mathbf{C}_4})&=&\mathbf{Span(S)}.\\
+	\traco({\mathbf{T}_4})  &=&\traco({\mathbf{C}_4})&=&\mathit{Span}\mathbf{(S)}.\\
 \end{array}
 \end{equation}
+\subsection{Matriz de coerência polarimétrica de Pauli ($\mathbf{T}_3$) e matriz de covariância lexicográfica ($\mathbf{C}_3$)}
+Podemos entender as interações das ondas eletromagnéticas em alvos naturais sob a ótica do teorema da reciprocidade, o qual considera o meio reciproco. De uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos, e mono-estáticos, ou seja, consideramos o sistema de coordenada BSA - \textit{Back Scattering Alignment} . Em meio reciproco podemos definir a igualdade dos termos de polarização cruzada $S_\text{hv}=S_\text{vh}$. Veja \citet{lp}. 
 
-\subsection{Matriz de coerência polarimétrica de Pauli ($T_3$) e matriz de covariância lexicográfica ($C_3$)}
-
-Podemos entender as interações da ondas eletromagnéticas em alvos naturais sob a ótica do teorema da reciprocidade que considera o meio reciproco, de uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos. Então podemos definir a igualdade dos termos complexos (polarização cruzada) $S_{hv}=S_{vh}$.  Veja \citet{lp}. 
-
-O entendimento para extrair informação da matriz de espalhamento $\mathbf{S}$ pode ser alcançado coma construção de um sistema de vetores. A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor,
+A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor,
 \begin{equation}\label{def_vet_espalhamento_3d}
 \mathbf{k}=\frac{1}{2}\left[\traco(S\Psi_1)\quad\traco(S\Psi_2)\quad \traco(S\Psi_3)\right]^T,
 \end{equation}
 onde $\{\Psi_i\}_{i=1}^3$ é uma base para o espaço das matrizes hermitianas $2\times 2$.
 
-Neste trabalho serão consideradas duas bases para os espaço das matrizes nomeadas como base de Pauli e base lexicográfica.	
-
-A base de Pauli pode ser definida como,
+Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos escolher duas bases, a primeira chamada de  base de Pauli,
 \begin{equation}\label{base_de_pauli_3d}
 \{\Psi_P\} = \left\{
 \sqrt{2}\left[\begin{array}{cc}
@@ -261,11 +257,10 @@ A base de Pauli pode ser definida como,
 	0  & 1  \\
 	1  & 0  \\
 \end{array}\right]
-\right\}.
-\end{equation}
-
-A base lexicográfica pode ser definida como,
-\begin{equation}\label{base_de_lexicografica_3d}
+\right\},
+\end{equation}\index{Base de Pauli de dimensão 3}
+e a segunda chamada de base lexicográfica
+\begin{equation}\label{base_lexicografica_3d}
 \{\Psi_L\} = \left\{
 2\left[\begin{array}{cc}
 	1  & 0  \\
@@ -280,43 +275,53 @@ A base lexicográfica pode ser definida como,
 	0  & 1  \\
 \end{array}\right]
 \right\}.
-\end{equation}
+\end{equation}\index{Base lexicográfica de dimensão 3}
 
-Usando as bases (\ref{base_de_pauli_3d}), (\ref{base_de_lexicografica_3d}) e a equação (\ref{def_vet_espalhamento_3d}) geramos os seguintes vetores de espalhamento que pode ser representada pelo vetor característico de Pauli $3$-D,
+Sendo o vetor \eqref{def_vet_espalhamento_3d}, e usando a base \eqref{base_de_pauli_3d} representamos a matriz de espalhamento pelo vetor característico de Pauli $3$-D,
 \begin{equation}\label{vetor_pauli_3d}
 \mathbf{k}= \frac{1}{\sqrt{2}}\left[
 	\begin{array}{ccc}
-	S_{hh} + S_{vv} & S_{hh} - S_{vv}& 2S_{hv}   \\
+	S_\text{hh} + S_\text{vv} & S_\text{hh} - S_\text{vv}& 2S_\text{hv}   \\
 \end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3],
 \end{equation}
-e pelo vetor característico lexicográfico $3$-D 
+e usando a base \eqref{base_lexicografica_3d} representamos a matriz de espalhamento pelo vetor característico lexicográfico $3$-D,  
 \begin{equation}\label{vetor_lexicografico_3d}
 \mathbf{\Omega}= \frac{1}{\sqrt{2}}\left[
 	\begin{array}{ccc}
-	S_{hh}& S_{hv}& S_{vv}   \\
+	S_\text{hh}& S_\text{hv}& S_\text{vv}   \\
 \end{array}\right]^T=[\Omega_1\quad \Omega_2\quad \Omega_3].
 \end{equation}
 
-As constantes $2$ e $\sqrt{2}$ nas equações (\ref{base_de_pauli_3d}) e (\ref{base_de_lexicografica_3d}) servem para manter a norma dos vetores de espalhamento iguais independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 3.
+As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_3d} e \eqref{base_lexicografica_3d} servem para manter a norma dos vetores de espalhamento iguais, independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 3, isto é, se $\mathbf{u}$ e $\mathbf{v}$ são vetores complexos, o produto interno é $\mathbf{u}^\text{H}\mathbf{v}$.
 
-Podemos assim garantir que a invariância da potencia total,
+Podemos assim garantir a invariância da potencia total,
 \begin{equation}\label{span_invariante_3d}
-\begin{array}{ccc}
-\mathbf{Span(S)} &=& \traco(SS^H)\\
-	   &=&  \traco(SS^H)=|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2  \\
-	   &=&  \mathbf{k}^H\mathbf{k}=|\mathbf{k}|^2\\
-	   &=& \mathbf{\Omega}^H\mathbf{\Omega}=|\mathbf{\Omega}|^2
+\begin{array}{ccccc}
+\mathit{Span}(\mathbf{S}) &=&  \traco(\mathbf{SS}^\text{H})&=&|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2  \\
+	   &=&  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
+	   &=&  \mathbf{\Omega}^\text{H}\mathbf{\Omega}&=&|\mathbf{\Omega}|^2\\
 \end{array}
 \end{equation}
 
-A transformação linear unitária $U_{3(L \rightarrow P)}$ é definida como uma transformação que aplica o vetor na base lexicográfica em um vetor na base de Pauli. Definimos a notação \textrm{SU(3)} para designar a transformação  unitária.
+A matriz unitária $\mathbf{U}_3$ é definida como a representação matricial da transformação linear que aplica o vetor na base lexicográfica em um vetor na base de Pauli. Podemos gerar a  matriz unitária colocando nas linhas da matriz os elementos da base de Pauli, portanto
+\begin{equation}\label{matriz_unit_su3}
+\mathbf{U}_3=\frac{1}{\sqrt{2}}	
+\left[
+\begin{array}{rrr}
+	1   & 0 & 1  \\
+	1   & 0 & -1  \\
+	0   & \sqrt{2} &  0  \\
+\end{array}
+\right].
+\end{equation}
 
+A transformação linear $\mathbf{k}=\mathbf{U}_3\mathbf{\Omega}$, representado na forma matricial,
 \begin{equation}\label{trans_matriz_unit_su3}
 \frac{1}{\sqrt{2}}\left[
 \begin{array}{c}
-	  S_{hh} +  S_{vv}\\  
-	  S_{hh} -  S_{vv}\\
-	  2  S_{hv} \\
+	  S_\text{hh} +  S_\text{vv}\\  
+	  S_\text{hh} -  S_\text{vv}\\
+	  2  S_\text{hv} \\
 \end{array}
 \right]=\frac{1}{\sqrt{2}}	
 \left[
@@ -328,27 +333,17 @@ A transformação linear unitária $U_{3(L \rightarrow P)}$ é definida como uma
 \right]
 \left[
 \begin{array}{c}
-	S_{hh} \\  
-	S_{hv} \\
-	S_{vv}\\
+	S_\text{hh} \\  
+	S_\text{hv} \\
+	S_\text{vv}\\
 \end{array}
 \right]
 \end{equation}
-desta maneira definimos a matriz unitária,
-\begin{equation}\label{matriz_unit_su3}
-U_{3(L \rightarrow P)}=\frac{1}{\sqrt{2}}	
-\left[
-\begin{array}{rrr}
-	1   & 0 & 1  \\
-	1   & 0 & -1  \\
-	0   & \sqrt{2} &  0  \\
-\end{array}
-\right].
-\end{equation}
+foi definida para demonstrar a transformação similar entre a matriz de coerência, e a matriz de covariância definidas a seguir.
 
-Para o caso mono estático definimos a matriz de coerência polarimétrica de Pauli 
+A matriz de coerência polarimétrica de Pauli é definida por,
 \begin{equation}\label{matriz_polar_pauli_3}
-	\mathbf{T}_3=\mathbf{k}\mathbf{k}^H=	
+	\mathbf{T}_3=\mathbf{k}\mathbf{k}^\text{H}=	
 \left[
 \begin{array}{rrr}
 	|k_1|^2       & k_1\bar{k}_2  & k_1\bar{k}_3  \\
@@ -356,10 +351,10 @@ Para o caso mono estático definimos a matriz de coerência polarimétrica de Pa
 	k_3\bar{k}_1  & k_3\bar{k}_2  &    |k_3|^2    \\
 \end{array}
 \right],
-\end{equation}
+\end{equation}\index{Matriz polarimétrica de Pauli $3\times 3$}
 e a matriz de covariância lexicográfica
 \begin{equation}\label{matriz_covar_lexic_3}
-	\mathbf{C}_3=\mathbf{\Omega}\mathbf{\Omega}^H=	
+	\mathbf{C}_3=\mathbf{\Omega}\mathbf{\Omega}^\text{H}=	
 \left[
 \begin{array}{rrr}
 	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3   \\
@@ -367,87 +362,82 @@ e a matriz de covariância lexicográfica
 	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2      \\
 \end{array}
 \right].
-\end{equation}
+\end{equation}\index{Matriz de covariância polarimétrica $3\times 3$}
 
-Usando as definções e as propriedades acima teremos
+As matrizes de coerência polarimétrica de Pauli e covariância lexicográfica são relacionadas usando as definições e a propriedade \eqref{trans_matriz_unit_su4}, assim teremos
 \begin{equation}\nonumber
 \begin{array}{rrrrr}
-	\mathbf{T}_3&=&\mathbf{k}\mathbf{k}^H&=&\mathbf{U_3\Omega}(\mathbf{U_3\Omega})^H	\\
-	   &=&\mathbf{U_3\Omega}\mathbf{\Omega}^H\mathbf{U_3}^H&&	\\
-	   &=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^H&=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^{-1}\\
+	\mathbf{T}_3&=&\mathbf{k}\mathbf{k}^\text{H}&=&\mathbf{U_3\Omega}(\mathbf{U_3\Omega})^\text{H}	\\
+	   &=&\mathbf{U_3\Omega}\mathbf{\Omega}^\text{H}\mathbf{U_3}^\text{H}&=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^\text{H}\\
 \end{array},
 \end{equation}
+então, a relação de similaridade entre as matrizes é,
 \begin{equation}\label{matriz_simil_t3_c3}
 \begin{array}{rrr}
-	 \mathbf{T}_3  &=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^{-1}\\
+	 \mathbf{T}_3  &=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^\text{H}\\
 \end{array},
 \end{equation}
-com isso, podemos concluir que
+lembrando que $\mathbf{U_3}$ é unitária, e o traço é a soma dos autovalores de uma matriz, concluímos
 \begin{equation}\label{traco_t3_c3}
 \begin{array}{rrrrr}
-	\traco({\mathbf{T}_3})  &=&\traco({\mathbf{C}_3})&=&\mathbf{Span(S)}.\\
+	\traco({\mathbf{T}_3})  &=&\traco({\mathbf{C}_3})&=&\mathit{Span}\mathbf{(S)}.\\
 \end{array}
 \end{equation}
 
-Podemos concluir, se
+Portanto podemos afirmar, se
 \begin{equation}\label{vetor_3d} 
 \mathbf{s} = \left[
 \begin{array}{c}
-	S_{hh}      \\
-        \sqrt{2}S_{vh}     \\
-	S_{vv}      \\
+	S_\text{hh}      \\
+        \sqrt{2}S_\text{hv}     \\
+	S_\text{vv}      \\
 \end{array}
 \right],
 \end{equation}
 a potência total espalhada no caso de um sistema de radar polarimétrico em meio recíproco pode ser definido por
 \begin{equation}\label{span_geral}
-\mathbf{Span} = \traco(SS^H)=|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2.
+\mathit{Span} = \traco(\mathbf{SS}^\text{H})=|S_\text{hh}|^2+2|S_\text{hv}|^2+|S_\text{vv}|^2.
 \end{equation}
 
-\section{Estatística do Ruido \textit{Speckle}}
-O ruído \textit{speckle} causa uma variação de intensidade pixel a pixel imprimindo um aspecto granular nas imagens SAR / PolSAR.  
+\subsection{Estatística do Ruído \textit{Speckle} no processo de única visada}\index{O ruído \textit{Speckle}}
+As imagens SAR e PolSAR possuem um tipo de ruído multiplicativo chamado \textit{speckle}, conhecido por causar variação de intensidade pixel a pixel, imprimindo um aspecto granular as imagens.  
 
-O \textit{speckle} dificulta a interpretação e analise das imagens reduzindo a efetividade da segmentação, classificação, ou detecção de mudanças de características  das imagens SAR / PolSAR. O entendimento do comportamento estatístico do \textit{speckle} é essencial para extrair boas informações das imagens e propor algoritmos efetivos para tratar o \textit{speckle}. Assim, podemos propor tarefas de criação de filtros para as imagens, estimativas de parâmetros geofísicos, classificação e segmentação de regiões, detectar bordas, entre outras.
+O \textit{speckle} dificulta a interpretação e análise das imagens reduzindo a efetividade da segmentação, classificação, ou detecção de mudanças de características das imagens SAR e PolSAR. O entendimento do comportamento estatístico do \textit{speckle} é essencial para extrair boas informações das imagens e propor algoritmos efetivos para tratar esse tipo de ruído. 
 
-\cite{lp} realizaram um estudo sistemático do speckle com o objetivo de entender os seus efeitos nas imagens SAR e PolSAR, o estudo usou os dados com simples visada ou com múltiplas visadas.
-
-No presente trabalho usaremos as características do ruído \text{speckle} para auxiliar na detecção de borda, em oposição a trabalhos que tentam mitigar o efeito do \textit{speckle}.
+Neste trabalho usaremos as características do ruído \textit{speckle} para auxiliar na detecção de borda, em oposição a trabalhos que tentam mitigar o efeito do ruído.
+  
+A formação do \textit{speckle} surge quando o radar ilumina uma superfície rugosa, como florestas, plantações, áreas urbanas, e etc, então o sinal de retorno consiste em ondas refletidas com muitos elementos de espalhamentos. Os elementos de espalhamento têm geometrias complexas e distribuições aleatórias, tornando a modelagem estatística uma tarefa indispensável e desafiadora. Podemos considerar três tipos de processos de espalhamento da onda em alvos (elementos de espalhamento). A dispersão de superfície, a dispersão de volume, e o espalhamento de volume-superfície. O primeiro é o espalhamento que acontece quando a onda eletromagnética atravessa uma mudança de meio de propagação. O segundo, consiste no espalhamento que acontece na profundidade de um meio, por exemplo, o espalhamento no interior de uma floresta. E por último, o espalhamento volume-superfície, que consiste em a onda atingir outra troca de meio de propagação, por exemplo o solo de uma floresta.
  
-\subsection{Formação do speckle}   
- A formação do speckle surge quando o radar ilumina uma superfície rugosa com escala do comprimento de onda do radar, o sinal de retorno consiste em ondas refletidas de muitos elementos de espalhamentos. 
+ As distância entre os elementos de espalhamento e o recebimento no radar varia devido a natureza randômica da disposição desse elemento. A onda recebida de cada elemento espalhador embora coerente em frequência não são coerentes em fase. O sinal é forte se as ondas são construtivas, ou seja em fase, e fraco se a ondas não estão em fase.
  
- Os elementos de espalhamento têm geometrias complexas e distribuições aleatórias, tornando a modelagem estatística uma tarefa indispensável e desafiadora. Podemos considerar três tipos de processos de espalhamento da onda em alvos (elementos de espalhamento). A dispersão de superfície, a dispersão de volume e o espalhamento de volume-superfície. O primeiro é o espalhamento que acontece quando a onda eletromagnética atravessa uma mudança de meio de propagação. Segundo, consiste no espalhamento que acontece na profundidade de um meio, por exemplo, o espalhamento no interior de uma floresta. E por último, o espalhamento volume- superfície, que consiste em a onda atingir outra troca de meio de propagação, por exemplo o solo de uma floresta.
- 
- As distancia entre os elementos de espalhamento e o recebimento no radar varia devido a natureza randômica da disposição desse elemento. A onda recebida de cada elemento espalhador embora coerente em frequência não são coerentes em fase. O sinal é forte se as ondas são construtivas, ou seja em fase, e fraco se a ondas não estão em fase.
- 
- Podemos escrever um sinal complexo da seguinte forma.
-
+Podemos escrever um sinal complexo da seguinte forma.
 \begin{equation}\label{eq:speckle_soma}
-\sum_{i=1}^{M}(x_i+\dot{\jmath} y_i)=\sum_{i=1}^{M}x_i+\dot{\jmath}\sum_{i=1}^{M} y_i=x+\dot{\jmath} y=r\exp(\dot{\jmath}\theta),
+\sum_{i=1}^{M}(x_i+\hat{\jmath} y_i)=\sum_{i=1}^{M}x_i+\hat{\jmath}\sum_{i=1}^{M} y_i=x+\hat{\jmath} y=r\exp(\hat{\jmath}\theta),
 \end{equation}
-onde, $x_i+\dot{\jmath} y_i$ é o retorno do espalhamento para cada elemento $i$, $x+\dot{\jmath}y$ é o retorno dos $M$ espalhadores somados, e $r\exp(\dot{\jmath}\theta)$ é a decomposição de Euler para o número complexo $x+\dot{\jmath}y$.
-
-
-\subsection{Modelo de Rayleigh para o \textit{speckle}}
-Podemos determinar as seguintes condições para a modelagem,
+onde,~$x_i+\hat{\jmath} y_i$ é o retorno do espalhamento para cada elemento $i$, se existem $M$ elementos espalhadores então $x+\hat{\jmath}y$ é soma destes elementos, e $r\exp(\hat{\jmath}\theta)$ é a decomposição de Euler para o número complexo $x+\hat{\jmath}y$.
+\subsubsection{Modelo de Rayleigh para o \textit{speckle}}
+Definir um modelo para o \textit{speckle} é muito importante na tarefa de obter informação de imagens SAR e PolSAR. Com esse objetivo, podemos determinar as seguintes condições para a modelagem:
 \begin{itemize}
-\item 1) um número grande de espalhadores na resolução de célula para um meio homogêneo,
-\item 2) a distância de alcance é muito maior que o comprimento de onda do radar,
-\item 3) A superfície tem rugosidade na escala do comprimento de onda de um radar.
+\item Um número grande de espalhadores em uma região (célula de resolução) considerada um meio homogêneo.
+\item A distância de alcançe é muito maior que o comprimento de onda do radar.
+\item A superfície tem maior rugosidade na escala do comprimento de onda de um radar.
 \end{itemize}
 
-O vetor soma $\eqref{eq:speckle_soma}$ de ondas refletidas de alvos podem ser definidas de forma que a sua fase seja distribuída uniformemente no intervalo $(-\pi,\pi)$. O \textit{speckle} possuindo esta propriedade são chamados de \textit{speckle} totalmente desenvolvido.  
+O \textit{speckle} totalmente desenvolvido é definido utilizando o vetor soma \eqref{eq:speckle_soma} para os retornos dos espalhamentos de alvos de forma que a sua fase seja distribuída uniformemente no intervalo $(-\pi,\pi)$. 
 
-O teorema do limite central para o \textit{speckle} completamente desenvolvido garante que as componentes $x$ e $y $ são independentemente e identicamente distribuídas gaussianas com média zero e variância $\frac{\sigma^2}{2}$. Podemos representar a sua probabilidade conjunta por,
+O teorema do limite central para o \textit{speckle} totalmente desenvolvido garante que as componentes $x$ e $y$ sejam gaussianas independentes e identicamente distribuídas com média zero e variância $\frac{\sigma^2}{2}$. Podemos representar a sua função densidade de probabilidade conjunta por,
 \begin{equation}\label{eq:pdf_gaussiana_xy}
-f_{XY}(x,y;\sigma^2)=f_X(x;\sigma^2)f_Y(y;\sigma^2)=\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{x^2}{\sigma^2}\right)\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{y^2}{\sigma^2}\right)=\frac{1}{\pi\sigma^2}\exp\left(-\frac{x^2+y^2}{\sigma^2}\right).
-\end{equation}
-sendo $x=A\cos(\theta)$ e $y=A\sin(\theta)$ teremos,
+\begin{split}
+  f_{XY}(x,y;\sigma^2)&=f_X(x;\sigma^2)f_Y(y;\sigma^2)\\
+  &=\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{x^2}{\sigma^2}\right)\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{y^2}{\sigma^2}\right)=\frac{1}{\pi\sigma^2}\exp\left(-\frac{x^2+y^2}{\sigma^2}\right),
+ \end{split}
+ \end{equation}
+sendo $x=z_A\cos\theta$, e $y=z_A\sin\theta$ teremos,
 \begin{equation}\label{eq:pdf_gaussiana_Atheta}
-f_{A}(z_A;\sigma^2)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2(\cos^2(\theta)+\sin^2(\theta)}{\sigma^2}\right)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right),
+f_{A}(z_A;\sigma^2)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2(\cos^2\theta+\sin^2\theta}{\sigma^2}\right)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right).
 \end{equation}
 
-Integrando na variável $\theta$ no intervalo de $[-\pi,\pi]$ teremos a distribuição para a amplitude.
+Integrando na variável $\theta$ no intervalo de $[-\pi,\pi]$ encontramos a distribuição para a amplitude.
 \begin{equation}\nonumber
 f_A(z_A;\sigma^2)=\int_{-\pi}^{\pi}\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right)d\theta=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right)\int_{-\pi}^{\pi}d\theta,
 \end{equation}
@@ -456,861 +446,367 @@ definida como a distribuição Rayleigh com PDF
 f_A(z_A;\sigma^2)=\frac{2z_A}{\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right).
 \end{equation}
 
-Podemos encontrar o valor esperado $$E[A]=\int_0^\infty z_Af(z_A)dA=\int_0^	\infty \frac{2z_A^2}{\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right) dA=\frac{\sqrt{\pi}\sigma}{2},$$ e a variância $var= E[X^2]-E[X]^2$, sendo $$E[A^2]=\int_0^\infty z_A^2f(z_A)dA=\int_0^	\infty \frac{2z_A^3}{\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right) dA=\sigma^2.$$
-Então $$var=E[X^2]-E[x]^2=\sigma^2-\left(\frac{\sqrt{\pi}\sigma}{2}\right)^2=\sigma^2-\frac{\pi\sigma^2}{4}.$$
+Podemos encontrar o valor esperado
+\begin{equation}\nonumber
+ E[z_A]=\int_0^\infty z_Af(z_A)dA=\int_0^	\infty \frac{2z_A^2}{\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right) dz_A=\frac{\sqrt{\pi}\sigma}{2},
+\end{equation} 
+e
+\begin{equation}\nonumber
+E[z_A^2]=\int_0^\infty z_A^2f(z_A)dA=\int_0^	\infty \frac{2z_A^3}{\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right) dA=\sigma^2,
+\end{equation}
+com o objetivo de calcular a variância
+\begin{equation}\nonumber
+\text{var}=E[z_A^2]-E[z_A]^2=\sigma^2-\left(\frac{\sqrt{\pi}\sigma}{2}\right)^2=\sigma^2-\frac{\pi\sigma^2}{4}.
+\end{equation}
 
-O coeficiente de variação $CV(Z_A) =\frac{\sqrt{var}}{E[A]}=\frac{\sigma^2-\frac{\pi\sigma^2}{4}}{\frac{\sqrt{\pi}\sigma}{2}}=\sqrt{\frac{\sigma^2-\frac{\pi\sigma^2}{4}}{\frac{\pi\sigma^2}{4}}}=\sqrt{\frac{4}{\pi}-1}=0,5227.$
+O coeficiente de variação pode ser calculado por 
+\begin{equation}\label{eq:coef_var_1_visada}
+\text{CV}(Z_A) =\frac{\sqrt{\text{var}}}{E[A]}=\frac{\sqrt{\sigma^2-\frac{\pi\sigma^2}{4}}}{\frac{\sqrt{\pi}\sigma}{2}}=\sqrt{\frac{\sigma^2-\frac{\pi\sigma^2}{4}}{\frac{\pi\sigma^2}{4}}}=\sqrt{\frac{4}{\pi}-1}=0,5227.
+\end{equation}
 
-Definindo $I=A^2$ a pdf para intensidade é 
+A intensidade é definida por $z_I=z_A^2$, então sua função densidade de probabilidade é escrita por, 
 \begin{equation}\nonumber
 f_I(z_I;\sigma^2)=\frac{1}{\sigma^2}\exp\left(-\frac{z_I}{\sigma^2}\right),
 \end{equation}
-desta forma podemos calcular $E[I]=\sigma^2$, e $E[I^2]=2\sigma^2$ então $var=\sigma^4$, então o $CV(Z_I)=\frac{\sqrt{\sigma^2}}{\sigma^2}=1$. 
+calculando $E[I]=\sigma^2$, e $E[I^2]=2\sigma^2$, teremos a variância $\text{var}=\sigma^4$, e o coeficiente de variação  $\text{CV}(Z_I)=\frac{\sqrt{\sigma^2}}{\sigma^2}=1$. 
 
-Comparando os valores $CV(Z_A)$ e $CV(Z_I)$ podemos afirmar que o valor do \textit{speckle} á mais pronunciado nas imagens de intensidade em relação com as imagens de amplitude.
+Comparando os valores $\text{CV}(Z_A)$ e $\text{CV}(Z_I)$ podemos afirmar que o valor do \textit{speckle} á mais pronunciado nas imagens de intensidade em relação com as imagens de amplitude.
 
-\subsection{Estatística \textit{speckle} no processo de múltiplas visadas}
+\subsection{Estatística do ruído \textit{Speckle} no processo de múltiplas visadas}
+O processo de redução do ruído \textit{speckle} consiste em realizar a média aritmética de vários sinais de retorno, processo conhecido por múltiplas visadas. O método pode ser descrito como adquirir L imagens e realizar a média aritmética das mesmas. 
 
-O processo de redução do ruído \textit{speckle} consiste em realizar a média aritmética de vários sinais de retorno e chamamos de múltiplas visadas. O método pode ser descrito como adquirir N imagens e realizar sua a média aritmética. As N imagens podem ser tomadas com a característica de serem estatisticamente independente. 
-
-Definimos a função densidade de probabilidade para os canais de intensidade com múltiplas visadas,    
+Definimos a função densidade de probabilidade para os canais de intensidades com múltiplas visadas por,    
 \begin{equation}\label{pdf_inten_multilook}
 f_I(z_I;L,\sigma^2)=\frac{L^L z_I^{L-1}}{(L-1)!\sigma^{2L}}\exp\left(-L\frac{z_I}{\sigma^2}\right), z_I\geq 0.
 \end{equation}
 
-A média e a variância são $M_L(z_I)=\sigma^2$, $Var_L(z_I)=\frac{\sigma^4}{L}$ implicando que o desvio padrão será $SD_L(z_I)=\frac{\sigma^2}{\sqrt{L}}$. O coeficiente de variação é calcula como sendo a razão entre o desvio padrão e a média resultando em $CV_L(z_I)=\frac{1}{\sqrt{L}}$. Podemos observar que o desvio padrão é reduzido por $\sqrt{N}$ em relação ao processo de visada simples.
+A média e a variância são respectivamente, $\text{M}_L(z_I)=\sigma^2$, $\text{var}_L(z_I)=\frac{\sigma^4}{L}$ implicando que o desvio padrão será $\text{SD}_L(z_I)=\frac{\sigma^2}{\sqrt{L}}$. O coeficiente de variação é calculado pela razão entre o desvio padrão e a média, resultando para o caso de múltiplas visadas em $\text{CV}_L(z_I)=\frac{1}{\sqrt{L}}$. Podemos observar que o coeficiente de variação é reduzido por $\sqrt{L}$ com relação ao processo de visada simples.
 
-Definimos a função densidade de probabilidade para os canais de amplitude com múltiplas visadas,    
+A função densidade de probabilidade para os canais de amplitude com múltiplas visadas, pode ser definida como,    
 \begin{equation}\label{pdf_inten_multilook}
 f_A(z_A;L,\sigma^2)=\frac{2L^L z_A^{2L-1}}{(L-1)!\sigma^{2L}}\exp\left(-L\frac{z_A^2}{\sigma^2}\right), z_A\geq 0.
 \end{equation}
 
-A média e a variância são $M_L(z_A)=\frac{\Gamma\left(L+\frac{1}{2}\right)}{\Gamma}\sqrt{\frac{\sigma^2}{L}}$ e $Var_L(z_A)=\left(L-\frac{\Gamma^2\left(L+\frac{1}{2}\right)}{\Gamma^2(L)}\right)\frac{\sigma^2}{L}$. O coeficiente de variação $CV_L(z_A)=\sqrt{\frac{L\Gamma^2(L)}{\Gamma^2\left(L+\frac{1}{2}\right)}-1}$, onde $\Gamma$ denota a função gamma
+A média e a variância são $\text{M}_L(z_A)=\frac{\Gamma\left(L+\frac{1}{2}\right)}{\Gamma}\sqrt{\frac{\sigma^2}{L}}$ e $\text{var}_L(z_A)=\left(L-\frac{\Gamma^2\left(L+\frac{1}{2}\right)}{\Gamma^2(L)}\right)\frac{\sigma^2}{L}$ respectivamente. Assim, o coeficiente de variação $\text{CV}_L(z_A)=\sqrt{\frac{L\Gamma^2(L)}{\Gamma^2\left(L+\frac{1}{2}\right)}-1}$ é calculado para os canais de amplitude, sendo que $\Gamma$ denota a função gamma.
 
+A tabela~\eqref{tab:cv_multilook} mostra os coeficientes de variações para os canais de intensidades e amplitudes,
 \begin{table}[hbt]
 	\centering
-	\caption{Coeficientes de variação.}\label{cv_multilook}
+	\caption{Coeficientes de variação.}\label{tab:cv_multilook}
 \begin{tabular}{@{}lccc@{}} \toprule
-	Número de visadas & N-visadas(intensidade)   & N- visadas(amplitude) \\ \midrule
-	1 & 1                  &   0.522723200877063\\ 
-	2 &  0.707106781186547 &  0.362999289543428\\
-	3 &  0.577350269189626 &  0.294104989486191\\
-	4 & 0.500000000000000  & 0.253622399398351 \\
-	5 & 0.447213595499958  & 0.226239950138330 \\
-	6 &  0.408248290463863 &  0.206148101392413\\
-	7 &  0.377964473009227 &  0.190600152599532\\ 
-	8 & 0.353553390593274  &  0.178108152789829\\ \bottomrule
+	Número de visadas (L) & CV (intensidade)   & CV (amplitude) \\ \midrule
+	1 & 1       &  0.5227\\ 
+	2 & 0.7071  &  0.3629\\
+	3 & 0.5773  &  0.2941\\
+	4 & 0.5000  &  0.2536 \\
+	5 & 0.4472  &  0.2262 \\
+	6 & 0.4082  &  0.2061\\
+	7 & 0.3779  &  0.1906\\ 
+	8 & 0.3535  &  0.1781\\ \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Matriz de covariância segundo \citet{good}}
-
-O vetor $\mathbf{S}$ pode ser rearranjado usando as partes reais e complexas de suas entradas em um vetor de dimensão $6$ onde cada entrada é representado por
-\begin{equation}
+\section{Matriz de covariância}
+A matriz de espalhamento hermitiana em meio recíproco $\mathbf{S}$ definida em \eqref{matriz_de_espalhamento}, 
+\begin{equation}\nonumber
 \mathbf{S} = \left[
-\begin{array}{c}
-	R_{hh}     \\
-    I_{hh}     \\
-	R_{hv}     \\
-	I_{hv}     \\
-    R_{vv}     \\
-	I_{vv}     \\
-\end{array}
-\right]
-\end{equation}
-e cujo produto, 
-\begin{equation*}
-\tiny
-\mathbf{S} \mathbf{S}^H= \left[
-\begin{array}{rrrrrr}
-	R_{hh}R_{hh}  & R_{hh}I_{hh} &R_{hh}R_{hv} & R_{hh}I_{hv} &R_{hh}R_{vv} &R_{hh}I_{vv} \\
-    I_{hh}R_{hh}  & I_{hh}I_{hh} &I_{hh}R_{hv} & I_{hh}I_{hv} &I_{hh}R_{vv} &I_{hh}I_{vv} \\
-	R_{hv}R_{hh}  & R_{hv}I_{hh} &R_{hv}R_{hv} & R_{hv}I_{hv} &R_{hv}R_{vv} &R_{hv}I_{vv} \\
-	I_{hv}R_{hh}  & I_{hv}I_{hh} &I_{hv}R_{hv} & I_{hv}I_{hv} &I_{hv}R_{vv} &I_{hh}I_{vv} \\
-    R_{vv}R_{hh}  & R_{vv}I_{hh} &R_{vv}R_{hv} & R_{vv}I_{hv} &R_{vv}R_{vv} &R_{vv}I_{vv} \\
-	I_{vv}R_{hh}  & I_{vv}I_{hh} &I_{vv}R_{hv} & I_{vv}I_{hv} &I_{vv}R_{vv} &I_{vv}I_{vv} \\
-\end{array}
-\right].
-\end{equation*}
-
-A distribuição gaussiana circular complexa multivariada com média zero pode ser definida de acordo com \citet{goodman}. Sendo $\mathbf{S}_= R_j+\hat{\imath}I_j$ definimos $R_j$ e $I_j$ com $j=1,2,3$ tenham distribuições conjuntas gaussianas e satisfaçam as seguintes condições
-
-Na referência \cite{good} foi descrito a hipótese da distribuição gaussiana circular complexa multivariada com média zero. sendo $\mathbf{S}_{j}= R_j+\hat{\imath}I_j$ definimos $R_j$ e $I_j$ com $j=1,2,3$ tenham distribuições conjuntas gaussianas e satisfaçam as seguintes condições  
-\begin{itemize}
-	\item[I-] $E[R_{j}]=E[I_{j}]=0,$
-	\item[II-] $E[R_j^2]=E[I_j^2],$ 
-	\item[II-] $E[R_jI_j]=0,$  
-	\item[IV-] $E[R_jR_i]=E[I_jI_i],$ e 
-	\item[V-] $E[I_jR_i]=-E[R_jI_i].$
-\end{itemize}
-onde, $E[\cdot]$ denota o valor esperado. 
-
-A hipótese da distribuição gaussiana circular complexa multivariada com média zero assumindo, resulta na matriz simétrica,  
-\begin{equation*}
-\tiny
-\mathbf{S} \mathbf{S}^H= \left[
-\begin{array}{rrrrrr}
-	R_{hh}^2       & 0            & R_{hh}R_{hv}  &-R_{hh}I_{hv}  &R_{hh}R_{vv}  &-R_{hh}I_{vv}    \\
-    0              & I_{hh}^2     & I_{hh}R_{hv}  & I_{hh}I_{hv}  &I_{hh}R_{vv}  & I_{hh}I_{vv}   \\
-	R_{hv}R_{hh}   & R_{hv}I_{hh} & R_{hv}^2      & 0             &R_{hv}R_{vv}  &-R_{hv}I_{vv}     \\
-   -I_{hv}R_{hh}   & I_{hv}I_{hh} & 0             & I_{hv}^2      &I_{hv}R_{vv}  & I_{hh}I_{vv} \\
-    R_{vv}R_{hh}   & R_{vv}I_{hh} & R_{vv}R_{hv}  & R_{vv}I_{hv}  &R_{vv}^2      & 0            \\
-   -I_{vv}R_{hh}   & I_{vv}I_{hh} &-I_{vv}R_{hv}  & I_{vv}I_{hv}  &0             & I_{vv}^2     \\
-\end{array}
-\right].
-\end{equation*}
-
-De acordo com \cite{good} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{S}=[S_{hh},S_{hv},S_{vv}]^H$. 
-
-Dados polarimétricos são usualmente submetidos a um processo de várias visadas com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada \textbf{Z} conforme \cite{good, ade}
-\begin{equation}
-\begin{array}{ccc}
-    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{l=1}^{L} {\mathbf{s}_l}{\mathbf{s}_l}^H}, \\
-\end{array}
-\end{equation}
-onde $\mathbf{s}_l$ com $l = 1, \dots, L$ são $L$ vetores complexos distribuídos como $\mathbf{S}$.
-
-%Sendo $i=j$
-%\begin{equation}
-%\begin{array}{ccc}
-%\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& (R_{ii}+iI_{ii})\overline{(R_{ii}+iI_{jj})} \\
-%\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& (R_{ii}+iI_{ii})(R_{ii}-iI_{ii}) \\
-%\mathbf{S}_{ii}\overline{\mathbf{S}}_{ii}&=& R_{ii}^2+I_{ii}^2 \\
-%\end{array}
-%\end{equation}
-%e considerando $i \neq j$
-%\begin{equation}
-%\begin{array}{ccc}
-%\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}+iI_{ii})\overline{(R_{ij}+iI_{ij})} \\
-%\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}+iy_{ii})(I_{ij}-iI_{ij}) \\
-%\mathbf{S}_{ii}\overline{\mathbf{S}}_{ij}&=& (R_{ii}R_{ij}+I_{ii}I_{ij})+i(R_{ij}I_{ii}-R_{ii}I_{ij}) \\
-%\end{array}
-%\end{equation}
-% Definindo,
-% \begin{equation}
-%\begin{array}{ccc}
-%	  RC_{ij}&=&  R_{ii}R_{ij}+I_{ii}I_{ij} 
-%\end{array}
-%\end{equation}
-%e
-%\begin{equation}
-%\begin{array}{ccc}
-%	  IC_{ij}&=& R_{ij}I_{ii}-R_{ij}I_{ii}
-%\end{array}
-%\end{equation}
-
-%Sendo a variável randômica gaussiana complexa $\mathbf{C_{i,j}}=RC_{ij} + i IC_{ij}$, ou ainda, $\mathbf{C_{i,j}}=(R_{ii}R_{ij}+I_{ii}I_{ij}) + i(R_{ij}I_{ii}-R_{ij}I_{ii})$. Podemos escrever uma variável randômica gaussiana complexa $4-$variada $(R_{ii},R_{ij},I{ii},I_{ij})$.
-
-De acordo com (\cite{good})
-\begin{equation}
-\mathbf{C} = \left[
 \begin{array}{cc}
-	E(X_iX_j)  & E(X_iY_j)  \\
-	E(Y_iX_j)  & E(Y_iY_j)  \\
-\end{array}
-\right].
-\end{equation}
-Tal que
-\begin{equation}
-\mathbf{C} =
-\left\{
-\begin{array}{cc}
-	\frac{1}{2}\left[
-\begin{array}{cc}
-	 1 & 0  \\
-	 0 & 1  \\
-\end{array}
-	\right]\sigma^{2}_{j}  & \mbox{se}\quad i=j, \\
-	& \\
-	\frac{1}{2}\left[
-\begin{array}{cc}
-	\alpha_{ij} & -\beta_{ij}  \\
-	 \beta_{ij} & \alpha_{ij}  \\
-\end{array}
-	\right]\sigma_j\sigma_k  & \mbox{se}\quad i\neq j.   \\
-\end{array}
-\right.
-\end{equation}
-pode ser escrito por
-\begin{equation}
-\mathbf{\sigma}_{ij} =
-\left\{
-\begin{array}{cc}
-	\sigma^{2}_{j}  & \mbox{se}\quad i=j, \\
-	(\alpha_{ij}+\hat{\imath}\beta_{ij})\sigma_i\sigma_j  & \mbox{se}\quad i\neq j.   \\
-\end{array}
-\right.
-\end{equation}
-
-{\bf Exemplo 1 -} Seja a distribuição gaussian complexa univariada $(p=1)$. Sendo $\xi^{T}=z_1=x_1+iy_1$. E a "matriz" de covariância $\Sigma_{\xi}=\sigma_{1}^{2}$ com determinante $|\Sigma_{\xi}|=\sigma_{1}^{2}$ e  "matriz inversa" $\Sigma_{\xi}^{-1}=\frac{1}{\sigma_{1}^{2}}$, Assim,
-
-\begin{equation}\label{eqn70}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&(x_i-iy_1)\frac{1}{\sigma_1^2}(x_1+iy_1)  \\
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&(x_i-iy_1)(x_1+iy_1)\frac{1}{\sigma_1^2}  \\
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{x_1^2+y_1^2}{\sigma_1^2}  \\
-\end{array}
-\end{equation}
-
-
-\begin{equation}\label{eqn71}
-	p(\xi)=\frac{1}{\pi\Sigma_{\xi}^{2}}\exp\left(-\frac{x_1^2+y_1^2}{\sigma_1^2}\right)  \\
-\end{equation}
-
-{\bf Exemplo 2 -} Seja a distribuição gaussian complexa bivariada $(p=2)$. Sendo $\xi^{T}=(z_1, z_2)=(x_1 + iy_1, x_2 + iy_2)^{T}$. E a matriz de covariância 
-
-$$
-\Sigma_{\xi} = \left[
-\begin{array}{cc}
-	\sigma_1^2                                &  (\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
-	(\alpha_{12}-i\beta_{12})\sigma_j\sigma_k & \sigma_2^2 \\
-\end{array}
-\right].
-$$
-com determinante $|\Sigma_{\xi}|=(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2$ e  matriz inversa 
-$$
-\Sigma_{\xi}^{-1} =\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} \left[
-\begin{array}{cc}
-	\sigma_2^2                                &  -(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
-	-(\alpha_{12}-i\beta_{12})\sigma_j\sigma_k & \sigma_1^2 \\
-\end{array}
-\right].
-$$
-\begin{equation}\label{eqn72}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&[z_1,z_2]^{H}\Sigma_{\xi}^{-1}
-	\left[
-\begin{array}{c}
-	z_1  \\
-	z_2 \\
-\end{array}\right]\\
-\end{array}
-\end{equation}
-\begin{equation}\label{eqn73}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&[z_1,z_2]^{H}\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} \left[
-\begin{array}{cc}
-	\sigma_2^2                                &  -(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
-	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2 & \sigma_1^2 \\
-\end{array}
-\right]
-	\left[
-\begin{array}{c}
-	z_1  \\
-	z_2 \\
-\end{array}\right]\\
-\end{array}
-\end{equation}
-
-\begin{equation}\label{eqn74}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} [z_1,z_2]^{H}\left[
-\begin{array}{cc}
-	\sigma_2^2                                &  -(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2  \\
-	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2 & \sigma_1^2 \\
-\end{array}
-\right]
-	\left[
-\begin{array}{c}
-	z_1  \\
-	z_2 \\
-\end{array}\right]\\
-\end{array}
-\end{equation}
-
-\begin{equation}\label{eqn75}
-\begin{array}{ccc}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi&=&\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2} [z_1,z_2]^{H}\left[
-\begin{array}{cc}
-	\sigma_2^2z_1-(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2z_2  \\
-	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2z_1+\sigma_1^2z_2 \\
-\end{array}
-\right]
-\end{array}
-\end{equation}
-
-\begin{equation}\label{eqn76}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi=\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
-	\sigma_2^2\bar{z_1}z_1-(\alpha_{12}+i\beta_{12})\sigma_1\sigma_2\bar{z_1}z_2 
-	-(\alpha_{12}-i\beta_{12})\sigma_1\sigma_2\bar{z_2}z_1+\sigma_1^2\bar{z_2}z_2 \right)
-\end{equation}
-
-\begin{equation}\label{eqn77}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi=\frac{1}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\left(
-	\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2 	\right)
-\end{equation}
-
-\begin{equation}\label{eqn78}
-	\bar{\xi}^{T}\Sigma_{\xi}^{-1}\xi=\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
-\end{equation}
-
-Assim, a função densidade de probabilidade ({\bf pdf}) 
-
-\begin{equation}\label{eqn79}
-	p(\xi)=\frac{1}{\pi^2(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}\exp\left(-\frac{\sigma_2^2|z_1|^2+\sigma_1^2|z_2|^2-2\alpha_{12}\sigma_1\sigma_2\bar{z_1}z_2}{(1 - \sigma_{12}^{2}- \beta_{12}^2)\sigma_{1}^2\sigma_{2}^2}
-\right)  
-\end{equation}
-
-{\bf Distribuição complexa de Wishart}
-
-A distribuição complexa de Wishart descrita no artigo \cite{good}, define agora uma amostra de  $n$ vetores com valores complexos $\xi_1,\xi_2,\dots,\xi_n$ então a matriz hermitiana de covariância é 
-
-\begin{equation}\label{eqn80}
-	\hat{\Sigma}_{\xi}=\frac{1}{n}\sum_{j=1}^{n}\xi_j\bar{\xi}_{j}^{T} . \\
-\end{equation}
-
-A matriz $\hat{\Sigma}_{\xi}$ é uma "maximum likelihood" para $\Sigma_{\xi}$ sendo uma estatística suficiente para a matriz hermitiana de covariância.
-
-Considerando $A=||A_{jkR}+iA{jkI}||=n\hat{\Sigma}_{\xi}$ chamaremos a matriz $A$ de distribuição complexa de Wishart. A função densidade de probabilidade de $A$ é
-\begin{equation}\label{eqn81}
-	p_W(A)=\frac{|A|^{n-p}}{I(\Sigma_{\xi})} \exp(-tr(\Sigma_{\xi}^{-1}A)), 
-\end{equation}
-onde
-\begin{equation}\label{eqn82}
-	I(\Sigma_{\xi})=\pi^{\frac{1}{2}p(p-1)}\Gamma(n)\cdots\Gamma(n-p+1)|\Sigma_{\xi}|^n, 
-\end{equation}
-sendo $\Gamma(\cdot)$ a função Gamma.
-
-
-
-\begin{sidewaystable}
-	\centering
-	\caption{Tabela}
-\begin{tabular}{@{}lcccccc@{}} \toprule
-	     &$R_{hh}$        & $I_{hh}$ & $R_{hv}$&$I_{hv}$                            &$R_{vv}$                           &$I_{vv}$ \\ \midrule
-$R_{hh}$ &$\sigma_{hh}^2$ & 0                  &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$ & $\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$&$\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$  \\ 
-	$I_{hh}$ & 0 & $\sigma_{hh}^2$ &$-\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$ &$-\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$ &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  \\ 
-	$R_{hv}$ &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$   &$-\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$  &$\sigma_{hv}^2$ &0 &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$  \\ 
-	$I_{hv}$ &$\eta_{hh,hv}\sigma_{hh}\sigma_{hv}$  &$\rho_{hh,hv}\sigma_{hh}\sigma_{hv}$  &0 &$\sigma_{hv}^2$ &$-\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ \\ 
-	$R_{vv}$ &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$-\eta_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$-\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ & $\sigma_{vv}^2$ &0 \\ 
-    $I_{vv}$ &$\eta_{hh,vv}\sigma_{hh}\sigma_{hv}$  &$\rho_{hh,vv}\sigma_{hh}\sigma_{vv}$  &$\eta_{hv,vv}\sigma_{hv}\sigma_{vv}$ &$\rho_{hv,vv}\sigma_{hv}\sigma_{vv}$ & 0 &$\sigma_{vv}^2$ \\ 	 \bottomrule
-\end{tabular}
-\end{sidewaystable}
-\section{Funções de densidade}
-
-
-\subsection{Função de densidade Wishart para os canais de intensidade}
-Para os canais $(hh)$, $(hv)$ e $(vv)$ vamos usar a distribuição Wishart (PDF) descrita por
-
-\begin{equation}
-    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
-\end{equation} 
-
-onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
-\begin{equation}\label{cap_acf_10}
-	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
-\end{equation}
-e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart denotando por $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Sem perda de generalidade para o texto vamos usar o simbolo $\mathbf{\Sigma}$ em detrimento a $\mathbf{\Sigma_{s}}$ para representar a matriz de covariância associada a $\mathbf{S}$.
-
-\begin{figure}[hbt]
-\centering
-\includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
-	\caption{Distribuição intensidade multiplas visadas com $\sigma=0.01$.}
-\label{fig2}
-\end{figure}
-
-
-
-\subsection{Função de densidade para cada canal complexo}
-
-Sendo $(R_{ii}, R_{ij})\sim N2(0, C_{ij})$ podemos observar na tabela anterior que 
-\begin{equation}
-C_{ij}=\left[
-\begin{array}{cc}
-	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij}  \\
-	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2   \\
+	S_\text{hh}   & S_\text{hv}   \\
+	S_\text{vh}   & S_\text{vv}   \\
 \end{array}
 \right],
 \end{equation}
-
-A pdf para esta distribuição normal é:
-
-\begin{equation}
-\begin{array}{ccc}
-	f_{Z_{R_{ii}R_{ij}}}(z)&=&\frac{1}{\pi\sigma_{ii}\sigma_{ij}\sqrt{1-\rho_{ii,ij}^2}}\exp\left(\frac{\rho_{ii,ij}z}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right)\\
-	&&K_0\left(\frac{|z|}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right).
-\end{array}
-\end{equation}
-
-
-Sendo $(I_{ii}, I_{ij})\sim N2(0, C_{ij})$ podemos observar na tabela anterior que 
-\begin{equation}
-C_{ij}=\left[
-\begin{array}{cc}
-	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij}  \\
-	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2   \\
-\end{array}
-\right],
-\end{equation}
-\begin{equation}
-\begin{array}{ccc}
-	f_{Z_{R_{ii}R_{ij}}}(z)&=&\frac{1}{\pi\sigma_{ii}\sigma_{ij}\sqrt{1-\rho_{ii,ij}^2}}\exp\left(\frac{\rho_{ii,ij}z}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right)\\
-	&&K_0\left(\frac{|z|}{\sigma_{ii}\sigma_{ij}(1-\rho_{ii,ij})^2}\right).
-\end{array}
-\end{equation}
-
-Definindo o funcional $\Theta(z;\sigma_p,\sigma_q,\gamma)$
-\begin{equation}
-\begin{array}{ccc}
-	\Theta(z;\sigma_p,\sigma_q,\gamma)&=&\frac{1}{\pi\sigma_p\sigma_q\sqrt{1-\gamma^2}}\exp\left(\frac{\gamma z}{\sigma_p\sigma_q(1-\gamma)^2}\right)\\
-	&&K_0\left(\frac{|z|}{\sigma_p\sigma_q(1-\gamma)^2}\right).
-\end{array}
-\end{equation}
-onde,  $\sigma_p,\sigma_q,\gamma$ são  parâmetros da função.
-\subsection{distribuição conjunta para  $(R_{ii}, R_{ij})\sim N2(0, C_{ij})$}
-Sendo $(R_{ii}, R_{ij},I_{ii}, I_{ij})\sim N4(0, C_{ii,ij})$ podemos observar na tabela anterior que 
-\begin{equation}
-C_{ii,ij}=\left[
-\begin{array}{cccc}
-	\sigma_{ii}^2   &  \rho_{ii,ij}\sigma_{ii}\sigma_{ij} & 0&\eta_{ii,ij}\sigma_{ii}\sigma_{ij}\\
-	\rho_{ii,ij}\sigma_{ii}\sigma_{ij} & \sigma_{ij}^2  & -\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&0 \\
-	0&-\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&\sigma_{ii}^2&\rho_{ii,ij}\sigma_{ii}\sigma_{ij}\\
-	\eta_{ii,ij}\sigma_{ii}\sigma_{ij}&0&\rho_{ii,ij}\sigma_{ii}\sigma_{ij}&\sigma_{ij}^2\\
-\end{array}
-\right],
-\end{equation}
-Realizar a transformação 
-\begin{equation}
-\left[
-\begin{array}{ccc}
-	 Z = R_{ii}R_{ij}+I_{ii}I_{ij} \\
-	 U_1 = R_{ii}\\
-	 U_2 = R_{ij}\\
-	 U_3 = I_{ii}\\
-\end{array}
-\right],
-\end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-De acordo com \citet{good} e \citet{lee} esta distribuição pode modelar adequadamente o comportamento estatístico de $\mathbf{s}$. A hipotêse de ser gaussiana e circular foi comprovada para dados SAR polarimétricos no artigo \citet{sarabendi}.   
-
-A função densidade de probabilidade ({\bf pdf}) da distribuição gaussiana complexa $m$-variada é dada por
-\begin{equation}\label{cap_acf_4}
-    p({\bf s})=\frac{1}{\pi^m|\bf{\Sigma}_{{\bf s}}|}\exp(-{\bf s}^{H}\bf{\Sigma}_{{\bf s}}^{-1}{\bf s}), 
-\end{equation}
-sendo $|\cdot|$ o determinante de uma matriz ou o valor absoluto de um escalar, e $\mathbf{\Sigma}_{\bf{s}}$ é a matriz de covariância associada a $\mathbf{s}$ definida por
-\begin{equation}\label{cap_acf_5}
-	{\bf \Sigma_{{\bf s}}} = E[{\mathbf s}{\mathbf s}^H] = \left[
-\begin{array}{cccc}
-	E[S_1\overline{S_1}]  & E[{S_1}\overline{S_2}] &\hdots & E[S_1\overline{S_m}] \\
-	E[S_2\overline{S_1}]  & E[{S_2}\overline{S_2}] &\hdots &E[S_2\overline{S_m}]\\
-        \vdots&\vdots &\ddots &\vdots\\
-	E[S_m\overline{S_1}]  & E[S_m\overline{S_2}] &\hdots &E[S_m\overline{S_m}]\\
-\end{array}
-\right]
-\end{equation}
-talque, $E[\cdot]$ denota o valor esperado e $\overline{\cdot}$ denota o conjugado complexo. A matriz de covariância é hermitiana positiva definida e contém todas as informações necessárias para caracterizar o retroespalhamento, podemos consultar mais informações em \citep{mfp}. 
-
-Nas imagens PolSAR serão consideradas três componentes para o vetor $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]^T$ e a multiplicação de $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]$ pelo seu conjugado transposto $\mathbf{s}=[S_{hh},S_{vh},S_{vv}]^H$, isto é, a hermitiana do vetor, 
-
-\begin{equation}\label{cap_acf_6}
-\mathbf{s}\mathbf{s}^H = \left[
-\begin{array}{c}
-	S_{hh}      \\
-        S_{vh}     \\
-	S_{vv}      \\
-\end{array}
-\right]
-\left[
-\begin{array}{ccc}
-	S_{hh}  & S_{vh}  & S_{vv}      \\
-\end{array}
-\right]^H = 
-\left[
-\begin{array}{ccc}
-	S_{hh}\overline{S_{hh}} & S_{hh} \overline{S_{vh}} & S_{hh}  \overline{S_{vv}}     \\
-	S_{vh} \overline{S_{hh}}  & S_{vh} \overline{S_{vh}}  & S_{vh} \overline{S_{vv}}      \\
-	S_{vv} \overline{S_{hh}}  & S_{vv} \overline{S_{vh}}  & S_{vv}  \overline{S_{vv}}     \\
-\end{array}
-\right].
-\end{equation}
-
-A  matriz $\mathbf \Sigma_{{\mathbf s}}$ tem dimensão $3\times 3$, e pode ser definida como sendo a matriz de covariância associada a $\mathbf{s}$.
-\begin{equation}\label{cap_acf_7}
-\mathbf{\Sigma_{{\mathbf s}}} = E[\mathbf{s}\mathbf{s}^H] =
-\left[
-\begin{array}{ccc}
-	E[S_{hh}\overline{S_{hh}}] & E[S_{hh} \overline{S_{vh}}] & E[S_{hh}  \overline{S_{vv}}]     \\
-	E[S_{vh} \overline{S_{hh}}]  & E[S_{vh} \overline{S_{vh}}]  & E[S_{vh} \overline{S_{vv}}]      \\
-	E[S_{vv} \overline{S_{hh}}]  & E[S_{vv} \overline{S_{vh}}]  & E[S_{vv}  \overline{S_{vv}}]     \\
-\end{array}
-\right].  
-\end{equation}
-
-Dados polarimétricos são usualmente sujeitados a um processo de várias visadas com o intuito de melhorar a razão entre o sinal e o seu ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme \citep{good, ade}
-\begin{equation}\label{cap_acf_8}
-\begin{array}{ccc}
-    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\mathbf{s}_i}{\mathbf{s}_i}^H}, \\
-\end{array}
-\end{equation}
-onde $\mathbf{s}_i$ com $i = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{s}$, assim a matriz de covariância amostral associada a $\mathbf{s}_i$, com $i=1,\dots,L$ denotam o espalhamento para cada visada $L$ seguindo uma distribuição complexas de Wishart. 
-
-Sendo agora $\mathbf{\Sigma_{s}}$ e $L$ parâmetros conhecidos a função densidade de probabilidade da distribuição Wishart por  
-%
-\begin{equation}\label{cap_acf_9}
-    f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma_{s}},L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma_{s}}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma_{s}}^{-1}\mathbf{Z})), \\
-\end{equation}
-onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
-\begin{equation}\label{cap_acf_10}
-	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
-\end{equation}
-e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart denotando por $\mathbf{Z}\sim W(\mathbf{\Sigma_{s}}, L)$ e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma_{s}}$. Sem perda de generalidade para o texto vamos usar o simbolo $\mathbf{\Sigma}$ em detrimento a $\mathbf{\Sigma_{s}}$ para representar a matriz de covariância associada a $\mathbf{s}$.
-
-Seja a função densidade de probabilidade da distribuição complexa Wishart (\ref{cap_acf_9}) na qual vamos aplicar o logaritmo natural e suas propriedades com o intuito de reescrever a função na forma adequada para aplicar o método de estimativa de máxima verossimilhança. Assim,
-\begin{equation}\label{cap_acf_11}
-\begin{array}{ccc}
-    \ln{f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)}&=&\ln{\left(\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
-        \ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)}\right)}+\ln{\left( \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}))\right)}, \\
-        \ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&\ln{\left(L^{mL}|\mathbf{Z}|^{L-m}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
-        \ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+(L-m)\ln{\left(|\mathbf{Z}|\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\right)}-\ln{\left(\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf {Z}), \\
-	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
-\end{array}
-\end{equation}
-lembrando que a função Gamma multivariada é definida na equação (\ref{cap_acf_10}) então, podemos rescrever a equação da seguinte forma
-\begin{equation}\label{cap_acf_12}
-\begin{array}{cll}
-	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}-\ln{\left(\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
-	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}\\
-	&-&\ln{\left(\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}),\\
-	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}\\
-        &-&\ln{\left(\pi^{\frac{1}{2}m(m-1)}\right)}-\ln{\left( \prod_{i=0}^{m-1}\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}), \\
-	\ln{\left(f_{\mathbf{Z}}(\mathbf{Z};\mathbf{\Sigma},L)\right)}&=&mL\ln{L}+L\ln{\left(|\mathbf{Z}|\right)}-m\ln{\left(|\mathbf{Z}|\right)} - L\ln{\left(|\mathbf{\Sigma}|\right)}\\
-        &-&\frac{1}{2}m(m-1)\ln{\left(\pi\right)}-\sum_{i=0}^{m-1}\ln{\left(\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\mathbf{Z}),\\
-\end{array}
-\end{equation}
-equação equivalente pode ser encontrada em \citep{fnc2011}.
-
-
-\section{Modelos para dados dados}
-
-A matriz de espalhamento complexa {\boldmath S} é definida por
-$$
-\mathbf{ s} = \left[
-\begin{array}{cc}
-	S_{hh}   & S_{hv}   \\
-	S_{vh}   & S_{vv}   \\
-\end{array}
-\right].
-$$
-% % % ACF Dizer o que significam "h" e "v"
-
-Usaremos o caso do meio de propagação ser recíproco, isto é, $S_{hv}=S_{vh}$ tornando a matriz de espalhamento simétrica. Podemos facilitar a notação representando a matriz de espalhamento por um vetor da seguinte forma
-$$
+que respeita o teorema da reciprocidade para meios recíprocos pode ser representa por um vetor da seguinte forma
+\begin{equation}\label{vetor_de_espalhamento_vet_3d}
 \mathbf{s} = \left[
 \begin{array}{c}
-	S_{vv}      \\
-	S_{vh}     \\
-	S_{hh}      \\
-\end{array}
-\right].
-$$
-% % % ACF Não é sempre um fato. Ocorre na maioria das vezes, e em português é "meio recíproco".
-
-De acordo com \cite{good} a distribuição gaussiana complexa multivariada pode modelar adequadamente o comportamento estatístico de $\boldmath S$. Isto é chamado de {\it single-look complex PolSAR data representation} e podemos definir o vetor de espalhamento por $\mathbf{s}=[S_1,S_2,\dots,S_p]^T$. 
-% % % ACF Acrescentei "complex"
-
-A função densidade de probabilidade ({\boldmath pdf}) da distribuição gaussiana complexa $p-$variada é dada por
-\begin{equation}\label{eqn1}
-	p(\mathbf{s})=\frac{1}{\pi^p|\Sigma_{\mathbf{s}}|}\exp(-\bar{\mathbf{s}}^{T}\Sigma_{\mathbf{s}}^{-1}\mathbf{s}).
-\end{equation}
-O parâmetro que indexa a distribuição é a matriz de covariância, que é definida por:
-\begin{equation}\label{eqn2}
-	\mathbf{ \Sigma_{s}} = E[\mathbf{ss}^H] = \left[
-\begin{array}{cccc}
-	E(\mathbf{s_1s_1}^H)  & E(\mathbf{s_1s_2}^H) &\hdots & E({\mathbf s_1s_p}^H) \\
-	E(\mathbf{ s_2s_1}^H)  & E(\mathbf {s_2 s_2}^H) &\hdots &E(\mathbf {s_2 s_p}^H)\\
-        \vdots&\vdots &\ddots &\vdots\\
-	E(\mathbf{ s_ps_1}^H)  & E(\mathbf {s_ps_2}^H) &\hdots &E(\mathbf {s_ps_p}^H)\\
+ S_\text{hh}     \\
+ \sqrt{2}S_\text{hv}    \\
+ S_\text{vv}     \\
 \end{array}
 \right].
 \end{equation}
-onde $E(\cdot)$ e $(\cdot)^H$ denotam o valor esperado e o conjugado transposto.
 
-A matriz {\boldmath$\Sigma_{\mathbf{s}}$} é hermitiana pois se $\mathbf {S_j}= x_j+iy_j $
+Nas imagens PolSAR serão consideradas três componentes para o vetor $$\mathbf{s}=[S_\text{hh},S_\text{vh},S_\text{vv}]^\text{H}$$ e a multiplicação de $\mathbf{s}$ pelo seu conjugado transposto $\mathbf{s}^H$ é, 
 
-\begin{equation}\label{eqn3}
+\begin{equation}\label{eq:mat_sim_dim_3}
+\mathbf{s}\mathbf{s}^\text{H} = \left[
+\begin{array}{c}
+	S_\text{hh}      \\
+    S_\text{vh}     \\
+	S_\text{vv}      \\
+\end{array}
+\right]
+\left[
 \begin{array}{ccc}
-\mathbf{S}_j\overline{\mathbf{S}}_j&=& (x_j+iy_j)\overline{(x_j+iy_j)} \\
-\mathbf{S}_j\overline{\mathbf{S}}_j&=& (x_j+iy_j)(x_j-iy_j) \\
-\mathbf{S}_j\overline{\mathbf{S}}_j&=& x_j^2+y_j^2 \\
+	S_\text{hh}  & S_\text{vh}  & S_\text{vv}      \\
+\end{array}
+\right]^\text{H} = 
+\left[
+\begin{array}{ccc}
+	S_\text{hh}\overline{S_\text{hh}} & S_\text{hh} \overline{S_\text{vh}} & S_\text{hh}  \overline{S_\text{vv}}     \\
+	S_\text{vh} \overline{S_\text{hh}}  & S_\text{vh} \overline{S_\text{vh}}  & S_\text{vh} \overline{S_\text{vv}}      \\
+	S_\text{vv} \overline{S_\text{hh}}  & S_\text{vv} \overline{S_\text{vh}}  & S_\text{vv}  \overline{S_\text{vv}}     \\
+\end{array}
+\right].
+\end{equation}
+
+
+Definindo $S_j= R_j+\hat{\imath}I_j$, onde $j=\{\text{hh},\text{hv},\text{vv}\}$
+\begin{equation}\nonumber
+\begin{array}{ccc}
+S_j\overline{S}_j&=& (R_j+\hat{\imath}I_j)\overline{(R_j+\hat{\imath}I_j)}, \\
+&=& (R_j+\hat{\imath}I_j)(R_j-\hat{\imath}I_j), \\
+&=& R_j^2-\hat{\imath}R_jI_j+\hat{\imath}I_jR_j+I_j^2, \\
+&=& R_j^2+I_j^2, \\
 \end{array}
 \end{equation}
-considerando $j \neq k$
-\begin{equation}\label{eqn4}
+portanto,
+\begin{equation}\nonumber
 \begin{array}{ccc}
-\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_j+iy_j)\overline{(x_k+iy_k)} \\
-\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_j+iy_j)(x_k-iy_k) \\
-\mathbf{S}_j\overline{\mathbf{S}}_k&=& (x_jx_k+y_jy_k)+i(x_ky_j-x_jy_k) \\
+S_j\overline{S}_j&=& R_j^2+I_j^2, \\
+\end{array}
+\end{equation}
+é um numero real, assim o seu conjugado é próprio número real. 
+
+Considerando $j \neq k$, onde $j,k$ variam no conjunto de polarizações $\{\text{hh},\text{hv},\text{vv}\}$
+\begin{equation}\nonumber
+\begin{array}{ccc}
+S_j\overline{S}_k&=& (R_j+\hat{\imath}I_j)\overline{(R_k+\hat{\imath}I_k)}, \\
+&=& (R_j+\hat{\imath}I_j)(R_k-\hat{\imath}I_k), \\
+&=& (R_jR_k+I_jI_k)+\hat{\imath}(R_kI_j-R_jI_k), \\
+\end{array}
+\end{equation}
+portanto,
+\begin{equation}\nonumber
+\begin{array}{ccc}
+S_j\overline{S}_k&=&(R_jR_k+I_jI_k)+\hat{\imath}(R_kI_j-R_jI_k), \\
 \end{array}
 \end{equation}
 ainda,
-\begin{equation}\label{eqn5}
+\begin{equation}\nonumber
 \begin{array}{ccc}
-	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_k+iy_k)\overline{(x_j+iy_j)} }\\
-	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_k+iy_k)(x_j-iy_j)} \\
-	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&\overline{ (x_kx_j+y_ky_j)+i(x_jy_k-x_ky_j) }\\
-	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)-i(x_jy_k-x_ky_j) \\
-	\overline{\mathbf{S}_k\overline{\mathbf{S}}}_j&=&(x_kx_j+y_ky_j)+i(x_ky_j-x_jy_k) \\
+\overline{S_k\overline{S}}_j&=&\overline{(R_k+\hat{\imath}I_k)\overline{(R_j+\hat{\imath}I_j)}},\\
+                            &=&\overline{(R_k+\hat{\imath}I_k)(R_j-\hat{\imath}I_j)}, \\
+                            &=&\overline{(R_kR_j+I_kI_j)+\hat{\imath}(R_jI_k-R_kI_j)},\\
+	                        &=&(R_kR_j+I_kI_j)-\hat{\imath}(R_jI_k-R_kI_j),\\
+                            &=&(R_kR_j+I_kI_j)+\hat{\imath}(R_kI_j-R_jI_k),\\
 \end{array}
 \end{equation}
-Portanto1
+assim
+\begin{equation}\nonumber
+\begin{array}{ccc}
+\overline{S_k\overline{S}}_j&=&(R_kR_j+I_kI_j)+\hat{\imath}(R_kI_j-R_jI_k),\\
+\end{array}
+\end{equation}
+com as igualdade,
 \begin{equation}\label{eqn6}
 \begin{array}{ccc}
-	\mathbf{S}_j\overline{\mathbf{S}}_j&=&\overline{\mathbf{S}_j\overline{\mathbf {S}}}_j \\
-	\mathbf{S}_j\overline{\mathbf{S}}_k&=&\overline{\mathbf{S}_k\overline{\mathbf {S}}}_j \\
+	S_j\overline{S}_j&=&\overline{S_j\overline{S}}_j,\\
+	S_j\overline{S}_k&=&\overline{S_k\overline{S}}_j,\\
 \end{array}
 \end{equation}
-Assim com $j$ e $k$ varrendo toda a matriz podemos afirmar que $\mathbf{\Sigma_{\mathbf{s}}}=\mathbf{\Sigma_{ s}}^H$ portanto hermitiana.
-
-
-Dados polarimétricos são usualmente sujeitados a um processo {\it multilook} com o intuito de melhorar a razão sinal-ruído.
-% % % ACF "relação senhal-ruído"
-Para esse fim, matrizes positivas definidas hermitianas são obtidas computando a médias de $L$ visadas 
-% % % ACF "visadas", mas ninguém usa
-independentes de uma mesma cena. Isto resulta na matriz de covariância {\boldmath{Z}} dada por:
-\begin{equation}\label{eqn7}
-	\mathbf{Z}=\frac{1}{L}\sum_{i=1}^{L} \mathbf{s_is_i}^H .
-\end{equation}
-% % % ACF Código LaTeX simplificado
-
-\subsubsection{Coeficiente de correlação {\it Multilook}}
-
-O coeficiente de correlação complexo é um importante parâmetro para descrever a função de densidade de probabilidade. 
-Podemos defini-lo como
-\begin{equation}\label{eqn8}
-	\rho_c=\frac{E[\mathbf{s_is_j}^H]}{\sqrt{E[|\mathbf{s_i}|^2]E[|\mathbf{s_j}|^2]}} =|\rho_c|e^{i\theta}.
-\end{equation}
-% % % ACF Não complique LaTeX
-em que {\boldmath $s_i$} e {\boldmath $s_j$} 
-% % % ACF Repare que o negrito matemático se faz de outra maneira
-são duas componentes da matriz de espalhamento ou dois retorno do radar polarimétrico ou interferométrico SAR. 
-Para dados de radar polarimétricos representado pela matriz de Mueller, $\rho_c$ pode ser calculado encontrando a média da vizinhança de um pixel de uma matriz Mueller. A magnitude de $\rho_c$ pode também ser estimada usando duas intensidade  {\it multilook} $Z_{ii}$ e $Z_{jj}$. O coeficiente de correlação de dados $L$ looks intensidade é definida como   
-% % % ACF Eram L looks, agora são n. Unificar a notação
-\begin{equation}\label{eqn9}
-	\rho_I^{(n)}=\frac{E[(Z_{ii}-\overline{Z_{ii}})(Z_{jj}-\overline{Z_{jj}})]}{\sqrt{E[(Z_{ii}-\overline{Z_{ii}})^2][(Z_{jj}-\overline{Z_{jj}})^2]}}. \\
-\end{equation}
-
-No apêndice do artigo \cite{lee} foi mostrado que 
-
-\begin{equation}\label{eqn10}
-	\rho_I^{(n)}= |\rho_c|^2\\
-\end{equation}
-
-Sendo 
-
-\begin{equation}\label{eqn11}
+para cada $j$ e $k$ no conjunto das polarizações, concluímos que $\mathbf{s}\mathbf{s}^H$ é simétrica, portanto podemos afirmar que a matriz $athbf{\Sigma}$ definida por,
+\begin{equation}\label{eq:matriz_cov_3_vetor}
+	\mathbf{\Sigma} = E[\mathbf{ss}^\text{H}] = \left[
 \begin{array}{ccc}
-	\mathbf{S_i}&=&a_{R}+ia_{I} \\
-        \mathbf{S_j}&=&b_{R}+ib_{I} \\
+E[S_\text{hh}\overline{S}_\text{hh}]  & E[S_\text{hh}\overline{S}_\text{hv}] & E[S_\text{hh}\overline{S}_\text{vv}]\\
+E[S_\text{vh}\overline{S}_\text{hh}]  & E[S_\text{vh}\overline{S}_\text{hv}] & E[S_\text{vh}\overline{S}_\text{vv}]\\
+E[S_\text{vv}\overline{S}_\text{hh}]  & E[S_\text{vv}\overline{S}_\text{hv}] & E[S_\text{vv}\overline{S}_\text{vv}]\\
 \end{array}
+\right],
 \end{equation}
+é uma matriz simétrica, onde $E[\cdot]$ denota o valor esperado.
 
-Assim a equação (\ref{eqn8}) pode ser reescrita
+Neste trabalho é necessário considerar a distribuição gaussiana circular complexa multivariada com média zero. Definida de acordo com \citet{goodman} ou \cite{good} por:
+\begin{itemize}\label{def:gauss_circular}
+	\item  $E[R_{j}]=E[I_{j}]=0,$
+	\item  $E[R_j^2]=E[I_j^2],$ 
+	\item  $E[R_jI_j]=0,$  
+	\item  $E[R_jR_k]=E[I_jI_k],$ e 
+	\item  $E[I_jR_k]=-E[R_jI_k].$
+\end{itemize}
+onde, $E[\cdot]$ denota o valor esperado, e $j,k$ são índices no conjunto das polarizações. 
 
-\begin{equation}\label{eqn12}
+\section{Função Wishart densidade de probabilidade para os canais de intensidades}
+
+Dados polarimétricos são usualmente sujeitados a um processo de múltiplas visadas com o objetivo de melhorar a relação entre o sinal e o ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme a referências \citet{good, ade},
+\begin{equation}\label{eq:cov_media_l_visadas}
 \begin{array}{ccc}
-	\rho_c&=&\frac{E[(a_{R}+ia_{I})\overline{(b_{R}+ib_{I})}]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
-	\rho_c&=&\frac{E[(a_{R}+ia_{I})(b_{R}-ib_{I})]}{\sqrt{E[a_{R}^2+a_{I}^2]E[b_{R}^2+b_{I}^2]}}. \\
-	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sqrt{E[a_{R}^2+a_{I}^2]}\sqrt{E[b_{R}^2+b_{I}^2]}}. \\
-	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sqrt{E[a_{R}^2+a_{I}^2]}\sqrt{E[b_{R}^2+b_{I}^2]}}. \\
+    \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\mathbf{s}_i}{\mathbf{s}_i}^\text{H}}, \\
 \end{array}
 \end{equation}
-Definindo os desvios padrões,
-\begin{equation}\label{eqn13}
-\begin{array}{ccc}
-	\sigma_{a}	&=&\sqrt{E[a_{R}^2+a_{I}^2]} \\
-	\sigma_{b}      &=&\sqrt{E[b_{R}^2+b_{I}^2]} \\
+onde $\mathbf{s}_i$ com $i = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{s}$. Desta maneira, a matriz de covariância amostral associada a $\mathbf{s}_i$, com $i=1,\dots,L$ denotam o espalhamento para cada visada $L$ seguindo uma distribuição complexas de Wishart. 
+
+De acordo com \citet{good} para definir a distribuição Wishart é necessário a hipótese da distribuição ser gaussiana circular complexa multivariada com média zero como definimos acima.
+
+Nas referências \citet{good} e \citet{lee} foi mostrado que a distribuição Wishart pode modelar adequadamente o comportamento estatístico de $\mathbf{s}$. A hipótese de ser gaussiana e circular foi comprovada para dados SAR polarimétricos no artigo \citet{sarabendi}.
+
+Sendo $\mathbf{\Sigma}$ e $L$ parâmetros conhecidos, a função densidade de probabilidade para a distribuição Wishart é definida por,  
+%
+\begin{equation}\label{eq:dist_whishart}
+    f_{\mathbf{Z}}(\bm z;\mathbf{\Sigma},L)=\frac{L^{mL}|\bm z|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\bm z)), \\
+\end{equation}
+onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
+\begin{equation}\label{eq:gamma_gen}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+\end{equation}
+e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart representado por $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma}$. Neste trabalho vamos considerar os três canais de intensidades, $m=3$.
+
+A figura \eqref{fig:wishart_multi_visadas} mostra a distribuição wishart com os parâmetros fixos $\sigma=0.01$ e o número de visadas $L=2,3,4,8$.  
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
+	\caption{Distribuições Wishart multiplas visadas com $\sigma=0.01$.}
+\label{fig:wishart_multi_visadas}
+\end{figure}
+
+Considerando a função densidade de probabilidade da distribuição complexa Wishart \eqref{eq:dist_whishart} vamos usar o logaritmo natural e suas propriedades para reescrever a função na forma adequada para aplicações ao longo do texto, 
+\begin{equation}\nonumber
+\begin{array}{lcl}
+\ln{f_{\mathbf{Z}}(\bm z;\mathbf{\Sigma},L)}
+&=&\ln{\left(\frac{L^{mL}|\bm z|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\bm z))\right)}, \\
+&=&\ln{\left(\frac{L^{mL}|\bm z|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)}\right)}+\ln{\left( \exp(-L\traco(\mathbf{\Sigma}^{-1}\bm z))\right)}, \\
+&=&\ln{\left(L^{mL}|\bm z|^{L-m}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\bm z), \\
+&=&mL\ln{L}+(L-m)\ln|\bm z| - \ln|\mathbf{\Sigma}|^{L}\\
+&-&\ln\Gamma_m(L)-L\traco(\mathbf{\Sigma}^{-1}\mathbf {z}), \\
+&=&mL\ln{L}+L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
+&-&\ln\Gamma_m(L)-L\traco(\mathbf{\Sigma}^{-1}\bm z), \\
 \end{array}
 \end{equation}
-
-\begin{equation}\label{eqn14}
-\begin{array}{ccc}
-	\rho_c&=&\frac{E[a_{R}b_{R}+ia_{I}b_{R}-ia_{R}b_{I}+a_{I}b_{I}]}{\sigma_a\sigma_b}. \\
-	\rho_c&=&\frac{E[a_{R}b_{R}+a_{I}b_{I}+i(a_{I}b_{R}-a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
-	\rho_c&=&\frac{E[a_{R}b_{R}]+E[a_{I}b_{I}]+i(E[a_{I}b_{R}]-E[a_{R}b_{I})]}{\sigma_a\sigma_b}. \\
-	\rho_c&=&\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b}+\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b}+i\left(\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b}-\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}\right). \\
+substituindo a função Gamma multivariada definida na equação \eqref{eq:gamma_gen},
+\begin{equation}\nonumber
+\begin{array}{lcl}
+	\ln f_\mathbf{Z}(\bm Z;\mathbf{\Sigma},L)
+	&=&mL\ln{L}+L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
+	&-&\ln\Gamma_m(L)-L\traco(\mathbf{\Sigma}^{-1}\bm z), \\
+    &=&mL\ln L+L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
+	&-&\ln{\left(\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i)\right)}-L\traco(\mathbf{\Sigma}^{-1}\bm z),\\
+	&=&mL\ln L+L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
+        &-&\ln\pi^{\frac{1}{2}m(m-1)}-\ln\prod_{i=0}^{m-1}\Gamma(L-i)-L\traco(\mathbf{\Sigma}^{-1}\bm z), \\
+    &=&mL\ln L +L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
+        &-&\frac{1}{2}m(m-1)\ln\pi-\sum_{i=0}^{m-1}\ln\Gamma(L-i)-L\traco(\mathbf{\Sigma}^{-1}\bm z),\\
 \end{array}
 \end{equation}
-Definindo
-\begin{equation}\label{eqn15}
-\begin{array}{ccccccccc}
-	\rho_{RR}=\frac{E[a_{R}b_{R}]}{\sigma_a\sigma_b},&&\rho_{II}=\frac{E[a_{I}b_{I}]}{\sigma_a\sigma_b},&&\rho_{IR}=\frac{E[a_{I}b_{R}]}{\sigma_a\sigma_b},&&\rho_{RI}=\frac{E[a_{R}b_{I}]}{\sigma_a\sigma_b}. \\
+podemos rescrever a equação da seguinte forma
+\begin{equation}\label{eq:log_wishart}
+\begin{array}{lcl}
+	\ln f_\mathbf{Z}(\bm Z;\mathbf{\Sigma},L)
+    &=&mL\ln L +L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
+        &-&\frac{1}{2}m(m-1)\ln\pi-\sum_{i=0}^{m-1}\ln\Gamma(L-i)-L\traco(\mathbf{\Sigma}^{-1}\bm z),\\
 \end{array}
 \end{equation}
+equação equivalente pode ser encontrada em \citet{fnc2011}.
+\section{Método para detecção das evidências de bordas}
+Os métodos Sobel, Canny, Laplaciano da Gaussiana(LoG) e LoG piramidal são eficientes na detecção de bordas e largamente aplicados em imagens onde o ruido é aditivo. A imagens adquiridas com sensores PolSAR apresentam ruídos do tipo \textit{speckle} tornando esses métodos ineficientes para aplicação nestas imagens. 
 
-Portanto, 
-\begin{equation}\label{eqn16}
-	\rho_c=\frac{(\rho_{RR}+\rho_{II})+i(\rho_{IR}-\rho_{RI})}{2}. \\
+É necessário construir um ferramental apropriado para esse tipo de imagem, esta seção introduz conceitos baseados nos artigos \citet{nhfc, gmbf} para delinear os métodos de detecção de borda em imagens PolSAR com multiplas visadas. A ideia principal é detectar o ponto de transição em uma faixa tão fina quanto possível entre duas regiões da imagem. O ponto de transição é definido como uma evidência de borda. Os ruídos presentes nestas imagens são do tipo \textit{speckle}, os mesmos têm natureza multiplicativa, tornando a detecção de bordas em imagens SAR uma tarefa desafiadora.
+
+Nesta seção vamos propor o método \textit{simulated annealing} para detectar o ponto de transição, ou evidência de bordas para os canais de intensidades. Sem perda de generalidade vamos usar o termo evidências de bordas ao longo do texto.
+ 
+O problema de detecção de evidências de bordas em cada canal pode ser resumido em três importantes aspectos:
+\begin{enumerate}
+    \item A escolha da região de interesse;
+	\item O método para detecção de evidências de bordas;
+	\item A determinação de uma posição acurada das evidências de bordas. 
+\end{enumerate}
+
+O tamanho da região de interesse é um fator importante, pois, a região pode não conter informações para identificar a presença de evidências de bordas em regiões pequenas, ou em regiões maiores podem obter informações para mais de uma evidência de borda. Assim o tamanho de janela ideal é aquele que contém as informações para detecção de uma borda. 
+
+Em linhas gerais seguiremos as seguintes diretrizes: 
+\begin{itemize}
+	\item Tentar encontrar faixas finas de dados, idealmente do tamanho de um pixel;
+	\item Será usado o método MLE, juntamente com o método \textit{simulated annealing};
+	\item Detectar evidências de bordas em diferentes canais da imagem PolSAR. 
+\end{itemize}
+
+Para isso vamos definir uma rotina para o método detecção de evidências de bordas nos canais de intensidades:
+\begin{enumerate}
+	\item Identificar o centroide de uma região de interesse (ROI) de maneira automática, semiautomática ou manual;
+	\item Construir raios do centroide para fora da área de interesse;
+	\item Coletar dados nos pixeis definidos como raios;
+	\item Detectar pontos na faixa de dados os quais fornecem evidências de mudanças de propriedades estatística, ou seja, uma transição que define uma evidência de borda;
+\end{enumerate}
+
+A figura \eqref{fig:cap_det_bor_radiais} mostra a região de interesse ROI-$\mathbf{R}$ com centroide $\mathbf{C}$, de onde traçamos raios até um ponto de controle $\mathbf{P}_i$, com $i=1,2,\dots, \mathbf{S}$, estes pontos de controle estão na região externa da ROI-$\mathbf{R}$. Teremos $\mathbf{S}$ raios resultantes representados por $\bm{s}^i	=\overline{\mathbf{CP}}_i$ com ângulos $\epsilon_{i}=\angle(\bm s^i,\bm s^{i+1})$. 
+\begin{figure}[htb!]
+\centering
+    \begin{tikzpicture}[scale=4.0,cap=round,>=latex]
+        \draw[blue, very thick] (0cm,0cm) circle(1cm);
+        \draw[gray,  very thick] (-1.6,-1.6) rectangle (1.6,1.6);
+        \foreach \x in {0,30} {
+                \draw[red,  very thick] (0.0cm,0.0cm) -- (\x:1.5cm);
+                \filldraw[blue] (\x:1.5cm) circle(0.4pt);
+        }
+        \draw (1.5cm,0cm) node[above=1pt] {$\mathbf{P}_i$};
+        \draw (1.25cm,0cm) node[above=1pt] {$\bm{s}^i$};
+        \draw (1.4cm,0.75cm) node[above=1pt] {$\mathbf{P}_{i+1}$};
+        \draw (1.15cm,0.65cm) node[above=1pt] {$\bm{s}^{i+1}$};
+        \draw (0cm,0cm) node[above=1pt] {$\mathbf{C}$};
+        \filldraw[blue] (0cm,0cm) circle(0.4pt);
+        \draw (-0.7cm,1cm) node[above=1pt] {Região Externa};
+        \draw (-0.3cm,0.5cm) node[above=1pt] {Região Interna};
+        \draw (-1.45cm,1.45cm) node[above=1pt] {ROI-$\mathbf{R}$};
+        \draw[blue,  very thick] (0.3cm,0) arc (0:9:1);
+        \draw (0.35cm,0cm) node[above=1pt] {$\epsilon_i$};
+    \end{tikzpicture}
+	\caption{Definições para a ROI na imagem PolSAR.}
+\label{fig:cap_det_bor_radiais}
+\end{figure}
+O algoritmo \textit{Bresenham's midpoint line} é usado para definir a radial e extrair informação de cada pixel correspondente da imagem. 
+\subsection{Estimativa por máxima verossimilhança}\label{metodo_mle_est_param}
+A estimativa por máxima verossimilhança (MLE) estima os parâmetros do modelo estatístico para uma amostra de dados observados.
+
+Suponha $\bm z = (z_1,\dots,z_n)$ um vetor randômico distribuído de acordo com função densidade de probabilidade $f(\bm z,\mathbf{\theta})$ com parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ pertencente ao espaço dos parâmetros $\Theta$. Definimos, então a função de verossimilhança 
+\begin{equation}\label{eq:funcao_de_verossimilhanca_theta}
+   L(\theta;\bm z) = \prod_{k=1}^{n}f(z_k;\theta), 
+\end{equation}
+e a função log-verossimilhança  
+\begin{equation}\label{eq:funcao_de_log_verossimilhanca_theta}
+	\mathcal{L}(\theta;\bm z)= \ln L(\theta;\bm z)  = \sum_{k=1}^{n}\ln f(z_k;\theta). \\
 \end{equation}
 
-\textcolor{red}{obs:Explicar melhor o fator 2}
-
-Devido a condição de ser gaussiana circular
-
-\begin{equation}\label{eqn17}
-	\rho_{RR}=\rho_{II},\quad \rho_{IR}=-\rho_{RI}. \\
+O vetor de parâmetros $\theta$ é estimado pelo vetor $\widehat{\theta}$ tal que $\mathcal{L}(\widehat{\theta};\bm z)\ge \mathcal{L}(\theta;\bm z)$ para todo $\theta$ no espaço dos parâmetros $\Theta$. A estimativa de máxima verossimilhança pode ser representada por 
+\begin{equation}\label{eq:max_vetor_log_theta}
+    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}\mathcal{L}(\theta;\bm z).\\
 \end{equation}
-podemos escrever $\rho_c$
-\begin{equation}\label{eqn18}
-	\rho_c=\rho_{RR}+i\rho_{IR}. \\
+%
+\subsection{A máxima verossimilhança usando os parâmetros estimados}\label{sec:sub:mle_param_estimados}
+Cada linha radial $\bm z = (z_1,z_2,\dots,z_n)$ é particionada em duas amostras disjuntas na posição $j$,
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
+$$
+para as quais são definidos modelos estatísticos diferentes, um modelo para
+$\bm Z_\text{I} \sim W(\Sigma_\text{I},L_\text{I})$, e outro modelo para
+$\bm Z_\text{E} \sim W(\Sigma_\text{E},L_\text{E})$.
+
+O método MLE, descrito na seção \eqref{metodo_mle_est_param}, é aplicado nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ para estimar $(\Sigma_\text{I},L_\text{I})$ e $(\Sigma_\text{E},L_\text{E})$ maximizando~\eqref{eq:funcao_de_log_verossimilhanca_theta}, e obtendo $(\widehat{\Sigma}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\Sigma}_\text{E}, \widehat{L}_\text{E})$.
+
+A função de verossimilhança é definida no ponto $j$ de acordo com a função
+\begin{equation}\label{eq:vero_prod_int_ext}
+	L(j)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k) \prod_{k=j+1}^{n}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k). \\
 \end{equation}
 
-Portanto
-
-\begin{equation}\label{eqn19}
-	|\rho_c|^2=\rho_{RR}^2+\rho_{IR}^2. \\
+Usando propriedades de logaritmos naturais para cada termo do produtório \eqref{eq:vero_prod_int_ext} é definido a função log-verossimilhança total dependendo de $j$,
+\begin{equation}\label{eq:log_vero_int_ext}
+	\mathcal{L}(j)=\ln L(j)=\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k)+ \sum_{k=j+1}^{n}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
 \end{equation}
 
-O processo de {\bf Multilook} produz
-\begin{equation}\label{eqn20}
-\begin{array}{ccc}
-	A_n&=&\frac{1}{n}\sum_{k=1}^{n} [a_{R}^2(k)+a_{I}^2(k)]. \\
-	B_n&=&\frac{1}{n}\sum_{k=1}^{n} [b_{R}^2(k)+b_{I}^2(k)]. \\
+O estimador de máxima verossimilhança $\widehat{\jmath}_{ML}$ é uma evidência de borda, pois representa uma aproximação da transição entre regiões, sendo
+\begin{equation}\label{eq:max_j_ml}
+\begin{array}{rcl}
+	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}\mathcal{L}(j)\\
 \end{array}
 \end{equation}
+a evidência de borda é encontrada aplicando-se o método GenSA~\citep{xgsh}.
 
-Assumindo a independência estatística entre amostras, a média e o desvio padrão podem ser definidos por
-\begin{equation}\label{eqn21}
-\begin{array}{cccccccccccc}
-	\overline{A_n}&=&E[A_n]&=&2E[a_{R}^2(k)]&=&2\sigma_a^2,&SD[A_n]&=&\frac{2\sigma_a^2}{\sqrt{n}}.\\
-	\overline{B_n}&=&E[B_n]&=&2E[b_{R}^2(k)]&=&2\sigma_b^2,&SD[B_n]&=&\frac{2\sigma_b^2}{\sqrt{n}}.\\
-\end{array}
-\end{equation}
-
-O coeficiente de correlação {\it Multilook} para intensidade (equação (\ref{eqn9})) pode ser escrito por:
-
-\begin{equation}\label{eqn22}
-	\rho_I^{(n)}=\frac{E[(A_n-\overline{A_n})(B_n-\overline{B_n})]}{SD[A_n]SD[B_n]}. \\
-	%\rho_I^{(n)}&=&\frac{E[(A_nB_n-A_n\overline{B_n}-\overline{A_n}B_n+\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
-	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
-	%\rho_I^{(n)}&=&\frac{E[(A_nB_n]-E[A_n\overline{B_n}]-E[\overline{A_n}B_n]+E[\overline{A_n}\overline{B_n}]}{SD[A_n]SD[B_n]}. \\
-\end{equation}
-
-Assumindo a independência entre as amostras e depois de algumas manipulações algébricas para o numerador da equação (\ref{eqn22}). 
-\begin{equation}\label{eqn23}
-	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]=\frac{1}{n^2}\sum_{k=1}^{n}[E[(a_{R}^2(k)+a_{I}^2(k))(b_{R}^2(k)+b_{I}^2(k))]-4\sigma_a^2\sigma_b^2] \\
-\end{equation}
-\textcolor{red}{OBS: Entender melhor a equação (\ref{eqn23}) e (\ref{eqn24})}.
-\begin{equation}\label{eqn24}
-	E[(A_n-\overline{A_n})(B_n-\overline{B_n})]=\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2\\
-\end{equation}
-
-Agora substituindo em (\ref{eqn22})
-
-\begin{equation}\label{eqn25}
-\begin{array}{ccc}
-	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2}{SD[A_n]SD[B_n]}. \\
-	\rho_I^{(n)}&=&\frac{\frac{4}{n}\sigma_a^2\sigma_b^2|\rho_c|^2}{\frac{2\sigma_a^2}{\sqrt{n}}\frac{2\sigma_b^2}{\sqrt{n}}}. \\
-\end{array}
-\end{equation}
-
-completando as simplificaçãoes
-
-\begin{equation}\label{eqn26}
-	\rho_I^{(n)}=|\rho_c|^2. \\
-\end{equation}
-
-\textcolor{blue}{OBS: Esta relação mostra que o coeficiente de correlação da intensidade não depende dos {\it nlooks}.}
-
-
-
-\subsubsection{Distribuição conjunta do {\it Multilook} $|S_i|^2$ e $|S_j|^2$ }
-
-O $PDF$ conjunto retorna de dois canais correlacionados dos radares polarimétricos e interferométricos são importantes. As $PDF's$ conjuntas conduzem a derivação da intensidade e amplitude razão $PDF's$. Da equação (\ref{eqn42}) temos que as intensidades {\it multilook} sejam 
-
-\begin{equation}\label{eqn59}
-\begin{array}{ccccc}
-	R_1&=&\frac{1}{n}\sum_{k=1}^{n}|S_i(k)|^2&=&\frac{B_1C_{11}}{n}\\
-	R_2&=&\frac{1}{n}\sum_{k=1}^{n}|S_j(k)|^2&=&\frac{B_2C_{22}}{n}\\
-\end{array}
-\end{equation}
-
-Integrando a equação (\ref{eqn52}) em relação a $\eta$ e $\psi$. A $PDF$ é
-
-\begin{equation}\label{eqn60}
-	p(B_1,B_2)=\frac{\left(B_1B_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{B_1+B_2}{1-|\rho_c|^2}\right)}{\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2\sqrt{B_1B_2}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
-\end{equation}
-
-Sendo
-\begin{equation}\label{eqn61}
-	I_{\mu}(Z)=\frac{(\frac{z}{2})^{\mu}}{\Gamma(\mu+1)} F_{1}^{0}[-;\mu+1;\frac{z^2}{4}]
-\end{equation}
-
-\textcolor{red}{OBS: As integrações na equação (\ref{eqn52}) não foram realizadas neste estudo.}
-\begin{equation}\label{eqn62}
-	p(B_1,B_2)=\frac{n^{n+1}\left(R_1R_2\right)^{\frac{n-1}{2}}\exp\left(-\frac{n(\frac{R_1}{C_{11}}+\frac{R_2}{C_{22}})}{1-|\rho_c|^2}\right)}{(C_{11}C_{22})^{\frac{n+1}{2}}\Gamma(n)(1-|\rho_c|^2)|\rho_c|^{n-1}}I_{n-1}\left(2n\sqrt{\frac{R_1R_2}{C_{11}C_{22}}}\frac{|\rho_c|}{1-|\rho_c|^2}\right)
-\end{equation}
-
-\textcolor{red}{OBS: Verificar o surgimento de um fator $\frac{n^2}{C_{11}C_{22}}$ na equação  (\ref{eqn62}) - Mudança de variável!!!!!.}
-
-\subsubsection{Distribuição razão intensidade e amplitude para {\it multilook}}
-
-A razão de intensidade e amplitude entre $S_{hh}$ e $S_{vv}$ são importantes no estudo de radares polarimétricos. A $PDF's$ razão de intensidade e amplitude normalizada será mostrada agora
-
-\begin{equation}\label{eqn63}
-\begin{array}{ccccccc}
-	\mu&=&\frac{B_1}{B_2}&=&\frac{\sum_{k=1}^{n}\frac{|S_i(k)|^2}{C_{11}}}{\sum_{k=1}^{n}\frac{|S_j(k)|^2}{C_{22}}}&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\tau\sum_{k=1}^{n}|S_j(k)|^2}\\
-\end{array}
-\end{equation}
-
-Onde $\tau=\frac{C_{11}}{C_{22}}$.
-
-A $PDF$ razão intensidade {\it multlook} normalizada é mostrada no apêndice $(C)$ do artigo \cite{lee}  
-
-
-\begin{equation}\label{eqn64}
-	p^{(n)}(\mu)=\frac{\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\mu)\mu^{n-1}}{\Gamma(n)\Gamma(n)\left[(1+\mu)^2-4|\rho_c|^2\mu \right]^{\frac{2n+1}{2}}}\\
-\end{equation}
-
-\textcolor{red}{OBS: Não realizei as contas do apêndice $(C)$.}
-
-Realizando a troca de variável $\nu=\sqrt{\mu}$ a equação (\ref{eqn64}) pode ser rescrita por
-\begin{equation}\label{eqn65}
-	p^{(n)}(\nu)=\frac{2\Gamma(2n)(1-|\rho_c|^2)^{n}(1+\nu^2)\nu^{2n-1}}{\Gamma(n)\Gamma(n)\left[(1+\nu^2)^2-4|\rho_c|^2\nu^2 \right]^{\frac{2n+1}{2}}}\\
-\end{equation}
-As $PDF's$ razão de intensidade e amplitude entre os {\it multilook} $\mathbf{S_1}$ e $\mathbf{S_2}$ podem ser facilmente deduzidas das seguintes definições e posterior aplicação nas equações (\ref{eqn64}) e (\ref{eqn65}). definindo 
-\begin{equation}\label{eqn66}
-\begin{array}{ccccc}
-	w&=&\frac{\sum_{k=1}^{n}|S_i(k)|^2}{\sum_{k=1}^{n}|S_i(k)|^2}&=&\tau\mu\\
-	z&=&\sqrt{w}&=&\sqrt{\tau}\nu
-\end{array}
-\end{equation}
-Portanto a distribuição da razão $w$ de intensidade {\it multilook} é
-\begin{equation}\label{eqn67}
-	p^{(n)}(w)=\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+w)w^{n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+w)^2-4\tau|\rho_c|^2w \right]^{\frac{2n+1}{2}}}.
-\end{equation}
-Portanto a distribuição da razão $z$ de amplitude {\it multilook} é
-\begin{equation}\label{eqn68}
-	p^{(n)}(z)=\frac{\tau^{n}\Gamma(2n)(1-|\rho_c|^2)^{n}(\tau+z^2)z^{2n-1}}{\Gamma(n)\Gamma(n)\left[(\tau+z^2)^2-4\tau|\rho_c|^2z^2 \right]^{\frac{2n+1}{2}}}.
-\end{equation}
-
-A discusão será limitada para estatística da razão $\nu$ amplitude normalizada. A figura (\ref{fig2}) mostra a distribuição razão amplitude apresentada na equação  (\ref{eqn65}). Notadamente a medida que $n$ aumenta tendemos a ter uma aproximação da "função" delta de Dirac e uma concentração em torno da abscissa $\nu=1$.
-
-\textcolor{blue}{OBS: Processos de {\it multilook} reduzem a variância.}
-
-
-Os modelos marginais são derivados dos modelos mariados Gamma como a distribuição complexa Wishart.
- Nesta seção serão apresentados os modelos marginais usados no trabalho.
-
-\section{Número Equivalente de Visadas}
-O coeficiente de variação definido como a razão do desvio padrãoem uma imagem com a média para as intensidades na imagem PolSAR $\text{CV}=\frac{\sqrt{\text{Var(I)}}}{\text{E(I)}}$ é um bom indicador para no nível de ruído \textit{Speckle}. O coeficiente de variação (CV) será usado para definir o número equivalente de visadas para a intensidade (ENL(I)), 
-\begin{equation}\label{eq:ENL}
-	\text{ENL(I)} = \frac{1}{\text{CV}^2}, \\
-\end{equation}
-para mais detalhes podemos consultar \citet{ljdwo}.
-
-\section{Metodologia}
-
-\section{Detecção das evidências de bordas}
-\section{Modelos estatísticos para os dados SAR/PolSAR}
-\subsection{Estimativa de parâmetros usando o método da máxima verossimilhança}
-\subsection{Função densidade de probabilidade univariada}
-\subsubsection{Função densidade de probabilidade $\Gamma$ para os canais de intensidades}
+\section{O MLE aplicado a pdf $\Gamma$ em cada canal de intensidade}\label{sec:eml_pdf_gamma}
 Na função distribuição de densidade univariada gaussiana 
 \begin{equation}\label{pdf_gauss_univ}
 	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, \\
 \end{equation}
-onde, $\mu>0$ e $L>0$, aplicamos o logaritmo natural e suas propriedades
+onde, $\mu>0$ e $L>0$, aplicamos o logaritmo natural e suas propriedades,
 \begin{equation}\nonumber
 \begin{array}{ccl}
 	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}\right), \\
@@ -1323,17 +819,18 @@ obtendo a função,
 	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
 \end{equation}
 
-Dado a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, deduzimos a função log-verossimilhança,  
+Dado a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, é definida a função log-verossimilhança, como  
 \begin{equation}\nonumber
 \begin{split}
-  \ell(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
-  \ell(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L),
+  \mathcal{L}(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
+  \mathcal{L}(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L).
  \end{split}
  \end{equation}
-com o uso da função logarítimica~\eqref{func_log_univ_gaussiana}, teremos
+ 
+Com o uso da função logarítmica~\eqref{func_log_univ_gaussiana}, teremos
 \begin{equation}\nonumber
 \begin{split}
-    \ell(\bm z;\mu, L)&=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
+    \mathcal{L}(\bm z;\mu, L)&=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
                       &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z_k - \frac{L}{\mu} z_k\right]\\
                       &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
                       &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
@@ -1341,33 +838,33 @@ com o uso da função logarítimica~\eqref{func_log_univ_gaussiana}, teremos
  \end{split}
  \end{equation}
 
-Definimos a função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss_univ}
+A função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss_univ} pode ser reescrita por
 \begin{equation}\nonumber
-    \ell(\bm z;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,\\                
+    \mathcal{L}(\bm z;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,\\                
  \end{equation}
-e a sua forma reduzida chamada de função log-verossimilhança reduzida, 
+e a sua forma reduzida por 
 \begin{equation}
-\ell(\bm z;\mu, L) = 
+\mathcal{L}(\bm z;\mu, L) = 
 n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
 +L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
 \label{eq:LogLikelihoodGamma_red}
 \end{equation}
 
-Obtemos os parâmetros $(\widehat \mu, \widehat L)$ com o estimador de máxima verossimilhança (MLE) de $(\mu, L)$ baseado na amostra $\bm z$ maximizando a função~\eqref{eq:LogLikelihoodGamma_red} usando o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Preferimos realizar o processo de otimização resolvendo $\nabla\ell=\bm 0$ com objetivo de melhorar a estabilidade numérica.
+A função~\eqref{eq:LogLikelihoodGamma_red} é usada para estimar os parâmetros $(\widehat \mu, \widehat L)$ com o método MLE de $(\mu, L)$ baseado na amostra $\bm z$. O valor máximo da função~\eqref{eq:LogLikelihoodGamma_red} é encontrado com o método BFGS, implementado no pacote \texttt{maxLik} \citep{ht}. Para alcançar uma melhor estabilidade numérica, optou-se por realizar o processo de otimização resolvendo $\nabla\mathcal{L}=\bm 0$. 
 
-Extraindo de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras disjuntas na posição $j$:  
+De acordo com a seção \eqref{sec:sub:mle_param_estimados} é extraído de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras, disjuntas na posição $j$:  
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
 $$
-assumimos dois diferentes modelos para cada partição:
-$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
+para as quais são definidos modelos estatísticos diferentes, um modelo para
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e outro modelo para
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
 
-As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ são usadas para estimar $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ maximizando~\eqref{eq:LogLikelihoodGamma_red}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ são usadas para estimar os parâmetros $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ maximizando~\eqref{eq:LogLikelihoodGamma_red}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
 
 
-A log-verossimilhança total é definida no ponto $j$ como a seguinte função
+A log-verossimilhança total é definida no ponto $j$ pela seguinte função
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
 %\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
@@ -1379,580 +876,8 @@ A log-verossimilhança total é definida no ponto $j$ como a seguinte função
 \raisetag{2.2em}
 \end{split}
 \end{equation}
-e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de de borda
+e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de borda
 $$
 \widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
 $$ 
-onde $\min_s$ é uma folga mínima definida empiricamente para as extremidades da amostra, a escolha do número de pixeis da amostra pode variar com região de interesse da imagem ou com tipo de sensor para aquisição de imagem.
- 
-Destacamos que podemos usar o método de otimização BFGS para obter uma estimativa dos parâmetros ($\mu, L$) simultaneamente, isto é, otimizamos funções com duas variáveis, ou, alternativamente, podemos estimar, ou fixar, o número de visadas $L$ a priori e otimizar uma função de uma variável em $\mu$. Derivando a equação~\eqref{eq:LogLikelihoodGamma_red} com relação a variável $\mu$ e igualando a zero, encontramos  
-
-\begin{equation*}
-\begin{split}
-\frac{\partial\ell(\bm z;\mu)}{\partial\mu} &=0\\  
-n\left[-\frac{L}{\mu}\right] &+ \frac{L}{\mu^2}\sum_{k=1}^{n} z_k=0\\
-\frac{L}{\mu} &= \frac{L}{n\mu^2}\sum_{k=1}^{n} z_k\\  
-\end{split}
-\end{equation*}
-uma aproximação para  
-\begin{equation}
-\mu = \frac{1}{n}\sum_{k=1}^{n} z_k,\\  
-\label{eq:est_media_mu}
-\end{equation}
-a qual podemos usar como estimativa inicial para obter os parâmetros $(\widehat{\mu}, \widehat{L})$ no processo de otimização com duas variáveis, ou como aproximação para o parâmetro $\mu$ quando L fixo ou estimado a priori. 
-\begin{equation}
-\ell(\bm z;\mu) = n \left[\ln \frac{L}{\mu} \right] -\frac{L}{\mu}\sum_{k=1}^{n} z_k,
-\label{eq:LogLikelihoodGamma_red_L_fixo}
-\end{equation}
-para o método BFGS.
-
-Quando optamos por usar o L estimado a priori e a média~\eqref{eq:est_media_mu} como estimativa de $\mu$ usamos o seguinte procedimento. Considerando a faixa de dados extraída da imagem e a partição da mesma em
-$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L)$, e
-$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L)$.
-Podemos estimar $\mu_\text{I}$ e $\mu_\text{E}$ com as amostras $\bm z_\text{I}$ e $\bm z_\text{E}$ calculando a média~\eqref{eq:est_media_mu} para cada amostra. Desta forma teremos os parâmetros $(\widehat{\mu}_\text{I}, L)$ e $(\widehat{\mu}_\text{E}, L)$ conhecidos resultando na função log-verossimilhança no ponto $j$, 
-\begin{equation}\label{eq:TotalLogLikelihood_L_fixo}
-\begin{split}
-\ell(j&;\widehat{\mu}_I,\widehat{\mu}_E, L)= 
- -j\ln \hat{\mu}_\text{I} 
- - \frac{L}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k 
- -(n-j)\ln \widehat{\mu}_\text{E}
- -\frac{L}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k.
-\end{split}
-\end{equation}
-
-Vamos aplicar o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I,\widehat{\mu}_E, L),
-$$ 
-onde $\min_s$ é uma folga mínima definida empiricamente para as extremidades da amostra, a escolha
-do número de pixeis da amostra pode variar com região de interesse da imagem ou com tipo de
-sensor para aquisição de imagem. 
-%
-\subsubsection{Função densidade de probabilidade produto de magnitudes das intensidades}
-%
-A  função densidade de probabilidade univariada produto de magnitudes das intensidades é definida por
-\begin{equation}\label{eq:pdf_mag_prod}
-\begin{array}{lcl}
-	f(z;\rho, L)&=&\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
-		\end{array}
-\end{equation}
-onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas, e onde, $\rho>0$ e $L>0$.
-
-Aplicando  o logaritmo natural na equação~\eqref{eq:pdf_mag_prod}, teremos
-\begin{equation}\nonumber
-\begin{split}
-	\ln f(z;\rho,L)&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right)\right),\\
-	&=\ln\left(\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}\right)+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
-	&=\ln (4L^{L+1}z^L)-\ln(\Gamma(L)(1-|\rho|^2))+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
-     &=\ln (4)+\ln L^{L+1}+\ln z^L-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
-     &+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),\\
-	&=\ln (4)+(L+1)\ln L+L\ln z-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
-	&+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
-		\end{split}
-\end{equation}
-então definimos a função logarítmica
-\begin{equation}\label{eq:log_vero_mag_produto}
-\begin{split}
-	\ell(z; \rho,\	L)&=\ln (4)+(L+1)\ln L+L\ln z-\ln\Gamma(L)-\ln(1-|\rho|^2)\\
-	                      &+\ln I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right).
-	\end{split}
-\end{equation}
-
-A função log-verossimilhança pode ser deduzida sendo dado a amostra $\bm z = (z_1,\dots,z_n)$ obtidas das imagens SAR/PolSAR 
-\begin{equation}\nonumber
-\begin{split}
-  \ell(\bm z;\rho, L)=\ln\prod_{k=1}^{n}f(z_k;\rho,L)\\
-  \ell(\bm z;\rho, L)=\sum_{k=1}^{n}\ln f(z_k;\rho,L),
- \end{split}
- \end{equation}
-usando a função logarítmica~\eqref{eq:log_vero_mag_produto}, teremos
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm z;\rho, L)&=\sum_{k=1}^{n}\ln f(z_k;\rho,L)\\
-                         &=\sum_{k=1}^{n}\left[\ln (4)+(L+1)\ln L+L\ln z_k-\ln\Gamma(L)-\ln(1-|\rho|^2)\right.\\
-                         &\left.+\ln I_0\left(\frac{2|\rho|Lz_k}{1-|\rho|^2}\right)+ \ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right)\right],\\
-	 \end{split}
- \end{equation}
- 
- \begin{equation}\nonumber
-\begin{split}
-    \ell(\bm z;\rho, L)&=\ln (4)\sum_{k=1}^{n}1+(L+1)\ln L\sum_{k=1}^{n}1+L\sum_{k=1}^{n}\ln z_k-\ln\Gamma(L)\sum_{k=1}^{n}1-\ln(1-|\rho|^2)\sum_{k=1}^{n}1\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2L z_k}{1-|\rho|^2}\right)\\
-                         &=n\ln (4)+n(L+1)\ln L+L\sum_{k=1}^{n} \ln z_k-n\ln\Gamma(L)-n\ln(1-|\rho|^2)\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2L z_k}{1-|\rho|^2}\right)\\
-                         &=n\left[\ln (4)+(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln z_k\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2L z_k}{1-|\rho|^2}\right).\\
-\end{split}
- \end{equation}
- 
-Definimos a função log-verossimilhança para a PDF~\eqref{eq:pdf_mag_prod}
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm z;\rho, L)&=n\left[\ln (4)+(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln z_k\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|Lz_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right),\\
-\end{split}
- \end{equation}
-e a forma reduzida,
-\begin{equation}\label{eq:eq_log_vero_mag_prod_red}
-\begin{split}
-    \ell(\bm z;\rho, L)&=n\left[(L+1)\ln L-\ln\Gamma(L)-\ln(1-|\rho|^2)\right]+L\sum_{k=1}^{n} \ln z_k\\
-                         &+\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right).\\
-\end{split}
- \end{equation} 
-
-Podemos obter $(\widehat \rho, \widehat L)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L)$ baseado em uma amostra $\bm z$, maximizando~\eqref{eq:eq_log_vero_mag_prod_red} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Preferimos otimizar resolvendo $\nabla\ell=\bm 0$ com objetivo de melhorar a estabilidade numérica do método.
-
-Considerando a faixa de dados extraída da imagem $\bm z = (z_1,z_2,\dots,z_n)$ e particionada em duas amostras disjuntas na posição $j$, da seguinte forma 
-$$
-\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
-\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
-$$
-e otimizando a função log-verossimilhança reduzida para as amostras internas e externas da faixa de dados $\bm z_\text{I}$ e $\bm z_\text{E}$. Assim, estimamos $(\rho_\text{I},L_\text{I})$ e $(\rho_\text{E},L_\text{E})$ com $\bm z_\text{I}$ e $\bm z_\text{E}$, maximizando~\eqref{eq:eq_log_vero_mag_prod_red}, e obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E})$.
-
-A log-verossimilhança no ponto $j$ é
-\begin{equation}\label{eq:TotalLogLikelihood_prod_mag}
-\begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E})&
-=j\left[(\widehat{L}_\text{I}+1)\ln \widehat{L}_\text{I}-\ln\Gamma(\widehat{L}_\text{I})-\ln(1-|\widehat{\rho}_\text{I}|^2)\right]
-+\widehat{L}_\text{I}\sum_{k=1}^{j} \ln z_k\\
-&+\sum_{k=1}^{j}\ln I_0\left(\frac{2|\widehat{\rho}_\text{I}|\widehat{L}_\text{I}z_k}{1-|\widehat{\rho}_\text{I}|^2}\right)
-+ \sum_{k=1}^{j}\ln K_{\widehat{L}_\text{I}-1}\left(\frac{2\widehat{L}_\text{I}z_k}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
-&+(n-j)\left[(\widehat{L}_\text{E}+1)\ln \widehat{L}_\text{E}-\ln\Gamma(\widehat{L}_\text{E})-\ln(1-|\widehat{\rho}_\text{E}|^2)\right]
-+\widehat{L}_\text{E}\sum_{k=j+1}^{n} \ln z_k\\
-&+\sum_{k=j+1}^{n}\ln I_0\left(\frac{2|\widehat{\rho}_\text{E}|\widehat{L}_\text{E}z_k}{1-|\widehat{\rho}_\text{E}|^2}\right)
-+ \sum_{k=j+1}^{n}\ln K_{\widehat{L}_\text{E}-1}\left(\frac{2\widehat{L}_\text{E}z_k}{1-|\widehat{\rho}_\text{E}|^2}\right).\\
-\end{split}
-\end{equation}
-
-O método GenSA é aplicado para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\rho}_E, \widehat{L}_E),
-$$ 
-onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-
-Alternativamente podemos resolver o problema da seguinte forma, considerando o número de visadas $L$ conhecido ou estimado a priori podemos reescrever a equação \eqref{eq:eq_log_vero_mag_prod_red} por
-\begin{equation}\label{eq:eq_log_vero_mag_prod_red_L_fixo}
-\begin{split}
-    \ell(\bm z;\rho)&=-n\ln(1-|\rho|^2) +\sum_{k=1}^{n}\ln I_0\left(\frac{2|\rho|L z_k}{1-|\rho|^2}\right)+ \sum_{k=1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\rho|^2}\right),\\
-\end{split}
- \end{equation}
-assumindo que vamos estimar $\rho_\text{I}$ e $\rho_\text{E}$ nas amostras $\bm z_\text{I}$ e $\bm z_\text{E}$ através da maximização de~\eqref{eq:eq_log_vero_mag_prod_red_L_fixo} obteremos  $(\widehat{\rho}_{I})$ e $(\widehat{\rho}_\text{E})$.
-
-A função log-verossimilhança no ponto $j$ com $L_\text{I}=L_\text{E}=L$ definidas a priori é
-\begin{equation}\label{eq:TotalLogLikelihood_prod_mag_L_fixo}
-\begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{\rho}_\text{E})&
-=-j\ln(1-|\widehat{\rho}_\text{I}|^2)
- +\sum_{k=1}^{j}\ln I_0\left(\frac{2|\widehat{\rho}_\text{I}|Lz_k}{1-|\widehat{\rho}_\text{I}|^2}\right)
- + \sum_{k=1}^{j}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
-&-(n-j)\ln(1-|\widehat{\rho}_\text{E}|^2)
-+\sum_{k=j+1}^{n}\ln I_0\left(\frac{2|\widehat{\rho}_\text{E}|Lz_k}{1-|\widehat{\rho}_\text{E}|^2}\right)
-+ \sum_{k=j+1}^{n}\ln K_{L-1}\left(\frac{2Lz_k}{1-|\widehat{\rho}_\text{E}|^2}\right),\\
-\end{split}
-\end{equation}
-e aplicando o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I,\widehat{\rho}_E),
-$$ 
-onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-%
-\subsubsection{Função densidade de probabilidade razão de intensidades}
-A razão de intensidades ou amplitudes entre $\mathbf{S}_i$ e $\mathbf{S}_j$ são importantes no estudo de radares polarimétricos. 
-
-Seja a razão de intensidade normalizada,
-\begin{equation}\label{eq:razao_intensidades}
- \mu=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2},\\
-\end{equation}
-onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$, e a função densidade de probabilidade razão de intensidades,
-\begin{equation}\label{eq:pdf_razao_intensidades}
-	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
-\end{equation}
-onde, $\rho>0$ e $L>0$. Definindo 
-\begin{equation}\label{eq:razao_intensidades_z}
- z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
-\end{equation}
-realizando a mudança de variável na PDF, \eqref{eq:pdf_razao_intensidades} teremos, 
-\begin{equation}\label{eq:pdf_razao_intensidades_tau_z}
-	f(z;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}}.\\
-\end{equation}
-
-Aplicando o logaritmo natural na equação~\eqref{eq:pdf_razao_intensidades_tau_z} e realizando manipulações algébricas teremos
-\begin{equation}\nonumber
-\begin{split}
-	\ln f(z;\rho,L,\tau)&=\ln\left(\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}}\right),\\
-	                &=\ln\left(\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}\right)\\
-	                &-\ln\left(\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}\right),\\
-	                &=\ln\tau^L + \ln\Gamma(2L) +\ln(1-|\rho|^2)^{L}+\ln(\tau+z)+\ln z^{L-1}\\
-	                &-\left(\ln\Gamma(L)+\ln\Gamma(L)+\ln\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}\right),\\
-	                &=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+z)+(L-1)\ln z\\
-	                &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+z)^2-4\tau|\rho|^2z \right].\\
-\end{split}
-\end{equation}
-
-Definimos a função logarítmica para a PDF razão de intensidades,
-\begin{equation}\label{eq_log_vero_razao_intensidade_tau_z}
-\begin{split}	
-	\ln f(z;\rho,L,\tau)&=L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+z)+(L-1)\ln z\\
-	                      &-2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+z)^2-4\tau|\rho|^2z \right].\\
-\end{split}
-\end{equation}
-
-Dado a amostra $\bm z = (z_1,\dots,z_n)$ obtida das imagens SAR/PolSAR, deduzimos a função log-verossimilhança 
-\begin{equation}\nonumber
-\begin{split}
-  \ell(\bm z;\rho, L, \tau)=\ln\prod_{k=1}^{n}f(z_k;\rho,L, \tau)\\
-  \ell(\bm z;\rho, L, \tau)=\sum_{k=1}^{n}\ln f(z_k;\rho,L, \tau),
- \end{split}
- \end{equation}
-usando a função~\eqref{eq_log_vero_razao_intensidade_tau_z}, teremos,
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm z;\rho, L, \tau)&=\sum_{k=1}^{n}\ln f(z_k;\rho, L, \tau)\\
-                         &=\sum_{k=1}^{n}\left[L\ln\tau + \ln\Gamma(2L) +L\ln(1-|\rho|^2)+\ln(\tau+z_k)+(L-1)\ln z_k\right.\\
-	                     &-\left.2\ln\Gamma(L)-\frac{2L+1}{2}\ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k \right]\right],\\
- \end{split}
- \end{equation}
- \begin{equation}\nonumber
-\begin{split} 
-    \ell(\bm z;\rho, L, \tau)&=L\ln\tau\sum_{k=1}^{n}1+\ln\Gamma(2L)\sum_{k=1}^{n} 1+L\ln(1-|\rho|^2)\sum_{k=1}^{n} 1+\sum_{k=1}^{n}\ln(\tau+z_k)+(L-1)\sum_{k=1}^{n}\ln z_k\\
-                         &-2\ln\Gamma(L)\sum_{k=1}^{n} 1-\frac{2L+1}{2}\sum_{k=1}^{n}\ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right]\\
-                         &=n\left(L\ln\tau+\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+z_k)\\
-                         &+L\sum_{k=1}^{n}\ln z_k-\sum_{k=1}^{n}\ln z_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+ z_k)^2-4\tau|\rho|^2z_k\right].\\
-\end{split}
-\end{equation}
- 
-Definimos a equação log-verossimilhança para a PDF univariada~(\ref{eq_log_vero_razao_intensidade_tau_z}).
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm z;\rho, L, \tau)&=n\left(L\ln\tau + \ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)+\sum_{k=1}^{n}\ln(\tau+z_k)\\
-                         &+L\sum_{k=1}^{n}\ln z_k-\sum_{k=1}^{n}\ln z_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right]\\
-\end{split}
- \end{equation}
-e a forma reduzida,
-\begin{equation}\label{eq_log_vero_razao_intensidade_red_tau_z}
-\begin{split}
-    \ell(\bm z;\rho, L, \tau)&=n\left(L\ln\tau +\ln\Gamma(2L)+L\ln(1-|\rho|^2)-2\ln\Gamma(L)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\tau+z_k)+L\sum_{k=1}^{n}\ln z_k-\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right]\\
-\end{split}
- \end{equation} 
-
-Vamos obter $(\widehat \rho, \widehat L, \widehat \tau)$, o estimador de máxima verossimilhança (MLE) de $(\rho, L, \tau)$ baseado na amostra $\bm z$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_z} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
-
-A função log-verossimilhança reduzida é aplicada na faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ particionada em duas amostras disjuntas na posição $j$,  denotadas respectivamente como $\bm z_\text{I}$ e $\bm z_\text{E}$,  
-$$
-\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
-\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
-$$
-
-Para cada amostra estimamos os parâmetros $(\rho_\text{I},L_\text{I}, \tau_\text{I})$ e $(\rho_\text{E},L_\text{E}, \tau_\text{E})$ maximizando~\eqref{eq_log_vero_razao_intensidade_red_tau_z}, obtendo $(\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{L}_\text{E}, \widehat{\tau}_\text{E})$. Usando as estimativas para cada pixel podemos definir a função log-verossimilhança total no ponto $j$,
-\begin{equation}\label{eq:log_vero_total_razao_int}
-\begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\tau}_\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E},\widehat{\tau}_\text{E})&=n\left(\widehat{L}_\text{I}\ln\widehat{\tau}_\text{I} +\ln\Gamma(2\widehat{L}_\text{I})+\widehat{L}_\text{I}\ln(1-|\widehat{\rho}_\text{I}|^2)-2\ln\Gamma(\widehat{L}_\text{I})\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+z_k)+\widehat{L}_\text{I}\sum_{k=1}^{n}\ln z_k-\frac{2\widehat{L}_\text{I}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+z_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2z_k\right]\\
-                         &+n\left(\widehat{L}_\text{E}\ln\widehat{\tau}_\text{E}+\ln\Gamma(2\widehat{L}_\text{E})+\widehat{L}_\text{E}\ln(1-|\widehat{\rho}_\text{E}|^2)-2\ln\Gamma(\widehat{L}_\text{E})\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+z_k)+\widehat{L}_\text{E}\sum_{k=1}^{n}\ln z_k-\frac{2\widehat{L}_\text{E}+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+z_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2z_k\right]
-%\raisetag{2.2em}
-\end{split}
-\end{equation}
-
-Vamos aplicar o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I, \widehat{L}_I,\widehat{\tau}_I,\widehat{\rho}_E, \widehat{L}_E, \widehat{\tau}_E),
-$$ 
-onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-
-Alternativamente, sendo o número de visadas $L$ conhecido ou estimado a priori, podemos redefinir a função log-verossimilhança reduzida por 
-\begin{equation}\label{eq:log_razao_int_z_L_fixo}
-\begin{split}
-    \ell(\bm z;\rho, \tau)&=n\left(L\ln\tau+L\ln(1-|\rho|^2)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\tau+z_k)
-                         -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\tau+z_k)^2-4\tau|\rho|^2z_k\right].\\
-\end{split}
- \end{equation}    
- 
-Maximizando a função $\ell(\bm z;\rho, \tau)$ com o objetivo de estimar $(\rho_\text{I}, \tau_\text{I})$ e $(\rho_\text{E}, \tau_\text{E})$ para as amostras $\bm z_\text{I}$ e $\bm z_\text{E}$, obtemos $(\widehat{\rho}_\text{I},\widehat{\tau}_\text{I})$ e $(\widehat{\rho}_\text{E}, \widehat{\tau}_\text{E})$. O método de otimização BFGS implementado no pacote \texttt{maxLik}~\citep{ht}
-é usado para estimar os parâmetros.
- 
-Estimados os parâmetros definimos a log-verossimilhança total no ponto $j$
-\begin{equation}\label{eq:TotalLogLikelihood_razao_L_fixo}
-\begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{\tau}_\text{I}, \widehat{\rho}_\text{E},\widehat{\tau}_\text{E})&=
-                         n\left(L\ln\widehat{\tau}_\text{I} +L\ln(1-|\widehat{\rho}_\text{I}|^2)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{I}+z_k)
-                         -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{I}+z_k)^2-4\widehat{\tau}_\text{I}|\widehat{\rho}_{I}|^2z_k\right]\\
-                         &+n\left(L\ln\widehat{\tau}_\text{E}
-                          +L\ln(1-|\widehat{\rho}_\text{E}|^2)\right)\\
-                         &+\sum_{k=1}^{n}\ln(\widehat{\tau}_\text{E}+z_k)
-                          -\frac{2L+1}{2}\sum_{k=1}^{n} \ln\left[(\widehat{\tau}_\text{E}+z_k)^2-4\widehat{\tau}_\text{E}|\widehat{\rho}_\text{E}|^2z_k\right].
-%\raisetag{2.2em}
-\end{split}
-\end{equation}
-
-O método GenSA é aplicado para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_I,\widehat{\tau}_I,\widehat{\rho}_E, \widehat{\tau}_E),
-$$ 
-onde $\min_s$  é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-\subsubsection{Funçao distribuição de densidade para o span em meio recíproco}
-A referência~\cite{fwzjn} mostra que podemos usar uma distribuição gaussiana para modelar o \textit{span}, equação~\eqref{span_geral}, considerando a função distribuição de densidade univariada gaussiana 
-\begin{equation}\label{eq:gauss_span}
-	f_{S}(s;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-\frac{L}{\mu}s\right\}, \\
-\end{equation}
-onde, $\mu>0$, $L>0$, e $s$ é elemento do \textit{span}(S).
-
-Aplicando o logaritmo natural na equação~\eqref{eq:gauss_span}  e realizando operações algébricas teremos:
-\begin{equation}\nonumber
-\begin{array}{ccl}
-	\ln f_{S}(s;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} s^{L-1}\exp\left\{-\frac{L}{\mu}s\right\}\right), \\
-	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln s^{L-1} + \ln \exp\left\{-\frac{L}{\mu}s\right\}, \\
-%	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s,\\	                                         
-\end{array}
-\end{equation}
-resultanto na função, 
-\begin{equation}\label{eq:func_log_gauss_span}
-	\ln f_{S}(s;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s - \frac{L}{\mu} s.
-\end{equation}
-
-A função log-verossimilhança pode ser deduzida da seguinte maneira, dado a amostra $\bm s = (s_1,\dots,s_n)$ obtida das imagens SAR/PolSAR, 
-\begin{equation}\nonumber
-\begin{split}
-  \ell(\bm s;\mu, L)=\ln\prod_{k=1}^{n}f_S(s_k;\mu,L)\\
-  \ell(\bm s;\mu, L)=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L),
- \end{split}
- \end{equation}
-usando a função~\eqref{eq:func_log_gauss_span} teremos,
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm s;\mu, L)&=\sum_{k=1}^{n}\ln f_S(s_k;\mu,L)\\
-                      &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln s_k - \frac{L}{\mu} s_k\right]\\
-                      &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k\\
-                      &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k\\
-                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k.\\                
- \end{split}
- \end{equation}
-
-Definimos a equação log-verossimilhança para a PDF univariada~\eqref{eq:gauss_span}
-\begin{equation}\nonumber
-    \ell(\bm s;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln s_k - \frac{L}{\mu}\sum_{k=1}^{n} s_k,\\                
- \end{equation}
-e a forma reduzida, 
-\begin{equation}
-\ell(\bm s;\mu, L) = 
-n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
-+L \sum_{k=1}^{n}\ln s_k -\frac{L}{\mu}\sum_{k=1}^{n} s_k.
-\label{eq:LogLikelihoodGamma_red_span}
-\end{equation}
-
-Vamos obter $(\widehat L, \widehat \mu)$, o estimador de máxima verossimilhança (MLE) de $(L, \mu)$ baseado na amostra $\bm s$, por maximizar~\eqref{eq:LogLikelihoodGamma_red_span} com o método BFGS implementado no pacote \texttt{maxLik}~\citep{ht}. Vamos preferir otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
-
-O função é a log-verossimilhança reduzida é aplicada para as amostras internas e externas da faixa de dados denotadas respectivamento como $\bm s_\text{I}$ e $\bm s_\text{E}$. Cada faixa de dados $\bm s = (s_1,s_2,\dots,s_n)$ é particionada em duas amostras disjuntas na posição $j$:  
-$$
-\bm s = (\underbrace{s_1,s_2,\dots,s_j}_{\bm s_\text{I}}, 
-\underbrace{s_{j+1}, s_{j+2},\dots,s_n}_{\bm s_\text{E}})
-$$
-assumimos dois diferentes modelos para cada partição:
-$\bm S_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
-$\bm S_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-Vamos estimar $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ com $\bm s_\text{I}$ e $\bm s_\text{E}$, respectivamente, maximizando~\eqref{eq:LogLikelihoodGamma_red_span}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
-
-A log-verossimilhança no ponto $j$ é, então
-\begin{equation}\label{eq:TotalLogLikelihood_span}
-\begin{split}
-%\ell(j&;\bm s_\text{I},\bm s_\text{E}) = \\
-\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
-&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
-+\widehat{L}_\text{I} \sum_{k=1}^{j}\ln s_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} s_k +\\
-&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln s_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
-\raisetag{2.2em}
-\end{split}
-\end{equation}
-
-Vamos aplicar o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
-$$ 
-onde $\min_s$ é o coeficiente de folga definido empiricamente.
-
- Alternativamente, podemos assumir o número de visadas L fixo, ou estimado a priori, e otimizar a função
-\begin{equation}
-\ell(\bm s;\mu) = 
--n\ln \mu -\frac{1}{\mu}\sum_{k=1}^{n} s_k
-\label{eq:LogLikelihoodGamma_red_span_L_fixo}
-\end{equation}
-na variável $\mu$, assumindo dois modelos diferentes para cada partição,
-$\bm S_\text{I} \sim \Gamma(\mu_\text{I})$,e
-$\bm S_\text{E} \sim \Gamma(\mu_\text{E})$.
-Assim, encontramos estimativas~$\widehat{\mu}_\text{I}$~e~$\widehat{\mu}_\text{E}$~para os parâmetros~$\mu_\text{I}$~e~$\mu_\text{E}$~com as amostras~$\bm S_\text{I}$~e~$\bm S_\text{E}$ usando as médias para a mostra de acordo com a equação~\eqref{eq:est_media_mu}.
-
-Usando as estimativa~$\widehat{\mu_\text{I}}$~e~$\widehat{\mu_\text{E}}$, a log-verossimilhança total no ponto $j$ é, então
-\begin{equation}\label{eq:TotalLogLikelihood_L_fixo_span}
-\begin{split}
-\ell(j&;\widehat{\mu}_I,\widehat{\mu}_E)= 
- -j\ln (\widehat{\mu}_\text{I}) 
-- \frac{1}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} s_k -(n-j)\ln (\widehat{\mu}_\text{E})
-- \frac{1}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} s_k.
-\end{split}
-\end{equation}
-
-O método GenSA é aplicado para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I,\widehat{\mu}_E),
-$$ 
-onde $\min_s$ é a folga definida empiricamente.
-\subsection{Função densidade de probabilidade bivariada}
-\subsubsection{Função densidade de probabilidade produto de intensidades} 
-Seja a função distribuição de probabilidade bivariada produto de intensidades, a qual pode ser encontrada em \citet{lee}
-\begin{equation}\label{func_biv_produto_inten_z1_z2}
-	f(z_1,z_2;\rho,L, \Sigma_{11}, \Sigma_{22})=\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right).
-\end{equation}
-
-Aplicando o logaritmo natural em ambos os lados na equação \eqref{func_biv_produto_inten_z1_z2}
-\begin{equation}\nonumber
-\begin{split}
-	\ln f(z_1,z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}
-	+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho_c|^{L-1}}I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right),\\
-	\end{split}
-\end{equation}
-\begin{equation}\nonumber
-\begin{split}
-	\ln f(z_1,z_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=\ln\left(\frac{L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)}{(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}}\right)\\
-	 &+\ln I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right),\\
-	             &=\ln\left(L^{L+1}\left(z_1z_2\right)^{\frac{L-1}{2}}\exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)\right)\\
-	             &-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
-	&+\ln I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right),
-	\end{split}
-\end{equation}
-\begin{equation}\nonumber
-\begin{split}
-	\ln f(z_1,z_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=\ln L^{L+1}+\ln\left(z_1z_2\right)^{\frac{L-1}{2}}\\
-	& + \ln \exp\left(-\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}\right)-\ln\left((\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}}\Gamma(L)(1-|\rho|^2)|\rho|^{L-1}\right) \\
-	&+\ln I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right),\\
-	&=\ln L^{L+1} + \ln (z_1z_2)^{\frac{L-1}{2}} -\frac{L\left(\frac{z_1}{\Sigma_{11}}+\frac{z_2}{\Sigma_{22}}\right)}{1-|\rho|^2}-\ln(\Sigma_{11}\Sigma_{22})^{\frac{L+1}{2}} \\
-	&- \ln\Gamma(L)- \ln(1-|\rho|^2)-\ln|\rho|^{L-1} \\
-	&+\ln I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right),\\
-	&=(L+1)\ln L +\frac{L-1}{2} \ln (z_1z_2) -\frac{Lz_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{Lz_2}{\Sigma_{22}(1-|\rho|^2)}\\
-	&-\frac{L+1}{2}\ln(\Sigma_{11}\Sigma_{22}) - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
-	&+\ln I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right),
-\end{split}
-\end{equation}
-resultando na função logarítmica	
-\begin{equation}\label{fun_log_biv_inten}
-\begin{split}
-	\ln f(z_1,z_2;\rho,L, \Sigma_{11}, \Sigma_{22})&=(L+1)\ln L +\frac{L-1}{2} \ln z_1 +\frac{L-1}{2} \ln z_2 -\frac{Lz_1}{\Sigma_{11}(1-|\rho|^2)}-\frac{Lz_2}{\Sigma_{22}(1-|\rho|^2)}\\
-	&-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
-	&+\ln I_{L-1}\left(2L\sqrt{\frac{z_1z_2}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right).
-\end{split}
-\end{equation}
-
-A função log-verossimilhança pode ser deduzida da seguinte maneira, sendo dado as amostras $\bm z_1 = (z^1_1,\dots,z^1_n)$ e  $\bm z_2 = (z^2_1,\dots,z^2_n)$ obtidas das imagens SAR/PolSAR, 
-\begin{equation}\nonumber
-\begin{split}
-  \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\ln\prod_{k=1}^{n}f(z^1_k, z^2_k;\rho,L, \Sigma_{11}, \Sigma_{22}),\\
-  \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})=\sum_{k=1}^{n}\ln f(z^1_k, z^2_k;\rho,L, \Sigma_{11}, \Sigma_{22}),
- \end{split}
- \end{equation}
-usando a função~\eqref{fun_log_biv_inten} teremos,
-\begin{equation}\nonumber
-\begin{split}
-    \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=\sum_{k=1}^{n}\ln f(z^1_k, z^2_k;\rho, L, \Sigma_{11}, \Sigma_{22})\\
-                         &=\sum_{k=1}^{n}\left[(L+1)\ln L +\frac{L-1}{2} \ln z^1_k +\frac{L-1}{2} \ln z^2_k -\frac{Lz^1_k}{\Sigma_{11}(1-|\rho|^2)}-\frac{Lz^2_k}{\Sigma_{22}(1-|\rho|^2)}\right.\\
-	&-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22} - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\\
-	&\left.+\ln I_{L-1}\left(2L\sqrt{\frac{z^1_kz^2_k}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)\right],\\ 
-  \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=(L+1)\ln L\sum_{k=1}^{n}1 +\frac{L-1}{2}\sum_{k=1}^{n} \ln z^1_k +\frac{L-1}{2} \sum_{k=1}^{n}\ln z^2_k\\
-                        &-\frac{L}{\Sigma_{11}(1-|\rho|^2)}\sum_{k=1}^{n}z^1_k-\frac{L}{\Sigma_{22}(1-|\rho|^2)}\sum_{k=1}^{n}z^2_k\\
-	&-\frac{L+1}{2}\ln\Sigma_{11}\sum_{k=1}^{n}1-\frac{L+1}{2}\ln\Sigma_{22}\sum_{k=1}^{n}1 \\
-	&- \ln\Gamma(L)\sum_{k=1}^{n}1- \ln(1-|\rho|^2)\sum_{k=1}^{n}1-(L-1)\ln|\rho|\sum_{k=1}^{n}1\\
-	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{z^1_kz^2_k}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right).
-\end{split}
-\end{equation}
-
-Definimos a equação log-verossimilhança para a PDF bivariada~(\ref{fun_log_biv_inten})
-\begin{equation}\nonumber
-\begin{split} 
-  \ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right. \\
-  &\left.-\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22}\right] \\
-                        &+\frac{L-1}{2}\sum_{k=1}^{n} \ln z^1_k +\frac{L-1}{2} \sum_{k=1}^{n}\ln z^2_k\\
-                        &-\frac{L}{\Sigma_{11}(1-|\rho|^2)}\sum_{k=1}^{n}z^1_k-\frac{L}{\Sigma_{22}(1-|\rho|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{z^1_kz^2_k}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right),
-\end{split}
-\end{equation} 
-e a forma reduzida,
-\begin{equation}\label{eq:log_vero_biv_prod_red}
-\begin{split}
-\ell(\bm z_1, \bm z_2;\rho, L, \Sigma_{11}, \Sigma_{22})&=n\left[(L+1)\ln L - \ln\Gamma(L)- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right. \\
-	                    &-\left.\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22}\right] \\
-                        &+\frac{L}{2}\sum_{k=1}^{n} \ln z^1_k +\frac{L}{2} \sum_{k=1}^{n}\ln z^2_k\\
-                        &-\frac{L}{\Sigma_{11}(1-|\rho|^2)}\sum_{k=1}^{n}z^1_k-\frac{L}{\Sigma_{22}(1-|\rho|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{z^1_kz^2_k}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
-\end{split}
- \end{equation} 
-
-Vamos obter $(\widehat \rho, \widehat L, \widehat \Sigma_{11}, \widehat \Sigma_{22})$, a estimativa de máxima verossimilhança (MLE) para $(\rho, L, \Sigma_{11}, \Sigma_{22})$ baseado em  $\bm z_1$, e $\bm z_2$ por maximizar~\eqref{eq:log_vero_biv_prod_red} com o método BFGS implementado no pacote \texttt{maxLik} \citep{ht}. Usamos a otimização resolvendo $\nabla\ell=\bm 0$ com intuito de melhorar a estabilidade numérica.
-
-O função usada é a log-verossimilhança reduzida para as amostras internas e externas da faixa de dados denotadas respectivamente como $\bm z_\text{I}$ e $\bm z_\text{E}$. As faixas de dados $\bm z_1 = (z^1_1,z^1_2,\dots,z^1_n)$  e $\bm z_2 = (z^2_1,z^2_2,\dots,z^2_n)$ são particionadas em duas amostras disjuntas na posição $j$:  
-$$
-\bm z_1 = (\underbrace{z^1_1,z^1_2,\dots,z^1_j}_{\bm z^1_\text{I}}, 
-\underbrace{z^1_{j+1}, z^1_{j+2},\dots,z^1_n}_{\bm z^1_\text{E}}).
-$$
-e 
-$$
-\bm z_2 = (\underbrace{z^2_1,z^2_2,\dots,z^2_j}_{\bm z^2_\text{I}}, 
-\underbrace{z^2_{j+1}, z^2_{j+2},\dots,z^2_n}_{\bm z^2_\text{E}}).
-$$
-%Vamos assumir dois diferentes modelos para cada partição:
-%$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e
-%$\bm Z_\text{E} \sim \Gamma(\mu_xt{E},L_\text{E})$.
-Vamos estimar $(\rho_\text{I},L_\text{I}, \Sigma^{\text{I}}_{11}, \Sigma^{\text{I}}_{22})$ e $(\rho_\text{E},L_\text{E}, \Sigma^{\text{E}}_{11}, \Sigma^{\text{E}}_{22})$ para as amostras $\bm z^1_\text{I}$, $\bm z^1_\text{E}$ e $\bm z^2_\text{I}$, $\bm z^2_\text{E}$, e maximizando~\eqref{eq:log_vero_biv_prod_red}, obtendo $(\widehat{\rho}_\text{I},\widehat L_\text{I}, \widehat\Sigma^\text{I}_{11}, \widehat\Sigma^\text{I}_{22})$ e $(\widehat{\rho}_\text{E},\widehat L_\text{E}, \widehat\Sigma^\text{E}_{11}, \widehat\Sigma^\text{E}_{22})$.
-
-A log-verossimilhança no ponto $j$ usando os parâmetros estimados é, então
-\begin{equation}\label{eq:TotalLogLikelihood_biv_prod}
-\begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E})&=n\left[(\widehat{L}_\text{I}+1)\ln \widehat{L}_\text{I} - \ln\Gamma(\widehat{L}_\text{I})- \ln(1-|\widehat{\rho}_\text{I}|^2)-(\widehat{L}_\text{I}-1)\ln|\widehat{\rho}_\text{I}|\right. \\
-         &\left.-\frac{\widehat{L}_\text{I} + 1}{2} \ln \widehat\Sigma^\text{I}_{11}-\frac{\widehat{L}_\text{I} + 1}{2}\ln \widehat\Sigma^\text{I}_{22}\right] \\
-                        &+\frac{\widehat{L}_\text{I}}{2}\sum_{k=1}^{n} \ln z^1_k +\frac{\widehat{L}_\text{I}}{2} \sum_{k=1}^{n}\ln z^2_k\\
-                        &-\frac{\widehat{L}_\text{I}}{\Sigma^\text{I}_{11}(1-|\widehat{\rho}_\text{I}|^2)}\sum_{k=1}^{n}z^1_k-\frac{\widehat{L}_\text{I}}{\Sigma^\text{I}_{22}(1-|\widehat{\rho}_\text{I}|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{I}-1}\left(2\widehat{L}_\text{I}\sqrt{\frac{z^1_kz^2_k}{\Sigma^\text{I}_{11}\Sigma^\text{I}_{22}}}\frac{|\widehat{\rho}_\text{I}|}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
-	&+n\left[(\widehat{L}_\text{E}+1)\ln \widehat{L}_\text{E} - \ln\Gamma(\widehat{L}_\text{E})- \ln(1-|\widehat{\rho}_\text{E}|^2)-(\widehat{L}_\text{E}-1)\ln|\widehat{\rho}_\text{E}|\right. \\
-	&\left.-\frac{\widehat{L}_\text{E} + 1}{2}\ln \widehat\Sigma^\text{E}_{11}-\frac{\widehat{L}_\text{E} + 1}{2}\ln \widehat\Sigma^\text{E}_{22}\right]\\
-                        &+\frac{\widehat{L}_\text{E}}{2}\sum_{k=1}^{n} \ln z^1_k +\frac{\widehat{L}_\text{E}}{2} \sum_{k=1}^{n}\ln z^2_k\\
-                        &-\frac{\widehat{L}_\text{E}}{\widehat\Sigma^\text{E}_{11}(1-\widehat{\rho}_\text{E}|^2)}\sum_{k=1}^{n} z^1_k-\frac{\widehat{L}_\text{E}}{\widehat\Sigma^\text{E}_{22}(1-|\widehat{\rho}_\text{E}|^2)}\sum_{k=1}^{n} z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{E}-1}\left(2\widehat{L}_\text{E}\sqrt{\frac{z^1_kz^2_k}{\Sigma^\text{E}_{11}\Sigma^\text{E}_{22}}}\frac{|\widehat{\rho}_\text{E}|}{1-|\widehat{\rho}_\text{E}|^2}\right)
-\end{split}
-\end{equation}
-
-Vamos aplicar o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{L}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{L}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E}),
-$$ 
-onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
-
-Alternativamente, sendo o número de visadas $L$ conhecido ou estimado a priori, reescrevemos a função logarítmica~\eqref{eq:log_vero_biv_prod_red}
-\begin{equation}\label{eq:log_vero_biv_prod_red_L_fixo}
-\begin{split}
-\ell(\bm z_1, \bm z_2;\rho, \Sigma_{11}, \Sigma_{22})&=n\left[- \ln(1-|\rho|^2)-(L-1)\ln|\rho|\right. \\
-	                    &-\left.\frac{L+1}{2}\ln\Sigma_{11}-\frac{L+1}{2}\ln\Sigma_{22}\right] \\
-                        &-\frac{L}{\Sigma_{11}(1-|\rho|^2)}\sum_{k=1}^{n}z^1_k-\frac{L}{\Sigma_{22}(1-|\rho|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{L-1}\left(2L\sqrt{\frac{z^1_kz^2_k}{\Sigma_{11}\Sigma_{22}}}\frac{|\rho|}{1-|\rho|^2}\right)
-\end{split}
- \end{equation}
-
-A log-verossimilhança no ponto $j$ usando os parâmetros estimados é
-\begin{equation}\label{eq:TotalLogLikelihood_biv_prod}
-\begin{split}
-\ell(j;\widehat{\rho}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E})&=n\left[-\ln(1-|\widehat{\rho}_\text{I}|^2)-(\widehat{L}_\text{I}-1)\ln|\widehat{\rho}_\text{I}|\right. \\
-	&\left.-\frac{\widehat{L}_\text{I} + 1}{2}\ln \widehat\Sigma^\text{I}_{11}-\frac{\widehat{L}_\text{I}+1}{2}\ln \widehat\Sigma^\text{I}_{22} \right]\\
-                        &-\frac{\widehat{L}_\text{I}}{\widehat\Sigma^\text{I}_{11}(1-|\widehat{\rho}_\text{I}|^2)}\sum_{k=1}^{n}z^1_k-\frac{\widehat{L}_\text{I}}{\widehat\Sigma^\text{I}_{22}(1-|\widehat{\rho}_\text{I}|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{I}-1}\left(2\widehat{L}_\text{I}\sqrt{\frac{z^1_kz^2_k}{\widehat\Sigma^\text{I}_{11}\widehat\Sigma^\text{I}_{22}}}\frac{|\widehat{\rho}_\text{I}|}{1-|\widehat{\rho}_\text{I}|^2}\right)\\
-	&+n\left[-\ln(1-|\widehat{\rho}_\text{E}|^2)-(\widehat{L}_\text{E}-1)\ln|\widehat{\rho}_\text{E}|\right. \\
-&\left.-\frac{\widehat{L}_\text{E}+1}{2}\ln \widehat\Sigma^\text{E}_{11}-\frac{\widehat{L}_\text{E} + 1}{2}\ln \widehat\Sigma^\text{E}_{22} \right]\\    
-                        &-\frac{\widehat{L}_\text{E}}{\widehat\Sigma^\text{E}_{11}(1-|\widehat{\rho}_\text{E}|^2)}\sum_{k=1}^{n}z^1_k-\frac{\widehat{L}_\text{E}}{\widehat\Sigma^\text{E}_{22}(1-|\widehat{\rho}_\text{E}|^2)}\sum_{k=1}^{n}z^2_k\\
-	&+\sum_{k=1}^{n}\ln I_{\widehat{L}_\text{E}-1}\left(2\widehat{L}_\text{E}\sqrt{\frac{z^1_kz^2_k}{\widehat\Sigma^\text{E}_{11}\widehat\Sigma^\text{E}_{22}}}\frac{|\widehat{\rho}_\text{E}|}{1-|\widehat{\rho}_\text{E}|^2}\right),
-\end{split}
-\end{equation}
-onde podemos aplicar o método GenSA para encontrar
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\rho}_\text{I}, \widehat{\Sigma}_{11}^\text{I}, \widehat{\Sigma}_{22}^\text{I}, \widehat{\rho}_\text{E}, \widehat{\Sigma}_{11}^\text{E},\widehat{\Sigma}_{22}^\text{E}),
-$$ 
-onde $\min_s$ é o tamanho da folga em cada extremidade da amostra definida empiricamente.
+onde $\min_s$ é uma folga mínima definida empiricamente para as extremidades da amostra. A escolha do número de pixeis da amostra pode variar de acordo com a ROI, com o canal, ou com o tipo de sensor para aquisição de imagem.
