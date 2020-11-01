@@ -1,7 +1,19 @@
 \chapter{Metodologia}\label{metodologia}
+
 Com o objetivo de apresentar os aspectos metodológicos e teóricos desta tese, optou-se por organizar este capítulo em seções que se inter-relacionam para fornecer a descrição dos modelos, das detecção de bordas e das abordagens para a fusão das evidências de bordas. 
 \section{Modelagem estatística para dados PolSAR}\label{cap_model_estatistica}
+
+%%% ACF Diga logo em qual texto você se baseou para escrever esta parte
+
 Os sistemas PolSAR transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel, a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem no sistema SAR a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
+
+%%% ACF Eu gosto mais do espaçamento que se obtem usando \bmatrix do pacote amsmath. Veja o que acha:
+%$$
+%\begin{bmatrix}
+%E_\text{h}^\text{r}   \\
+%E_\text{v}^\text{r}
+%\end{bmatrix}
+%$$
 
 A transformação pode ser representada como
 \begin{equation*}
@@ -33,10 +45,11 @@ A matriz de espalhamento complexa $\mathbf{S}$ é definida por
 	S_\text{hh}   & S_\text{hv}   \\
 	S_\text{vh}   & S_\text{vv}   \\
 \end{array}
-\right],
-\end{equation}\index{Matriz de Espalhamento}
+\right],\index{Matriz de Espalhamento}
+\end{equation}
 onde as entradas da matriz $S_\text{i,j}$ são os coeficientes de espalhamento complexo, tal que os índices i e j são associados ao  recebimento e a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_\text{hv}$ está associado a onda transmitida na direção vertical (v) e recebida na direção horizontal (h).
 
+%%% ACF Escreva esse parágrafo de forma direta, se necessário em mais de uma frase
 Definindo a diagonal principal da matriz de espalhamento por co-polarização pois relaciona a polarização das ondas transmitidas e recebidas nas mesmas direções, e a os elementos da diagonal secundária da matriz de espalhamento por polarização cruzada relacionando os estados de polarizações ortogonais.
 % ver~\citep{lp}.
  
@@ -46,17 +59,19 @@ A potência total espalhada no caso de um sistema de radar polarimétrico é o c
 \begin{equation}\label{span_geral}
 \mathit{Span}(\mathbf{S}) = \traco(\mathbf{S}\mathbf{S}^H)=|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2,
 \end{equation}\index{Span}
-onde o operador $\traco(\cdot)$ é o traço de uma matriz.
+onde o operador $\traco(\cdot)$ é o traço de uma matriz, e o superíndice $H$ denota o a matriz transposta conjugada.
 
 
 \subsection{Matriz de coerência polarimétrica de Pauli ($\mathbf{T}_4$) e matriz de covariância lexicográfica ($\mathbf{C}_4$)}
-A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor,
+A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor
 \begin{equation}\label{def_vet_espalhamento_4d}
 \mathbf{k}=\frac{1}{2}\left[\traco(\mathbf{S}\Psi_1)\quad\traco(\mathbf{S}\Psi_2)\quad \traco(\mathbf{S}\Psi_3)\quad \traco(\mathbf{S}\Psi_4)\right]^T,
 \end{equation}
 onde $\{\Psi_i\}_{i=1}^4$ é uma base para o espaço das matrizes hermitianas $2\times 2$.
 
-Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos escolher duas bases, a primeira chamada de  base de Pauli,
+Diferentes bases para o mesmo espaço das matrizes podem ser definidas.
+Vamos escolher duas bases, a primeira chamada de  base de Pauli:
+%%% ACF Os "labels" de equações devem ir no final, caso contrário pode bagunçar a numeração. Revise tudo.
 \begin{equation}\label{base_de_pauli_4d}
 \{\Psi_P\} = \left\{
 \sqrt{2}\left[\begin{array}{cc}
@@ -77,7 +92,7 @@ Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos es
 \end{array}\right]
 \right\},
 \end{equation}\index{Base de Pauli de dimensão 4}
-e a segunda chamada de base lexicográfica,
+e a segunda chamada de base lexicográfica:
 \begin{equation}\label{base_lexicografica_4d}
 \{\Psi_L\} = \left\{
 2\left[\begin{array}{cc}
@@ -138,7 +153,8 @@ A matriz de espalhamento pode ser relacionada com os vetores \eqref{vetor_pauli_
 
 As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_4d} e \eqref{base_lexicografica_4d} ajustam a norma dos vetores de espalhamento para serem iguais, independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 4, isto é, se $\mathbf{u}$ e $\mathbf{v}$ são vetores complexos, o produto interno é $\mathbf{u}^\text{H}\mathbf{v}$.
 
-Podemos assim garantir a invariância do 
+%%% ACF A seguinte equação fica com melhor espaçamento usando "align"
+Podemos assim garantir a invariância do \textit{span}:
 \begin{equation}\label{span_invariante}
 \begin{array}{ccccc}
 \mathit{Span}(\mathbf{S}) &=&\traco(\mathbf{S}\mathbf{S}^\text{H})&=&|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2  \\
@@ -147,7 +163,8 @@ Podemos assim garantir a invariância do
 \end{array}
 \end{equation}
 
-A matriz unitária $\mathbf{U}_4$ é definida como a representação matricial da transformação linear que aplica o vetor na base lexicográfica em um vetor na base de Pauli. Podemos gerar a  matriz unitária colocando nas linhas da matriz os elementos da base de Pauli, portanto
+A matriz unitária $\mathbf{U}_4$ é a representação matricial da transformação linear que aplica o vetor na base lexicográfica em um vetor na base de Pauli. 
+Podemos gerar a  matriz unitária colocando nas linhas da matriz os elementos da base de Pauli:
 \begin{equation}\label{matriz_unit_su4}
 \mathbf{U}_4=	\frac{1}{\sqrt{2}}	
 \left[
@@ -160,7 +177,7 @@ A matriz unitária $\mathbf{U}_4$ é definida como a representação matricial d
 \right].
 \end{equation}
 
-A transformação linear $\mathbf{k}=\mathbf{U}_4\mathbf{\Omega}$, representada na forma matricial,
+A transformação linear $\mathbf{k}=\mathbf{U}_4\mathbf{\Omega}$, representada em forma matricial
 \begin{equation}\label{trans_matriz_unit_su4}
 \frac{1}{\sqrt{2}}\left[
 \begin{array}{c}
@@ -200,6 +217,7 @@ A matriz de coerência polarimétrica de Pauli é definida por,
 	k_4\bar{k}_1  & k_4\bar{k}_2  & k_4\bar{k}_3  & |k_4|^2   \\
 \end{array}
 \right],
+%%% ACF Definiu $\bar{k}$?
 \end{equation}\index{Matriz polarimétrica de Pauli $4\times 4$}
 e a matriz de covariância lexicográfica
 \begin{equation}\label{matriz_covar_lexic}
@@ -234,15 +252,20 @@ lembrando que $\mathbf{U_4}$ é unitária, e o traço é a soma dos autovalores 
 \end{array}
 \end{equation}
 \subsection{Matriz de coerência polarimétrica de Pauli ($\mathbf{T}_3$) e matriz de covariância lexicográfica ($\mathbf{C}_3$)}
-Podemos entender as interações das ondas eletromagnéticas em alvos naturais sob a ótica do teorema da reciprocidade, o qual considera o meio reciproco. De uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos, e mono-estáticos, ou seja, consideramos o sistema de coordenada BSA - \textit{Back Scattering Alignment} . Em meio reciproco podemos definir a igualdade dos termos de polarização cruzada $S_\text{hv}=S_\text{vh}$. Veja \citet{lp}. 
 
-A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor,
+Podemos entender as interações das ondas eletromagnéticas em alvos naturais sob a ótica do teorema da reciprocidade, o qual considera que o meio é recíproco. 
+De uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos, e mono-estáticos, ou seja, consideramos o sistema de coordenada BSA - \textit{Back Scattering Alignment}. 
+Em meio recíprocos podemos definir a igualdade dos termos de polarização cruzada $S_\text{hv}=S_\text{vh}$; ver \citet{lp}. 
+
+A matriz de espalhamento $\mathbf{S}$ pode ser representada pelo vetor
 \begin{equation}\label{def_vet_espalhamento_3d}
 \mathbf{k}=\frac{1}{2}\left[\traco(S\Psi_1)\quad\traco(S\Psi_2)\quad \traco(S\Psi_3)\right]^T,
 \end{equation}
 onde $\{\Psi_i\}_{i=1}^3$ é uma base para o espaço das matrizes hermitianas $2\times 2$.
 
-Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos escolher duas bases, a primeira chamada de  base de Pauli,
+%%% ACF Aqui faça uma transição. Deixe claro que as bases lexicográfica e de Pauli vistas antes são 4D, e que aqui as veremos para 3D. Evite que pareça copiar-colar
+
+Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos escolher duas bases, a primeira chamada base de Pauli:
 \begin{equation}\label{base_de_pauli_3d}
 \{\Psi_P\} = \left\{
 \sqrt{2}\left[\begin{array}{cc}
@@ -259,7 +282,7 @@ Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos es
 \end{array}\right]
 \right\},
 \end{equation}\index{Base de Pauli de dimensão 3}
-e a segunda chamada de base lexicográfica
+e a segunda chamada base lexicográfica:
 \begin{equation}\label{base_lexicografica_3d}
 \{\Psi_L\} = \left\{
 2\left[\begin{array}{cc}
@@ -394,54 +417,69 @@ Portanto podemos afirmar, se
 \end{array}
 \right],
 \end{equation}
-a potência total espalhada no caso de um sistema de radar polarimétrico em meio recíproco pode ser definido por
+a potência total espalhada no caso de um sistema de radar polarimétrico em meio recíproco é, então:
 \begin{equation}\label{span_geral}
 \mathit{Span} = \traco(\mathbf{SS}^\text{H})=|S_\text{hh}|^2+2|S_\text{hv}|^2+|S_\text{vv}|^2.
 \end{equation}
 
 \subsection{Estatística do Ruído \textit{Speckle} no processo de única visada}\index{O ruído \textit{Speckle}}
-As imagens SAR e PolSAR possuem um tipo de ruído multiplicativo chamado \textit{speckle}, conhecido por causar variação de intensidade pixel a pixel, imprimindo um aspecto granular as imagens.  
+As imagens SAR e PolSAR possuem um tipo de ruído multiplicativo chamado \textit{speckle}, conhecido por causar variação de intensidade pixel a pixel, que lhes imprime um aspecto granular.  
 
 O \textit{speckle} dificulta a interpretação e análise das imagens reduzindo a efetividade da segmentação, classificação, ou detecção de mudanças de características das imagens SAR e PolSAR. O entendimento do comportamento estatístico do \textit{speckle} é essencial para extrair boas informações das imagens e propor algoritmos efetivos para tratar esse tipo de ruído. 
 
 Neste trabalho usaremos as características do ruído \textit{speckle} para auxiliar na detecção de borda, em oposição a trabalhos que tentam mitigar o efeito do ruído.
+
+%%% ACF O speckle é inerente a todo tipo de iluminação coerente. 
   
-A formação do \textit{speckle} surge quando o radar ilumina uma superfície rugosa, como florestas, plantações, áreas urbanas, e etc, então o sinal de retorno consiste em ondas refletidas com muitos elementos de espalhamentos. Os elementos de espalhamento têm geometrias complexas e distribuições aleatórias, tornando a modelagem estatística uma tarefa indispensável e desafiadora. Podemos considerar três tipos de processos de espalhamento da onda em alvos (elementos de espalhamento). A dispersão de superfície, a dispersão de volume, e o espalhamento de volume-superfície. O primeiro é o espalhamento que acontece quando a onda eletromagnética atravessa uma mudança de meio de propagação. O segundo, consiste no espalhamento que acontece na profundidade de um meio, por exemplo, o espalhamento no interior de uma floresta. E por último, o espalhamento volume-superfície, que consiste em a onda atingir outra troca de meio de propagação, por exemplo o solo de uma floresta.
+O \textit{speckle} surge quando o radar ilumina uma superfície rugosa, como florestas, plantações, áreas urbanas, e etc, então o sinal de retorno consiste em ondas refletidas com muitos elementos de espalhamentos. Os elementos de espalhamento têm geometrias complexas e distribuições aleatórias, tornando a modelagem estatística uma tarefa indispensável e desafiadora. 
+
+Podemos considerar três tipos de processos de espalhamento da onda em alvos (elementos de espalhamento): dispersão de superfície, dispersão de volume, e o espalhamento de volume-superfície. 
+O primeiro é o espalhamento que acontece quando a onda eletromagnética atravessa uma mudança de meio de propagação. 
+O segundo consiste no espalhamento que acontece na profundidade de um meio, por exemplo, o espalhamento no interior de uma floresta. 
+Por último, o espalhamento volume-superfície consiste em a onda atingir outro de meio de propagação, por exemplo o solo de uma floresta.
  
- As distância entre os elementos de espalhamento e o recebimento no radar varia devido a natureza randômica da disposição desse elemento. A onda recebida de cada elemento espalhador embora coerente em frequência não são coerentes em fase. O sinal é forte se as ondas são construtivas, ou seja em fase, e fraco se a ondas não estão em fase.
+As distância entre os elementos de espalhamento e o recebimento no radar varia devido a natureza randômica da disposição desses elementos. 
+As ondas recebidas de cada elemento espalhador, embora coerentes em frequência, não são coerentes em fase. 
+O sinal é forte se as ondas são construtivas, ou seja em fase, e fraco se a ondas não estão em fase, ou seja se estão espalhadas de forma destrutiva.
  
-Podemos escrever um sinal complexo da seguinte forma.
+Podemos escrever um sinal complexo da seguinte forma:
 \begin{equation}\label{eq:speckle_soma}
 \sum_{i=1}^{M}(x_i+\hat{\jmath} y_i)=\sum_{i=1}^{M}x_i+\hat{\jmath}\sum_{i=1}^{M} y_i=x+\hat{\jmath} y=r\exp(\hat{\jmath}\theta),
 \end{equation}
-onde,~$x_i+\hat{\jmath} y_i$ é o retorno do espalhamento para cada elemento $i$, se existem $M$ elementos espalhadores então $x+\hat{\jmath}y$ é soma destes elementos, e $r\exp(\hat{\jmath}\theta)$ é a decomposição de Euler para o número complexo $x+\hat{\jmath}y$.
+onde $x_i+\hat{\jmath} y_i$ é o retorno do espalhamento para cada elemento $i$.
+Se o sinal é resultante da interação de $M$ elementos espalhadores, então $x+\hat{\jmath}y$ é soma destes elementos, e $r\exp(\hat{\jmath}\theta)$ é a decomposição de Euler para o número complexo $x+\hat{\jmath}y$.
+
 \subsubsection{Modelo de Rayleigh para o \textit{speckle}}
-Definir um modelo para o \textit{speckle} é muito importante na tarefa de obter informação de imagens SAR e PolSAR. Com esse objetivo, podemos determinar as seguintes condições para a modelagem:
+
+Definir um modelo para o \textit{speckle} é muito importante na tarefa de obter informação de imagens SAR e PolSAR. 
+Com esse objetivo, estipulamos as seguintes condições para a modelagem de áreas homogêneas:
 \begin{itemize}
-\item Um número grande de espalhadores em uma região (célula de resolução) considerada um meio homogêneo.
-\item A distância de alcançe é muito maior que o comprimento de onda do radar.
+\item Há um número muito grande de espalhadores na célula de resolução.
+\item A distância entre eles é muito menor que o comprimento de onda do radar.
 \item A superfície tem maior rugosidade na escala do comprimento de onda de um radar.
 \end{itemize}
+Os trabalhos de \citet{AGeneralizedGaussianCoherentScattererModelforCorrelatedSARTexture,SARImageStatisticalModelingPartISinglePixelStatisticalModels} fazem uma análise detalhada dessas e de outras condições, bem como das distribuições resultantes.
 
 O \textit{speckle} totalmente desenvolvido é definido utilizando o vetor soma \eqref{eq:speckle_soma} para os retornos dos espalhamentos de alvos de forma que a sua fase seja distribuída uniformemente no intervalo $(-\pi,\pi)$. 
 
-O teorema do limite central para o \textit{speckle} totalmente desenvolvido garante que as componentes $x$ e $y$ sejam gaussianas independentes e identicamente distribuídas com média zero e variância $\frac{\sigma^2}{2}$. Podemos representar a sua função densidade de probabilidade conjunta por,
+O teorema central do limite para o \textit{speckle} totalmente desenvolvido garante que as componentes $x$ e $y$ sejam gaussianas, independentes e identicamente distribuídas com média zero e variância $\frac{\sigma^2}{2}$. 
+A sua função densidade de probabilidade conjunta é dada por
 \begin{equation}\label{eq:pdf_gaussiana_xy}
 \begin{split}
   f_{XY}(x,y;\sigma^2)&=f_X(x;\sigma^2)f_Y(y;\sigma^2)\\
-  &=\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{x^2}{\sigma^2}\right)\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{y^2}{\sigma^2}\right)=\frac{1}{\pi\sigma^2}\exp\left(-\frac{x^2+y^2}{\sigma^2}\right),
+  &=\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{x^2}{\sigma^2}\right)\frac{1}{\sqrt{\pi}\sigma}\exp\left(-\frac{y^2}{\sigma^2}\right)=\frac{1}{\pi\sigma^2}\exp\left(-\frac{x^2+y^2}{\sigma^2}\right).
  \end{split}
  \end{equation}
-sendo $x=z_A\cos\theta$, e $y=z_A\sin\theta$ teremos,
+Fazendo $x=z_A\cos\theta$, e $y=z_A\sin\theta$ teremos
 \begin{equation}\label{eq:pdf_gaussiana_Atheta}
-f_{A}(z_A;\sigma^2)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2(\cos^2\theta+\sin^2\theta}{\sigma^2}\right)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right).
+f_{A}(z_A;\sigma^2)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2(\cos^2\theta+\sin^2\theta)}{\sigma^2}\right)=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right).
 \end{equation}
 
-Integrando na variável $\theta$ no intervalo de $[-\pi,\pi]$ encontramos a distribuição para a amplitude.
+Integrando na variável $\theta$ no intervalo de $(-\pi,\pi)$ encontramos a distribuição para a amplitude.
 \begin{equation}\nonumber
 f_A(z_A;\sigma^2)=\int_{-\pi}^{\pi}\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right)d\theta=\frac{z_A}{\pi\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right)\int_{-\pi}^{\pi}d\theta,
 \end{equation}
-definida como a distribuição Rayleigh com PDF
+que é a distribuição Rayleigh, caracterizada pela função de densidade de probabilidade
 \begin{equation}\nonumber
 f_A(z_A;\sigma^2)=\frac{2z_A}{\sigma^2}\exp\left(-\frac{z_A^2}{\sigma^2}\right).
 \end{equation}
@@ -459,37 +497,46 @@ com o objetivo de calcular a variância
 \text{var}=E[z_A^2]-E[z_A]^2=\sigma^2-\left(\frac{\sqrt{\pi}\sigma}{2}\right)^2=\sigma^2-\frac{\pi\sigma^2}{4}.
 \end{equation}
 
-O coeficiente de variação pode ser calculado por 
+O coeficiente de variação é, portanto: 
 \begin{equation}\label{eq:coef_var_1_visada}
 \text{CV}(Z_A) =\frac{\sqrt{\text{var}}}{E[A]}=\frac{\sqrt{\sigma^2-\frac{\pi\sigma^2}{4}}}{\frac{\sqrt{\pi}\sigma}{2}}=\sqrt{\frac{\sigma^2-\frac{\pi\sigma^2}{4}}{\frac{\pi\sigma^2}{4}}}=\sqrt{\frac{4}{\pi}-1}=0,5227.
 \end{equation}
 
-A intensidade é definida por $z_I=z_A^2$, então sua função densidade de probabilidade é escrita por, 
-\begin{equation}\nonumber
+A intensidade é definida por $z_I=z_A^2$, então sua função densidade de probabilidade é: 
+\begin{equation}
 f_I(z_I;\sigma^2)=\frac{1}{\sigma^2}\exp\left(-\frac{z_I}{\sigma^2}\right),
+\label{eq:DensidadeExponencial}
 \end{equation}
 calculando $E[I]=\sigma^2$, e $E[I^2]=2\sigma^2$, teremos a variância $\text{var}=\sigma^4$, e o coeficiente de variação  $\text{CV}(Z_I)=\frac{\sqrt{\sigma^2}}{\sigma^2}=1$. 
 
 Comparando os valores $\text{CV}(Z_A)$ e $\text{CV}(Z_I)$ podemos afirmar que o valor do \textit{speckle} á mais pronunciado nas imagens de intensidade em relação com as imagens de amplitude.
+Em ambos casos, o coeficiente de variação é constante, portanto não é possível melhorar a relação sinal-ruído aumentando o valor médio da imagem.
 
 \subsection{Estatística do ruído \textit{Speckle} no processo de múltiplas visadas}
-O processo de redução do ruído \textit{speckle} consiste em realizar a média aritmética de vários sinais de retorno, processo conhecido por múltiplas visadas. O método pode ser descrito como adquirir L imagens e realizar a média aritmética das mesmas. 
+O processo de redução do ruído \textit{speckle} consiste em realizar a média aritmética de vários sinais de retorno, processo conhecido por múltiplas visadas. 
+O método é análogo ao de adquirir $L\geq1$ imagens e realizar a média aritmética das mesmas. 
 
-Definimos a função densidade de probabilidade para os canais de intensidades com múltiplas visadas por,    
-\begin{equation}\label{pdf_inten_multilook}
+Sob a hipótese da eq.~\eqref{eq:DensidadeExponencial} decorre que a função densidade de probabilidade para os canais de intensidades com múltiplas visadas é dada por
+\begin{equation}
 f_I(z_I;L,\sigma^2)=\frac{L^L z_I^{L-1}}{(L-1)!\sigma^{2L}}\exp\left(-L\frac{z_I}{\sigma^2}\right), z_I\geq 0.
+\label{pdf_inten_multilook}
 \end{equation}
+Assim, a intensidade multilook obedece uma distribuição gama.
 
-A média e a variância são respectivamente, $\text{M}_L(z_I)=\sigma^2$, $\text{var}_L(z_I)=\frac{\sigma^4}{L}$ implicando que o desvio padrão será $\text{SD}_L(z_I)=\frac{\sigma^2}{\sqrt{L}}$. O coeficiente de variação é calculado pela razão entre o desvio padrão e a média, resultando para o caso de múltiplas visadas em $\text{CV}_L(z_I)=\frac{1}{\sqrt{L}}$. Podemos observar que o coeficiente de variação é reduzido por $\sqrt{L}$ com relação ao processo de visada simples.
+%%% ACF Aqui mudou a notação para média e variância. Não pode! Unifique!
+A média e a variância são respectivamente, $\text{M}_L(z_I)=\sigma^2$, $\text{var}_L(z_I)=\frac{\sigma^4}{L}$ implicando que o desvio padrão será $\text{SD}_L(z_I)=\frac{\sigma^2}{\sqrt{L}}$. 
+%%% ACF Leve a definição do CV para o local onde ele é usado pela primeira vez
+O coeficiente de variação é calculado pela razão entre o desvio padrão e a média, resultando para o caso de múltiplas visadas em $\text{CV}_L(z_I)=\frac{1}{\sqrt{L}}$. Podemos observar que o coeficiente de variação é reduzido por $\sqrt{L}$ com relação ao processo de visada simples.
 
-A função densidade de probabilidade para os canais de amplitude com múltiplas visadas, pode ser definida como,    
+A função densidade de probabilidade para os canais de amplitude com múltiplas visadas, pode ser definida como
+%%% ACF Ao invés de fatoria, defina usando a função gama de Euler
 \begin{equation}\label{pdf_inten_multilook}
 f_A(z_A;L,\sigma^2)=\frac{2L^L z_A^{2L-1}}{(L-1)!\sigma^{2L}}\exp\left(-L\frac{z_A^2}{\sigma^2}\right), z_A\geq 0.
 \end{equation}
 
 A média e a variância são $\text{M}_L(z_A)=\frac{\Gamma\left(L+\frac{1}{2}\right)}{\Gamma}\sqrt{\frac{\sigma^2}{L}}$ e $\text{var}_L(z_A)=\left(L-\frac{\Gamma^2\left(L+\frac{1}{2}\right)}{\Gamma^2(L)}\right)\frac{\sigma^2}{L}$ respectivamente. Assim, o coeficiente de variação $\text{CV}_L(z_A)=\sqrt{\frac{L\Gamma^2(L)}{\Gamma^2\left(L+\frac{1}{2}\right)}-1}$ é calculado para os canais de amplitude, sendo que $\Gamma$ denota a função gamma.
 
-A tabela~\eqref{tab:cv_multilook} mostra os coeficientes de variações para os canais de intensidades e amplitudes,
+A tabela~\ref{tab:cv_multilook} mostra os coeficientes de variações para os canais de intensidades e amplitudes,
 \begin{table}[hbt]
 	\centering
 	\caption{Coeficientes de variação.}\label{tab:cv_multilook}
@@ -506,6 +553,8 @@ A tabela~\eqref{tab:cv_multilook} mostra os coeficientes de variações para os 
 \end{tabular}
 \end{table}
 
+%%% ACF Conhecemos outras distribuções marginais. Talvez seja aqui o lugar para descrevê-las.
+
 \section{Matriz de covariância}
 A matriz de espalhamento hermitiana em meio recíproco $\mathbf{S}$ definida em \eqref{matriz_de_espalhamento}, 
 \begin{equation}\nonumber
@@ -516,7 +565,7 @@ A matriz de espalhamento hermitiana em meio recíproco $\mathbf{S}$ definida em 
 \end{array}
 \right],
 \end{equation}
-que respeita o teorema da reciprocidade para meios recíprocos pode ser representa por um vetor da seguinte forma
+que respeita o teorema da reciprocidade para meios recíprocos, pode ser representada por um vetor da seguinte forma
 \begin{equation}\label{vetor_de_espalhamento_vet_3d}
 \mathbf{s} = \left[
 \begin{array}{c}
@@ -527,8 +576,8 @@ que respeita o teorema da reciprocidade para meios recíprocos pode ser represen
 \right].
 \end{equation}
 
-Nas imagens PolSAR serão consideradas três componentes para o vetor $$\mathbf{s}=[S_\text{hh},S_\text{vh},S_\text{vv}]^\text{H}$$ e a multiplicação de $\mathbf{s}$ pelo seu conjugado transposto $\mathbf{s}^H$ é, 
-
+%%% ACF Mudou a notação de H, é ou não itálico? Revise tudo.
+Nas imagens PolSAR serão consideradas três componentes para o vetor $$\mathbf{s}=[S_\text{hh},S_\text{vh},S_\text{vv}]^\text{H}$$ e a multiplicação de $\mathbf{s}$ pelo seu conjugado transposto $\mathbf{s}^H$ é 
 \begin{equation}\label{eq:mat_sim_dim_3}
 \mathbf{s}\mathbf{s}^\text{H} = \left[
 \begin{array}{c}
@@ -552,7 +601,7 @@ Nas imagens PolSAR serão consideradas três componentes para o vetor $$\mathbf{
 \end{equation}
 
 
-Definindo $S_j= R_j+\hat{\imath}I_j$, onde $j=\{\text{hh},\text{hv},\text{vv}\}$
+Definindo $S_j= R_j+\hat{\imath}I_j$, onde $j=\{\text{hh},\text{hv},\text{vv}\}$, temos que
 \begin{equation}\nonumber
 \begin{array}{ccc}
 S_j\overline{S}_j&=& (R_j+\hat{\imath}I_j)\overline{(R_j+\hat{\imath}I_j)}, \\
@@ -564,7 +613,7 @@ S_j\overline{S}_j&=& (R_j+\hat{\imath}I_j)\overline{(R_j+\hat{\imath}I_j)}, \\
 portanto,
 \begin{equation}\nonumber
 \begin{array}{ccc}
-S_j\overline{S}_j&=& R_j^2+I_j^2, \\
+S_j\overline{S}_j&=& R_j^2+I_j^2
 \end{array}
 \end{equation}
 é um numero real, assim o seu conjugado é próprio número real. 
@@ -599,14 +648,14 @@ assim
 \overline{S_k\overline{S}}_j&=&(R_kR_j+I_kI_j)+\hat{\imath}(R_kI_j-R_jI_k),\\
 \end{array}
 \end{equation}
-com as igualdade,
+com as igualdades
 \begin{equation}\label{eqn6}
 \begin{array}{ccc}
 	S_j\overline{S}_j&=&\overline{S_j\overline{S}}_j,\\
 	S_j\overline{S}_k&=&\overline{S_k\overline{S}}_j,\\
 \end{array}
 \end{equation}
-para cada $j$ e $k$ no conjunto das polarizações, concluímos que $\mathbf{s}\mathbf{s}^H$ é simétrica, portanto podemos afirmar que a matriz $athbf{\Sigma}$ definida por,
+para cada $j$ e $k$ no conjunto das polarizações, concluímos que $\mathbf{s}\mathbf{s}^H$ é simétrica, portanto podemos afirmar que a matriz $\mathbf{\Sigma}$ definida por,
 \begin{equation}\label{eq:matriz_cov_3_vetor}
 	\mathbf{\Sigma} = E[\mathbf{ss}^\text{H}] = \left[
 \begin{array}{ccc}
@@ -618,7 +667,8 @@ E[S_\text{vv}\overline{S}_\text{hh}]  & E[S_\text{vv}\overline{S}_\text{hv}] & E
 \end{equation}
 é uma matriz simétrica, onde $E[\cdot]$ denota o valor esperado.
 
-Neste trabalho é necessário considerar a distribuição gaussiana circular complexa multivariada com média zero. Definida de acordo com \citet{goodman} ou \cite{good} por:
+Neste trabalho é necessário considerar a distribuição gaussiana circular complexa multivariada com média zero. 
+Definida de acordo com \citet{goodman,good}, ela é caracterizada pelas seguintes propriedades:
 \begin{itemize}\label{def:gauss_circular}
 	\item  $E[R_{j}]=E[I_{j}]=0,$
 	\item  $E[R_j^2]=E[I_j^2],$ 
@@ -628,32 +678,41 @@ Neste trabalho é necessário considerar a distribuição gaussiana circular com
 \end{itemize}
 onde, $E[\cdot]$ denota o valor esperado, e $j,k$ são índices no conjunto das polarizações. 
 
-\section{Função Wishart densidade de probabilidade para os canais de intensidades}
+\section{Distribuição de Wishart para os canais de intensidade}
 
-Dados polarimétricos são usualmente sujeitados a um processo de múltiplas visadas com o objetivo de melhorar a relação entre o sinal e o ruído. Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena. Resultando na matriz de covariância amostral estimada {\bf Z} conforme a referências \citet{good, ade},
+Dados polarimétricos usualmente passam por um processo de múltiplas visadas com o objetivo de melhorar a relação entre o sinal e o ruído. 
+Para esse fim, matrizes positivas definidas hermitianas estimadas são obtidas computando a média de $L$ visadas independentes de uma mesma cena, 
+resultando na matriz de covariância amostral estimada {\bf Z} \citep{good, ade}:
 \begin{equation}\label{eq:cov_media_l_visadas}
 \begin{array}{ccc}
     \mathbf{Z}&=&\frac{1}{L}\displaystyle{\sum_{i=1}^{L} {\mathbf{s}_i}{\mathbf{s}_i}^\text{H}}, \\
 \end{array}
 \end{equation}
-onde $\mathbf{s}_i$ com $i = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos distribuídos como $\mathbf{s}$. Desta maneira, a matriz de covariância amostral associada a $\mathbf{s}_i$, com $i=1,\dots,L$ denotam o espalhamento para cada visada $L$ seguindo uma distribuição complexas de Wishart. 
+onde $\mathbf{s}_i$ com $i = 1, \dots, L$ é uma amostra de $\mathit{L}$ vetores complexos independentes e identicamente distribuídos como $\mathbf{s}$. 
+Com isso, a matriz de covariância amostral associada a $\mathbf{s}_i$, em que $i=1,\dots,L$ denota o espalhamento para cada visada $L$, segue uma distribuição complexa de Wishart. 
 
-De acordo com \citet{good} para definir a distribuição Wishart é necessário a hipótese da distribuição ser gaussiana circular complexa multivariada com média zero como definimos acima.
+De acordo com \citet{good} para definir a distribuição Wishart é necessária a hipótese da distribuição ser gaussiana circular complexa multivariada com média zero como definimos acima.
 
-Nas referências \citet{good} e \citet{lee} foi mostrado que a distribuição Wishart pode modelar adequadamente o comportamento estatístico de $\mathbf{s}$. A hipótese de ser gaussiana e circular foi comprovada para dados SAR polarimétricos no artigo \citet{sarabendi}.
+Nas referências \citet{good} e \citet{lee} foi mostrado que a distribuição Wishart pode modelar adequadamente o comportamento estatístico de $\mathbf{s}$, ao menos em alvos para os quais o speckle é completamente desenvolvido. 
+A hipótese de ser gaussiana e circular foi comprovada para dados SAR polarimétricos no artigo de \citet{sarabendi}.
 
-Sendo $\mathbf{\Sigma}$ e $L$ parâmetros conhecidos, a função densidade de probabilidade para a distribuição Wishart é definida por,  
+Sendo $\mathbf{\Sigma}$ e $L$ parâmetros conhecidos, a função densidade de probabilidade para a distribuição Wishart é: 
 %
 \begin{equation}\label{eq:dist_whishart}
     f_{\mathbf{Z}}(\bm z;\mathbf{\Sigma},L)=\frac{L^{mL}|\bm z|^{L-m}}{|\mathbf{\Sigma}|^{L}\Gamma_m(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\bm z)), \\
 \end{equation}
-onde, $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
+onde $\traco(\cdot)$ é o operador traço de uma matriz, $\Gamma_m(L)$ é uma função Gamma multivariada definida por
 \begin{equation}\label{eq:gamma_gen}
-	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i) \\
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
 \end{equation}
-e $\Gamma(\cdot)$ é a função Gamma. Podemos afirmar que $\mathbf{Z}$ é distribuído como uma distribuição Wishart representado por $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, e satisfazendo $E[\mathbf{Z}]=\mathbf{\Sigma}$. Neste trabalho vamos considerar os três canais de intensidades, $m=3$.
+e $\Gamma(\cdot)$ é a função gama. 
+Denotamos esta situação $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$.
+Verifica-se que $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
+Neste trabalho vamos considerar três canais de intensidades, $m=3$.
 
-A figura \eqref{fig:wishart_multi_visadas} mostra a distribuição wishart com os parâmetros fixos $\sigma=0.01$ e o número de visadas $L=2,3,4,8$.  
+%%% ACF Falei para usar \ref ao se referir a figuras e tabelas. Revise tudo!
+%%% ACF Uma distribuição *nunca* se mostra; o que você mostra é outra coisa, reescreva
+A figura~\ref{fig:wishart_multi_visadas} mostra a distribuição wishart com os parâmetros fixos $\sigma=0.01$ e o número de visadas $L=2,3,4,8$.  
 \begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
@@ -661,7 +720,7 @@ A figura \eqref{fig:wishart_multi_visadas} mostra a distribuição wishart com o
 \label{fig:wishart_multi_visadas}
 \end{figure}
 
-Considerando a função densidade de probabilidade da distribuição complexa Wishart \eqref{eq:dist_whishart} vamos usar o logaritmo natural e suas propriedades para reescrever a função na forma adequada para aplicações ao longo do texto, 
+Considerando a função densidade de probabilidade da distribuição complexa Wishart dada em~\eqref{eq:dist_whishart}, vamos usar o logaritmo natural e suas propriedades para reescrever a função na forma adequada para aplicações ao longo do texto:
 \begin{equation}\nonumber
 \begin{array}{lcl}
 \ln{f_{\mathbf{Z}}(\bm z;\mathbf{\Sigma},L)}
@@ -670,11 +729,11 @@ Considerando a função densidade de probabilidade da distribuição complexa Wi
 &=&\ln{\left(L^{mL}|\bm z|^{L-m}\right)} - \ln{\left(|\mathbf{\Sigma}|^{L}\Gamma_m(L)\right)}-L\traco(\mathbf{\Sigma}^{-1}\bm z), \\
 &=&mL\ln{L}+(L-m)\ln|\bm z| - \ln|\mathbf{\Sigma}|^{L}\\
 &-&\ln\Gamma_m(L)-L\traco(\mathbf{\Sigma}^{-1}\mathbf {z}), \\
-&=&mL\ln{L}+L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
-&-&\ln\Gamma_m(L)-L\traco(\mathbf{\Sigma}^{-1}\bm z), \\
+&=&mL\ln{L}+L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|
+-\ln\Gamma_m(L)-L\traco(\mathbf{\Sigma}^{-1}\bm z).
 \end{array}
 \end{equation}
-substituindo a função Gamma multivariada definida na equação \eqref{eq:gamma_gen},
+Substituindo a função gama multivariada definida em~\eqref{eq:gamma_gen},
 \begin{equation}\nonumber
 \begin{array}{lcl}
 	\ln f_\mathbf{Z}(\bm Z;\mathbf{\Sigma},L)
@@ -693,16 +752,25 @@ podemos rescrever a equação da seguinte forma
 \begin{array}{lcl}
 	\ln f_\mathbf{Z}(\bm Z;\mathbf{\Sigma},L)
     &=&mL\ln L +L\ln|\bm z|-m\ln|\bm z| - L\ln|\mathbf{\Sigma}|\\
-        &-&\frac{1}{2}m(m-1)\ln\pi-\sum_{i=0}^{m-1}\ln\Gamma(L-i)-L\traco(\mathbf{\Sigma}^{-1}\bm z),\\
+        &-&\frac{1}{2}m(m-1)\ln\pi-\sum_{i=0}^{m-1}\ln\Gamma(L-i)-L\traco(\mathbf{\Sigma}^{-1}\bm z).
 \end{array}
 \end{equation}
-equação equivalente pode ser encontrada em \citet{fnc2011}.
-\section{Método para detecção das evidências de bordas}
-Os métodos Sobel, Canny, Laplaciano da Gaussiana(LoG) e LoG piramidal são eficientes na detecção de bordas e largamente aplicados em imagens onde o ruido é aditivo. A imagens adquiridas com sensores PolSAR apresentam ruídos do tipo \textit{speckle} tornando esses métodos ineficientes para aplicação nestas imagens. 
+Equação equivalente pode ser encontrada em \citet{fnc2011}.
 
-É necessário construir um ferramental apropriado para esse tipo de imagem, esta seção introduz conceitos baseados nos artigos \citet{nhfc, gmbf} para delinear os métodos de detecção de borda em imagens PolSAR com multiplas visadas. A ideia principal é detectar o ponto de transição em uma faixa tão fina quanto possível entre duas regiões da imagem. O ponto de transição é definido como uma evidência de borda. Os ruídos presentes nestas imagens são do tipo \textit{speckle}, os mesmos têm natureza multiplicativa, tornando a detecção de bordas em imagens SAR uma tarefa desafiadora.
+\section{Métodos para detecção das evidências de bordas}
 
-Nesta seção vamos propor o método \textit{simulated annealing} para detectar o ponto de transição, ou evidência de bordas para os canais de intensidades. Sem perda de generalidade vamos usar o termo evidências de bordas ao longo do texto.
+Os métodos Sobel, Canny, Laplaciano da Gaussiana~(LoG) e LoG piramidal são eficientes na detecção de bordas e largamente aplicados em imagens onde o ruido é aditivo e gaussiano. 
+A imagens adquiridas com sensores PolSAR apresentam ruído \textit{speckle}, tornando esses métodos ineficientes para aplicação nestas imagens. 
+
+É necessário construir um ferramental apropriado para esse tipo de imagens.
+Esta seção introduz conceitos baseados nos artigos de \citet{gmbf} e de \citet{nhfc}  para delinear os métodos de detecção de borda em imagens PolSAR com multiplas visadas. 
+
+A ideia principal é detectar o ponto de transição entre duas regiões em uma faixa de dados tão fina quanto possível. 
+O ponto de transição é considerado uma evidência ou estimativa de borda. 
+A natureza multiplicativa e não gaussiana das observações torna a detecção de bordas em imagens SAR uma tarefa desafiadora.
+
+Nesta seção vamos propor o método \textit{simulated annealing} para detectar o ponto de transição, ou evidência de bordas para os canais de intensidades. 
+Sem perda de generalidade vamos usar a denominação ``evidências de bordas'' ao longo do texto.
  
 O problema de detecção de evidências de bordas em cada canal pode ser resumido em três importantes aspectos:
 \begin{enumerate}
@@ -711,25 +779,31 @@ O problema de detecção de evidências de bordas em cada canal pode ser resumid
 	\item A determinação de uma posição acurada das evidências de bordas. 
 \end{enumerate}
 
-O tamanho da região de interesse é um fator importante, pois, a região pode não conter informações para identificar a presença de evidências de bordas em regiões pequenas, ou em regiões maiores podem obter informações para mais de uma evidência de borda. Assim o tamanho de janela ideal é aquele que contém as informações para detecção de uma borda. 
+O tamanho da região de interesse é um fator importante, pois a região pode não conter informações para identificar a presença de evidências de bordas em regiões pequenas, ou em regiões maiores podem obter informações para mais de uma evidência de borda. Assim o tamanho de janela ideal é aquele que contém as informações para detecção de uma borda. 
 
 Em linhas gerais seguiremos as seguintes diretrizes: 
 \begin{itemize}
 	\item Tentar encontrar faixas finas de dados, idealmente do tamanho de um pixel;
-	\item Será usado o método MLE, juntamente com o método \textit{simulated annealing};
+	\item Usadar o método MLE, juntamente com o método \textit{simulated annealing};
 	\item Detectar evidências de bordas em diferentes canais da imagem PolSAR. 
 \end{itemize}
-
 Para isso vamos definir uma rotina para o método detecção de evidências de bordas nos canais de intensidades:
 \begin{enumerate}
 	\item Identificar o centroide de uma região de interesse (ROI) de maneira automática, semiautomática ou manual;
-	\item Construir raios do centroide para fora da área de interesse;
-	\item Coletar dados nos pixeis definidos como raios;
-	\item Detectar pontos na faixa de dados os quais fornecem evidências de mudanças de propriedades estatística, ou seja, uma transição que define uma evidência de borda;
+	\item Automaticamente:
+	\begin{enumerate} 
+		\item Construir raios do centroide para fora da área de interesse;
+		\item Coletar dados nos pixeis definidos como raios;
+		\item Detectar pontos na faixa de dados os quais fornecem evidências de mudanças de propriedades estatística, ou seja, uma transição que define uma evidência de borda.
+	\end{enumerate}
 \end{enumerate}
 
-A figura \eqref{fig:cap_det_bor_radiais} mostra a região de interesse ROI-$\mathbf{R}$ com centroide $\mathbf{C}$, de onde traçamos raios até um ponto de controle $\mathbf{P}_i$, com $i=1,2,\dots, \mathbf{S}$, estes pontos de controle estão na região externa da ROI-$\mathbf{R}$. Teremos $\mathbf{S}$ raios resultantes representados por $\bm{s}^i	=\overline{\mathbf{CP}}_i$ com ângulos $\epsilon_{i}=\angle(\bm s^i,\bm s^{i+1})$. 
-\begin{figure}[htb!]
+A figura~\ref{fig:cap_det_bor_radiais} mostra a região de interesse ROI-$\mathbf{R}$ com centroide $\mathbf{C}$, de onde traçamos raios até um ponto de controle $\mathbf{P}_i$, 
+%%% ACF \mathbf S foi usado na parte de modelagem PolSAR. Troque a notação.
+com $i=1,2,\dots, \mathbf{S}$, estes pontos de controle estão na região externa da ROI-$\mathbf{R}$. 
+Teremos $\mathbf{S}$ raios resultantes representados por $\bm{s}^i	=\overline{\mathbf{CP}}_i$ com ângulos $\epsilon_{i}=\angle(\bm s^i,\bm s^{i+1})$. 
+
+\begin{figure}[htb]
 \centering
     \begin{tikzpicture}[scale=4.0,cap=round,>=latex]
         \draw[blue, very thick] (0cm,0cm) circle(1cm);
@@ -753,25 +827,32 @@ A figura \eqref{fig:cap_det_bor_radiais} mostra a região de interesse ROI-$\mat
 	\caption{Definições para a ROI na imagem PolSAR.}
 \label{fig:cap_det_bor_radiais}
 \end{figure}
-O algoritmo \textit{Bresenham's midpoint line} é usado para definir a radial e extrair informação de cada pixel correspondente da imagem. 
-\subsection{Estimativa por máxima verossimilhança}\label{metodo_mle_est_param}
-A estimativa por máxima verossimilhança (MLE) estima os parâmetros do modelo estatístico para uma amostra de dados observados.
 
-Suponha $\bm z = (z_1,\dots,z_n)$ um vetor randômico distribuído de acordo com função densidade de probabilidade $f(\bm z,\mathbf{\theta})$ com parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ pertencente ao espaço dos parâmetros $\Theta$. Definimos, então a função de verossimilhança 
+O algoritmo \textit{Bresenham's midpoint line} é usado para definir a radial e extrair informação de cada pixel correspondente da imagem. 
+
+\subsection{Estimativa por máxima verossimilhança}\label{metodo_mle_est_param}
+
+A técnica de máxima verossimilhança (MLE -- \textit{Maximum Likelihood Estimation}) permite estimar os parâmetros de um modelo estatístico usando uma amostra de dados observados.
+Essa técnica é desejável por apresentar boas propriedades em relação a outras abordagens.
+
+Suponha $\bm z = (z_1,\dots,z_n)$ um vetor de variáveis aleatórias independentes e identicamente distribuídas segundo uma distribuição caracterizada pela função de densidade de probabilidade $f(\bm z,\mathbf{\theta})$ que, por sua vez, é indexada pelos parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ pertencentes ao espaço paramêtrico $\Theta$. 
+Definimos, então a função de verossimilhança 
 \begin{equation}\label{eq:funcao_de_verossimilhanca_theta}
    L(\theta;\bm z) = \prod_{k=1}^{n}f(z_k;\theta), 
 \end{equation}
 e a função log-verossimilhança  
 \begin{equation}\label{eq:funcao_de_log_verossimilhanca_theta}
-	\mathcal{L}(\theta;\bm z)= \ln L(\theta;\bm z)  = \sum_{k=1}^{n}\ln f(z_k;\theta). \\
+	\mathcal{L}(\theta;\bm z)= \ln L(\theta;\bm z)  = \sum_{k=1}^{n}\ln f(z_k;\theta).
 \end{equation}
 
 O vetor de parâmetros $\theta$ é estimado pelo vetor $\widehat{\theta}$ tal que $\mathcal{L}(\widehat{\theta};\bm z)\ge \mathcal{L}(\theta;\bm z)$ para todo $\theta$ no espaço dos parâmetros $\Theta$. A estimativa de máxima verossimilhança pode ser representada por 
 \begin{equation}\label{eq:max_vetor_log_theta}
-    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}\mathcal{L}(\theta;\bm z).\\
+    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}\mathcal{L}(\theta;\bm z),
 \end{equation}
-%
+em que $\bm z$ agora denota as observações.
+
 \subsection{A máxima verossimilhança usando os parâmetros estimados}\label{sec:sub:mle_param_estimados}
+
 Cada linha radial $\bm z = (z_1,z_2,\dots,z_n)$ é particionada em duas amostras disjuntas na posição $j$,
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
@@ -785,28 +866,33 @@ O método MLE, descrito na seção \eqref{metodo_mle_est_param}, é aplicado nas
 
 A função de verossimilhança é definida no ponto $j$ de acordo com a função
 \begin{equation}\label{eq:vero_prod_int_ext}
-	L(j)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k) \prod_{k=j+1}^{n}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k). \\
+	L(j; \bm z)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k) \prod_{k=j+1}^{n}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
 \end{equation}
 
-Usando propriedades de logaritmos naturais para cada termo do produtório \eqref{eq:vero_prod_int_ext} é definido a função log-verossimilhança total dependendo de $j$,
+Usando propriedades de logaritmos naturais para cada termo do produtório \eqref{eq:vero_prod_int_ext} é definido a função log-verossimilhança total dependendo de $j$:
 \begin{equation}\label{eq:log_vero_int_ext}
 	\mathcal{L}(j)=\ln L(j)=\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k)+ \sum_{k=j+1}^{n}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
 \end{equation}
 
-O estimador de máxima verossimilhança $\widehat{\jmath}_{ML}$ é uma evidência de borda, pois representa uma aproximação da transição entre regiões, sendo
+O estimador de máxima verossimilhança $\widehat{\jmath}_{\text{ML}}$ é uma evidência de borda, pois representa uma aproximação da transição entre regiões, sendo
 \begin{equation}\label{eq:max_j_ml}
 \begin{array}{rcl}
-	\widehat{\jmath}_{ML}&=&\text{arg}\max\limits_{j}\mathcal{L}(j)\\
+	\widehat{\jmath}_{\text{ML}}&=&\text{arg}\max\limits_{j}\mathcal{L}(j).
 \end{array}
 \end{equation}
-a evidência de borda é encontrada aplicando-se o método GenSA~\citep{xgsh}.
+É importante destacar que os parâmetros a serem estimados em~\eqref{eq:max_j_ml} são os números de looks $L$ (do lado interno e do lado externo),
+as matrizes de covariância $\mathbf\Sigma$ (do lado interno e do lado externo),
+e o ponto $j$.
+A evidência de borda é encontrada aplicando-se o método GenSA~\citep{xgsh}.
 
-\section{O MLE aplicado a pdf $\Gamma$ em cada canal de intensidade}\label{sec:eml_pdf_gamma}
-Na função distribuição de densidade univariada gaussiana 
+\section{O MLE para a distribuição gama}\label{sec:eml_pdf_gamma}
+
+Cada canal de intensidade pode ser modelado por uma lei gama, como apresentado em~\eqref{pdf_inten_multilook}:
 \begin{equation}\label{pdf_gauss_univ}
-	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, \\
+	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, %\\ %%% ACF Não use quebra de linha a não ser que se trate de um empilhamento de equações
 \end{equation}
-onde, $\mu>0$ e $L>0$, aplicamos o logaritmo natural e suas propriedades,
+onde, $\mu>0$ e $L>0$.
+Aplicando o logaritmo natural obtemos:
 \begin{equation}\nonumber
 \begin{array}{ccl}
 	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}\right), \\
@@ -819,7 +905,7 @@ obtendo a função,
 	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
 \end{equation}
 
-Dado a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, é definida a função log-verossimilhança, como  
+Dada a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, é definida a função log-verossimilhança, como  
 \begin{equation}\nonumber
 \begin{split}
   \mathcal{L}(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
@@ -834,15 +920,15 @@ Com o uso da função logarítmica~\eqref{func_log_univ_gaussiana}, teremos
                       &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z_k - \frac{L}{\mu} z_k\right]\\
                       &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
                       &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
-                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.\\                
+                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.              
  \end{split}
  \end{equation}
 
 A função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss_univ} pode ser reescrita por
 \begin{equation}\nonumber
-    \mathcal{L}(\bm z;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,\\                
+    \mathcal{L}(\bm z;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,
  \end{equation}
-e a sua forma reduzida por 
+e a sua forma reduzida, em que eliminamos os termos que não dependem dos parâmetros, por 
 \begin{equation}
 \mathcal{L}(\bm z;\mu, L) = 
 n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
@@ -850,9 +936,11 @@ n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
 \label{eq:LogLikelihoodGamma_red}
 \end{equation}
 
-A função~\eqref{eq:LogLikelihoodGamma_red} é usada para estimar os parâmetros $(\widehat \mu, \widehat L)$ com o método MLE de $(\mu, L)$ baseado na amostra $\bm z$. O valor máximo da função~\eqref{eq:LogLikelihoodGamma_red} é encontrado com o método BFGS, implementado no pacote \texttt{maxLik} \citep{ht}. Para alcançar uma melhor estabilidade numérica, optou-se por realizar o processo de otimização resolvendo $\nabla\mathcal{L}=\bm 0$. 
+A função~\eqref{eq:LogLikelihoodGamma_red} é usada para estimar os parâmetros $(\widehat \mu, \widehat L)$ com o método MLE de $(\mu, L)$ baseado na amostra $\bm z$. 
+O ponto que maximiza da função~\eqref{eq:LogLikelihoodGamma_red} é encontrado com o método BFGS, implementado no pacote \texttt{maxLik} \citep{ht}. 
+Para alcançar uma melhor estabilidade numérica, optou-se por realizar o processo de otimização resolvendo $\nabla\mathcal{L}=\bm 0$. 
 
-De acordo com a seção \eqref{sec:sub:mle_param_estimados} é extraído de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras, disjuntas na posição $j$:  
+De acordo com a seção \ref{sec:sub:mle_param_estimados} é extraído de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras, disjuntas, na posição $j$:  
 $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),

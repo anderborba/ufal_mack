@@ -12,13 +12,17 @@
 %\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
+%%% ACF Esses dois comandos deveriam trocar "sin" por "sen" e "tan" por "tg", mas não estão funcionando. Verifique.
+\renewcommand{\sin}{\hspace{2pt}\mathrm{sen}}
+\renewcommand{\tan}{\hspace{2pt}\mathrm{tg}}
+
 %\usepackage[latin1]{inputenc}
 \usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
 \usepackage{setspace}                   % espaçamento flexível
 \usepackage{indentfirst}                % indentação do primeiro parágrafo
 \usepackage{makeidx}                    % índice remissivo
 \usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
-\usepackage{courier}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{merriweather}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
 \usepackage{type1cm}                    % fontes realmente escaláveis
 \usepackage{listings}                   % para formatar código-fonte (ex. em Java)
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
@@ -144,7 +148,7 @@ framexrightmargin=10pt
     \vspace*{0.5cm}
     \Large{ANDERSON ADAIME DE BORBA}\\
     \vspace*{4.5cm}
-    \Large{FUSÃO DE EVIDÊNCIAS NOS CANAIS DE INTENSIDADES PARA A DETECÇÃO DE BORDAS EM IMAGENS PolSAR}\\
+    \Large{FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
     %\vskip 2cm
     %\textsc{
     %Exame de qualificação apresentado\\[-0.25cm] 
