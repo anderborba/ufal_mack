@@ -1,0 +1,94 @@
+\babel@toc {brazil}{}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Imagem PolSAR com polariza\IeC {\c c}\IeC {\~o}es hh, hv e vv.\relax }}{13}{figure.caption.12}% 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Imagem da regi\IeC {\~a}o de S\IeC {\~a}o Francisco capturada por sat\IeC {\'e}lite\relax }}{13}{figure.caption.13}% 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Ba\IeC {\'\i }a de S\IeC {\~a}o Francisco.\relax }}{14}{figure.caption.14}% 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Polariza\IeC {\c c}\IeC {\~a}o vv.\relax }}{14}{figure.caption.14}% 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Polariza\IeC {\c c}\IeC {\~a}o hv.\relax }}{14}{figure.caption.15}% 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Polariza\IeC {\c c}\IeC {\~a}o hh.\relax }}{14}{figure.caption.15}% 
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Imagem da regi\IeC {\~a}o do Rio Grande Valley\relax }}{14}{figure.caption.17}% 
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Imagem do planeta V\IeC {\^e}nus capturada pelo sat\IeC {\'e}lite Magellan\relax }}{16}{figure.caption.18}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Distribui\IeC {\c c}\IeC {\~o}es Wishart multiplas visadas com $\sigma =0.01$.\relax }}{29}{figure.caption.20}% 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Defini\IeC {\c c}\IeC {\~o}es para a ROI na imagem PolSAR.\relax }}{32}{figure.caption.21}% 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Fus\IeC {\~a}o por m\IeC {\'e}dia simples.\relax }}{36}{figure.caption.22}% 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Fus\IeC {\~a}o MR-DWT.\relax }}{37}{figure.caption.23}% 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Fus\IeC {\~a}o MR-SWT.\relax }}{38}{figure.caption.24}% 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Fus\IeC {\~a}o PCA.\relax }}{38}{figure.caption.25}% 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Fluxograma para a aplica\IeC {\c c}\IeC {\~a}o dos limiares na fus\IeC {\~a}o de evid\IeC {\^e}ncia ROC.\relax }}{41}{figure.caption.27}% 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Estrutura para fus\IeC {\~a}o de evid\IeC {\^e}ncias com $j$ escolhido arbitrariamente.\relax }}{42}{figure.caption.29}% 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Curva ROC para a imagem simulada de duas folhas.\relax }}{43}{figure.caption.30}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Decomposi\IeC {\c c}\IeC {\~a}o de Pauli aplicada aos canais simulados\relax }}{46}{figure.caption.31}% 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Fun\IeC {\c c}\IeC {\~o}es de verossimilhan\IeC {\c c}as totais para cada canal simulado\relax }}{46}{figure.caption.32}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Canal simulado $\mathbf {I_\text {hh}}$}}}{46}{subfigure.2.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Canal simulado $\mathbf {I_\text {hv}}$}}}{46}{subfigure.2.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Canal simulado $\mathbf {I_\text {vv}}$}}}{46}{subfigure.2.3}% 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Evid\IeC {\^e}ncias de bordas para os canais de intensidades.\relax }}{47}{figure.caption.33}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Evid\IeC {\^e}ncias no canal $\mathbf {I_\text {hh}}$}}}{47}{subfigure.3.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Evid\IeC {\^e}ncias no canal $\mathbf {I_\text {hv}}$}}}{47}{subfigure.3.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Evid\IeC {\^e}ncias no canal $\mathbf {I_\text {vv}}$}}}{47}{subfigure.3.3}% 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces M\IeC {\'e}tricas para a detec\IeC {\c c}\IeC {\~a}o em imagem simulada\relax }}{48}{figure.caption.34}% 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Resultados da aplia\IeC {\c c}\IeC {\~a}o dos seis m\IeC {\'e}todos de fus\IeC {\~a}o\relax }}{49}{figure.caption.35}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Fus\IeC {\~a}o por m\IeC {\'e}dia}}}{49}{subfigure.5.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Fus\IeC {\~a}o DWT}}}{49}{subfigure.5.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Fus\IeC {\~a}o PCA }}}{49}{subfigure.5.3}% 
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Fus\IeC {\~a}o E-ROC}}}{49}{subfigure.5.4}% 
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Fus\IeC {\~a}o MR-SWT }}}{49}{subfigure.5.5}% 
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Fus\IeC {\~a}o MR-SVD}}}{49}{subfigure.5.6}% 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces M\IeC {\'e}tricas para a fus\IeC {\~a}o de evid\IeC {\^e}ncias de bordas\relax }}{50}{figure.caption.36}% 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Imagem da regi\IeC {\~a}o de Flevoland\relax }}{51}{figure.caption.37}% 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Regi\IeC {\~a}o de interesse da imagem Flevoland (FLEV-ROI-I), e \textit {ground truth} de refer\IeC {\^e}ncia\relax }}{51}{figure.caption.38}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Imagem, ROI, e radiais. }}}{51}{subfigure.8.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Ground truth}}}{51}{subfigure.8.2}% 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Evid\IeC {\^e}ncias de bordas para os tr\IeC {\^e}s canais de intensidades na FLEV-ROI-I\relax }}{52}{figure.caption.39}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Canal $\text {hh}$ }}}{52}{subfigure.9.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Canal $\text {hv}$ }}}{52}{subfigure.9.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Canal $\text {vv}$ }}}{52}{subfigure.9.3}% 
+\contentsline {figure}{\numberline {4.10}{\ignorespaces M\IeC {\'e}tricas para a fus\IeC {\~a}o de evid\IeC {\^e}ncias de bordas na regi\IeC {\~a}o FLEV-ROI-I\relax }}{53}{figure.caption.40}% 
+\contentsline {figure}{\numberline {4.11}{\ignorespaces M\IeC {\'e}todos de fus\IeC {\~a}o para a regi\IeC {\~a}o FLEV-ROI-I\relax }}{54}{figure.caption.41}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Fus\IeC {\~a}o por m\IeC {\'e}dia}}}{54}{subfigure.11.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Fus\IeC {\~a}o DWT}}}{54}{subfigure.11.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Fus\IeC {\~a}o PCA }}}{54}{subfigure.11.3}% 
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Fus\IeC {\~a}o E-ROC}}}{54}{subfigure.11.4}% 
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Fus\IeC {\~a}o MR-SWT }}}{54}{subfigure.11.5}% 
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Fus\IeC {\~a}o MR-SVD}}}{54}{subfigure.11.6}% 
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Probabilidade de detec\IeC {\c c}\IeC {\~a}o dos m\IeC {\'e}todos de fus\IeC {\~a}o para a FLEV-ROI-I\relax }}{55}{figure.caption.42}% 
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Regi\IeC {\~a}o de interesse da imagem Flevoland (FLEV-ROI-II), e \textit {ground truth} de refer\IeC {\^e}ncia\relax }}{56}{figure.caption.44}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Imagem, ROI, e radiais. }}}{56}{subfigure.13.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Ground truth}}}{56}{subfigure.13.2}% 
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Evid\IeC {\^e}ncias de bordas para os tr\IeC {\^e}s canais de intensidades para FLEV-ROI-II na imagem de Flevoland com folga de 25 pixel\relax }}{56}{figure.caption.45}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Canal $\text {hh}$ }}}{56}{subfigure.14.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Canal $\text {hv}$ }}}{56}{subfigure.14.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Canal $\text {vv}$ }}}{56}{subfigure.14.3}% 
+\contentsline {figure}{\numberline {4.15}{\ignorespaces M\IeC {\'e}tricas para a detec\IeC {\c c}\IeC {\~a}o de evid\IeC {\^e}ncias de bordas na regi\IeC {\~a}o FLEV-ROI-II\relax }}{57}{figure.caption.46}% 
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Resultados das aplica\IeC {\c c}\IeC {\~o}es dos m\IeC {\'e}todos de fus\IeC {\~a}o para a FLEV-ROI-II com 25 pixeis de folga\relax }}{58}{figure.caption.47}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Fus\IeC {\~a}o por m\IeC {\'e}dia}}}{58}{subfigure.16.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {DWT fusion}}}{58}{subfigure.16.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Fus\IeC {\~a}o PCA }}}{58}{subfigure.16.3}% 
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Fus\IeC {\~a}o E-ROC}}}{58}{subfigure.16.4}% 
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Fus\IeC {\~a}o MR-SWT }}}{58}{subfigure.16.5}% 
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Fus\IeC {\~a}o MR-SVD }}}{58}{subfigure.16.6}% 
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Probabilidade de detec\IeC {\c c}\IeC {\~a}o dos m\IeC {\'e}todos de fus\IeC {\~a}o para a FLEV-ROI-II\relax }}{59}{figure.caption.48}% 
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Imagem da ba\IeC {\'\i }a de S\IeC {\~a}o Francisco\relax }}{60}{figure.caption.49}% 
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Decomposi\IeC {\c c}\IeC {\~a}o de Pauli para imagem de S\IeC {\~a}o Francisco, e a Ground Truth - GT\relax }}{60}{figure.caption.50}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Imagem, ROI e radiais. }}}{60}{subfigure.19.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Ground Truth}}}{60}{subfigure.19.2}% 
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Evid\IeC {\^e}ncias de bordas para os canais de intensidades na imagem de s\IeC {\~a}o Francisco\relax }}{61}{figure.caption.51}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Canal $\text {hh}$ }}}{61}{subfigure.20.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Canal $\text {hv}$ }}}{61}{subfigure.20.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Canal $\text {vv}$ }}}{61}{subfigure.20.3}% 
+\contentsline {figure}{\numberline {4.21}{\ignorespaces M\IeC {\'e}tricas para a fus\IeC {\~a}o de evid\IeC {\^e}ncias de bordas na regi\IeC {\~a}o SF-ROI\relax }}{61}{figure.caption.52}% 
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Resultado da aplica\IeC {\c c}\IeC {\~a}o dos m\IeC {\'e}todo de fus\IeC {\~a}o para a SF-ROI\relax }}{62}{figure.caption.53}% 
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Fus\IeC {\~a}o por m\IeC {\'e}dia}}}{62}{subfigure.22.1}% 
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Fus\IeC {\~a}o DWT}}}{62}{subfigure.22.2}% 
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Fus\IeC {\~a}o PCA}}}{62}{subfigure.22.3}% 
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Fus\IeC {\~a}o ROC}}}{62}{subfigure.22.4}% 
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Fus\IeC {\~a}o MR-SWT}}}{62}{subfigure.22.5}% 
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Fus\IeC {\~a}o MR-SVD}}}{62}{subfigure.22.6}% 
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Probabilidade de detec\IeC {\c c}\IeC {\~a}o dos m\IeC {\'e}todos de fus\IeC {\~a}o para a SF-ROI\relax }}{63}{figure.caption.54}% 
+\addvspace {10\p@ }
+\contentsfinish 
