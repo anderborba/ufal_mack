@@ -1,7 +1,12 @@
 \section{Métodos de fusão para as evidências de bordas}
-As evidências de bordas estão armazenadas em  $n_c$ imagens binárias $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$, onde o pixel de valor 1 denota uma estimativa de borda e o pixel de valor 0 denota um elemento, onde não foi detectado borda. As imagens (matrizes) têm tamanho  $m\times n$, onde podemos definir $\ell= mn$. Essas imagens foram usadas para a fusão resultando na imagem $I_\text{F}$ com as bordas detectadas.
 
-Seis técnicas de fusão foram propostos:
+As evidências de bordas estão armazenadas em  $n_c$ imagens binárias $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$, onde o pixel de valor 1 denota uma estimativa de borda e o pixel de valor 0 denota um elemento onde não foi detectada borda. 
+As imagens (matrizes) têm tamanho  $m\times n$, e denotamos $\ell= mn$. 
+Essas imagens foram usadas para a fusão resultando na imagem $I_\text{F}$ com as bordas detectadas.
+%%% ACF Seria bom ilustrar aqui essas imagens binárias.
+
+%%% ACF Você abusa da voz passiva, que torna o texto cansativo
+Seis técnicas de fusão foram propostas:
 \begin{itemize} 
 \item Média simples; 
 \item Transformada wavelet discreta multi-resolução (MR-DWT);
@@ -12,6 +17,7 @@ Seis técnicas de fusão foram propostos:
 \end{itemize}
 
 As técnicas de fusão de evidência de bordas serão descritas nesta seção, com especial atenção para a estatística ROC. 
+
 \subsection{Fusão por média simples}
 A fusão por média simples realiza a média aritmética das evidências de bordas para cada canal,
 $\bm I_\text{F}(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$, onde $nc$ é o número de canais a serem utilizados na fusão. 
@@ -55,8 +61,10 @@ A figura~\eqref{fig:cap_fusao_media_simples} apresenta o fluxograma para a fusã
 \end{figure}
 %
 \subsection{Fusão usando o método wavelet discreta multi-resolução -- MR-DWT} 
-Este método de fusão é baseado em~\cite{n_r}. Pada cada imagem binaria $\bm{\widehat\jmath}_c$ foram aplicado filtros DWT, sendo um filtro de passa baixa \textbf{L}  na direção vertical e um filtro de passa alta \textbf{H} na direção horizontal, ambos são \textit{down-sampled} para formar as matrizes de coeficientes~$\bm{\widehat\jmath}_{c\text{L}}$~e~$\bm{\widehat\jmath}_{c\text{H}}$.  
-As operações são repetidas nas matrizes de coeficientes~$\bm{\widehat\jmath}_{c\text{L}}$~e~$\bm{\widehat\jmath}_{c\text{H}}$ resultando em $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$,~e~$\bm{\widehat\jmath}_{c\text{HH}}$.
+
+Este método de fusão é baseado no trabalho de~\cite{n_r}. 
+Pada cada imagem binaria $\bm{\widehat\jmath}_c$ foram aplicados filtros DWT, sendo um filtro de passa baixa \textbf{L}  na direção vertical e um filtro de passa alta \textbf{H} na direção horizontal, ambos são \textit{down-sampled} para formar as matrizes de coeficientes $\bm{\widehat\jmath}_{c\text{L}}$ e $\bm{\widehat\jmath}_{c\text{H}}$.  
+As operações são repetidas nas matrizes de coeficientes $\bm{\widehat\jmath}_{c\text{L}}$ e $\bm{\widehat\jmath}_{c\text{H}}$, resultando em $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, e $\bm{\widehat\jmath}_{c\text{HH}}$.
 
 A fusão de evidências de bordas tem os seguintes passos para cada nível de resolução:
 \begin{enumerate}
@@ -112,11 +120,15 @@ O fluxograma para o método de fusão MR-DWT pode ser visto na figura \eqref{fig
 	\caption{Fusão MR-DWT.}
 \label{fig:cap_fusao_dwt}
 \end{figure}
-%
-\subsection{Fusão usando o método wavelet discreta Multi-Resolução -- MR-SWT} 
-Este método de fusão é  baseado em~\cite{n_r, jjly}. A diferença entre os métodos MR-DWT e MR-SWT é a substituição do operador transformada discreta wavelet (DWT) pelo operador transformada estacionária wavelet (SWT).
 
-O fluxograma para o método de fusão MR-SWT pode ser visto na figura \eqref{fig:cap_fusao_swt}. Na figura abaixo W e $\text{W}^{-1}$ representam a transformação para obter a decomposição wavelet e a transformação inversa, respectivamente.
+\subsection{Fusão usando o método wavelet discreta Multi-Resolução -- MR-SWT} 
+
+Este método de fusão é  baseado nos trabalhos de \citet{n_r, jjly}. 
+A diferença entre os métodos MR-DWT e MR-SWT é a substituição do operador transformada discreta wavelet (DWT) pelo operador transformada estacionária wavelet (SWT).
+
+O fluxograma para o método de fusão MR-SWT pode ser visto na figura \eqref{fig:cap_fusao_swt}. 
+Na figura abaixo $\text{W}$ e $\text{W}^{-1}$ representam a transformação para obter a decomposição wavelet e a transformação inversa, respectivamente.
+
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
@@ -162,11 +174,13 @@ O fluxograma para o método de fusão MR-SWT pode ser visto na figura \eqref{fig
 	\caption{Fusão MR-SWT.}
 \label{fig:cap_fusao_swt}
 \end{figure}
-%
+
 \subsection{Fusão usando o método análise das componentes principais -- PCA} 
-O método PCA é baseada em~\cite{n_r,mit}, e pode ser resumido nos seguinte passos:
+
+O método PCA é baseada nos trabalhos de \citet{n_r,mit}, e pode ser resumido nos seguinte passos:
 \begin{enumerate}
 \item Armazenar as imagens binárias $\bm{\widehat\jmath}_c$ em colunas para obter a matriz $\bm X_{\ell\times n_c}$;
+%%% ACF Cuidado com a notação para não confundir com a parte de polarimetria
 \item Calcular a matriz de covariância $\bm C_{n_c\times n_c}$ de $\bm X_{\ell\times n_c}$;
 \item Calcular as matrizes de autovalores ($\bm\Lambda$) e autovetores ($\bm V$) da matriz de covariância, ordene os autovalores e seus respectivos autovetores de maneira decrescente;
 \item Encontrar o vetor $\bm P=(P(1),\dots,P(n_c))=(\sum_{c=1}^{n_c} V(c))^{-1}{\bm V}$, onde $\bm V$ é o autovetor associado com o maior autovalor de $\bm X$; note que $\sum_{c=1}^{n_c}\bm P_c=1$;
@@ -209,7 +223,8 @@ O fluxograma para a fusão usando o método PCA pode ser visto na figura \eqref{
 \end{figure}
 
 \subsection{Fusão usando a estatística ROC}
-O método estatística \textit{Receiver Operating Characteristics} (E-ROC) descrito em~\cite{gs,fawcett} segue os seguintes passos:
+
+O método baseado na estatística \textit{Receiver Operating Characteristics} (E-ROC) descrito nos trabalhos de \citet{gs,fawcett} segue os seguintes passos:
 \begin{enumerate}
 \item Adicionar as imagens binárias $\bm{\widehat\jmath}_c$ para produzir a matriz de frequência V; 
 \item Aplicar os limiares $t=1,\dots,n_c$ em V para gerar as matrizes $\bm{\widehat\imath}_t$;
@@ -243,7 +258,9 @@ Seguindo a regra de formação,
 	\item Se a instância é negativa e classificada como positiva, então é definida como positivo falso FP.
 \end{itemize}
 
-Os valores da diagonal principal da matriz de confusão representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária, representam as classificações incorretas. A soma de todas as possibilidades dos resultados em uma classificação retorna o valor TP+FN+FP+TN=1.
+Os valores da diagonal principal da matriz de confusão representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária, representam as classificações incorretas. 
+%%% ACF Deixe claro que a matriz de confusão apresenta proporções, caso contrário a soma não é 1
+A soma de todas as possibilidades dos resultados em uma classificação retorna o valor TP+FN+FP+TN=1.
 
 Definimos a prevalência como a soma dos positivos verdadeiros com os negativos falsos, P=TP+FN, portanto, podemos afirmar que idealmente, a prevalência deveria aproximar-se de TP. Definindo-se o \text{Nível}-Q como a soma dos positivos verdadeiros com os positivos falsos, Q=TP+FP, o qual deveria aproximar-se de TP em situações ideais. 
 
@@ -422,11 +439,13 @@ onde a soma de $\overline{\text{TP}}_t+\overline{\text{FN}}_t$, representa o nú
 
 O gráfico para a curva ROC é bidimensional no qual os valores das razões de positivos falsos, $\text{FP}_{rate_t}$, são medidos no eixo horizontal, e as razões de positivos verdadeiros, $\text{TP}_{rate_t}$, são medidos no eixo vertical. Assim, cada mapa de borda $\bm{\widehat\imath}_t$ produz um ponto no gráfico $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ gerando a curva ROC. 
 
-A referência~\cite{fawcett} mostra que o limiar ótimo ocorre na intersecção, ou perto da mesma, da curva ROC com a linha diagnóstico. Essa linha é formada conectando os pontos (P,P) e (0,1) representada pela linha vermelha na figura \eqref{fig:curva_roc}. 
+O trabalho de \cite{fawcett} mostra que o limiar ótimo ocorre na intersecção, ou perto da mesma, da curva ROC com a linha diagnóstico. Essa linha é formada conectando os pontos (P,P) e (0,1) representada pela linha vermelha na figura \eqref{fig:curva_roc}. 
 
 O limiar ótimo CT, correspondendo ao parâmetro $t$ que gera o ponto $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ mais próximo (métrica euclidiana) da reta diagnóstico determina a imagem $\bm{\widehat\imath}_t$ com maior acurácia de bordas detectadas. 
 
 A figura \eqref{fig:curva_roc} mostra a fusão dos canais hh, hv, e vv, para a imagem simulada, processo descrito no próximo capítulo. Para a imagem simulada o limiar ótimo encontrado $t=2$, resultou na imagem com melhor acurácia $\bm{\widehat\imath}_2$, por ser o ponto com menor distância euclidiana para a linha diagnóstico. 
+%%% ACF seria interessante desenhar os segmentos representativos das distâncias dos pontos à linha diagnóstico
+
 \begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{curva_roc_3_canais.pdf}
@@ -435,7 +454,10 @@ A figura \eqref{fig:curva_roc} mostra a fusão dos canais hh, hv, e vv, para a i
 \end{figure}
 %
 \subsection{Fusão usando o método decomposição em valores singulares multi-resolução -- MR-SVD}
-O método fusão MR-SVD, veja~\citet{naidu}, trabalha de maneira similar ao MR-DWT. A diferença consiste em mudar os filtros DWT por filtros SVD. O método pode ser resumido nos seguinte passos: 
+
+O método fusão MR-SVD \citep{naidu} trabalha de maneira similar ao MR-DWT. 
+A diferença consiste em mudar os filtros DWT por filtros SVD. 
+O método pode ser resumido nos seguinte passos: 
 \begin{enumerate}
 \item Organizar as imagens binárias $\bm{\widehat\jmath}_c$, com a extração de blocos $2\times 2$ não sobrepostos, onde cada bloco é colocado como um vetor $4\times 1$, ordenado em colunas para formar a matriz de dados $\bm X_1$ com dimensão ${4\times{\ell}/{4}}$;   
 \item Calcular a decomposição SVD de  $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, onde $\bm U_1$ e $\bm V_1$ são unitárias e têm dimensões ${4\times 4}$ e ${\ell}/{4}\times{\ell}/{4}$, respectivamente. Os valores singulares são ordenados de maneira decrescente e são colocados na diagonal principal da matriz $\bm S_1$, as demais entradas da matriz são zeros;  
