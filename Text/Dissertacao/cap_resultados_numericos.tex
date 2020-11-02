@@ -1,7 +1,8 @@
 \chapter{Resultados}\label{cap_resultados}
 
 \section{Imagem simulada}
-A metodologia para a detecção de bordas baseadas em~\citet{gmbf}, \citet{gamf, nhfc} foi aplicada em uma imagem simulada particionada em duas metades. Essa imagem tem dimensão de $400\times400$ pixeis e foi gerada por duas amostras, obedecendo a distribuição Wishart. Na  metade da esquerda foi usado a matriz de covariâncias $\Sigma_{k_1}$, e na metade da direita a matriz de covariâncias $\Sigma_{k_2}$, respectivamente definidas por,
+A metodologia para a detecção de bordas baseadas em~\citet{gmbf}, \citet{gamf, nhfc} foi aplicada em uma imagem simulada particionada em duas metades. Essa imagem tem dimensão de $400\times400$ pixeis e foi gerada por duas amostras, obedecendo a distribuição Wishart. Na  metade da esquerda foi usado a matriz de covariâncias $\Sigma_{k_1}$, e na metade da direita a matriz de covariâncias $\Sigma_{k_2}$, respectivamente definidas por:
+%%% ACF De onde vêm esses parâmetros?
 \begin{equation}\nonumber
 \small
 \Sigma_{k_1}= \left[
@@ -38,7 +39,8 @@ O método MLE foi usado para detectar evidências de bordas em cada canal de int
 
 As figuras~\ref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1a},~\ref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1b},~\ref{fig:l_uni_gamma_param_mu_l}\subref{fig:l_uni_gamma_param_mu_l:1c} mostram os gráficos das funções de verossimi\-lhan\-ças totais~\ref{eq:TotalLogLikelihood}, indicando as evidências de bordas para os canais de intensidades. A linha 150 da imagem simulada foi escolhida arbitrariamente, sendo que para cada extremidade foi definido o coeficiente de folga igual a 14 pixeis. 
 
-A característica comum dessas funções é não ser diferenciável, o que  dificulta o uso de métodos de otimização que calculam a derivada da função. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado (GenSA)~\cite{xgsh}, adequado para funções não diferenciáveis.
+A característica comum dessas funções é não ser diferenciável, o que  dificulta o uso de métodos de otimização que calculam a derivada da função. O problema foi resolvido usando o método \textit{Simulated Annealing} generalizado \citep[GenSA, ver][]{xgsh}, adequado para funções não diferenciáveis.
+
 \begin{figure}[hbt]
 	\centering
      \subfloat[Canal simulado $\mathbf{I_\text{hh}}$]{%
@@ -51,7 +53,13 @@ A característica comum dessas funções é não ser diferenciável, o que  difi
      \label{fig:l_uni_gamma_param_mu_l}
    \end{figure}	
  
+<<<<<<< Updated upstream
 Assim, para cada linha dos canais de intensidades da imagem simulada. As evidências de bordas detectadas podem ser visualizadas na figura \ref{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L}.
+=======
+As evidências de bordas detectadas podem ser visualizadas na figura~\ref{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L}.
+
+%%% ACF Recorte *todas* as figuras PDF da tese. Veja como fica ruim com a borda que você deixou
+>>>>>>> Stashed changes
  \begin{figure}[H]
      \centering
      \subfloat[Evidências no canal $\mathbf{I_\text{hh}}$]{%
@@ -69,11 +77,21 @@ Assim, para cada linha dos canais de intensidades da imagem simulada. As evidên
    \end{figure}
 %
 \subsection{Métricas para as evidências de bordas nas imagens simuladas}\label{sec:erro_evid_simulado}
+
+%%% ACF O texto está confuso: é "erro de probabilidade de detecção"?. Reescreva
 O erro de probabilidade de detecção é medido calculando a menor distância euclidiana do pixel de referência, em cada radial (linha) na imagem Ground Truth (GT), para todos os pixeis detectados na mesma radial. As menores distâncias são armazenadas em um vetor de frequência $H(k)$ definindo o número de replicações para qual o erro é menor que um número de pixel fixado $k_s$. 
 
-A estimativa de probabilidade é encontrada por $f(k)={H(k)}/{n_r}$, onde  $n_r$ é o número de radiais, e o índice $k$ varia entre $1$ e $k_s$. O algoritmo é descrito em \citet{fbgm}, sendo que para encontrar as probabilidades para o erro $k_s$ foi definido igual a 10.
+A estimativa de probabilidade é encontrada por $f(k)={H(k)}/{n_r}$, onde  $n_r$ é o número de radiais, e o índice $k$ varia entre $1$ e $k_s$. O algoritmo é descrito em \citet{fbgm}, sendo que para encontrar as probabilidades para o erro $k_s$ 
+%%% ACF O que foi definido?
+foi definido igual a 10.
 
+<<<<<<< Updated upstream
 A figura \ref{metrica_sim_port} mostra o gráfico do erro de probabilidades de detecção para cada canal simulado.
+=======
+A figura (\ref{metrica_sim_port}) mostra o gráfico do erro de probabilidades de detecção para cada canal simulado.
+
+%%% ACF Precisa padronizar o estilo de todos os gráficos. Sugiro usar o estilo desta figura.
+>>>>>>> Stashed changes
 \begin{figure}[hbt!]
 	\centering
 	\includegraphics[width=.50\linewidth]{metricas_simuladas_port}%
@@ -81,9 +99,18 @@ A figura \ref{metrica_sim_port} mostra o gráfico do erro de probabilidades de d
 \label{metrica_sim_port}
 \end{figure}
 
+<<<<<<< Updated upstream
 O gráfico mostra acurado desempenho do algoritmo no canal hv. Nos canais hh e vv o desempenho é inferior em relação ao canal hv, fato que já poderia ser inferido pela inspeção visual da figura~\ref{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L}. 
+=======
+O gráfico mostra acurado desempenho do algoritmo no canal hv. Nos canais hh e vv o desempenho é inferior em relação ao canal hv, fato que já poderia ser inferido pela inspeção visual da figura~\eqref{evidencias_hh_hv_vv_uni_gamma_gamf_mu_L}. 
+%%% ACF Por que poderia ser inferido?
+
+>>>>>>> Stashed changes
 \subsection{Fusão de evidências de bordas para os canais de intensidades}
+
 Os resultados dos métodos para a fusão de evidências de bordas detectadas nos canais simulados são mostrados nas figuras~\ref{sim_fusion_met}\subref{sim_fusion_met:a}, \subref{sim_fusion_met:b}, \subref{sim_fusion_met:c}, \subref{sim_fusion_met:d}, \subref{sim_fusion_met:e}, e~\subref{sim_fusion_met:f}.  
+
+%%% ACF Veja como as bordas deixam a figura ruim
 \begin{figure}[htp]
 	\centering
      \subfloat[Fusão por média\label{sim_fusion_met:a}]{%
@@ -106,7 +133,7 @@ Os resultados dos métodos para a fusão de evidências de bordas detectadas nos
      \subfloat[Fusão MR-SVD\label{sim_fusion_met:f}]{%
        \includegraphics[width=0.3\linewidth]{sim_fus_svd_param_L_mu_14_pixel}
      }
-     \caption{Resultados da apliação dos seis métodos de fusão}
+     \caption{Resultados da aplicação dos seis métodos de fusão}
      \label{sim_fusion_met}
 \end{figure}
 
@@ -133,7 +160,11 @@ O método de fusão para a curva ROC mostra um desempenho abaixo dos outros mét
 Os métodos apresentados neste trabalho foram executados com um computado Intel\copyright\ Core i7-9750HQ CPU 
 \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte}. O erro foi medido com o mesmo método da imagem simulada.
 \subsection{Imagem de Flevoland}
+<<<<<<< Updated upstream
 A imagem da região de Flevoland com dimensão $750\times 1024$ pixeis é uma imagem PolSAR capturada pelo sensor aerotransportado AIRSAR com banda-L. A imagem tem 4 visadas, 9 canais, e uma resolução de aproximadamente 12,10 metros na direção azimutal e 6,6 metros na direção lateral do sensor. A decomposição de Pauli da imagem capturada no sensor é mostrada na figura~\ref{flevoland_4_look}. 
+=======
+A imagem da região de Flevoland com dimensão $750\times 1024$ pixeis é uma imagem PolSAR capturada pelo sensor aerotransportado AIRSAR com banda-L. A imagem tem 4 visadas, 9 canais, e uma resolução de aproximadamente \SI{12,10}{\meter} na direção azimutal e \SI{6,6}{\meter} na direção lateral do sensor. A decomposição de Pauli da imagem capturada no sensor é mostrada na figura~\eqref{flevoland_4_look}. 
+>>>>>>> Stashed changes
 \begin{figure}[htb!]
 	\centering
 	\includegraphics[width=.40\linewidth]{flevoland_4_look}%
@@ -151,7 +182,13 @@ A imagem da região de Flevoland com dimensão $750\times 1024$ pixeis é uma im
 %\clearpage
 
 \subsubsection{FLEV-ROI-I}
+<<<<<<< Updated upstream
 Os métodos desenvolvidos neste trabalho foram aplicados na região de interesse destacada na imagem. Detalhes da região de interesse, e das radiais usadas para extrair informações podem ser vista na figura~\ref{roi_gt}\subref{flevoland_radial_4_look_crop}. A figura~\ref{roi_gt}\subref{gt_flevoland_crop} mostra em pixeis vermelhos, as bordas que são usadas como referência, conhecida por imagem \textit{Ground Truth} (GT). Região de interesse é denominada FLEV-ROI-I.  
+=======
+Os métodos desenvolvidos neste trabalho foram aplicados na região de interesse destacada na imagem. Detalhes da região de interesse, e das radiais usadas para extrair informações podem ser vista na figura~\eqref{roi_gt}\subref{flevoland_radial_4_look_crop}. A figura~\eqref{roi_gt}\subref{gt_flevoland_crop} mostra em pixeis vermelhos, as bordas que são usadas como referência, conhecida por imagem \textit{Ground Truth} (GT). 
+A região de interesse é denominada FLEV-ROI-I.  
+
+>>>>>>> Stashed changes
 \begin{figure}[hbt]
    \centering
      \subfloat[Imagem, ROI, e radiais. \label{flevoland_radial_4_look_crop}]{%  
@@ -165,7 +202,9 @@ Os métodos desenvolvidos neste trabalho foram aplicados na região de interesse
 
 As figuras~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \eqref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, e~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} mostram, respectivamente, as evidências de bordas nos canais~$\text{hh}$, $\text{hv}$,~e~$\text{vv}$, obtidas pelo método MLE. Para a FLEV-ROI-I foi estabelecido 100 radiais com comprimento de 120 pixeis, onde foi constatado uma forte oscilação da função de máxima verossimilhança total nos pixeis dos extremos das radiais,  para evitar a oscilação nesta região foi definida uma folga com 14 pixeis. Esse valor foi escolhido empiricamente e pode variar de acordo com a região de interesse da imagem, o canal, o sensor e a imagem. Na FLEV-ROI-I os 14 pixeis, escolhidos para cada extremidade, foram suficientes para contornar o problema da oscilação.
 
-O método proposto no qual as estimativas de parâmetros para as funções de máxima verossimilhança reduzidas foram realizada pelo programa MaxLik, e o posterior uso dessas estimativas nas funções de máxima verossimilhança total, onde encontramos seu máximo usando o programa GenSA, que obteve as evidências de bordas com precisão.   
+%%% ACF Parágrafo confuso. Escreva de forma mais direta, quiçá dividindo-o em duas frases
+O método proposto no qual as estimativas de parâmetros para as funções de máxima verossimilhança reduzidas foram realizada pelo programa MaxLik, e o posterior uso dessas estimativas nas funções de máxima verossimilhança total, onde encontramos seu máximo usando o programa GenSA, que obteve as evidências de bordas com precisão.  
+ 
 \begin{figure}[hbt]
 	\centering
     \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
@@ -233,7 +272,7 @@ O MR-SVD produz uma considerável vantagem em descartar \text{outliers}, porém 
 
 O método usando a estatística ROC produz bordas acuradas, com poucos \text{outliers}, porém de forma esparsa. Acreditamos que este método tem potencial na medida em que mais canais forem considerandos, ou ao ser aplicado outras funções de densidades de probabilidades para obter evidências de bordas. 
 
-Os métodos baseados em \textit{wavelets} produzem densas bordas, mesmo mostrando serem melhores em probabilidade de detectar bordas, os métodos produzem \text{outliers}. Destacamos que a detecção pode ser melhorada com o uso de pós-processamento, cf~\citep{fbgm}, podendo ser aplicado em todos os métodos, inclusive em cada canal onde as evidências forem detectadas. 
+Os métodos baseados em \textit{wavelets} produzem densas bordas, mesmo mostrando serem melhores em probabilidade de detectar bordas, os métodos produzem \text{outliers}. Destacamos que a detecção pode ser melhorada com o uso de pós-processamento \citep{fbgm}, podendo ser aplicado em todos os métodos, inclusive em cada canal onde as evidências forem detectadas. 
 
 Os dados apresentados na primeira linha da tabela~\ref{metrica_de_tempo_3_canais} indicam o tempo de processamento para cada método de fusão. Na segunda linha contém os tempos de cada métodos relativo com a fusão por média, por ser o mais rápido. 
 \begin{table}[hbt]
@@ -280,6 +319,7 @@ As Figuras~\ref{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:a}\subref{evidencias_fl
    
 A figura~\ref{metricas_evid_3_canais_flevoland_port_r2} mostra o gráfico de probabilidade do erro para os método de fusão de evidências de bordas na região FLEV-ROI-II. Ao observa-lo pode-se constatar que o canal hv apresenta maior probabilidade de detectar bordas acuradas, confirmando a inspeção visual.   
 Na FLEV-ROI-II, a escolha de 25 pixeis, em cada extremidade, foi suficientes para contornar o problema da oscilação. 
+
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=.50\linewidth]{metricas_evid_3_canais_flev_roi_2_port}%
@@ -288,6 +328,7 @@ Na FLEV-ROI-II, a escolha de 25 pixeis, em cada extremidade, foi suficientes par
 \end{figure}
 
 Os resultados das aplicações dos métodos de fusão estudados estão expostos nas figuras~\ref{fusion_flev_roi_ii_25_pixel_met}\subref{fusion_flev_roi_ii_25_pixel_met:a}, \subref{fusion_flev_roi_ii_25_pixel_met:b}, \subref{fusion_flev_roi_ii_25_pixel_met:c}, \subref{fusion_flev_roi_ii_25_pixel_met:d}, \subref{fusion_flev_roi_ii_25_pixel_met:e}, e~\subref{fusion_flev_roi_ii_25_pixel_met:f}.
+
 \begin{figure}[hbt]
 	\centering
      \subfloat[Fusão por média\label{fusion_flev_roi_ii_25_pixel_met:a}]{%
@@ -313,7 +354,8 @@ Os resultados das aplicações dos métodos de fusão estudados estão expostos 
 \end{figure}
 
 A figura~\ref{probability_edge_detc_flev_roi_ii} mostra o erro  de probabilidade de detecção dos métodos de fusão para a FLEV-ROI-II.
-\begin{figure}[hbt!]
+
+\begin{figure}[hbt]
 \centering
 	\includegraphics[width=.8\linewidth]{metricas_6_fusao_flevoland_r3_port}
     \caption{Probabilidade de detecção dos métodos de fusão para a FLEV-ROI-II}	 
@@ -321,10 +363,12 @@ A figura~\ref{probability_edge_detc_flev_roi_ii} mostra o erro  de probabilidade
 \end{figure}
 
 Os resultados dos métodos de fusão não tiveram mudanças significativas quando as fusões foram aplicadas na região FLEV-ROI-I ou na região FLEV-ROI-II.  
-\clearpage
-%%% Imagem de são francisco
+
 \subsubsection{Imagem de San Francisco}
-A imagem da baía de São Francisco de dimensão $450\times 600$ pixeis é uma imagem PolSAR aerotransportada, capturada pelo sensor AIRSAR com banda-L, exposta na figura~\eqref{san_francisco}
+
+A imagem da baía de São Francisco de dimensão $450\times 600$ pixeis é uma imagem PolSAR aerotransportada, capturada pelo sensor AIRSAR com banda-L, exposta na figura~\eqref{san_francisco}.
+%%% ACF Informar a resolução espacial
+
 \begin{figure}[hbt]
 	\centering
 	\vspace{-2.5cm}
@@ -408,4 +452,6 @@ A figura~\ref{probability_edge_detc_sf_roi_i} mostra o erro para SF-ROI com o n�
 \label{probability_edge_detc_sf_roi_i}
 \end{figure}
 
-Realizando a inspeção visual das fusões e análise do gráfico de probabilidade em detectar bordas dos métodos, foi verificado que os resultados para a região SF-ROI geram resultados similares ao resultados da imagem de Flevoland (FLEV-ROI-I e FLEV-ROI-II).Usar o método de fusão para quantificar as contribuições de informações provenientes de cada canal
+Realizando a inspeção visual das fusões e análise do gráfico de probabilidade em detectar bordas dos métodos, foi verificado que os resultados para a região SF-ROI geram resultados similares ao resultados da imagem de Flevoland (FLEV-ROI-I e FLEV-ROI-II).
+%%% ACF A frase que segue não está bem formada
+Usar o método de fusão para quantificar as contribuições de informações provenientes de cada canal
