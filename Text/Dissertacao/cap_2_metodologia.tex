@@ -2,257 +2,258 @@
 
 Com o objetivo de apresentar os aspectos metodológicos e teóricos desta tese, optou-se por organizar este capítulo em seções que se inter-relacionam para fornecer a descrição dos modelos, das detecção de bordas e das abordagens para a fusão das evidências de bordas. 
 \section{Modelagem estatística para dados PolSAR}\label{cap_model_estatistica}
-
 %%% ACF Diga logo em qual texto você se baseou para escrever esta parte
+%%% AAB Realizado
+Os conceitos apresentado nesta seção são baseado nos artigos \citet{ade} e \citet{fnc2011}, assim como no livro \citet{lp}.
 
 Os sistemas PolSAR transmitem pulsos de micro-ondas polarizados ortogonalmente e medem componentes ortogonais do sinal recebido. Para cada pixel, a medida resulta em uma matriz de coeficientes de espalhamento. Esses coeficientes são números complexos que descrevem no sistema SAR a transformação do campo eletromagnético transmitido para o campo eletromagnético recebido.
 
 %%% ACF Eu gosto mais do espaçamento que se obtem usando \bmatrix do pacote amsmath. Veja o que acha:
-%$$
-%\begin{bmatrix}
-%E_\text{h}^\text{r}   \\
-%E_\text{v}^\text{r}
-%\end{bmatrix}
-%$$
+%%% AAB realizado - concordei, simplifica notação tb 
+$$
+\begin{bmatrix}
+E_\text{h}^\text{r}   \\
+E_\text{v}^\text{r}
+\end{bmatrix}
+$$
+\begin{equation*}
+\begin{bmatrix}
+E_\text{h}^\text{r}   \\
+E_\text{v}^\text{r}
+\end{bmatrix}
+\end{equation*}
 
 A transformação pode ser representada como
 \begin{equation*}
- \left[
-\begin{array}{c}
+\begin{bmatrix}
 	E_\text{h}^\text{r}   \\
 	E_\text{v}^\text{r}    \\
-\end{array}
-\right]
- = \frac{e^{\hat{\imath} \text{kd}}}{\text{d}}\left[
-\begin{array}{cc}
+\end{bmatrix}
+ = \frac{e^{\hat{\imath} \text{kd}}}{\text{d}}
+\begin{bmatrix}
 	S_{\text{hh}}   & S_{\text{hv}}   \\
 	S_{\text{vh}}   & S_{\text{vv}}   \\
-\end{array}
-\right]
- \left[
-\begin{array}{c}
+\end{bmatrix}
+\begin{bmatrix}
 	E_\text{h}^\text{t}   \\
 	E_\text{v}^\text{t}   \\
-\end{array}
-\right],
+\end{bmatrix},
 \end{equation*}
 onde k denota o número de onda, $\hat{\imath}$ é um número complexo e d é a distância entre o radar e o alvo. No campo eletromagnético com componentes $E_\text{i}^\text{j}$, o índice subscrito denota polarização horizontal (h) ou vertical (v), e o índice sobrescrito indica a onda recebida (r) ou transmitida (t). 
 
 A matriz de espalhamento complexa $\mathbf{S}$ é definida por
-\begin{equation}\label{matriz_de_espalhamento}
-\mathbf{S} = \left[
-\begin{array}{cc}
+\begin{equation}
+\mathbf{S} = 
+\begin{bmatrix}
 	S_\text{hh}   & S_\text{hv}   \\
 	S_\text{vh}   & S_\text{vv}   \\
-\end{array}
-\right],\index{Matriz de Espalhamento}
+\end{bmatrix},
+\label{matriz_de_espalhamento}
 \end{equation}
+\index{Matriz de Espalhamento}
 onde as entradas da matriz $S_\text{i,j}$ são os coeficientes de espalhamento complexo, tal que os índices i e j são associados ao  recebimento e a transmissão das ondas, por exemplo, o coeficiente de espalhamento $S_\text{hv}$ está associado a onda transmitida na direção vertical (v) e recebida na direção horizontal (h).
 
 %%% ACF Escreva esse parágrafo de forma direta, se necessário em mais de uma frase
-Definindo a diagonal principal da matriz de espalhamento por co-polarização pois relaciona a polarização das ondas transmitidas e recebidas nas mesmas direções, e a os elementos da diagonal secundária da matriz de espalhamento por polarização cruzada relacionando os estados de polarizações ortogonais.
-% ver~\citep{lp}.
- 
-%A matriz $\mathbf{S}$ depende da definição do sistema de coordenadas, se a antena transmissora e receptora de sinal estão localizadas na mesma posição as medidas são mono-estáticas, e consideramos o sistema de coordenada BSA - \textit{Back Scattering Alignment}, assim o sistema de coordenadas da transmissão e recepção de sinal são coincidentes.   
- 
+%%% AAB realizado
+A co-polarização é definida pela relação entre os elementos da diagonal principal. E a polarização cruzada é a relação entre os elementos da diagonal secundária. 
+
 A potência total espalhada no caso de um sistema de radar polarimétrico é o chamado \textit{Span}, sendo definido no caso geral como,
-\begin{equation}\label{span_geral}
+\begin{equation}
 \mathit{Span}(\mathbf{S}) = \traco(\mathbf{S}\mathbf{S}^H)=|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2,
-\end{equation}\index{Span}
+\label{span_geral}
+\end{equation}
+\index{Span}
 onde o operador $\traco(\cdot)$ é o traço de uma matriz, e o superíndice $H$ denota o a matriz transposta conjugada.
 
 
 \subsection{Matriz de coerência polarimétrica de Pauli ($\mathbf{T}_4$) e matriz de covariância lexicográfica ($\mathbf{C}_4$)}
 A matriz de espalhamento $\mathbf{S}$ pode ser representada pela construção do vetor
-\begin{equation}\label{def_vet_espalhamento_4d}
+\begin{equation}
 \mathbf{k}=\frac{1}{2}\left[\traco(\mathbf{S}\Psi_1)\quad\traco(\mathbf{S}\Psi_2)\quad \traco(\mathbf{S}\Psi_3)\quad \traco(\mathbf{S}\Psi_4)\right]^T,
+\label{def_vet_espalhamento_4d}
 \end{equation}
 onde $\{\Psi_i\}_{i=1}^4$ é uma base para o espaço das matrizes hermitianas $2\times 2$.
 
 Diferentes bases para o mesmo espaço das matrizes podem ser definidas.
 Vamos escolher duas bases, a primeira chamada de  base de Pauli:
 %%% ACF Os "labels" de equações devem ir no final, caso contrário pode bagunçar a numeração. Revise tudo.
-\begin{equation}\label{base_de_pauli_4d}
+%%% AAB OK
+\begin{equation}
 \{\Psi_P\} = \left\{
-\sqrt{2}\left[\begin{array}{cc}
+\sqrt{2}\begin{bmatrix}
 	1  & 0  \\
 	0  & 1 \\
-\end{array}\right],
-\sqrt{2}\left[\begin{array}{cc}
+\end{bmatrix},
+\sqrt{2}\begin{bmatrix}
 	1  & 0  \\
 	0  & -1  \\
-\end{array}\right],
-\sqrt{2}\left[\begin{array}{cc}
+\end{bmatrix},
+\sqrt{2}\begin{bmatrix}
 	0  & 1  \\
 	1  & 0  \\
-\end{array}\right],
-\sqrt{2}\left[\begin{array}{cc}
-	0       & -i  \\
-	i  & 0  \\
-\end{array}\right]
+\end{bmatrix},
+\sqrt{2}\begin{bmatrix}
+	0       & -\hat\imath  \\
+	\hat\imath  & 0  \\
+\end{bmatrix}
 \right\},
-\end{equation}\index{Base de Pauli de dimensão 4}
+\label{base_de_pauli_4d}
+\end{equation}
+\index{Base de Pauli de dimensão 4}
 e a segunda chamada de base lexicográfica:
-\begin{equation}\label{base_lexicografica_4d}
+\begin{equation}
 \{\Psi_L\} = \left\{
-2\left[\begin{array}{cc}
+2\begin{bmatrix}
 	1  & 0  \\
 	0  & 0 \\
-\end{array}\right],
-2\left[\begin{array}{cc}
+\end{bmatrix},
+2\begin{bmatrix}
 	0  & 1  \\
 	0  & 0  \\
-\end{array}\right],
-2\left[\begin{array}{cc}
+\end{bmatrix},
+2\begin{bmatrix}
 	0  & 0  \\
 	1  & 0 \\
-\end{array}\right],
-2\left[\begin{array}{cc}
+\end{bmatrix},
+2\begin{bmatrix}
 	0  & 0  \\
 	0  & 1  \\
-\end{array}\right]
+\end{bmatrix}
 \right\}.
-\end{equation}\index{Base Lexicográfica de dimensão 4}
+\label{base_lexicografica_4d}
+\end{equation}
+\index{Base Lexicográfica de dimensão 4}
 
 Sendo o vetor \eqref{def_vet_espalhamento_4d}, e usando a base \eqref{base_de_pauli_4d} representamos a matriz de espalhamento pelo vetor característico de Pauli $4$-D,
-\begin{equation}\label{vetor_pauli_4d}
-\mathbf{k}= \frac{1}{\sqrt{2}}\left[
-	\begin{array}{cccc}
-	S_\text{hh} + S_\text{vv}& S_\text{hh} - S_\text{vv}& S_\text{hv} + S_\text{vh} &i (S_\text{hv} - S_\text{vh})   \\
-\end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3\quad k_4],
+\begin{equation}
+\mathbf{k}= \frac{1}{\sqrt{2}}
+	\begin{bmatrix}
+	S_\text{hh} + S_\text{vv}& S_\text{hh} - S_\text{vv}& S_\text{hv} + S_\text{vh} &\hat\imath(S_\text{hv} - S_\text{vh})   \\
+\end{bmatrix}^\text{T}=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3\quad k_4]^\text{T},
+\label{vetor_pauli_4d}
 \end{equation}
 e usando a base \eqref{base_lexicografica_4d} representamos a matriz de espalhamento pelo vetor característico lexicográfico $4$-D, 
-\begin{equation}\label{vetor_lexicografico_4d}
-\mathbf{\Omega}= \left[
-	\begin{array}{cccc}
+\begin{equation}
+\mathbf{\Omega}=
+	\begin{bmatrix}
 	S_\text{hh}& S_\text{hv} &S_\text{hv}& S_\text{vv}   \\
-\end{array}\right]^T=[\Omega_1\quad \Omega_2\quad \Omega_3\quad \Omega_4].
+\end{bmatrix}^\text{T}=[\Omega_1\quad \Omega_2\quad \Omega_3\quad \Omega_4]^\text{T}.
+\label{vetor_lexicografico_4d}
 \end{equation}
 
 A matriz de espalhamento pode ser relacionada com os vetores \eqref{vetor_pauli_4d} e \eqref{vetor_lexicografico_4d} da seguinte maneira,
-\begin{equation}\label{mat_esp_rel_pauli_lex}
-\mathbf{S} = \left[
-\begin{array}{cc}
+\begin{equation}
+\mathbf{S} = 
+\begin{bmatrix}
 	S_\text{hh}   & S_\text{hv}   \\
 	S_\text{vh}   & S_\text{vv}   \\
-\end{array}
-\right]=
-\left[
-\begin{array}{cc}
+\end{bmatrix}
+=
+\begin{bmatrix}
 	\Omega_1   & \Omega_2   \\
 	\Omega_3   & \Omega_4   \\
-\end{array}
-\right]=\frac{1}{\sqrt{2}}
-\left[
-\begin{array}{cc}
-	 k_1+k_2  & k_3-ik_4   \\
-	 k_3+ik_4 & k_1-k_2   \\
-\end{array}
-\right]
+\end{bmatrix}
+=\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+	 k_1+k_2  & k_3-\hat\imath k_4   \\
+	 k_3+\hat\imath k_4 & k_1-k_2   \\
+\end{bmatrix}
+\label{mat_esp_rel_pauli_lex}
 \end{equation}
 
 As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_4d} e \eqref{base_lexicografica_4d} ajustam a norma dos vetores de espalhamento para serem iguais, independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 4, isto é, se $\mathbf{u}$ e $\mathbf{v}$ são vetores complexos, o produto interno é $\mathbf{u}^\text{H}\mathbf{v}$.
 
 %%% ACF A seguinte equação fica com melhor espaçamento usando "align"
-Podemos assim garantir a invariância do \textit{span}:
-\begin{equation}\label{span_invariante}
-\begin{array}{ccccc}
-\mathit{Span}(\mathbf{S}) &=&\traco(\mathbf{S}\mathbf{S}^\text{H})&=&|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2  \\
-	   &=&  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
-	   &=&\mathbf{\Omega}^\text{H}\mathbf{\Omega} &=&|\mathbf{\Omega}|^2.\\
-\end{array}
-\end{equation}
+%%% AAB Realizado
+Podemos assim garantir a invariância do \textit{Span}:
+\begin{align}\nonumber
+\mathit{Span}(\mathbf{S}) &=\traco(\mathbf{S}\mathbf{S}^\text{H})&=&|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2  \\\nonumber
+	   &=  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
+	   &=\mathbf{\Omega}^\text{H}\mathbf{\Omega} &=&|\mathbf{\Omega}|^2.\\\nonumber
+\label{span_invariante}
+\end{align}
 
 A matriz unitária $\mathbf{U}_4$ é a representação matricial da transformação linear que aplica o vetor na base lexicográfica em um vetor na base de Pauli. 
 Podemos gerar a  matriz unitária colocando nas linhas da matriz os elementos da base de Pauli:
-\begin{equation}\label{matriz_unit_su4}
+\begin{equation}
 \mathbf{U}_4=	\frac{1}{\sqrt{2}}	
-\left[
-\begin{array}{rrrr}
+\begin{bmatrix}
 	1   & 0 & 0 & 1  \\
 	1   & 0 & 0 & -1  \\
 	0   & 1 & 1 & 0  \\
-	0   & i & -i &0   \\
-\end{array}
-\right].
+	0   & \hat\imath & -\hat\imath &0   \\
+\end{bmatrix}.
+\label{matriz_unit_su4}
 \end{equation}
 
 A transformação linear $\mathbf{k}=\mathbf{U}_4\mathbf{\Omega}$, representada em forma matricial
-\begin{equation}\label{trans_matriz_unit_su4}
-\frac{1}{\sqrt{2}}\left[
-\begin{array}{c}
+\begin{equation}
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
 	  S_\text{hh} +  S_\text{vv}\\  
 	  S_\text{hh} -  S_\text{vv}\\
 	  S_\text{hv} +  S_\text{vh} \\
-        i(S_\text{hv} -  S_\text{vh}) \\
-\end{array}
-\right]=\frac{1}{\sqrt{2}}	
-\left[
-\begin{array}{rrrr}
+        \hat\imath(S_\text{hv} -  S_\text{vh}) \\
+\end{bmatrix}
+=\frac{1}{\sqrt{2}}	
+\begin{bmatrix}
 	1   & 0 & 0 & 1  \\
 	1   & 0 & 0 & -1  \\
 	0   & 1 & 1 & 0  \\
-	0   & i & -i &0   \\
-\end{array}
-\right]
-\left[
-\begin{array}{c}
+	0   & \hat\imath & -\hat\imath &0   \\
+\end{bmatrix}
+\begin{bmatrix}
 	S_\text{hh} \\  
 	S_\text{hv} \\
 	S_\text{vh} \\
 	S_\text{vv} \\
-\end{array}
-\right],
+\end{bmatrix}
+\label{trans_matriz_unit_su4}
 \end{equation}
 foi definida para demonstrar a transformação similar entre a matriz de coerência, e a matriz de covariância definidas a seguir.  
 
-A matriz de coerência polarimétrica de Pauli é definida por, 
-\begin{equation}\label{matriz_polar_pauli}
+A matriz de coerência polarimétrica de Pauli é definida por,  
+\begin{equation}
 	\mathbf{T}_4=\mathbf{k}\mathbf{k}^\text{H}=	
-\left[
-\begin{array}{rrrr}
+\begin{bmatrix}
 	|k_1|^2       & k_1\bar{k}_2  & k_1\bar{k}_3  & k_1\bar{k}_4  \\
 	k_2\bar{k}_1  & |k_2|^2       & k_2\bar{k}_3  & k_2\bar{k}_4  \\
 	k_3\bar{k}_1  & k_3\bar{k}_2  &    |k_3|^2    & k_3\bar{k}_4  \\
 	k_4\bar{k}_1  & k_4\bar{k}_2  & k_4\bar{k}_3  & |k_4|^2   \\
-\end{array}
-\right],
-%%% ACF Definiu $\bar{k}$?
+\end{bmatrix}
+\label{matriz_polar_pauli}
 \end{equation}\index{Matriz polarimétrica de Pauli $4\times 4$}
+%%% ACF Definiu $\bar{k}$? 
+%%% AAB Realizado
 e a matriz de covariância lexicográfica
-\begin{equation}\label{matriz_covar_lexic}
+\begin{equation}
 	\mathbf{C}_4=\mathbf{\Omega}\mathbf{\Omega}^\text{H}=	
-\left[
-\begin{array}{rrrr}
+\begin{bmatrix}
 	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3  & \Omega_1\bar{\Omega}_4  \\
 	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  & \omega_2\bar{\Omega}_4  \\
 	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2    & \Omega_3\bar{\Omega}_4  \\
 	\Omega_4\bar{\Omega}_1  & \Omega_4\bar{\Omega}_2  & \Omega_4\bar{\Omega}_3  & |\Omega_4|^2   \\
-\end{array}
-\right].
+\end{bmatrix}
+\label{matriz_covar_lexic}
 \end{equation}\index{Matriz de covariância lexicográfica $4\times 4$}
+onde, $\bar{k}$ e $\bar{\Omega}$ são, respectivamente, os conjugados dos números complexos $k$ e $\Omega$.
 
 As matrizes de coerência polarimétrica de Pauli e covariância lexicográfica são relacionadas usando as definições e a propriedade \eqref{trans_matriz_unit_su4}, assim teremos
-\begin{equation}\nonumber
-\begin{array}{rcccr}
-	\mathbf{T}_4&=&\mathbf{k}\mathbf{k}^\text{H}&=&\mathbf{U}_4\mathbf{\Omega}(\mathbf{U_4\Omega})^H	\\
-	   &=&\mathbf{U_4\Omega}\mathbf{\Omega}^H\mathbf{U_4}^H&=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^H	\\
-\end{array}
-\end{equation}
+$$
+	\mathbf{T}_4=\mathbf{k}\mathbf{k}^\text{H} =\mathbf{U}_4\mathbf{\Omega}(\mathbf{U_4\Omega})^H	
+	           =\mathbf{U_4\Omega}\mathbf{\Omega}^H\mathbf{U_4}^H =\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^H	
+$$
 então, a relação de similaridade entre as matrizes é,
-\begin{equation}\label{matriz_simil_t4_c4}
-\begin{array}{rrr}
-	 \mathbf{T}_4  &=&\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^\text{H}\\
-\end{array}
-\end{equation}
+\begin{align}
+\mathbf{T}_4  &=\mathbf{U_4}\mathbf{C}_4\mathbf{U_4}^\text{H}\\
+\label{matriz_simil_t4_c4}\nonumber
+\end{align}
 lembrando que $\mathbf{U_4}$ é unitária, e o traço é a soma dos autovalores de uma matriz, concluímos
-\begin{equation}\label{traco_t4_c4}
-\begin{array}{rrrrr}
-	\traco({\mathbf{T}_4})  &=&\traco({\mathbf{C}_4})&=&\mathit{Span}\mathbf{(S)}.\\
-\end{array}
+\begin{equation}
+	\traco({\mathbf{T}_4})  =\traco({\mathbf{C}_4})=\mathit{Span}\mathbf{(S)}.\\
+\label{traco_t4_c4}
 \end{equation}
 \subsection{Matriz de coerência polarimétrica de Pauli ($\mathbf{T}_3$) e matriz de covariância lexicográfica ($\mathbf{C}_3$)}
-
 Podemos entender as interações das ondas eletromagnéticas em alvos naturais sob a ótica do teorema da reciprocidade, o qual considera que o meio é recíproco. 
 De uma maneira geral as propriedades de transmissão e recebimento de uma antena são idênticos, e mono-estáticos, ou seja, consideramos o sistema de coordenada BSA - \textit{Back Scattering Alignment}. 
 Em meio recíprocos podemos definir a igualdade dos termos de polarização cruzada $S_\text{hv}=S_\text{vh}$; ver \citet{lp}. 
@@ -266,162 +267,156 @@ onde $\{\Psi_i\}_{i=1}^3$ é uma base para o espaço das matrizes hermitianas $2
 %%% ACF Aqui faça uma transição. Deixe claro que as bases lexicográfica e de Pauli vistas antes são 4D, e que aqui as veremos para 3D. Evite que pareça copiar-colar
 
 Diferentes bases para o mesmo espaço das matrizes podem ser definidas, vamos escolher duas bases, a primeira chamada base de Pauli:
-\begin{equation}\label{base_de_pauli_3d}
+\begin{equation}
 \{\Psi_P\} = \left\{
-\sqrt{2}\left[\begin{array}{cc}
+\sqrt{2}\begin{bmatrix}
 	1  & 0  \\
 	0  & 1 \\
-\end{array}\right],
-\sqrt{2}\left[\begin{array}{cc}
+\end{bmatrix},
+\sqrt{2}\begin{bmatrix}
 	1  & 0  \\
 	0  & -1  \\
-\end{array}\right],
-\sqrt{2}\left[\begin{array}{cc}
+\end{bmatrix},
+\sqrt{2}\begin{bmatrix}
 	0  & 1  \\
 	1  & 0  \\
-\end{array}\right]
+\end{bmatrix}
 \right\},
+\label{base_de_pauli_3d}
 \end{equation}\index{Base de Pauli de dimensão 3}
 e a segunda chamada base lexicográfica:
-\begin{equation}\label{base_lexicografica_3d}
+\begin{equation}
 \{\Psi_L\} = \left\{
-2\left[\begin{array}{cc}
+2\begin{bmatrix}
 	1  & 0  \\
 	0  & 0 \\
-\end{array}\right],
-2\sqrt{2}\left[\begin{array}{cc}
+\end{bmatrix},
+2\sqrt{2}\begin{bmatrix}
 	0  & 1  \\
 	0  & 0  \\
-\end{array}\right],
-2\left[\begin{array}{cc}
+\end{bmatrix},
+2\begin{bmatrix}
 	0  & 0  \\
 	0  & 1  \\
-\end{array}\right]
+\end{bmatrix}
 \right\}.
+\label{base_lexicografica_3d}
 \end{equation}\index{Base lexicográfica de dimensão 3}
 
 Sendo o vetor \eqref{def_vet_espalhamento_3d}, e usando a base \eqref{base_de_pauli_3d} representamos a matriz de espalhamento pelo vetor característico de Pauli $3$-D,
-\begin{equation}\label{vetor_pauli_3d}
-\mathbf{k}= \frac{1}{\sqrt{2}}\left[
-	\begin{array}{ccc}
+\begin{equation}
+\mathbf{k}= \frac{1}{\sqrt{2}}
+	\begin{bmatrix}
 	S_\text{hh} + S_\text{vv} & S_\text{hh} - S_\text{vv}& 2S_\text{hv}   \\
-\end{array}\right]^T=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3],
+\end{bmatrix}^\text{T}=\frac{1}{\sqrt{2}}[k_1\quad k_2\quad k_3]^\text{T},
+\label{vetor_pauli_3d}
 \end{equation}
 e usando a base \eqref{base_lexicografica_3d} representamos a matriz de espalhamento pelo vetor característico lexicográfico $3$-D,  
-\begin{equation}\label{vetor_lexicografico_3d}
-\mathbf{\Omega}= \frac{1}{\sqrt{2}}\left[
-	\begin{array}{ccc}
+\begin{equation}
+\mathbf{\Omega}= \frac{1}{\sqrt{2}}
+	\begin{bmatrix}
 	S_\text{hh}& S_\text{hv}& S_\text{vv}   \\
-\end{array}\right]^T=[\Omega_1\quad \Omega_2\quad \Omega_3].
+\end{bmatrix}^\text{T}=[\Omega_1\quad \Omega_2\quad \Omega_3]^\text{T}.
+\label{vetor_lexicografico_3d}
 \end{equation}
 
 As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_3d} e \eqref{base_lexicografica_3d} servem para manter a norma dos vetores de espalhamento iguais, independente da escolha das bases. O produto interno escolhido é o padrão para o espaço vetorial dos vetores complexos de dimensão 3, isto é, se $\mathbf{u}$ e $\mathbf{v}$ são vetores complexos, o produto interno é $\mathbf{u}^\text{H}\mathbf{v}$.
 
 Podemos assim garantir a invariância da potencia total,
-\begin{equation}\label{span_invariante_3d}
-\begin{array}{ccccc}
-\mathit{Span}(\mathbf{S}) &=&  \traco(\mathbf{SS}^\text{H})&=&|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2  \\
-	   &=&  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
-	   &=&  \mathbf{\Omega}^\text{H}\mathbf{\Omega}&=&|\mathbf{\Omega}|^2\\
-\end{array}
-\end{equation}
+\begin{align}\nonumber
+\mathit{Span}(\mathbf{S}) &=  \traco(\mathbf{SS}^\text{H})&=&|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2  \\\nonumber
+	   &=  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
+	   &=  \mathbf{\Omega}^\text{H}\mathbf{\Omega}&=&|\mathbf{\Omega}|^2\\\nonumber
+\label{span_invariante_3d}
+\end{align}
 
 A matriz unitária $\mathbf{U}_3$ é definida como a representação matricial da transformação linear que aplica o vetor na base lexicográfica em um vetor na base de Pauli. Podemos gerar a  matriz unitária colocando nas linhas da matriz os elementos da base de Pauli, portanto
-\begin{equation}\label{matriz_unit_su3}
+\begin{equation}
 \mathbf{U}_3=\frac{1}{\sqrt{2}}	
-\left[
-\begin{array}{rrr}
+\begin{bmatrix}
 	1   & 0 & 1  \\
 	1   & 0 & -1  \\
 	0   & \sqrt{2} &  0  \\
-\end{array}
-\right].
+\end{bmatrix}
+\label{matriz_unit_su3}
 \end{equation}
 
 A transformação linear $\mathbf{k}=\mathbf{U}_3\mathbf{\Omega}$, representado na forma matricial,
-\begin{equation}\label{trans_matriz_unit_su3}
-\frac{1}{\sqrt{2}}\left[
-\begin{array}{c}
+\begin{equation}
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
 	  S_\text{hh} +  S_\text{vv}\\  
 	  S_\text{hh} -  S_\text{vv}\\
 	  2  S_\text{hv} \\
-\end{array}
-\right]=\frac{1}{\sqrt{2}}	
-\left[
-\begin{array}{rrr}
+\end{bmatrix}
+=\frac{1}{\sqrt{2}}	
+\begin{bmatrix}
 	1   & 0 & 1  \\
 	1   & 0 & -1  \\
 	0   & 2 &  0  \\
-\end{array}
-\right]
-\left[
-\begin{array}{c}
+\end{bmatrix}
+\begin{bmatrix}
 	S_\text{hh} \\  
 	S_\text{hv} \\
 	S_\text{vv}\\
-\end{array}
-\right]
+\end{bmatrix}
+\label{trans_matriz_unit_su3}
 \end{equation}
 foi definida para demonstrar a transformação similar entre a matriz de coerência, e a matriz de covariância definidas a seguir.
 
 A matriz de coerência polarimétrica de Pauli é definida por,
-\begin{equation}\label{matriz_polar_pauli_3}
+\begin{equation}
 	\mathbf{T}_3=\mathbf{k}\mathbf{k}^\text{H}=	
-\left[
-\begin{array}{rrr}
+\begin{bmatrix}
 	|k_1|^2       & k_1\bar{k}_2  & k_1\bar{k}_3  \\
 	k_2\bar{k}_1  & |k_2|^2       & k_2\bar{k}_3  \\
 	k_3\bar{k}_1  & k_3\bar{k}_2  &    |k_3|^2    \\
-\end{array}
-\right],
+\end{bmatrix},
+\label{matriz_polar_pauli_3}
 \end{equation}\index{Matriz polarimétrica de Pauli $3\times 3$}
 e a matriz de covariância lexicográfica
-\begin{equation}\label{matriz_covar_lexic_3}
+\begin{equation}
 	\mathbf{C}_3=\mathbf{\Omega}\mathbf{\Omega}^\text{H}=	
-\left[
-\begin{array}{rrr}
+\begin{bmatrix}
 	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3   \\
 	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  \\
 	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2      \\
-\end{array}
-\right].
+\end{bmatrix},
+\label{matriz_covar_lexic_3}
 \end{equation}\index{Matriz de covariância polarimétrica $3\times 3$}
+onde, $\bar{k}$ e $\bar{\Omega}$ são, respectivamente, os conjugados dos números complexos $k$ e $\Omega$.
 
 As matrizes de coerência polarimétrica de Pauli e covariância lexicográfica são relacionadas usando as definições e a propriedade \eqref{trans_matriz_unit_su4}, assim teremos
-\begin{equation}\nonumber
-\begin{array}{rrrrr}
-	\mathbf{T}_3&=&\mathbf{k}\mathbf{k}^\text{H}&=&\mathbf{U_3\Omega}(\mathbf{U_3\Omega})^\text{H}	\\
-	   &=&\mathbf{U_3\Omega}\mathbf{\Omega}^\text{H}\mathbf{U_3}^\text{H}&=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^\text{H}\\
-\end{array},
-\end{equation}
+$$
+	\mathbf{T}_3=\mathbf{k}\mathbf{k}^\text{H}=\mathbf{U_3\Omega}(\mathbf{U_3\Omega})^\text{H}	\\
+	=\mathbf{U_3\Omega}\mathbf{\Omega}^\text{H}\mathbf{U_3}^\text{H}=\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^\text{H},
+$$
 então, a relação de similaridade entre as matrizes é,
-\begin{equation}\label{matriz_simil_t3_c3}
-\begin{array}{rrr}
-	 \mathbf{T}_3  &=&\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^\text{H}\\
-\end{array},
+\begin{equation}
+	 \mathbf{T}_3  =\mathbf{U_3}\mathbf{C}_3\mathbf{U_3}^\text{H}\\
+\label{matriz_simil_t3_c3}
 \end{equation}
 lembrando que $\mathbf{U_3}$ é unitária, e o traço é a soma dos autovalores de uma matriz, concluímos
-\begin{equation}\label{traco_t3_c3}
-\begin{array}{rrrrr}
-	\traco({\mathbf{T}_3})  &=&\traco({\mathbf{C}_3})&=&\mathit{Span}\mathbf{(S)}.\\
-\end{array}
+\begin{equation}
+	\traco({\mathbf{T}_3})  =\traco({\mathbf{C}_3})=\mathit{Span}\mathbf{(S)}.\\
+\label{traco_t3_c3}
 \end{equation}
 
 Portanto podemos afirmar, se
-\begin{equation}\label{vetor_3d} 
-\mathbf{s} = \left[
-\begin{array}{c}
+\begin{equation} 
+\mathbf{s} = 
+\begin{bmatrix}
 	S_\text{hh}      \\
         \sqrt{2}S_\text{hv}     \\
 	S_\text{vv}      \\
-\end{array}
-\right],
+\end{bmatrix},
+\label{vetor_3d}
 \end{equation}
 a potência total espalhada no caso de um sistema de radar polarimétrico em meio recíproco é, então:
-\begin{equation}\label{span_geral}
+\begin{equation}
 \mathit{Span} = \traco(\mathbf{SS}^\text{H})=|S_\text{hh}|^2+2|S_\text{hv}|^2+|S_\text{vv}|^2.
+\label{span_geral}
 \end{equation}
-
 \subsection{Estatística do Ruído \textit{Speckle} no processo de única visada}\index{O ruído \textit{Speckle}}
 As imagens SAR e PolSAR possuem um tipo de ruído multiplicativo chamado \textit{speckle}, conhecido por causar variação de intensidade pixel a pixel, que lhes imprime um aspecto granular.  
 
