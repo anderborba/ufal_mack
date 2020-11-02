@@ -4,9 +4,19 @@ As evidências de bordas estão armazenadas em  $n_c$ imagens binárias $\{\wide
 As imagens (matrizes) têm tamanho  $m\times n$, e denotamos $\ell= mn$. 
 Essas imagens foram usadas para a fusão resultando na imagem $I_\text{F}$ com as bordas detectadas.
 %%% ACF Seria bom ilustrar aqui essas imagens binárias.
+%%% AAB Realizado
 
+A imagem binária $\widehat{\bm\jmath}_\text{hv}$ ilustrada na figura \ref{fig:bin_evidencias_hv} é o resultado da aplicação do método de detecção de evidências de bordas no canal hv da imagem de Flevoland descrita no capítulo  \ref{cap_resultados}. 
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=4.0in]{flevoland_hv_evid_crop_teste}
+	\caption{Imagem binária das evidências de bordas .}
+\label{fig:bin_evidencias_hv}
+\end{figure}
 %%% ACF Você abusa da voz passiva, que torna o texto cansativo
-Seis técnicas de fusão foram propostas:
+%%% AAB Vou prestar mais atencao
+
+Neste trabalho são propostos seis técnicas de fusão de evidências de bordas:
 \begin{itemize} 
 \item Média simples; 
 \item Transformada wavelet discreta multi-resolução (MR-DWT);
@@ -16,8 +26,7 @@ Seis técnicas de fusão foram propostas:
 \item Decomposição em valores singulares com multi-resolução (MR-SVD).
 \end{itemize}
 
-As técnicas de fusão de evidência de bordas serão descritas nesta seção, com especial atenção para a estatística ROC. 
-
+As técnicas serão descritas nesta seção, com especial atenção para a estatística ROC. 
 \subsection{Fusão por média simples}
 A fusão por média simples realiza a média aritmética das evidências de bordas para cada canal,
 $\bm I_\text{F}(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$, onde $nc$ é o número de canais a serem utilizados na fusão. 
@@ -174,13 +183,12 @@ Na figura abaixo $\text{W}$ e $\text{W}^{-1}$ representam a transformação para
 	\caption{Fusão MR-SWT.}
 \label{fig:cap_fusao_swt}
 \end{figure}
-
 \subsection{Fusão usando o método análise das componentes principais -- PCA} 
-
 O método PCA é baseada nos trabalhos de \citet{n_r,mit}, e pode ser resumido nos seguinte passos:
 \begin{enumerate}
 \item Armazenar as imagens binárias $\bm{\widehat\jmath}_c$ em colunas para obter a matriz $\bm X_{\ell\times n_c}$;
 %%% ACF Cuidado com a notação para não confundir com a parte de polarimetria
+%%% AAB OK
 \item Calcular a matriz de covariância $\bm C_{n_c\times n_c}$ de $\bm X_{\ell\times n_c}$;
 \item Calcular as matrizes de autovalores ($\bm\Lambda$) e autovetores ($\bm V$) da matriz de covariância, ordene os autovalores e seus respectivos autovetores de maneira decrescente;
 \item Encontrar o vetor $\bm P=(P(1),\dots,P(n_c))=(\sum_{c=1}^{n_c} V(c))^{-1}{\bm V}$, onde $\bm V$ é o autovetor associado com o maior autovalor de $\bm X$; note que $\sum_{c=1}^{n_c}\bm P_c=1$;
@@ -260,7 +268,9 @@ Seguindo a regra de formação,
 
 Os valores da diagonal principal da matriz de confusão representam as classificações realizadas corretamente, enquanto os elementos da diagonal secundária, representam as classificações incorretas. 
 %%% ACF Deixe claro que a matriz de confusão apresenta proporções, caso contrário a soma não é 1
-A soma de todas as possibilidades dos resultados em uma classificação retorna o valor TP+FN+FP+TN=1.
+%%% AAB Realizado
+
+Na matriz de confusão considerada, teremos que a soma de todas as possibilidades dos resultados em uma classificação retorna o valor TP+FN+FP+TN=1.
 
 Definimos a prevalência como a soma dos positivos verdadeiros com os negativos falsos, P=TP+FN, portanto, podemos afirmar que idealmente, a prevalência deveria aproximar-se de TP. Definindo-se o \text{Nível}-Q como a soma dos positivos verdadeiros com os positivos falsos, Q=TP+FP, o qual deveria aproximar-se de TP em situações ideais. 
 
@@ -443,12 +453,15 @@ O trabalho de \cite{fawcett} mostra que o limiar ótimo ocorre na intersecção,
 
 O limiar ótimo CT, correspondendo ao parâmetro $t$ que gera o ponto $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ mais próximo (métrica euclidiana) da reta diagnóstico determina a imagem $\bm{\widehat\imath}_t$ com maior acurácia de bordas detectadas. 
 
-A figura \ref{fig:curva_roc} mostra a fusão dos canais hh, hv, e vv, para a imagem simulada, processo descrito no próximo capítulo. Para a imagem simulada o limiar ótimo encontrado $t=2$, resultou na imagem com melhor acurácia $\bm{\widehat\imath}_2$, por ser o ponto com menor distância euclidiana para a linha diagnóstico. 
+Na figura \ref{fig:curva_roc} podemos ver os limiares encontrados com o método de fusão E-ROC dos canais hh, hv, e vv, aplicado a imagem simulada descrita no próximo capítulo. A linha verde representa as distâncias euclidianas d1, d2, e d3 entre os pontos encontrados $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ até a reta diagnóstico em vermelho.
+
+A análise da fusão E-ROC para a imagem simulada definiu a reta d2 como sendo a de menor distância, portanto o limiar ótimo é $t=2$, e a imagem $\bm{\widehat\imath}_2$ tem o melhor desempenho na tarefa de detectar bordas. 
 %%% ACF seria interessante desenhar os segmentos representativos das distâncias dos pontos à linha diagnóstico
+%%% AAB realizado
 
 \begin{figure}[hbt]
 \centering
-\includegraphics[width=4.0in]{curva_roc_3_canais.pdf}
+\includegraphics[width=4.0in]{curva_roc_3_canais_com_distancia.pdf}
 	\caption{Curva ROC para a imagem simulada de duas folhas.}
 \label{fig:curva_roc}
 \end{figure}
