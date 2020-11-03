@@ -10,19 +10,6 @@ Os sistemas PolSAR transmitem pulsos de micro-ondas polarizados ortogonalmente e
 
 %%% ACF Eu gosto mais do espaçamento que se obtem usando \bmatrix do pacote amsmath. Veja o que acha:
 %%% AAB realizado - concordei, simplifica notação tb 
-$$
-\begin{bmatrix}
-E_\text{h}^\text{r}   \\
-E_\text{v}^\text{r}
-\end{bmatrix}
-$$
-\begin{equation*}
-\begin{bmatrix}
-E_\text{h}^\text{r}   \\
-E_\text{v}^\text{r}
-\end{bmatrix}
-\end{equation*}
-
 A transformação pode ser representada como
 \begin{equation*}
 \begin{bmatrix}
@@ -779,19 +766,19 @@ Neste trabalho vamos considerar três canais de intensidades, $m=3$.
 %%% AAB Revisado
 %%% ACF Uma distribuição *nunca* se mostra; o que você mostra é outra coisa, reescreva
 %%% AAB Realizado
-A distribuição wishart com os parâmetros fixos $\sigma=0.01$ e o número de visadas $L=2,3,4,8$ é ilustrada na figura \ref{fig:wishart_multi_visadas}.  
+%A distribuição wishart com os parâmetros fixos $\sigma=0.01$ e o número de visadas $L=2,3,4,8$ é ilustrada na figura \ref{fig:cap_det_bor_radiais}.
+A figura \ref{fig:cap_det_bor_radiais} mostra quatro funções de densidade de probabilidade. Elas caracterizam, respectivamente, as distribuições marginais para um canal de intensidades de modelos Wishart com 2, 3, 4, e 8 visadas.  
 %%% ACF Continua errado. 
-
 %%% ACF
 %Quando o modelo é univariado, a função de densidade de probabilidade caracteriza a distribuição. Nesse caso dizemos "A fig. XXX mostra a densidade de probabilidade que caracteriza o modelo YYY".
 %Quando o modelo é multivariado, as densidades marginais, em princípio não o caracterizam.
 %Repare que você não está mostrando todas as marginais do mesmo modelo Wishart, mas uma delas para vários modelos Wishart.
 %Para ficar certo, eu diria assim: "A fig. XXX mostra quatro funções de densidade de probabilidade. Elas caracterizam, respectivamente, as distribuições marginais para um canal de intensidade de modelos Wishart com 2, 3, 4, e 8 visadas."
-
+%%% AAB entendido e modificado.
 \begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
-	\caption{Distribuições Wishart multiplas visadas com $\sigma=0.01$.}
+	\caption{Distribuições marginais para um canal de intensidade Wishart múltiplas visadas com $\sigma=0.01$.}
 \label{fig:wishart_multi_visadas}
 \end{figure}
 

@@ -158,22 +158,22 @@ Width
     % save data to .txt 
     %the 9 matrices
     % AAB - renomear arquivo de saida para diferentes sigmas
-    cd result_gamf
-%      % plain format
-    for j = 1: 9
-        fname = sprintf('Phantom_gamf_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
-        fid = fopen(fname,'w');
-%        fprintf(fid,'%d %d\r\n', Height, Width);
-        for ii = 1: Height
-            for jj = 1: Width
-                fprintf(fid,'%f ',phantom(ii,jj,j));
-            end
-            fprintf(fid,'\r\n');
-        end
-        fclose(fid);       
-    end    
-    ii = ii + 1;
-    cd ..
+%    cd result_gamf
+%%      % plain format
+%    for j = 1: 9
+%        fname = sprintf('Phantom_gamf_%2.3f_%d_%d_%d.txt',alpha,clase_1,clase_2,j);
+%        fid = fopen(fname,'w');
+%%        fprintf(fid,'%d %d\r\n', Height, Width);
+%        for ii = 1: Height
+%            for jj = 1: Width
+%                fprintf(fid,'%f ',phantom(ii,jj,j));
+%            end
+%            fprintf(fid,'\r\n');
+%        end
+%        fclose(fid);       
+%    end    
+%    ii = ii + 1;
+%    cd ..
 end
 %cd ..
 %cd ..

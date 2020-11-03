@@ -52,9 +52,9 @@ for(k in 1: nk){
 df <- data.frame(x = x, y1 = freq_f1, y2 = freq_f2, y3 = freq_f3)
 alpha <- c(1,2,3)
 p <- ggplot(df) 
-pp <- p + geom_line(aes(x = x, y = y1, color = "Canal hh")   , size= 3, alpha=.7) +
-          geom_line(aes(x = x, y = y2, color = "Canal hv")   , size= 3, alpha=.7) +
-	        geom_line(aes(x = x, y = y3, color = "Canal vv")   , size= 3, alpha=.7) +
+pp <- p + geom_line(aes(x = x, y = y1, color = "Canal hh")   , size= 4, alpha=.7) +
+          geom_line(aes(x = x, y = y2, color = "Canal hv")   , size= 4, alpha=.7) +
+	        geom_line(aes(x = x, y = y3, color = "Canal vv")   , size= 4, alpha=.7) +
 #          geom_line(aes(x = x, y = y3, color = "Canal hh/hv"), size= 3, alpha=.7) +
 #          geom_line(aes(x = x, y = y5, color = "Canal hh/vv"), size= 3, alpha=.7) +
 #          geom_line(aes(x = x, y = y6, color = "Canal hv/vv"), size= 3, alpha=.7) +

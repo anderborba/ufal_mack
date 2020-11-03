@@ -106,9 +106,9 @@ df <- data.frame(x = x, y1 = freq_1, y2 = freq_2, y3 = freq_3)
 alpha <- c(1,2,3)
 p <- ggplot(df) 
 pp <- p + 
-  geom_line(aes(x = x, y = y1, color = "Canal hh")   , size=2, alpha=.7) +
-  geom_line(aes(x = x, y = y2, color = "Canal hv")   , size=2, alpha=.7) +
-  geom_line(aes(x = x, y = y3, color = "Canal vv")   , size=2, alpha=.7) +
+  geom_line(aes(x = x, y = y1, color = "Canal hh")   , size=4, alpha=.7) +
+  geom_line(aes(x = x, y = y2, color = "Canal hv")   , size=4, alpha=.7) +
+  geom_line(aes(x = x, y = y3, color = "Canal vv")   , size=4, alpha=.7) +
 #  geom_line(aes(x = x, y = y4, color = "Canal hh/hv"), size=2, alpha=.7) +
 #  geom_line(aes(x = x, y = y5, color = "Canal hh/vv"), size=2, alpha=.7) +
 #  geom_line(aes(x = x, y = y6, color = "Canal hv/vv"), size=2, alpha=.7) +

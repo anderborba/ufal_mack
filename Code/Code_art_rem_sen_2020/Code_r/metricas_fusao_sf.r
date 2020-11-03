@@ -17,7 +17,8 @@ loadfonts()
 #
 setwd("..")
 setwd("Data")
-mat <- scan('metricas_fusao_7_canais_sf_25_pixel.txt')
+#mat <- scan('metricas_fusao_7_canais_sf_25_pixel.txt')
+mat <- scan('metricas_fusao_san_fran_r1.txt')
 setwd("..")
 setwd("Code_r")
 mat <- matrix(mat,  ncol = 10, byrow = TRUE)
@@ -43,7 +44,7 @@ p <- ggplot(df)
 pp <- p + geom_line(aes(x = x, y = y1, color = "Media") , size=4, alpha=.7) +
           geom_line(aes(x = x, y = y2, color = "PCA")   , size=4, alpha=.7, linetype = 3) +
           geom_line(aes(x = x, y = y4, color = "MR-DWT"), size=4, alpha=.7) +
-          geom_line(aes(x = x, y = y3, color = "MR-SWT"), size=4, alpha=.7) +
+          geom_line(aes(x = x, y = y3, color = "MR-SWT"), size=4, alpha=.7, linetype = 3) +
           geom_line(aes(x = x, y = y5, color = "ROC")   , size=4, alpha=.7) +
           geom_line(aes(x = x, y = y6, color = "MR-SVD"), size=4, alpha=.7) +
           ylim(.01,1) +
