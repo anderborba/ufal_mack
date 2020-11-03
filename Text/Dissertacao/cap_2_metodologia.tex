@@ -167,9 +167,9 @@ As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_4d} e \eqref{base_
 %%% AAB Realizado
 Podemos assim garantir a invariância do \textit{Span}:
 \begin{align}\nonumber
-\mathit{Span}(\mathbf{S}) &=\traco(\mathbf{S}\mathbf{S}^\text{H})&=&|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2  \\\nonumber
-	   &=  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
-	   &=\mathbf{\Omega}^\text{H}\mathbf{\Omega} &=&|\mathbf{\Omega}|^2.\\\nonumber
+\mathit{Span}(\mathbf{S}) &=\traco(\mathbf{S}\mathbf{S}^\text{H})=|S_\text{hh}|^2+|S_\text{hv}|^2+|S_\text{vh}|^2+|S_\text{vv}|^2  \\\nonumber
+	   &=  \mathbf{k}^\text{H}\mathbf{k}=|\mathbf{k}|^2\\
+	   &=\mathbf{\Omega}^\text{H}\mathbf{\Omega} =|\mathbf{\Omega}|^2.\\\nonumber
 \label{span_invariante}
 \end{align}
 
@@ -327,9 +327,9 @@ As constantes $2$ e $\sqrt{2}$ nas bases \eqref{base_de_pauli_3d} e \eqref{base_
 
 Podemos assim garantir a invariância da potencia total,
 \begin{align}\nonumber
-\mathit{Span}(\mathbf{S}) &=  \traco(\mathbf{SS}^\text{H})&=&|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2  \\\nonumber
-	   &=  \mathbf{k}^\text{H}\mathbf{k}&=&|\mathbf{k}|^2\\
-	   &=  \mathbf{\Omega}^\text{H}\mathbf{\Omega}&=&|\mathbf{\Omega}|^2\\\nonumber
+\mathit{Span}(\mathbf{S}) &=  \traco(\mathbf{SS}^\text{H})=|S_{hh}|^2+2|S_{hv}|^2+|S_{vv}|^2  \\\nonumber
+	   &=  \mathbf{k}^\text{H}\mathbf{k}=|\mathbf{k}|^2\\
+	   &=  \mathbf{\Omega}^\text{H}\mathbf{\Omega}=|\mathbf{\Omega}|^2\\\nonumber
 \label{span_invariante_3d}
 \end{align}
 
@@ -545,8 +545,8 @@ A tabela~\ref{tab:cv_multilook} mostra os coeficientes de variações para os ca
 \begin{table}[hbt]
 	\centering
 	\caption{Coeficientes de variação.}
-\begin{tabular}{@{}lccc@{}} \toprule
-	Número de visadas (L) & CV (intensidade)   & CV (amplitude) \\ \midrule
+\begin{tabular}{@{}rccc@{}} \toprule
+	Número de visadas ($L$) & CV (intensidade)   & CV (amplitude) \\ \midrule
 	1 & 1       &  0.5227\\ 
 	2 & 0.7071  &  0.3629\\
 	3 & 0.5773  &  0.2941\\
@@ -568,7 +568,9 @@ A Função densidade de probabilidade univariada $\Gamma$ para os canais de inte
 \end{equation}
 onde, $\mu\sigma^2>0$ e $L>0$. A distribuição nesta forma que será no trabalho.  
 
-Serão apresentados modelos para detectar evidências de bordas nos canais de intensidades, porém os resultados não serão relatados neste trabalho, pois fazem parte de pesquisa em fase adiantada de desenvolvimento. Mais informações podem ser encontradas nos artigos \citet{lee} e \citet{dmch}.   
+A seguir apresentamos outros modelos que podem ser empregados para detectar evidências de bordas nos canais de intensidades, porém os resultados não serão relatados neste trabalho, pois fazem parte de pesquisa em fase adiantada de desenvolvimento. 
+Mais informações podem ser encontradas nos artigos \citet{lee} e \citet{dmch}.   
+
 \subsection{PDF univariada produto de magnitudes das intensidades}\label{subsec:prod_intensidades}
 Defininido o produto de magnitudes por,
 \begin{equation*}
@@ -778,6 +780,14 @@ Neste trabalho vamos considerar três canais de intensidades, $m=3$.
 %%% ACF Uma distribuição *nunca* se mostra; o que você mostra é outra coisa, reescreva
 %%% AAB Realizado
 A distribuição wishart com os parâmetros fixos $\sigma=0.01$ e o número de visadas $L=2,3,4,8$ é ilustrada na figura \ref{fig:wishart_multi_visadas}.  
+%%% ACF Continua errado. 
+
+%%% ACF
+%Quando o modelo é univariado, a função de densidade de probabilidade caracteriza a distribuição. Nesse caso dizemos "A fig. XXX mostra a densidade de probabilidade que caracteriza o modelo YYY".
+%Quando o modelo é multivariado, as densidades marginais, em princípio não o caracterizam.
+%Repare que você não está mostrando todas as marginais do mesmo modelo Wishart, mas uma delas para vários modelos Wishart.
+%Para ficar certo, eu diria assim: "A fig. XXX mostra quatro funções de densidade de probabilidade. Elas caracterizam, respectivamente, as distribuições marginais para um canal de intensidade de modelos Wishart com 2, 3, 4, e 8 visadas."
+
 \begin{figure}[hbt]
 \centering
 \includegraphics[width=4.0in]{dist_intensidade_multi_visadas.pdf}
