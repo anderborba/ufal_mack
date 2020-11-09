@@ -1,7 +1,6 @@
 \chapter{Aspectos gerais}\label{cap_asp_gerais}
-
-Neste capítulo serão apresentadas algumas informações relevantes para situar e contextualizar a área de pesquisa desta tese. 
-Serão abordados alguns assuntos introdutórios, traçando um breve panorama do desenvolvimento e aprimoramento dos radares RAR (\textit{Real Aperture Radar}),
+Neste capítulo são apresentadas algumas informações relevantes para situar e contextualizar a área de pesquisa desta tese. 
+São abordados alguns assuntos introdutórios, traçando um breve panorama do desenvolvimento e aprimoramento dos radares RAR (\textit{Real Aperture Radar}),
 SAR e PolSAR. 
 Apresentamos também as características gerais e específicas dos radares, bem como informações de como são gerados e armazenados os dados provenientes da captação das imagens SAR e PolSAR. 
 
@@ -18,7 +17,7 @@ Essa descoberta foi atribuída a Carl Wiley por volta de 1951 e, em 1954, foi re
 Além disso, um sistema SAR foi operacionalizado em torno de 1958, impulsionando fortemente essa área de pesquisa. 
 
 Os dados provenientes do SAR são gravados como uma faixa de posições para cada tempo avançado na direção da rota (azimute). 
-No início do desenvolvimento dos sistemas SAR, o armazenamento de dados foi um grande problema, a solução foi colocar acoplado aos radares um sistema ótico para armazenar dados em filmes fotográficos. 
+No início do desenvolvimento dos sistemas SAR, o armazenamento de dados foi um grande problema, a solução foi colocar, acoplado aos radares, um sistema ótico para armazenar dados em filmes fotográficos. 
 Atualmente, devido ao desenvolvimento da eletrônica, o problema de armazenamento de dados foi atenuado.
 
 Nos sistemas SAR os dados das micro-ondas de retorno armazenados são representadas como imagens. 
@@ -36,14 +35,12 @@ As imagens geradas por esses radares são formadas por micro-ondas de retorno, c
 O processo de polarização fornece mais informações sobre o alvo comparados com as imagens SAR. 
 As imagens PolSAR têm o objetivo de melhorar o entendimento do efeito do espalhamento das micro-ondas pelos alvos, considerando as diferentes polarizações.
 
-Os símbolos hh, hv, vh, e vv, representam as polarizações disponíveis nos radares, onde a primeira letra é a maneira como a onda é emitida e, a segunda letra é a maneira como a onda é recebida.
-
+Os símbolos hh, hv, vh, e vv representam as polarizações disponíveis nos radares, onde a primeira letra é a maneira como a onda é emitida e, a segunda letra é a maneira como a onda é recebida. Sendo h a polarização horizontal e v a polarização vertical.
 \section{Características gerais dos Radares SAR e PolSAR}
-
 Os radares que têm a característica de emitir as micro-ondas são definidos como radares ativos e, se os radares transmitem e recebem os sinais com a mesma antena, são denominadas mono-estáticos. 
 Importantes informações sobre radares podem ser encontradas na referência \citet{lp}.
 
-O desenvolvimento dos radares pode ser resumidos pelos princípios a seguir:
+O desenvolvimento dos radares pode ser resumido pelos princípios a seguir:
 \begin{itemize}
 \item Possibilidade de uma antena transmitir micro-ondas em uma direção precisa; 
 \item Possibilidade de detectar com grande precisão o sinal de retorno. Após a interação das micro-ondas com o alvo acontece o espalhamento das micro-ondas refletidas em todas as  direções. Assim o radar pode não captar alguns sinais de retorno. 
@@ -66,7 +63,7 @@ Os radares SAR e PolSAR justificam seu uso por possuírem algumas característic
 \item As condições atmosféricas interferem muito pouco na captação de imagens.
 \end{itemize}
 
-Na referência \cite{lkc} encontramos um amplo espectro de aplicações das imagens SAR e PolSAR na área de sensoriamento remoto.  Podemos listar algumas dessas aplicações: 
+Na referência \cite{lkc} encontramos um amplo espectro de aplicações das imagens SAR e PolSAR na área de sensoriamento remoto.  Listaremos aqui algumas dessas aplicações: 
 %%% ACF Seria interessante aqui citar um artigo tipo "survey" de aplicações de sensoriamento remoto com microondas
 %%% AAB Encontro o livro que citei, achei interessante, mudei aslguns tópicos.
 \begin{itemize}
@@ -86,11 +83,11 @@ Na referência \cite{lkc} encontramos um amplo espectro de aplicações das imag
 \end{itemize}
 \section{Características específicas dos radares SAR e PolSAR}
 Os radares SAR e PolSAR trabalham no espectro das micro-ondas. 
-A tabela~\ref{tab:micro_onda_espectro} definida no livro \cite{lp} mostra na primeira coluna a representação da banda, na segunda coluna das faixas de frequências que os radares são construídos. Na terceira coluna foi fixada uma frequência (f) para encontrar o comprimento de onda ($\lambda$) e mostrar na quarta coluna. Lembrando que o produto da frequência pelo comprimento de onda encontra a velocidade.   
+A tabela~\ref{tab:micro_onda_espectro} definida no livro \cite{lp} mostra na primeira coluna a representação da banda, na segunda coluna as faixas de frequências que os radares são construídos. Na terceira coluna foi fixada uma frequência (f) para encontrar o comprimento de onda ($\lambda$) e mostrado na quarta coluna. Lembrando que o produto da frequência pelo comprimento de onda determina a velocidade de propagação da mesma.   
 \begin{table}[hbt] %%% ACF Leia a documentação do pacote siunitx e veja como digitar intervalos; você digitou diferenças
 %%% AAB referenciei a fonte da tabela e modifiquei
 	\centering
-	\caption{Espectro eletromagnético para a faixa de micro-ondas.}\label{tab:micro_onda_espectro}
+	\caption{Espectro eletromagnético para a faixa de micro-ondas.}
 \begin{tabular}{@{}cccc@{}} \toprule
 	banda & Frequência - f [\si{\giga\hertz}]     & f fixada& $\lambda$ [\si{\centi\meter}]. \\\midrule
 	P&\numrange[range-phrase = --]{< 0.39}{ 0.39} &\num{0.3}& \num{100.0}  \\ 
@@ -102,19 +99,19 @@ A tabela~\ref{tab:micro_onda_espectro} definida no livro \cite{lp} mostra na pri
 	Q&\numrange[range-phrase = --]{36.0}{46.0}    &\num{40.0} & \num{0.75} \\ 
 	V&\numrange[range-phrase = --]{46.0}{56.0}    &\num{50.0} & \num{0.6} \\ 
 	W&\numrange[range-phrase = --]{56.0}{> 56.0}  &\num{100.0}& \num{0.3} \\ \bottomrule 
-\end{tabular}
+\end{tabular}\label{tab:micro_onda_espectro}
 \end{table}\index{Espectro Eletromagnético}
 
-A descoberta da tecnologia SAR impulsionou um grande desenvolvimento da área, levando à construção do SEASAT, o primeiro SAR comercial projetado. 
+A descoberta da tecnologia SAR impulsionou um grande desenvolvimento da área de sensoriamento remoto, levando à construção do SEASAT, o primeiro satélite SAR comercial projetado. 
 Este projeto foi muito bem sucedido e estabeleceu definitivamente os sistemas SAR e PolSAR como área de pesquisa. 
 
 %%% ACF Tabelas se referenciam com \ref; \eqref é apenas para equações
 %%% AAB obrigado - ok
 O lançamento do satélite foi em junho de 1978, a Tabela~\ref{tab:carac_seasat} mostra algumas características do SEASAT.
-Para mais informações pode-se consultar o seguinte sítio eletrônico, \url{https://earth.esa.int/web/eoportal/satellite-missions/s/seasat}.  
+Para mais informações consulte o seguinte sítio eletrônico, \url{https://earth.esa.int/web/eoportal/satellite-missions/s/seasat}.  
 \begin{table}[hbt]
 	\centering
-	\caption{Características do satélite SEASAT (SAR).}\label{tab:carac_seasat}
+	\caption{Características do satélite SEASAT (SAR).}
 \begin{tabular}{@{}llr@{}} \toprule
 	Características específicas& Valores operacionais  \\ \midrule
 	Frequência           & \SI{1.275}{\GHz}  \\ 
@@ -128,39 +125,56 @@ Para mais informações pode-se consultar o seguinte sítio eletrônico, \url{ht
 	%%% ACF Por favor use os comandos nativos de siunitx; veja como escrever áreas
 	%%% AAB - muito melhor
 	Resolução            & \SI[product-units = brackets-power]{25 x 25}{\metre}  \\ \bottomrule
-\end{tabular}
+\end{tabular}\label{tab:carac_seasat}
 \end{table}
 
-Outros projetos de sistema foram realizados e podem ser vistos na tabela \ref{tab:carac_radares}.% Neste trabalho serão usadas imagens capturadas pelo radar AIRSAR, cuja características estão na Tabela~\ref{tab:carac_radares}.
-
-\begin{sidewaystable}
-\footnotesize
+Outros projetos de sistema foram realizados e estão listados na tabela \ref{tab:carac_radares}.
+% Neste trabalho serão usadas imagens capturadas pelo radar AIRSAR, cuja características estão na Tabela~\ref{tab:carac_radares}.
+%\begin{sidewaystable}
+%\footnotesize
+%	\centering
+%	\caption{Características operacionais dos satélites SAR ou PolSAR.}
+%\begin{tabular}{@{}llllllllr@{}} \toprule
+%Satélites      & 	SEASAT  &AIRSAR &SIR-C& Almaz&ERS-2& JERS-1& RADSAT-1&RADSAT-2 \\ \midrule
+%Nacionalidade       &EUA    &EUA&Alamanha-Itália&Rússia&Europa&Japão&Canadá&Canadá  \\ 
+%Lançamento          &\num{1978}   &\num{1988}   &\num{1990}  &\num{1992}  &\num{1995} &\num{1998}  &\num{1995}  & \num{2003}\\
+%Banda (\si{\cm})    &L      &P-L-C       &L-C-X &S     &C    &L     &C     & C \\
+%Polarização         &hh&hh-hv-vv&hh-hv-vv&hh&vv&hh&hh&hh-hv-vv\\
+%Ângulo de incidência&\num{23}&\numrange[range-phrase = --]{20}{60}&\numrange[range-phrase = --]{15}{55}&\numrange[range-phrase = --]{30}{60}&\num{23}&\num{35}&\numrange[range-phrase = --]{20}{59}&\numrange[range-phrase = --]{20}{60}\\
+%Distância (\si{\km})           &\num{100}&\numrange[range-phrase = --]{10}{17}&\numrange[range-phrase = --]{15}{90}&\num{350}&\num{100}&\num{75}&\numrange[range-phrase = --]{50}{500}&\numrange[range-phrase = --]{10}{500}\\
+%Resolução (\si{\m\squared})         &25&\numrange[range-phrase = --]{2}{8}&\numrange[range-phrase = --]{10}{60}&\numrange[range-phrase = --]{10}{30}&30&18&\numrange[range-phrase = --]{10}{100}&\numrange[range-phrase = --]{3}{100}\\ \bottomrule
+%\end{tabular}\label{tab:carac_radares}
+%\end{sidewaystable}
+\begin{table}[hbt]
+    \tiny
 	\centering
-	\caption{Características operacionais dos satélites SAR ou PolSAR.}\label{tab:carac_radares}
-\begin{tabular}{@{}llllllllr@{}} \toprule
-Satélites      & 	SEASAT  &AIRSAR &SIR-C& Almaz&ERS-2& JERS-1& RADSAT-1&RADSAT-2 \\ \midrule
-Nacionalidade       &EUA    &EUA&Alamanha-Itália&Rússia&Europa&Japão&Canadá&Canadá  \\ 
-Lançamento          &\num{1978}   &\num{1988}   &\num{1990}  &\num{1992}  &\num{1995} &\num{1998}  &\num{1995}  & \num{2003}\\
-Banda (\si{\cm})    &L      &P-L-C       &L-C-X &S     &C    &L     &C     & C \\
-Polarização         &hh&hh-hv-vv&hh-hv-vv&hh&vv&hh&hh&hh-hv-vv\\
-Ângulo de incidência&\num{23}&\numrange[range-phrase = --]{20}{60}&\numrange[range-phrase = --]{15}{55}&\numrange[range-phrase = --]{30}{60}&\num{23}&\num{35}&\numrange[range-phrase = --]{20}{59}&\numrange[range-phrase = --]{20}{60}\\
-Distância (\si{\km})           &\num{100}&\numrange[range-phrase = --]{10}{17}&\numrange[range-phrase = --]{15}{90}&\num{350}&\num{100}&\num{75}&\numrange[range-phrase = --]{50}{500}&\numrange[range-phrase = --]{10}{500}\\
-Resolução (\si{\m\squared})         &25&\numrange[range-phrase = --]{2}{8}&\numrange[range-phrase = --]{10}{60}&\numrange[range-phrase = --]{10}{30}&30&18&\numrange[range-phrase = --]{10}{100}&\numrange[range-phrase = --]{3}{100}\\ \bottomrule
-\end{tabular}
-\end{sidewaystable}
+	\caption{Características operacionais dos sistemas SAR ou PolSAR.}
+\begin{tabular}{@{}llllllll@{}} \toprule
+Dispositivo & Nacionalidade&Lançamento&Banda&Polarização&Ângulo de incidência(\si{\degree}) &Distância(\si{\km})& 
+Resolução(\si{\m\squared})\\ \midrule
+SEASAT   &EUA             &\num{1978}&L    &hh      &\num{23}                             &\num{100}& \num{25}\\
+AIRSAR   &EUA             &\num{1988}&P-L-C&hh-hv-vv&\numrange[range-phrase = --]{20}{60} &\numrange[range-phrase = --]{10}{17}&\numrange[range-phrase = --]{2}{8} \\
+SIR-C    &Alemanha-Itália &\num{1990}&L-C-X&hh-hv-vv&\numrange[range-phrase = --]{15}{55} &\numrange[range-phrase = --]{15}{90}& \numrange[range-phrase = --]{10}{60}\\
+ALMAZ    &Rússia          &\num{1992}&S    &hh      &\numrange[range-phrase = --]{30}{60} &\num{350}&\numrange[range-phrase = --]{10}{30} \\
+ERS-2    &Europa          &\num{1995}&C    &vv      &\num{23}                             &\num{100}&\num{30} \\
+JERS-1   &Japão           &\num{1998}&L    &hh      &\num{35}                             &\num{75}& \num{18}\\
+RADSAT-1 &Canadá          &\num{1995}&C    &hh      &\numrange[range-phrase = --]{20}{59} &\numrange[range-phrase = --]{50}{500}& \numrange[range-phrase = --]{10}{100}\\
+RADSAT-2 &Canadá          &\num{2003}&C    &hh-hv-vv&\numrange[range-phrase = --]{20}{60} &\numrange[range-phrase = --]{10}{500}& \numrange[range-phrase = --]{3}{100}\\\bottomrule
+\end{tabular}\label{tab:carac_radares}
+\end{table}
 \section{Estrutura de dados para imagens PolSAR}
-O sistema PolSAR armazena informações de retorno em uma matriz $\mathbf{S}_{2\times 2}$ para cada ponto de sua região de observação, onde as entradas da matriz são números complexos. Se o sistema é mono-estático, a matriz torna-se hermitiana (a matriz é igual a sua transposta conjugada), por esse motivo, podemos representar a matriz na forma de um vetor $\mathbf{s}$ de dimensão 3. O produto entre o vetor e seu hermitiano gera uma matriz hermitiana $3\times 3$ com suas entrada mostrada na Tabela \ref{tab:sistema_polsar}.
+O sistema PolSAR armazena informações de retorno em uma matriz $\mathbf{S}_{2\times 2}$ para cada ponto de sua região de observação, onde as entradas da matriz são números complexos. Se o sistema é mono-estático, isto é , a matriz torna-se hermitiana (a matriz é igual a sua transposta conjugada), por esse motivo, podemos representar a matriz na forma de um vetor $\mathbf{s}$ de dimensão 3. O produto entre o vetor e seu hermitiano gera uma matriz hermitiana $3\times 3$ com suas entradas mostradas na tabela \ref{tab:sistema_polsar}.
 %%% ACF Precisa explicar o que é cada entrada da tabela, em palavras
 %%% AAB Realizado
 \begin{table}[hbt]
 	\centering
-	\caption{Informações do sistema PolSAR.}\label{tab:sistema_polsar}
+	\caption{Informações do sistema PolSAR.}
 \begin{tabular}{@{}lccc@{}} \toprule
 	Polarização & hh  & hv & vv \\ \midrule
 	hh & $\sigma_\text{hh}$ & $\sigma_\text{hhhv} + \hat{\sigma}_\text{hhhv}\hat{\jmath}$  & $\sigma_\text{hhvv} + \hat{\sigma}_\text{hhvv}\hat{\jmath}$\\ 
 	hv &- &$\sigma_\text{hv}$ & $\sigma_\text{hvvv} + \hat{\sigma}_\text{hvvv}\hat{\jmath}$\\ 
 	vv &- & -&$\sigma_\text{vv}$ \\ \bottomrule 
-\end{tabular}
+\end{tabular}\label{tab:sistema_polsar}
 \end{table}
 
 A estrutura de dados para receber as informações da tabela \ref{tab:sistema_polsar} pode ser uma matriz tridimensional, onde os dois primeiros índices da matriz localizam o pixel da imagem PolSAR correspondente ao azimute e a distância lateral. A resolução do sistema PolSAR define as dimensões na direção do azimute e da distância lateral. O terceiro índice da matriz tridimensional é definido como canal.
@@ -170,20 +184,20 @@ Para cada pixel fixo da imagem, os canais recebem os valores mostrados na Tabela
 %%% AAB  realizado
 \begin{table}[hbt]	
 	\centering
-	\caption{Ordem de armazenamento para os canais da imagem polSAR.}\label{tab:canais}
+	\caption{Ordem de armazenamento para os canais da imagem polSAR.}
 \begin{tabular}{@{}lcccccccc@{}} \toprule
 	 $\text{C}_1$ &$\text{C}_2$&$\text{C}_3$ &$\text{C}_4$&$\text{C}_5$&$\text{C}_6$&$\text{C}_7$&$\text{C}_8$&$\text{C}_9$ \\ \midrule
 	$\sigma_\text{hh}$&$\sigma_\text{hv}$&$\sigma_\text{vv}$&$\sigma_\text{hhhv}$&$\hat{\sigma}_\text{hhhv}$&$\sigma_\text{hhvv}$&$\hat{\sigma}_\text{hhvv}$&$\sigma_\text{hvvv}$&$\hat{\sigma}_\text{hvvv}$\\ \bottomrule
-\end{tabular}
+\end{tabular}\label{tab:canais}
 \end{table}
 
-Neste trabalho serão usados os três primeiros canais da matriz que armazena os dados da imagem PolSAR, conhecidos como canais de intensidades. Os sensores AIRSAR, SIR-C, e RADSAT-2 fornecem informações deste tipo, mais características desses sensores podem ser encontrados na Tabela \label{tab:carac_radares}.
+Neste trabalho serão usados os três primeiros canais da matriz que armazena os dados da imagem PolSAR, conhecidos como canais de intensidades. Os sensores AIRSAR, SIR-C, e RADSAT-2 fornecem informações deste tipo, mais características desses sensores podem ser encontrados na Tabela \ref{tab:carac_radares}.
 %%% ACF Aqui mencione quais sensores fornecem esse tipo de dados, ou dados em dois canais de intensidade
 %%% AAB realiazado
 %%% ACF Figuras são referenciadas com \ref, não com \eqref. Revise e corrija o texto todo
 %%% AAB ok
 
-Um exemplo de dados PolSAR é a imagem da baía de São Francisco (EUA), com suas respectivas polarizações em tons de cinza, mostradas na figura~\ref{fig:sf_hh_hv_vv}. A imagem foi captada pelo sensor aerotransportado AIRSAR polarimétrico na banda L. O AIRSAR apresenta resolução de \numrange[range-phrase = --]{2}{8} \si{\m\squared}.   
+Um exemplo de dados PolSAR é a imagem da baía de São Francisco (EUA), com suas respectivas polarizações em tons de cinza, mostradas na figura~\ref{fig:sf_hh_hv_vv}. A imagem foi obtida pelo sensor aerotransportado AIRSAR polarimétrico na banda L. O AIRSAR apresenta resolução de \num{2} até \num{8} \si{\m\squared} por píxel.  Na Figura \ref{fig:sf_hh_hv_vv} o canal hh é mostrado a esquerda, no centro podemos visualizar o canal hv, enquanto a imagem da direita é o canal vv. 
 %%% ACF Precisa informar o sensor, banda, resolução espacial. Idealmente, acompanhe com uma imagem do Google Maps da mesma área.
 %%% AAB Realizado
 \begin{figure}[hbt]
@@ -199,14 +213,6 @@ Um exemplo de dados PolSAR é a imagem da baía de São Francisco (EUA), com sua
 \endminipage
         \vspace{-2.0cm}
 	\caption{Imagem PolSAR com polarizações hh, hv e vv.}\label{fig:sf_hh_hv_vv}
-\end{figure}
-
-A região de São Francisco capturada por um satélite ótico através do sítio eletrônico \url{https://www.google.com/maps} é mostrada na Figura \ref{fig:otica_google}.
-\begin{figure}[hbt!]
-	\centering
-	\includegraphics[width=.5\linewidth]{san_francisco_google_maps_crop}%
-	\caption{Imagem da região de São Francisco capturada por satélite}
-\label{fig:otica_google}
 \end{figure}
 
 A visualização da região da baía de São Franscisco, usando a decomposição de Pauli (RBG), que será abordada no próximo capítulo,  pode ser vista na figura~\ref{cap_acf_sf_pauli}. Esta imagem também será usada para a realização do processamento de dados com o objetivo de testar os métodos propostos neste trabalho.
@@ -239,10 +245,19 @@ As Figuras~\ref{cap_acf_sf_hh_blue}, \ref{cap_acf_sf_hv_green} e~\ref{cap_acf_sf
 \end{minipage}
 \end{figure}
 
+A mesma região de São Francisco capturada por um satélite ótico através do sítio eletrônico \url{https://www.google.com/maps} é mostrada na Figura \ref{fig:otica_google}.
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.5\linewidth]{san_francisco_google_maps_crop}%
+	\caption{Imagem da região de São Francisco capturada por satélite}
+\label{fig:otica_google}
+\end{figure}
+
 Atualmente, os sistemas SAR e PolSAR são uma área de pesquisa muito ativa. 
 Entre os interesses atuais, está o desenvolvimento de sistemas tipo SAR e PolSAR com alta resolução (VHR).
-Um exemplo disso é o sistema Lynx, projetado pelo laboratório nacional Sandia, o qual alcança resoluções de $10$ a $30$ centímetros quadrados. O sitio eletrônico \url{https://www.sandia.gov/media/NewsRel/NR1999/Lynx.htm} fornece as informações da Tabela \ref{tab:carac_lynx} sobre o projeto lynx:
+Um exemplo é o sistema Lynx, projetado pelo \textit{Sandia National Laboratories} localizado nos EUA , o qual alcança resoluções de $10$ a $30$ centímetros quadrados. O sítio eletrônico \url{https://www.sandia.gov/media/NewsRel/NR1999/Lynx.htm} fornece as informações da Tabela \ref{tab:carac_lynx} sobre o projeto Lynx:
 %%% ACF Fornecer referência ou link
+%%% AAB Realizado
 \begin{table}[hbt]
 	\centering
 	\caption{Características do sistema  Lynx (SAR).}\label{tab:carac_lynx}
@@ -268,7 +283,7 @@ O Lynx pode gerar imagem com alta resolução portanto com grandes dimensões, p
 \label{fig:sar_lynk}
 \end{figure}
 
-Outro exemplo, pode ser visto no artigo \cite{rijpbnm}, que mostra um sistema PolSAR que produzem imagens com resolução de \SI[product-units = brackets-power]{25 x 25}{\cm},
+Outro exemplo, pode ser visto no artigo \cite{rijpbnm}, que mostra um sistema PolSAR que produz imagens com resolução de \SI[product-units = brackets-power]{25 x 25}{\cm},
 %%% ACF Use siunitx
 %%% AAB realizado
 conhecido como F-SAR, desenvolvido pelo centro aeroespacial da Alemanha (DLR). 
@@ -283,7 +298,7 @@ O SAOCOM-1B segundo satélite produzido pelo projeto foi colocado em órbita em 
 Como curiosidades, podemos citar: 
 \begin{itemize}
 \item O projeto de um mini-SAR para uso em veículos aéreos não tripulados que focam na evolução da micro-eletrônica para aumentar a eficiência e diminuir o peso, por exemplo, o projeto Lynx; %%% ACF Referência ou link %%% AAB realizado
-\item As imagens SAR podem ser captadas por satélites, orbitando outros planetas, como o projeto Magellan SAR que orbita Vênus, o satélite foi lançado em 1989 com duração prevista de 5 anos. A figura \ref{fig:sar_magellan} mostra o planeta Vênus captura pelo satélite Magellan, mais informações sobre o projeto poder ser encontradas no Sítio eletrônico \url{https://www2.jpl.nasa.gov/magellan/};
+\item As imagens SAR podem ser captadas por satélites, orbitando outros planetas, como o projeto Magellan SAR que orbita Vênus, o satélite foi lançado em 1989 com duração prevista de 5 anos. A figura \ref{fig:sar_magellan} mostra o planeta Vênus capturada pelo satélite Magellan, mais informações sobre o projeto poder ser encontradas no Sítio eletrônico \url{https://www2.jpl.nasa.gov/magellan/};
   %%% ACF Referência ou link; orbita ainda?
   %%% AAB realizado
 \item Outra tecnologia usada para a captação de imagens SAR denominada de interferométrica SAR (InSAR), usa dois ou mais radares de abertura sintética para obter imagens, podendo ser em posições diferentes ou tempos distintos. O sensor InSAR possibilita medir deslocamentos de objetos de interesse em uma região definida da imagem. Um tutorial sobre os sensores InSAR podem ser encontrado no Sítio eletrônico \url{https://www.esa.int/About_Us/ESA_Publications/InSAR_Principles_Guidelines_for_SAR_Interferometry_Processing_and_Interpretation_br_ESA_TM-19}.
@@ -306,4 +321,4 @@ E  podemos destacar como desvantagens:
 \label{fig:sar_magellan}
 \end{figure}
 
-Entretanto, as desvantagens nos sistemas SAR e PolSAR não evitam os mesmos de serem largamente empregadas, o que impulsiona a produção de conhecimento nessa área, gerando um grande interesse, tanto em nível de aplicações, como em pesquisas científicas.
+Entretanto, as desvantagens nos sistemas SAR e PolSAR não evitam os mesmos de serem largamente empregados, o que impulsiona a produção de conhecimento nessa área, gerando um grande interesse, tanto em nível de aplicações, como em pesquisas científicas.

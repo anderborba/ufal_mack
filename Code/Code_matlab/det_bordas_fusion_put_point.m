@@ -5,7 +5,7 @@ cd ..
 cd Data
 load AirSAR_Flevoland_Enxuto.mat
 [nrows, ncols, nc] = size(S);
-cd .
+cd ..
 cd Code/Code_matlab
 for i =1: nrows
 	for j = 1: ncols
@@ -20,8 +20,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 II = show_Pauli(S, 1, 0);
 %%%%%%%%%%%%%%%%%%%i%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-IT = zeros(nrows, ncols); 
-IF = zeros(nrows, ncols); 
+IT = zeros(nrows, ncols);
+IF = zeros(nrows, ncols);
 
 x0 = nrows / 2 - 140;
 y0 = ncols / 2 - 200;
@@ -41,7 +41,7 @@ MY = zeros(num_radial, r, nc);
 %  Insere as linhas radiais
 %const =  1
 %for i = 1:4: num_radial
-%	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0); 
+%	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; xr(i), yr(i)], 0);
 %	for canal = 1 :nc
 %		Iaux = S(:, :, canal);
 %		dim = length(XC);
@@ -70,7 +70,7 @@ ev_hv_vv_razao = load('/home/aborba/ufal_mack/Data/evid_real_flevoland_hv_vv_par
 xc = load('/home/aborba/ufal_mack/Data/xc_flevoland.txt');
 yc = load('/home/aborba/ufal_mack/Data/yc_flevoland.txt');
 %num_radial = 100;
-for i = 1: num_radial 
+for i = 1: num_radial
 ev(i, 1) = round(ev_hh(i, 3));
 ev(i, 2) = round(ev_hv(i, 3));
 ev(i, 3) = round(ev_vv(i, 3));
@@ -78,7 +78,7 @@ ev(i, 4) = round(ev_hh_hv_razao(i, 3));
 ev(i, 5) = round(ev_hh_vv_razao(i, 3));
 ev(i, 6) = round(ev_hv_vv_razao(i, 3));
 end
-nc = 6;
+nc = 3;
 m = 750;
 n = 1024;
 %x0 = m / 2 + 10;
@@ -90,7 +90,7 @@ for i = 1: nc
 end
 for canal = 1 : nc
 	for i = 1: num_radial
-        		ik =  ev(i, canal); 
+        		ik =  ev(i, canal);
 			IM( yc(i, ik), xc(i, ik), canal) = 1;
 	end
 end
@@ -106,7 +106,7 @@ tic;
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-%[IF] = fus_svd(IM, m, n, nc);
+[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;
@@ -125,9 +125,9 @@ hby = y0 + 60;
 
 imshow(II)
 % plot com fusion
-%[xpixel, ypixel, valor] = find(IF > 0);
+[xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-[xpixel, ypixel, valor] = find(IM(:, :, 6) > 0);
+%[xpixel, ypixel, valor] = find(IM(:, :, 6) > 0);
 %
 axis on
 hold on;
@@ -139,7 +139,7 @@ for i= 1: dpixel(1)
     				'MarkerSize',3.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
-end	
+end
 
 %for i=1: nrows
 %	for j=1: ncols

@@ -126,87 +126,62 @@ framexrightmargin=10pt
 \begin{document}
 \frontmatter 
 % cabeçalho para as páginas das seções anteriores ao capítulo 1 (frontmatter)
-\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
-\setcounter{tocdepth}{2}
-\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
-\fancyhead[RE,LO]{}
-\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+%\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+%\setcounter{tocdepth}{2}
+%\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+%\fancyhead[RE,LO]{}
+%\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 
 \onehalfspacing  % espaçamento
-
+%\fancyhead[RE,LO]{\thesection}
+\fancyhead[LO]{\thesection}
 % ---------------------------------------------------------------------------- %
 % CAPA
-% Nota: O título para as dissertações/teses do IME-USP devem caber em um 
-% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
 \thispagestyle{empty}
 \begin{center}
-    \vspace*{-4.0cm}
+    \vspace*{-3.7cm}
     \textbf{\Large{UNIVERSIDADE PRESBITERIANA MACKENZIE}}\\
     %\Large{Programa de Pós graduação em}\\
     %\Large{Engenharia Elétrica e Computação - PPGEEC}\\
     
     \vspace*{0.5cm}
-    \Large{ANDERSON ADAIME DE BORBA}\\
-    \vspace*{4.5cm}
-    \Large{FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
-    %\vskip 2cm
-    %\textsc{
-    %Exame de qualificação apresentado\\[-0.25cm] 
-    %a\\[-0.25cm]
-    %Faculadade de Computação e informática\\[-0.25cm]
-    %da\\[-0.25cm]
-    %Universidade Presbiteriana Mackenzie\\[-0.25cm]
-    %para\\[-0.25cm]
-    %obtenção do título\\[-0.25cm]
-    %de\\[-0.25cm]
-    %Doutor em Ciências}
-    %
-    %\vskip 1.5cm
-    %Programa de Pós graduação em Engenharia Elétrica e Computação - PPGEEC\\
-    %Orientador: Prof. Dr. Mauricio Marengoni\\
-    %Coorientador: Prof. Dr. Alejandro César Frery Orgambide
-%
-%   	\vskip 1cm
-%    \normalsize{Durante o desenvolvimento deste trabalho o autor recebeu auxílio
-%    financeiro da CAPES}
-%    
-%    \vskip 0.5cm
-    \vspace*{16.5cm}
-    \Large{São Paulo}\\
-    \Large{2020}
+    \large{ANDERSON ADAIME DE BORBA}\\
+    \vspace*{5.0cm}
+    \setlength{\baselineskip}{1.5\baselineskip}
+\textbf{\large FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
+    \vspace*{14.2cm}
+    \large{São Paulo}\\
+    %\vskip -0.4cm
+    \large{2020}
 \end{center}
-\newpage
+\pagebreak
+% CAPA
+\pagestyle{empty}
+\vspace*{-3.7cm}
 \begin{center}
-    \vspace*{-4.0cm}
-    \Large{ANDERSON ADAIME DE BORBA}\\
-    \vspace*{4.0cm}
-    \Large{FUSÃO DE EVIDÊNCIAS NOS CANAIS DE INTENSIDADES PARA A DETECÇÃO DE BORDAS EM IMAGENS PolSAR}\\
-    \vskip 2cm
-    \textsc{
-    Tese apresentada ao \\[-0.25cm] 
-    Programa de Pós-Graduação em \\[-0.25cm]
-    Engenharia Elétrica e Computação da\\[-0.25cm]
-    Universidade Presbiteriana Mackenzie\\[-0.25cm]
-    para\\[-0.25cm]
-    obtenção do título\\[-0.25cm]
-    de\\[-0.25cm]
-    Doutor.}
-    
-    
-    
-    \vskip 1.5cm
-    %Programa de Pós graduação em Engenharia Elétrica e Computação - PPGEEC\\
-    Orientador: Prof. Dr. Mauricio Marengoni\\
-    Coorientador: Prof. Dr. Alejandro César Frery Orgambide
-
-   	\vskip 1cm
-    \normalsize{Durante o desenvolvimento deste trabalho o autor recebeu auxílio
-    financeiro da CAPES}
-    
-    \vskip 0.5cm
-    \normalsize{São Paulo, 06  de novembro de 2020}
+\large  \textbf{UNIVERSIDADE PRESBITERIANA MACKENZIE}
+\large  \textbf{PROGRAMA DE PÓS-GRADUAÇÃO EM}\\
+\large  \textbf{ENGENHARIA ELÉTRICA E COMPUTAÇÃO}\\
+\vskip 2.0cm
+\text{\large ANDERSON ADAIME DE BORBA}\\
+\vskip 4.0cm
+\setlength{\baselineskip}{1.5\baselineskip}
+\textbf{\large FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
+\vskip 4.5cm
 \end{center}
-
+\hfill{\vbox{\hsize=8.5cm\noindent\strut
+Tese apresentada ao Programa de Pós-Graduação\break
+em Engenharia Elétrica e Computação da Universidade\break
+ Presbiteriana Mackenzie como requisito parcial à\break
+obtenção do título de Doutor.}\\
+\strut}
+\vskip 3.0cm
+\hspace{-0.7cm} \textbf{\normalsize Orientador: Prof. Dr. Mauricio Marengoni}\\
+\textbf{\normalsize  Coorientador: Prof. Dr. Alejandro César Frery Orgambide}
+\begin{center}
+São Paulo\\
+2020\\
+\end{center}
 % ---------------------------------------------------------------------------- %
 % Página de rosto (SÓ PARA A VERSÃO DEPOSITADA - ANTES DA DEFESA)
 % Resolução CoPGr 5890 (20/12/2010)
@@ -249,71 +224,86 @@ framexrightmargin=10pt
 %   à Comissão Julgadora antes da defesa
 %
 %
-%\newpage
-%\thispagestyle{empty}
-%    \begin{center}
-%        \vspace*{2.3 cm}
-%        \textbf{\Large{Imagens PolSAR}}\\
-%        \vspace*{2 cm}
-%    \end{center}
-%
-%    \vskip 2cm
-%
-%    \begin{flushright}
-%	Esta versão da tese contém as correções e alterações sugeridas\\
-%	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
-%	realizada em **/**/****. Uma cópia da versão original está disponível no\\
-%	na faculdade de Computação e informática da Universidade Presbiteriana Mackenzie.
-%
-%    \vskip 2cm
-%
-%    \end{flushright}
-%    \vskip 4.2cm
-%
-%    \begin{quote}
-%    \noindent Comissão Julgadora:
-%    
-%    \begin{itemize}
-%		\item Profª. Drª. Nome Completo (orientadora) - Mackenzie [sem ponto final]
-%		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
-%		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
-%    \end{itemize}
-%      
-%    \end{quote}
-%\pagebreak
-%
-%
-%\pagenumbering{roman}     % começamos a numerar 
+\newpage
+\thispagestyle{empty}
+    \begin{center}
+        \vspace*{2.3 cm}
+        \textbf{\Large{Imagens PolSAR}}\\
+        \vspace*{2 cm}
+    \end{center}
 
+    \vskip 2cm
+
+    \begin{flushright}
+	Esta versão da tese contém as correções e alterações sugeridas\\
+	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
+	realizada em **/**/****. Uma cópia da versão original está disponível no\\
+	na faculdade de Computação e informática da Universidade Presbiteriana Mackenzie.
+
+    \vskip 2cm
+
+    \end{flushright}
+    \vskip 4.2cm
+
+    \begin{quote}
+    \noindent Comissão Julgadora:
+    
+    \begin{itemize}
+		\item Profª. Drª. Nome Completo (orientadora) - Mackenzie [sem ponto final]
+		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
+		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
+    \end{itemize}
+      
+    \end{quote}
+\pagebreak
+%
+%
+\pagenumbering{roman}     % começamos a numerar 
+% ---------------------------------------------------------------------------- %
+% Dedicatoria:
+% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
+\chapter*{}
+\vskip 15.cm
+\hfill{\vbox{\hsize=5.5cm\noindent\strut
+Texto Dedicatória\break
+texto Dedicatória\break
+texto Dedicatória\break
+texto Dedicatória.}\\
+\strut}
 % ---------------------------------------------------------------------------- %
 % Agradecimentos:
 % Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-%\chapter*{Agradecimentos}
-%Texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto. Texto opcional.
-
-
+\chapter*{Agradecimentos}
+Texto texto texto texto texto texto texto texto texto texto texto texto texto
+texto texto texto texto texto texto texto texto texto texto texto texto texto
+texto texto texto texto texto texto texto texto texto texto texto texto texto
+texto texto texto texto. Texto opcional.
+%
+% Epígrafe:
+% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
+\chapter*{}
+\vskip 15.cm
+\hfill{\vbox{\hsize=5.5cm\noindent\strut
+Texto  Epígrafe\break
+texto  Epígrafe\break
+texto  Epígrafe\break
+texto  Epígrafe.}\\
+\strut}
 % ---------------------------------------------------------------------------- %
 % Resumo
 \chapter*{Resumo}
-%\noindent BORBA, A. A. \textbf{Imagens PolSAR}. 
-%2019. *** f.
-%Tese (Doutorado) - Faculadade de Computação e Informática,
-%Universidade Presbiteriana Mackenzie, São Paulo, 2019.
-%\\
 %
-Os radares de abertura sintética polarimétrica (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Neste trabalho foram estudados e comparados seis métodos de fusão provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). Os resultados obtidos com a análise quantitativa indicam que os métodos PCA e MR-SVD fornecem os melhores resultados. 
-\\
-\\
+Os radares de abertura sintética polarimétrica (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Nesse contexto a investigação de métodos de fusão de evidências de bordas é importante para quantificar e qualificar as informações obtidas de cada canal da imagem. A obtenção desses dados possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas.  Neste trabalho foram estudados e comparados seis métodos de fusão provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível idealmente com largura de um píxel, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). A comparação dos seis métodos de fusão foi realizada quantitativamente, calculando-se a proximidade das bordas detectadas com as bordas definidas nas imagens \textit{Ground Truth} e pela presença de \textit{outliers}.
+
+  Os resultados obtidos com as análises indicam que os métodos PCA e MR-SVD fornecem os melhores resultados, devido a precisão em detectar bordas e a baixa incidência de \textit{outliers}. 
 %
-\noindent Palavras-chave: PolSAR. Detecção de bordas. Estimativa de máxima verossimilhança. Métodos de fusão.
+\vskip 0.5cm
+\noindent Palavras-chave: PolSAR. Deecção de bordas. Estimativa de máxima verossimilhança. Métodos de fusão.
 % ---------------------------------------------------------------------------- %
 % Abstract
 \chapter*{Abstract}
 Polarimetric Synthetic Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
-The images they provide have speckle noise, making their processing and analysis challenging tasks. 
+The images they provide have speckle noise, making their processing and analysis challenging tasks. In this context, the investigation of edge evidence fusion methods is essential to quantify and qualify the information obtained from each image channel. Getting this data enables the decision to use or discard the information from a given channel to improve the performance of edge detection. 
 We discuss an edge detection method based on the fusion of evidences obtained in the intensity channels hh, hv, and vv of PolSAR multi-look images. 
 The method consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
 The fusion methods used are: 
@@ -323,8 +313,11 @@ principal component analysis (PCA),
 Receiver operating characteristic (ROC) statistics, 
 multi-resolution stationary (MR-SWT) wavelet transform, 
 and a multi-resolution method based on singular value decomposition (MR-SVD). 
-A quantitative analysis suggests that PCA and MR-SVD provide the best results.
-\noindent \textbf{Keywords:} PolSAR. Edge detection. Maximum likelihood estimation, Fusion methods. 
+The six fusion methods were compared quantitatively, calculating the distance of the detected edges to the edges defined in the Ground Truth images and by the presence of outliers.
+The results obtained with the analyses suggest that the PCA and MR-SVD methods provide the best results due to the precision in detecting edges and the low incidence of outliers.
+
+\vskip 0.5cm
+\noindent Keywords: PolSAR. Edge detection. Maximum likelihood estimation, Fusion methods. 
 % ---------------------------------------------------------------------------- %
 % Sumário
 \tableofcontents    % imprime o sumário

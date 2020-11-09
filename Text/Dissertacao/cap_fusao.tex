@@ -16,7 +16,7 @@ A imagem binária $\widehat{\bm\jmath}_\text{hv}$ ilustrada na figura \ref{fig:b
 %%% ACF Você abusa da voz passiva, que torna o texto cansativo
 %%% AAB Vou prestar mais atencao
 
-Neste trabalho são propostos seis técnicas de fusão de evidências de bordas:
+Neste trabalho são propostas seis técnicas de fusão de evidências de bordas:
 \begin{itemize} 
 \item Média simples; 
 \item Transformada wavelet discreta multi-resolução (MR-DWT);
@@ -26,7 +26,7 @@ Neste trabalho são propostos seis técnicas de fusão de evidências de bordas:
 \item Decomposição em valores singulares com multi-resolução (MR-SVD).
 \end{itemize}
 
-As técnicas serão descritas nesta seção, com especial atenção para a estatística ROC. 
+Cada uma das técnicas serão descritas nesta seção.
 \subsection{Fusão por média simples}
 A fusão por média simples realiza a média aritmética das evidências de bordas para cada canal,
 $\bm I_\text{F}(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$, onde $nc$ é o número de canais a serem utilizados na fusão. 
@@ -56,7 +56,7 @@ A figura~\ref{fig:cap_fusao_media_simples} apresenta o fluxograma para a fusão 
 	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
     \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
     \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
-    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_3(x,y)$};    
+    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
 %
     \path [draw, ->] (e1.east) -- node [above] {} 
         (wa.160) ;
@@ -70,9 +70,8 @@ A figura~\ref{fig:cap_fusao_media_simples} apresenta o fluxograma para a fusão 
 \end{figure}
 %
 \subsection{Fusão usando o método wavelet discreta multi-resolução -- MR-DWT} 
-
 Este método de fusão é baseado no trabalho de~\cite{n_r}. 
-Pada cada imagem binaria $\bm{\widehat\jmath}_c$ foram aplicados filtros DWT, sendo um filtro de passa baixa \textbf{L}  na direção vertical e um filtro de passa alta \textbf{H} na direção horizontal, ambos são \textit{down-sampled} para formar as matrizes de coeficientes $\bm{\widehat\jmath}_{c\text{L}}$ e $\bm{\widehat\jmath}_{c\text{H}}$.  
+Para cada imagem binaria $\bm{\widehat\jmath}_c$ foram aplicados filtros DWT, sendo um filtro passa baixa \textbf{L}  na direção vertical e um filtro passa alta \textbf{H} na direção horizontal, ambos são \textit{down-sampled} para formar as matrizes de coeficientes $\bm{\widehat\jmath}_{c\text{L}}$ e $\bm{\widehat\jmath}_{c\text{H}}$.  
 As operações são repetidas nas matrizes de coeficientes $\bm{\widehat\jmath}_{c\text{L}}$ e $\bm{\widehat\jmath}_{c\text{H}}$, resultando em $\bm{\widehat\jmath}_{c\text{LL}}$, $\bm{\widehat\jmath}_{c\text{LH}}$, $\bm{\widehat\jmath}_{c\text{HL}}$, e $\bm{\widehat\jmath}_{c\text{HH}}$.
 
 A fusão de evidências de bordas tem os seguintes passos para cada nível de resolução:
@@ -131,7 +130,6 @@ O fluxograma para o método de fusão MR-DWT pode ser visto na figura \ref{fig:c
 \end{figure}
 
 \subsection{Fusão usando o método wavelet discreta Multi-Resolução -- MR-SWT} 
-
 Este método de fusão é  baseado nos trabalhos de \citet{n_r, jjly}. 
 A diferença entre os métodos MR-DWT e MR-SWT é a substituição do operador transformada discreta wavelet (DWT) pelo operador transformada estacionária wavelet (SWT).
 
@@ -184,13 +182,13 @@ Na figura abaixo $\text{W}$ e $\text{W}^{-1}$ representam a transformação para
 \label{fig:cap_fusao_swt}
 \end{figure}
 \subsection{Fusão usando o método análise das componentes principais -- PCA} 
-O método PCA é baseada nos trabalhos de \citet{n_r,mit}, e pode ser resumido nos seguinte passos:
+O método PCA é baseado nos trabalhos de \citet{n_r,mit}, e pode ser resumido nos seguinte passos:
 \begin{enumerate}
 \item Armazenar as imagens binárias $\bm{\widehat\jmath}_c$ em colunas para obter a matriz $\bm X_{\ell\times n_c}$;
 %%% ACF Cuidado com a notação para não confundir com a parte de polarimetria
 %%% AAB OK
 \item Calcular a matriz de covariância $\bm C_{n_c\times n_c}$ de $\bm X_{\ell\times n_c}$;
-\item Calcular as matrizes de autovalores ($\bm\Lambda$) e autovetores ($\bm V$) da matriz de covariância, ordene os autovalores e seus respectivos autovetores de maneira decrescente;
+\item Calcular as matrizes de autovalores ($\bm\Lambda$) e autovetores ($\bm V$) da matriz de covariância, ordenar os autovalores e seus respectivos autovetores de maneira decrescente;
 \item Encontrar o vetor $\bm P=(P(1),\dots,P(n_c))=(\sum_{c=1}^{n_c} V(c))^{-1}{\bm V}$, onde $\bm V$ é o autovetor associado com o maior autovalor de $\bm X$; note que $\sum_{c=1}^{n_c}\bm P_c=1$;
 \item Realizar a fusão $\bm I_F(x,y)=\sum_{c=1}^{n_c} P(c)\bm{\widehat\jmath}_c(x,y)$.
 \end{enumerate}
@@ -231,10 +229,9 @@ O fluxograma para a fusão usando o método PCA pode ser visto na figura \ref{fi
 \end{figure}
 
 \subsection{Fusão usando a estatística ROC}
-
 O método baseado na estatística \textit{Receiver Operating Characteristics} (E-ROC) descrito nos trabalhos de \citet{gs,fawcett} segue os seguintes passos:
 \begin{enumerate}
-\item Adicionar as imagens binárias $\bm{\widehat\jmath}_c$ para produzir a matriz de frequência V; 
+\item Somar as imagens binárias $\bm{\widehat\jmath}_c$ para produzir a matriz de frequência V; 
 \item Aplicar os limiares $t=1,\dots,n_c$ em V para gerar as matrizes $\bm{\widehat\imath}_t$;
 \item Comparar cada $\bm{\widehat\imath}_t$ com todos $\bm{\widehat\jmath}_c$, ache a matriz de confusão para gerar a curva ROC. O limiar ótimo corresponde ao ponto da curva ROC mais perto (no sentido da distância euclidiana) da linha de diagnóstico;
 \item A fusão $\bm{I_\text{F}}$ é a matriz $\bm{\widehat\imath}_t$ que corresponde ao limiar ótimo.
@@ -270,7 +267,7 @@ Os valores da diagonal principal da matriz de confusão representam as classific
 %%% ACF Deixe claro que a matriz de confusão apresenta proporções, caso contrário a soma não é 1
 %%% AAB Realizado
 
-Na matriz de confusão considerada, teremos que a soma de todas as possibilidades dos resultados em uma classificação retorna o valor TP+FN+FP+TN=1.
+Na matriz de confusão a soma de todas as possibilidades dos resultados em uma classificação retorna o valor TP+FN+FP+TN=1, quando os valores de TP, FN, FP e TN são expressos em termos de probabilidade..
 
 Definimos a prevalência como a soma dos positivos verdadeiros com os negativos falsos, P=TP+FN, portanto, podemos afirmar que idealmente, a prevalência deveria aproximar-se de TP. Definindo-se o \text{Nível}-Q como a soma dos positivos verdadeiros com os positivos falsos, Q=TP+FP, o qual deveria aproximar-se de TP em situações ideais. 
 
@@ -284,13 +281,13 @@ A matriz de confusão serve de base para a construção da curva ROC, com as seg
 	fp_{\text{rate}}=\frac{\text{FP}}{\text{N}}.
 \end{equation}
 
- Na métrica conhecida por razão de positivos verdadeiros, taxa de acerto, \textit{recall} ou  sensibilidade,~$tp_{\text{rate}}=\frac{\text{TP}}{\text{P}}=\frac{\text{TP}}{\text{TP+FN}}$,~se o número de negativos falsos tenderem a zero, o valor da métrica aproxima-se do valor unitário. Assim como, na métrica conhecida como razão de positivos falsos,~$fp_{\text{rate}}=\frac{\text{FP}}{\text{N}}=\frac{\text{FP}}{\text{FP+TN}}$,~se o número de verdadeiros positivos tenderem a zero, o valor da métrica aproxima-se do valor unitário.
+ Na métrica conhecida por razão de positivos verdadeiros, taxa de acerto, \textit{recall} ou  sensibilidade,~$tp_{\text{rate}}=\frac{\text{TP}}{\text{P}}=\frac{\text{TP}}{\text{TP+FN}}$,~se o número de negativos falsos tender a zero, o valor da métrica aproxima-se do valor unitário. Assim como, na métrica conhecida como razão de positivos falsos,~$fp_{\text{rate}}=\frac{\text{FP}}{\text{N}}=\frac{\text{FP}}{\text{FP+TN}}$,~se o número de verdadeiros positivos tender a zero, o valor da métrica aproxima-se do valor unitário.
 \subsubsection{Estatística ROC para a fusão das evidências de bordas}
 O método de fusão de evidências baseado na estatística ROC, consiste em aplicar o método MLE em cada canal da imagem PolSAR, gerando imagens binárias com as evidências de bordas $\bm{\widehat\jmath}_c$, sendo $c=1,\dots,n_c$, onde $n_c$ é o número de canais. Após construir a matriz de frequência V de mesmo tamanho de $\bm{\widehat\jmath}_c$, tal que em cada pixel é armazenado um valor, correspondente a frequência de ocorrências de evidências de bordas em cada canal $\bm{\widehat\jmath}_c$, ou seja, a matriz V é a soma pixel a pixel de todas as imagens de  evidências de bordas $\bm{\widehat\jmath}_c$. Sendo assim, podemos afirmar que quanto maior o valor de um pixel, maior sua probabilidade de ser uma evidência de borda.
 
 Na matriz de frequência V são aplicados limiares~$\text{CT}_t$, onde $t=1,\dots,n_c$, gerando matrizes chamadas mapas de evidências de bordas $\bm{\widehat\imath}_t$. O objetivo do método é estimar automaticamente o limiar correspondente CT ótimo, proveniente do conjunto de limiares parciais $\text{CT}_t$.
 
-Resumindo, somando-se as matrizes $\bm{\widehat\jmath}_c$ temos a matriz de frequência $\text{V}=\sum_{c=1}^{n_c}\bm{\widehat\jmath}_c$. Na matriz V é aplicado os limiares $\text{CT}_t$ com $t=1,\dots,n_c$, gerando os mapas de evidências de bordas $\bm{\widehat\imath}_t$. Na figura \ref{fig:cap_fusao_roc1} pode-se visualizar o fluxograma correspondente a esse processo.
+Resumindo, somando-se as matrizes $\bm{\widehat\jmath}_c$ temos a matriz de frequência $\text{V}=\sum_{c=1}^{n_c}\bm{\widehat\jmath}_c$. Na matriz V é aplicado os limiares $\text{CT}_t$ com $t=1,\dots,n_c$, gerando os mapas de evidências de bordas $\bm{\widehat\imath}_t$. A figura \ref{fig:cap_fusao_roc1} mostra o fluxograma correspondente a esse processo.
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
@@ -363,8 +360,7 @@ As entradas para cada matriz de confusão são definidas como:
 \end{equation}
 os índices E e NE, significam bordas detectadas e bordas não detectadas respectivamente.
 
-
-Para cada matriz $\bm{\widehat\imath}_t$, com $t$ fixado arbitrariamente, foram comparadas a todas as matrizes $\bm{\widehat\jmath}_c$, e foi construído para cada comparação uma matriz de confusão, desta forma gerou-se $n_c$ matrizes de confusão, mostrado na tabela \ref{tab:matriz_conf_roc_j}.
+Para cada matriz $\bm{\widehat\imath}_t$, com $t$ fixado arbitrariamente, foi feita uma comparação com todas as matrizes $\bm{\widehat\jmath}_c$.  e construído $n_c$ matrizes de confusão. Uma delas é mostrada na Tabela \ref{tab:matriz_conf_roc_j}.
 \begin{table}[htb!]
 	\centering
 	\caption{Matriz de confusão para cada comparação}\label{tab:matriz_conf_roc_j}
@@ -447,9 +443,9 @@ e
 \end{equation}
 onde a soma de $\overline{\text{TP}}_t+\overline{\text{FN}}_t$, representa o número médio de bordas verdadeiras para cada $\bm{\widehat\imath}_t$.
 
-O gráfico para a curva ROC é bidimensional no qual os valores das razões de positivos falsos, $\text{FP}_{rate_t}$, são medidos no eixo horizontal, e as razões de positivos verdadeiros, $\text{TP}_{rate_t}$, são medidos no eixo vertical. Assim, cada mapa de borda $\bm{\widehat\imath}_t$ produz um ponto no gráfico $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ gerando a curva ROC. 
+O gráfico para a curva ROC é bidimensional, os valores das razões de positivos falsos, $\text{FP}_{rate_t}$, são medidos no eixo horizontal, e as razões de positivos verdadeiros, $\text{TP}_{rate_t}$, são medidos no eixo vertical. Assim, cada mapa de borda $\bm{\widehat\imath}_t$ produz um ponto no gráfico $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ gerando a curva ROC. 
 
-O trabalho de \cite{fawcett} mostra que o limiar ótimo ocorre na intersecção, ou perto da mesma, da curva ROC com a linha diagnóstico. Essa linha é formada conectando os pontos (P,P) e (0,1) representada pela linha vermelha na figura \ref{fig:curva_roc}. 
+O trabalho de \cite{fawcett} mostra que o limiar ótimo ocorre na intersecção, ou perto da mesma, da curva ROC com a linha diagnóstico, que é formada conectando os pontos (P,P) e (0,1) representada pela linha vermelha na figura \ref{fig:curva_roc}. 
 
 O limiar ótimo CT, correspondendo ao parâmetro $t$ que gera o ponto $(\text{FP}_{rate_t}, \text{TP}_{rate_t})$ mais próximo (métrica euclidiana) da reta diagnóstico determina a imagem $\bm{\widehat\imath}_t$ com maior acurácia de bordas detectadas. 
 
@@ -475,8 +471,8 @@ O método pode ser resumido nos seguinte passos:
 \item Organizar as imagens binárias $\bm{\widehat\jmath}_c$, com a extração de blocos $2\times 2$ não sobrepostos, onde cada bloco é colocado como um vetor $4\times 1$, ordenado em colunas para formar a matriz de dados $\bm X_1$ com dimensão ${4\times{\ell}/{4}}$;   
 \item Calcular a decomposição SVD de  $\bm X_1=\bm U_1 \bm S_1 \bm V_1^T$, onde $\bm U_1$ e $\bm V_1$ são unitárias e têm dimensões ${4\times 4}$ e ${\ell}/{4}\times{\ell}/{4}$, respectivamente. Os valores singulares são ordenados de maneira decrescente e são colocados na diagonal principal da matriz $\bm S_1$, as demais entradas da matriz são zeros;  
 \item Transformar as linhas de $\widehat{\bm X}_1=\bm U_1^T\bm X_1=\bm S_1 \bm V_1^T$, sobre novas matrizes com dimensões ${m}/{2}\times{n}/{2}$: $\{\bm\Phi_1, \bm\Psi_{1\text{V}}, \bm\Psi_{1\text{H}}, \bm\Psi_{1\text{D}}\}$; 
-\item Recomecar o procedimento em (1) para $\bm\Phi_r$ com $r=2$, até o menor nível de resolução $R$;
-\item A MR-SVD decomposição em cada canal é  
+\item Recomeçar o procedimento em (1) para $\bm\Phi_r$ com $r=2$, até o menor nível de resolução $R$;
+\item A decomposição MR-SVD em cada canal é  
 \begin{equation}\nonumber
 \widehat{\bm X}_c\rightarrow \left\{\bm \Phi_\text{R}^c,\{\bm\Psi_{r\text{V}}^c,\bm\Psi_{r\text{H}}^c,\bm\Psi_{r\text{D}}^c \}_{r=1}^\text{R},\{\bm U_r^c	\}_{r=1}^\text{R} \right\};
 \end{equation}
@@ -484,6 +480,6 @@ O método pode ser resumido nos seguinte passos:
 \item Achar o máximo pixel a pixel de $\bm\Psi_{r\text{V}}^c$, $\bm\Psi_{r\text{H}}^c$ e $\bm\Psi_{r\text{D}}^c$: $ \bm\Psi_{rV}^f$ $\bm\Psi_{r\text{V}}^f$, $\bm\Psi_{r\text{H}}^f$ e $\bm\Psi_{r\text{D}}^f$;
 \item A fusão $\bm I_\text{F}$ é a transformação SVD para cada nível $r=\text{R},\dots,1$, 
 \begin{equation}\nonumber
-\bm I_\text{F}\leftarrow \left\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
+\bm I_\text{F}\leftarrow \left(\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
 \end{equation}
 \end{enumerate}

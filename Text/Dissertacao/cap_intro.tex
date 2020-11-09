@@ -8,7 +8,7 @@ As bordas estão em um nível mais alto de abstração do que apenas os dados e,
 
 As imagens do tipo SAR e PolSAR possuem características inerentes ao seu processo de aquisição.
 Como vantagens podemos destacar que a captação das imagens pode ser realizadas dia e noite (pois o sensor é ativo e carrega a própria fonte de iluminação), não dependem das condições do tempo (pois iluminam a cena com micro-ondas, que são pouco afetadas por nuvens, chuva, bruma, fumaça, etc.) e possuem  excelente capacidade de penetração da cobertura vegetal. 
-A desvantagem deste tipo de imagem está na presença do ruído \textit{speckle}, que gera um aspecto granular na imagem, dificultando a sua interpretação e análise. 
+A desvantagem deste tipo de imagem está na presença do ruído \textit{speckle}, que gera um aspecto granular na imagem, dificultando a sua interpretação e análise. Os livros \citet{lp} e \citet{lkc} são excelentes fontes para consultar sobre imagens PolSAR e Sensoriamento Remoto.
 
 As técnicas de detecção de bordas disponíveis para imagens SAR e PolSAR estão sendo desenvolvidas, e são temas em recentes pesquisas. 
 Entre as técnicas disponíveis para essas imagens, são destacadas: 
@@ -30,12 +30,12 @@ A referência \citet{bmf_2020} fornece informações sobre os processos de fusã
 
 
 O Algoritmo Gambini, apresentado em \citet{gmbf_sc}, é uma excelente técnica para detecção de bordas. 
-Com essa técnica é possível encontrar evidências de uma borda sobre uma faixa fina de dados.
-Esta abordagem funciona com qualquer modelo, o que o torna adequado para dados SAR e PolSAR, e tem demostrando ter um desempenho melhor do que outras abordagens. 
-Esse algoritmo consiste em traçar raios, para então, encontrar a evidência de borda maximizando uma função que, na proposta original, é a de máxima verossimilhança total.
+Com essa técnica é possível encontrar evidências de uma borda sobre uma faixa fina de dados, ou seja, informações obtidas em uma faixa de dados da imagem de aproximadamente um píxel.
+Esta abordagem funciona com qualquer modelo, o que o torna adequado para dados SAR e PolSAR, e tem demostrando um desempenho melhor do que outras abordagens. 
+Esse algoritmo consiste em traçar raios do centroide de uma região de interesse até um ponto externo da região, para então, encontrar a evidência de borda maximizando uma função que, na proposta original, é a de máxima verossimilhança total.
 
 Neste trabalho usaremos a verossimilhança total de duas amostras: uma para região interna e outra para a região externa da borda. 
-Para não perder de generalidade, optou-se pela distribuição Wishart para as observações totalmente polarimétricas, derivando para as suas distribuições, do tipo Gamma, em cada canal de intensidade. 
+Para não perder generalidade, optou-se pela distribuição Wishart para as observações totalmente polarimétricas, derivando para as suas distribuições, do tipo Gamma, em cada canal de intensidade. 
 A função de máxima verossimilhança total depende das estimativas que parametrizam as leis Gamma. 
 As estimativas são realizadas pelo método de otimização BFGS
 \citep[Broyden-Fletcher-Goldfarb-Shanno, ver][]{ht,nw}. 
@@ -54,12 +54,12 @@ e Decomposição em valores singulares multi-resolução, \citep[MR--SVD,][]{nai
 
 \section{Objetivos}
 
-O objetivo deste trabalho é estudar a viabilidade dos métodos para a fusão das evidências de bordas detectadas nos canais de intensidades hh, hv, e vv, de uma imagem PolSAR, como também usar os métodos de fusão para quantificar as contribuições de informações provenientes de cada canal.
+O objetivo deste trabalho é estudar a viabilidade de métodos para a fusão das evidências de bordas detectadas nos canais de intensidades hh, hv, e vv, de uma imagem PolSAR, como também usar métodos de fusão para quantificar as contribuições de informações provenientes de cada canal. A realização da fusão é importante, pois possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas. Com a informação da influência de cada canal na fusão podemos decidir quais canais da imagem PolSAR serão adquiridos. 
 
-Para alcançar tais objetivos deve-se aplicar nas imagem SAR e PolSAR os seguintes procedimentos:
+Para alcançar tais objetivos vamos aplicar nas imagem SAR e PolSAR os seguintes procedimentos:
 \begin{enumerate}[label=(\roman*)]
 	\item \label{item:obj_i}  Especificar manualmente ou automaticamente a região de interesse ROI;\index{ROI}
-	\item \label{item:obj_ii} Em cada ROI calcular o centro de massa e, a partir desse ponto, traçar retas radiais cruzando duas amostras distintas. 
+	\item \label{item:obj_ii} Em cada ROI calcular o centro de massa e, a partir desse ponto, traçar retas radiais cruzando duas amostras distintas. O artigo \citet{gmbf} propõe um método para garantir que cruzamos duas amostras. 
 	Nas radiais serão extraídas informações para o passo \ref{item:obj_iii};
 	\item \label{item:obj_iii} Nos dados extraídos em cada reta radial o método MLE é aplicado para estimar o ponto de transição entre duas amostras, chamado de evidência de borda;\index{Evidências de bordas}
 	\item  \label{item:obj_iv} Métodos de fusão são aplicados nas evidências de bordas, em cada canal, com o objetivo de detectar as bordas na ROI escolhida.	  
@@ -79,7 +79,7 @@ Para contornar o problema propomos, respectivamente, as seguintes soluções: de
 Os resultados obtidos neste trabalho foram publicados na conferência \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and Applications (TENGARSS)} com o seu identificador digital DOI (\textit{Digital Object Identifier}), e seu localizador URL (\textit{Uniform Resource Locator}), respectivamente, \url{https://doi.org/10.1109/TENGARSS48957.2019.8976040}, e  \url{https://ieeexplore.ieee.org/abstract/document/8976040.} E no periódico \textit{IEEE Geoscience and Remote Sensing Letters} com o seu identificador digital DOI, e seu localizador, respectivamente, \url{https://doi.org/10.1109/LGRS.2020.3022511}, e \url{https://ieeexplore.ieee.org/abstract/document/9203845}.
 %%% ACF Citar por extenso, incluindo o DOI e a URL
 %%% AAB Realizado
-\section{Plataformas, validação do programas, recursos computacionais}
+\section{Plataformas, validação dos programas, recursos computacionais}
 
 Neste trabalho foram usadas as seguintes plataformas:
 \begin{itemize}
@@ -96,7 +96,7 @@ Simulamos imagens observadas por um sensor PolSAR atribuindo a cada classe obser
 Os programas foram rodados para a imagem simulada e verificou-se que as bordas foram encontradas com precisão. 
 Desta forma, os programas foram validados e aplicados em imagens PolSAR fornecidas por sensores operacionais.
 
-O recurso computacional disponível consiste em computados Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} com \SI{16}{\giga\byte} de memória RAM.
+O recurso computacional disponível para esta pesquisa consiste em um computador Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} com \SI{16}{\giga\byte} de memória RAM.
 
 \section{Reprodutibilidade e replicabilidade}
 \index{Reprodutibilidade}\index{Replicabilidade}
