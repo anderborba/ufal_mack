@@ -105,7 +105,7 @@ for i = 1: num_radial
         	end
 	end
 end
-imshow(II);
+mshow(II);
 
 
 

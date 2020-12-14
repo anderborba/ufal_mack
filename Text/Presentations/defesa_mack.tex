@@ -77,7 +77,7 @@
    
 \end{frame}
 %
-\begin{frame}{Cronograma}
+\begin{frame}{Índice}
   \setbeamertemplate{section in toc}[sections numbered]
   \tableofcontents[hideallsubsections]
 \end{frame}
@@ -95,7 +95,7 @@
 \end{alertblock}
 \end{frame}
 \begin{frame}[fragile]{Introdução}
-\begin{alertblock}{Aplicações das imagens SAR / PolSAR. Veja a referência \cite{lkc}}
+\begin{alertblock}{Aplicações das imagens SAR / PolSAR.} %Veja a referência \cite{lkc}}
 \begin{itemize}
 \item Mapeamento do solo ou cobertura do solo;
 \item Mapeamento Geológico;
@@ -161,7 +161,7 @@
 	\begin{figure}[hbt]
 	\centering
      \subfloat[Imagem de Flevoland \label{img_flevoland:a}]{%
-       \includegraphics[width=0.45\linewidth]{flevoland_4_look}
+       \includegraphics[width=0.45\linewidth]{flevoland_4_look_2020}
      }\quad
      \subfloat[Imagem da baía de São Francisco\label{img_sf:b}]{%
        \includegraphics[width=0.45\linewidth]{san_francisco_2020}}
@@ -260,7 +260,7 @@
 \begin{tikzpicture}
 \node[waimage] (waimage1) at (-7.0,0.0) {Imagem};
 \node[waimage] (waimage2) at (-5.3,0.0) {ROI};
-\node[wa2] (waimage3) at (-5.3,3.5) {GT};
+\node[wa2] (waimage3) at (-5.3,3.5) {GR};
 \node[waimage] (waimage4) at (-3.5,0.0) {Radiais e centro};
 \node[waimage1] (wa1) at (0.5,2.0) {Fusão 1};
 \node[wa2] (waimage5) at (2.0,3.5) {Erro};
@@ -411,7 +411,7 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^\text{H}.$$
 	f_{Z}(z;\mu,\text{L})=\frac{\text{L}^\text{L}}{\Gamma(\text{L})\mu^{\text{L}}} z^{\text{L}-1} \exp\left\{-\frac{\text{L}}{\mu}z\right\}, 
 \label{pdf_gauss_univ}
 \end{equation}
-\item onde, $\mu>0$ e $L>0$.
+\item onde, $\mu>0$ e $\text{L}>0$.
 \item Aplicando o logaritmo natural,
 \begin{equation}\label{func_log_univ_gaussiana}
 	\ln f_{Z}(z;\mu,\text{L})=\text{L}\ln\frac{\text{L}}{\mu}-\ln\Gamma(\text{L})+(\text{L}-1)\ln z - \frac{\text{L}}{\mu} z.
@@ -427,8 +427,8 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^\text{H}.$$
 \item[-] A log verossimilhança é definida por,
 \begin{equation}\nonumber
 \begin{split}
-  \mathcal{L}(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
-  \mathcal{L}(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L).
+  \mathcal{L}(\bm z;\mu, \text{L})=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,\text{L})\\
+  \mathcal{L}(\bm z;\mu, \text{L})=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,\text{L}).
  \end{split}
  \end{equation}
 \item[-] Assim a função log-verossimilhança reduzida para a PDF univariada é,
@@ -440,7 +440,7 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^\text{H}.$$
 \end{frame}
 %
 \begin{frame}[fragile]{Modelagem estatística}
-\begin{alertblock}{MLE-- Método da estimativa de máxima verossimilhança}
+\begin{alertblock}{MLE -- Método da estimativa de máxima verossimilhança}
 \begin{description}
 \item[-] Particionando 
 $$
@@ -448,6 +448,7 @@ $$
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
 $$ 
 \item[-] Podemos considerar os modelos $$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},\text{L}_\text{I}),$$ e $$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},\text{L}_\text{E}).$$
+\item[-] Para estimar os parâmetros usamos o método BFGS.
 \end{description}
 \end{alertblock}
 \end{frame}
@@ -918,10 +919,10 @@ $$
    \centering
      \subfloat[ROI \label{flevoland_radial_4_look_crop}]{%  
        \includegraphics[width=0.48\textwidth]{flevoland_radial_4_look_black_crop}}
-     \subfloat[GT\label{gt_flevoland_crop}]{%
+     \subfloat[GR\label{gt_flevoland_crop}]{%
        \includegraphics[width=0.453\textwidth]{gt_flevoland_crop}
      }
-    \caption{FLEV-ROI-I, e GT}
+    \caption{FLEV-ROI-I, e GR}
     \label{roi_gt}
 \end{figure}
 \end{alertblock}
@@ -1020,10 +1021,10 @@ $$
    \centering
      \subfloat[ROI \label{flevoland_radial_25_crop_roi_ii}]{%  
        \includegraphics[width=0.48\textwidth]{flevoland_r3_radial_crop}}
-     \subfloat[GT\label{gt_flevoland_crop_roi_ii}]{%
+     \subfloat[GR\label{gt_flevoland_crop_roi_ii}]{%
        \includegraphics[width=0.48\textwidth]{gt_flevoland_r3_crop}
      }
-     \caption{FLEV-ROI-II, e GT}
+     \caption{FLEV-ROI-II, e GR}
     \label{roi_gt_roi_ii}
 \end{figure}
 \end{alertblock}
@@ -1106,10 +1107,10 @@ $$
 	\centering
 	\subfloat[ROI. \label{san_francisco_radial_25}]{%  
 		\includegraphics[width=0.48\linewidth]{san_francisco_radial_25_crop}}\  
-	\subfloat[GT\label{gt_san_francisco}]{%
+	\subfloat[GR\label{gt_san_francisco}]{%
 		\includegraphics[width=0.48\linewidth]{gt_san_fran_r1_crop}
 	}
-	\caption{SF-ROI e GT}
+	\caption{SF-ROI e GR}
 	\label{roi_gt_SF}
 \end{figure}
 \end{alertblock}
@@ -1203,7 +1204,7 @@ $$
 \begin{alertblock}{Pesquisas futuras}
 \begin{itemize}
 \item[-]  Aumentar o número de canais ou funções de distribuição de densidade para encontrar as evidências de bordas. Isso é possível, pois dados totalmente polarimétricos são mais ricos do que os canais de intensidades;
-\item[-]  Propor novas técnicas de fusão para evidências de bordas (Investigar melhor a ROC para mais canais);
+\item[-]  Propor novas técnicas de fusão para evidências de bordas (Investigar melhor a ROC, inserir mais canais e PDF's);
 \item[-]  Melhorar as medidas para aproveitamento ou descarte de canais no método de fusão; 
 \item[-]  Verificar os métodos de fusão inserindo textura nos modelos;
 \item[-]  Classificar as regiões da imagem PolSAR, e usar as ideias propostas para refinar a detecção de bordas; 
@@ -1212,18 +1213,26 @@ $$
 \end{alertblock}
 \end{frame}
 %
-\begin{frame}[fragile]{Divulgação científica}
-\begin{alertblock}{Conclusões, discussões e pesquisas futuras}
+\begin{frame}[fragile]{Publicações Realizadas}
+\begin{alertblock}{}
 \begin{itemize}
-\item[-] Conferência TENGARSS \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and
-Applications}
-\item[-] Periódico GRSL, \textit{IEEE Geoscience and Remote Sensing Letters}
+\item[-] Conferência:
+\begin{itemize}
+\item Título do trabalho, \textit{Fusion of Evidences for Edge Detection in PolSAR Images.}
+\item TENGARSS, \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and
+Applications.}
+\end{itemize}
+\item[-] Periódico:
+\begin{itemize}
+\item Título do trabalho, \textit{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images.}
+\item  GRSL, \textit{IEEE Geoscience and Remote Sensing Letters.}
+\end{itemize}
 \end{itemize}
 \end{alertblock}
 \end{frame}
 %
-\begin{frame}[allowframebreaks]
-\bibliographystyle{IEEEtran}
-\bibliography{../bibliografia}
-\end{frame}
+%\begin{frame}[allowframebreaks]
+%\bibliographystyle{IEEEtran}
+%\bibliography{../bibliografia}
+%\end{frame}
 \end{document}
