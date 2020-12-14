@@ -1,7 +1,8 @@
+
 %/\chapter{Fusão de evidências na detecção de bordas em Imagens PolSAR}
 \chapter{Introdução}
 \label{cap_acf}
-Os radares de abertura sintética (SAR -- \textit{Synthetic Aperture Radar}) e de abertura sintética polarimétricos (PolSAR) alcançaram uma posição essencial na área de sensoriamento remoto. 
+Os radares de abertura sintética (SAR -- \textit{Synthetic Aperture Radar}) e polarimétricos de abertura sintética (PolSAR) alcançaram uma posição essencial na área de sensoriamento remoto. 
 Os dados que esses sensores fornecem requerem técnicas, especificamente adaptadas, para o seu processamento e análise. 
 Entre essas técnicas, a detecção de bordas é uma das operações mais importantes para extrair informações. 
 As bordas estão em um nível mais alto de abstração do que apenas os dados e, como tais, fornecem informações relevantes sobre a cena.
@@ -9,37 +10,43 @@ As bordas estão em um nível mais alto de abstração do que apenas os dados e,
 As imagens do tipo SAR e PolSAR possuem características inerentes ao seu processo de aquisição.
 Como vantagens podemos destacar que a captação das imagens pode ser realizadas dia e noite (pois o sensor é ativo e carrega a própria fonte de iluminação), não dependem das condições do tempo (pois iluminam a cena com micro-ondas, que são pouco afetadas por nuvens, chuva, bruma, fumaça, etc.) e possuem  excelente capacidade de penetração da cobertura vegetal. 
 A desvantagem deste tipo de imagem está na presença do ruído \textit{speckle}, que gera um aspecto granular na imagem, dificultando a sua interpretação e análise. Os livros \citet{lp} e \citet{lkc} são excelentes fontes para consultar sobre imagens PolSAR e Sensoriamento Remoto.
+\index{Sensoriamento Remoto}
+\index{PolSAR}
 
 As técnicas de detecção de bordas disponíveis para imagens SAR e PolSAR estão sendo desenvolvidas, e são temas em recentes pesquisas. 
 Entre as técnicas disponíveis para essas imagens, são destacadas: 
 técnicas baseadas em redução do ruído \textit{speckle} \citet{sjx, lzly,wxbzw,cgaf}; 
 campos aleatórios de Markov \citet{bf}; 
 a  abordagem de \textit{deep learning} \citet{ztmxzxf} aplicada à segmentação e classificação; 
-e técnicas estatísticas \citet{gmbf, fbgm, nhfc}.
+e técnicas estatísticas \citet{gmbf,gmbf_sc, fbgm, nhfc}.
+\index{Speckle}
+\index{Markov}
+\index{Deep learning}
 
-Este trabalho de pesquisa segue a abordagem de modelagem estatística usando as técnicas descritas em \citet{gmbf, fbgm, nhfc} para encontrar evidências de bordas em imagens PolSAR. 
+Este trabalho de pesquisa segue a abordagem de modelagem estatística usando as técnicas descritas em \citet{gmbf, gmbf_sc, fbgm, nhfc} para encontrar evidências de bordas em imagens PolSAR. 
 Destacamos que não usaremos técnicas de redução do \textit{speckle}, pois suas características serão usadas para potencializar a detecção de evidências de bordas. 
 Além do que, em vez de lidar com dados totalmente polarimétricos, trataremos cada canal de intensidade da imagem separadamente, com o objetivo de obter evidências de bordas. 
+\index{Evidências de Bordas}
 
 Em seguida, será realizado a fusão das evidências de bordas obtidas, com o objetivo de produzir um único e mais acurado estimador da posição de bordas. 
 Com isso, se pretende qualificar a contribuição fornecida por cada canal de intensidade da imagem PolSAR, na detecção de bordas. 
 %Ver as referências \citet{mit, bmf_2020}. 
 %%% ACF Aqui diga ao leitor o que ele deve "ver".
 %%% AAB Realizado
-A referência \citet{bmf_2020} fornece informações sobre os processos de fusão em imagens PolSAR, assim como o  desempenho de cada método para detectar bordas, enquanto a referência \citet{mit} mostra os fundamentos da fusão de imagens.
+O artigo \citet{bmf_2020} fornece informações sobre os processos de fusão em imagens PolSAR, assim como o  desempenho de cada método para detectar bordas, enquanto o livro \citet{mit} mostra os fundamentos da fusão de imagens.
 
 
-O Algoritmo Gambini, apresentado em \citet{gmbf_sc}, é uma excelente técnica para detecção de bordas. 
+O Algoritmo Gambini, apresentado em \citet{gmbf, gmbf_sc}, é uma excelente téc\-ni\-ca para detecção de bordas. 
 Com essa técnica é possível encontrar evidências de uma borda sobre uma faixa fina de dados, ou seja, informações obtidas em uma faixa de dados da imagem de aproximadamente um píxel.
-Esta abordagem funciona com qualquer modelo, o que o torna adequado para dados SAR e PolSAR, e tem demostrando um desempenho melhor do que outras abordagens. 
-Esse algoritmo consiste em traçar raios do centroide de uma região de interesse até um ponto externo da região, para então, encontrar a evidência de borda maximizando uma função que, na proposta original, é a de máxima verossimilhança total.
+Esta abordagem funciona com qualquer modelo, o que o torna adequado para dados SAR e PolSAR, e tem demostrando bom desempenho para detectar evidências de bordas. 
+Esse algoritmo consiste em traçar raios do centroide de uma região de interesse até um ponto externo da região, para então, encontrar a evidência de borda maximizando uma função que, na proposta desta tese, é a de máxima verossimilhança total.
 
 Neste trabalho usaremos a verossimilhança total de duas amostras: uma para região interna e outra para a região externa da borda. 
-Para não perder generalidade, optou-se pela distribuição Wishart para as observações totalmente polarimétricas, derivando para as suas distribuições, do tipo Gamma, em cada canal de intensidade. 
-A função de máxima verossimilhança total depende das estimativas que parametrizam as leis Gamma. 
+Para não perder generalidade, optou-se pela distribuição Wishart para as observações totalmente polarimétricas, derivando para as suas distribuições, do tipo gama, em cada canal de intensidade. 
+A função de máxima verossimilhança total depende das estimativas que parametrizam as leis gama. 
 As estimativas são realizadas pelo método de otimização BFGS
 \citep[Broyden-Fletcher-Goldfarb-Shanno, ver][]{ht,nw}. 
-Neste trabalho estimaremos os parâmetros que indexam as distribuições Gamma com o método de máxima verossimilhança (MLE -- \textit{Maximum Likelihood Estimator}).
+Neste trabalho estimaremos os parâmetros que indexam as distribuições gama com o método de máxima verossimilhança (MLE -- \textit{Maximum Likelihood Estimator}).
 
 A função de verossimilhança total não é diferenciável em vários pontos, e os métodos clássicos apresentam dificuldade em encontrar os seus máximos. 
 Uma possível abordagem para resolver este problema é usar o método GenSA \citep[\textit{Generalized Simulated Annealing},][]{xgsh}.
@@ -48,13 +55,17 @@ Nesta pesquisa propomos, discutimos, e comparamos o uso de seis métodos de fus�
 Média simples \citep[MS,][]{mit}; 
 Transformada \textit{Wavelet} Discreta de Multi-resolução, \citep[MR--DWT,][]{n_r}; 
 Análise de Componentes Principais, \citep[PCA,][]{n_r,mit}; 
-Estatísticas baseadas na curva ROC \citep[\textit{Receiver Operating Characteristic},][]{gs}, o qual é denominado de E-ROC; 
+Estatísticas baseadas na curva ROC \citep[\textit{Receiver Operating Characteristic},][]{gs}, o qual será denominado de E--ROC; 
 Transformada \textit{Wavelet} Estacionária de Multi-resolução, \citep[MR--SWT,][]{n_r, jjly}; 
 e Decomposição em valores singulares multi-resolução, \citep[MR--SVD,][]{naidu,demmel}.
-
+\index{MS}
+\index{MR--DWT}
+\index{PCA}
+\index{E--ROC}
+\index{MR--SWT}
+\index{MR--SVD}
 \section{Objetivos}
-
-O objetivo deste trabalho é estudar a viabilidade de métodos para a fusão das evidências de bordas detectadas nos canais de intensidades hh, hv, e vv, de uma imagem PolSAR, como também usar métodos de fusão para quantificar as contribuições de informações provenientes de cada canal. A realização da fusão é importante, pois possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas. Com a informação da influência de cada canal na fusão podemos decidir quais canais da imagem PolSAR serão adquiridos. 
+O objetivo dese trabalho é estudar a viabilidade de métodos para a fusão das evi\-dên\-cias de bordas detectadas nos canais de intensidades hh, hv, e vv, de uma imagem PolSAR, como também usar métodos de fusão para quantificar as contribuições de informações provenientes de cada canal. A realização da fusão é importante, pois possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas. Com a informação da influência de cada canal na fusão podemos decidir quais canais da imagem PolSAR serão adquiridos. 
 
 Para alcançar tais objetivos vamos aplicar nas imagem SAR e PolSAR os seguintes procedimentos:
 \begin{enumerate}[label=(\roman*)]
@@ -62,7 +73,7 @@ Para alcançar tais objetivos vamos aplicar nas imagem SAR e PolSAR os seguintes
 	\item \label{item:obj_ii} Em cada ROI calcular o centro de massa e, a partir desse ponto, traçar retas radiais cruzando duas amostras distintas. O artigo \citet{gmbf} propõe um método para garantir que cruzamos duas amostras. 
 	Nas radiais serão extraídas informações para o passo \ref{item:obj_iii};
 	\item \label{item:obj_iii} Nos dados extraídos em cada reta radial o método MLE é aplicado para estimar o ponto de transição entre duas amostras, chamado de evidência de borda;\index{Evidências de bordas}
-	\item  \label{item:obj_iv} Métodos de fusão são aplicados nas evidências de bordas, em cada canal, com o objetivo de detectar as bordas na ROI escolhida.	  
+	\item  \label{item:obj_iv} Métodos de fusão são aplicados nas evidências de bordas obtidas em cada canal, com o objetivo de detectar as bordas na ROI escolhida.	  
 \end{enumerate}
 
 \section{Contribuições}
@@ -70,13 +81,14 @@ As contribuição desta tese são:
 \begin{enumerate}[label=(\roman*)]
 \item \label{item:contr_i} Propor a fusão de evidências de bordas, obtidas em cada canal, aprimorando o método de detecção de bordas;
 \item \label{item:contr_ii} Aplicar e comparar os métodos de fusão: MS, MR--DWT, PCA, E--ROC, MR--SWT, e MR--SVD;
-\item \label{item:contr_iii} Verificação da viabilidade do uso do método GenSA no método MLE com o algoritmo Gambini, aplicado aos canais de intensidades de uma imagem PolSAR, com o objetivo de detectar evidências de bordas, como proposto e analisado nas referências \citet{gmbf, fbgm, nhfc};
+\item \label{item:contr_iii} Verificação da viabilidade do uso do método GenSA no método MLE com o algoritmo Gambini, aplicado aos canais de intensidades de uma imagem PolSAR, com o objetivo de detectar evidências de bordas, como proposto e analisado em \citet{gmbf, gmbf_sc, fbgm, nhfc};
 \item \label{item:contr_iv} Realizar medidas de qualidade para a detecção em cada canal, e na fusão, usando uma métrica baseada na probabilidade de detecção de bordas, comparando com a imagem definida como referência (\textit{Ground Truth}).\index{Ground Truth}      
 \item \label{item:contr_v} Identificação de duas características que dificultam a detecção de evidências de bordas: oscilação nas extremidades e não diferenciabilidade em vários pontos do domínio das funções de máxima verossimilhança total. 
 Para contornar o problema propomos, respectivamente, as seguintes soluções: definir empiricamente constantes de folga nas extremidades, usar o método GenSA para encontrar o ponto de máximo da função.
 \end{enumerate}
 
-Os resultados obtidos neste trabalho foram publicados na conferência \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and Applications (TENGARSS)} com o seu identificador digital DOI (\textit{Digital Object Identifier}), e seu localizador URL (\textit{Uniform Resource Locator}), respectivamente, \url{https://doi.org/10.1109/TENGARSS48957.2019.8976040}, e  \url{https://ieeexplore.ieee.org/abstract/document/8976040.} E no periódico \textit{IEEE Geoscience and Remote Sensing Letters} com o seu identificador digital DOI, e seu localizador, respectivamente, \url{https://doi.org/10.1109/LGRS.2020.3022511}, e \url{https://ieeexplore.ieee.org/abstract/document/9203845}.
+\sloppy
+Os resultados obtidos neste trabalho foram publicados na conferência \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and Applications (TENGARSS)} com o seu identificador digital DOI (\textit{Digital Object Identifier}), e seu localizador URL (\textit{Uniform Resource Locator}), respectivamente, \url{https://doi.org/10.1109/TENGARSS48957.2019.8976040}, e \url{https://ieeexplore.ieee.org/abstract/document/8976040.} E no periódico \textit{IEEE Geoscience and Remote Sensing Letters} com o seu identificador digital DOI, e seu localizador, respectivamente, \url{https://doi.org/10.1109/LGRS.2020.3022511}, e \url{https://ieeexplore.ieee.org/abstract/document/9203845}.
 %%% ACF Citar por extenso, incluindo o DOI e a URL
 %%% AAB Realizado
 \section{Plataformas, validação dos programas, recursos computacionais}
@@ -102,8 +114,8 @@ O recurso computacional disponível para esta pesquisa consiste em um computador
 \index{Reprodutibilidade}\index{Replicabilidade}
 A reprodutibilidade e replicabilidade são essenciais para o desenvolvimento da ciên\-cia, estes temas não são discutidos neste trabalho, porém realizamos as pesquisas de forma a respeitar esses conceitos.
 
-Os trabalhos de \citet{br} e \citet{fgmed} mostram pesquisas sobre o tema. 
-Na primeira referência encontramos as seguintes definições: 
+Os artigos de \citet{br} e \citet{fgmed} mostram pesquisas sobre o tema. 
+No primeiro artigo encontramos as seguintes definições: 
 \begin{itemize}
 \item A reprodutibilidade é definida como a habilidade dos pesquisadores de obter resultados consistentes usando os mesmos dados de entrada, rotinas computacionais, métodos, programas e condições de análises.
 \item A replicabilidade é definida como uma situação em que os pesquisadores obtêm resultados consistentes por meio de estudos que visam responder à mesma questão científica, cada um dos quais obteve seus próprios dados.
@@ -117,7 +129,7 @@ Os assuntos estudados para aplicação e análise dos métodos discutidos nesta 
 \begin{enumerate}[label=(\roman*)]
 %%% ACF use \label e \ref sempre
 %%% AAB Realizado
-\item  \label{item:org_text_i} Capítulo \ref{cap_asp_gerais}: Alguns conceitos introdutórios e informações relevantes sobre as imagens SAR e PolSAR e radares. 
+\item  \label{item:org_text_i} Capítulo \ref{cap_asp_gerais}: Alguns conceitos introdutórios e informações relevantes sobre as imagens SAR, PolSAR e radares. 
 \item \label{item:org_text_ii} Capítulo \ref{metodologia}: São apresentados os aspectos metodológicos, descrevendo o modelo, a detecção de bordas e as abordagens para fusão de evidências de bordas.
 \item \label{item:org_text_iii} Capítulo \ref{cap_resultados}: Apresentação, descrição e análise dos resultados.
 \item \label{item:org_text_iv} Capítulo \ref{cap_conclusao}: Discussões dos resultados obtidos e as direções para pesquisas futuras.        

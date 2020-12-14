@@ -1,0 +1,10 @@
+function [m] = met_class_igarss(v)
+m(1) = met_acc(v); 
+m(2) = met_med_f(v); 
+m(3) = met_mcc(v); 
+m(4) = met_recall(v); 
+m(5) = met_spec(v); 
+m(6) = met_fpr(v); 
+m(7) = met_fnr(v); 
+m(8) = met_precisao(v); 
+m(9) = met_npv(v); 

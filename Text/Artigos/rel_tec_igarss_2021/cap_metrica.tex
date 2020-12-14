@@ -1,0 +1,981 @@
+\chapter{Métricas}\label{cap_metricas}
+\citet{n_r}
+\section{Métricas baseadas na matriz de confusão}
+Nesta seção são apresentadas métricas usadas para medir a eficiência das tarefas de classificações. A métricas são baseadas na matriz de confusão,
+\begin{table}[hbt]
+	\centering
+	\caption{Matriz de confusão.}
+\begin{tabular}{@{}cll@{}} \toprule
+	                        & \multicolumn{2}{c}{Classes definidas como verdadeiras}           \\ \midrule
+	 Classes preditas       & $\mathbf{n}$                & $\mathbf{p}$                \\
+                 $\mathbf{p}$& Positivos falsos (FP)      & Positivos verdadeiros (TP)      \\ 
+	             $\mathbf{n}$& Negativos verdadeiros (TN) & Negativos falsos (FN) \\ \bottomrule 
+\end{tabular}
+\label{tab:matrix_conf}
+\end{table}
+considerando a instância positiva por $p=1$, e a instância negativa por $n=0$, a tabela será: 
+\begin{table}[hbt]
+	\centering
+	\caption{Matriz de confusão definida com $p=1$ e $n=0$.}
+\begin{tabular}{@{}cll@{}} \toprule
+	                        & \multicolumn{2}{c}{Classes definidas como verdadeiras}           \\ \midrule
+	 Classes preditas       & 0                & 1                \\
+                 1& Positivos falsos (FP)      & Positivos verdadeiros (TP)      \\ 
+	             0& Negativos verdadeiros (TN) & Negativos falsos (FN) \\ \bottomrule 
+\end{tabular}
+\label{tab:matrix_conf}
+\end{table}
+
+As instâncias pode ser rotuladas como positivas ($p=1$) e negativas ($n=0$), e classificados por:
+\begin{enumerate}[label=(\roman*)]
+\item \label{item:label_tp} TP - Rotuladas positivas e corretamente predita como positiva. 
+\item \label{item:label_fn} FN - Rotuladas positivas e erradamente predita como negativa.
+\item \label{item:label_tn} TN - Rotuladas negativas e corretamente predita como negativa.
+\item \label{item:label_fp} FP - Rotuladas negativas e erradamente predita como positiva.
+\end{enumerate}
+
+Definindo $n^+=\text{TP+FN}$ e $n^-=\text{TN+FP}$, quando o FN e FP tendem para zero, podemos afirmar que alcançamos a classificação perfeita, isto é,  
+$n^+=\text{TP}$ e $n^-=\text{TN}$ com matriz de confusão:
+\begin{table}[hbt]
+	\centering
+	\caption{Matriz de confusão definida com $p=1$ e $n=0$.}
+\begin{tabular}{@{}ccc@{}} \toprule
+	                        & \multicolumn{2}{c}{Classes definidas como verdadeiras}           \\ \midrule
+	 Classes preditas       & 0                & 1                \\
+                 1& 0     & $n^+$= TP      \\ 
+	             0& $n^-$= TN & 0  \\ \bottomrule 
+\end{tabular}
+\label{tab:matrix_conf}
+\end{table}
+
+Representamos a matriz de confusão, 
+\begin{equation}
+\mathbf{M} = 
+\begin{bmatrix}
+     \text{FP}   & \text{TP}   \\
+	 \text{TN}   & \text{FN}   \\
+\end{bmatrix}.
+\label{eq:matriz_de_confusao}
+\end{equation}
+\subsection{Métrica acurácia -- Mac}
+A métrica acurácia é definida por,
+\begin{equation}
+\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}. 
+\label{eq:met_acuracia}
+\end{equation}
+
+O valor acurado é o retorno da métrica próximo de 1, pois se a classificação for 
+\begin{equation*}
+\mathbf{M} = 
+\begin{bmatrix}
+     n^+   & 0   \\
+	 0     & n^-   \\
+\end{bmatrix},
+\end{equation*}
+calculamos a métrica acurácia,
+\begin{equation*}
+\text{Mac} = \frac{n^+ + n^-}{n^+ + n^-}=1 
+\end{equation*}
+e na pior classificação,
+\begin{equation*}
+\mathbf{M} = 
+\begin{bmatrix}
+     0 &n^+    \\
+	 n^- & 0   \\
+\end{bmatrix}.
+\end{equation*}
+calculando a métrica
+\begin{equation*}
+\text{Mac} = \frac{0+0}{n^+ + n^-}=0. 
+\end{equation*}
+
+Assim a métrica acurácia
+\begin{enumerate}[label=(\roman*)]
+\item \label{item:met_acc_1} No melhor caso Mac=1. 
+\item \label{item:met_acc_0} No pior caso Mac=0.
+\end{enumerate}
+
+Um conjunto de dados binários é considerado balanceados quando as classes têm o mesmo tamanho. Para informar se um conjunto de dados é balanceado ou não definimos a medida \textit{no information error rate}
+\begin{equation}
+\text{ni} = \frac{\max\{n^+,n^-\}}{n^+ + n^-}, 
+\label{eq:information_error_rate}
+\end{equation}
+se o conjunto de dados é balanceado o valor de $ni=\frac{1}{2}$. Portanto, quando o conjunto de dados for desbalanceado a métrica acurácia pode fornecer um valor degenerado. Por exemplo, se a classificação fornece a seguinte matriz 
+\begin{equation*}
+\mathbf{M} = 
+\begin{bmatrix}
+     n^+ & 0    \\
+	 n^- & 0   \\
+\end{bmatrix}.
+\end{equation*}
+A métrica acurácia retorna o valor:
+\begin{equation*}
+\text{Mac} = \frac{n^+ +0}{n^+ + n^-}=ni\sim 1. 
+\end{equation*}
+em um conjunto de dados desbalanceado.
+
+Outro problema pode acontecer mesmo em um conjunto de dados balanceado e corretamente classificado, seja a matriz desta classificação:
+\begin{equation*}
+\mathbf{M} = 
+\begin{bmatrix}
+     \frac{n}{2}^+ & \frac{n}{2}^+    \\
+	 \frac{n}{2}^- & \frac{n}{2}^-   \\
+\end{bmatrix},
+\end{equation*}
+calculando a acurácia:
+\begin{equation*}
+\text{Mac} = \frac{\frac{n}{2}^+ +\frac{n}{2}^-}{\frac{n}{2}^+ +\frac{n}{2}^- +\frac{n}{2}^+ + \frac{n}{2}^-}=\frac{1}{2}. 
+\end{equation*}
+
+Neste caso temos uma classificação realizado corretamente e uma medida de acurácia não correspondente a correta classificação.
+\subsection{Métrica $\text{F}_1$ escore -- Mfe}
+A métrica Mfe é definida por: 
+\begin{equation}
+	\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}}.
+\label{eq:met_escore_f1}
+\end{equation}
+
+Assim a métrica Mfe retorna:
+\begin{enumerate}[label=(\roman*)]
+\item \label{item:met_acc_1} No melhor caso Mfe=1. 
+\item \label{item:met_acc_0} No pior caso Mfe=0.
+\end{enumerate}
+
+Podemos notar que a métrica Mfe não depende da entrada TN da matriz de confusão, portanto não é definida para a seguinte matriz de confusão corretamente imposta,
+\begin{equation*}
+\mathbf{M} = 
+\begin{bmatrix}
+     0 & 0    \\
+	 0 & n^-   \\
+\end{bmatrix},
+\end{equation*}
+
+Da mesma forma, a métrica Mfe apresenta problema se a classificação gera a matriz de confusão do tipo
+\begin{equation*}
+\mathbf{M} = 
+\begin{bmatrix}
+     0 & n^+    \\
+	 0 & n^-   \\
+\end{bmatrix},
+\end{equation*}
+o cáculo de Mfe é:
+\begin{equation}
+	\text{Mfe}=\frac{0}{0+n^- +0}=0.
+\end{equation}\label{eq:met_escore_f1}
+portanto a métrica produz um resultado degenerado, mesmo a classificação sendo correta.
+\subsection{Métrica \textit{Matthews correlation coefficient} -- Mcc}
+\begin{equation}
+	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
+\label{eq:met_mcc}
+\end{equation}
+\subsection{Métrica Recall -- Mre}
+\begin{equation}
+	\text{Mre}=\frac{\text{TP}}{\text{TP+FN}}
+\label{eq:met_mre}	
+\end{equation}
+\subsection{Métrica Especificidade -- Mesp}
+\begin{equation}
+	\text{Mesp}=\frac{\text{TN}}{\text{TN+FP}}
+	\label{eq:met_esp}
+\end{equation}
+\subsection{Métrica Razão de positivos falsos -- Mrpf}
+\begin{equation}
+	\text{Mrpf}=\frac{\text{FP}}{\text{TN+FP}}
+	\label{eq:met_rpf}
+\end{equation}
+\subsection{Métrica Razão de negativos falsos -- Mrnf}
+\begin{equation}
+	\text{Mrnf}=\frac{\text{FN}}{\text{TP+FN}}
+	\label{eq:met_rnf}
+\end{equation}
+\subsection{Métrica Precisão -- Mprec}
+\begin{equation}
+	\text{Mprec}=\frac{\text{TP}}{\text{TP+FP}}
+	\label{eq:met_prec}
+\end{equation}
+\subsection{Métrica Valores preditos negativo --Mnpv }
+\begin{equation}
+	\text{Mprec}=\frac{\text{TN}}{\text{TN+FN}}
+	\label{eq:met_prec}
+\end{equation}
+\section{Resultados da aplicação das métricas}
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_hh}
+	\caption{Matriz de confusão para a evidências de bordas $I_{hh}$}
+\label{fig:mat_conf_evid_hh}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para detecção de evidências de bordas no canal $\text{I}_\text{hh}$.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{I}_\text{hh}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily MLE} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 12}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 88}\\%FP
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 378}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767522}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%FP 
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9993} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.0489} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5301}  \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_hv}
+	\caption{Matriz de confusão para a evidências de bordas $I_{hv}$}
+\label{fig:mat_conf_evid_hv}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para detecção de evidências de bordas no canal $\text{I}_\text{hv}$.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{I}_\text{hv}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily MLE} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 10}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 89}\\%FN 
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 380}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767521}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%FP%TN 
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9993} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.0408 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5253} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_vv}
+	\caption{Matriz de confusão para a evidências de bordas $I_{vv}$}
+\label{fig:mat_conf_evid_vv}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para detecção de evidências de bordas no canal $\text{I}_\text{vv}$.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{I}_\text{vv}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily MLE} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 8}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 92}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 382}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767518}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9993} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.0326 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5201} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_fus_media}
+	\caption{Matriz de confusão para a fusão por média}
+\label{fig:mat_conf_fus_media}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para o método de fusão por média.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{IF}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Fusão por média} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 27}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 225}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 363}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767385}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9992} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.0841 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5428} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_fus_pca}
+	\caption{Matriz de confusão para a fusão PCA}
+\label{fig:mat_conf_fus_pca}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para o método de fusão PCA.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{IF}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Fusão PCA} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 27}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 225}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 363}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767385}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9992} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.0841 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5428} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_fus_mr_swt}
+	\caption{Matriz de confusão para a fusão MR--SWT}
+\label{fig:mat_conf_fus_mr_swt}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para o método de fusão MR--SWT.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{IF}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Fusão MR--SWT} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 354}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 5055}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 36}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 762555}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9933} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.1220 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.6213} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_fus_mr_dwt}
+	\caption{Matriz de confusão para a fusão MR--DWT}
+\label{fig:mat_conf_fus_mr_dwt}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para o método de fusão MR--DWT.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{IF}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Fusão MR--DWT} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 314}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 4171}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 76}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 763439}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9944} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.1288 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.6182} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_fus_roc}
+	\caption{Matriz de confusão para a fusão ROC}
+\label{fig:mat_conf_fus_roc}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para o método de fusão ROC.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{IF}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Fusão ROC} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 3}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 37}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 387}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767573}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9994} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.0139 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5119} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=.8\linewidth]{mat_conf_fus_mr_svd}
+	\caption{Matriz de confusão para a fusão MR--SVD}
+\label{fig:mat_conf_fusion_mr_svd}
+\end{figure}
+\begin{table}[hbt]
+	\centering
+	\caption{Métricas para o método de fusão MR--SVD.}
+\noindent\begin{tabular}{
+   >{\ttfamily\raggedright}p{2cm}
+   >{\sffamily\raggedright}p{2.5cm}
+   >{\sffamily}p{\dimexpr\textwidth-6\tabcolsep-4\fboxsep-4.5cm\relax}
+}
+\toprule
+\multicolumn{1}{l}{\bfseries\sffamily $\text{IF}$} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Fusão MR--SVD} 
+  & \multicolumn{1}{l}{\bfseries\sffamily Matriz de confusão} \\
+\midrule
+&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily } 
+    & \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Preditos} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily Valores} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 60}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 556}\\%FN
+    \multicolumn{1}{l}{\bfseries\sffamily Reais} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 330}%FP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767054}\\\midrule%TN
+    \multicolumn{1}{l}{\bfseries\sffamily Bordas/Não bordas} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 390}%TP 
+    & \multicolumn{1}{l}{\bfseries\sffamily 767610}\\%TN
+  \bottomrule
+  \end{tabular} \\[10.5ex]
+%
+\midrule
+\bfseries\sffamily Métricas&  &
+  \vspace{-15pt}\begin{tabular}[t]{
+     >{\ttfamily\raggedright}p{1.5cm}
+     >{\sffamily\raggedright}p{1.5cm}
+     >{\sffamily}p{\dimexpr\textwidth-12\tabcolsep-5\fboxsep-7.5cm\relax}
+  }
+  \toprule
+  \multicolumn{1}{l}{\bfseries\sffamily Mac} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mfe} 
+    & \multicolumn{1}{l}{\bfseries\sffamily Mcc} \\
+  \midrule
+    \multicolumn{1}{l}{\bfseries\sffamily 0.9988} 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.1192 } 
+    & \multicolumn{1}{l}{\bfseries\sffamily 0.5609} \\
+  \bottomrule
+  \end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+\begin{table}[hbt]
+\tiny
+	\centering\caption{Matriz de confusão.}
+\begin{tabular}{@{}cccccccccc@{}} \toprule
+	                        & \multicolumn{2}{c}{Comparação entre os métodos}  & & & & & &&      \\ \midrule
+	 Classificação  &  MLE($I_{hh}$)    & MLE($I_{hv}$)& MLE($I_{vv}$)   & F-média   &F-PCA&F-MR-SWT &F-MR-DWT&F-ROC &F-SVD      \\
+                 TP &   12     &   10   & 8  &27        &27     &357   &314    &3     &60\\
+                 FN &   88     &   80   & 92 &225       &225    &5055  &4171   &37    &556\\
+                 FP &  378     &   380  & 382 &363      &363    &36    &76     &387   &330 \\ 
+	             TN &  767521  &  767521& 767518 &767385&767385 &762555&763439 &767576&767054 \\ \bottomrule 
+\end{tabular}
+\label{tab:matriz_conf_metodos}
+\end{table}
+%
+
+\begin{table}[hbt]
+\tiny
+	\centering
+	\caption{Métricas.}
+\begin{tabular}{@{}cccccccccc@{}} \toprule
+	                        & \multicolumn{2}{c}{Comparação entre os métodos}  & & & & & &&      \\ \midrule
+	 Métricas  &MLE($I_{hh}$)& MLE($I_{hv}$)& MLE($I_{vv}$)   & F-média &F-PCA  & F-MR-SWT &F-MR-DWT &F-ROC   &F-SVD      \\
+     Mac       & 0.9993       & 0.9993       & 0.9993          &0.9992   &0.9992 & 0.9933   &0.9944   & 0.9994 &0.9988\\
+     Mfe       & 0.0489       & 0.0408       & 0.0326          &0.0841   &0.0841 & 0.1220   & 0.1288  & 0.0139 & 0.1192\\
+     Mcc       & 0.5301       & 0.5253       & 0.5201          &0.5428   &0.5428 & 0.6213   & 0.6182  & 0.5119 & 0.5609\\
+     Mre       & 0.1200       & 0.1010       & 0.0800          &0.1071   &0.1071 & 0.0654   & 0.0700  & 0.0750 & 0.0974\\
+     Mspe      & 0.9995       & 0.9995       & 0.9995          &0.9995   &0.9995 & 0.9999   & 0.9999  & 0.9994 & 0.9995\\
+     Mfpr      & 0.0004       & 0.0004       & 0.0004          &0.0004   &0.0004 & 0.00004  & 0.00009 & 0.0005 & 0.0004\\
+     Mfnr      & 0.8800       & 0.8989       & 0.9200          &0.8928   &0.8928 & 0.93451  & 0.92998 & 0.9250 & 0.9025\\
+     Mprec     & 0.0307       & 0.0256       & 0.0205          &0.0692   &0.0692 & 0.90769  & 0.80512 & 0.0076 & 0.1538\\
+     Mnpv      & 0.0001       & 0.0001       & 0.0001          &0.0002   &0.0002 & 0.00658  & 0.00543 & 0.00004 & 0.0007\\
+\bottomrule 
+\end{tabular}
+\label{tab:matriz_metricas}
+\end{table}
+
+   
+  
+   
+   
+   
+   
+
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[Entrada TP para as matrizes de confusão]{%
+       \includegraphics[width=0.5\linewidth]{metricas_mat_conf_tp}\label{fig:metricas_mat_conf_tp}}
+     \subfloat[Entrada FN para as matrizes de confusão]{%
+       \includegraphics[width=0.5\linewidth]{metricas_mat_conf_fn}\label{fig:metricas_mat_conf_fn}}\\
+     \subfloat[Entrada FP para as matrizes de confusão]{%
+       \includegraphics[width=0.5\linewidth]{metricas_mat_conf_fp}\label{fig:metricas_mat_conf_fp}}
+       \subfloat[Entrada TN para as matrizes de confusão]{%
+       \includegraphics[width=0.5\linewidth]{metricas_mat_conf_tn}\label{fig:metricas_mat_conf_tn}}
+     \caption{Entradas das matrizes de confusão para os métodos de detecção}
+     \label{fig:fig:metricas_mat_conf}
+   \end{figure}	
+
+
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[Métrica Mac para os métodos de detecção]{%
+       \includegraphics[width=0.5\linewidth]{metricas_class_mac}\label{fig:metricas_class_mac}}
+     \subfloat[Métrica Mfe para os métodos de detecção]{%
+       \includegraphics[width=0.5\linewidth]{metricas_class_mfe}\label{fig:metricas_class_mfe}}\\
+     \subfloat[Métrica Mcc para os métodos de detecção]{%
+       \includegraphics[width=0.5\linewidth]{metricas_class_mcc}\label{fig:metricas_class_mcc}}
+     \caption{Métricas para os métodos de detecção}
+     \label{fig:metricas_class}
+   \end{figure}	
+%   
+\section{Observações}
+\begin{enumerate}[label=(\roman*)]
+\item \label{cap_metrica:obs_1} A base de dados é desbalanceada seguindo a definição \eqref{eq:information_error_rate} aplicado na GT. 
+$$ni=\frac{\text{TN}}{\text{TP+TN}}\sim 1.$$
+TN= 767612 e TP = 390. 
+\item \label{cap_metrica:obs_2} Na métrica acurácia as classificações TP não exercem influência no seu valor. Podemos ver na tabela \ref{tab:matriz_conf_metodos} a diferença  entre as TP da ROC e da Fusão MR--SWT e como isso afeta pouco no calculo de Mac, veja tabela \ref{tab:matriz_metricas}.  
+\item \label{cap_metrica:obs_3} Para calcular a métrica Mfe não consideramos o TN. Podemos ver na tabela \ref{tab:matriz_conf_metodos} que $2*TP<FP+FN$ influenciando  nos valores próximos de zero para a métrica Mfe.  Assim, podemos observar que o pixel erradamente classificados são superiores aos classificados como positivos verdadeiros. A base de dados desbalanceada conduz a Mfe retornar valores próximos de zero.  
+\item \label{cap_metrica:obs_4} 
+\end{enumerate}
+
+%A matriz de confusão serve de origem para definirmos métricas como as seguintes:
+%\begin{equation}\label{cap_fusao_eq_01}
+%	tp_{rate}=\frac{TP}{P},
+%\end{equation}
+%\begin{equation}\label{cap_fusao_eq_02}
+%	fp_{rate}=\frac{FP}{N}
+%\end{equation}
+%\begin{equation}\label{cap_fusao_eq_02}
+%recall= tp_{rate}=\frac{TP}{P}=\frac{TP}{TP+FN}
+%\end{equation}
+%\begin{equation}\label{cap_fusao_eq_02}
+%\text{precisão} = \frac{TP}{Q}=\frac{TP}{TP+FP} 
+%\end{equation}
+%\begin{equation}\label{cap_fusao_eq_02}
+%\text{acurácia} = \frac{TP}{Q}=\frac{TP}{TP+FP} 
+%\end{equation}
+%\begin{equation}\nonumber
+%medida-F=\frac{2}{\frac{1}{recall}+\frac{1}{precisao}}
+%\end{equation}
+%\begin{equation}\nonumber
+%	medida-F=\frac{2}{\frac{Q+P}{TP}}
+%\end{equation}
+%\begin{equation}\nonumber
+%	medida-F=\frac{2TP}{Q+P}
+%\end{equation}
+%\begin{equation}\nonumber
+%	medida-F=\frac{2TP}{2TP+FP+FN}
+%\end{equation}
+%Nesta seção serão definidas as métricas usadas, onde $\text{I}$ é a imagem com o resultado do método aplicado, e $\text{I}^r$ é a imagem de referência usada. Nos testes realizados a imagens de referência serão as \textit{Ground Truth}--GT. As imagem tem dimensão $m\times n$ e definimos $\ell=mn$. 
+
+%O estudo das métricas têm o objetivo de quantificar a influência das evidências de bordas detectadas em cada canal nas bordas detectadas com os métodos de fusão. Vamos realizar medidas de erros tanto nas evidências detectadas como nas evidências fundidas. Sem perda de generalidade vamos definir os erro para as evidências de bordas ou para as imagens dos métodos de fusão. Durante o texto vamos evidenciar quando a medida é aplicada nas imagens com as evidências de bordas ou nas imagem com a fusão dessas informações.
+%\section{\textit{Root Mean Square Error}-- RMSE}
+%A métrica RMSE é a raiz quadrada da média do erro píxel a píxel entre a imagem proveniente do método de detecção de bordas aplicado, e a imagem de referência. Podemos interpretar a métrica como o desvio padrão do erro efetivo do método de detecção de bordas aplicado. O artigo \citet{n_r} mostra a métrica:    
+%\begin{equation}
+%	RMSE=\sqrt{\frac{1}{l}\sum_{i=1}^m\sum_{j=1}^n(\text{I}^r_{i,j}-\text{I}_{i,j})^2}.  \\
+%\label{eq:erro_RMSE}
+%\end{equation}
+%\section{\textit{Mean absolute error}-- MAE}
+%A métrica MAE é média do erro absoluto píxel a píxel entre a imagem proveniente do método de detecção de bordas aplicado, e a imagem de referência. O artigo \citet{n_r} mostra a métrica:
+%\begin{equation}
+%	MAE=\frac{1}{l}\sum_{i=1}^m\sum_{j=1}^n\left|\text{I}^r_{i,j}-\text{I}_{i,j}\right|.  \\
+%\label{eq:erro_MAE}
+%\end{equation}
+%\subsection{\textit{Percentage fit error}-- PFE}
+%A métrica PFE é norma do erro píxel a píxel entre a imagem proveniente do método de detecção de bordas aplicado, e a imagem de referência dividido pela norma da imagem de referência, multiplicado por 100 para termos o valor de retorno em porcentagem. O artigo \citet{n_r} mostra a métrica:
+%\begin{equation}
+%	PFE=\frac{\text{norma}(\text{I}^r-\text{I})}{\text{norma}(\text{I}^r)}\cdot 100.  \\
+%\label{eq:erro_PFE}
+%\end{equation}
+%\subsection{Signal to noise ratio}
+%\begin{equation}
+%SRN = 20log_{10}\left(\frac{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2}{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}\right)
+%\end{equation}
+%\subsection{Peak signal to noise ratio}
+%\begin{equation}
+%PSRN = 20log_{10}\left(\frac{L^2}{\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-I_f(i,j))^2}\right)
+%\end{equation}
+%Aqui $L$ é o número de níveis de cinza na imagem. 
+%\subsection{Correlaçao}
+%\begin{equation}
+%CORR = \frac{2C_{rf}}{C_r+Cf}
+%\end{equation}
+%Onde $$C_r= \sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$ $$C_f=\sum_{i=1}^M\sum_{j=1}^N(I_f(i,j))^2,$$ $$C_{rf}=\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)I_f(i,j)),$$
+%Aqui $L$ é o número de níveis de cinza na imagem. 
+%
+%\subsection{Mutual information}
+%\begin{equation}
+%MI = \sum_{i=1}^M\sum_{j=1}^N h_{I_rI_f}(i,j){log_2\left(\frac{h_{I_rI_f}(i,j)}{h_{I_r}(i,j)h_{I_f}(i,j)}\right)}
+%\end{equation}
+%\subsection{Universal quality index}
+%\begin{equation}
+%QI=\frac{4\sigma_{I_rI_f}(\nu_{I_r}+\nu_{I_f})}{(\sigma_{I_r}^2+\sigma_{I_f}^2)(\nu_{I_r}^2+\nu_{I_f}^2)}
+%\end{equation}
+%onde 
+%$$\nu_{I_r}=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$
+%$$\nu_{I_f}=\frac{1}{MN}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j))^2,$$ $$\sigma_{I_r}^2=\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-\mu_{I_r})^2,$$
+%$$\sigma_{I_f}^2   =\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_f(i,j)-\mu_{I_f})^2$$ e
+%$$\sigma_{I_rI_f}^2=\frac{1}{MN-1}\sum_{i=1}^M\sum_{j=1}^N(I_r(i,j)-\mu_{I_r})(I_f(i,j)-\mu_{I_f})$$ 
+%\subsection{Measure of structural similarity}
+%\begin{equation}
+%SSIM=\frac{(2\nu_{I_r}\nu_{I_r}+C_1)(2\sigma_{I_rI_f}+C_2)}{(\mu_{I_r}^2+\nu_{I_f}^2+C_1)(\sigma_{I_r}^2+\sigma_{I_f}^2+C_2)}
+%\end{equation}
+%onde $C_1$ é uma constante que é incluída para evitar a instabilidade quando $(\mu_{I_r}^2+\nu_{I_f}^2+C_1)$ e $C_2$ é uma constante que é incluída para evitar a instabilidade quando $(\sigma_{I_r}^2+\sigma_{I_f}^2+C_2)$ é perto de zero.
+%\subsection{Standard deviation}
+%\begin{equation}
+%\sigma=\sqrt{\sum_{i=1}^L(i-\bar{i})^2h_{I_f}(i)}
+%\end{equation}
+%onde $\bar{i}=\sum_{i=0}^Lih_{I_f}$, sendo $h_{I_f}$ o histograma normalizado da imagem proveniente da fusão $I_f(i,j)$, e $L$ o número de frequência existente no histograma.
+%\subsection{Entropy}
+%\begin{equation}
+%He=-\sum_{i=1}^Lh_{I_f}(i)\log_2 h_{I_f}(i)
+%\end{equation}
+%\subsection{Cross Entropy}
+%A entropia cruzada das imagens fontes $I_1$ e $I_2$ e a imagem fundida $I_f$ é:
+%\begin{equation}
+%CE(I_1,I_2;I_f)=\frac{CE(I_1;I_f)+CE(I_2;I_f)}{2}
+%\end{equation}
+%onde $CE(I_1;I_f)=\sum_{i=1}^Lh_{I_f}(i)\log_2\left( \frac{h_{I_1}(i)}{h_{I_f}(i)}\right)$ e $CE(I_1;I_f)=\sum_{i=1}^Lh_{I_f}(i)\log_2\left( \frac{h_{I_1}(i)}{h_{I_f}(i)}\right)$
+%\subsection{Spatial frequency}
+%\begin{equation}
+%SF=\sqrt{RF^2+CF^2}
+%\end{equation}
+%onde, $RF=\sqrt{\frac{1}{MN}\sum_{x=1}^M\sum_{y=2}^N[I_f(x,y)-I_f(x,y-1)]^2}$ e $RF=\sqrt{\frac{1}{MN}\sum_{y=1}^N\sum_{x=2}^M[I_f(x,y)-I_f(x-1,y)]^2}$
+%\subsection{Fusion mutual information}
+%Se o histograma conjunto entre $I_1(x,y)$ e $I_f(x,y)$ é definido como $h_{I_1I_f}$ e entre $I_2(x,y)$ e $I_f(x,y)$ é definido como $h_{I_2I_f}$ então
+%\begin{equation}
+%FMI = MI_{I_1I_f}+MI_{I_2I_f}
+%\end{equation}
+%$$MI_{I_1I_f}= \sum_{i=1}^M\sum_{j=1}^N h{I_1I_f}(i,j)\log_2\left(\frac{h_{I_1I_f}(i,j)}{h_{I_1}(i,j)h_{I_f}(i,j)} \right)$$
+%$$MI_{I_2I_f}= \sum_{i=1}^M\sum_{j=1}^N h{I_2I_f}(i,j)\log_2\left(\frac{h_{I_2I_f}(i,j)}{h_{I_2}(i,j)h_{I_f}(i,j)} \right)$$
+%\subsection{Fusion quality index}
+%\begin{equation}
+%FQI = \sum_{w\in W}c(w)[\lambda(w)QI(I_1,I_f|w)+(1-\lambda(w))QI(I_2,I_f|w)] 
+%\end{equation}
+%
+%Onde $\lambda(w)=\frac{\sigma_{I_1}^2}{\sigma_{I_1}^2+\sigma_{I_w}^2}$ computado sobre uma janela definida; $C(w)=max(\sigma_{I_1}^2,\sigma_{I_2}^2)$ sobre uma janela onde $c(x)$ é a normalização de $C(w)$ e $QI(I_1,I_f|w)$ é o índice de qualidade sobre a janela dado a imagem fonte e a imagem fundida.
+%\subsection{Fusion similarity metric}
+%\begin{equation}
+%FSM = \sum_{w\in W} sim(I_1,I_2,I_f|w)[QI(I_1,I_f|w)-QI(I_2,I_f|w)]+QI(I_2,I_f|w) 
+%\end{equation}
+%Onde
+%\begin{equation}
+%\text{sim}(I_1,I_2,I_f|w) = \left\{
+%\begin{array}{ccc}
+%    0   & \text{if} &  \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}} > 0  \\
+%    \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}}  & \text{if} &  0\le \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}} \le 1  \\
+%        1   & \text{if} &  \frac{\sigma_{I_1I_f}}{\sigma_{I_1I_f}\sigma_{I_2I_f}} > 1  \\
+%\end{array}
+%\right.,
+%\end{equation}
+
+

@@ -24,7 +24,7 @@
 \usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
 \usepackage{merriweather}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
 \usepackage{type1cm}                    % fontes realmente escaláveis
-\usepackage{listings}                   % para formatar código-fonte (ex. em Java)
+%\usepackage{listings}                   % para formatar código-fonte (ex. em Java)
 \usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 \usepackage[usenames,svgnames,dvipsnames]{xcolor}
 %\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
@@ -74,8 +74,19 @@
 % ---------------------------------------------------------------------------- %
 % Cabeçalhos similares ao TAOCP de Donald E. Knuth
 \usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
+%\pagestyle{fancy}
+%\fancyhf{}
+%\fancyhf{}
+%\fancyhead[LE,RO]{\thepage}
+%\fancyhead[RE]{\textbf{ \nouppercase{Kapitel \thechapter: \leftmark}} }
+%\fancyhead[LO]{\textbf{ \nouppercase{\rightmark}} }
+%
+%\fancypagestyle{plain}{ %
+%  \fancyhf{} % remove everything
+%  \renewcommand{\headrulewidth}{0pt} % remove lines as well
+%  \renewcommand{\footrulewidth}{0pt}
+%}
+%
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
 \renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
 \renewcommand{\headrulewidth}{0pt}
@@ -91,35 +102,34 @@
 \fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
 \cleardoublepage
 \normalsize
-
 % ---------------------------------------------------------------------------- %
 % Opções de listing usados para o código fonte
 % Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
-\lstset{ %
-language=Java,                  % choose the language of the code
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
-numbers=left,                   % where to put the line-numbers
-numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
-numbersep=5pt,                  % how far the line-numbers are from the code
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
-frame=single,	                % adds a frame around the code
-framerule=0.6pt,
-tabsize=2,	                    % sets default tabsize to 2 spaces
-captionpos=b,                   % sets the caption-position to bottom
-breaklines=true,                % sets automatic line breaking
-breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-escapeinside={\%*}{*)},         % if you want to add a comment within your code
-backgroundcolor=\color[rgb]{1.0,1.0,1.0}, % choose the background color.
-rulecolor=\color[rgb]{0.8,0.8,0.8},
-extendedchars=true,
-xleftmargin=10pt,
-xrightmargin=10pt,
-framexleftmargin=10pt,
-framexrightmargin=10pt
-}
+%\lstset{ %
+%language=Java,                  % choose the language of the code
+%basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+%numbers=left,                   % where to put the line-numbers
+%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+%stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
+%numbersep=5pt,                  % how far the line-numbers are from the code
+%showspaces=false,               % show spaces adding particular underscores
+%showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+%frame=single,	                % adds a frame around the code
+%framerule=0.6pt,
+%tabsize=2,	                    % sets default tabsize to 2 spaces
+%captionpos=b,                   % sets the caption-position to bottom
+%breaklines=true,                % sets automatic line breaking
+%breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%escapeinside={\%*}{*)},         % if you want to add a comment within your code
+%backgroundcolor=\color[rgb]{1.0,1.0,1.0}, % choose the background color.
+%rulecolor=\color[rgb]{0.8,0.8,0.8},
+%extendedchars=true,
+%xleftmargin=10pt,
+%xrightmargin=10pt,
+%framexleftmargin=10pt,
+%framexrightmargin=10pt
+%}
 
 % ---------------------------------------------------------------------------- %
 % Corpo do texto
@@ -129,11 +139,10 @@ framexrightmargin=10pt
 %\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 %\setcounter{tocdepth}{2}
 %\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
-%\fancyhead[RE,LO]{}
+\fancyhead[RE,LO]{}
 %\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
-
 \onehalfspacing  % espaçamento
-%\fancyhead[RE,LO]{\thesection}
+\fancyhead[RE,LO]{\thesection}
 \fancyhead[LO]{\thesection}
 % ---------------------------------------------------------------------------- %
 % CAPA
@@ -143,7 +152,6 @@ framexrightmargin=10pt
     \textbf{\Large{UNIVERSIDADE PRESBITERIANA MACKENZIE}}\\
     %\Large{Programa de Pós graduação em}\\
     %\Large{Engenharia Elétrica e Computação - PPGEEC}\\
-    
     \vspace*{0.5cm}
     \large{ANDERSON ADAIME DE BORBA}\\
     \vspace*{5.0cm}
@@ -156,7 +164,7 @@ framexrightmargin=10pt
 \end{center}
 \pagebreak
 % CAPA
-\pagestyle{empty}
+\thispagestyle{empty}
 \vspace*{-3.7cm}
 \begin{center}
 \large  \textbf{UNIVERSIDADE PRESBITERIANA MACKENZIE}
@@ -172,11 +180,11 @@ framexrightmargin=10pt
 \hfill{\vbox{\hsize=8.5cm\noindent\strut
 Tese apresentada ao Programa de Pós-Graduação\break
 em Engenharia Elétrica e Computação da Universidade\break
- Presbiteriana Mackenzie como requisito parcial à\break
+ Presbiteriana Mackenzie, como requisito parcial à\break
 obtenção do título de Doutor.}\\
 \strut}
 \vskip 3.0cm
-\hspace{-0.7cm} \textbf{\normalsize Orientador: Prof. Dr. Mauricio Marengoni}\\
+\hspace{-0.7cm} \textbf{\normalsize Orientador: Prof. Dr. Maurício Marengoni}\\
 \textbf{\normalsize  Coorientador: Prof. Dr. Alejandro César Frery Orgambide}
 \begin{center}
 São Paulo\\
@@ -209,8 +217,6 @@ São Paulo\\
 %    \end{flushright}
 %
 %\pagebreak
-
-
 % ---------------------------------------------------------------------------- %
 % Página de rosto (SÓ PARA A VERSÃO CORRIGIDA - APÓS DEFESA)
 % Resolução CoPGr 5890 (20/12/2010)
@@ -224,37 +230,47 @@ São Paulo\\
 %   à Comissão Julgadora antes da defesa
 %
 %
-\newpage
+\pagebreak
 \thispagestyle{empty}
+\vspace*{-3.7cm}
+\begin{center}
+\text{\large ANDERSON ADAIME DE BORBA}\\
+\vskip 2.0cm
+\setlength{\baselineskip}{1.5\baselineskip}
+\textbf{\large FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
+\vskip 2.0cm
+\end{center}
+\hfill{\vbox{\hsize=8.5cm\noindent\strut
+Tese apresentada ao Programa de Pós-Graduação\break
+em Engenharia Elétrica e Computação da Universidade\break
+ Presbiteriana Mackenzie, como requisito parcial à\break
+obtenção do título de Doutor.}\\
+\strut}
+    \vskip 1.5cm
+\text{\large Aprovada em 16 de Dezembro de 2020}\\
     \begin{center}
-        \vspace*{2.3 cm}
-        \textbf{\Large{Imagens PolSAR}}\\
-        \vspace*{2 cm}
+\text{\large BANCA EXAMINADORA}\\
+     \vskip 0.5cm
+     $\rule{10cm}{0.15mm}$ \\
+     Prof. Dr. Maurício Marengoni\\
+     Universidade Presbiteriana Mackenzie - UPM\\
+     \vskip 0.5cm
+     $\rule{10cm}{0.15mm}$\\
+     Prof$^{\underline{a}}$. Dr$^{\underline{a}}$. Ana Grasielle Dionísio Corrêa\\
+     Universidade Presbiteriana Mackenzie - UPM\\
+     \vskip 0.5cm
+     $\rule{10cm}{0.15mm}$\\
+     Prof. Dr. Carlos E. Thomaz\\
+     Centro Universitário FEI - FEI\\
+     \vskip 0.5cm
+     $\rule{10cm}{0.15mm}$\\
+     Prof$^{\underline{a}}$. Dr$^{\underline{a}}$. María Juliana Gambini\\
+     Instituto Tecnológico de Buenos Aires - ITBA\\
+     \vskip 0.5cm
+     $\rule{10cm}{0.15mm}$\\
+     Prof. Dr. Paulo Batista Lopes\\
+     Universidade Presbiteriana Mackenzie - UPM\\
     \end{center}
-
-    \vskip 2cm
-
-    \begin{flushright}
-	Esta versão da tese contém as correções e alterações sugeridas\\
-	pela Comissão Julgadora durante a defesa da versão original do trabalho,\\
-	realizada em **/**/****. Uma cópia da versão original está disponível no\\
-	na faculdade de Computação e informática da Universidade Presbiteriana Mackenzie.
-
-    \vskip 2cm
-
-    \end{flushright}
-    \vskip 4.2cm
-
-    \begin{quote}
-    \noindent Comissão Julgadora:
-    
-    \begin{itemize}
-		\item Profª. Drª. Nome Completo (orientadora) - Mackenzie [sem ponto final]
-		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
-		\item Prof. Dr. Nome Completo - UFAL [sem ponto final]
-    \end{itemize}
-      
-    \end{quote}
 \pagebreak
 %
 %
@@ -262,46 +278,46 @@ São Paulo\\
 % ---------------------------------------------------------------------------- %
 % Dedicatoria:
 % Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-\chapter*{}
-\vskip 15.cm
-\hfill{\vbox{\hsize=5.5cm\noindent\strut
-Texto Dedicatória\break
-texto Dedicatória\break
-texto Dedicatória\break
-texto Dedicatória.}\\
-\strut}
+%\chapter*{}
+%\vskip 15.cm
+%\hfill{\vbox{\hsize=5.5cm\noindent\strut
+%Texto Dedicatória\break
+%texto Dedicatória\break
+%texto Dedicatória\break
+%texto Dedicatória.}\\
+%\strut}
 % ---------------------------------------------------------------------------- %
-% Agradecimentos:
-% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-\chapter*{Agradecimentos}
-Texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto texto texto texto texto texto texto texto texto texto
-texto texto texto texto. Texto opcional.
-%
-% Epígrafe:
-% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-\chapter*{}
-\vskip 15.cm
-\hfill{\vbox{\hsize=5.5cm\noindent\strut
-Texto  Epígrafe\break
-texto  Epígrafe\break
-texto  Epígrafe\break
-texto  Epígrafe.}\\
-\strut}
+%% Agradecimentos:
+%% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
+%\chapter*{Agradecimentos}
+%Texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto texto texto texto texto texto texto texto texto texto
+%texto texto texto texto. Texto opcional.
+%%
+%% Epígrafe:
+%% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
+%\chapter*{}
+%\vskip 15.cm
+%\hfill{\vbox{\hsize=5.5cm\noindent\strut
+%Texto  Epígrafe\break
+%texto  Epígrafe\break
+%texto  Epígrafe\break
+%texto  Epígrafe.}\\
+%\strut}
 % ---------------------------------------------------------------------------- %
 % Resumo
-\chapter*{Resumo}
+\chapter{Resumo}
+%\thispagestyle{empty}
 %
-Os radares de abertura sintética polarimétrica (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Nesse contexto a investigação de métodos de fusão de evidências de bordas é importante para quantificar e qualificar as informações obtidas de cada canal da imagem. A obtenção desses dados possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas.  Neste trabalho foram estudados e comparados seis métodos de fusão provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível idealmente com largura de um píxel, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). A comparação dos seis métodos de fusão foi realizada quantitativamente, calculando-se a proximidade das bordas detectadas com as bordas definidas nas imagens \textit{Ground Truth} e pela presença de \textit{outliers}.
-
-  Os resultados obtidos com as análises indicam que os métodos PCA e MR-SVD fornecem os melhores resultados, devido a precisão em detectar bordas e a baixa incidência de \textit{outliers}. 
+Os radares polarimétricos de abertura sintética (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Nesse contexto a investigação de métodos de fusão de evidências de bordas é importante para quantificar e qualificar as informações obtidas de cada canal da imagem. A obtenção desses dados possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas.  Neste trabalho foram estudados e comparados seis métodos de fusão de informações provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível, idealmente com largura de um píxel, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa de máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). A comparação dos seis métodos de fusão foi realizada quantitativamente e qualitativamente, respectivamente, calculando-se a proximidade das bordas detectadas com as bordas definidas nas imagens \textit{Ground Truth} e pela presença de \textit{outliers}. Os resultados obtidos com as análises indicam que os métodos PCA e MR-SVD fornecem os melhores resultados, devido a precisão em detectar bordas e a baixa incidência de \textit{outliers}. 
 %
 \vskip 0.5cm
 \noindent Palavras-chave: PolSAR. Deecção de bordas. Estimativa de máxima verossimilhança. Métodos de fusão.
 % ---------------------------------------------------------------------------- %
 % Abstract
-\chapter*{Abstract}
+\chapter{Abstract}
+%\thispagestyle{empty}
 Polarimetric Synthetic Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
 The images they provide have speckle noise, making their processing and analysis challenging tasks. In this context, the investigation of edge evidence fusion methods is essential to quantify and qualify the information obtained from each image channel. Getting this data enables the decision to use or discard the information from a given channel to improve the performance of edge detection. 
 We discuss an edge detection method based on the fusion of evidences obtained in the intensity channels hh, hv, and vv of PolSAR multi-look images. 
@@ -313,20 +329,17 @@ principal component analysis (PCA),
 Receiver operating characteristic (ROC) statistics, 
 multi-resolution stationary (MR-SWT) wavelet transform, 
 and a multi-resolution method based on singular value decomposition (MR-SVD). 
-The six fusion methods were compared quantitatively, calculating the distance of the detected edges to the edges defined in the Ground Truth images and by the presence of outliers.
+The six fusion methods were compared quantitatively e qualitatively, rescpectively, calculating the distance of the detected edges to the edges defined in the Ground Truth images and by the presence of outliers.
 The results obtained with the analyses suggest that the PCA and MR-SVD methods provide the best results due to the precision in detecting edges and the low incidence of outliers.
-
 \vskip 0.5cm
 \noindent Keywords: PolSAR. Edge detection. Maximum likelihood estimation, Fusion methods. 
 % ---------------------------------------------------------------------------- %
-% Sumário
-\tableofcontents    % imprime o sumário
-
 % ---------------------------------------------------------------------------- %
+%\thispagestyle{empty}
 \chapter{Lista de Abreviaturas}
 \begin{tabular}{ll}
-SAR            & Radar de abertura sintética\\
 RAR            & Radar de abertura real\\
+SAR            & Radar de abertura sintética\\
 PolSAR         & Radar de abertura sintética polarimétrica\\
 PDF            & Função densidade de probabilidade\\
 ROI            & Região de Interesse\\
@@ -348,6 +361,7 @@ URL            & \textit{Uniform Resource Locator}\\
 \end{tabular}
 % ---------------------------------------------------------------------------- %
 \chapter{Lista de Símbolos}
+%\thispagestyle{empty}
 \begin{tabular}{ll}
         $L$         & Número de visadas em uma imagem PolSAR\\
         $\Sigma$    & Mariz de covariância hermitiana e definida positiva \\
@@ -355,44 +369,37 @@ URL            & \textit{Uniform Resource Locator}\\
 	$\Gamma$    & Função Gamma \\
 	$\Gamma_m$  & Função Gamma multivariada\\
 	$W(\Sigma, L)$ & Distribuíção Wishart\\
-	$\mathbb{R}$ & Parte real de um número complexo\\
-	$\mathbb{I}$ & Parte complexa de um número complexo
 \end{tabular}
-
 % ---------------------------------------------------------------------------- %
 % Listas de figuras e tabelas criadas automaticamente
 \listoffigures            
 \listoftables            
-
+% Sumário
+\tableofcontents    % imprime o sumário
 % ---------------------------------------------------------------------------- %
 % Capítulos do trabalho
 \mainmatter
 \setcounter{secnumdepth}{4}
-
-
 % cabeçalho para as páginas de todos os capítulos
+%\fancyhead[RE,LO]{}
+%\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+%\onehalfspacing  % espaçamento
+%\fancyhead[RE,LO]{\thesection}
+\fancyhead[LO]{\thesection}
 \fancyhead[RE,LO]{\thesection}
-
 %\singlespacing              % espaçamento simples
-%\onehalfspacing            % espaçamento um e meio
+\onehalfspacing            % espaçamento um e meio
+%\pagenumbering{arabic}
 \input{cap_intro}               % AAB - Arquivo inserido
 \input{cap_aspectos_gerais}           % AAB - Arquivo inserido
 \input{cap_2_metodologia}
 \input{cap_fusao}               % AAB - Arquivo inserido 
 \input{cap_resultados_numericos}
 \input{cap_conclusao}
-%\input cap_intro               % AAB - Arquivo inserido
-%\input cap_model_est            % AAB - Arquivo inserido
-%\input cap_resul_num_sem_fusao  % AAB - Arquivo inserido
-%\input cap_det_borda           % AAB - Arquivo inserido 
-%\input cap_resul_num_com_fusao % AAB - Arquivo inserido
-%\input cap_metrica             % AAB - Arquivo inserido
-%\input cap_apendice             % AAB - Arquivo inserido
-
 % cabeçalho para os apêndices
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
-\fancyhead[RE,LO]{}
-\appendix
+%\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
+%\fancyhead[RE,LO]{}
+%\appendix
 %\include{ape-conjuntos}      % associado ao arquivo: 'ape-conjuntos.tex'
 % ---------------------------------------------------------------------------- %
 % Bibliografia
@@ -401,6 +408,6 @@ URL            & \textit{Uniform Resource Locator}\\
 \bibliography{../bibliografia}  % associado ao arquivo: 'bibliografia.bib'
 % ---------------------------------------------------------------------------- %
 % Índice remissivo
-\printindex   % imprime o índice remissivo no documento 
+%\printindex   % imprime o índice remissivo no documento 
 
 \end{document}

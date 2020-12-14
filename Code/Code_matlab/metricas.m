@@ -1,65 +1,65 @@
-function [RMSE,PFE,MAE,dent,CORR,SNR,PSNR,QI,SSIM,MSSIM,SVDQM,SC,LMSE,VIF,PSNR_HVSM,PSNR_HVS] = metricas(imt, imf)
+function [RMSE,PFE,MAE,dent,CORR,SNR,PSNR,QI,SSIM,MSSIM,SVDQM,SC,LMSE,VIF,PSNR_HVSM,PSNR_HVS, IMGMUT] = metricas(imt, imf)
 % Root mean square error (RMSE)
 [m,n] = size(imt);
-RMSE = sqrt(sum((imt(:)-imf(:)).^2)/(m*n));
+RMSE = sqrt(sum(sum((imt-imf).^2))/(m*n));
 
 %percentage fit error (PFE)
-PFE = 100*norm(imt(:)-imf(:))/norm(imt(:));
+%PFE = 100*norm(imt(:)-imf(:))/norm(imt(:));
+%PFE = 100*norm(imt-imf)/norm(imt);
+PFE = norm(imt-imf,1);
 
 % mean absolute error (MAE)
-MAE = sum(sqrt((imt(:)-imf(:)).^2))/(m*n);
+%MAE = sum(sqrt((imt(:)-imf(:)).^2))/(m*n);
 
 % defference entropy H
-dent = abs(entropy(imt)-entropy(imf));
-
+%dent = abs(entropy(imt)-entropy(imf))
 % Correlation (CORR)
-Rtf = sum(sum(imt.*imf));
-Rt = sum(sum(imt.*imt));
-Rf = sum(sum(imf.*imf));
-CORR = 2*Rtf/(Rt+Rf);
+%Rtf = sum(sum(imt.*imf));
+%Rt = sum(sum(imt.*imt));
+%Rf = sum(sum(imf.*imf));
+%CORR = 2*Rtf/(Rt+Rf);
 
 % signal to noise ration (SNR)
-st = mean(mean((double(imt)).^2));
-ntf =  mean(mean((double(imt-imf)).^2));
-SNR = 10*log10(st/ntf);
+%st = mean(mean((double(imt)).^2));
+%ntf =  mean(mean((double(imt-imf)).^2));
+%SNR = 10*log10(st/ntf);
 
 % Peak signal to noise Ratio (PSNR)
-L = 256;
-PSNR = 10*log10(L^2/RMSE);
+%L = 256;
+%PSNR = 10*log10(L^2/RMSE);
 
 % mutual information(MI)
 %MI = minf2(imt,imf);
 
 % universal image quality index (QI)
-QI = uiqi(imt,imf,8);
+%QI = uiqi(imt,imf,8);
 
 % structural similarity based image quality measurement
-K = [0.01 0.03];
-L = 255;
-SSIM = ssim(imt,imf,K,L);
+%K = [0.01 0.03];
+%L = 255;
+%SSIM = ssim(imt,imf,K,L);
 
 % Multi-scale SSIM
-MSSIM = mssim_index(imt,imf,K,L);
+%MSSIM = mssim_index(imt,imf,K,L);
 
 
 %SVD-based Image Quality Measure
-SVDQM = SVDQualityMeasure(imt,imf,8);
+%SVDQM = SVDQualityMeasure(imt,imf,8);
 
 %structural content
-SC = structural_content(imt,imf);
+%SC = structural_content(imt,imf);
 
 % LMSE(Laplacian Mean Squared Error
-LMSE = LMS_error(imt,imf);
+%LMSE = LMS_error(imt,imf);
 
 %VIF the visual information fidelity measure between the two images
-VIF = vifp_mscale(imt,imf);
+%VIF = vifp_mscale(imt,imf);
 
 % PSNR-HVS-M and PSNR-HVS image quality measures
-[PSNR_HVSM, PSNR_HVS] = psnrhvsm(imt,imf,8);
+%[PSNR_HVSM, PSNR_HVS] = psnrhvsm(imt,imf,8);
 
+%=====================================================================
 
-%===================================================================== 
- 
 function[MI] = minf2(im1,im2)
 %%% MUTUALINFORMATION: compute the mutual information between two images
 %%%   mutualinformation( im1, im2 )
@@ -75,7 +75,7 @@ function[MI] = minf2(im1,im2)
    X2     = im2(:);
    maxval = max( [X1 ; X2] );
    X1     = round( X1 * (N-1)/maxval ) + 1
-   X2     = round( X2 * (N-1)/maxval ) + 1 
+   X2     = round( X2 * (N-1)/maxval ) + 1
    for k = 1 : length(X1)
       joint( X1(k), X2(k) ) = joint( X1(k), X2(k) ) + 1;
    end
@@ -225,9 +225,9 @@ for i=1:r3
 end
 
 %==========================================================================
-    
+
     function[SC] = structural_content(A,B)
-    % SC (Structural Content)    
+    % SC (Structural Content)
     Bs = sum(sum(B.^2));
     Pk = sum(sum(A.^2));
     if (Bs == 0)
@@ -272,17 +272,17 @@ ssim_v(1) = comp_ssim(2);
 ssim_r(1) = comp_ssim(3);
 
 % Compute SSIM for scales 2 through 5
-for s=1:nlevs-1    
+for s=1:nlevs-1
     % Low Pass Filter
     img1 = imfilter(img1,lpf,'symmetric','same');
-    img2 = imfilter(img2,lpf,'symmetric','same');    
+    img2 = imfilter(img2,lpf,'symmetric','same');
     img1 = img1(1:2:end,1:2:end);
     img2 = img2(1:2:end,1:2:end);
 
     comp_ssim = ssim_index_modified(img1,img2,K,L);
     ssim_m = comp_ssim(1);         % Mean Component only needed for scale 5
     ssim_v(s+1) = comp_ssim(2);
-    ssim_r(s+1) = comp_ssim(3);   
+    ssim_r(s+1) = comp_ssim(3);
 end
 alpha = 0.1333;
 beta = [0.0448 0.2856 0.3001 0.2363 0.1333]';
@@ -318,20 +318,20 @@ sigma12 = filter2(window, img1.*img2, 'valid') - mu1_mu2;
 if (C1 > 0 && C2 > 0)
    M = (2*mu1_mu2 + C1)./(mu1_sq + mu2_sq + C1);
    V = (2*sigma1.*sigma2 + C2)./(sigma1_sq + sigma2_sq + C2);
-   R = (sigma12 + C2/2)./(sigma1.*sigma2+C2/2);   
+   R = (sigma12 + C2/2)./(sigma1.*sigma2+C2/2);
 else
    ssim_ln = 2*mu1_mu2;
    ssim_ld = mu1_sq + mu2_sq;
    M = ones(size(mu1));
    index_l = (ssim_ld>0);
    M(index_l) = ssim_ln(index_l)./ssim_ld(index_l);
-   
+
    ssim_cn = 2*sigma1.*sigma2;
    ssim_cd = sigma1_sq + sigma2_sq;
    V = ones(size(mu1));
    index_c = (ssim_cd>0);
    V(index_c) = ssim_cn(index_c)./ssim_cd(index_c);
-   
+
    ssim_sn = sigma12;
    ssim_sd = sigma1.*sigma2;
    R = ones(size(mu1));
@@ -355,7 +355,7 @@ composite_mean_vec = [mean2(M) mean2(V) mean2(R)];
 % Output: (1) VIF the visual information fidelity measure between the two images
 
 % Advanced Usage:
-%    Users may want to modify the parameters in the code. 
+%    Users may want to modify the parameters in the code.
 %    (1) Modify sigma_nsq to find tune for your image dataset.
 
 
@@ -363,16 +363,16 @@ sigma_nsq=2;
 num=0;
 den=0;
 for scale=1:4
-   
+
     N=2^(4-scale+1)+1;
-    win=fspecial('gaussian',N,N/5);    
+    win=fspecial('gaussian',N,N/5);
     if (scale >1)
         ref=filter2(win,ref,'valid');
         dist=filter2(win,dist,'valid');
         ref=ref(1:2:end,1:2:end);
         dist=dist(1:2:end,1:2:end);
     end
-    
+
     mu1   = filter2(win, ref, 'valid');
     mu2   = filter2(win, dist, 'valid');
     mu1_sq = mu1.*mu1;
@@ -381,26 +381,26 @@ for scale=1:4
     sigma1_sq = filter2(win, ref.*ref, 'valid') - mu1_sq;
     sigma2_sq = filter2(win, dist.*dist, 'valid') - mu2_sq;
     sigma12 = filter2(win, ref.*dist, 'valid') - mu1_mu2;
-    
+
     sigma1_sq(sigma1_sq<0)=0;
     sigma2_sq(sigma2_sq<0)=0;
-    
+
     g=sigma12./(sigma1_sq+1e-10);
     sv_sq=sigma2_sq-g.*sigma12;
-    
+
     g(sigma1_sq<1e-10)=0;
     sv_sq(sigma1_sq<1e-10)=sigma2_sq(sigma1_sq<1e-10);
     sigma1_sq(sigma1_sq<1e-10)=0;
-    
+
     g(sigma2_sq<1e-10)=0;
     sv_sq(sigma2_sq<1e-10)=0;
-    
+
     sv_sq(g<0)=sigma2_sq(g<0);
     g(g<0)=0;
-    sv_sq(sv_sq<=1e-10)=1e-10;    
-    
+    sv_sq(sv_sq<=1e-10)=1e-10;
+
      num=num+sum(sum(log10(1+g.^2.*sigma1_sq./(sv_sq+sigma_nsq))));
-     den=den+sum(sum(log10(1+sigma1_sq./sigma_nsq)));    
+     den=den+sum(sum(log10(1+sigma1_sq./sigma_nsq)));
 end
 vifp=num/den;
 
@@ -409,33 +409,33 @@ vifp=num/den;
 function [p_hvs_m, p_hvs] = psnrhvsm(img1, img2, step)
 % Calculation of PSNR-HVS-M and PSNR-HVS image quality measures
 %
-% PSNR-HVS-M is Peak Signal to Noise Ratio taking into account 
-% Contrast Sensitivity Function (CSF) and between-coefficient   
+% PSNR-HVS-M is Peak Signal to Noise Ratio taking into account
+% Contrast Sensitivity Function (CSF) and between-coefficient
 % contrast masking of DCT basis functions
-% PSNR-HVS is Peak Signal to Noise Ratio taking into account only CSF 
+% PSNR-HVS is Peak Signal to Noise Ratio taking into account only CSF
 
 % PSNR-HVS-M:
-% [1] Nikolay Ponomarenko, Flavia Silvestri, Karen Egiazarian, Marco Carli, 
-%     Jaakko Astola, Vladimir Lukin, "On between-coefficient contrast masking 
-%     of DCT basis functions", CD-ROM Proceedings of the Third International 
-%     Workshop on Video Processing and Quality Metrics for Consumer Electronics 
+% [1] Nikolay Ponomarenko, Flavia Silvestri, Karen Egiazarian, Marco Carli,
+%     Jaakko Astola, Vladimir Lukin, "On between-coefficient contrast masking
+%     of DCT basis functions", CD-ROM Proceedings of the Third International
+%     Workshop on Video Processing and Quality Metrics for Consumer Electronics
 %     VPQM-07, Scottsdale, Arizona, USA, 25-26 January, 2007, 4 p.
 %
 % PSNR-HVS:
-% [2] K. Egiazarian, J. Astola, N. Ponomarenko, V. Lukin, F. Battisti, 
-%     M. Carli, New full-reference quality metrics based on HVS, CD-ROM 
-%     Proceedings of the Second International Workshop on Video Processing 
+% [2] K. Egiazarian, J. Astola, N. Ponomarenko, V. Lukin, F. Battisti,
+%     M. Carli, New full-reference quality metrics based on HVS, CD-ROM
+%     Proceedings of the Second International Workshop on Video Processing
 %     and Quality Metrics, Scottsdale, USA, 2006, 4 p.
 % Input : (1) img1: the first image being compared
 %         (2) img2: the second image being compared
-%         (3) wstep: step of 8x8 window to calculate DCT 
+%         (3) wstep: step of 8x8 window to calculate DCT
 %             coefficients. Default value is 8.
 %
 % Output: (1) p_hvs_m: the PSNR-HVS-M value between 2 images.
-%             If one of the images being compared is regarded as 
+%             If one of the images being compared is regarded as
 %             perfect quality, then PSNR-HVS-M can be considered as the
 %             quality measure of the other image.
-%             If compared images are visually undistingwished, 
+%             If compared images are visually undistingwished,
 %             then PSNR-HVS-M = 100000.
 %         (2) p_hvs: the PSNR-HVS value between 2 images.
 %
@@ -472,7 +472,7 @@ MaskCof = [0.390625, 0.826446, 1.000000, 0.390625, 0.173611, 0.062500, 0.038447,
 S1 = 0; S2 = 0; Num = 0;
 X=1;Y=1;
 while Y <= LenY-7
-  while X <= LenX-7 
+  while X <= LenX-7
     A = img1(Y:Y+7,X:X+7);
     B = img2(Y:Y+7,X:X+7);
     A_dct = dct2(A); B_dct = dct2(B);
@@ -487,7 +487,7 @@ while Y <= LenY-7
         u = abs(A_dct(k,l)-B_dct(k,l));
         S2 = S2 + (u*CSFCof(k,l)).^2;    % PSNR-HVS
         if (k~=1) | (l~=1)               % See equation 3 in [1]
-          if u < MaskA/MaskCof(k,l) 
+          if u < MaskA/MaskCof(k,l)
             u = 0;
           else
             u = u - MaskA/MaskCof(k,l);
@@ -503,19 +503,19 @@ end
 
 if Num ~=0
   S1 = S1/Num;S2 = S2/Num;
-  if S1 == 0 
+  if S1 == 0
     p_hvs_m = 100000; % img1 and img2 are visually undistingwished
   else
     p_hvs_m = 10*log10(255*255/S1);
   end
-  if S2 == 0  
+  if S2 == 0
     p_hvs = 100000; % img1 and img2 are identical
   else
     p_hvs = 10*log10(255*255/S2);
   end
 end
 
-    function[m] = maskeff(z,zdct,MaskCof)  
+    function[m] = maskeff(z,zdct,MaskCof)
 % Calculation of Enorm value (see [1])
 m = 0;
 for k = 1:8
@@ -534,5 +534,3 @@ m = sqrt(m*pop)/32;   % sqrt(m*pop/16/64)
 function[d] = vari(AA)
   d=var(AA(:))*length(AA(:));
   %========================================================================
-
-

@@ -214,7 +214,7 @@ e a matriz de covariância lexicográfica
 	\mathbf{C}_4=\mathbf{\Omega}\mathbf{\Omega}^\text{H}=	
 \begin{bmatrix}
 	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3  & \Omega_1\bar{\Omega}_4  \\
-	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  & \omega_2\bar{\Omega}_4  \\
+	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  & \Omega_2\bar{\Omega}_4  \\
 	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2    & \Omega_3\bar{\Omega}_4  \\
 	\Omega_4\bar{\Omega}_1  & \Omega_4\bar{\Omega}_2  & \Omega_4\bar{\Omega}_3  & |\Omega_4|^2   \\
 \end{bmatrix},
@@ -548,7 +548,7 @@ A função densidade de probabilidade univariada $\Gamma$ para os canais de inte
 	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, \\
 \label{pdf_gauss_univ}
 \end{equation}
-onde, $\mu>0$ e $L>0$. Esta notação para a função de densidade será utilizada no método MLE com o objetivo de detectar evidências de bordas nos canais das imagens PolSAR selecionadas para esta pesquisa. 
+onde, $\mu>0$ e $L>0$ são parâmetros da distrinuição. Esta notação para a função de densidade será utilizada no método MLE com o objetivo de detectar evidências de bordas nos canais das imagens PolSAR selecionadas para esta pesquisa. 
 
 A seguir apresentamos outros modelos que podem ser empregados para detectar evidências de bordas nos canais de intensidades, porém os resultados não serão relatados neste trabalho, pois fazem parte de pesquisa em fase adiantada de desenvolvimento. 
 Mais informações podem ser encontradas nos artigos \citet{lee} e \citet{dmch}.   
@@ -565,28 +565,35 @@ A PDF univariada produto de magnitudes das intensidades é definida por
 	f(z;\rho, L)=\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
 \label{eq:pdf_mag_prod}
 \end{equation}
-onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas, $\rho>0$ e $L>0$ são respectivamente o coeficiente de correlação e o número de visadas.
+onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas, $\rho>0$ e $L>0$ são respectivamente o coeficiente de correlação e o número de visadas, parâmetros da distribuição.
 
 \subsection{PDF univariada  razão de intensidades}
-Definindo as intensidades como na subseção \ref{subsec:prod_intensidades} e definindo a razão de intensidade normalizada,
+Considerando as intensidades como na subseção \ref{subsec:prod_intensidades} e a função densidade de probabilidade razão de intensidades,
+%\begin{equation}
+% \mu=\frac{\sum_{k=1}^{L}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{L}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{L}|%\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{L}|\mathbf{S}_j(k)|^2},\\
+% \label{eq:razao_intensidades}
+%\end{equation}
+%onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$, $\rho>0$ e $L>0$.
+% e a função densidade de probabilidade razão de intensidades,
+%\begin{equation}
+%	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
+%	\label{eq:pdf_razao_intensidades}
+%\end{equation}
+%onde,
+% Definindo 
+%\begin{equation}
+% z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
+% \label{eq:razao_intensidades_z}
+%\end{equation}
+%teremos, a função densidade de probabilidade razão de intensidades,
 \begin{equation}
- \mu=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2},\\
- \label{eq:razao_intensidades}
-\end{equation}
-onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$, e a função densidade de probabilidade razão de intensidades,
-\begin{equation}
-	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
-	\label{eq:pdf_razao_intensidades}
-\end{equation}
-onde, $\rho>0$ e $L>0$. Definindo 
-\begin{equation}
- z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
- \label{eq:razao_intensidades_z}
-\end{equation}
-e realizando a mudança de variável em \eqref{eq:pdf_razao_intensidades} teremos, 
-\begin{equation}
-	f(z;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}}.\\
+	f(z;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}},\\
 \label{eq:pdf_razao_intensidades_tau_z}
+\end{equation}
+onde, $\rho>0$, $L>0$, e $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}>0$ são os parâmetros da distribuição. E tal que,
+\begin{equation}
+ z=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}.\\ 
+ \label{eq:razao_intensidades_z}
 \end{equation}
 \subsection{PDF univariada para o \textit{span} em meio recíproco}
 A referência~\cite{fwzjn} mostra que podemos usar a PDF gaussiana para modelar o \textit{span}, definido em \eqref{span_geral}. Portanto, 

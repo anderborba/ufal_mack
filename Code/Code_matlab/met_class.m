@@ -1,0 +1,14 @@
+function [m] = met_class(v)
+m(1) = met_med_f(v); 
+m(2) = met_mcc(v); 
+m(3) = met_recall(v); 
+m(4) = met_spec(v); 
+m(5) = met_precisao(v); 
+m(6) = met_npv(v); 
+m(7) = met_fnr(v); 
+m(8) = met_fpr(v); 
+m(9) = met_fdr(v); 
+m(10) = met_for(v); 
+m(11) = met_acc(v); 
+m(12) = met_bm(v); 
+m(13) = met_mk(v); 

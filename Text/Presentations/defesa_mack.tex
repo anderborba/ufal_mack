@@ -1,0 +1,1229 @@
+\documentclass[10pt]{beamer}
+
+%\usetheme{metropolis}
+%\usetheme{AnnArbor}
+\usetheme[progressbar=frametitle]{metropolis}
+\usecolortheme{beaver}
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage[brazil]{babel}
+\usepackage{xspace}
+\usepackage{algorithm2e} % AAB inserido
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+%\usepackage[brazil]{babel}  % AAB
+\usepackage{bibentry}       % AAB
+\usepackage{amsmath, bm}    % AAB
+\usepackage{tikz}           % AAB
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+%\usepackage{siunitx}        % AAB inserido    
+\usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
+%\usepackage[utf8]{inputenc}                  % AAB inserido
+                                              % AAB inserido
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+%\addto\captionsportuguese{
+%\renewcommand{\figurename}{Fig.}
+%\renewcommand{\tablename}{Tab.}
+%}% AAB Inserido
+\DeclareMathOperator{\traco}{tr} %AAB
+\graphicspath{{../Dissertacao/figuras/}}        % AAB - caminho das figuras
+%\graphicspath{{../Images/PDF/}}                 % AAB - caminho das figuras (recomendável) 
+
+\title{FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}
+\subtitle{Defesa de doutorado}
+\date{}
+\author{Anderson Adaime de Borba - Mackenzie-BR, e IBMEC-SP\\
+        Orintador: Dr. Mauricio Marengoni\\
+        Coorientador: Dr. Alejandro Frery - Victoria University of Wellington-NZ} 
+\institute{Mackenzie-SP-DEZ-2020}
+\begin{document}
+\maketitle
+%\begin{frame}[fragile]{Instituições envolvidas no projeto de doutorado}
+%\begin{alertblock}{Instituições}
+%\begin{itemize}
+%\item[-] Universidade Presbiteriana Mackenzie--UPM--BR;
+%\item[-] Victoria University of Wellington--NZ;
+%\item[-] Universidade Federal de Alagoas--BR--LACCAN
+%\item[-] IBMEC--SP--BR
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+\begin{frame}[fragile]{Instituições envolvidas no projeto de doutorado}
+\begin{figure}[hbt]
+	\centering
+     \subfloat[\label{inst_envovidas:a}]{%
+       \includegraphics[width=0.23\linewidth]{logo_mack1}
+     }
+     \subfloat[\label{inst_envovidas:b}]{%
+       \includegraphics[width=0.31\linewidth]{logo_uni_wellington}
+     }
+ \\
+     \subfloat[\label{inst_envovidas:c}]{%
+       \includegraphics[width=0.23\linewidth]{laccan_ufal}
+     }
+     \subfloat[\label{inst_envovidas:d}]{%
+       \includegraphics[width=0.23\linewidth]{logo_ibmec1}
+     }     
+     \caption{Instituições envolvidas no projeto de doutorado}
+     \label{inst_envovidas}
+\end{figure}
+   
+\end{frame}
+%
+\begin{frame}{Cronograma}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Introdução}
+\begin{frame}{Introdução}
+\begin{alertblock}{Motivação}
+\end{alertblock}
+\begin{alertblock}{Lançamentos no último mês}
+  \begin{itemize}
+\item[-] SAtélite Argentino de Observación COn Microondas (SAOCOM-PolSAR);
+\item[-] Satélite Sentinel-6 Michael Freilich (Poseidon-4 synthetic-aperture radar--SAR)- EUROPA
+\item[-] Satélite Gaofen-14 (Imagens óticas)- CHINA
+\end{itemize}
+\end{alertblock}
+\end{frame}
+\begin{frame}[fragile]{Introdução}
+\begin{alertblock}{Aplicações das imagens SAR / PolSAR. Veja a referência \cite{lkc}}
+\begin{itemize}
+\item Mapeamento do solo ou cobertura do solo;
+\item Mapeamento Geológico;
+\item Oceanografia;
+\item Glaciologia;
+\item Aplicações agrícola;
+\item Acompanhamento de florestas;
+\item Monitoramento ambiental;
+\item Monitoramento de desastres naturais;
+\item Controle de derramamento de petróleo;
+\item Aplicações de recursos hídricos;
+\item Aplicações da ecologia da vida selvagem;
+\item Aplicações arqueológicas;  
+\item E aplicações conjuntas com sistemas óticos.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+% 
+\begin{frame}[fragile]{Introdução}
+\begin{alertblock}{Objetivos}
+\begin{itemize}
+\item[-] Estudar a viabilidade de métodos para a fusão das evidências de bordas detectadas nos canais de intensidades hh, hv, e vv, de uma imagem PolSAR;
+\item[-] Usar métodos de fusão para quantificar e qualificar as contribuições de informações provenientes de cada canal;
+\item[-] Decidir quais canais da imagem PolSAR serão adquiridos.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+\begin{frame}[fragile]{Introdução}
+\begin{alertblock}{Contribuições}
+\begin{itemize}
+\item \label{item:contr_i} Propor a fusão de evidências de bordas;
+\item \label{item:contr_ii} Aplicar e comparar os métodos de fusão: MS, MR--DWT, PCA, E--ROC, MR--SWT, e MR--SVD;
+\item \label{item:contr_iii} Verificação da viabilidade do uso do método GenSA no método MLE com o algoritmo Gambini;
+\item \label{item:contr_iv} Realizar medidas de qualidade para a detecção em cada canal, e na fusão, usando uma métrica baseada na probabilidade de detecção de bordas.      
+\item \label{item:contr_v} Identificação de oscilações nas extremidades das radiais e não diferenciabilidade das funções de máxima verossimilhança total.
+\begin{itemize}
+\item Definir empiricamente constantes de folga nas extremidades.
+\item Usar o método GenSA 
+\end{itemize}
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+%\section{Plataformas, recursos computacionais, reprodutibilidade e replicabilidade}
+\begin{frame}[fragile]{Introdução}
+\begin{alertblock}{Plataformas, recursos computacionais}
+\begin{itemize}
+\item[-] Linguagem R.
+\item[-] Linguagem Matlab.
+\item[-] Computador Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz}  com \SI{16}{\giga\byte} de memória RAM.
+\end{itemize}
+\end{alertblock}
+\begin{alertblock}{Reprodutibilidade e replicabilidade}
+\begin{itemize}
+\item[-] \url{https://github.com/anderborba/Code_GRSL_2020_1}.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\section{Aspectos Gerais}
+\begin{frame}[fragile]{Aspectos Gerais}
+\begin{alertblock}{Imagem das regiões de Flevoland e São Francisco}
+	\begin{figure}[hbt]
+	\centering
+     \subfloat[Imagem de Flevoland \label{img_flevoland:a}]{%
+       \includegraphics[width=0.45\linewidth]{flevoland_4_look}
+     }\quad
+     \subfloat[Imagem da baía de São Francisco\label{img_sf:b}]{%
+       \includegraphics[width=0.45\linewidth]{san_francisco_2020}}
+     \caption{Imagens PolSAR}
+     \label{imagens_reais}
+   \end{figure}	
+\end{alertblock}   
+\end{frame}
+%
+\begin{frame}[fragile]{Aspectos Gerais}
+\begin{alertblock}{Dados PolSAR}
+\begin{table}[hbt]
+	\centering
+	\caption{Informações do sistema PolSAR.}
+\begin{tabular}{@{}lccc@{}} \toprule
+	Polarização & hh  & hv & vv \\ \midrule
+	hh & $\sigma_\text{hh}$ & $\sigma_\text{hhhv} + \hat{\sigma}_\text{hhhv}\hat{\jmath}$  & $\sigma_\text{hhvv} + \hat{\sigma}_\text{hhvv}\hat{\jmath}$\\ 
+	hv &- &$\sigma_\text{hv}$ & $\sigma_\text{hvvv} + \hat{\sigma}_\text{hvvv}\hat{\jmath}$\\ 
+	vv &- & -&$\sigma_\text{vv}$ \\ \bottomrule 
+\end{tabular}\label{tab:sistema_polsar}
+\end{table}
+
+\begin{table}[hbt]	
+	\centering
+	\caption{Ordem de armazenamento para os canais da imagem polSAR.}
+\begin{tabular}{@{}lcccccccc@{}} \toprule
+	 $\text{C}_1$ &$\text{C}_2$&$\text{C}_3$ &$\text{C}_4$&$\text{C}_5$&$\text{C}_6$&$\text{C}_7$&$\text{C}_8$&$\text{C}_9$ \\ \midrule
+	$\sigma_\text{hh}$&$\sigma_\text{hv}$&$\sigma_\text{vv}$&$\sigma_\text{hhhv}$&$\hat{\sigma}_\text{hhhv}$&$\sigma_\text{hhvv}$&$\hat{\sigma}_\text{hhvv}$&$\sigma_\text{hvvv}$&$\hat{\sigma}_\text{hvvv}$\\ \bottomrule
+\end{tabular}\label{tab:canais}
+\end{table}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Aspectos Gerais}
+   \begin{figure}[hbt]
+\minipage{0.35\textwidth}
+  \includegraphics[width=\linewidth]{sf_hh.pdf}
+\endminipage
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vh.pdf}
+\endminipage
+\centering
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vv.pdf}
+\endminipage
+	\caption{Imagem PolSAR com polarizações hh, hv e vv.}\label{fig:sf_hh_hv_vv}
+\end{figure}
+\end{frame}
+\begin{frame}[fragile]{Aspectos Gerais}
+\begin{alertblock}{Sensor AirSAR}
+\begin{table}[hbt]
+	\centering
+	\caption{Características do sistema  AirSAR.}\label{tab:carac_airsar}
+\begin{tabular}{@{}llr@{}} \toprule
+	Características específicas& Valores operacionais  \\ \midrule 
+	Nacionalidade        & EUA  \\
+	Lançamento           & 1988   \\
+	Ângulo de inclinação & \numrange[range-phrase = --]{20}{60}\si{\degree}   \\
+	Distância lateral    & \numrange[range-phrase = --]{10}{17} \si{\km}  \\
+	Banda                & P, L, e C\\
+	Polarização          & hh- hv - vv \\
+	Resolução inferior   & \SI[product-units = brackets-power]{2 x 2}{\m\squared}  \\
+	Resolução superior   & \SI[product-units = brackets-power]{8 x 8}{\m\squared} \\ \bottomrule
+\end{tabular}
+\end{table}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Aspectos Gerais}
+\begin{alertblock}{Fluxograma do processo de fusão}
+%\begin{itemize}
+%\item Parte II - Para cada $\bm{\widehat\imath}_t$
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{waimage} = [sensor, text width=3em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+    \tikzstyle{waimage1} = [sensor, text width=3.5em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa2}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=3em,drop shadow]    
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+\begin{figure}[hbt]
+\begin{tikzpicture}
+\node[waimage] (waimage1) at (-7.0,0.0) {Imagem};
+\node[waimage] (waimage2) at (-5.3,0.0) {ROI};
+\node[wa2] (waimage3) at (-5.3,3.5) {GT};
+\node[waimage] (waimage4) at (-3.5,0.0) {Radiais e centro};
+\node[waimage1] (wa1) at (0.5,2.0) {Fusão 1};
+\node[wa2] (waimage5) at (2.0,3.5) {Erro};
+\path (waimage4.west)+(4.7,1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.5) node (dots)[ann] {$\vdots$};
+\node[waimage1] (wa6) at (0.5,-2.0) {Fusão N};
+%
+\path [draw, ->] (waimage1.east) -- node [left] {} 
+        (waimage2) ;
+\path [draw, ->] (waimage2.east) -- node [left] {} 
+        (waimage4) ;
+\path [draw, ->] (waimage2.north) -- node [left] {} 
+        (waimage3) ;
+\path [draw, ->] (waimage3.east) -- node [left] {} 
+        (waimage5) ;        
+%
+    \path (waimage4.west)+(2.5,1.5) node (e1_1) [sensor] {Canal hh};
+    \path (waimage4.west)+(2.5,0.0) node (e2_1)[sensor] {Canal hv}; 
+    \path (waimage4.west)+(2.5,-1.5) node (e3_1)[sensor] {Canal vv};    
+%
+	\path [draw, ->] (waimage4.east) -- node [left] {} 
+        (e1_1.180) ;
+	\path [draw, ->] (waimage4.east) -- node [below] {} 
+        (e2_1.180);
+	\path [draw, ->] (waimage4.east) -- node [right] {} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa1.200);
+    \path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa6.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa6.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa6.200);
+%
+\path [draw, ->] (wa1.east) -- node [left] {} 
+        (waimage5) ;
+\path [draw, ->] (wa6.east) -- node [left] {} 
+        (waimage5) ;
+\end{tikzpicture}
+\caption{Fluxograma do processo de fusão}
+\label{fig9}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\section{Modelagem Estatística}
+\begin{frame}[fragile]{PolSAR Image}
+\begin{alertblock}{Modelagem estatística}
+\begin{itemize}
+\item Matriz de espalhamento complexo $\mathbf{S}$:
+%\begin{equation*}
+%\begin{bmatrix}
+%	E_\text{h}^\text{r}   \\
+%	E_\text{v}^\text{r}    \\
+%\end{bmatrix}
+% = \frac{e^{\hat{\imath} \text{kd}}}{\text{d}}
+%\begin{bmatrix}
+%	S_{\text{hh}}   & S_{\text{hv}}   \\
+%	S_{\text{vh}}   & S_{\text{vv}}   \\
+%\end{bmatrix}
+%\begin{bmatrix}
+%	E_\text{h}^\text{t}   \\
+%	E_\text{v}^\text{t}   \\
+%\end{bmatrix},
+%\end{equation*}
+\begin{equation}
+\mathbf{S} =
+\begin{bmatrix}
+	S_\text{hh}   & S_\text{hv}   \\
+	S_\text{vv}   & S_\text{vv}   
+\end{bmatrix}.
+\end{equation}\label{eq_01}
+\item Forma vetorial considerando o meio recíproco (A matriz $\mathbf{S}$ é hermitiana).
+$$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^\text{H}.$$
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+%\begin{frame}[fragile]{Statistical Modeling}
+%\begin{alertblock}{Statistical modeling for PolSAR data (1 - Look)}
+%\begin{itemize}
+%\item The probability density function (pdf):
+%\begin{equation}
+%    f_{\mathbf{s}}(\mathbf{s};\Sigma)=\frac{1}{\pi^3|\Sigma|} \exp(-\mathbf{s}^H\Sigma^{-1}\mathbf{s}),
+%    \label{eq_02}
+%\end{equation}
+%        \begin{description}
+%        \item[-] $|\cdot|$ is the determinant, 
+%        \item[-] $H$ denotes the conjugate complex number, 
+%        \item[-] $\Sigma$ is the covariance matrix of $\mathbf{s}$ such that $\Sigma=E[\mathbf{ss}^H]$,
+%        \item[-] $E[\cdot]$ denotes the expected value. 
+%        \item[-] The distribution of $\mathbf{s}$ is assumed to be  Gaussian circular complex multivariate with zero mean $N^{C}_3(0,\Sigma)$.
+%        \end{description}
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{Tratamento do ruído \textit{Speckle} -- Múltiplas visadas.}
+\begin{itemize}
+\item A estimativa da matriz de covariância múltiplas visadas:
+\begin{equation}
+    \mathbf{Z}=\frac{1}{\text{L}}\sum_{\ell=1}^{\text{L}} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^H;
+    \label{eq_03}
+\end{equation}
+\begin{description}
+      \item[-] Número de visadas $\text{L}$;
+      \item[-] Vetor $\mathbf{s}_\ell$, onde $\ell = 1, \dots, \text{L}$;
+      \item[-] L  amostras complexas multivariadas independentes do vetor $\mathbf{s}$. 
+\end{description}
+\end{itemize}
+\end{alertblock}
+\end{frame}
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{Distribuição Wishart múltiplas visadas com função densidade de probabilidade}
+\begin{equation}
+    f_{\mathbf{Z}}(\mathbf{Z};\Sigma,\text{L})=\frac{\text{L}^{m\text{L}}|\mathbf{Z}|^{\text{L}-m}}{|\Sigma_{s}|^{\text{L}}\Gamma_m(\text{L})} \exp(-\text{L}\traco(\Sigma_{s}^{-1}\mathbf{Z})),
+    \label{eq_04}
+\end{equation} 
+\begin{description}
+\item[-] $\traco(\cdot)$ é o operador traço,
+\item[-] $\Gamma_m(\text{L})$ é a função Gamma multivariada,
+\begin{equation*}
+	\Gamma_m(\text{L})=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(\text{L}-i),
+\end{equation*}
+\item[-]$\Gamma(\cdot)$ é a função Gamma,
+\item[-]$m=3$,
+\item[-]$\mathbf{Z}\sim W(\Sigma, \text{L})$, distribuída como Wishart. 
+%\item[-]$E[\mathbf{Z}]=\Sigma$. 
+\end{description} 
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{A distribuição marginal para dados de intensidades}
+\begin{description}
+\item
+\begin{equation}
+	f_{Z}(z;\mu,\text{L})=\frac{\text{L}^\text{L}}{\Gamma(\text{L})\mu^{\text{L}}} z^{\text{L}-1} \exp\left\{-\frac{\text{L}}{\mu}z\right\}, 
+\label{pdf_gauss_univ}
+\end{equation}
+\item onde, $\mu>0$ e $L>0$.
+\item Aplicando o logaritmo natural,
+\begin{equation}\label{func_log_univ_gaussiana}
+	\ln f_{Z}(z;\mu,\text{L})=\text{L}\ln\frac{\text{L}}{\mu}-\ln\Gamma(\text{L})+(\text{L}-1)\ln z - \frac{\text{L}}{\mu} z.
+\end{equation}
+\end{description} 
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{MLE-- Método da estimativa de máxima verossimilhança}
+\begin{description}
+\item[-] Seja a amostra $\bm z = (z_1,\dots,z_n)$ de uma imagem PolSAR.  
+\item[-] A log verossimilhança é definida por,
+\begin{equation}\nonumber
+\begin{split}
+  \mathcal{L}(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
+  \mathcal{L}(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L).
+ \end{split}
+ \end{equation}
+\item[-] Assim a função log-verossimilhança reduzida para a PDF univariada é,
+\begin{equation}\nonumber
+    \mathcal{L}(\bm z;\mu, \text{L})=n\left[\text{L}\ln\frac{\text{L}}{\mu}-\ln\Gamma(\text{L})\right]+\text{L}\sum_{k=1}^{n}\ln z_k -\frac{\text{L}}{\mu}\sum_{k=1}^{n} z_k.
+\end{equation}
+\end{description}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{MLE-- Método da estimativa de máxima verossimilhança}
+\begin{description}
+\item[-] Particionando 
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
+$$ 
+\item[-] Podemos considerar os modelos $$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},\text{L}_\text{I}),$$ e $$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},\text{L}_\text{E}).$$
+\end{description}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{MLE-- Método da estimativa de máxima verossimilhança}
+\begin{description}
+\item[-] A log-verossimilhança total é definida no ponto $j$ pela seguinte função
+\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{split}
+\mathcal{L}(j&;\widehat{\mu}_I, \widehat{\text{L}}_I,\widehat{\mu}_E, \widehat{\text{L}}_E)=\\
+&j \big[\widehat{\text{L}}_\text{I}\ln (\widehat{\text{L}}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{\text{L}}_\text{I})\big]
++\widehat{\text{L}}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{\text{L}}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
+&(n-j) \big[\widehat{\text{L}}_\text{E}\ln (\widehat{\text{L}}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]\\
+&+\widehat{\text{L}}_\text{E} \sum_{k=j+1}^{n}\ln z_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
+\end{split}
+\end{equation}
+\item[-] Aplicar o GenSA para determinar,
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\mathcal{L}(j;\widehat{\mu}_I, \widehat{\text{L}}_I,\widehat{\mu}_E, \widehat{\text{L}}_E),
+$$ 
+%\end{equation}
+\end{description}
+\end{alertblock}
+\end{frame}
+%\begin{frame}[fragile]{PolSAR Image}
+%\begin{alertblock}{PolSAR important characteristics}
+%\begin{itemize}
+%\item[-] Can be on raised platforms, crewed aircraft or not, satellites orbiting the  earth or other planets;
+%\item[-] It is a viable and practical imaging technique;
+%\item[-] PolSAR images has a high resolution;
+%\item[-] Synthesizes long antenna openings;
+%\item[-] Radars produce images day and night;
+%\item[-] Climate does not interfere in image capture;
+%\item[-] SAR imaging systems operate in the microwave region of the electromagnetic spectrum, usually between the P-band - and the K-band.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+\section{Detecção de Bordas}
+%\begin{frame}[fragile]{Detecção de bordas}
+%\begin{alertblock}{Ideia}
+%O seguinte procedimento é proposto para detectar evidências de bordas no canais $\text{hh}$, $\text{hv}$ e $\text{vv}$:
+%\begin{itemize}
+%    \item Identificar o centroide da região de interesse, de forma automática, semi-automática ou manual;
+%	\item Contruir radiais do centroide para fora da região, e; 
+%	\item Coletar dados usando o algoritmo \textit{Bresenham's midpoint line algorithm};
+%	\item Detectar pontos que fornecem evidências de mudanças de propriedades estatísticas nas radiais da região (Evidências de bordas) 
+%	\item Usar o método GenSA - \textit{Generalized Simulated Annealing} para encontrar o máximo da função proveniente do método MLE; 
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+%
+\begin{frame}[fragile]{Detecção de Bordas: Algoritmo Gambini}
+\begin{algorithm}[H]
+\SetAlgoLined
+\For{Canal $1\leq c\leq n_c$}{
+	\For{Radial}{
+		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ dados coletados na radial\;
+		\For{$\min_s\leq j\leq n-\min_s$}{\nllabel{Line:InitFor}
+			Particione a amostra como $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ e 
+			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{n-\min_s})$\;
+			Estime $\big(\widehat{\mu}_\text{I}, \widehat{L}_\text{I}\big)$ com $\bm z_{\text{I}}$, e $\big(\widehat{\mu}_\text{E}, \widehat{L}_\text{E}\big)$ com $\bm z_{\text{E}}$\;
+			Compute log-verossimilhança total em $j$ como $\mathcal L\big(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)$\;
+		}
+		$\widehat\jmath\leftarrow$ o valor de $j$ que maximiza a função log-verossimilhança total\;
+		\Return $(\widehat x, \widehat y)$, as coordenadas de cada $\widehat\jmath$\;
+	}
+\Return A imagem binária $\widehat{\bm\jmath}_c$ com $1$ em todo $(\widehat x, \widehat y)$, e $0$ caso contrário.
+}
+\end{algorithm}
+\end{frame}
+%
+\begin{frame}[fragile]{Detecção de Bordas}
+\begin{alertblock}{Exemplo com 25 radiais na ROI da imagem de Flevoland} 
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.7\linewidth]{flevoland_radial_25_point_hh_crop}
+	\caption{Detecção de evidências de bordas no canal $\text{hh}$.}
+\label{fig1}
+\end{figure}
+\end{alertblock}
+\end{frame}
+
+\section{Métodos de Fusão}
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão por média simples -- MS}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=15em, fill=red!20, 
+    minimum height=6em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\centering
+\begin{tikzpicture}
+	\node (wa) [wa]  {$\bm I_\text{F}(x,y)=(n_c)^{-1}\sum_{c=1}^{n_c} \widehat{\bm\jmath}_c(x,y)$};
+	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
+%
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (wa.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (wa.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (wa.200);   
+\end{tikzpicture}
+	\caption{Fusão por média simples.}
+\label{fig:cap_fusao_media_simples}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão wavelet discreta multi-resoluções -- MR-DWT}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef DWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef DWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef DWT}_{n_c}$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fusão dos\\
+                                                       coeficientes wavelets};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Fusão das Imagens};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);           
+\end{tikzpicture}
+	\caption{Fusão MR--DWT}
+\label{fig7}
+\end{figure}
+\begin{itemize}
+\vspace{-0.8cm}
+\item $W$ é a transformada wavelets.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão wavelet estacionária multi-resoluções -- MR-SWT} 
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SWT}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SWT}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SWT}_{n_c}$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fusão dos \\
+                                                       coeficientes wavelets};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Fusão das Imagens};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);               
+\end{tikzpicture}
+	\caption{Fusão MR--SWT.}
+\label{fig7}
+\end{figure}
+\begin{itemize}
+\vspace{-0.8cm}
+\item $W$ é a transformada wavelets.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão PCA}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=5em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=5em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-2.0,0.0) node (pcanode) [wa] {$\text{PCA}$};
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
+    \path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$\bm I_\text{F}(x,y)=\sum_{c=1}^{n_c} P(c)\bm{\widehat\jmath}_c(x,y)$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+    \path [draw, ->] (pcanode.east) -- node [above] {} 
+        (pcanodefus.180) ;  
+\end{tikzpicture}
+	\caption{Fusão PCA.}
+\label{fig:cap_fusao_pca}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão ROC}
+\begin{itemize}
+\item Parte I
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=5em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+    minimum height=10em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+\path (wa.west)+(-3.0,0.0) node (pcanode) [wa] {$V=\sum_{c=1}^{n_c}\bm{\widehat\jmath}_c$};
+	\path (wa.west)+(-7.2,1.5) node (e1) [sensor] {$\bm{\widehat\jmath}_1$};
+    \path (wa.west)+(-7.2,0.5) node (e2)[sensor] {$\bm{\widehat\jmath}_2$};
+    \path (wa.west)+(-7.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-7.2,-2.0) node (e3)[sensor] {$\bm{\widehat\jmath}_{n_c}$};    
+    %\path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+    %                                                  \\$p=V_m(i)/||V_m||$
+    %                                                  \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+    \path [draw, ->] (e1.east) -- node [above] {} 
+        (pcanode.160) ;
+    \path [draw, ->] (e2.east) -- node [above] {} 
+        (pcanode.180);
+    \path [draw, ->] (e3.east) -- node [above] {} 
+        (pcanode.200);
+        %
+	%\node (wa) [wa]  {$V=\sum_{i=1}^{N}IE_i$};
+	%\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+    %\path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+    %\path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    %\path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%%   
+    \path (pcanode.east)+(3.2,1.5) node (m1) [sensor] {$\bm{\widehat\imath}_1$};
+    \path (pcanode.east)+(3.2,0.5) node (m2) [sensor] {$\bm{\widehat\imath}_2$};
+    \path (pcanode.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (pcanode.east)+(3.2,-2.0) node (m3) [sensor] {$\bm{\widehat\imath}_{n_c}$};
+%%
+    %\path [draw, ->] (e1.east) -- node [above] {} 
+    %    (wa.160) ;
+    %\path [draw, ->] (e2.east) -- node [above] {} 
+    %    (wa.180);
+    %\path [draw, ->] (e3.east) -- node [above] {} 
+    %    (wa.200);
+	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_1$}} 
+        (m1.west);
+	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_2$}} 
+        (m2.west);
+	\path [draw, ->] (pcanode.east) -- node [right] {\tiny{$CT_{n_c}$}} 
+        (m3.west);
+%               
+%%    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
+%  
+%    \begin{pgfonlayer}{background}
+%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+       %   
+%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%            (a) rectangle (c);           
+%       %     
+%    \end{pgfonlayer}
+   
+\end{tikzpicture}
+	\caption{Fusão baseada na estatística ROC -- Parte I.}
+\label{fig8}
+\end{figure}
+\item $CT_c$ são limiares.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão ROC}
+\begin{itemize}
+\item Parte II - Para cada $\bm{\widehat\imath}_t$
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\begin{figure}[hbt]
+\begin{tikzpicture}
+\node[wa] (wa) at (0.0,0.0) {$\bm{\widehat\imath}_t$};
+\node[wa1] (wa1) at (4.0,0.0) {$\overline{TP}_t$};
+
+    \path (wa.west)+(2.5,1.5) node (e1_1) [sensor] {$TP_1$};
+    \path (wa.west)+(2.5,0.5) node (e2_1)[sensor] {$TP_2$};
+    \path (wa.west)+(2.5,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(2.5,-2.0) node (e3_1)[sensor] {$TP_{n_c}$};    
+%
+	\path [draw, ->] (wa.east) -- node [left] {\tiny{$\overline{\cap \bm{\widehat\jmath}_1}$}} 
+        (e1_1.180) ;
+	\path [draw, ->] (wa.east) -- node [below] {\tiny{$\overline{\cap \bm{\widehat\jmath}_2}$}} 
+        (e2_1.180);
+	\path [draw, ->] (wa.east) -- node [right] {\tiny{$\overline{\cap \bm{\widehat\jmath}_{n_c}}$}} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {\tiny{$+$}} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {\tiny{$+$}} 
+        (wa1.200);
+\end{tikzpicture}
+\caption{Fusão ROC para cada $t$. Similar para $\overline{TN}_t$,$\overline{FP}_t$ e, $\overline{FN}_t$. }
+\label{fig9}
+\end{figure}
+\item Assim é gerado a matriz de confusão para calcular a estatística ROC.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+\begin{frame}[fragile]{Fusão de evidências de bordas}
+\begin{alertblock}{Fusão Baseada na decomposição SVD com multi-resolução -- MR-SVD}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SVD}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SVD}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SVD}_{n_c}$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fusão dos\\
+                                                       valores singulares};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Fusão das Imagens};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);           
+\end{tikzpicture}
+	\caption{Fusão MR--SVD}
+\label{fig7}
+\end{figure}
+\begin{itemize}
+\vspace{-0.8cm}
+\item $W$ é a decomposição SVD.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+%\item Assim é gerado a matriz de confusão para calcular a estatística ROC.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+%\begin{frame}[fragile]{Results}
+%\begin{alertblock}{Results}
+%	\begin{figure}[hbt]
+%\centering
+%	\includegraphics[width=.5\linewidth]{flevoland_radial_4_look_black}
+%	\caption{Region of interest (ROI) in the image of Flevoland.}
+%\label{fig10}
+%\end{figure}
+%\end{alertblock}
+%\end{frame}
+\section{Resultados}
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{Flevoland-- FLEV-ROI-I}
+\begin{figure}[hbt!]
+   \centering
+     \subfloat[ROI \label{flevoland_radial_4_look_crop}]{%  
+       \includegraphics[width=0.48\textwidth]{flevoland_radial_4_look_black_crop}}
+     \subfloat[GT\label{gt_flevoland_crop}]{%
+       \includegraphics[width=0.453\textwidth]{gt_flevoland_crop}
+     }
+    \caption{FLEV-ROI-I, e GT}
+    \label{roi_gt}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-I}
+\begin{figure}[hbt!]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para FLEV-ROI-I}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}	
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-I}
+\begin{figure}[hbt]
+	\centering
+	%\includegraphics[width=.4\linewidth]{metricas_evid_3_canais_flevoland_port}
+	\includegraphics[width=.65\linewidth, height=.75\textheight, trim={0 0 0 0}]{metricas_evid_3_canais_flevoland_port}
+	\caption{Probabilidade de detecção para os canais de intensidades.}
+	\label{probability_edge_detc}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{Fusão FLEV-ROI-I}
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[Média\label{fusion_met:a}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-DWT\label{fusion_met:b}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[PCA \label{fusion_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
+     }\\
+     \subfloat[E-ROC\label{fusion_met:d}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-SWT \label{fusion_met:e}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-SVD\label{fusion_met:f}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
+     }
+     \caption{Métodos de fusão para a região FLEV-ROI-I}
+     \label{fusion_met}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-I}
+\begin{figure}[hbt!]
+\centering
+	%\includegraphics[width=.4\linewidth]{metricas_6_fusao_flevoland_port}
+    \includegraphics[width=.65\linewidth, height=.75\textheight, trim={0 0 0 0}]{metricas_6_fusao_flevoland_port}	
+	\caption{Métricas para a fusão em FLEV-ROI-I}
+\label{probability_edge_detc_flev_roi_i}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-I}
+\begin{table}[hbt]
+\footnotesize
+	\centering
+	\caption{Tempo de processamento para os métodos de fusão}\label{metrica_de_tempo_3_canais}
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
+		Met.        & Média     &   PCA      &  MR-DWT  & MR-SWT    &  ROC  &  MR-SVD \\ \midrule
+		T(s)   & 0.00909075&0.01865585  & 0.1093859& 0.18789595&  0.4574247 &  1.1683798  \\
+		TR.    & 1.00      & 2.05       & 12.03    & 20.66     &   50.31     & 128.52  \\ \bottomrule
+	\end{tabular}
+\end{table}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-II}
+\begin{figure}[hbt!]
+   \centering
+     \subfloat[ROI \label{flevoland_radial_25_crop_roi_ii}]{%  
+       \includegraphics[width=0.48\textwidth]{flevoland_r3_radial_crop}}
+     \subfloat[GT\label{gt_flevoland_crop_roi_ii}]{%
+       \includegraphics[width=0.48\textwidth]{gt_flevoland_r3_crop}
+     }
+     \caption{FLEV-ROI-II, e GT}
+    \label{roi_gt_roi_ii}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Results}
+\begin{alertblock}{Results}
+   \begin{figure}[hbt!]
+	\centering
+     \subfloat[Canal $\text{hh}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hh_param_L_mu_25_pixel_r3_crop}
+     }
+     \subfloat[Canal $\text{hv}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_hv_param_L_mu_25_pixel_r3_crop}
+     }
+     \subfloat[Canal $\text{vv}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{evid_real_flev_vv_param_L_mu_25_pixel_r3_crop}
+     }
+          \caption{FLEV-ROI-II na imagem de Flevoland com folga de 25 píxeis}
+     \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv} 
+   \end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-II}
+\begin{figure}[hbt]
+	\centering
+	%\includegraphics[width=.4\linewidth]{metricas_evid_3_canais_flev_roi_2_port}
+	\includegraphics[width=.65\linewidth, height=.75\textheight, trim={0 0 0 0}]{metricas_evid_3_canais_flev_roi_2_port}
+	\caption{Probabilidade de detecção para os canais de intensidades.}
+	\label{probability_edge_detc}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{Fusão FLEV-ROI-II}
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[Média\label{fusion_flev_roi_ii_25_pixel_met:a}]{%
+       \includegraphics[width=0.232\linewidth]{flev_r3_fus_media_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-DWT\label{fusion_flev_roi_ii_25_pixel_met:b}]{%
+       \includegraphics[width=0.232\linewidth]{flev_r3_fus_dwt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[PCA \label{fusion_flev_roi_ii_25_pixel_met:c}]{%
+       \includegraphics[width=0.232\linewidth]{flev_r3_fus_pca_param_L_mu_25_pixel_crop}       
+     }\\
+     \subfloat[E-ROC\label{fusion_flev_roi_ii_25_pixel_met:d}]{%
+       \includegraphics[width=0.232\linewidth]{flev_r3_fus_roc_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-SWT \label{fusion_flev_roi_ii_25_pixel_met:e}]{%
+       \includegraphics[width=0.232\linewidth]{flev_r3_fus_swt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-SVD \label{fusion_flev_roi_ii_25_pixel_met:f}]{%
+       \includegraphics[width=0.232\linewidth]{flev_r3_fus_svd_param_L_mu_25_pixel_crop}
+     }
+     \caption{Fusão para a FLEV-ROI-II com 25 píxeis de folga}
+     \label{fusion_flev_roi_ii_25_pixel_met}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-II}
+\begin{figure}[hbt!]
+\centering
+	%\includegraphics[width=.4\linewidth]{metricas_6_fusao_flevoland_r3_port}
+	\includegraphics[width=.65\linewidth, height=.75\textheight, trim={0 0 0 0}]{metricas_6_fusao_flevoland_r3_port}
+	\caption{Métricas para a fusão em FLEV-ROI-II}
+\label{probability_edge_detc_flev_roi_i}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{SF-ROI}
+	\begin{figure}[hbt]
+	\centering
+	\subfloat[ROI. \label{san_francisco_radial_25}]{%  
+		\includegraphics[width=0.48\linewidth]{san_francisco_radial_25_crop}}\  
+	\subfloat[GT\label{gt_san_francisco}]{%
+		\includegraphics[width=0.48\linewidth]{gt_san_fran_r1_crop}
+	}
+	\caption{SF-ROI e GT}
+	\label{roi_gt_SF}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{SF-ROI}
+	\begin{figure}[hbt]
+	\centering
+	\subfloat[Canal $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+		\includegraphics[width=0.32\linewidth]{evid_real_sf_1_param_L_mu_25_pixel_r1_crop}
+	}
+	\subfloat[Canal $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+		\includegraphics[width=0.32\linewidth]{evid_real_sf_2_param_L_mu_25_pixel_r1_crop}
+	}
+	\subfloat[Canal $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+		\includegraphics[width=0.333\linewidth]{evid_real_sf_3_param_L_mu_25_pixel_r1_crop}
+	}
+	\caption{Evidências de bordas para os canais de intensidades}
+	\label{evidencias_sf_hh_hv_vv} 
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{SF-ROI}
+\begin{figure}[hbt]
+	\centering
+	%\includegraphics[width=.4\linewidth]{metricas_evid_3_canais_sf_port}
+	\includegraphics[width=.65\linewidth, height=.75\textheight, trim={0 0 0 0}]{metricas_evid_3_canais_sf_port}
+	\caption{Probabilidade de detecção para os canais de intensidades.}
+	\label{probability_edge_detc}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Results- Resultados}
+\begin{alertblock}{Fusão SF-ROI}
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Média\label{fusion_sf_met:a}]{%
+       \includegraphics[width=0.23\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-DWT\label{fusion_sf_met:b}]{%
+       \includegraphics[width=0.23\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[PCA\label{fusion_sf_met:c}]{%
+       \includegraphics[width=0.23\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
+     }\\
+     \subfloat[ROC\label{fusion_sf_met:d}]{%
+       \includegraphics[width=0.23\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-SWT\label{fusion_sf_met:e}]{%
+       \includegraphics[width=0.23\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
+     }
+     \subfloat[MR-SVD\label{fusion_sf_met:f}]{%
+       \includegraphics[width=0.23\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
+     }
+     \caption{Fusão para a SF-ROI}
+     \label{fusion_sf_met}
+\end{figure}
+\end{alertblock}
+\end{frame}
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{Fusão SF-ROI}
+\begin{figure}[hbt!]
+\centering
+	%\includegraphics[width=.4\linewidth]{metricas_6_fusao_sf_r3_port}
+	\includegraphics[width=.65\linewidth, height=.75\textheight, trim={0 0 0 0}]{metricas_6_fusao_sf_r3_port}
+	\caption{Métricas para a fusão em SF-ROI}
+\label{probability_edge_detc_flev_roi_i}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\section{Conclusões, discussões e futuras pesquisas}
+\begin{frame}[fragile]{Conclusões, discussões e pesquisas futuras}
+\begin{alertblock}{Conclusões e discussões}
+\begin{itemize}
+    \item A fusão de evidências de bordas detectadas em canais de intensidade é viável.
+    \item O GenSA trabalha muito bem em funções não diferenciáveis.
+    \item Definição empírica das constantes de folgas.
+    \item A diversidade de informação em cada canal justifica o uso de métodos de fusão. (Qual canal é melhor?)
+    \item A fusão de evidências de bordas detectadas podem ser estendidas para mais canais ou outras distribuições marginais.
+	\item Os métodos de fusão PCA e MR-SVD apresentam bons resultados. (Outliers, tempo e medida de importância para cada canal).
+\end{itemize}
+\end{alertblock}	
+\end{frame}
+%
+\begin{frame}[fragile]{Conclusões, discussões e pesquisas futuras}
+\begin{alertblock}{Pesquisas futuras}
+\begin{itemize}
+\item[-]  Aumentar o número de canais ou funções de distribuição de densidade para encontrar as evidências de bordas. Isso é possível, pois dados totalmente polarimétricos são mais ricos do que os canais de intensidades;
+\item[-]  Propor novas técnicas de fusão para evidências de bordas (Investigar melhor a ROC para mais canais);
+\item[-]  Melhorar as medidas para aproveitamento ou descarte de canais no método de fusão; 
+\item[-]  Verificar os métodos de fusão inserindo textura nos modelos;
+\item[-]  Classificar as regiões da imagem PolSAR, e usar as ideias propostas para refinar a detecção de bordas; 
+\item[-]  Pós-processamento, tanto para os métodos de detecção de evidências de bordas parciais, como também para os métodos de fusão das evidências de bordas.
+\end{itemize}	
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Divulgação científica}
+\begin{alertblock}{Conclusões, discussões e pesquisas futuras}
+\begin{itemize}
+\item[-] Conferência TENGARSS \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and
+Applications}
+\item[-] Periódico GRSL, \textit{IEEE Geoscience and Remote Sensing Letters}
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[allowframebreaks]
+\bibliographystyle{IEEEtran}
+\bibliography{../bibliografia}
+\end{frame}
+\end{document}
