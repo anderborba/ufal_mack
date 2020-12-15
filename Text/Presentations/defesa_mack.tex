@@ -20,6 +20,7 @@
 \usepackage{bibentry}       % AAB
 \usepackage{amsmath, bm}    % AAB
 \usepackage{tikz}           % AAB
+\usetikzlibrary{chains,fit,shapes} % AAB 
 \usepackage[detect-weight=true, binary-units=true]{siunitx}
 %\usepackage{siunitx}        % AAB inserido    
 \usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
@@ -57,7 +58,7 @@
 %\end{frame}
 \begin{frame}[fragile]{Instituições envolvidas no projeto de doutorado}
 \begin{figure}[hbt]
-	\centering
+\centering
      \subfloat[\label{inst_envovidas:a}]{%
        \includegraphics[width=0.23\linewidth]{logo_mack1}
      }
@@ -914,17 +915,13 @@ $$
 %\end{frame}
 \section{Resultados}
 \begin{frame}[fragile]{Resultados}
-\begin{alertblock}{Flevoland-- FLEV-ROI-I}
-\begin{figure}[hbt!]
-   \centering
-     \subfloat[ROI \label{flevoland_radial_4_look_crop}]{%  
-       \includegraphics[width=0.48\textwidth]{flevoland_radial_4_look_black_crop}}
-     \subfloat[GR\label{gt_flevoland_crop}]{%
-       \includegraphics[width=0.453\textwidth]{gt_flevoland_crop}
-     }
-    \caption{FLEV-ROI-I, e GR}
-    \label{roi_gt}
-\end{figure}
+\begin{alertblock}{Erro}
+O erro de detecção é calculado com o seguinte procedimento:
+\begin{itemize}
+\item Em cada radial (linha) definida na imagem calcular a menor distância euclidiana entre a borda detectada e o pixel de referência GR. Se em uma mesma radial detectamos vários píxeis, calculamos todas as distâncias e armazenamos a menor.
+\item Cada erro encontrado é comparado a uma constante definida neste trabalho como sendo $k_s=10$. Assim construímos o vetor de frequência $H(k)$, com $\{k=1,\dots,k_s\}$. 
+\item  A estimativa de probabilidade é encontrada por $f(k)={H(k)}/{n_r}$, onde  $n_r$ é o número de radiais.
+\end{itemize} 
 \end{alertblock}
 \end{frame}
 %
@@ -1218,16 +1215,26 @@ $$
 \begin{itemize}
 \item[-] Conferência:
 \begin{itemize}
-\item A.\ de A.\ Borba, M.\ Marengoni, and A.\ C.\ Frery, “Fusion of Evidences for Edge Detection in PolSAR Images,” in 2019 IEEE Recent Advances in Geoscience and Remote Sensing: Technologies, Standards and Applications (TENGARSS), Kochi, Kerala, India, Oct. 2019, pp. 80–85, doi: 10.1109/TENGARSS48957.2019.8976040.
+\item A.\ A.\ de Borba, M.\ Marengoni, and A.\ C.\ Frery, “Fusion of Evidences for Edge Detection in PolSAR Images,” in 2019 IEEE Recent Advances in Geoscience and Remote Sensing: Technologies, Standards and Applications (TENGARSS), Kochi, Kerala, India, Oct. 2019, pp. 80–85, doi: 10.1109/TENGARSS48957.2019.8976040.
 \end{itemize}
 \item[-] Periódico:
 \begin{itemize}
-\item A.\ A.\ de Borba, M.\ Marengoni, and A.\ C.\ Frery, “Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images,” \textit{IEEE Geoscience and Remote Sensing Letters}, in press, 2020, doi: 10.1109/LGRS.2020.3022511.
+\item  A.\ A.\ de Borba, M.\ Marengoni, and A.\ C.\ Frery, “Fusion of Evidences in Intensities Channels for Edge Detection in PolSAR Images,” \textit{IEEE Geoscience and Remote Sensing Letters}, in press, 2020, doi: 10.1109/LGRS.2020.3022511.
 \end{itemize}
 \end{itemize}
 \end{alertblock}
 \end{frame}
 %
+\setbeamercolor{palette primary}{fg=white, bg=red!80!black}
+\begin{frame}[standout]
+%  email: anderborba@gmail.com\\
+  OBRIGADO A TODOS!!!!
+\begin{itemize}
+\item Especialmente aos orientadores:
+\item Maurício Marengoni e
+\item Alejandro Frery.
+\end{itemize}
+\end{frame}
 %\begin{frame}[allowframebreaks]
 %\bibliographystyle{IEEEtran}
 %\bibliography{../bibliografia}
