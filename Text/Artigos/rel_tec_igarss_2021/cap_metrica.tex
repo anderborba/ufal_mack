@@ -846,7 +846,29 @@ TN= 767612 e TP = 390.
 \item \label{cap_metrica:obs_3} Para calcular a métrica Mfe não consideramos o TN. Podemos ver na tabela \ref{tab:matriz_conf_metodos} que $2*TP<FP+FN$ influenciando  nos valores próximos de zero para a métrica Mfe.  Assim, podemos observar que o pixel erradamente classificados são superiores aos classificados como positivos verdadeiros. A base de dados desbalanceada conduz a Mfe retornar valores próximos de zero.  
 \item \label{cap_metrica:obs_4} 
 \end{enumerate}
+\newpage
+\section{Metricas de distância}
+\begin{enumerate}[label=(\roman*)]
+\item \label{cap_metrica_dist:obs_1} Para cada evidência de borda ou borda calculada foi traçado uma radial. 
+\item \label{cap_metrica_dist:obs_2} Cada radial foi interseccionada com a \textit{Reference Truth} resultando em um pixel de referência.
+\item \label{cap_metrica_dist:obs_3} A evidência de borda ou as bordas detectadas em cada radial foram comparadas (distância euclidiana) com o pixel de referência e armazenado a menor distância em um vetor erro. 
+\item \label{cap_metrica_dist:obs_4} Com o vetor erro podemos calcular a métrica, por exemplo, a média dos erros ou a RMSE.
+\end{enumerate}
 
+\begin{table}[hbt]
+\scriptsize
+	\centering
+	\caption{Métricas de distância }
+\begin{tabular}{@{}cccccccccc@{}} \toprule
+	                        & \multicolumn{2}{c}{Comparação entre os métodos}  & & & & & &&      \\ \midrule
+	 Métricas  &MLE($I_{hh}$)& MLE($I_{hv}$)& MLE($I_{vv}$)   & F-média &F-PCA  & F-MR-SWT &F-MR-DWT &F-ROC   &F-SVD      \\
+	 
+     Média       &  3.5773   & 3.1724       & 5.5145          & 0.6873  & 0.6873& 0.2192   & 0.5186  & 3.4505 & 0.9041 \\
+     RMSE        &  7.6990   & 7.5216       &11.4673          & 1.0801  & 1.0801& 0.5141   & 0.8220  & 7.6615 & 1.1353 \\
+\bottomrule 
+\end{tabular}
+\label{tab:matriz_metricas}
+\end{table}
 %A matriz de confusão serve de origem para definirmos métricas como as seguintes:
 %\begin{equation}\label{cap_fusao_eq_01}
 %	tp_{rate}=\frac{TP}{P},

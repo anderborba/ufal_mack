@@ -106,7 +106,7 @@ tic;
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
-[IF] = fus_svd(IM, m, n, nc);
+%[IF] = fus_svd(IM, m, n, nc);
 tempo(i) = toc;
 end
 t= sum(tempo(1:nt)) / nt;

@@ -90,7 +90,7 @@
 \begin{alertblock}{Lançamentos no último mês}
   \begin{itemize}
 \item[-] SAtélite Argentino de Observación COn Microondas (SAOCOM-PolSAR);
-\item[-] Satélite Sentinel-6 Michael Freilich (Poseidon-4 synthetic-aperture radar--SAR)- EUROPA
+\item[-] Satélite Sentinel-6 Michael Freilich (Poseidon-4 Synthetic Aperture Radar--SAR)- EUROPA
 \item[-] Satélite Gaofen-14 (Imagens óticas)- CHINA
 \end{itemize}
 \end{alertblock}
@@ -178,7 +178,7 @@
 	\centering
 	\caption{Informações do sistema PolSAR.}
 \begin{tabular}{@{}lccc@{}} \toprule
-	Polarização & hh  & hv & vv \\ \midrule
+	Polarizações & hh  & hv & vv \\ \midrule
 	hh & $\sigma_\text{hh}$ & $\sigma_\text{hhhv} + \hat{\sigma}_\text{hhhv}\hat{\jmath}$  & $\sigma_\text{hhvv} + \hat{\sigma}_\text{hhvv}\hat{\jmath}$\\ 
 	hv &- &$\sigma_\text{hv}$ & $\sigma_\text{hvvv} + \hat{\sigma}_\text{hvvv}\hat{\jmath}$\\ 
 	vv &- & -&$\sigma_\text{vv}$ \\ \bottomrule 
@@ -224,8 +224,7 @@
 	Distância lateral    & \numrange[range-phrase = --]{10}{17} \si{\km}  \\
 	Banda                & P, L, e C\\
 	Polarização          & hh- hv - vv \\
-	Resolução inferior   & \SI[product-units = brackets-power]{2 x 2}{\m\squared}  \\
-	Resolução superior   & \SI[product-units = brackets-power]{8 x 8}{\m\squared} \\ \bottomrule
+	Resolução    & \SI[product-units = brackets-power]{8 x 8}{\m\squared} \\ \bottomrule
 \end{tabular}
 \end{table}
 \end{alertblock}
@@ -380,6 +379,7 @@ $$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^\text{H}.$$
       \item[-] Número de visadas $\text{L}$;
       \item[-] Vetor $\mathbf{s}_\ell$, onde $\ell = 1, \dots, \text{L}$;
       \item[-] L  amostras complexas multivariadas independentes do vetor $\mathbf{s}$. 
+      \item[-] Ruído multiplicativo $\mathbf{Y}=X\cdot \mathbf{Z}$, o ruído $\mathbf{Z}$ é o \textit{Speckle}.
 \end{description}
 \end{itemize}
 \end{alertblock}
@@ -473,6 +473,22 @@ $$
 $$ 
 %\end{equation}
 \end{description}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{Função máxima verossimilhança total}
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[Canal $\mathbf{I_\text{hh}}$]{%
+       \includegraphics[width=0.34\linewidth]{grafico_l_gamf_2017_sigmahh_param_mu_L_linha_150}\label{fig:l_uni_gamma_param_mu_l:1a}}
+     \subfloat[Canal  $\mathbf{I_\text{hv}}$]{%
+       \includegraphics[width=0.34\linewidth]{grafico_l_gamf_2017_sigmahv_param_mu_L_linha_150}\label{fig:l_uni_gamma_param_mu_l:1b}}
+     \subfloat[Canal  $\mathbf{I_\text{vv}}$]{%
+       \includegraphics[width=0.34\linewidth]{grafico_l_gamf_2017_sigmavv_param_mu_L_linha_150}\label{fig:l_uni_gamma_param_mu_l:1c}}
+     \caption{Funções de verossimilhanças totais para cada canal}
+     \label{fig:l_uni_gamma_param_mu_l}
+   \end{figure}	
 \end{alertblock}
 \end{frame}
 %\begin{frame}[fragile]{PolSAR Image}
@@ -918,8 +934,8 @@ $$
 \begin{alertblock}{Erro}
 O erro de detecção é calculado com o seguinte procedimento:
 \begin{itemize}
-\item Em cada radial (linha) definida na imagem calcular a menor distância euclidiana entre a borda detectada e o pixel de referência GR. Se em uma mesma radial detectamos vários píxeis, calculamos todas as distâncias e armazenamos a menor.
-\item Cada erro encontrado é comparado a uma constante definida neste trabalho como sendo $k_s=10$. Assim construímos o vetor de frequência $H(k)$, com $\{k=1,\dots,k_s\}$. 
+\item Em cada radial definida na imagem calcular a distância euclidiana entre a borda detectada e o pixel de referência GR. Se em uma mesma radial detectamos vários píxeis, calculamos todas as distâncias e armazenamos a menor.
+\item Construímos o vetor de frequência $H(k)$, com $\{k=1,\dots,k_s\}$, e $k_s=10$. 
 \item  A estimativa de probabilidade é encontrada por $f(k)={H(k)}/{n_r}$, onde  $n_r$ é o número de radiais.
 \end{itemize} 
 \end{alertblock}
@@ -1027,8 +1043,8 @@ O erro de detecção é calculado com o seguinte procedimento:
 \end{alertblock}
 \end{frame}
 %
-\begin{frame}[fragile]{Results}
-\begin{alertblock}{Results}
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{Resultados}
    \begin{figure}[hbt!]
 	\centering
      \subfloat[Canal $\text{hh}$ \label{evidencias_flev_roi_ii_25_pixel_hh_hv_vv:a}]{%
@@ -1144,7 +1160,7 @@ O erro de detecção é calculado com o seguinte procedimento:
 \end{alertblock}
 \end{frame}
 %
-\begin{frame}[fragile]{Results- Resultados}
+\begin{frame}[fragile]{Resultados}
 \begin{alertblock}{Fusão SF-ROI}
 \begin{figure}[htb!]
 	\centering
@@ -1225,7 +1241,7 @@ O erro de detecção é calculado com o seguinte procedimento:
 \end{alertblock}
 \end{frame}
 %
-\setbeamercolor{palette primary}{fg=white, bg=red!80!black}
+%\setbeamercolor{palette primary}{fg=white, bg=red!80!black}
 \begin{frame}[standout]
 %  email: anderborba@gmail.com\\
   OBRIGADO A TODOS!!!!

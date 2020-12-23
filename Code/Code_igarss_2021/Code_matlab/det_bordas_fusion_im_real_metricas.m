@@ -66,6 +66,12 @@ for i = 1: nedge
         	II(XC(j), YC(j)) = 1;
         end
 end
+GT = zeros(m, n);
+cd ..
+cd Data
+GT = load('gt_flevoland.txt');
+cd ..
+cd Code_matlab
 for i = 1: nedge
 	v = [nxedge(i) - x0, nyedge(i) - y0];
 	h(i) = norm(v);
@@ -73,19 +79,31 @@ for i = 1: nedge
         sa(i) = (nyedge(i) - y0) / h(i);
 	x(i) = x0 + r * ca(i);
         y(i) = y0 + r * sa(i);
-	[myline, mycoords, outmat, XC, YC] = bresenham(IT, [x0, y0; x(i), y(i)], 0); 
+	[mylinefus, mycoords, outmat, XC, YC] = bresenham(IF, [x0, y0; x(i), y(i)], 0); 
+	%[mylinefus, mycoords, outmat, XC, YC] = bresenham(IM(:, :, 3), [x0, y0; x(i), y(i)], 0); 
+	[mylinegt, mycoords, outmat, XC, YC] = bresenham(GT, [x0, y0; x(i), y(i)], 0); 
+	bf   = find(mylinefus > 0);
+	lbf  = length(bf);
+	bgt  = find(mylinegt > 0);
+	lbgt = length(bgt);
+	for k=1: lbf
+		for j=1: lbgt
+		aux1 = XC(bf(k)) - XC(bgt(j));
+		aux2 = YC(bf(k)) - YC(bgt(j));
+		erro_j_aux(j) = sqrt(aux1^2 + aux2^2);
+		end
+		erro_aux(k) = min(erro_j_aux);
+	end
+	erro(i) = min(erro_aux);
 	dim = length(XC);
 	for j = 1: dim
         	II2(XC(j), YC(j)) = 1;
         end
 end
+m(1) = met_vet_d_media(erro, nedge)
+m(2) = met_vet_d_rmse(erro, nedge)
 % Read GT
-GT = zeros(m, n);
-cd ..
-cd Data
-GT = load('gt_flevoland.txt');
-cd ..
-cd Code_matlab
+% 
 %
 %Iaux = IM(:, :, 3);
 %Iaux = IF;
