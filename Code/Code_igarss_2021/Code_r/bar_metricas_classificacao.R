@@ -38,7 +38,7 @@ ggplot(data=df, aes(x=eixo, y=y3)) +
 
 # Gráfico de métricas relativas
 
-df$GanhoRelativo <- (df$y3-min(df$y3))/(1-min(y3))
+df$GanhoRelativo <- (df$y3-min(df$y3))/(1-min(df$y3))
 
 ggplot(data=df, 
        aes(x=reorder(eixo, GanhoRelativo), 
