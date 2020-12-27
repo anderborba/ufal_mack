@@ -1,6 +1,7 @@
 # Bar metrics Classificacao
 rm(list = ls())
 library(ggplot2)
+require(ggthemes)
 require(latex2exp)
 library(hrbrthemes)
 require(extrafont)
@@ -24,10 +25,36 @@ for(k in 1: nk){
   v3[k] <- mat[3, k]
 }
 df <- data.frame(x = eixo, y1 =v1, y2 = v2, y3 = v3)
-p <-ggplot(data=df, aes(x=eixo, y=y3)) +
+
+ggplot(data=df, aes(x=eixo, y=y3)) +
+  ylim(0, .65) +
   geom_bar(stat="identity",  fill="steelblue")+
   xlab("Métodos de detecção de bordas")+
   ylab("Valor")+
   ggtitle(TeX("Métrica Mcc para os métodos de detecção de bordas")) +
-  geom_text(aes(label=y3), vjust=-0.3, color="blue", size=3.5)
-print(p)
+  geom_text(aes(label=y3), vjust=-0.3, color="blue", size=3.5) +
+  theme_clean() +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust=1))
+
+# Gráfico de métricas relativas
+
+df$GanhoRelativo <- (df$y3-min(df$y3))/(1-min(y3))
+
+ggplot(data=df, 
+       aes(x=reorder(eixo, GanhoRelativo), 
+           y=GanhoRelativo
+           )
+       ) + 
+  geom_bar(stat="identity",  fill="steelblue")+
+  labs(title="Métrica Mcc para os métodos de detecção de bordas",
+       subtitle="Melhoria relativa à pior métrica: F-ROC 51.19%",
+       x="Métodos de detecção de bordas",
+       y="Ganho relativo") +
+  geom_text(aes(
+            label=paste(100*round(GanhoRelativo, 4), "%"),
+            ), 
+            hjust=0, vjust=0, color="blue", size=3.5) +
+#  xlim(0, .25) +
+  coord_flip() +
+  theme_clean() +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust=1))
