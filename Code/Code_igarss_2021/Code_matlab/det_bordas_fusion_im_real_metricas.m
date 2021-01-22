@@ -44,12 +44,16 @@ for canal = 1 : nc
 end
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
-%[IF] = fus_swt(IM, m, n, nc);
+[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
-[IF] = fus_svd(IM, m, n, nc);
-[nyedge, nxedge] = find(IF~=0);
-nedge = size(find(IF~=0), 1);
+%[IF] = fus_svd(IM, m, n, nc);
+% configuracao para fusao
+%[nyedge, nxedge] = find(IF~=0);
+%nedge = size(find(IF~=0), 1);
+% configuracao para os canais
+[nyedge, nxedge] = find(IM(:,:, 3)~=0);
+nedge = size(find(IM(:,:, 3)~=0), 1);
 % Extract Radial
 %MXC = zeros(nedge, r);
 %MYC = zeros(nedge, r);
@@ -79,8 +83,8 @@ for i = 1: nedge
         sa(i) = (nyedge(i) - y0) / h(i);
 	x(i) = x0 + r * ca(i);
         y(i) = y0 + r * sa(i);
-	[mylinefus, mycoords, outmat, XC, YC] = bresenham(IF, [x0, y0; x(i), y(i)], 0); 
-	%[mylinefus, mycoords, outmat, XC, YC] = bresenham(IM(:, :, 3), [x0, y0; x(i), y(i)], 0); 
+	%[mylinefus, mycoords, outmat, XC, YC] = bresenham(IF, [x0, y0; x(i), y(i)], 0); 
+	[mylinefus, mycoords, outmat, XC, YC] = bresenham(IM(:, :, 3), [x0, y0; x(i), y(i)], 0); 
 	[mylinegt, mycoords, outmat, XC, YC] = bresenham(GT, [x0, y0; x(i), y(i)], 0); 
 	bf   = find(mylinefus > 0);
 	lbf  = length(bf);
@@ -88,9 +92,9 @@ for i = 1: nedge
 	lbgt = length(bgt);
 	for k=1: lbf
 		for j=1: lbgt
-		aux1 = XC(bf(k)) - XC(bgt(j));
-		aux2 = YC(bf(k)) - YC(bgt(j));
-		erro_j_aux(j) = sqrt(aux1^2 + aux2^2);
+			aux1 = XC(bf(k)) - XC(bgt(j));
+			aux2 = YC(bf(k)) - YC(bgt(j));
+			erro_j_aux(j) = sqrt(aux1^2 + aux2^2);
 		end
 		erro_aux(k) = min(erro_j_aux);
 	end
@@ -100,8 +104,9 @@ for i = 1: nedge
         	II2(XC(j), YC(j)) = 1;
         end
 end
-m(1) = met_vet_d_media(erro, nedge)
-m(2) = met_vet_d_rmse(erro, nedge)
+m(1) = met_vet_d_mae(erro, nedge);
+m(2) = met_vet_d_rmse(erro, nedge);
+m(3) = met_vet_d_inf(erro, nedge);
 % Read GT
 % 
 %

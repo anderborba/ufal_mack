@@ -40,13 +40,13 @@ ggplot(data=df, aes(x=eixo, y=y3)) +
 
 df$GanhoRelativo <- (df$y3-min(df$y3))/(1-min(df$y3))
 
-ggplot(data=df, 
+p <- ggplot(data=df, 
        aes(x=reorder(eixo, GanhoRelativo), 
            y=GanhoRelativo
            )
        ) + 
   geom_bar(stat="identity",  fill="steelblue")+
-  labs(title="Métrica Mcc para os métodos de detecção de bordas",
+  labs(title="Métrica nMcc para os métodos de detecção de bordas",
        subtitle="Melhoria relativa à pior métrica: F-ROC 51.19%",
        x="Métodos de detecção de bordas",
        y="Ganho relativo") +
@@ -58,3 +58,4 @@ ggplot(data=df,
   coord_flip() +
   theme_clean() +
   theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust=1))
+print(p)

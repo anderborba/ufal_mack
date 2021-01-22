@@ -7,7 +7,7 @@ Essas imagens foram usadas para a fusão resultando na imagem $I_\text{F}$ com a
 %%% AAB Realizado
 
 A imagem binária $\widehat{\bm\jmath}_\text{hv}$ ilustrada na figura \ref{fig:bin_evidencias_hv} é o resultado da aplicação do método de detecção de evidências de bordas no canal hv da imagem de Flevoland descrita no capítulo  \ref{cap_resultados}. 
-\begin{figure}[hbt]
+\begin{figure}[hbt!]
 \centering
 \includegraphics[width=4.0in]{flevoland_hv_evid_crop_teste}
 	\caption{Imagem binária das evidências de bordas .}
@@ -25,6 +25,85 @@ Neste trabalho são propostas seis técnicas de fusão de evidências de bordas:
 \item Estatísticas ROC (E-ROC);
 \item Decomposição em valores singulares com multi-resolução (MR-SVD).
 \end{itemize}
+
+O fluxograma do procedimento de fusão pode ser observada na figura~\ref{fig:fluxo_fusao},
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{waimage} = [sensor, text width=3em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+    \tikzstyle{waimage1} = [sensor, text width=3.5em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa2}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=3em,drop shadow]    
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+\begin{figure}[htb!]
+\begin{tikzpicture}
+\node[waimage] (waimage1) at (-7.0,0.0) {Imagem};
+\node[waimage] (waimage2) at (-5.3,0.0) {ROI};
+\node[wa2] (waimage3) at (-5.3,3.5) {GR};
+\node[waimage] (waimage4) at (-3.5,0.0) {Radiais e centro};
+\node[waimage1] (wa1) at (0.5,2.0) {Fusão 1};
+\node[wa2] (waimage5) at (2.0,3.5) {Erro};
+\path (waimage4.west)+(4.7,1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.5) node (dots)[ann] {$\vdots$};
+\node[waimage1] (wa6) at (0.5,-2.0) {Fusão N};
+\path [draw, ->] (waimage1.east) -- node [left] {} 
+        (waimage2) ;
+\path [draw, ->] (waimage2.east) -- node [left] {} 
+        (waimage4) ;
+\path [draw, ->] (waimage2.north) -- node [left] {} 
+        (waimage3) ;
+\path [draw, ->] (waimage3.east) -- node [left] {} 
+        (waimage5) ;        
+
+    \path (waimage4.west)+(2.5,1.5) node (e1_1) [sensor] {Canal hh};
+    \path (waimage4.west)+(2.5,0.0) node (e2_1)[sensor] {Canal hv}; 
+    \path (waimage4.west)+(2.5,-1.5) node (e3_1)[sensor] {Canal vv};    
+
+	\path [draw, ->] (waimage4.east) -- node [left] {} 
+        (e1_1.180) ;
+	\path [draw, ->] (waimage4.east) -- node [below] {} 
+       (e2_1.180);
+	\path [draw, ->] (waimage4.east) -- node [right] {} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa1.200);
+    \path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa6.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa6.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa6.200);
+
+\path [draw, ->] (wa1.east) -- node [left] {} 
+        (waimage5) ;
+\path [draw, ->] (wa6.east) -- node [left] {} 
+        (waimage5) ;
+\end{tikzpicture}
+\caption{Fluxograma do processo de fusão}
+\label{fig:fluxo_fusao}
+\end{figure}
+onde, GR (\textit{Ground Reference}) é a imagem de referência gerada apontando as bordas corretamente. Este tipo de imagem é usado para calcular o erro dos métodos. 
 
 Cada uma das técnicas serão descritas nesta seção.
 \subsection{Fusão por média simples}
@@ -483,3 +562,52 @@ O método pode ser resumido nos seguinte passos:
 \bm I_\text{F}\leftarrow \left(\{\bm \Phi_\text{R}^f,\{\bm\Psi_{r\text{V}}^f,\bm\Psi_{r\text{H}}^f,\bm\Psi_{r\text{D}}^f \}_{r=\text{R}}^1,\{\bm U_r^f\}_{r=\text{R}}^1 \right\}.
 \end{equation}
 \end{enumerate}
+
+A figura \ref{fig:cap_fusao_mrsvd} mostra o fluxograma correspondente a esse processo.
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+	\begin{figure}[htb!]
+\begin{tikzpicture}
+	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SVD}_1$};
+	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SVD}_2$};
+	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SVD}_{n_c}$};  
+	
+	
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\widehat{\bm\jmath}_1(x,y)$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\widehat{\bm\jmath}_2(x,y)$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\widehat{\bm\jmath}_{n_c}(x,y)$};    
+    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fusão dos\\
+                                                       valores singulares};
+                                                       
+    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Fusão das Imagens};
+    \path [draw, ->] (e1.east) -- node [above] {W} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {W} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {W} 
+        (swtnode3.180);
+%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (swtnodefus.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (swtnodefus.180);
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (swtnodefus.200);      
+    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+        (imagefus.north);           
+\end{tikzpicture}
+	\caption{Fusão MR--SVD}
+\label{fig:cap_fusao_mrsvd}
+\end{figure}

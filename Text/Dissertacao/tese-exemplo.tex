@@ -45,7 +45,10 @@
 \usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
 \usepackage{bm,bbm}                     % AAB inserido
 \usepackage{float}                      % AAB inserido
-\usepackage{enumitem}                   % AAB inserido 
+\usepackage{enumitem}                   % AAB inserido
+%\userpackage{pdfpages}                 % AAB inserido
+\usepackage[final]{pdfpages}            % AAB inserido
+%\usepackage[labelformat=empty]{caption}                  % AAB inserido
 %\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \usepackage{subfig}
 
@@ -230,106 +233,148 @@ São Paulo\\
 %   à Comissão Julgadora antes da defesa
 %
 %
+%\begin{figure}
+% \centering 
+% \includepdf[pages=-]{file.pdf}
+%\end{figure}
 \pagebreak
 \thispagestyle{empty}
-\vspace*{-3.7cm}
-\begin{center}
-\text{\large ANDERSON ADAIME DE BORBA}\\
-\vskip 2.0cm
-\setlength{\baselineskip}{1.5\baselineskip}
-\textbf{\large FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
-\vskip 2.0cm
-\end{center}
-\hfill{\vbox{\hsize=8.5cm\noindent\strut
-Tese apresentada ao Programa de Pós-Graduação\break
-em Engenharia Elétrica e Computação da Universidade\break
- Presbiteriana Mackenzie, como requisito parcial à\break
-obtenção do título de Doutor.}\\
-\strut}
-    \vskip 1.5cm
-\text{\large Aprovada em 16 de Dezembro de 2020}\\
-    \begin{center}
-\text{\large BANCA EXAMINADORA}\\
-     \vskip 0.5cm
-     $\rule{10cm}{0.15mm}$ \\
-     Prof. Dr. Maurício Marengoni\\
-     Universidade Presbiteriana Mackenzie - UPM\\
-     \vskip 0.5cm
-     $\rule{10cm}{0.15mm}$\\
-     Prof$^{\underline{a}}$. Dr$^{\underline{a}}$. Ana Grasielle Dionísio Corrêa\\
-     Universidade Presbiteriana Mackenzie - UPM\\
-     \vskip 0.5cm
-     $\rule{10cm}{0.15mm}$\\
-     Prof. Dr. Carlos E. Thomaz\\
-     Centro Universitário FEI - FEI\\
-     \vskip 0.5cm
-     $\rule{10cm}{0.15mm}$\\
-     Prof$^{\underline{a}}$. Dr$^{\underline{a}}$. María Juliana Gambini\\
-     Instituto Tecnológico de Buenos Aires - ITBA\\
-     \vskip 0.5cm
-     $\rule{10cm}{0.15mm}$\\
-     Prof. Dr. Paulo Batista Lopes\\
-     Universidade Presbiteriana Mackenzie - UPM\\
-    \end{center}
+%\begin{figure}
+% \centering 
+ \includepdf[pages=-]{ficha_Borba}
+% \caption*{}
+%\end{figure}
 \pagebreak
+\thispagestyle{empty}
+%\begin{figure}
+% \centering 
+ \includepdf[pages=-]{folha_agencia_fomento}
+% \caption*{}
+%\end{figure}
+\pagebreak
+\thispagestyle{empty}
+%\begin{figure}
+% \centering 
+ \includepdf[pages=-]{bancadoutoradoAnderson}
+% \caption{}
+%\end{figure}
+\pagebreak
+%\includepdf[page=-]{bancadoutoradoAnderson} 
+%\pagebreak
+%\thispagestyle{empty}
+%\vspace*{-3.7cm}
+%\begin{center}
+%\text{\large ANDERSON ADAIME DE BORBA}\\
+%\vskip 2.0cm
+%\setlength{\baselineskip}{1.5\baselineskip}
+%\textbf{\large FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS DE RADAR POLARIMÉTRICO DE ABERTURA SINTÉTICA}\\
+%\vskip 2.0cm
+%\end{center}
+%\hfill{\vbox{\hsize=8.5cm\noindent\strut
+%Tese apresentada ao Programa de Pós-Graduação\break
+%em Engenharia Elétrica e Computação da Universidade\break
+% Presbiteriana Mackenzie, como requisito parcial à\break
+%obtenção do título de Doutor.}\\
+%\strut}
+%    \vskip 1.5cm
+%\text{\large Aprovada em 16 de Dezembro de 2020}\\
+%    \begin{center}
+%\text{\large BANCA EXAMINADORA}\\
+%     \vskip 0.5cm
+%     $\rule{10cm}{0.15mm}$ \\
+%     Prof. Dr. Maurício Marengoni\\
+%     Universidade Presbiteriana Mackenzie - UPM\\
+%     \vskip 0.5cm
+%     $\rule{10cm}{0.15mm}$\\
+%     Prof$^{\underline{a}}$. Dr$^{\underline{a}}$. Ana Grasielle Dionísio Corrêa\\
+%     Universidade Presbiteriana Mackenzie - UPM\\
+%     \vskip 0.5cm
+%     $\rule{10cm}{0.15mm}$\\
+%     Prof. Dr. Carlos E. Thomaz\\
+%     Centro Universitário FEI - FEI\\
+%     \vskip 0.5cm
+%     $\rule{10cm}{0.15mm}$\\
+%     Prof$^{\underline{a}}$. Dr$^{\underline{a}}$. María Juliana Gambini\\
+%     Instituto Tecnológico de Buenos Aires - ITBA\\
+%     \vskip 0.5cm
+%     $\rule{10cm}{0.15mm}$\\
+%     Prof. Dr. Paulo Batista Lopes\\
+%     Universidade Presbiteriana Mackenzie - UPM\\
+%    \end{center}
+%\pagebreak
 %
 %
 \pagenumbering{roman}     % começamos a numerar 
 % ---------------------------------------------------------------------------- %
 % Dedicatoria:
 % Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-%\chapter*{}
-%\vskip 15.cm
-%\hfill{\vbox{\hsize=5.5cm\noindent\strut
-%Texto Dedicatória\break
-%texto Dedicatória\break
-%texto Dedicatória\break
-%texto Dedicatória.}\\
-%\strut}
+\chapter*{}
+\vskip 15.cm
+\hfill{\vbox{\hsize=5.5cm\noindent\strut
+Dedico esta tese à minha família, e\break
+à minha companheira Michele.}\\
+\strut}
 % ---------------------------------------------------------------------------- %
 %% Agradecimentos:
 %% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-%\chapter*{Agradecimentos}
-%Texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto texto texto texto texto texto texto texto texto texto
-%texto texto texto texto. Texto opcional.
+\chapter*{Agradecimentos}
+Agradeço à minha família pelo carinho e compreensão, à minha companheira por entender minha
+ausência, sempre atenta e cuidadosa com convívio diário. Agradeço aos amigos que
+participaram desse processo com conversas, cafés ou churrascos com uma boa salsa e, ao meu velho pai, para ao qual dedico a letra da música \textit{Naquela Mesa}, composta por Sérgio Bittencourt em homenagem a seu pai Jacob do Bandolim. \vspace{0.6cm}
+
+\noindent Naquela mesa ele sentava sempre\\
+E me dizia sempre, o que é viver melhor.\\
+Naquela mesa ele contava histórias,\\
+Que hoje na memória eu guardo e sei de cor.\\
+\noindent Naquela mesa ele juntava gente\\
+E contava contente o que fez de manhã.\\
+E nos seus olhos era tanto brilho,\\
+Que mais que seu filho, eu fiquei seu fã.\\
+\noindent Eu não sabia que doía tanto\\
+Uma mesa no canto, uma casa e um jardim.\\
+Se eu soubesse o quanto doí a vida,\\
+Essa dor tão doída não doía assim.\\
+\noindent Agora resta uma mesa na sala\\
+E hoje ninguém mais fala no seu bandolim.\\
+Naquela mesa tá faltando ele\\
+E a saudade dele tá doendo em mim.\\
+
+E agradeço especialmente à Maurício Marengoni e à Alejandro Frery pela condução deste trabalho, sempre de forma muito generosa. Apreendi muito, como também, resgatei minha curiosidade e motivação com a pesquisa. Sinceramente, obrigado.
 %%
 %% Epígrafe:
 %% Se o candidato não quer fazer agradecimentos, deve simplesmente eliminar esta página 
-%\chapter*{}
-%\vskip 15.cm
-%\hfill{\vbox{\hsize=5.5cm\noindent\strut
-%Texto  Epígrafe\break
-%texto  Epígrafe\break
-%texto  Epígrafe\break
-%texto  Epígrafe.}\\
-%\strut}
+\chapter*{}
+\vskip 15.cm
+\hfill{\vbox{\hsize=5.5cm\noindent\strut
+A chave de todas as ciências é inegavelmente o ponto de interrogação.\break
+\textit{Honoré de Balzac}
+}\\
+\strut}
 % ---------------------------------------------------------------------------- %
 % Resumo
 \chapter{Resumo}
 %\thispagestyle{empty}
 %
-Os radares polarimétricos de abertura sintética (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Nesse contexto a investigação de métodos de fusão de evidências de bordas é importante para quantificar e qualificar as informações obtidas de cada canal da imagem. A obtenção desses dados possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas.  Neste trabalho foram estudados e comparados seis métodos de fusão de informações provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível, idealmente com largura de um píxel, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa de máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). A comparação dos seis métodos de fusão foi realizada quantitativamente e qualitativamente, respectivamente, calculando-se a proximidade das bordas detectadas com as bordas definidas nas imagens \textit{Ground Truth} e pela presença de \textit{outliers}. Os resultados obtidos com as análises indicam que os métodos PCA e MR-SVD fornecem os melhores resultados, devido a precisão em detectar bordas e a baixa incidência de \textit{outliers}. 
+Os radares polarimétricos de abertura sintética (PolSAR) alcançaram uma posição essencial no sensoriamento remoto. As imagens que eles fornecem têm ruído \textit{speckle}, tornando as ações de processamento e de análise tarefas desafiadoras. Nesse contexto a investigação de métodos de fusão de evidências de bordas é importante para quantificar e qualificar as informações obtidas de cada canal da imagem. A obtenção desses dados possibilita a decisão de usar ou descartar as informações de um dado canal para melhorar o desempenho da detecção de bordas.  Neste trabalho foram estudados e comparados seis métodos de fusão de informações provenientes da detecção das evidências de bordas nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método para detectar evidências de bordas em cada canal consiste em detectar pontos de transição em uma faixa de dados, o mais fina possível, idealmente com largura de um píxel, fornecendo uma faixa de dados que cobre duas regiões usando o método estimativa de máxima verossimilhança sob a distribuição de Wishart. Os métodos de fusão das informações proveniente de cada canal usados são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). A comparação dos seis métodos de fusão foi realizada quantitativamente e qualitativamente, respectivamente, calculando-se a proximidade das bordas detectadas com as bordas definidas nas imagens \textit{Ground Reference} e pela presença de \textit{outliers}. Os resultados obtidos com as análises indicam que os métodos PCA e MR-SVD fornecem os melhores resultados, devido a precisão em detectar bordas e a baixa incidência de \textit{outliers}. 
 %
 \vskip 0.5cm
-\noindent Palavras-chave: PolSAR. Deecção de bordas. Estimativa de máxima verossimilhança. Métodos de fusão.
+\noindent Palavras-chave: PolSAR image. Detecção de bordas. Estimativa de máxima verossimilhança. Métodos de fusão.
 % ---------------------------------------------------------------------------- %
 % Abstract
 \chapter{Abstract}
 %\thispagestyle{empty}
 Polarimetric Synthetic Aperture Radar (PolSAR) sensors have reached an essential position in remote sensing. 
 The images they provide have speckle noise, making their processing and analysis challenging tasks. In this context, the investigation of edge evidence fusion methods is essential to quantify and qualify the information obtained from each image channel. Getting this data enables the decision to use or discard the information from a given channel to improve the performance of edge detection. 
-We discuss an edge detection method based on the fusion of evidences obtained in the intensity channels hh, hv, and vv of PolSAR multi-look images. 
-The method consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
-The fusion methods used are: 
+We discuss an edge detection method based on the fusion of evidences obtained in the intensity channels hh, hv, and vv of PolSAR multi-look images.
+The method to detect evidence of edges in each channel consists of detecting transition points in the thinnest possible range of data that covers two regions using maximum likelihood under the Wishart distribution. 
+The methods of fusion of the information coming from each channel used are:
 simple average, 
 multi-resolution discrete wavelet transform (MR-DWT),
 principal component analysis (PCA), 
 Receiver operating characteristic (ROC) statistics, 
 multi-resolution stationary (MR-SWT) wavelet transform, 
 and a multi-resolution method based on singular value decomposition (MR-SVD). 
-The six fusion methods were compared quantitatively e qualitatively, rescpectively, calculating the distance of the detected edges to the edges defined in the Ground Truth images and by the presence of outliers.
+The six fusion methods were compared quantitatively e qualitatively, rescpectively, calculating the distance of the detected edges to the edges defined in the Ground Reference images and by the presence of outliers.
 The results obtained with the analyses suggest that the PCA and MR-SVD methods provide the best results due to the precision in detecting edges and the low incidence of outliers.
 \vskip 0.5cm
 \noindent Keywords: PolSAR. Edge detection. Maximum likelihood estimation, Fusion methods. 
@@ -346,11 +391,11 @@ ROI            & Região de Interesse\\
 LoG            & Detector de borda usando o laplaciano da gaussiana\\
 MLE            & Método estimativa de máxima verossimilhança\\
 MS             & Média simples\\
-MR-DWT         & Transformada \textit{wavelet} discreta com múltiplas resoluções \\
+MR--DWT         & Transformada \textit{wavelet} discreta com múltiplas resoluções \\
 PCA            & Analise das componentes principais\\
-E-ROC          & Estatística ROC (\textit{Receiver operating characteristic}) \\
-MR-SWT         & Transformada \textit{wavelet} estacionária com múltiplas resoluções \\
-MR-SVD         & Decomposição em valores singulares com múltiplas resoluções\\
+E--ROC          & Estatística ROC (\textit{Receiver operating characteristic}) \\
+MR--SWT         & Transformada \textit{wavelet} estacionária com múltiplas resoluções \\
+MR--SVD         & Decomposição em valores singulares com múltiplas resoluções\\
 GenSA          & Método Simullated anneling\\
 BFGS           & Método Broyden-Fletcher-Goldfarb-Shanno\\
 VHR            & \textit{Very High Resolution}\\
@@ -358,6 +403,10 @@ DLR            & Centro espacial da Alemanha\\
 BSA            & Sistema de coordenadas \textit{Back Scattering Alignment}\\
 DOI            & \textit{Digital Object Identifier}\\
 URL            & \textit{Uniform Resource Locator}\\
+GR             & Ground Reference \\
+FLEV--ROI-I    & Região de interesse I na imagem de Flevoland\\
+FLEV--ROI-II   & Região de interesse II na imagem de Flevoland\\
+SF--ROI        & Região de interesse na imagem de São Francisco\\
 \end{tabular}
 % ---------------------------------------------------------------------------- %
 \chapter{Lista de Símbolos}
@@ -369,6 +418,11 @@ URL            & \textit{Uniform Resource Locator}\\
 	$\Gamma$    & Função Gamma \\
 	$\Gamma_m$  & Função Gamma multivariada\\
 	$W(\Sigma, L)$ & Distribuíção Wishart\\
+	$\mathcal{L}$  & Função de máxima log-verossimilhança total\\
+	$n_c$          & Número de canais utilizados na fusão de informações\\
+	$\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$ & Imagem binária para as evidências de bordas\\
+	$\{\widehat{\bm\imath}_c\}_{1\leq c\leq n_c}$ & Mapas de evidências de bordas\\
+	$I_\text{F}$   & Imagem com a fusão de informações \\
 \end{tabular}
 % ---------------------------------------------------------------------------- %
 % Listas de figuras e tabelas criadas automaticamente

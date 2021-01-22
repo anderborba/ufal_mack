@@ -1,4 +1,4 @@
-\chapter{Discussões e conclusões}\label{cap_conclusao}
+\chapter{Discussões, conclusões e contribuíções}\label{cap_conclusao}
 Esta tese estudou e comparou seis métodos de fusão provenientes da detecção das evidências de bordas, nos canais de intensidade hh, hv e vv de imagens PolSAR múltiplas visadas. O método consiste em detectar evidências de bordas, isto é, pontos de transição em uma faixa de dados, a mais fina possível, idealmente com largura de um píxel, fornecendo dados que cobrem duas regiões usando o método MLE sob a distribuição de Wishart. Os métodos em questão são: média simples (MS), transformada \textit{wavelet} discreta multi-resolução (MR-DWT), análise de componente principal (PCA), estatísticas ROC, transformada \textit{wavelet} estacionária multi-resolução (MR-SWT), e um método de multi-resolução baseado na decomposição de valores singulares (MR-SVD). 
 
 Uma etapa crucial para o desenvolvimento desta pesquisa foi a validação dos algoritmos usados em imagens simuladas, viabilizando assim, a realização dos testes em imagens adquiridas de sensores PolSAR, dando condições para que as etapas subsequentes pudessem ser realizadas. 
@@ -18,6 +18,16 @@ Aplicamos métodos de fusão para reunir as evidências de bordas, obtidas nos t
 O método E-ROC mostrou desempenho inferior aos outros métodos, entretanto, seu desempenho pode melhorar a medida que outros canais são inseridos para a detecção de evidências de bordas.
 
 Os resultados foram avaliados quantitativamente, verificando a proximidade dos pontos fundidos com a borda real e pela presença de \textit{outliers}. Embora a fusão por média e a fusão com PCA sejam semelhantes, com relação à probabilidade de detectar corretamente a borda, o última fornece uma ponderação mais eficaz das evidências de bordas. A partir desse fato, a fusão com PCA é capaz de descartar completamente as evidências enganosas, enquanto a fusão por média não.
+
+É destacado as seguintes contribuição desta tese:
+\begin{enumerate}[label=(\roman*)]
+\item \label{item:contr_i} Propor a fusão de evidências de bordas, obtidas em cada canal, aprimorando o método de detecção de bordas;
+\item \label{item:contr_ii} Aplicar e comparar os métodos de fusão: MS, MR--DWT, PCA, E--ROC, MR--SWT, e MR--SVD;
+\item \label{item:contr_iii} Verificação da viabilidade do uso do método GenSA no método MLE com o algoritmo Gambini, aplicado aos canais de intensidades de uma imagem PolSAR, com o objetivo de detectar evidências de bordas, como proposto e analisado em \citet{gmbf, gmbf_sc, fbgm, nhfc};
+\item \label{item:contr_iv} Realizar medidas de qualidade para a detecção em cada canal, e na fusão, usando uma métrica baseada na probabilidade de detecção de bordas, comparando com a imagem definida como referência (\textit{Ground Reference}).\index{Ground Truth}      
+\item \label{item:contr_v} Identificação de duas características que dificultam a detecção de evidências de bordas: oscilação nas extremidades e não diferenciabilidade em vários pontos do domínio das funções de máxima verossimilhança total. 
+Para contornar o problema propomos, respectivamente, as seguintes soluções: definir empiricamente constantes de folga nas extremidades, usar o método GenSA para encontrar o ponto de máximo da função.
+\end{enumerate}
 
 No decorrer da pesquisa alguns caminhos foram se apresentando como possíveis trabalhos futuros:
 \begin{enumerate}[label=(\roman*)]

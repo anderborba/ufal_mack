@@ -80,7 +80,7 @@ As evidências de bordas detectadas em cada canal simulado hh, hv e vv podem ser
 %%% Realizado
 O erro de detecção, descrito \citet{fbgm}, é calculado com o seguinte procedimento:
 \begin{itemize}
-\item Em cada radial (linha) definida na imagem calcular a menor distância euclidiana entre a borda detectada e o pixel de referência  Ground Truth (GT). Se em uma mesma radial detectamos vários píxeis, calculamos todas as distâncias e armazenamos a menor.
+\item Em cada radial (linha) definida na imagem calcular a menor distância euclidiana entre a borda detectada e o pixel de referência \textit{Ground Reference} (GR). Se em uma mesma radial detectamos vários píxeis, calculamos todas as distâncias e armazenamos a menor.
 \item Cada erro encontrado é comparado a uma constante definida neste trabalho como sendo $k_s=10$. Assim construímos o vetor de frequência $H(k)$, com $\{k=1,\dots,k_s\}$ , definindo o número de replicações para qual o erro é menor que a constante definida. 
 \item  A estimativa de probabilidade é encontrada por $f(k)={H(k)}/{n_r}$, onde  $n_r$ é o número de radiais.
 \end{itemize} 
@@ -189,7 +189,7 @@ A imagem da região de Flevoland com dimensão $750\times 1024$ píxeis é uma i
 %<<<<<<< Updated upstream
 %Os métodos desenvolvidos neste trabalho foram aplicados na região de interesse destacada na imagem. Detalhes da região de interesse, e das radiais usadas para extrair informações podem ser vista na figura~\ref{roi_gt}\subref{flevoland_radial_4_look_crop}. A figura~\ref{roi_gt}\subref{gt_flevoland_crop} mostra em pixeis vermelhos, as bordas que são usadas como referência, conhecida por imagem \textit{Ground Truth} (GT). Região de interesse é denominada FLEV-ROI-I.  
 %=======
-Os métodos desenvolvidos neste trabalho foram aplicados na região de interesse destacada na imagem. Detalhes da região de interesse, e das radiais usadas para extrair informações podem ser vista na Figura~\ref{roi_gt}\subref{flevoland_radial_4_look_crop}. A Figura~\ref{roi_gt}\subref{gt_flevoland_crop} mostra em píxeis vermelhos, as bordas que são usadas como referência, conhecida por imagem \textit{Ground Truth} (GT). 
+Os métodos desenvolvidos neste trabalho foram aplicados na região de interesse destacada na imagem. Detalhes da região de interesse, e das radiais usadas para extrair informações podem ser vista na Figura~\ref{roi_gt}\subref{flevoland_radial_4_look_crop}. A Figura~\ref{roi_gt}\subref{gt_flevoland_crop} mostra em píxeis vermelhos, as bordas que são usadas como referência, conhecida por imagem \textit{Ground Reference} (GR). 
 A região de interesse é denominada FLEV-ROI-I.  
 
 %>>>>>>> Stashed changes
@@ -197,10 +197,10 @@ A região de interesse é denominada FLEV-ROI-I.
    \centering
      \subfloat[Imagem, ROI, e radiais. \label{flevoland_radial_4_look_crop}]{%  
        \includegraphics[width=0.229\textwidth]{flevoland_radial_4_look_black_crop}}
-     \subfloat[Ground truth\label{gt_flevoland_crop}]{%
+     \subfloat[\textit{Ground Reference}\label{gt_flevoland_crop}]{%
        \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
      }
-    \caption{Região de interesse da imagem Flevoland (FLEV-ROI-I), e \textit{ground truth} de referência}
+    \caption{Região de interesse da imagem Flevoland (FLEV-ROI-I), e \textit{Ground Reference} de referência}
     \label{roi_gt}
 \end{figure}
 
@@ -293,15 +293,15 @@ Os dados apresentados na primeira linha da Tabela~\ref{metrica_de_tempo_3_canais
 %%%  25 radials lenght 120 - com folga 14
 \clearpage
 \subsubsection{FLEV-ROI-II}
-Uma segunda região na imagem de Flevoland foi selecionada para os testes a qual denominamos de região de interesse FLEV-ROI-II. A imagem com as radiais é mostrada na Figura~\ref{roi_gt_roi_ii}\subref{flevoland_radial_25_crop_roi_ii}. A Figura~\ref{roi_gt_roi_ii}\subref{gt_flevoland_crop_roi_ii} mostra as bordas em píxeis vermelhos usadas de referência a qual chamaremos de \textit{Ground Truth} (GT).
+Uma segunda região na imagem de Flevoland foi selecionada para os testes a qual denominamos de região de interesse FLEV-ROI-II. A imagem com as radiais é mostrada na Figura~\ref{roi_gt_roi_ii}\subref{flevoland_radial_25_crop_roi_ii}. A Figura~\ref{roi_gt_roi_ii}\subref{gt_flevoland_crop_roi_ii} mostra as bordas em píxeis vermelhos usadas de referência a qual chamaremos de \textit{Ground Reference} (GR).
 \begin{figure}[hbt!]
    \centering
      \subfloat[Imagem, ROI, e radiais. \label{flevoland_radial_25_crop_roi_ii}]{%  
        \includegraphics[width=0.216\textwidth]{flevoland_r3_radial_crop}}
-     \subfloat[Ground truth\label{gt_flevoland_crop_roi_ii}]{%
+     \subfloat[\textit{Ground Reference}\label{gt_flevoland_crop_roi_ii}]{%
        \includegraphics[width=0.216\textwidth]{gt_flevoland_r3_crop}
      }
-     \caption{Região de interesse da imagem Flevoland (FLEV-ROI-II), e \textit{ground truth} de referência}
+     \caption{Região de interesse da imagem Flevoland (FLEV-ROI-II), e \textit{Ground Reference} de referência}
     \label{roi_gt_roi_ii}
 \end{figure}
    
@@ -382,15 +382,15 @@ A imagem da baía de São Francisco de dimensão $450\times 600$ píxeis é uma 
 %% Teste com a região I San Francisco
 %%% radial lenght 120 - com folga 25
 
-Na Figura~\ref{roi_san_fran_gt}\subref{san_francisco_radial_25} é destacada a região de interesse (SF-ROI) com 25 radiais. Em cada radial foram extraídos os dados para obter as informações sobre as localizações das evidências de bordas. A Figura~\ref{roi_san_fran_gt}\subref{gt_san_fran_r1_crop} mostra a imagem \textit{Ground Truth} (GT) que foi gerada para validar os resultados.  
+Na Figura~\ref{roi_san_fran_gt}\subref{san_francisco_radial_25} é destacada a região de interesse (SF-ROI) com 25 radiais. Em cada radial foram extraídos os dados para obter as informações sobre as localizações das evidências de bordas. A Figura~\ref{roi_san_fran_gt}\subref{gt_san_fran_r1_crop} mostra a imagem \textit{Ground Reference} (GR) que foi gerada para validar os resultados.  
 \begin{figure}[hbt!]
    \centering
      \subfloat[Imagem, ROI e radiais. \label{san_francisco_radial_25}]{%  
        \includegraphics[width=0.216\textwidth]{san_francisco_radial_25_crop}}
-     \subfloat[Ground Truth\label{gt_san_fran_r1_crop}]{%
+     \subfloat[\textit{Ground Reference}\label{gt_san_fran_r1_crop}]{%
        \includegraphics[width=0.216\textwidth]{gt_san_fran_r1_crop}
      }%
-     \caption{Decomposição de Pauli para imagem de São Francisco, e a Ground Truth - GT}
+     \caption{Decomposição de Pauli para imagem de São Francisco, e a \textit{Ground Reference} - GR}
     \label{roi_san_fran_gt}
 \end{figure}
 
@@ -457,6 +457,19 @@ A Figura~\ref{probability_edge_detc_sf_roi_i} mostra o erro para SF-ROI com o n�
 Realizando a inspeção visual das fusões e análise do gráfico do erro em detectar bordas dos métodos, foi verificado que os resultados para a região SF-ROI geram resultados similares ao resultados da imagem de Flevoland (FLEV-ROI-I e FLEV-ROI-II).
 
 A ROI escolhida na imagem de São Francisco apresenta três regiões diferentes, o mar, a vegetação e a área urbana. Na área urbana há ruas que podem ser  consideradas bordas. Desta forma, pontos considerados \textit{outliers} tendo como referência a GT podem ser realmente bordas. Pequisas futuras devem levar este fato em consideração.  
+
+Na Tabela \ref{resumo_resultados} é apresentado o resumo de resultados. A primeira coluna contém as imagens utilizadas para os testes numéricos. A segunda coluna mostra o canal com o melhor desempenho do método MLE na detecção de evidência de bordas correspondente a cada imagem, enquanto a terceira coluna aponta quais métodos de fusão apresentaram bom desempenho na detecção de bordas. Para decidir os melhores métodos de detecção de bordas analisamos o desempenho do erro de detecção e a baixa incidência de \textit{outliers}. 
+\begin{table}[htb!]
+\small
+	\centering
+	\caption{Resumo de resultados}\label{resumo_resultados}
+	\begin{tabular}{@{}lcc@{}} \toprule
+		Imagem        & Detecção de evidências de bordas   & Detecção de bordas (Fusão)  \\ \midrule
+		FLEV-ROI-I    &              hv                      &  PCA / MR--SVD        \\
+		FLEV-ROI-II   &              hv                      &  PCA / MR--SVD         \\ 
+		SF-ROI        &              hh                      &  PCA / MR--SVD        \\ \bottomrule
+	\end{tabular}
+\end{table}
 
 %%% ACF A frase que segue não está bem formada
 %%% AAB Retirei não sei o motivo que estava ai

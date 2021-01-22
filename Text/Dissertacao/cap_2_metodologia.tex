@@ -504,7 +504,7 @@ Sob a hipótese da eq.~\eqref{eq:DensidadeExponencial} decorre que a função de
 f_I(z_I;L,\sigma^2)=\frac{L^L z_I^{L-1}}{\Gamma(L)\sigma^{2L}}\exp\left(-L\frac{z_I}{\sigma^2}\right), z_I\geq 0,
 \label{pdf_inten_multilook}
 \end{equation}
-onde $\Gamma(L)$ denota a função gama de Euler. Assim podemos afirmar que a intensidade com o processo de múltiplas visadas obedece uma distribuição gaussiana.
+onde $\Gamma(L)$ denota a função gama de Euler. A equação~\eqref{pdf_inten_multilook} é a função de densidade de probabilidade que caracteriza a distribuição gama com parâmetro L.
 
 %%% ACF Aqui mudou a notação para média e variância. Não pode! Unifique!
 %%% AAB Resolvido
@@ -518,7 +518,7 @@ A função densidade de probabilidade para os canais de amplitude com múltiplas
 %%% AAB Resolvido
 \begin{equation}
 f_A(z_A;L,\sigma^2)=\frac{2L^L z_A^{2L-1}}{\Gamma(L)\sigma^{2L}}\exp\left(-L\frac{z_A^2}{\sigma^2}\right), z_A\geq 0.
-\label{pdf_inten_multilook}
+\label{pdf_ampli_multilook}
 \end{equation}
 
 A média e a variância são $\text{M}_L(z_A)=\frac{\Gamma\left(L+\frac{1}{2}\right)}{\Gamma}\sqrt{\frac{\sigma^2}{L}}$ e $\text{var}_L(z_A)=\left(L-\frac{\Gamma^2\left(L+\frac{1}{2}\right)}{\Gamma^2(L)}\right)\frac{\sigma^2}{L}$ respectivamente. Assim, o coeficiente de variação $\text{CV}_L(z_A)=\sqrt{\frac{L\Gamma^2(L)}{\Gamma^2\left(L+\frac{1}{2}\right)}-1}$ é calculado para os canais de amplitude.
@@ -1020,13 +1020,13 @@ As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm
 A log-verossimilhança total é definida no ponto $j$ pela seguinte função
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
-%\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
-\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+%\mathcal{L}(j&;\bm z_\text{I},\bm z_\text{E}) = \\
+\mathcal{L}(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
 +\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
 +\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
-\raisetag{2.2em}
+%\raisetag{2.2em}
 \end{split}
 \end{equation}
 e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de borda

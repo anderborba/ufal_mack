@@ -1,0 +1,487 @@
+% Template for IGARSS-2020 paper; to be used with:
+%          spconf.sty  - LaTeX style file, and
+%          IEEEbib.bst - IEEE bibliography style file.
+% --------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{spconf,amsmath,epsfig}
+\usepackage{bm,bbm}                                        % AAB inserted
+\usepackage[boxed]{algorithm2e}                            % AAB inserted
+\usepackage[caption=false,font=footnotesize]{subfig}       % AAB inserted
+\usepackage[binary-units]{siunitx}                         % AAB inserted
+\usepackage{booktabs}                                      % AAB inserted
+\usepackage{url}                                           % AAB inserted
+\usepackage{tikz}                                          % AAB inserted 
+\usetikzlibrary{shapes,arrows,shadows}                     % AAB inserted
+\usepackage{enumitem}                                      % AAB inserted
+%
+\graphicspath{{../tengarss_rev_2020/FinalVersion/}, {../../Dissertacao/figuras/}}        % AAB inserted
+%\graphicspath{{../dissetacao/figuras/}}        % AAB inserted
+%
+\DeclareMathOperator{\traco}{tr}                           % AAB inserted
+% Example definitions.
+% --------------------
+\def\x{{\mathbf x}}
+\def\L{{\cal L}}
+% Title.
+% ------
+\title{Quantify the influence of the intensity channels information content in the PolSAR image for edge detectors based on information fusion.}
+%
+% Single address.
+% ---------------
+\name{Anderson A.\ de Borba$^a$, Maurício Marengoni$^b$, and Alejandro C.\ Frery$^c$.\thanks{e-mail:$^a$anderson.aborba@professores.ibmec.edu.br, $^b$mmarengoni@hotmail.com, $^c$alejandro.frery@vuw.ac.nz }}
+\address{$^a$IBMEC-SP, Alameda Santos, 2356 - Jardim Paulista, SP - Brazil, \\
+         $^b$ENDEREÇO,           \\
+         $^c$School of Mathematics and Statistics, Victoria University of Wellington- NZ, 6140, New Zealand.}
+
+
+%\title{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images}
+%\author{Anderson A.\ de Borba, Maurício Marengoni, and Alejandro C.\ Frery,~\IEEEmembership{Senior Member,~IEEE}%
+%\thanks{This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Finance Code 001}
+%\thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.aborba@professores.ibmec.edu.br}
+%\thanks{M.\ Marengoni is with the Dept.\ Engenharia Elétrica e Computação,
+%UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
+%\thanks{A.\ C.\ Frery is with the School of Mathematics and Statistics,
+%Victoria University of Wellington, 6140, New Zealand. alejandro.frery@vuw.ac.nz}}
+
+%
+% For example:
+% ------------
+%\address{School\\
+%	Department\\
+%	Address}
+%
+% Two addresses (uncomment and modify for two-address case).
+% ----------------------------------------------------------
+%\twoauthors
+%  {A. Author-one, B. Author-two\sthanks{Thanks to XYZ agency for funding.}}
+%	{School A-B\\
+%	Department A-B\\
+%	Address A-B}
+%  {C. Author-three, D. Author-four\sthanks{The fourth author performed the work
+%	while at ...}}
+%	{School C-D\\
+%	Department C-D\\
+%	Address C-D}
+%
+\begin{document}
+%\ninept
+%
+\maketitle
+%
+\begin{abstract}
+%The abstract should appear at the top of the left-hand column of text, about
+%0.5 inch (12 mm) below the title area and no more than 3.125 inches (80 mm) in
+%length.  Leave a 0.5 inch (12 mm) space between the end of the abstract and the
+%beginning of the main text.  The abstract should contain about 100 to 150
+%words, and should be identical to the abstract text submitted electronically
+%along with the paper cover sheet.  All manuscripts must be in English, printed
+%in black ink.
+\end{abstract}
+%
+\begin{keywords}
+One, two, three, four, five
+\end{keywords}
+%
+\section{Introduction}
+\label{sec:intro}
+Natural accidents such as earthquakes or flooding have great destructive power. The consequences can be from an economic point of view as well as the loss of human life. Highlighting the second case's importance, the faster the emergency response, we can save the most significant number of human lives. Natural accidents are difficult to predict with current knowledge and technology.
+
+Problems such as the collapse of debris or rapid flooding of areas cause severe damage requiring quick rescues to high-risk regions. Thus, the remote sensing area assists in the natural accident's emergency response requirement because fast and efficient information is crucial for successful savings. This implies that the remote sensing area has increased in importance in investigating information about disasters. 
+
+However, if the disaster happens at night or under severe weather conditions, optical images cannot provide adequate information. In this case, we can use PolSAR images, which have the characteristics of being able to acquire information under these conditions.
+
+The automatic detection of risk constructions or the flood's evolution has practical meaning or values for the society. For more information see \cite{zhp}, \cite{zshp} and \cite{czwz}.
+
+To assist in the risk alarm process and speed up people's rescue in regions that have suffered natural accidents, the edge detection method is essential. Thus, this work aims to quantify the influence of each intensity channel in the process of edge detection, with information fusion being an extension of \cite{bmf_2020}.
+
+The article is structured as follows.
+Section~\ref{sec:stat_model} describes the statistical modeling for PolSAR date.
+Section~\ref{sec:edge_detection} describes the Gambini Algorithm (GA) to edge detection in each intensities channels.
+Section~\ref{sec:fusion} describes the approaches for fusing edge evidences.
+Section~\ref{sec:metrics} describes the metrics.
+Section~\ref{sec:results} presents the results.
+In Section~\ref{sec:discussion} we discuss the results, and outline future research directions.
+\section{Statistical modeling for PolSAR data}\label{sec:stat_model}
+Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
+\begin{equation}
+    f_{\mathbf{Z}}(\mathbf{z};\mathbf{\Sigma},L)=\frac{L^{pL}|\mathbf{z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_p(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{z})),
+    \label{eq:DistWishart}
+\end{equation} 
+where $\mathbf z$ is a positive-definite Hermitian matrix, 
+$L$ is the number of looks, 
+$\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_p(L)$ is the multivariate Gamma function defined by $
+	\Gamma_p(L)=\pi^{\frac{1}{2}p(p-1)} \prod_{i=0}^{p-1}\Gamma(L-i)$,
+and $\Gamma(\cdot)$ is the Gamma function.
+We used three $p=3$ channels in this study. 
+This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
+%This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
+
+
+Since we are interested in describing the information conveyed by parts of such matrix under the Wishart model, we assume that the distribution of each intensity channel is a  Gamma law with probability density function
+\begin{equation}
+f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
+\label{func_dens_uni_gamma}
+\end{equation}
+where $L>0$, and
+$\mu>0$ is the mean.
+The log-likelihood of the sample $\bm z = (z_1,\dots,z_n)$ under this model is
+\begin{equation}
+\mathcal L(\mu, L; \bm z) = 
+n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
++L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
+\label{eq:LogLikelihoodGamma}
+\end{equation}
+
+We obtain $\big(\widehat \mu, \widehat L\big)$, the maximum likelihood estimator (MLE) of $(\mu, L)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS (Broyden-Fletcher-Goldfarb-Shanno) method~\cite{ht}.
+%We prefer optimization to solving $\nabla\mathcal L=\bm 0$ for improved numerical stability.
+\section{Edge Detection on a Single Data Strip}\label{sec:edge_detection}
+The GA estimates the point at which the properties of a sample change.
+It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR imagery.
+It can be adapted to any suitable measure of dissimilarity between two samples.
+
+The algorithm starts by casting rays from a point inside the candidate region, e.g., the centroid.
+Data are collected around each ray to form the sample $\bm z = (z_1,z_2,\dots,z_n)$, which is partitioned at position $j$:
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
+$$
+We assume two (possibly) different models for each partition:
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
+$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $\big(\widehat{\mu}_\text{I}, \widehat{L}_\text{I}\big)$ and $\big(\widehat{\mu}_\text{E}, \widehat{L}_\text{E}\big)$.
+
+We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
+\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{aligned}
+\mathcal L\big(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)= -\Bigg(
+	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
+	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
+	\Bigg)+\mbox{}\\
+&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k + \mbox{}\\
+&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k .%-\\ 
+\raisetag{2.2em}
+\end{aligned}
+\end{equation}
+and the estimate of the edge position on the ray is the coordinate $\widehat\jmath$ which maximizes it, for this, Generalized Simulated Annealing (GenSA~\cite{xgsh}) was used.
+In \cite{bmf_2020}, we can see the basic edge detection pseudo-code with the Gambini Algorithm.
+
+%In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Generalized Simulated Annealing (GenSA~\cite{xgsh}).
+\section{Fusion of Evidences}\label{sec:fusion}
+Assume we have $n_c$ binary images $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$ in which~$1$ denotes an estimate of edge and $0$ otherwise.
+They have common size $m\times n$; % denote $\ell=mn$.
+These images will be fused to obtain the binary image \bm{$\text{I}_\text{F}$}.
+Fig \ref{fig:fusion_scheme} shows the scheme to evidence fusion. 
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=3.5em, 
+    text centered, minimum height=2.5em,drop shadow]
+    \tikzstyle{sensor1}=[draw, fill=green!20, text width=3.5em, 
+    text centered, minimum height=2.5em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=5em, fill=red!20, 
+    minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+    minimum height=7em, rounded corners, drop shadow]
+%\def\blockdist{0.3}
+%\def\edgedist{5.5}
+\begin{figure}[htb!]
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}
+%\tikzset{every node/.style={minimum width=0.0cm,minimum height=0.0cm}}
+	\node (wa)[wa]  {Image Fusion};
+	\path (wa.west)+(-3.5,1.5) node (swtnode1) [sensor1] {$\widehat{\bm\jmath}_1$};
+	\path (wa.west)+(-3.5,0.5) node (swtnode2) [sensor1] {$\widehat{\bm\jmath}_2$};
+	\path (wa.west)+(-3.5,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-3.5,-2.0) node (swtnode3)[sensor1] {$\widehat{\bm\jmath}_{n_c}$};  
+%
+	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$\text{I}_1$};
+    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\text{I}_2$};
+    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\text{I}_{n_c}$};    
+%    \path (wa.west)+(1.5,1.0) node (swtnodefus) [wa] {Fusão dos coeficientes\\
+%                                                       wavelets};                                                      
+%    \path (wa.west)+(5.0,1.0) node (imagefus) [wa] {Imagem fusão};
+    \path [draw, ->] (e1.east) -- node [above] {GA} 
+        (swtnode1.180) ;
+    \path [draw, ->] (e2.east) -- node [above] {GA} 
+        (swtnode2.180);
+    \path [draw, ->] (e3.east) -- node [above] {GA} 
+        (swtnode3.180);
+%%
+    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+        (wa.160) ;
+    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+        (wa.180) ;
+    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+        (wa.200) ;        
+\end{tikzpicture}
+}
+	\caption{Fusion Scheme}
+\label{fig:fusion_scheme}
+\end{figure}
+
+
+We compare the results of six fusion techniques:
+simple average, 
+multi-resolution discrete wavelet transform (MR-DWT),
+principal components analysis (PCA), 
+ROC statistics,
+multi-resolution stationary wavelet transform (MR-SWT), and
+multi-resolution singular value decomposition (MR-SVD).
+Fig \ref{fig:fusion_flowchart} shows the process from getting evidence edge until fusion information. To more details see \cite{bmf_2020}.
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=3.2em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{waimage} = [sensor, text width=3.4em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+    \tikzstyle{waimage1} = [sensor, text width=3.8em, fill=red!50, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2.0em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa2}=[draw, fill=green!20, text width=2.5em, 
+    text centered, minimum height=3em,drop shadow]    
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+\begin{figure}[hbt]
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}
+\node[waimage] (waimage1) at (-7.0,0.0) {PolSAR Image};
+\node[waimage] (waimage2) at (-5.3,0.0) {ROI};
+\node[wa2] (waimage3) at (-5.3,3.5) {GR};
+\node[waimage] (waimage4) at (-3.5,0.0) {GA};
+\node[waimage1] (wa1) at (0.5,2.0) {Fusion 1};
+\node[wa2] (waimage5) at (2.0,3.5) {Error};
+\path (waimage4.west)+(4.7,1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.5) node (dots)[ann] {$\vdots$};
+\node[waimage1] (wa6) at (0.5,-2.0) {Fusion N};
+%
+\path [draw, ->] (waimage1.east) -- node [left] {} 
+        (waimage2) ;
+\path [draw, ->] (waimage2.east) -- node [left] {} 
+        (waimage4) ;
+\path [draw, ->] (waimage2.north) -- node [left] {} 
+        (waimage3) ;
+\path [draw, ->] (waimage3.east) -- node [left] {} 
+        (waimage5) ;        
+%
+    \path (waimage4.west)+(2.5,1.5) node (e1_1) [sensor] {Channel hh};
+    \path (waimage4.west)+(2.5,0.0) node (e2_1)[sensor] {Channel hv}; 
+    \path (waimage4.west)+(2.5,-1.5) node (e3_1)[sensor] {Channel vv};    
+%
+	\path [draw, ->] (waimage4.east) -- node [left] {} 
+        (e1_1.180) ;
+	\path [draw, ->] (waimage4.east) -- node [below] {} 
+        (e2_1.180);
+	\path [draw, ->] (waimage4.east) -- node [right] {} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa1.200);
+    \path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa6.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa6.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa6.200);
+%
+\path [draw, ->] (wa1.east) -- node [left] {} 
+        (waimage5) ;
+\path [draw, ->] (wa6.east) -- node [left] {} 
+        (waimage5) ;
+\end{tikzpicture}
+}
+\caption{Flowchart to evidence fusion process}
+\label{fig:fusion_flowchart}
+\end{figure}
+%
+\section{Metrics}\label{sec:metrics}
+This section is based on the references \cite{chicco}, and \cite{btr} and it presents metrics used to measure the efficiency of methods edge detection evidence and their information fusion. The metrics are based on the confusion matrix of the binary images generated compared to the Ground Reference image (GR). We consider the positive instance by p (pixel value 1) and the negative instance by n (pixel value 0).
+
+The instances can be labeled and classified by: TP is positive labeled and correctly classified as positive, FN is positive labeled and wrongly classified as negative, TN is negative labeled and correctly classified as negative, and FP is negative labeled and wrongly classified as positive. 
+
+%The accuracy metric is defined by,
+%\begin{equation}
+%\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}, 
+%\label{eq:met_acuracia}
+%\end{equation}
+%where your value in the the best case is 1, and in the worst case is 0. 
+%
+%The $\text{F}_1$ - Score metric is defined by,
+%\begin{equation}
+%	\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}},
+%\label{eq:met_escore_f1}
+%\end{equation}
+%where your value in the best case is 1, and in the worst case is 0.
+%
+%The  metric Matthews correlation coefficient is defined by,
+%\begin{equation}
+%	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
+%\label{eq:met_mcc}
+%\end{equation}
+%where your value in the best case is 1, and in the worst case is -1. In this article is considered the metric MCC normalized,  
+%\begin{equation}
+%	\text{nMcc}=\frac{\text{Mcc}+1}{2},
+%\label{eq:met_mcc}
+%\end{equation}
+%in this way, the nMcc metric in the best case is 1, and in the worst case is 0.
+
+Table \ref{metricas_erro} shows the metrics used,
+\begin{table}[hbt]
+	\centering
+	\caption{Formulae to metrics.}\label{metricas_erro}
+	\begin{tabular}{@{}ll@{}}\toprule
+		Metrics               & Formulae       \\ \midrule\vspace{0.4cm}
+	    Accuracy              & $\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}$	            \\\vspace{0.4cm}
+	    $\text{F}_1$ - Score  & $\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}}$	            \\
+		nMcc                  & $\text{nMcc}=\frac{\text{Mcc}+1}{2}$	            \\ \bottomrule
+	\end{tabular}
+\end{table}
+where the metric Matthews correlation coefficient is defined by,
+\begin{equation*}
+	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
+\end{equation*}
+and, all metrics have in the best case is 1 (100\%), and in the worst case is 0 (0\%). The symbol nMcc means the normalized metric Mcc. 
+\section{Results}\label{sec:results}
+The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer. 
+
+Fig.~\ref{roi_gt}\subref{flevoland_radial_4look} shows a $750\times 1024$ pixels AIRSAR (Airborne Synthetic Aperture Radar) PolSAR image of Flevoland, L-band, with the radial lines where edges are detected. 
+Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.  
+
+\begin{figure}[hbt]
+   \centering
+     \subfloat[Image and rays. \label{flevoland_radial_4look}]{%  
+       \includegraphics[width=0.229\textwidth]{flevoland_radial_4_look_black_crop}}
+     \subfloat[Ground reference\label{gt_flevoland}]{%
+       \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
+     }
+    \caption{Flevoland image in Pauli decomposition, and ground reference}
+    \label{roi_gt}
+\end{figure}
+
+Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, and~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidences in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels as obtained by MLE.
+
+It is worth noting that GenSA has accurately identified the maximum value of $\mathcal L$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima. 
+A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few points far from the actual edge.
+
+   \begin{figure}[hbt]
+	\centering
+     \subfloat[Channel $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[Channel $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[Channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
+     }
+     \caption{Edges evidences from the three intensity channels}
+     \label{evidencias_hh_hv_vv} 
+   \end{figure}
+
+Figs.~\ref{fusion_met}\subref{fusion_met:a}, 
+\ref{fusion_met}\subref{fusion_met:b}, 
+\ref{fusion_met}\subref{fusion_met:c}, 
+\ref{fusion_met}\subref{fusion_met:d}, 
+\ref{fusion_met}\subref{fusion_met:e}, 
+and~\ref{fusion_met}\subref{fusion_met:f} show the results of fusing these evidences. 
+  
+Simple average and PCA produce similar results.
+MR-SVD produces considerably less outliers than the other methods.
+ROC produces accurate edges, with few outliers, but sparsely. 
+Both wavelet-based methods (DWT and SWT) produce too dense edges and many outliers.
+
+\begin{figure}[hbt]
+	\centering
+     \subfloat[Average fusion\label{fusion_met:a}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-DWT fusion\label{fusion_met:b}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[PCA fusion \label{fusion_met:c}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
+     }\\
+     \subfloat[ROC fusion\label{fusion_met:d}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-SWT fusion\label{fusion_met:e}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-SVD fusion\label{fusion_met:f}]{%
+       \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
+     }
+     \caption{Results of applying the six fusion methods}
+     \label{fusion_met}
+\end{figure}
+
+The method for detecting edge evidence was implemented in the R language.
+The fusion and methods methods were implemented in Matlab. 
+Code and data are available at \url{Endereco adequado}.
+%
+\subsection{Error analysis}
+The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the image Ground Reference (GR). We found the confusion matrix to calculate accuracy, $ {F}_1$ - score, and Matthews correlation coefficient metrics. The figures \ref{relative_matrics:a}, \ref{relative_matrics:b} and \ref{relative_matrics:c} show the relative performance of the metrics taking as reference the worst result found.
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mac}
+	\caption{Mac metric.}
+	\label{relative_matrics:a}
+\end{figure}
+%
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mfe}
+	\caption{Mfe metric.}
+	\label{relative_matrics:b}
+\end{figure}
+%
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mcc}
+	\caption{Mcc metric.}
+	\label{relative_matrics:c}
+\end{figure}
+\section{Discussion}\label{sec:discussion}
+To the metric accuracy, the methods showed excellent performance; the worst measure happened in the MR--SWT fusion method and has a value of 99.33\%. The performance of the method to find edges evidences in the intensities channels showed excellent performance. The use of this metric, in this test case, is inconclusive to order the channels in a degree of importance in the fusion of information. Realizing the visual inspection, we verified that the fusion using the ROC statistics presents sparsity. However, the excellent performance of this method is because the technique detects few FP and FN.
+
+For the case of the MFe metric, the methods present low performance. The worst case is the merger method based on the ROC statistic, whose metric value is 1.39\%, and the best approach is MR--SWT with a performance of 11.65\% higher. The Mfe metric can provide an ordering of the importance of each channel in the fusion of information; for example, we can attribute to the channel $I_\text{hh}$ the best performance of edge detection with the MLE method, which agrees with the results obtained in \cite{bmf_2020}.  We can extract from this metric the best performance of the fusion methods concerning the methods of detecting evidence of edges in each channel, thus justifying the use of methods with information fusion. Analyzing Mfe's formula, we can notice that the low performance is the high values for FP and FN compared to TP; besides, the metric does not show information about the undetected edges because it does not take into account the importance of TN.
+
+Considering the nMcc metric, the worst performance is observed for the metric based on the ROC statistic fusion at 51.19\%, and the better result was recorded for the MR--DWT method, 22,41 \% higher. As with the Mfe metric results, the nMCC metric can rank the intensity channels in order of importance to perform the fusion of information. The two metrics show results similar to those obtained in \cite{bmf_2020}. 
+
+We can state that the metric accuracy does not provide information on the use or disposal of intensity channels in the fusion process. At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
+%
+%-------------------------------------------------------------------------
+%\vfill
+%\pagebreak
+%\section{REFERENCES}
+%\label{sec:ref}
+
+%List and number all bibliographical references at the end of the paper.  The references can be numbered in alphabetic order or in order of appearance in the document.  When referring to them in the text, type the corresponding reference number in square brackets as shown at the end of this sentence \cite{C2}.
+
+% References should be produced using the bibtex program from suitable
+% BiBTeX files (here: strings, refs, manuals). The IEEEbib.bst bibliography
+% style file from IEEE produces unsorted bibliography list.
+% -------------------------------------------------------------------------
+\bibliographystyle{IEEEbib}
+\bibliography{strings,refs}
+
+\end{document}
