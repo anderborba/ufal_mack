@@ -232,7 +232,9 @@ principal components analysis (PCA),
 ROC statistics,
 multi-resolution stationary wavelet transform (MR-SWT), and
 multi-resolution singular value decomposition (MR-SVD).
-Fig \ref{fig:fusion_flowchart} shows the process from getting evidence edge until fusion information. To more details see \cite{bmf_2020}.
+Fig.~\ref{fig:fusion_flowchart} illustrates the process of information fusion. 
+For more details see Ref.~\cite{bmf_2020}.
+
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
@@ -310,57 +312,73 @@ Fig \ref{fig:fusion_flowchart} shows the process from getting evidence edge unti
         (waimage5) ;
 \end{tikzpicture}
 }
-\caption{Flowchart to evidence fusion process}
+\caption{Flowchart of the evidence fusion process}
 \label{fig:fusion_flowchart}
 \end{figure}
-%
+
 \section{Metrics}\label{sec:metrics}
-This section is based on the references \cite{chicco}, and \cite{btr} and it presents metrics used to measure the efficiency of methods edge detection evidence and their information fusion. The metrics are based on the confusion matrix of the binary images generated compared to the Ground Reference image (GR). We consider the positive instance by p (pixel value 1) and the negative instance by n (pixel value 0).
 
-The instances can be labeled and classified by: TP is positive labeled and correctly classified as positive, FN is positive labeled and wrongly classified as negative, TN is negative labeled and correctly classified as negative, and FP is negative labeled and wrongly classified as positive. 
+This section is based on Refs.~\cite{chicco,btr}. 
+The quality metrics are based on the confusion matrix of the binary images, compared with the Ground Reference image (GR). 
+We consider the positive instance by $p$ (pixel value $1$), and the negative instance by $n$ (pixel value $0$).
+The instances are classified as: 
+TP is positive labeled and correctly classified as positive, 
+FN is positive labeled and wrongly classified as negative, 
+TN is negative labeled and correctly classified as negative, and 
+FP is negative labeled and wrongly classified as positive. 
 
-%The accuracy metric is defined by,
-%\begin{equation}
-%\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}, 
-%\label{eq:met_acuracia}
-%\end{equation}
-%where your value in the the best case is 1, and in the worst case is 0. 
-%
-%The $\text{F}_1$ - Score metric is defined by,
-%\begin{equation}
-%	\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}},
-%\label{eq:met_escore_f1}
-%\end{equation}
-%where your value in the best case is 1, and in the worst case is 0.
-%
-%The  metric Matthews correlation coefficient is defined by,
-%\begin{equation}
-%	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
-%\label{eq:met_mcc}
-%\end{equation}
-%where your value in the best case is 1, and in the worst case is -1. In this article is considered the metric MCC normalized,  
-%\begin{equation}
-%	\text{nMcc}=\frac{\text{Mcc}+1}{2},
-%\label{eq:met_mcc}
-%\end{equation}
-%in this way, the nMcc metric in the best case is 1, and in the worst case is 0.
+We used the following metrics:
+\begin{align}
+\text{Mac} &= \frac{\text{TP}+\text{TN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}}\\
+F1\text{-score} &= \frac{2\text{TP}}{2\text{TP}+\text{FP}+\text{FN}}\\
+\end{align}
 
-Table \ref{metricas_erro} shows the metrics used,
-\begin{table}[hbt]
-	\centering
-	\caption{Formulae to metrics.}\label{metricas_erro}
-	\begin{tabular}{@{}ll@{}}\toprule
-		Metrics               & Formulae       \\ \midrule\vspace{0.4cm}
-	    Accuracy              & $\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}$	            \\\vspace{0.4cm}
-	    $\text{F}_1$ - Score  & $\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}}$	            \\
-		nMcc                  & $\text{nMcc}=\frac{\text{Mcc}+1}{2}$	            \\ \bottomrule
-	\end{tabular}
-\end{table}
-where the metric Matthews correlation coefficient is defined by,
+%Accuracy: $$,
+%$\text{F}_1$-score: $\text{Mfe}=\frac{2\cdot\text{TP}}{2\cdot\text{TP+FP+FN}}$,  and normalized Matthews correlation coefficient $\text{nMcc}=\frac{\text{Mcc}+1}{2}$,       
+where the Matthews correlation coefficient is defined by
 \begin{equation*}
 	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
 \end{equation*}
-and, all metrics have in the best case is 1 (100\%), and in the worst case is 0 (0\%). The symbol nMcc means the normalized metric Mcc. 
+All metrics are scaled between $0$ (worst case) and $1$ (best case).
+
+%%The accuracy metric is defined by,
+%%\begin{equation}
+%%\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}, 
+%%\label{eq:met_acuracia}
+%%\end{equation}
+%%where your value in the the best case is 1, and in the worst case is 0. 
+%%
+%%The $\text{F}_1$ - Score metric is defined by,
+%%\begin{equation}
+%%	\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}},
+%%\label{eq:met_escore_f1}
+%%\end{equation}
+%%where your value in the best case is 1, and in the worst case is 0.
+%%
+%%The  metric Matthews correlation coefficient is defined by,
+%%\begin{equation}
+%%	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
+%%\label{eq:met_mcc}
+%%\end{equation}
+%%where your value in the best case is 1, and in the worst case is -1. In this article is considered the metric MCC normalized,  
+%%\begin{equation}
+%%	\text{nMcc}=\frac{\text{Mcc}+1}{2},
+%%\label{eq:met_mcc}
+%%\end{equation}
+%%in this way, the nMcc metric in the best case is 1, and in the worst case is 0.
+%
+%
+%\begin{table}[hbt]
+%	\centering
+%	\caption{Formulae for metrics}\label{metricas_erro}
+%	\begin{tabular}{@{}ll@{}}\toprule
+%		Metric               & Formula       \\ \midrule\vspace{0.4cm}
+%	    Accuracy              & $\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}$	            \\\vspace{0.4cm}
+%	    $\text{F}_1$ - Score  & $\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}}$	            \\
+%		nMcc                  & $\text{nMcc}=\frac{\text{Mcc}+1}{2}$	            \\ \bottomrule
+%	\end{tabular}
+%\end{table}
+%
 \section{Results}\label{sec:results}
 The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer. 
 
@@ -481,7 +499,7 @@ We can state that the metric accuracy does not provide information on the use or
 % BiBTeX files (here: strings, refs, manuals). The IEEEbib.bst bibliography
 % style file from IEEE produces unsorted bibliography list.
 % -------------------------------------------------------------------------
-\bibliographystyle{IEEEbib}
+\bibliographystyle{IEEEtran}
 \bibliography{strings,refs}
 
 \end{document}
