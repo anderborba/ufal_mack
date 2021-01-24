@@ -69,7 +69,7 @@
 \maketitle
 %
 \begin{abstract}
-Prompt and effective emergency response to the containment of damage and the rescue of lives in a natural disasters happens is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have played a key role in helping to make decisions, especially in periods of bad weather or absence of sunlight. In this context, edge detection becomes very important to extract information from PoLSAR images. In this work, we are proposing three metrics, the accuracy metric (Mac), the $\text{F}_1$-score metric (Mfe), and the Matthews correlation coefficient normalized (nMcc).  The metrics are proposed to quantify the influence of the information in the intensity channels of a PolSAR image on the information fusion process to detect edges.
+Prompt and effective emergency response to the containment of damage and the rescue of lives in a natural disasters happens is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have played a key role in helping to make decisions, especially in periods of bad weather or absence of sunlight. In this context, edge detection becomes very important to extract information from PolSAR images. In this work, we are proposing three metrics, the accuracy metric (Mac), the $\text{F}_1$-score metric (Mfe), and the Matthews correlation coefficient normalized (nMcc) metric.  The metrics are proposed to quantify the influence of the information in the intensity channels of a PolSAR image on the information fusion process to detect edges.
 \end{abstract}
 %
 \begin{keywords}
@@ -94,7 +94,7 @@ Section~\ref{sec:edge_detection} describes the Gambini Algorithm (GA) to edge de
 Section~\ref{sec:fusion} describes the approaches for fusing edge evidences.
 Section~\ref{sec:metrics} describes the metrics.
 Section~\ref{sec:results} presents the results.
-In Section~\ref{sec:discussion} we discuss the results, and outline future research directions.
+In Section~\ref{sec:discussion} we discuss the results.
 \section{Statistical modeling for PolSAR data}\label{sec:stat_model}
 Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
@@ -128,6 +128,7 @@ n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]
 We obtain $\big(\widehat \mu, \widehat L\big)$, the maximum likelihood estimator (MLE) of $(\mu, L)$ based on $\bm z$, by maximizing~\eqref{eq:LogLikelihoodGamma} with the BFGS (Broyden-Fletcher-Goldfarb-Shanno) method~\cite{ht}.
 %We prefer optimization to solving $\nabla\mathcal L=\bm 0$ for improved numerical stability.
 \section{Edge Detection on a Single Data Strip}\label{sec:edge_detection}
+
 The GA estimates the point at which the properties of a sample change.
 It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR imagery.
 It can be adapted to any suitable measure of dissimilarity between two samples.
@@ -138,6 +139,7 @@ $$
 \bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
 \underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}).
 $$
+
 We assume two (possibly) different models for each partition:
 $\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and 
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
@@ -175,7 +177,7 @@ Fig \ref{fig:fusion_scheme} shows the scheme to evidence fusion.
     \tikzstyle{sensor1}=[draw, fill=green!20, text width=3.5em, 
     text centered, minimum height=2.5em,drop shadow]
 \tikzstyle{ann} = [above, text width=5em, text centered]
-\tikzstyle{wa} = [sensor, text width=5em, fill=red!20, 
+\tikzstyle{wa} = [sensor, text width=5em, fill=red!50, 
     minimum height=3em, rounded corners, drop shadow]
 \tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
     minimum height=7em, rounded corners, drop shadow]
@@ -453,10 +455,9 @@ Figures~\ref{relative_matrics:a}, \ref{relative_matrics:b} and~\ref{relative_mat
 
 \begin{figure*}[hbt]
 	\centering
-\subfloat[Mac\label{relative_matrics:a}]{	\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mac}}
+\subfloat[Mac\label{relative_matrics:a}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mac}}
 \subfloat[Mfe\label{relative_matrics:b}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mfe}}
-\subfloat[nMcc\label{relative_matrics:c}]{
-	\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mcc}}
+\subfloat[nMcc\label{relative_matrics:c}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mcc}}
 \caption{Measures of quality}\label{Fig:measures}
 \end{figure*}
 
@@ -471,12 +472,12 @@ A visual inspection of Fig.~\ref{fusion_met}\subref{fusion_met:d} reveals that t
 The methods have low performance according to MFe. 
 The worst case is ROC, whose value is \SI{1.39}{\percent}, and the best approach is MR--SWT with a performance \SI{11.65}{\percent} higher. 
 Mfe can order of the channels.
-For example, we can say that $I_\text{hh}$ has the best performance with the MLE, which agrees with the results obtained in~\cite{bmf_2020}.  
+For example, we can say that $\text{I}_\text{hh}$ has the best performance with the MLE.  
 Mfe assigns low performance to high values of FP and FN compared to TP; besides, the metric does not measure the undetected edges because it does not take into account TN.
 
 The worst nMcc is observed for ROC: \SI{51.19}{\percent}, and the best result was recorded for MR--DWT (\SI{22,41}{\percent} higher). 
 nMCC can also rank the intensity channels in order of importance. 
-The two metrics show results similar to those obtained in~\cite{bmf_2020}. 
+%The two metrics show results similar to those obtained in~\cite{bmf_2020}. 
 
 We conclude that Accuracy does not provide information on the use or disposal of intensity channels in the information fusion process. 
 At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. 
