@@ -69,30 +69,24 @@
 \maketitle
 %
 \begin{abstract}
-%The abstract should appear at the top of the left-hand column of text, about
-%0.5 inch (12 mm) below the title area and no more than 3.125 inches (80 mm) in
-%length.  Leave a 0.5 inch (12 mm) space between the end of the abstract and the
-%beginning of the main text.  The abstract should contain about 100 to 150
-%words, and should be identical to the abstract text submitted electronically
-%along with the paper cover sheet.  All manuscripts must be in English, printed
-%in black ink.
+Prompt and effective emergency response to the containment of damage and the rescue of lives in a natural disasters happens is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have played a key role in helping to make decisions, especially in periods of bad weather or absence of sunlight. In this context, edge detection becomes very important to extract information from PoLSAR images. In this work, we are proposing three metrics, the accuracy metric (Mac), the $\text{F}_1$-score metric (Mfe), and the Matthews correlation coefficient normalized (nMcc).  The metrics are proposed to quantify the influence of the information in the intensity channels of a PolSAR image on the information fusion process to detect edges.
 \end{abstract}
 %
 \begin{keywords}
-One, two, three, four, five
+Metrics, information fusion, edges detection, PolSAR, maximum likelihood estimation.
 \end{keywords}
 %
 \section{Introduction}
 \label{sec:intro}
-Natural accidents such as earthquakes or flooding have great destructive power. The consequences can be from an economic point of view as well as the loss of human life. Highlighting the second case's importance, the faster the emergency response, we can save the most significant number of human lives. Natural accidents are difficult to predict with current knowledge and technology.
+Natural disasters such as earthquakes or flooding have great destructive power. Among the consequences are the economic and the loss of human life. Highlighting the second case's importance, prompt and effective emergency response can save most human lives. However, Natural disasters are difficult to predict with current knowledge, and technology becomes a significant problem.
 
-Problems such as the collapse of debris or rapid flooding of areas cause severe damage requiring quick rescues to high-risk regions. Thus, the remote sensing area assists in the natural accident's emergency response requirement because fast and efficient information is crucial for successful savings. This implies that the remote sensing area has increased in importance in investigating information about disasters. 
+Among consequence of the natural disasters are the collapse of debris and rapid flooding of areas cause severe damage to life requiring quick rescues to high-risk regions. Thus, the remote sensing area assists in the natural disasters emergency response requirement because prompt and efficient information is crucial for successful rescue lives. This fact implies that the remote sensing area has increased in importance for investigating information about natural disasters. 
 
 However, if the disaster happens at night or under severe weather conditions, optical images cannot provide adequate information. In this case, we can use PolSAR images, which have the characteristics of being able to acquire information under these conditions.
 
-The automatic detection of risk constructions or the flood's evolution has practical meaning or values for the society. For more information see \cite{zhp}, \cite{zshp} and \cite{czwz}.
+In this context, the automatic detection of risk constructions or the flood's evolution has practical meaning the society. For more information see Refs~\cite{zhp,zshp,czwz}.
 
-To assist in the risk alarm process and speed up people's rescue in regions that have suffered natural accidents, the edge detection method is essential. Thus, this work aims to quantify the influence of each intensity channel in the process of edge detection, with information fusion being an extension of \cite{bmf_2020}.
+To assist in the risk alarm process and speed up people's rescue in regions that have suffered natural disasters, the edge detection method is essential. For this, this work contributes to quantifying each intensity channel's influence in the process of edge detection, with information fusion being an extension of article \cite{bmf_2020}.
 
 The article is structured as follows.
 Section~\ref{sec:stat_model} describes the statistical modeling for PolSAR date.
@@ -115,7 +109,6 @@ and $\Gamma(\cdot)$ is the Gamma function.
 We used three $p=3$ channels in this study. 
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
 %This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
-
 
 Since we are interested in describing the information conveyed by parts of such matrix under the Wishart model, we assume that the distribution of each intensity channel is a  Gamma law with probability density function
 \begin{equation}
@@ -317,9 +310,8 @@ For more details see Ref.~\cite{bmf_2020}.
 \end{figure}
 
 \section{Metrics}\label{sec:metrics}
-
 This section is based on Refs.~\cite{chicco,btr}. 
-The quality metrics are based on the confusion matrix of the binary images, compared with the Ground Reference image (GR). 
+The quality metrics are built on the confusion matrix of the binary images, compared with the Ground Reference image (GR). 
 We consider the positive instance by $p$ (pixel value $1$), and the negative instance by $n$ (pixel value $0$).
 The instances are classified as: 
 TP is positive labeled and correctly classified as positive, 
@@ -328,18 +320,18 @@ TN is negative labeled and correctly classified as negative, and
 FP is negative labeled and wrongly classified as positive. 
 
 We used the following metrics:
-\begin{align}
-\text{Mac} &= \frac{\text{TP}+\text{TN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}}\\
-F1\text{-score} &= \frac{2\text{TP}}{2\text{TP}+\text{FP}+\text{FN}}\\
-\end{align}
-
+\begin{align*}
+\text{Mac} &= \frac{\text{TP}+\text{TN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}},\\
+F1\text{-score} &= \frac{2\text{TP}}{2\text{TP}+\text{FP}+\text{FN}},
+\end{align*}
 %Accuracy: $$,
 %$\text{F}_1$-score: $\text{Mfe}=\frac{2\cdot\text{TP}}{2\cdot\text{TP+FP+FN}}$,  and normalized Matthews correlation coefficient $\text{nMcc}=\frac{\text{Mcc}+1}{2}$,       
-where the Matthews correlation coefficient is defined by
-\begin{equation*}
-	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
-\end{equation*}
-All metrics are scaled between $0$ (worst case) and $1$ (best case).
+and,
+\begin{align*}
+	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}.
+\end{align*}
+
+In this article we use the normalized Mcc metric, $$\text{nMcc}=\frac{\text{Mcc}+1}{2},$$ all metrics are scaled between $0$ (worst case) and $1$ (best case).
 
 %%The accuracy metric is defined by,
 %%\begin{equation}
@@ -461,31 +453,33 @@ The error was calculated by comparing the results of the methods to edge evidenc
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mac}
-	\caption{Mac metric.}
+	\caption{The metric Mac.}
 	\label{relative_matrics:a}
 \end{figure}
 %
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mfe}
-	\caption{Mfe metric.}
+	\caption{The metric Mfe.}
 	\label{relative_matrics:b}
 \end{figure}
 %
 \begin{figure}[hbt]
 	\centering
 	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mcc}
-	\caption{Mcc metric.}
+	\caption{The metric nMcc.}
 	\label{relative_matrics:c}
 \end{figure}
 \section{Discussion}\label{sec:discussion}
-To the metric accuracy, the methods showed excellent performance; the worst measure happened in the MR--SWT fusion method and has a value of 99.33\%. The performance of the method to find edges evidences in the intensities channels showed excellent performance. The use of this metric, in this test case, is inconclusive to order the channels in a degree of importance in the fusion of information. Realizing the visual inspection, we verified that the fusion using the ROC statistics presents sparsity. However, the excellent performance of this method is because the technique detects few FP and FN.
+To the Mac, the methods showed excellent performance. The worst measure was the MR--SWT fusion method and has a value of 99.33\%, and the best approach is ROC fusion with a value of 91.04\% higher. The performance of the metric to correctly measure the edges evidence in the intensities channels showed excellent results. However, it is inconclusive to order the channels in a degree of importance in the fusion of information. Realizing the visual inspection in Fig.~\ref{fusion_met}\subref{fusion_met:d}, we verified that the fusion using the ROC statistics presents sparsity. Despite the excellent performance of this metric, it happens because the technique detects few FP and FN.
 
-For the case of the MFe metric, the methods present low performance. The worst case is the merger method based on the ROC statistic, whose metric value is 1.39\%, and the best approach is MR--SWT with a performance of 11.65\% higher. The Mfe metric can provide an ordering of the importance of each channel in the fusion of information; for example, we can attribute to the channel $I_\text{hh}$ the best performance of edge detection with the MLE method, which agrees with the results obtained in \cite{bmf_2020}.  We can extract from this metric the best performance of the fusion methods concerning the methods of detecting evidence of edges in each channel, thus justifying the use of methods with information fusion. Analyzing Mfe's formula, we can notice that the low performance is the high values for FP and FN compared to TP; besides, the metric does not show information about the undetected edges because it does not take into account the importance of TN.
+For the case of the MFe metric, the methods present low performance. The worst case is the fusion method based on the ROC statistic, whose value is 1.39\%, and the best approach is MR--SWT with a performance of 11.65\% higher. The Mfe metric can provide an ordering of the importance of each channel in the fusion of information; for example, we can attribute to the channel $I_\text{hh}$ the best performance of edge detection with the MLE method, which agrees with the results obtained in \cite{bmf_2020}.  We can verify with this metric the best performance of the fusion methods concerning the methods of detecting evidence of edges in each channel, thus justifying the use of methods with information fusion. Analyzing Mfe's formula, we can notice that the low performance is the high values for FP and FN compared to TP; besides, the metric does not show information about the undetected edges because it does not take into account the importance of TN.
 
-Considering the nMcc metric, the worst performance is observed for the metric based on the ROC statistic fusion at 51.19\%, and the better result was recorded for the MR--DWT method, 22,41 \% higher. As with the Mfe metric results, the nMCC metric can rank the intensity channels in order of importance to perform the fusion of information. The two metrics show results similar to those obtained in \cite{bmf_2020}. 
+Considering the nMcc metric, the worst performance is observed for the metric based on the ROC statistic fusion at 51.19\%, and the better result was recorded for the MR--DWT method, 22,41 \% higher. As the Mfe metric results, the nMCC metric can rank the intensity channels in order of importance to perform the fusion of information. The two metrics show results similar to those obtained in \cite{bmf_2020}. 
 
-We can state that the metric accuracy does not provide information on the use or disposal of intensity channels in the fusion process. At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
+We can state that the metric accuracy does not provide information on the use or disposal of intensity channels in the information fusion process. At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
+
+The metrics will meaningful with applying more channels or density function to realize the information fusion.   This topic is an ongoing work already in progress.
 %
 %-------------------------------------------------------------------------
 %\vfill
