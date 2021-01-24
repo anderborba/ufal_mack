@@ -31,7 +31,7 @@
 \name{Anderson A.\ de Borba$^a$, Maurício Marengoni$^b$, and Alejandro C.\ Frery$^c$.\thanks{e-mail:$^a$anderson.aborba@professores.ibmec.edu.br, $^b$mmarengoni@hotmail.com, $^c$alejandro.frery@vuw.ac.nz }}
 \address{$^a$IBMEC-SP, Alameda Santos, 2356 - Jardim Paulista, SP - Brazil, \\
          $^b$ENDEREÇO,           \\
-         $^c$School of Mathematics and Statistics, Victoria University of Wellington- NZ, 6140, New Zealand.}
+         $^c$School of Mathematics and Statistics, Victoria University of Wellington, 6140 New Zealand.}
 
 
 %\title{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images}
@@ -181,8 +181,10 @@ Fig \ref{fig:fusion_scheme} shows the scheme to evidence fusion.
     minimum height=7em, rounded corners, drop shadow]
 %\def\blockdist{0.3}
 %\def\edgedist{5.5}
-\begin{figure}[htb!]
-\resizebox{\columnwidth}{!}{%
+
+\begin{figure}[hbt]
+\centering
+\resizebox{.8\columnwidth}{!}{%
 \begin{tikzpicture}
 %\tikzset{every node/.style={minimum width=0.0cm,minimum height=0.0cm}}
 	\node (wa)[wa]  {Image Fusion};
@@ -250,8 +252,10 @@ For more details see Ref.~\cite{bmf_2020}.
     text centered, minimum height=3em,drop shadow]    
 \def\blockdist{2.3}
 \def\edgedist{2.5}
+
 \begin{figure}[hbt]
-\resizebox{\columnwidth}{!}{%
+\centering
+\resizebox{.8\columnwidth}{!}{%
 \begin{tikzpicture}
 \node[waimage] (waimage1) at (-7.0,0.0) {PolSAR Image};
 \node[waimage] (waimage2) at (-5.3,0.0) {ROI};
@@ -322,16 +326,10 @@ FP is negative labeled and wrongly classified as positive.
 We used the following metrics:
 \begin{align*}
 \text{Mac} &= \frac{\text{TP}+\text{TN}}{\text{TP}+\text{TN}+\text{FP}+\text{FN}},\\
-F1\text{-score} &= \frac{2\text{TP}}{2\text{TP}+\text{FP}+\text{FN}},
+F1\text{-score} &= \frac{2\text{TP}}{2\text{TP}+\text{FP}+\text{FN}},\\
+	\text{nMcc} &=\frac{\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}+1}{2}.
 \end{align*}
-%Accuracy: $$,
-%$\text{F}_1$-score: $\text{Mfe}=\frac{2\cdot\text{TP}}{2\cdot\text{TP+FP+FN}}$,  and normalized Matthews correlation coefficient $\text{nMcc}=\frac{\text{Mcc}+1}{2}$,       
-and,
-\begin{align*}
-	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}.
-\end{align*}
-
-In this article we use the normalized Mcc metric, $$\text{nMcc}=\frac{\text{Mcc}+1}{2},$$ all metrics are scaled between $0$ (worst case) and $1$ (best case).
+All metrics are scaled between $0$ (worst case) and $1$ (best case).
 
 %%The accuracy metric is defined by,
 %%\begin{equation}
@@ -408,12 +406,12 @@ A visual assessment leads to conclude that the best results are provided by $\te
      \label{evidencias_hh_hv_vv} 
    \end{figure}
 
-Figs.~\ref{fusion_met}\subref{fusion_met:a}, 
-\ref{fusion_met}\subref{fusion_met:b}, 
-\ref{fusion_met}\subref{fusion_met:c}, 
-\ref{fusion_met}\subref{fusion_met:d}, 
-\ref{fusion_met}\subref{fusion_met:e}, 
-and~\ref{fusion_met}\subref{fusion_met:f} show the results of fusing these evidences. 
+Figs.~\ref{fusion_met:a}, 
+\ref{fusion_met:b}, 
+\ref{fusion_met:c}, 
+\ref{fusion_met:d}, 
+\ref{fusion_met:e}, 
+and~\ref{fusion_met:f} show the results of fusing these evidences. 
   
 Simple average and PCA produce similar results.
 MR-SVD produces considerably less outliers than the other methods.
@@ -446,40 +444,43 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
 
 The method for detecting edge evidence was implemented in the R language.
 The fusion and methods methods were implemented in Matlab. 
-Code and data are available at \url{Endereco adequado}.
+Following the guidelines presented in Ref.~\cite{fgmed}, code and data are available at \url{Endereco adequado}.
 %
-\subsection{Error analysis}
-The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the image Ground Reference (GR). We found the confusion matrix to calculate accuracy, $ {F}_1$ - score, and Matthews correlation coefficient metrics. The figures \ref{relative_matrics:a}, \ref{relative_matrics:b} and \ref{relative_matrics:c} show the relative performance of the metrics taking as reference the worst result found.
-\begin{figure}[hbt]
+
+The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the image Ground Reference (GR). 
+We found the confusion matrix to calculate accuracy, $ {F}_1$-score, and Matthews correlation coefficient metrics. 
+Figures~\ref{relative_matrics:a}, \ref{relative_matrics:b} and~\ref{relative_matrics:c} show the relative performance of the metrics taking as reference the worst result found.
+
+\begin{figure*}[hbt]
 	\centering
-	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mac}
-	\caption{The metric Mac.}
-	\label{relative_matrics:a}
-\end{figure}
-%
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mfe}
-	\caption{The metric Mfe.}
-	\label{relative_matrics:b}
-\end{figure}
-%
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=.7\linewidth]{metrica_igarss_2021_mcc}
-	\caption{The metric nMcc.}
-	\label{relative_matrics:c}
-\end{figure}
+\subfloat[Mac\label{relative_matrics:a}]{	\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mac}}
+\subfloat[Mfe\label{relative_matrics:b}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mfe}}
+\subfloat[nMcc\label{relative_matrics:c}]{
+	\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mcc}}
+\caption{Measures of quality}\label{Fig:measures}
+\end{figure*}
+
 \section{Discussion}\label{sec:discussion}
-To the Mac, the methods showed excellent performance. The worst measure was the MR--SWT fusion method and has a value of 99.33\%, and the best approach is ROC fusion with a value of 91.04\% higher. The performance of the metric to correctly measure the edges evidence in the intensities channels showed excellent results. However, it is inconclusive to order the channels in a degree of importance in the fusion of information. Realizing the visual inspection in Fig.~\ref{fusion_met}\subref{fusion_met:d}, we verified that the fusion using the ROC statistics presents sparsity. Despite the excellent performance of this metric, it happens because the technique detects few FP and FN.
 
-For the case of the MFe metric, the methods present low performance. The worst case is the fusion method based on the ROC statistic, whose value is 1.39\%, and the best approach is MR--SWT with a performance of 11.65\% higher. The Mfe metric can provide an ordering of the importance of each channel in the fusion of information; for example, we can attribute to the channel $I_\text{hh}$ the best performance of edge detection with the MLE method, which agrees with the results obtained in \cite{bmf_2020}.  We can verify with this metric the best performance of the fusion methods concerning the methods of detecting evidence of edges in each channel, thus justifying the use of methods with information fusion. Analyzing Mfe's formula, we can notice that the low performance is the high values for FP and FN compared to TP; besides, the metric does not show information about the undetected edges because it does not take into account the importance of TN.
+The methods showed excellent performance according to Mac
+The worst measure was MR--SWT (\SI{99.33}{\percent}), and the best was ROC (\SI{91.04}{\percent} higher). 
+The metric correctly measures the edges evidence in the intensities channels. 
+However, it is inconclusive to order the channels in a degree of importance in the fusion of information. 
+A visual inspection of Fig.~\ref{fusion_met}\subref{fusion_met:d} reveals that the fusion using ROC is sparse because the technique detects few FP and FN.
 
-Considering the nMcc metric, the worst performance is observed for the metric based on the ROC statistic fusion at 51.19\%, and the better result was recorded for the MR--DWT method, 22,41 \% higher. As the Mfe metric results, the nMCC metric can rank the intensity channels in order of importance to perform the fusion of information. The two metrics show results similar to those obtained in \cite{bmf_2020}. 
+The methods have low performance according to MFe. 
+The worst case is ROC, whose value is \SI{1.39}{\percent}, and the best approach is MR--SWT with a performance \SI{11.65}{\percent} higher. 
+Mfe can order of the channels.
+For example, we can say that $I_\text{hh}$ has the best performance with the MLE, which agrees with the results obtained in~\cite{bmf_2020}.  
+Mfe assigns low performance to high values of FP and FN compared to TP; besides, the metric does not measure the undetected edges because it does not take into account TN.
 
-We can state that the metric accuracy does not provide information on the use or disposal of intensity channels in the information fusion process. At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
+The worst nMcc is observed for ROC: \SI{51.19}{\percent}, and the best result was recorded for MR--DWT (\SI{22,41}{\percent} higher). 
+nMCC can also rank the intensity channels in order of importance. 
+The two metrics show results similar to those obtained in~\cite{bmf_2020}. 
 
-The metrics will meaningful with applying more channels or density function to realize the information fusion.   This topic is an ongoing work already in progress.
+We conclude that Accuracy does not provide information on the use or disposal of intensity channels in the information fusion process. 
+At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. 
+Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
 %
 %-------------------------------------------------------------------------
 %\vfill
