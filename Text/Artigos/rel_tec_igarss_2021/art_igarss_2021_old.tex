@@ -24,14 +24,14 @@
 \def\L{{\cal L}}
 % Title.
 % ------
-\title{Quantify the influence of intensity channels information from PolSAR images for edge detection on information fusion.}
+\title{Quantify the influence of the intensity channels information content in the PolSAR image for edge detectors based on information fusion.}
 %
 % Single address.
 % ---------------
 \name{Anderson A.\ de Borba$^a$, Maurício Marengoni$^b$, and Alejandro C.\ Frery$^c$.\thanks{e-mail:$^a$anderson.aborba@professores.ibmec.edu.br, $^b$mmarengoni@hotmail.com, $^c$alejandro.frery@vuw.ac.nz }}
-\address{$^a$IBMEC-SP, Alameda Santos, 2356 - Jardim Paulista, SP -- Brazil, \\
-         $^b$Departamento de Ciência da Computação, Universidade Federal de Minas Gerais, MG -- Brazil,           \\
-         $^c$School of Mathematics and Statistics, Victoria University of Wellington, 6140, New Zealand.}
+\address{$^a$IBMEC-SP, Alameda Santos, 2356 - Jardim Paulista, SP - Brazil, \\
+         $^b$ENDEREÇO,           \\
+         $^c$School of Mathematics and Statistics, Victoria University of Wellington, 6140 New Zealand.}
 
 
 %\title{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images}
@@ -69,7 +69,7 @@
 \maketitle
 %
 \begin{abstract}
-A prompt and effective response to natural disasters is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have been playing a key role in helping decisions in these scenarios, especially in bad weather or the absence of sunlight. In this context, PolSAR images are the only source of information. In these situations, the process of finding precise boundaries to determine the extent of the disaster is an important issue as PolSAR image resolutions are usually high (order of 10m). The fusion of information from the intensity channels of PolSAR images for edge detection enhances the precision of edges presented in these images. In this work, we propose three metrics: the accuracy (Mac), the $\text{F}_1$-score (Mfe), and the Matthews correlation coefficient normalized (nMcc). These metrics quantify the influence of the information from the intensity channels of PolSAR images on the information fusion process for edge detection.
+Prompt and effective emergency response to the containment of damage and the rescue of lives in a natural disasters happens is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have played a key role in helping to make decisions, especially in periods of bad weather or absence of sunlight. In this context, edge detection becomes very important to extract information from PolSAR images. In this work, we are proposing three metrics, the accuracy metric (Mac), the $\text{F}_1$-score metric (Mfe), and the Matthews correlation coefficient normalized (nMcc) metric.  The metrics are proposed to quantify the influence of the information in the intensity channels of a PolSAR image on the information fusion process to detect edges.
 \end{abstract}
 %
 \begin{keywords}
@@ -78,15 +78,15 @@ Metrics, information fusion, edges detection, PolSAR, maximum likelihood estimat
 %
 \section{Introduction}
 \label{sec:intro}
-Natural disasters such as earthquakes or flooding have great destructive power. Among the consequences are the economic impact in the affected area and the loss of human lives. In the latter case, prompt and effective responses are required to reduce the number of losses as well as the precision on determining the affected area. However, current knowledge and technology can not predict natural disasters with enough time to take proper measures, which becomes a problem.
+Natural disasters such as earthquakes or flooding have great destructive power. Among the consequences are the economic and the loss of human life. Highlighting the second case's importance, prompt and effective emergency response can save most human lives. However, Natural disasters are difficult to predict with current knowledge, and technology becomes a significant problem.
 
-Among the consequences of natural disasters are the collapse of debris and rapid flooding, which can cause material losses and threaten human lives. In this context, the remote sensing area has increased its importance in analyzing the affected area and get information to assist in rescue missions.  
+Among consequence of the natural disasters are the collapse of debris and rapid flooding of areas cause severe damage to life requiring quick rescues to high-risk regions. Thus, the remote sensing area assists in the natural disasters emergency response requirement because prompt and efficient information is crucial for successful rescue lives. This fact implies that the remote sensing area has increased in importance for investigating information about natural disasters. 
 
-However, if the disaster happens at night or under severe weather conditions, optical images cannot provide adequate information. In these cases, we can use PolSAR images, which are able to acquire information under these conditions.
+However, if the disaster happens at night or under severe weather conditions, optical images cannot provide adequate information. In this case, we can use PolSAR images, which have the characteristics of being able to acquire information under these conditions.
 
-In this context, the automatic and precise detection of risk areas or the flood's evolution becomes important. Further information can be found in Refs~\cite{zhp,zshp,czwz}.
+In this context, the automatic detection of risk constructions or the flood's evolution has practical meaning the society. For more information see Refs~\cite{zhp,zshp,czwz}.
 
-To assist in the risk alarm process and delimit precisely the affected area and help people's rescue in regions that have suffered natural disasters, the edge detection method in PolSAR images is essential. The work presented here quantifies each intensity channel's influence in the process of edge detection based on the fusion of information as presented in \cite{bmf_2020}.
+To assist in the risk alarm process and speed up people's rescue in regions that have suffered natural disasters, the edge detection method is essential. For this, this work contributes to quantifying each intensity channel's influence in the process of edge detection, with information fusion being an extension of article \cite{bmf_2020}.
 
 The article is structured as follows.
 Section~\ref{sec:stat_model} describes the statistical modeling for PolSAR date.
@@ -96,21 +96,21 @@ Section~\ref{sec:metrics} describes the metrics.
 Section~\ref{sec:results} presents the results.
 In Section~\ref{sec:discussion} we discuss the results.
 \section{Statistical modeling for PolSAR data}\label{sec:stat_model}
-Multi-looked fully polarimetric data follows the Wishart distribution with PDF defined by:
+Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
 \begin{equation}
     f_{\mathbf{Z}}(\mathbf{z};\mathbf{\Sigma},L)=\frac{L^{pL}|\mathbf{z}|^{L-p}}{|\mathbf{\Sigma}|^{L}\Gamma_p(L)} \exp(-L\traco(\mathbf{\Sigma}^{-1}\mathbf{z})),
     \label{eq:DistWishart}
 \end{equation} 
 where $\mathbf z$ is a positive-definite Hermitian matrix, 
 $L$ is the number of looks, 
-$\traco(\cdot)$ is the trace operator of a matrix and $\Gamma_p(L)$ is the multivariate Gamma function defined by $
+$\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_p(L)$ is the multivariate Gamma function defined by $
 	\Gamma_p(L)=\pi^{\frac{1}{2}p(p-1)} \prod_{i=0}^{p-1}\Gamma(L-i)$,
-where $\Gamma(\cdot)$ is the Gamma function.
-In this study we used three channels $(p=3)$. 
+and $\Gamma(\cdot)$ is the Gamma function.
+We used three $p=3$ channels in this study. 
 This situation is denoted by $\mathbf{Z}\sim W(\mathbf{\Sigma}, L)$, which satisfies $E[\mathbf{Z}]=\mathbf{\Sigma}$. 
 %This assumption usually holds for fully developed speckle but, since we will estimate $L$ locally instead of considering the same number of looks for the whole image, we will in part take into account departures from such hypothesis.
 
-Since we are interested on describing the information conveyed by parts of this matrix under the Wishart model, we assume that the distribution of each intensity channel is a  Gamma law with probability density function
+Since we are interested in describing the information conveyed by parts of such matrix under the Wishart model, we assume that the distribution of each intensity channel is a  Gamma law with probability density function
 \begin{equation}
 f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
 \label{func_dens_uni_gamma}
@@ -129,8 +129,8 @@ We obtain $\big(\widehat \mu, \widehat L\big)$, the maximum likelihood estimator
 %We prefer optimization to solving $\nabla\mathcal L=\bm 0$ for improved numerical stability.
 \section{Edge Detection on a Single Data Strip}\label{sec:edge_detection}
 
-The GA estimates the point at where a sample property changes.
-It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR images.
+The GA estimates the point at which the properties of a sample change.
+It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR imagery.
 It can be adapted to any suitable measure of dissimilarity between two samples.
 
 The algorithm starts by casting rays from a point inside the candidate region, e.g., the centroid.
@@ -159,15 +159,15 @@ We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}
 \raisetag{2.2em}
 \end{aligned}
 \end{equation}
-and estimate the edge position on the ray which is the coordinate $\widehat\jmath$ that maximizes it, for this, Generalized Simulated Annealing (GenSA~\cite{xgsh}) was used.
-In \cite{bmf_2020}, the basic edge detection pseudo-code Gambini Algorithm is presented.
+and the estimate of the edge position on the ray is the coordinate $\widehat\jmath$ which maximizes it, for this, Generalized Simulated Annealing (GenSA~\cite{xgsh}) was used.
+In \cite{bmf_2020}, we can see the basic edge detection pseudo-code with the Gambini Algorithm.
 
 %In our implementation, we replace the exhaustive sequential search (the innermost \textbf{for} loop) by Generalized Simulated Annealing (GenSA~\cite{xgsh}).
 \section{Fusion of Evidences}\label{sec:fusion}
 Assume we have $n_c$ binary images $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$ in which~$1$ denotes an estimate of edge and $0$ otherwise.
-They all have size $m\times n$; % denote $\ell=mn$.
+They have common size $m\times n$; % denote $\ell=mn$.
 These images will be fused to obtain the binary image \bm{$\text{I}_\text{F}$}.
-Fig \ref{fig:fusion_scheme} shows the scheme for evidence fusion. 
+Fig \ref{fig:fusion_scheme} shows the scheme to evidence fusion. 
 %
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -320,10 +320,10 @@ This section is based on Refs.~\cite{chicco,btr}.
 The quality metrics are built on the confusion matrix of the binary images, compared with the Ground Reference image (GR). 
 We consider the positive instance by $p$ (pixel value $1$), and the negative instance by $n$ (pixel value $0$).
 The instances are classified as: 
-TP: a pixel detected as an edge is on the edge in the GR image, 
-FN: a pixel on the edge in the GR image is not detected, 
-TN: a pixel detected not on the edge is not on the edge in the GR image, and 
-FP: a pixel not on the edge in GR image is detected as an edge. 
+TP is positive labeled and correctly classified as positive, 
+FN is positive labeled and wrongly classified as negative, 
+TN is negative labeled and correctly classified as negative, and 
+FP is negative labeled and wrongly classified as positive. 
 
 We used the following metrics:
 \begin{align*}
@@ -391,7 +391,7 @@ Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.
 Figs.~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, and~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} show, respectively, the edge evidences in the $\text{hh}$, $\text{hv}$ and $\text{vv}$ channels as obtained by MLE.
 
 It is worth noting that GenSA has accurately identified the maximum value of $\mathcal L$ (Eq.~\eqref{eq:TotalLogLikelihood}), even in the presence of multiple local maxima. 
-A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few outlier points.
+A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few points far from the actual edge.
 
    \begin{figure}[hbt]
 	\centering
@@ -444,13 +444,13 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
      \label{fusion_met}
 \end{figure}
 
-The method for detecting edge evidence was implemented in R.
-The fusion and other methods were implemented in Matlab. 
+The method for detecting edge evidence was implemented in the R language.
+The fusion and methods methods were implemented in Matlab. 
 Following the guidelines presented in Ref.~\cite{fgmed}, code and data are available at \url{https://github.com/anderborba/igarss_2021_bmf}.
 %
 
-The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the GR image. 
-We found the confusion matrix to compute accuracy, $ {F}_1$-score, and Matthews correlation coefficient metrics. 
+The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the image Ground Reference (GR). 
+We found the confusion matrix to calculate accuracy, $ {F}_1$-score, and Matthews correlation coefficient metrics. 
 Figures~\ref{relative_matrics:a}, \ref{relative_matrics:b} and~\ref{relative_matrics:c} show the relative performance of the metrics taking as reference the worst result found.
 
 \begin{figure*}[hbt]
@@ -463,24 +463,24 @@ Figures~\ref{relative_matrics:a}, \ref{relative_matrics:b} and~\ref{relative_mat
 
 \section{Discussion}\label{sec:discussion}
 
-The methods showed excellent performance according to Mac because the number of TN is much higher than the number of TP and mostly well detected.
+The methods showed excellent performance according to Mac
 The worst measure was MR--SWT (\SI{99.33}{\percent}), and the best was ROC (\SI{91.04}{\percent} higher). 
 The metric correctly measures the edges evidence in the intensities channels. 
 However, it is inconclusive to order the channels in a degree of importance in the fusion of information. 
 A visual inspection of Fig.~\ref{fusion_met}\subref{fusion_met:d} reveals that the fusion using ROC is sparse because the technique detects few FP and FN.
 
-The methods have low performance, according to Mfe. This happens because Mfe does not consider the TN points, and the number of points found in each radial line can be higher than 1. 
-The worst case is ROC, whose value is \SI{1.39}{\percent}, and the best approach is MR--DWT with a performance \SI{11.65}{\percent} higher. 
-Mfe can be used to order the intensity channels.
+The methods have low performance according to MFe. 
+The worst case is ROC, whose value is \SI{1.39}{\percent}, and the best approach is MR--SWT with a performance \SI{11.65}{\percent} higher. 
+Mfe can order of the channels.
 For example, we can say that $\text{I}_\text{hh}$ has the best performance with the MLE.  
-Mfe assigns low performance to high values of FP and FN compared to TP.
+Mfe assigns low performance to high values of FP and FN compared to TP; besides, the metric does not measure the undetected edges because it does not take into account TN.
 
-The worst method under the nMcc metric is also ROC: \SI{51.19}{\percent}, and the best result was recorded for MR--SWT (\SI{22,41}{\percent} higher). 
+The worst nMcc is observed for ROC: \SI{51.19}{\percent}, and the best result was recorded for MR--DWT (\SI{22,41}{\percent} higher). 
 nMCC can also rank the intensity channels in order of importance. 
 %The two metrics show results similar to those obtained in~\cite{bmf_2020}. 
 
-We conclude that Accuracy does not provide information on the intensity channels or in the information fusion process. 
-At the same time, Mfe and nMcc metrics allow for an ordering of the intensity channels and to decide the channels to be used in the fusion process. 
+We conclude that Accuracy does not provide information on the use or disposal of intensity channels in the information fusion process. 
+At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. 
 Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
 %
 %-------------------------------------------------------------------------

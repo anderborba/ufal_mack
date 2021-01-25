@@ -1,0 +1,134 @@
+27c27
+< \title{Quantify the influence of the intensity channels information content in the PolSAR image for edge detectors based on information fusion.}
+---
+> \title{Quantify the influence of intensity channels information from PolSAR images for edge detection on information fusion.}
+33c33
+<          $^b$ENDEREÇO,           \\
+---
+>          $^b$Departamento de Ciência da Computação, Universidade Federal de Minas Gerais, Brazil,           \\
+72c72
+< Prompt and effective emergency response to the containment of damage and the rescue of lives in a natural disasters happens is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have played a key role in helping to make decisions, especially in periods of bad weather or absence of sunlight. In this context, edge detection becomes very important to extract information from PolSAR images. In this work, we are proposing three metrics, the accuracy metric (Mac), the $\text{F}_1$-score metric (Mfe), and the Matthews correlation coefficient normalized (nMcc) metric.  The metrics are proposed to quantify the influence of the information in the intensity channels of a PolSAR image on the information fusion process to detect edges.
+---
+> Prompt and effective response to natural disasters is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have been playing a key role helping on decisions in these scenarios, especially in bad weather or absence of sunlight. In this context, PolSAR images are the only source of information. In these situations the process of finding precise boundaries to determine the extent of the disaster is an important issue as PolSAR image resolutions are usually high (order of 10m). Fusion of information from the intensity channels of PolSAR images for edge detection  enhances the precision of edges presented in these images. In this work, we propose three metrics: the accuracy (Mac), the $\text{F}_1$-score (Mfe), and the Matthews correlation coefficient normalized (nMcc). These metrics quantify the influence of the information from the intensity channels of PolSAR images on the information fusion process for edge detection.
+81c81
+< Natural disasters such as earthquakes or flooding have great destructive power. Among the consequences are the economic and the loss of human life. Highlighting the second case's importance, prompt and effective emergency response can save most human lives. However, Natural disasters are difficult to predict with current knowledge, and technology becomes a significant problem.
+---
+> Natural disasters such as earthquakes or flooding have great destructive power. Among the consequences are the economic impact in the affected area and the loss of human lives. In the latter case, prompt and effective responses are required to reduce the number of losses as well as the precision on determining the affected area. However, current knowledge and technology can not predict natural disasters with enough time to take proper measures, which becomes a problem.
+83c83
+< Among consequence of the natural disasters are the collapse of debris and rapid flooding of areas cause severe damage to life requiring quick rescues to high-risk regions. Thus, the remote sensing area assists in the natural disasters emergency response requirement because prompt and efficient information is crucial for successful rescue lives. This fact implies that the remote sensing area has increased in importance for investigating information about natural disasters. 
+---
+> Among consequences of natural disasters are the collapse of debris and rapid flooding which can cause material losses and threaten human lives. In this context the remote sensing area has increased its importance on analysing the affected area and get information to assist in rescue missions.  
+85c85
+< However, if the disaster happens at night or under severe weather conditions, optical images cannot provide adequate information. In this case, we can use PolSAR images, which have the characteristics of being able to acquire information under these conditions.
+---
+> However, if the disaster happens at night or under severe weather conditions, optical images cannot provide adequate information. In these cases, we can use PolSAR images, which are able to acquire information under these conditions.
+87c87
+< In this context, the automatic detection of risk constructions or the flood's evolution has practical meaning the society. For more information see Refs~\cite{zhp,zshp,czwz}.
+---
+> In this context, the automatic and precise detection of risk areas or the flood's evolution decomes important. Further information can be found in Refs~\cite{zhp,zshp,czwz}.
+89c89
+< To assist in the risk alarm process and speed up people's rescue in regions that have suffered natural disasters, the edge detection method is essential. For this, this work contributes to quantifying each intensity channel's influence in the process of edge detection, with information fusion being an extension of article \cite{bmf_2020}.
+---
+> To assist in the risk alarm process and delimit precisely the affected area and help people's rescue in regions that have suffered natural disasters, the edge detection method in PolSAR images is essential. The work presented here  quantifies each intensity channel's influence in the process of edge detection based on fusion of information as presented in \cite{bmf_2020}.
+99c99
+< Multi-looked fully polarimetric data follow the Wishart distribution with PDF defined by:
+---
+> Multi-looked fully polarimetric data follows the Wishart distribution with PDF defined by:
+105,106c105,106
+< $L$ is the number of looks, 
+< $\traco(\cdot)$ is the trace operator of a matrix, $\Gamma_p(L)$ is the multivariate Gamma function defined by $
+---
+> $L$ is the number of views, 
+> $\traco(\cdot)$ is the trace operator of a matrix and $\Gamma_p(L)$ is the multivariate Gamma function defined by $
+108,109c108,109
+< and $\Gamma(\cdot)$ is the Gamma function.
+< We used three $p=3$ channels in this study. 
+---
+> where $\Gamma(\cdot)$ is the Gamma function.
+> In this study we used three channels $(p=3)$. 
+113c113
+< Since we are interested in describing the information conveyed by parts of such matrix under the Wishart model, we assume that the distribution of each intensity channel is a  Gamma law with probability density function
+---
+> Since we are interested on describing the information conveyed by parts of this matrix under the Wishart model, we assume that the distribution of each intensity channel is a  Gamma law with probability density function
+132,133c132,133
+< The GA estimates the point at which the properties of a sample change.
+< It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR imagery.
+---
+> The GA estimates the point at where a sample property changes.
+> It has been used with stochastic distances~\cite{nhfc}, and with the likelihood function~\cite{gmbf, fbgm} for edge detection in SAR/PolSAR images.
+162,163c162,163
+< and the estimate of the edge position on the ray is the coordinate $\widehat\jmath$ which maximizes it, for this, Generalized Simulated Annealing (GenSA~\cite{xgsh}) was used.
+< In \cite{bmf_2020}, we can see the basic edge detection pseudo-code with the Gambini Algorithm.
+---
+> and estimate the edge position on the ray which is the coordinate $\widehat\jmath$ that maximizes it, for this, Generalized Simulated Annealing (GenSA~\cite{xgsh}) was used.
+> In \cite{bmf_2020}, the basic edge detection pseudo-code Gambini Algorithm is presented.
+168c168
+< They have common size $m\times n$; % denote $\ell=mn$.
+---
+> They all have size $m\times n$; % denote $\ell=mn$.
+170c170
+< Fig \ref{fig:fusion_scheme} shows the scheme to evidence fusion. 
+---
+> Fig \ref{fig:fusion_scheme} shows the scheme for evidence fusion. 
+323,326c323,326
+< TP is positive labeled and correctly classified as positive, 
+< FN is positive labeled and wrongly classified as negative, 
+< TN is negative labeled and correctly classified as negative, and 
+< FP is negative labeled and wrongly classified as positive. 
+---
+> TP: a pixel detected as an edge is on the edge in the GR image, 
+> FN: a pixel on the edge in the GR image is not detected, 
+> TN: a pixel detected not on the edge is not on the edge in the GR image, and 
+> FP: a pixel not on the edge in GR image is detected as an edge. 
+394c394
+< A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few points far from the actual edge.
+---
+> A visual assessment leads to conclude that the best results are provided by $\text{hv}$, although with a few outlier points.
+447,449c447,449
+< The method for detecting edge evidence was implemented in the R language.
+< The fusion and methods methods were implemented in Matlab. 
+< Following the guidelines presented in Ref.~\cite{fgmed}, code and data are available at \url{https://github.com/anderborba/igarss_2021_bmf}.
+---
+> The method for detecting edge evidence was implemented in R.
+> The fusion and other methods were implemented in Matlab. 
+> Following the guidelines presented in Ref.~\cite{fgmed}, code and data are available at \url{Endereco adequado}.
+452,453c452,453
+< The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the image Ground Reference (GR). 
+< We found the confusion matrix to calculate accuracy, $ {F}_1$-score, and Matthews correlation coefficient metrics. 
+---
+> The error was calculated by comparing the results of the methods to edge evidence detection and the fusion of this information with the GR image. 
+> We found the confusion matrix to compute accuracy, $ {F}_1$-score, and Matthews correlation coefficient metrics. 
+458,460c458,460
+< \subfloat[Mac\label{relative_matrics:a}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mac_y_fixo}}
+< \subfloat[Mfe\label{relative_matrics:b}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mfe_y_fixo}}
+< \subfloat[nMcc\label{relative_matrics:c}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mcc_y_fixo}}
+---
+> \subfloat[Mac\label{relative_matrics:a}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mac}}
+> \subfloat[Mfe\label{relative_matrics:b}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mfe}}
+> \subfloat[nMcc\label{relative_matrics:c}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mcc}}
+466c466
+< The methods showed excellent performance according to Mac
+---
+> The methods showed excellent performance according to Mac because the number of TN is much higher than the number of TP and mostly well detected.
+472c472
+< The methods have low performance according to MFe. 
+---
+> The methods have low performance according to MFe. This happens because MFe does not consider the TN points and the number of points found in each radial line can be higher than 1. 
+474c474
+< Mfe can order of the channels.
+---
+> Mfe can be used to order the intensity channels.
+476c476
+< Mfe assigns low performance to high values of FP and FN compared to TP; besides, the metric does not measure the undetected edges because it does not take into account TN.
+---
+> Mfe assigns low performance to high values of FP and FN compared to TP.
+478c478
+< The worst nMcc is observed for ROC: \SI{51.19}{\percent}, and the best result was recorded for MR--DWT (\SI{22,41}{\percent} higher). 
+---
+> The worst method under the nMcc metric is also ROC: \SI{51.19}{\percent}, and the best result was recorded for MR--DWT (\SI{22,41}{\percent} higher). 
+482,483c482,483
+< We conclude that Accuracy does not provide information on the use or disposal of intensity channels in the information fusion process. 
+< At the same time, Mfe and nMcc metrics have the characteristic of ordering the channels of intensities to be used or discarded in the fusion process. 
+---
+> We conclude that Accuracy does not provide information on the intensity channels or in the information fusion process. 
+> At the same time, Mfe and nMcc metrics allow for an ordering of the intensity channels and to decide the channels to be used in the fusion process. 
