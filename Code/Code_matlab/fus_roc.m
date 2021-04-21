@@ -83,16 +83,30 @@ for l  = 1: nc
 	end
 	fn(l) = sum(soma)/ dim;
 end
-%for i = 1: nc
-%	tprj(i) =       tp(i) / (tp(i) + fn(i));
-%	fprj(i) = 1 -   (tn(i) / (fp(i) + tn(i)));
-%	p(i)    = tp(i) + fn(i);
-%	q(i)    = tp(i) + fp(i);
-%end	
+for i = 1: nc
+	tprj(i) =       tp(i) / (tp(i) + fn(i));
+	fprj(i) = 1 -   (tn(i) / (fp(i) + tn(i)));
+        % tp + fn tem que ser igal para todos os canais
+	p(i)    = tp(i) + fn(i);
+	q(i)    = tp(i) + fp(i);
+	%
+	a = 1 - p(i);
+       	b = p(i);
+       	c = -p(i);
+       	x0 = fprj(i); 
+       	y0 = tprj(i); 
+       	%AAB: norma 2 pode ser substituido por srqt(a**2+b**2) 
+        d(i) = abs(a*x0 + b*y0 + c) / sqrt(a^2 + b^2);
+end
+%d
+%[yy,kk] = min(d)
+%yy
+%kk
 % grafico ROC
 %paux = p(1);
 %display('Valor do ponto (P,P) para a contruir a reta  diagnóstico no gráfico (ROC)');
-%p;
+%p
+%q
 %x =[0: paux/100: paux];
 %y = ((paux - 1)/paux) * x + 1;
 %plot(fprj, tprj, 'r*', x, y, 'b-');

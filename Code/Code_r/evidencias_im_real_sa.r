@@ -43,7 +43,7 @@ for (j in 1 : nrows){
 	N <- ncols
 	z     <- rep(0, N)
 	zaux  <- rep(0, N)
-        zaux1 <- rep(0, N)
+  zaux1 <- rep(0, N)
 	zaux  <-  mat[j,1:N]
 	conta = 0
         for (i in 1 : N){

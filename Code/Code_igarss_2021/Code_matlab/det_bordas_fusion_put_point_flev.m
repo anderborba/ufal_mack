@@ -62,14 +62,14 @@ for canal = 1 : nc
 			IM( yc(i, ik), xc(i, ik), canal) = 1;
 	end
 end
-nt = 20
+nt = 1
 tempo = zeros(1, nt);
 for i=1: nt
 tic;
 % Set fusion methods
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
-%[IF] = fus_swt(IM, m, n, nc);
+[IF] = fus_swt(IM, m, n, nc);
 %[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
@@ -82,7 +82,7 @@ imshow(II)
 % plot com fusion
 %[xpixel, ypixel, valor] = find(IF > 0);
 %plot edge evidences hh(1), hv(2) or vv(3)
-[xpixel, ypixel, valor] = find(IM(:, :, 3) > 0);
+[xpixel, ypixel, valor] = find(IM(:, :, 1) > 0);
 %
 axis on
 hold on;
@@ -94,4 +94,18 @@ for i= 1: dpixel(1)
     				'MarkerSize',3.5,...
     				'MarkerEdgeColor',[0.85 0.325 0.089],...
     				'MarkerFaceColor', [0.85 0.325 0.089])
-end	
+end
+cd ..
+cd Data
+fname = sprintf('image_fusion_swt.txt');
+fid = fopen(fname,'w');
+for i = 1: m
+       for j = 1: n
+                fprintf(fid,'%f ', IF(i, j));
+        end
+        fprintf(fid,'\r\n');
+end
+fclose(fid); 
+cd ..
+cd Code_matlab
+

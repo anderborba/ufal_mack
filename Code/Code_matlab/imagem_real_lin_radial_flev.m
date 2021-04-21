@@ -99,13 +99,13 @@ for i = 1: num_radial
 		for j = 1: dim
 			MXC(i, j) = YC(j);
 			MYC(i, j) = XC(j);
-			MY(i, j, canal)  = Iaux( XC(j), YC(j)) ;
+			MY(i, j, canal)  = Iaux( YC(j), XC(j)) ;
 	       		IT(XC(j), YC(j)) = const;
 	       		II(XC(j), YC(j)) = const;
         	end
 	end
 end
-mshow(II);
+imshow(II);
 
 
 

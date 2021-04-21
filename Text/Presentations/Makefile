@@ -3,7 +3,9 @@
 #
 # Sáb Jun 23 21:13:37 BRT 2007
 #
-BASE_NAME = defesa_mack
+#BASE_NAME = defesa_mack
+#BASE_NAME = apres_tengarss_2019
+BASE_NAME = apres_semi_int_03_2021
 
 LATEX     = latex
 PDFLATEX  = xelatex

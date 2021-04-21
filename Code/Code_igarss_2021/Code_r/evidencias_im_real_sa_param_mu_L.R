@@ -24,7 +24,7 @@ source("loglikd.r")
 setwd("..")
 setwd("Data")
 # channels hh(1), hv(2), and vv(3)
-mat <- scan('flevoland_3.txt')
+mat <- scan('flevoland_1.txt')
 setwd("..")
 setwd("Code_r")
 ########## setup to Flevoland
@@ -34,7 +34,8 @@ mat <- matrix(mat, ncol = r, byrow = TRUE)
 evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
-for (k in 1 : nr){
+#for (k in 1 : nr){
+for (k in 10 : 10){
   print(k)
   N <- r
   z <- rep(0, N)
@@ -80,12 +81,12 @@ df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 print(p)
 ## Print  *.txt, change hh, hv or vv
-dfev <- data.frame(xev, evidencias)
-names(dfev) <- NULL
-setwd("..")
-setwd("Data")
-sink("evidence_flev_vv.txt")
-print(dfev)
-sink()
-setwd("..")
-setwd("Code_r")
+#dfev <- data.frame(xev, evidencias)
+#names(dfev) <- NULL
+#setwd("..")
+#setwd("Data")
+#sink("evidence_flev_vv.txt")
+#print(dfev)
+#sink()
+#setwd("..")
+#setwd("Code_r")

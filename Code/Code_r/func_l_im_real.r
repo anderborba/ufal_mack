@@ -44,7 +44,7 @@ zaux <- matrix(0, 1, N)
 zaux <-  mat[1, 1: N] 
 indx <- which(zaux != 0)
 N <- max(indx)
-z <-  mat[6, 1: N] 
+z <-  mat[1, 1: N] 
 x  = seq(1, N - 1, 1 )
 lobj <- rep(0, (N - 1))
 for (j in 1 : (N - 1) ){

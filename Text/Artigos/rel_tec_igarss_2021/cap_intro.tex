@@ -1,3 +1,4 @@
+
 %/\chapter{Fusão de evidências na detecção de bordas em Imagens PolSAR}
 \chapter{Introdução}
 \label{cap_acf}
@@ -31,7 +32,7 @@ Em seguida, será realizado a fusão das evidências de bordas obtidas, com o ob
 Com isso, se pretende qualificar a contribuição fornecida por cada canal de intensidade da imagem PolSAR, na detecção de bordas. 
 %Ver as referências \citet{mit, bmf_2020}. 
 %%% ACF Aqui diga ao leitor o que ele deve "ver".
-%%% AAB Realizado
+%%% AAB Realizado  
 O artigo \citet{bmf_2020} fornece informações sobre os processos de fusão em imagens PolSAR, assim como o  desempenho de cada método para detectar bordas, enquanto o livro \citet{mit} mostra os fundamentos da fusão de imagens.
 
 
@@ -75,23 +76,11 @@ Para alcançar tais objetivos vamos aplicar nas imagem SAR e PolSAR os seguintes
 	\item  \label{item:obj_iv} Métodos de fusão são aplicados nas evidências de bordas obtidas em cada canal, com o objetivo de detectar as bordas na ROI escolhida.	  
 \end{enumerate}
 
-\section{Contribuições}
-As contribuição desta tese são:
-\begin{enumerate}[label=(\roman*)]
-\item \label{item:contr_i} Propor a fusão de evidências de bordas, obtidas em cada canal, aprimorando o método de detecção de bordas;
-\item \label{item:contr_ii} Aplicar e comparar os métodos de fusão: MS, MR--DWT, PCA, E--ROC, MR--SWT, e MR--SVD;
-\item \label{item:contr_iii} Verificação da viabilidade do uso do método GenSA no método MLE com o algoritmo Gambini, aplicado aos canais de intensidades de uma imagem PolSAR, com o objetivo de detectar evidências de bordas, como proposto e analisado em \citet{gmbf, gmbf_sc, fbgm, nhfc};
-\item \label{item:contr_iv} Realizar medidas de qualidade para a detecção em cada canal, e na fusão, usando uma métrica baseada na probabilidade de detecção de bordas, comparando com a imagem definida como referência (\textit{Ground Truth}).\index{Ground Truth}      
-\item \label{item:contr_v} Identificação de duas características que dificultam a detecção de evidências de bordas: oscilação nas extremidades e não diferenciabilidade em vários pontos do domínio das funções de máxima verossimilhança total. 
-Para contornar o problema propomos, respectivamente, as seguintes soluções: definir empiricamente constantes de folga nas extremidades, usar o método GenSA para encontrar o ponto de máximo da função.
-\end{enumerate}
-
 \sloppy
 Os resultados obtidos neste trabalho foram publicados na conferência \textit{IEEE Recent Advances in Geoscience and Remote Sensing : Technologies, Standards and Applications (TENGARSS)} com o seu identificador digital DOI (\textit{Digital Object Identifier}), e seu localizador URL (\textit{Uniform Resource Locator}), respectivamente, \url{https://doi.org/10.1109/TENGARSS48957.2019.8976040}, e \url{https://ieeexplore.ieee.org/abstract/document/8976040.} E no periódico \textit{IEEE Geoscience and Remote Sensing Letters} com o seu identificador digital DOI, e seu localizador, respectivamente, \url{https://doi.org/10.1109/LGRS.2020.3022511}, e \url{https://ieeexplore.ieee.org/abstract/document/9203845}.
 %%% ACF Citar por extenso, incluindo o DOI e a URL
 %%% AAB Realizado
 \section{Plataformas, validação dos programas, recursos computacionais}
-
 Neste trabalho foram usadas as seguintes plataformas:
 \begin{itemize}
 %%% ACF Atualize a referência do R
@@ -111,15 +100,14 @@ O recurso computacional disponível para esta pesquisa consiste em um computador
 
 \section{Reprodutibilidade e replicabilidade}
 \index{Reprodutibilidade}\index{Replicabilidade}
-A reprodutibilidade e replicabilidade são essenciais para o desenvolvimento da ciên\-cia, estes temas não são discutidos neste trabalho, porém realizamos as pesquisas de forma a respeitar esses conceitos.
+A reprodutibilidade e replicabilidade são essenciais para o desenvolvimento da ciên\-cia, estes temas não são discutidos neste trabalho, porém realizamos as pesquisas de forma a respeitar esses conceitos. Para maiores informações consulte os artigos de \citet{br} e \citet{fgmed}.
 
-Os artigos de \citet{br} e \citet{fgmed} mostram pesquisas sobre o tema. 
-No primeiro artigo encontramos as seguintes definições: 
-\begin{itemize}
-\item A reprodutibilidade é definida como a habilidade dos pesquisadores de obter resultados consistentes usando os mesmos dados de entrada, rotinas computacionais, métodos, programas e condições de análises.
-\item A replicabilidade é definida como uma situação em que os pesquisadores obtêm resultados consistentes por meio de estudos que visam responder à mesma questão científica, cada um dos quais obteve seus próprios dados.
-\end{itemize}
-  
+% mostram pesquisas sobre o tema. 
+%No primeiro artigo encontramos as seguintes definições: 
+%\begin{itemize}
+%\item A reprodutibilidade é definida como a habilidade dos pesquisadores de obter resultados consistentes usando os mesmos dados de entrada, rotinas computacionais, métodos, programas e condições de análises.
+%\item A replicabilidade é definida como uma situação em que os pesquisadores obtêm resultados consistentes por meio de estudos que visam responder à mesma questão científica, cada um dos quais obteve seus próprios dados.
+%\end{itemize}  
 Os programas e dados usados neste trabalho estão disponíveis no sítio eletrônico \url{https://github.com/anderborba/Code_GRSL_2020_1}.
  
 \section{Organização do texto} 

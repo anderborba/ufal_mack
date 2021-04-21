@@ -49,8 +49,12 @@ for (k in 150 : 150){# j aqui varre o número de radiais
 	matdf1 <- matrix(0, nrow = N, ncol = 2)
 	matdf2 <- matrix(0, nrow = N, ncol = 2)
 	for (j in 1 : (N - 1) ){
+	#for (j in 1 : 1 ){
+	  print(j)
 	  r1 <- 1
+	  print(r1)
 	  r2 <- sum(z[1: j]) / j
+	  print(r2)
 	  res1 <- maxBFGS(loglike, start=c(r1, r2))
 	  r1 <- 1
 	  r2 <- sum(z[(j + 1): N]) / (N - j)

@@ -214,7 +214,7 @@ e a matriz de covariância lexicográfica
 	\mathbf{C}_4=\mathbf{\Omega}\mathbf{\Omega}^\text{H}=	
 \begin{bmatrix}
 	|\Omega_1|^2       & \Omega_1\bar{\Omega}_2  & \Omega_1\bar{\Omega}_3  & \Omega_1\bar{\Omega}_4  \\
-	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  & \omega_2\bar{\Omega}_4  \\
+	\Omega_2\bar{\Omega}_1  & |\Omega_2|^2       & \Omega_2\bar{\Omega}_3  & \Omega_2\bar{\Omega}_4  \\
 	\Omega_3\bar{\Omega}_1  & \Omega_3\bar{\Omega}_2  &    |\Omega_3|^2    & \Omega_3\bar{\Omega}_4  \\
 	\Omega_4\bar{\Omega}_1  & \Omega_4\bar{\Omega}_2  & \Omega_4\bar{\Omega}_3  & |\Omega_4|^2   \\
 \end{bmatrix},
@@ -504,7 +504,7 @@ Sob a hipótese da eq.~\eqref{eq:DensidadeExponencial} decorre que a função de
 f_I(z_I;L,\sigma^2)=\frac{L^L z_I^{L-1}}{\Gamma(L)\sigma^{2L}}\exp\left(-L\frac{z_I}{\sigma^2}\right), z_I\geq 0,
 \label{pdf_inten_multilook}
 \end{equation}
-onde $\Gamma(L)$ denota a função gama de Euler. Assim podemos afirmar que a intensidade com o processo de múltiplas visadas obedece uma distribuição gaussiana.
+onde $\Gamma(L)$ denota a função gama de Euler. A equação~\eqref{pdf_inten_multilook} é a função de densidade de probabilidade que caracteriza a distribuição gama com parâmetro L.
 
 %%% ACF Aqui mudou a notação para média e variância. Não pode! Unifique!
 %%% AAB Resolvido
@@ -518,7 +518,7 @@ A função densidade de probabilidade para os canais de amplitude com múltiplas
 %%% AAB Resolvido
 \begin{equation}
 f_A(z_A;L,\sigma^2)=\frac{2L^L z_A^{2L-1}}{\Gamma(L)\sigma^{2L}}\exp\left(-L\frac{z_A^2}{\sigma^2}\right), z_A\geq 0.
-\label{pdf_inten_multilook}
+\label{pdf_ampli_multilook}
 \end{equation}
 
 A média e a variância são $\text{M}_L(z_A)=\frac{\Gamma\left(L+\frac{1}{2}\right)}{\Gamma}\sqrt{\frac{\sigma^2}{L}}$ e $\text{var}_L(z_A)=\left(L-\frac{\Gamma^2\left(L+\frac{1}{2}\right)}{\Gamma^2(L)}\right)\frac{\sigma^2}{L}$ respectivamente. Assim, o coeficiente de variação $\text{CV}_L(z_A)=\sqrt{\frac{L\Gamma^2(L)}{\Gamma^2\left(L+\frac{1}{2}\right)}-1}$ é calculado para os canais de amplitude.
@@ -548,7 +548,7 @@ A função densidade de probabilidade univariada $\Gamma$ para os canais de inte
 	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, \\
 \label{pdf_gauss_univ}
 \end{equation}
-onde, $\mu>0$ e $L>0$. Esta notação para a função de densidade será utilizada no método MLE com o objetivo de detectar evidências de bordas nos canais das imagens PolSAR selecionadas para esta pesquisa. 
+onde, $\mu>0$ e $L>0$ são parâmetros da distrinuição. Esta notação para a função de densidade será utilizada no método MLE com o objetivo de detectar evidências de bordas nos canais das imagens PolSAR selecionadas para esta pesquisa. 
 
 A seguir apresentamos outros modelos que podem ser empregados para detectar evidências de bordas nos canais de intensidades, porém os resultados não serão relatados neste trabalho, pois fazem parte de pesquisa em fase adiantada de desenvolvimento. 
 Mais informações podem ser encontradas nos artigos \citet{lee} e \citet{dmch}.   
@@ -565,28 +565,35 @@ A PDF univariada produto de magnitudes das intensidades é definida por
 	f(z;\rho, L)=\frac{4L^{L+1}z^L}{\Gamma(L)(1-|\rho|^2)}I_0\left(\frac{2|\rho|Lz}{1-|\rho|^2}\right)K_{L-1}\left(\frac{2Lz}{1-|\rho|^2}\right),
 \label{eq:pdf_mag_prod}
 \end{equation}
-onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas, $\rho>0$ e $L>0$ são respectivamente o coeficiente de correlação e o número de visadas.
+onde $I_0$ e $K_{L-1}$ são funções de Bessel modificadas, $\rho>0$ e $L>0$ são respectivamente o coeficiente de correlação e o número de visadas, parâmetros da distribuição.
 
 \subsection{PDF univariada  razão de intensidades}
-Definindo as intensidades como na subseção \ref{subsec:prod_intensidades} e definindo a razão de intensidade normalizada,
+Considerando as intensidades como na subseção \ref{subsec:prod_intensidades} e a função densidade de probabilidade razão de intensidades,
+%\begin{equation}
+% \mu=\frac{\sum_{k=1}^{L}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{L}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{L}|%\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{L}|\mathbf{S}_j(k)|^2},\\
+% \label{eq:razao_intensidades}
+%\end{equation}
+%onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$, $\rho>0$ e $L>0$.
+% e a função densidade de probabilidade razão de intensidades,
+%\begin{equation}
+%	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
+%	\label{eq:pdf_razao_intensidades}
+%\end{equation}
+%onde,
+% Definindo 
+%\begin{equation}
+% z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
+% \label{eq:razao_intensidades_z}
+%\end{equation}
+%teremos, a função densidade de probabilidade razão de intensidades,
 \begin{equation}
- \mu=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2},\\
- \label{eq:razao_intensidades}
-\end{equation}
-onde $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}$, e a função densidade de probabilidade razão de intensidades,
-\begin{equation}
-	f(\mu;\rho,L)=\frac{\Gamma(2L)(1-|\rho|^2)^{L}(1+\mu)\mu^{L-1}}{\Gamma(L)\Gamma(L)\left[(1+\mu)^2-4|\rho|^2\mu \right]^{\frac{2L+1}{2}}}\\
-	\label{eq:pdf_razao_intensidades}
-\end{equation}
-onde, $\rho>0$ e $L>0$. Definindo 
-\begin{equation}
- z=\frac{\sum_{k=1}^{n}\frac{|\mathbf{S}_i(k)|^2}{\Sigma_{11}}}{\sum_{k=1}^{n}\frac{|\mathbf{S}_j(k)|^2}{\Sigma_{22}}}=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\tau\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}=\tau \mu,\\ 
- \label{eq:razao_intensidades_z}
-\end{equation}
-e realizando a mudança de variável em \eqref{eq:pdf_razao_intensidades} teremos, 
-\begin{equation}
-	f(z;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}}.\\
+	f(z;\rho,L,\tau)=\frac{\tau^L\Gamma(2L)(1-|\rho|^2)^{L}(\tau+z)z^{L-1}}{\Gamma(L)\Gamma(L)\left[(\tau+z)^2-4\tau|\rho|^2z \right]^{\frac{2L+1}{2}}},\\
 \label{eq:pdf_razao_intensidades_tau_z}
+\end{equation}
+onde, $\rho>0$, $L>0$, e $\tau=\frac{\Sigma_{11}}{\Sigma_{22}}>0$ são os parâmetros da distribuição. E tal que,
+\begin{equation}
+ z=\frac{\sum_{k=1}^{n}|\mathbf{S}_i(k)|^2}{\sum_{k=1}^{n}|\mathbf{S}_j(k)|^2}.\\ 
+ \label{eq:razao_intensidades_z}
 \end{equation}
 \subsection{PDF univariada para o \textit{span} em meio recíproco}
 A referência~\cite{fwzjn} mostra que podemos usar a PDF gaussiana para modelar o \textit{span}, definido em \eqref{span_geral}. Portanto, 
@@ -1013,13 +1020,13 @@ As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm
 A log-verossimilhança total é definida no ponto $j$ pela seguinte função
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{split}
-%\ell(j&;\bm z_\text{I},\bm z_\text{E}) = \\
-\ell(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+%\mathcal{L}(j&;\bm z_\text{I},\bm z_\text{E}) = \\
+\mathcal{L}(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
 +\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
 +\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
-\raisetag{2.2em}
+%\raisetag{2.2em}
 \end{split}
 \end{equation}
 e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de borda

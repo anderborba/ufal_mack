@@ -96,14 +96,15 @@ for canal = 1 : nc
 end
 %figure(1), imshow(I255);
 %figure(2), imshow(IG);
-nt = 20
+%nt = 20
+nt = 1
 tempo = zeros(1, nt);
 for i=1: nt
 tic;
 %[IF] = fus_media(IM, m, n, nc);
 %[IF] = fus_pca(IM, m, n, nc);
 %[IF] = fus_swt(IM, m, n, nc);
-%[IF] = fus_dwt(IM, m, n, nc);
+[IF] = fus_dwt(IM, m, n, nc);
 %[IF] = fus_roc(IM, m, n, nc);
 %[IF] = fus_maior_voto(IM, m, n, nc);
 %[IF] = fus_svd(IM, m, n, nc);
@@ -127,7 +128,7 @@ imshow(II)
 % plot com fusion
 [xpixel, ypixel, valor] = find(IF > 0);
 %plot das evidencias em cada canal
-%[xpixel, ypixel, valor] = find(IM(:, :, 6) > 0);
+%[xpixel, ypixel, valor] = find(IM(:, :, 1) > 0);
 %
 axis on
 hold on;

@@ -3,8 +3,8 @@
 #
 # Sáb Jun 23 21:13:37 BRT 2007
 #
-#BASE_NAME = rel_tec_igarss_2021
-BASE_NAME = art_igarss_2021
+BASE_NAME = rel_tec_igarss_2021
+#BASE_NAME = art_igarss_2021
 
 LATEX     = latex
 PDFLATEX  = pdflatex

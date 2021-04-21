@@ -38,7 +38,7 @@ evidencias          <- rep(0, nr)
 evidencias_valores  <- rep(0, nr)
 xev  <- seq(1, nr, 1 )
 for (k in 1 : nr){# j aqui varre o número de radiais
-#for (k in 200 : 200){# j aqui varre o número de radiais
+#for (k in 1 : 1){# j aqui varre o número de radiais
   print(k)
 	N <- r
 	z <- rep(0, N)

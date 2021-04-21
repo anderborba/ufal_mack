@@ -57,7 +57,7 @@ s = (n, m)
 z = np.zeros(s)
 for i in range(n):
     for j in range(m):
-        aux1 = dim * x[i] * np.log(x[i]) 
+        aux1 = dim * x[i] * np.log(x[i])
         aux2 = (x[i] - 1) * sigma1
         aux3 = dim * x[i] * np.log(y[j])
         aux4 = dim * np.log(gamma[i])
