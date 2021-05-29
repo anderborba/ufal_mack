@@ -10,7 +10,10 @@ T(1,:) = reshape(Y.LL,1,mn);
 T(2,:) = reshape(Y.LH,1,mn);
 T(3,:) = reshape(Y.HL,1,mn);
 T(4,:) = reshape(Y.HH,1,mn);
-A = U * T;  
+A = U * T;
+U 
+max(max(T(1,:)))
+min(min(T(1,:)))
 x = zeros(m*2,n*2); 
 for j = 1:n
     for i = 1:m

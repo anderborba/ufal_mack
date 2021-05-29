@@ -1,17 +1,17 @@
 function[IF] = fus_svd(IM, m, n, nc)
 % MSVD based image fusion demo 
 % by Dr. VPS Naidu, MSDF Lab
-% ref: Image Fusion Technique using Multi-resolution Singular Value Decomposition,
+% ref:Image Fusion Technique using Multi-resolution Singular Value Decomposition,
 %       Defence Science Journal, Vol. 61, No.5, pp.479-484, Sep. 2011.
 
 %apply MSVD
 [X1, U1] = MSVD(IM(:, :, 1));
 [X2, U2] = MSVD(IM(:, :, 2));
 [X3, U3] = MSVD(IM(:, :, 3));
-
 %fusion starts
+nc
 X.LL = (X1.LL + X2.LL + X2.LL) / nc;
-
+%
 D     = max(X1.LH, X2.LH) >= 0; 
 Xa.LH = D.*X1.LH + (~D).*X2.LH;
 D     = max(Xa.LH, X3.LH) >= 0; 
@@ -27,6 +27,6 @@ X.HH  = D.*Xa.HH + (~D).*X3.HH;
 
 %XX = [X.LL, X.LH; X.HL, X.HH];
 U = (U1 + U2 + U3) / nc;
-
+%
 %apply IMSVD
 IF = IMSVD(X,U);

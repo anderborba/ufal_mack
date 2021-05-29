@@ -6,7 +6,7 @@ nc= 3
 MAT =zeros(m, n);
 for j = 1:n
     for i = 1:m
-	    MAT(i, j) =(i -1) + (j - 1);
+	    MAT(i, j) = i + j;
 	    %MAT(i, j) = 1.0;
     end
 end

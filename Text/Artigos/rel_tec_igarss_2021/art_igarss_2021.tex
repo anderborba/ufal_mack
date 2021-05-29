@@ -69,7 +69,7 @@
 \maketitle
 %
 \begin{abstract}
-A prompt and effective response to natural disasters is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have been playing a key role in helping decisions in these scenarios, especially in bad weather or the absence of sunlight. In this context, PolSAR images are the only source of information. In these situations, the process of finding precise boundaries to determine the extent of the disaster is an important issue as PolSAR image resolutions are usually high (order of 10m). The fusion of information from the intensity channels of PolSAR images for edge detection enhances the precision of edges presented in these images. In this work, we propose three metrics: the accuracy (Mac), the $\text{F}_1$-score (Mfe), and the Matthews correlation coefficient normalized (nMcc). These metrics quantify the influence of the information from the intensity channels of PolSAR images on the information fusion process for edge detection.
+A prompt and effective response to natural disasters is essential. Polarimetric Synthetic Aperture Radar (PolSAR) images have been playing a key role in helping decisions in these scenarios, especially in bad weather or the absence of sunlight. In this context, PolSAR images are the only source of information. In these situations, the process of finding precise boundaries to determine the extent of the disaster is an important issue as PolSAR image resolutions are usually high (order of \SI{10}{\metre}). The fusion of information from the intensity channels of PolSAR images for edge detection enhances the precision of edges presented in these images. In this work, we propose three metrics: the accuracy (Mac), the $\text{F}_1$-score (Mfe), and the Matthews correlation coefficient normalized (nMcc). These metrics quantify the influence of the information from the intensity channels of PolSAR images on the information fusion process for edge detection.
 \end{abstract}
 %
 \begin{keywords}
@@ -145,7 +145,7 @@ $\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, and
 $\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
 We then estimate $(\mu_\text{I},L_\text{I})$ and $(\mu_\text{E},L_\text{E})$ with $\bm z_\text{I}$ and $\bm z_\text{E}$, respectively, by maximizing~\eqref{eq:LogLikelihoodGamma}, and obtain $\big(\widehat{\mu}_\text{I}, \widehat{L}_\text{I}\big)$ and $\big(\widehat{\mu}_\text{E}, \widehat{L}_\text{E}\big)$.
 
-We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
+Afterward, we compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}$:
 \begin{equation}\label{eq:TotalLogLikelihood}
 \begin{aligned}
 \mathcal L\big(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)= -\Bigg(
@@ -155,7 +155,7 @@ We then compute the total log-likelihood of $\bm z_\text{I}$ and $\bm z_\text{E}
 &j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
 +\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k + \mbox{}\\
 &(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k .%-\\ 
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k,%-\\ 
 \raisetag{2.2em}
 \end{aligned}
 \end{equation}
@@ -188,7 +188,6 @@ Fig \ref{fig:fusion_scheme} shows the scheme for evidence fusion.
 \centering
 \resizebox{.8\columnwidth}{!}{%
 \begin{tikzpicture}
-%\tikzset{every node/.style={minimum width=0.0cm,minimum height=0.0cm}}
 	\node (wa)[wa]  {Image Fusion};
 	\path (wa.west)+(-3.5,1.5) node (swtnode1) [sensor1] {$\widehat{\bm\jmath}_1$};
 	\path (wa.west)+(-3.5,0.5) node (swtnode2) [sensor1] {$\widehat{\bm\jmath}_2$};
@@ -199,9 +198,6 @@ Fig \ref{fig:fusion_scheme} shows the scheme for evidence fusion.
     \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$\text{I}_2$};
     \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
     \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$\text{I}_{n_c}$};    
-%    \path (wa.west)+(1.5,1.0) node (swtnodefus) [wa] {Fusão dos coeficientes\\
-%                                                       wavelets};                                                      
-%    \path (wa.west)+(5.0,1.0) node (imagefus) [wa] {Imagem fusão};
     \path [draw, ->] (e1.east) -- node [above] {GA} 
         (swtnode1.180) ;
     \path [draw, ->] (e2.east) -- node [above] {GA} 
@@ -332,44 +328,6 @@ F1\text{-score} &= \frac{2\text{TP}}{2\text{TP}+\text{FP}+\text{FN}},\\
 	\text{nMcc} &=\frac{\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}+1}{2}.
 \end{align*}
 All metrics are scaled between $0$ (worst case) and $1$ (best case).
-
-%%The accuracy metric is defined by,
-%%\begin{equation}
-%%\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}, 
-%%\label{eq:met_acuracia}
-%%\end{equation}
-%%where your value in the the best case is 1, and in the worst case is 0. 
-%%
-%%The $\text{F}_1$ - Score metric is defined by,
-%%\begin{equation}
-%%	\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}},
-%%\label{eq:met_escore_f1}
-%%\end{equation}
-%%where your value in the best case is 1, and in the worst case is 0.
-%%
-%%The  metric Matthews correlation coefficient is defined by,
-%%\begin{equation}
-%%	\text{Mcc}=\frac{\text{TP}\cdot\text{TN}-\text{FP}\cdot\text{FN}}{\sqrt{\text{(TP +FP)}\cdot\text{(TP +FN)}\cdot\text{(TN +FP)}\cdot\text{(TN +FN)}}}
-%%\label{eq:met_mcc}
-%%\end{equation}
-%%where your value in the best case is 1, and in the worst case is -1. In this article is considered the metric MCC normalized,  
-%%\begin{equation}
-%%	\text{nMcc}=\frac{\text{Mcc}+1}{2},
-%%\label{eq:met_mcc}
-%%\end{equation}
-%%in this way, the nMcc metric in the best case is 1, and in the worst case is 0.
-%
-%
-%\begin{table}[hbt]
-%	\centering
-%	\caption{Formulae for metrics}\label{metricas_erro}
-%	\begin{tabular}{@{}ll@{}}\toprule
-%		Metric               & Formula       \\ \midrule\vspace{0.4cm}
-%	    Accuracy              & $\text{Mac} = \frac{\text{TP+TN}}{\text{TP+TN+FP+FN}}$	            \\\vspace{0.4cm}
-%	    $\text{F}_1$ - Score  & $\text{Mfe}=\frac{2\cdot\text{TP}}{\text{2}\cdot\text{TP+FP+FN}}$	            \\
-%		nMcc                  & $\text{nMcc}=\frac{\text{Mcc}+1}{2}$	            \\ \bottomrule
-%	\end{tabular}
-%\end{table}
 %
 \section{Results}\label{sec:results}
 The system presented here was executed on a Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} \SI{16}{\giga\byte} RAM computer. 
@@ -384,7 +342,7 @@ Fig.~\ref{roi_gt}\subref{gt_flevoland} shows the ground reference in red.
      \subfloat[Ground reference\label{gt_flevoland}]{%
        \includegraphics[width=0.216\textwidth]{gt_flevoland_crop}
      }
-    \caption{Flevoland image in Pauli decomposition, and ground reference}
+    \caption{ROI to Flevoland image in Pauli decomposition, and ground reference }
     \label{roi_gt}
 \end{figure}
 
@@ -404,7 +362,7 @@ A visual assessment leads to conclude that the best results are provided by $\te
      \subfloat[Channel $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
      }
-     \caption{Edges evidences from the three intensity channels}
+     \caption{Images show edges evidences from the three intensity channels using the MLE method}
      \label{evidencias_hh_hv_vv} 
    \end{figure}
 
@@ -440,7 +398,7 @@ Both wavelet-based methods (DWT and SWT) produce too dense edges and many outlie
      \subfloat[MR-SVD fusion\label{fusion_met:f}]{%
        \includegraphics[width=0.32\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
      }
-     \caption{Results of applying the six fusion methods}
+     \caption{Images show the results of applying the six fusion methods after finds edges evidences in intensities channels}
      \label{fusion_met}
 \end{figure}
 
@@ -458,7 +416,7 @@ Figures~\ref{relative_matrics:a}, \ref{relative_matrics:b} and~\ref{relative_mat
 \subfloat[Mac\label{relative_matrics:a}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mac_y_fixo}}
 \subfloat[Mfe\label{relative_matrics:b}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mfe_y_fixo}}
 \subfloat[nMcc\label{relative_matrics:c}]{\includegraphics[width=.32\linewidth]{metrica_igarss_2021_mcc_y_fixo}}
-\caption{Measures of quality}\label{Fig:measures}
+\caption{The figures show the measures of quality applied in the MLE methods and the Fusion methods}\label{Fig:measures}
 \end{figure*}
 
 \section{Discussion}\label{sec:discussion}
@@ -483,18 +441,6 @@ We conclude that Accuracy does not provide information on the intensity channels
 At the same time, Mfe and nMcc metrics allow for an ordering of the intensity channels and to decide the channels to be used in the fusion process. 
 Therefore we can quantify the influence of intensity channels on the process of fusing information for edge detection in PolSAR images.
 %
-%-------------------------------------------------------------------------
-%\vfill
-%\pagebreak
-%\section{REFERENCES}
-%\label{sec:ref}
-
-%List and number all bibliographical references at the end of the paper.  The references can be numbered in alphabetic order or in order of appearance in the document.  When referring to them in the text, type the corresponding reference number in square brackets as shown at the end of this sentence \cite{C2}.
-
-% References should be produced using the bibtex program from suitable
-% BiBTeX files (here: strings, refs, manuals). The IEEEbib.bst bibliography
-% style file from IEEE produces unsorted bibliography list.
-% -------------------------------------------------------------------------
 \bibliographystyle{IEEEtran}
 \bibliography{strings,refs}
 
