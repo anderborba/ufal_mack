@@ -1,4 +1,4 @@
-clc         % clean screen
+clt         % clean screen
 clear       % clear workspace
 close all   % close all open plots
 format long;
@@ -130,20 +130,20 @@ imshow(II);
 % Escreve em arquivo *.txt as informações das retas radiais nas imagens
 % reais nos canais 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%cd ..
-%cd ..
-%cd Data
-%for canal = 1: nc 
-%	fname = sprintf('real_flevoland_%d.txt', canal);
-%	fid = fopen(fname,'w');
-%	for i = 1: num_radial
-%		for j = 1: r
-%                fprintf(fid,'%f ',MY(i, j, canal));
-%	      	end
-%    		fprintf(fid,'\n');
-%        end
-%        fclose(fid);       
-%end
+cd ..
+cd ..
+cd Data
+for canal = 1: nc 
+	fname = sprintf('real_flevoland_%d.txt', canal);
+	fid = fopen(fname,'w');
+	for i = 1: num_radial
+		for j = 1: r
+                fprintf(fid,'%f ',MY(i, j, canal));
+	      	end
+    		fprintf(fid,'\n');
+        end
+        fclose(fid);       
+end
 %for canal = 1: 3 
 %	fname = sprintf('real_flevoland_produto_%d.txt', canal);
 %	fid = fopen(fname,'w');
@@ -170,5 +170,5 @@ imshow(II);
 %	end
 %	fclose(fidxc);       
 %	fclose(fidyc);       
-%cd ..
-%cd Code/Code_matlab
+cd ..
+cd Code/Code_matlab
