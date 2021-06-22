@@ -19,6 +19,8 @@ require(stats)
 # Optimization with two parameters in Gaussian distribution
 The objective of this notebook is to understand how to estimate parameters with gaussian distribution using three functions (routines). The first is the MaxLik package [@maxlik], and the second is function maxBFGS, which is wrappers for optim package used inside MaxLik package. And, finally, the optim package [@rpack].
 
+Additionally, we define the search space to optimization methods similar to the parametric space of the distribution. This practice helps when the models have the parametric space more complex than the gaussian model described in this text.
+
 Hence, we assume the gaussian distributions, so the density is
 \begin{equation}
 f_{Z}(z; \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}\exp\{-(z-\mu)^2/2\sigma^2\}.
@@ -57,7 +59,6 @@ The code below defines the sample with mean and standard deviation, respectively
 ```{r Define log-likelihood function}
 n <- 100
 z <- rnorm(n, mean = 1, sd = 2)
-sum(z)/n
 logLikFun <- function(theta) {
   mu <- theta[1]
   sigma <- theta[2]
@@ -67,7 +68,12 @@ logLikFun <- function(theta) {
 ```
 We apply an optimization process using MaxLik package to find the parameters $\mu$ and $\sigma$. Some information are sumarized below.
 ```{r Apply optimization}
-mle <- maxLik(logLik = logLikFun, start = c(mu = 0, sigma = 1), method = "BFGS")
+eps1 <- 0.001
+inf <- 1000
+A <- matrix(c(-1, 1,  0, 0, 0, 0, 1, -1), 4, 2)
+B <- c(inf, -eps1, -eps1, inf) 
+mle <- maxLik(logLik = logLikFun, start = c(mu = 0.5, sigma = 0.5), method = "BFGS",
+              constraints=list(ineqA=A, ineqB=B))
 summary(mle)
 ```
 The commands show the estimated parameters and the Standard Error.
@@ -77,7 +83,8 @@ stdEr(mle)
 ```
 Another manner of calculating the parameters is using the function BFGS, which is wrappers for optim using inside MaxLik package.
 ```{r Apply BFGS optimization (maxLik package)}
-mleBFGS <- maxBFGS(logLikFun, start = c(mu = 0, sigma = 1))
+mleBFGS <- maxBFGS(logLikFun, start = c(mu = 0.5, sigma = 0.5), 
+                   constraints=list(ineqA=A, ineqB=B))
 summary(mleBFGS)
 ```
 # The gradient of the log-likelihood function
@@ -110,7 +117,8 @@ logLikGrad <- function(theta) {
   logGradValue[2] <- -N/sigma + sum((z - mu)^2/sigma^3)
   return(logGradValue)
 }
-mleGrad <- maxLik(logLik = logLikFun, grad = logLikGrad, start = c(mu = 0, sigma = 1))
+mleGrad <- maxLik(logLik = logLikFun, grad = logLikGrad, start = c(mu = 0.5, sigma = 0.5), 
+                  constraints=list(ineqA=A, ineqB=B))
 summary(mleGrad)
 ```
 Below, we show the estimated parameters and standard error.
@@ -120,15 +128,16 @@ stdEr(mleGrad)
 ```
 Now, the maxBFGS function is used to estimate the parameters.
 ```{r Apply BFGS optimization with exact gradient (maxLik package)}
-mleBFGS_grad <- maxBFGS(logLikFun, grad = logLikGrad, start = c(mu = 0, sigma = 1))
+mleBFGS_grad <- maxBFGS(logLikFun, grad = logLikGrad, start = c(mu = 0.5, sigma = 0.5),
+                        constraints=list(ineqA=A, ineqB=B))
 summary(mleBFGS_grad)
 pt <- mleBFGS_grad$estimate
 print(pt)
 ```
 Finally, we are coded the method to estimated parameters using the optim package, with the log-likelihood function and the respective gradient.
 ```{r Apply BFGS optimization with exact gradient (Optim package)}
-method = "BFGS"
-reltol = 1e-08
+method = "L-BFGS-B"
+factr = 1e-08
 iterlim = 200
 parscale= c(1, 1)
 alpha = NULL
@@ -136,11 +145,11 @@ beta  = NULL
 gamma = NULL
 temp  = NULL
 tmax  = NULL
-start <- c(mu = 0, sigma = 1)
+start <- c(mu = 0.5, sigma = 0.5)
 control <- list(trace=max(0, 0),
                 REPORT=1,
                 fnscale=-1,
-                reltol=reltol,
+                factr=factr,
                 maxit=iterlim,
                 parscale=parscale,
                 alpha=alpha,
@@ -152,7 +161,8 @@ mleOptim <- optim(par = start,
                   fn=logLikFun,
                   gr = logLikGrad,
                   control = control,
-                  method = method )
+                  method = method,
+                  lower=c(eps1, eps1), upper=c(inf, inf))
 pt <- mleOptim$par
 print(pt)
 ```
