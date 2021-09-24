@@ -31,9 +31,9 @@ p <- ggplot(data_look, aes(x, y, color = Visadas) )    +
       	ylab(TeX('Funções densidades de probabilidade')) +
        	ggtitle(TeX('Múltiplas visadas para a distribuíção Razão de amplitudes')) +
        	coord_cartesian(ylim=c(0, 1.9))
-setwd("../..")
-setwd("Text/Dissertacao/figuras")
-ggsave("grafico_pdf_lee_1994_razao_amplitude.pdf")
-setwd("../../..")
-setwd("Code/Code_r")
+#setwd("../..")
+#setwd("Text/Dissertacao/figuras")
+#ggsave("grafico_pdf_lee_1994_razao_amplitude.pdf")
+#setwd("../../..")
+#setwd("Code/Code_r")
 print(p)

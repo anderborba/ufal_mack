@@ -9,8 +9,8 @@ format long;
 cd ..
 cd ..
 cd Data
-%load SanFrancisco_Bay.mat
-load AirSAR_Flevoland_Enxuto.mat
+load SanFrancisco_Bay.mat
+%load AirSAR_Flevoland_Enxuto.mat
 cd ..
 cd Code/Code_matlab
 M = 450;

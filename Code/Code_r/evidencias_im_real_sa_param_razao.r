@@ -16,8 +16,8 @@ source("loglik_razao.r")
 setwd("../..")
 setwd("Data")
 # canais hh, hv, and vv
-mat1 <- scan('real_flevoland_2.txt')
-mat2 <- scan('real_flevoland_3.txt')
+mat1 <- scan('real_flevoland_1.txt')
+mat2 <- scan('real_flevoland_2.txt')
 setwd("..")
 setwd("Code/Code_r")
 r <- 120
@@ -66,8 +66,8 @@ for (k in 1 : nrows){# k aqui varre o número de radiais
     Nf <- N
 	  res2 <- maxBFGS(loglik_razao, start=c(r1, r2))
 	  if (j < N){
-	    matdf2[j, 1] <- res2$estimate[1]
-	    matdf2[j, 2] <- res2$estimate[2]
+	     matdf2[j, 1] <- res2$estimate[1]
+	     matdf2[j, 2] <- res2$estimate[2]
 	  }
 	}
 	cf <- 5
@@ -86,13 +86,13 @@ df <- data.frame(x, lobj)
 p <- ggplot(df, aes(x = x, y = lobj, color = 'darkred')) + geom_line() + xlab(TeX('Pixel $j$')) + ylab(TeX('$l(j)$')) + guides(color=guide_legend(title=NULL)) + scale_color_discrete(labels= lapply(sprintf('$\\sigma_{hh} = %2.0f$', NULL), TeX))
 print(p)
 # imprime em arquivo no diretorio  ~/Data/
-xev  <- seq(1, nrows, 1 )
-dfev <- data.frame(xev, evidencias)
-names(dfev) <- NULL
-setwd("../..")
-setwd("Data")
-sink("evid_real_flevoland_hv_vv_param_razao.txt")
-print(dfev)
-sink()
-setwd("..")
-setwd("Code/Code_r")
+#xev  <- seq(1, nrows, 1 )
+#dfev <- data.frame(xev, evidencias)
+#names(dfev) <- NULL
+#setwd("../..")
+#setwd("Data")
+#sink("evid_real_flevoland_hv_vv_param_razao.txt")
+#print(dfev)
+#sink()
+#setwd("..")
+#setwd("Code/Code_r")

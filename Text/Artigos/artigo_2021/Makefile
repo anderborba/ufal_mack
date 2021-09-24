@@ -3,28 +3,29 @@
 #
 # Sáb Jun 23 21:13:37 BRT 2007
 #
-#BASE_NAME = defesa_mack
-#BASE_NAME = apres_tengarss_2019
-#BASE_NAME = apres_semi_int_03_2021
-BASE_NAME = apres_igarss_2021
+
+BASE_NAME = remote_sensing
 
 LATEX     = latex
-PDFLATEX  = xelatex
+PDFLATEX  = pdflatex
 BIBTEX    = bibtex
+MAKEINDEX = makeindex
 
 pdf: $(BASE_NAME).pdf
 ps: $(BASE_NAME).ps
 
 $(BASE_NAME).pdf: $(BASE_NAME).tex 
 	$(PDFLATEX) $<
-#	$(BIBTEX) $(BASE_NAME) 
+	$(BIBTEX) $(BASE_NAME) 
+	$(MAKEINDEX) $(BASE_NAME) 
 	$(PDFLATEX) $< 
 	$(PDFLATEX) $<
 	$(PDFLATEX) $<
 
 $(BASE_NAME).ps: $(BASE_NAME).tex 
 	$(LATEX) $<
-#	$(BIBTEX) $(BASE_NAME) 
+	$(BIBTEX) $(BASE_NAME) 
+	$(MAKEINDEX) $(BASE_NAME) 
 	$(LATEX) $< 
 	$(LATEX) $<
 	$(LATEX) $<

@@ -72,35 +72,35 @@ end
 imshow(II);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Print radials
-cd ..
-cd Data
-for canal = 1: nc 
-	fname = sprintf('flevoland_%d.txt', canal);
-	fid = fopen(fname,'w');
-	for i = 1: num_radial
-		for j = 1: r
-                fprintf(fid,'%f ',MY(i, j, canal));
-	      	end
-    		fprintf(fid,'\n');
-        end
-        fclose(fid);       
-end
+%cd ..
+%cd Data
+%for canal = 1: nc 
+%	fname = sprintf('flevoland_%d.txt', canal);
+%	fid = fopen(fname,'w');
+%	for i = 1: num_radial
+%		for j = 1: r
+%                fprintf(fid,'%f ',MY(i, j, canal));
+%	      	end
+%    		fprintf(fid,'\n');
+%        end
+%        fclose(fid);       
+%end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % command print (xc, yc)
-	fnamexc = sprintf('xc_flevoland.txt');
-	fnameyc = sprintf('yc_flevoland.txt');
-	fidxc = fopen(fnamexc,'w');
-	fidyc = fopen(fnameyc,'w');
-        for i = 1: num_radial
-		for j = 1: r
-	                fprintf(fidxc,'%f ', MXC(i,j));
-	                fprintf(fidyc,'%f ', MYC(i,j));
-	      	end
-    		fprintf(fidxc,'\n');
-    		fprintf(fidyc,'\n');
-	end
-	fclose(fidxc);       
-	fclose(fidyc);       
-cd ..
-cd Code_matlab
+%	fnamexc = sprintf('xc_flevoland.txt');
+%	fnameyc = sprintf('yc_flevoland.txt');
+%	fidxc = fopen(fnamexc,'w');
+%	fidyc = fopen(fnameyc,'w');
+%        for i = 1: num_radial
+%		for j = 1: r
+%	                fprintf(fidxc,'%f ', MXC(i,j));
+%	                fprintf(fidyc,'%f ', MYC(i,j));
+%	      	end
+%    		fprintf(fidxc,'\n');
+%    		fprintf(fidyc,'\n');
+%	end
+%	fclose(fidxc);       
+%	fclose(fidyc);       
+%cd ..
+%cd Code_matlab
 
