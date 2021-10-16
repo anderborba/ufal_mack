@@ -1,0 +1,663 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[binary-units=true]{siunitx}  % AAB inserido
+\usepackage{enumitem}                   % AAB inserido
+\usepackage{natbib}                     % AAB inserido
+\usepackage{tikz}                       % AAB inserted 
+\usetikzlibrary{shapes,arrows,shadows}  % AAB inserted
+\usepackage{bm,bbm}                     % AAB inserted
+\usepackage{subfig}                     % AAB insered
+\usepackage{booktabs}                   % AAB inserido
+\usepackage{url}                        % AAB inserido
+\usepackage{listings}                   % AAB inserido
+\usepackage{hyperref}                   % AAB inserido
+\usepackage[all]{hypcap}                % AAB inserido
+\setcitestyle{numbers}
+%
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%
+\usetikzlibrary{calc,matrix,decorations.markings,decorations.pathreplacing}
+
+\definecolor{colone}{RGB}{209,220,204}
+\definecolor{coltwo}{RGB}{204,222,210}
+\definecolor{colthree}{RGB}{207,233,232}
+\definecolor{colfour}{RGB}{248,243,214}
+\definecolor{colfive}{RGB}{245,238,197}
+\definecolor{colsix}{RGB}{243,235,179}
+\definecolor{colseven}{RGB}{241,231,163}
+\definecolor{glyellow}{RGB}{218,165,32}
+\definecolor{spgreen}{RGB}{46,139,87}
+\tikzset{ 
+  table/.style={
+    matrix of nodes,
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle,text width=2cm,align=center},
+    text depth=1.25ex,
+    text height=2.5ex,
+    nodes in empty cells
+  }
+}
+%
+\usepackage{xcolor}
+
+%New colors defined below
+%\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},% commentstyle=\color{codegreen},
+  %keywordstyle=\color{magenta},
+  %numberstyle=\tiny\color{codegray},
+  %stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+%"mystyle" code listing set
+\lstset{style=mystyle}
+%
+\renewcommand*{\familydefault}{\sfdefault}
+\newcommand{\cbox}[1]{\parbox[t]{2cm}{\centering #1}}
+%
+\begin{document}
+\sloppy
+\title{Reprodutibilidade e replicabilidade\\
+%{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
+%should not be used}
+%\thanks{Identify applicable funding agency here. If none, delete this.}
+}
+\author{
+\IEEEauthorblockN{Anderson Adaime De Borba}
+\IEEEauthorblockA{\textit{Dept. de Economia} \\
+\textit{IBMEC-SP}\\
+São Paulo, Brasil \\
+anderborba@gmail.com\\
+https://orcid.org/0000-0001-8479-9128}
+\and
+\IEEEauthorblockN{Luiz Barboza}
+\IEEEauthorblockA{\textit{Dept. de Eng. de Software)} \\
+\textit{CESAR School)}\\
+Recife, Brasil \\
+lcbj@cesar.school}
+}
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+\begin{IEEEkeywords}
+\end{IEEEkeywords}
+\section{Introdução}
+A pesquisa descrita em \cite{br} menciona que cerca de $75\%$ dos pesquisadores encontraram problemas ao tentar reproduzir resultados de artigos publicados em importantes revistas científicas na área de sensoriamento remoto, mais especificamente na área de imagem SAR (\textit{Synthetic Aperture Radar}). A reportagem da Nature que pode ser vista em \cite{nat_baker} mostra número semelhante, em torno de $70\%$ dos pesquisadores entrevistados não conseguiram reproduzir resultados publicados em artigos científicos. Adicionalmente, podemos destacar em \cite{nat_baker} a afirmação que mais da metade dos pesquisadores não reproduziram seus próprios resultados.
+
+Instigado por essas evidências, decidimos verificar a reprodutibilidade dos resultados do artigo \cite{bmf_2019}. Para este fim, aplicamos duas metodologias: o uso do repositório \url{https://github.com/} no qual disponibilizamos as bases de dados e os códigos necessários para a pesquisa; O uso do aplicativo Docker \citep{Merkel} para gerenciamento da tecnologia conhecida como contêineres \citep{linux_cont}. E o repositório de imagens chamado de Docker hub, onde disponibilizamos a imagem do contêiner, que pode ser acessado em \url{https://hub.docker.com/}. Nessas metodologias controlamos todos os processos, desde o armazenamento dos dados até a reprodução dos resultados do artigo selecionado. 
+
+Destacamos que a ideia principal do presente artigo é reproduzir os experimentos numéricos do artigo \cite{bmf_2019}. Para isso, se faz necessário a descrição do procedimento de fusão de evidências de bordas, para então descrever os processos usados para garantir a reprodutibilidade dos resultados. 
+
+As metodologias empregadas para a detecção de bordas podem ser encontradas nas referências \cite{bmf_2019} e \cite{borba_tese}, assim como as referência teóricas usadas para construir o método de fusão de evidências de bordas.    
+
+Sendo assim, o presente artigo está estruturado da seguinte forma: Na seção \ref{bd} descrevemos a base de dados (imagem) usada para a reprodutibilidade dos resultados. Na seção \ref{metodologia} mostramos as metodologias aplicacadas para a fusão de evidências de bordas. A estrutura do processo de reprodutibilidade está descrita na seção \ref{reprod}. Os resultados  são mostrados na seção \ref{resultados}. Para finalizar propomos algumas discussões na seção \ref{discussao}. 
+\section{Base de dados}\label{bd}
+No presente trabalho usamos como base de dados a imagem de radar com abertura sintética polarimétrica (PolSAR) adquiridas com o sensor aerotransportado AIRSAR em uma aeronave DC-8. A aquisição das i\-ma\-gens é realizada com a aeronave voando a 8 kilometros da superfície terrestre com velocidade de \SI{215}{\meter\per\second}. Vamos descrever características específicas da imagem. 
+
+A imagem da região de Flevoland com dimensão $750\times 1024$ píxeis é uma imagem capturada pelo sensor AIRSAR com banda-L. A imagem tem 4 visadas, 9 canais com resolução de aproximadamente \SI{12,10}{\meter} na direção azimutal e \SI{6,6}{\meter} na direção lateral do sensor. A decomposição de Pauli da imagem capturada no sensor é mostrada na Figura \ref{flevoland_4_look}. 
+%
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=1.0\linewidth]{img_pauli_flev}%
+	\caption{Imagem da região de Flevoland}
+\label{flevoland_4_look}
+\end{figure}
+\section{Metodologia}\label{metodologia}
+A metologia que usamos segue os seguintes procedimentos:
+\begin{enumerate}[label=(\roman*)]
+	\item \label{item:obj_i}  Especificar manualmente ou automaticamente a região de interesse ROI;\index{ROI}
+	\item \label{item:obj_ii} Em cada ROI calcular o centro de massa e, a partir desse ponto, traçar retas radiais cruzando duas amostras distintas. O artigo \cite{gmbf} propõe um método para garantir que cruzamos duas amostras. 
+	Nas radiais serão extraídas informações para o passo \ref{item:obj_iii};
+	\item \label{item:obj_iii} Nos dados extraídos em cada reta radial o método MLE é aplicado para estimar o ponto de transição entre duas amostras, chamado de evidência de borda;\index{Evidências de bordas}
+	\item  \label{item:obj_iv} Métodos de fusão são aplicados nas evidências de bordas obtidas em cada canal, com o objetivo de detectar as bordas na ROI escolhida.	  
+\end{enumerate}
+\subsection{Estimativa por máxima verossimilhança}\label{metodo_mle_est_param}
+A técnica de máxima verossimilhança (MLE -- \textit{Maximum Likelihood Estimation}) permite estimar os parâmetros de um modelo estatístico usando uma amostra de dados observados.
+Essa técnica é desejável por apresentar boas propriedades em relação a outras abordagens.
+
+Suponha $\bm z = (z_1,\dots,z_n)$ um vetor de variáveis aleatórias independentes e identicamente distribuídas segundo uma distribuição caracterizada pela função de densidade de probabilidade $f(\bm z,\mathbf{\theta})$ que, por sua vez, é indexada pelos parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ pertencentes ao espaço paramétrico $\Theta$. 
+Define-se então a função de verossimilhança 
+\begin{equation}\label{eq:funcao_de_verossimilhanca_theta}
+   L(\theta;\bm z) = \prod_{k=1}^{n}f(z_k;\theta), 
+\end{equation}
+e a função log-verossimilhança  
+\begin{equation}\label{eq:funcao_de_log_verossimilhanca_theta}
+	\mathcal{L}(\theta;\bm z)= \ln L(\theta;\bm z)  = \sum_{k=1}^{n}\ln f(z_k;\theta).
+\end{equation}
+
+O vetor de parâmetros $\theta$ é estimado pelo vetor $\widehat{\theta}$ tal que $\mathcal{L}(\widehat{\theta};\bm z)\ge \mathcal{L}(\theta;\bm z)$ para todo $\theta$ no espaço dos parâmetros $\Theta$. A estimativa de máxima verossimilhança pode ser representada por 
+\begin{equation}\label{eq:max_vetor_log_theta}
+    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}\mathcal{L}(\theta;\bm z),
+\end{equation}
+em que $\bm z$ agora denota as observações.
+
+\subsection{A máxima verossimilhança usando os parâmetros estimados}\label{sec:sub:mle_param_estimados}
+
+Cada linha radial $\bm z = (z_1,z_2,\dots,z_n)$ é particionada em duas amostras disjuntas na posição $j$,
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
+$$
+para as quais são definidos modelos estatísticos di\-fe\-ren\-tes, um modelo para
+$\bm Z_\text{I} \sim W(\Sigma_\text{I},L_\text{I})$, e outro modelo para
+$\bm Z_\text{E} \sim W(\Sigma_\text{E},L_\text{E})$.
+
+O método MLE, descrito na seção \eqref{metodo_mle_est_param}, é aplicado nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ para estimar $(\Sigma_\text{I},L_\text{I})$ e $(\Sigma_\text{E},L_\text{E})$ maximizando~\eqref{eq:funcao_de_log_verossimilhanca_theta}, e obtendo $(\widehat{\Sigma}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\Sigma}_\text{E}, \widehat{L}_\text{E})$.
+
+A função de verossimilhança é definida no ponto $j$ de acordo com a função
+\begin{equation}\label{eq:vero_prod_int_ext}
+	L(j; \bm z)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k) \prod_{k=j+1}^{n}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
+\end{equation}
+
+Usando propriedades de logaritmos naturais para cada termo do produtório \eqref{eq:vero_prod_int_ext} é definida a função log-verossimilhança total dependendo de $j$:
+\begin{equation}
+\mathcal{L}(j)=\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k)+ \sum_{k=j+1}^{n}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
+\label{eq:log_vero_int_ext}
+\end{equation}
+
+O estimador de máxima verossimilhança $\widehat{\jmath}_{\text{ML}}$ é uma evidência de borda, pois representa uma aproximação da transição entre regiões, sendo
+\begin{equation}\label{eq:max_j_ml}
+\begin{array}{rcl}
+	\widehat{\jmath}_{\text{ML}}&=&\text{arg}\max\limits_{j}\mathcal{L}(j).
+\end{array}
+\end{equation}
+É importante destacar que os parâmetros estimados em~\eqref{eq:max_j_ml} são os números de visadas $L$ (do lado interno e do lado externo),
+as matrizes de covariância $\mathbf\Sigma$ (do lado interno e do lado externo),
+e o ponto $j$.
+A evidência de borda é encontrada aplicando-se o método GenSA~\citep{xgsh}.
+\subsection{O MLE para a distribuição gama}\label{sec:eml_pdf_gamma}
+Cada canal de intensidade pode ser modelado por uma lei gama, como apresentado em~\eqref{pdf_gauss_univ}:
+\begin{equation}
+f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\},
+\label{pdf_gauss_univ}
+\end{equation}
+onde, $\mu>0$ e $L>0$.
+Aplicando o logaritmo natural obtemos a função,
+\begin{equation}\label{func_log_univ_gaussiana}
+	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
+\end{equation}
+
+Dada a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, e utilizando a função logarítmica~\eqref{func_log_univ_gaussiana}, definimos a função log-verossimilhança
+\begin{equation}\nonumber
+    \mathcal{L}(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L).
+ \end{equation}
+ resultando na função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss_univ} na sua forma reduzida
+\begin{equation}
+\mathcal{L}(\bm z;\mu, L) = 
+n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
++L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
+\label{eq:LogLikelihoodGamma_red}
+\end{equation}
+
+A função~\eqref{eq:LogLikelihoodGamma_red} é usada para estimar os parâmetros $(\widehat \mu, \widehat L)$ com o método MLE de $(\mu, L)$ baseado na amostra $\bm z$. No trabalho \cite{bmf_2019} fixamos o parâmetro múltiplas visadas em $\text{L}=4$, e realizamos a estimativa para o parâmetro $\mu$ usando a média dos elementos da amostra considerada. Este procedimento fornece uma estimativa ($\widehat{L}, \widehat{\mu}$) para ($\widehat{L}, \widehat{\mu}$) que maximiza a função~\eqref{eq:LogLikelihoodGamma_red}.
+
+De acordo com a seção \ref{sec:sub:mle_param_estimados} é extraído de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras, disjuntas, na posição $j$:  
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
+$$
+para as quais são definidos modelos estatísticos diferentes, um modelo para
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e outro modelo para
+$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+
+As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ são usadas para estimar os parâmetros $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ maximizando~\eqref{eq:LogLikelihoodGamma_red}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+
+A log-verossimilhança total é definida no ponto $j$ pela seguinte função
+\begin{equation}
+\begin{aligned}
+\mathcal L\big(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)= -\Bigg(
+	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
+	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
+	\Bigg)+\mbox{}\\
+&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k + \mbox{}\\
+&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k .%-\\ 
+\raisetag{2.2em}
+\label{eq:TotalLogLikelihood}
+\end{aligned}
+\end{equation}
+e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de borda
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
+$$ 
+\subsection{Métodos de fusão de informação para as evidências de bordas}
+As evidências de bordas estão armazenadas em $n_c$ imagens binárias $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$, onde o pixel de valor 1 denota uma estimativa de borda e o pixel de valor 0 denota um elemento onde não foi detectada borda. 
+As imagens (matrizes) têm tamanho  $m\times n$, e denotamos $\ell= mn$. 
+Essas imagens foram usadas para a fusão resultando na imagem $I_\text{F}$ com as bordas detectadas.
+
+No trabalho selecionado para usar as reprodutibilidades foram propostas 4 técnicas de fusão de evidências de bordas:
+\begin{itemize} 
+\item Média simples; 
+%\item Transformada wavelet discreta multi-resolução (MR-DWT);
+\item Transformada wavelet estacionária multi-resolução (MR-SWT); 
+\item Análise de componentes principais (PCA);
+\item Estatísticas ROC (E-ROC);
+%\item Decomposição em valores singulares com multi-resolução (MR-SVD).
+\end{itemize}
+
+O fluxograma do processo de fusão pode ser observada na figura~\ref{fig:fusion_flowchart},
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=3.2em, 
+text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{waimage} = [sensor, text width=3.4em, fill=red!20, 
+minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{waimage1} = [sensor, text width=3.8em, fill=red!50, 
+minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2.0em, fill=red!20, 
+minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa2}=[draw, fill=green!20, text width=2.5em, 
+text centered, minimum height=3em,drop shadow]    
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+
+\begin{figure}[hbt]
+	\centering
+	\resizebox{.8\columnwidth}{!}{%
+		\begin{tikzpicture}
+			\node[waimage] (waimage1) at (-7.0,0.0) {Imagem Polsar};
+			\node[waimage] (waimage2) at (-5.3,0.0) {ROI};
+			\node[wa2] (waimage3) at (-5.3,3.5) {GR};
+			\node[waimage] (waimage4) at (-3.5,0.0) {GA};
+			\node[waimage1] (wa1) at (0.5,2.0) {Fusão 1};
+			\node[wa2] (waimage5) at (2.0,3.5) {Erro};
+			\path (waimage4.west)+(4.7,1.0) node (dots)[ann] {$\vdots$};
+			\path (waimage4.west)+(4.7,0.5) node (dots)[ann] {$\vdots$};
+			\path (waimage4.west)+(4.7,0.0) node (dots)[ann] {$\vdots$};
+			\path (waimage4.west)+(4.7,-0.5) node (dots)[ann] {$\vdots$};
+			\path (waimage4.west)+(4.7,-1.0) node (dots)[ann] {$\vdots$};
+			\path (waimage4.west)+(4.7,-1.5) node (dots)[ann] {$\vdots$};
+			\node[waimage1] (wa6) at (0.5,-2.0) {Fusão N};
+			%
+			\path [draw, ->] (waimage1.east) -- node [left] {} 
+			(waimage2) ;
+			\path [draw, ->] (waimage2.east) -- node [left] {} 
+			(waimage4) ;
+			\path [draw, ->] (waimage2.north) -- node [left] {} 
+			(waimage3) ;
+			\path [draw, ->] (waimage3.east) -- node [left] {} 
+			(waimage5) ;        
+			%
+			\path (waimage4.west)+(2.5,1.5) node (e1_1) [sensor] {Canal hh};
+			\path (waimage4.west)+(2.5,0.0) node (e2_1)[sensor] {Canal hv}; 
+			\path (waimage4.west)+(2.5,-1.5) node (e3_1)[sensor] {Canal vv};    
+			%
+			\path [draw, ->] (waimage4.east) -- node [left] {} 
+			(e1_1.180) ;
+			\path [draw, ->] (waimage4.east) -- node [below] {} 
+			(e2_1.180);
+			\path [draw, ->] (waimage4.east) -- node [right] {} 
+			(e3_1.180);
+			\path [draw, ->] (e1_1.east) -- node [right] {} 
+			(wa1.160);
+			\path [draw, ->] (e2_1.east) -- node [above] {} 
+			(wa1.180);
+			\path [draw, ->] (e3_1.east) -- node [right] {} 
+			(wa1.200);
+			\path [draw, ->] (e1_1.east) -- node [right] {} 
+			(wa6.160);
+			\path [draw, ->] (e2_1.east) -- node [above] {} 
+			(wa6.180);
+			\path [draw, ->] (e3_1.east) -- node [right] {} 
+			(wa6.200);
+			%
+			\path [draw, ->] (wa1.east) -- node [left] {} 
+			(waimage5) ;
+			\path [draw, ->] (wa6.east) -- node [left] {} 
+			(waimage5) ;
+		\end{tikzpicture}
+	}
+	\caption{Fluxograma do processo de fusão de evidências}
+	\label{fig:fusion_flowchart}
+\end{figure}
+\section{Estrutura do processo de reprodutibilidade}\label{reprod}
+No trabalho \cite{bmf_2019} foi utilizado como linguagem de programação o matlab \cite{matlab} e a linguagem de programação R \cite{r_pack}. Neste trabalho fizemos a tradução dos códigos para a linguagem de programação Python \cite{py3}. A escolha por utilizar outra linguagem de programação não foi em detrimento a nenhuma das linguagem usadas anteriormente, trata-se somente de uma decisão de projeto, pois acreditamos que a reprodutibilidade não depende da linguagem de programação empregada.   
+\subsection{Usando o repositório Github}
+Os programas e a base de dados utilizados estão armazenados no repositório Github, no endereço eletrônico \url{https://github.com/anderborba/***********}. Para obter os resultados pode-se fazer o \textit{download}  do projeto e rodar os programas  com o comando do python \texttt{python3.7 CodigoAndersonCompleto\_tengarss.py ./Data/AirSAR\_Flevoland\_Enxuto.mat}. Quando executamos o comando, o programa está apto a ler a base de dados no diretório \path{/Data}, e gravar os resultados no diretório \path{/figuras} no formato pdf. Qualquer informação sobre os códigos pode ser encontrada no projeto, incluindo as orientações para execução e reprodução. O que pode ser um ponto de falha, pode depender de execução humana. 
+%
+\subsection{Usando a tecnologia Docker}
+Docker é um software de código aberto executado nos sistemas operacionais Linux, Windows e Mac OS, responsável pelo empacotamento dos nossos códigos e suas dependências em contêineres.
+
+Para entender o funcionamento do software Docker, explicaremos o que são contêineres e como são usados.  Os contêineres são tecnologias que permitem empacotar e isolar aplicações juntamente com todo o seu ambiente de execução. Isto facilita a movimentação e portabilidade da aplicação para diferentes sistemas operacionais e equipamentos, mantendo a funcionalidade total da aplicação. Portanto, com o uso dos contêineres podemos garantir que nossos códigos sejam confiáveis, escaláveis e portáveis.
+
+A primeira versão foi lançada em 2013. Veja \cite{Merkel}.
+
+O Docker pode ajudar nos seguintes problemas:
+\begin{enumerate}[label=(\roman*)]
+	\item \label{item:docker_prob_i} Conflito de dependências -- Se existe a necessidade de executar programas com duas versões de um mesmo software podemos empacotar cada versão em um contêiner, por exemplo, temos que executar programas em duas versões diferentes do software OpenCV \cite{opencv}, podemos instalar cada versão em um contêiner diferente.  
+	\item \label{item:docker_prob_ii} Dependências ausentes -- As dependências necessárias para seu software são empacotadas conjuntamente nos contêineres.  
+	\item \label{item:docker_prob_iii} Diferentes plataformas -- Mover o seu software de um SO para outro SO pode ser um problema. O Docker resolve o problema executando o contêiner nesse diferentes sistemas operacionais. 
+\end{enumerate}
+
+Muitos desenvolvedores de software usam o Docker para simplificar o processo de construção, execução e gerenciamento de seus software. 
+
+Podemos considerar que o Docker virtualiza um sistema operacional para usar o hardware do computador onde os contêineres serão executados. Para cada contêiner não é necessário ter um sistema operacional, veja \ref{fig:conteineres_flowchart}, diferença que podemos observar em relação VMs. As VMs necessitam de seu próprio sistema operacional, veja \ref{fig:vm_flowchart}. Assim, a principal diferença está no fato dos contêineres compartilharem o sistema operacional.
+
+O fluxograma do sistema de contêineres pode ser visto na figura \ref{fig:conteineres_flowchart} e o fluxograma das VMs está na \ref{fig:vm_flowchart}. Nas figuras realizamos as seguintes abreviações: APP significam os aplicativos necessários, no nosso caso são os programas em Python que criamos para o processo de detecção de evidências de bordas e fusão das informações destas evidências. Enquanto Bins são os binários e Bibls são as bibliotecas que usamos. 
+\begin{figure}[hbt]
+	\centering
+\begin{tikzpicture}
+    \matrix (mat) [table] {
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
+    |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
+    |[fill=colseven]|       & |[fill=colseven]|   & |[fill=colseven]|\\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\    
+  };
+  % Vertical lines
+  \draw[spgreen] (mat-1-1.north west) -- (mat-4-1.south west);
+  \draw[spgreen] (mat-1-2.north west) -- (mat-4-2.south west);
+  \draw[spgreen] (mat-1-3.north west) -- (mat-4-3.south west);
+  \draw[spgreen] (mat-1-3.north east) -- (mat-4-3.south east);
+  % Horizontal lines
+  \draw[spgreen] (mat-5-1.north west) -- (mat-5-3.north east);
+  \draw[spgreen] (mat-1-1.north west) -- (mat-1-3.north east);
+  %
+% horizontal rules
+  \draw[glyellow] (mat-5-1.north west) -- (mat-5-3.north east);
+  \draw[glyellow] (mat-7-1.north west) -- (mat-7-3.north east);
+  \draw[glyellow] (mat-8-1.south west) -- (mat-8-3.south east);
+  \draw[glyellow] (mat-10-1.south west) -- (mat-10-3.south east);
+  % Vertical lines
+  \draw[glyellow] (mat-5-1.north west) -- (mat-10-1.south west);
+  \draw[glyellow] (mat-5-3.north east) -- (mat-10-3.south east);
+  % The labels
+  \node[fill=colfour] at (mat-1-1) {App A};
+  \node[fill=colfour] at (mat-1-2) {App B};
+  \node[fill=colfour] at (mat-1-3) {App C};
+  \node[fill=colfour] at (mat-2-1) {Bins/Bibls};
+  \node[fill=colfour] at (mat-2-2) {Bins/Bibls};
+  \node[fill=colfour] at (mat-2-3) {Bins/Bibls};
+  \node[fill=colfour] at (mat-3-1) {Contêiner 1};
+  \node[fill=colfour] at (mat-3-2) {Contêiner 2};
+  \node[fill=colfour] at (mat-3-3) {Contêiner 3};
+  \node[fill=colfive] at (mat-5-2) {Docker};
+  \node[fill=colfive] at (mat-7-2) {Sistema operacional};
+  \node[fill=colfive] at (mat-9-2) {Máquina física};
+  \node[rotate = 90] at ([xshift=-52pt]mat-3-1.north)
+    {\textsc{Contêineres}};
+  % The braces
+  \draw[decorate, decoration={brace, mirror, raise=6pt}]
+    (mat-1-1.north west) -- (mat-5-1.north west);
+\end{tikzpicture}
+    \caption{Fluxograma dos Contêineres}
+	\label{fig:conteineres_flowchart}
+\end{figure}
+%
+\begin{figure}[hbt]
+	\centering
+	%\resizebox{.8\columnwidth}{!}{%
+\begin{tikzpicture}
+    \matrix (mat) [table] {
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
+    |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
+    |[fill=colseven]|       & |[fill=colseven]|   & |[fill=colseven]|\\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\    
+  };
+  \node[fill=red!40!white] at (mat-3-1) {SO VM 1};
+  \node[fill=red!40!white] at (mat-3-2) {SO VM 2};
+  \node[fill=red!40!white] at (mat-3-3) {SO VM 3};
+  % Vertical lines
+  \draw[spgreen] (mat-1-1.north west) -- (mat-4-1.south west);
+  \draw[spgreen] (mat-1-2.north west) -- (mat-4-2.south west);
+  \draw[spgreen] (mat-1-3.north west) -- (mat-4-3.south west);
+  \draw[spgreen] (mat-1-3.north east) -- (mat-4-3.south east);
+  % Horizontal lines
+  \draw[spgreen] (mat-5-1.north west) -- (mat-5-3.north east);
+  \draw[spgreen] (mat-1-1.north west) -- (mat-1-3.north east);
+ %
+% horizontal rules
+  \draw[glyellow] (mat-5-1.north west) -- (mat-5-3.north east);
+  \draw[glyellow] (mat-7-1.north west) -- (mat-7-3.north east);
+  \draw[glyellow] (mat-8-1.south west) -- (mat-8-3.south east);
+  \draw[glyellow] (mat-10-1.south west) -- (mat-10-3.south east);
+  % Vertical lines
+  \draw[glyellow] (mat-5-1.north west) -- (mat-10-1.south west);
+  \draw[glyellow] (mat-5-3.north east) -- (mat-10-3.south east);
+  % The labels
+  \node[fill=colfour] at (mat-1-1) {App A};
+  \node[fill=colfour] at (mat-1-2) {App B};
+  \node[fill=colfour] at (mat-1-3) {App C};
+  \node[fill=colfour] at (mat-2-1) {Bins/Bibls};
+  \node[fill=colfour] at (mat-2-2) {Bins/Bibls};
+  \node[fill=colfour] at (mat-2-3) {Bins/Bibls};
+  \node[fill=colfive] at (mat-5-2) {Hypervisor};
+  \node[fill=colfive] at (mat-7-2) {Sistema operacional};
+  \node[fill=colfive] at (mat-9-2) {Máquina física};
+  \node[rotate = 90] at ([xshift=-52pt]mat-3-1.north)
+    {\textsc{Máquina Virtual - VM}};
+  % The braces
+  \draw[decorate, decoration={brace, mirror, raise=6pt}]
+    (mat-1-1.north west) -- (mat-7-1.north west);
+\end{tikzpicture}
+%}
+    \caption{Fluxograma das máquinas virtuais}
+	\label{fig:vm_flowchart}
+\end{figure}
+\subsection{Obter a imagem do contêiner e reproduzir os resultados}
+Nesta seção, vamos descrever como podemos obter e reproduzir os resultados do trabalho \cite{bmf_2019}. O pré-requisito comum para os sistemas operacionais Linux, Mac OS, e windows é a instalação do software Docker.
+
+Com o Docker instalado nos respectivos sistema o\-peracionais podemos seguir o seguinte procedimento:
+\begin{enumerate}[label=(\roman*)]
+	\item \label{item:linux_i} \texttt{docker pull quantpolsar/polsar\_fusion}. Comando para baixar a imagem Docker que está no repositório \url{https://hub.docker.com/}.  
+	\item \label{item:linux_ii} \texttt{docker run -e DATA=./Data/AirSAR\_Flevo\-land\_Enxuto.mat -p 8080:80 quantpolsar/polsar\_fusion}. Comando para rodar o Docker com o parâmetros \texttt{DATA} definindo sua base de dados, ou seja, a imagem PolSAR. Bem como o parâmetro \texttt{-p 8080:80} que associa uma porta física do SO hospedeiro a porta virtual na qual a aplicação está rodando dentro do contêiner.  
+	\item \label{item:linux_iii} Após o processamento dos canais de intensidade, as imagens com as bordas detectadas são disponibilizadas em um servidor web no contêiner. Elas podem ser acessadas através de um navegador de internet digitando o seguinte endereço \texttt{http://localhost:8080/imagens/}.
+	\item \label{item:linux_iv} \texttt{docker ps}. Comando do Docker para a obtenção do número do processo.
+	\item  \label{item:linux_v} \texttt{docker kill número do processo}. Comando para encerrar todo o processo. 	  
+\end{enumerate}
+
+Além do acesso às imagens com bordas detectadas via servidor web, é possível ter acesso a todos os códigos e base de dados, executando o container de maneira interativa (parâmetro \texttt{-it}) \texttt{docker run -e DATA=./Data/AirSAR\_Flevoland\_Enxuto.mat -p 8080:80 -it --entrypoint=/bin/bash quantpolsar/polsar\_fusion} alternativamente ao passo descrito no item \ref{item:linux_ii}. Esse processo deve ser executado quando encerramos o processo do item \ref{item:linux_ii} . Com isso, você estará dentro do contêiner e poderá encontrar os códigos em python na raiz do SO, encontrar a base de dados, e as figuras geradas, respectivamente nos caminhos \texttt{/Data} \texttt{/figuras}. Adicionalmente, observamos que o passo no item \ref{item:linux_ii} vai congelar o terminal com o endereço que deve ser acessado para analisar os resultados nas figuras com as imagens PolSAR. Para descongelar o processo é basta abrir outro terminal, e executar os passos dos itens \ref{item:linux_iv} e \ref{item:linux_v}.
+
+\subsection{A imagem Docker}
+A imagem Docker é construída a partir de um arquivo de definição legível por humanos e por máquinas, chamado Dockerfile.
+
+A lista \ref{lst:dockerfile} mostra a estrutura do Dockerfile
+\begin{lstlisting}[caption=Estrutura do Dockerfile, label={lst:dockerfile}]
+FROM ubuntu:18.04
+COPY . /
+RUN apt-get update -y && apt-get install -y python3-dev python3-pip
+RUN apt-get install -y nginx
+RUN ln -s /figuras /var/www/html/imagens
+RUN echo "<meta http-equiv='refresh' content='0;URL=http://localhost:8080/imagens/'/>" > /var/www/html/index.html
+RUN pip3 install scikit-image
+ENV DATA ./Data/AirSAR_Flevoland_Enxuto.mat
+RUN python3 main.py $DATA
+EXPOSE 80
+CMD echo "Acesse http://localhost:8080" && nginx -g 'daemon off;'
+\end{lstlisting}
+
+Vamos fazer uma breve descrição para cada linha do arquivo Dockerfile da lista \ref{lst:dockerfile}:
+\begin{enumerate}
+	\item \label{item:docker_1} Define o SO.
+	\item \label{item:docker_2} Copia todos os arquivos para o projeto Docker.
+	\item \label{item:docker_3} Instala a linguagem de programação python.
+	\item \label{item:docker_4} Instala um servidor web para visualizar as figuras.
+	\item  \label{item:docker_5} Realiza um link para o paras as imagens geradas.
+	\item  \label{item:docker_6} Cria uma página em html para visualizar as figuras.
+	\item  \label{item:docker_7} Instala as bibliotecas python usandas no programas.
+	\item  \label{item:docker_8} Define a base de dados.
+	\item  \label{item:docker_9} Comando em python que roda os programas.
+	\item  \label{item:docker_10} Define uma porta interna para o contêiner.
+	\item  \label{item:docker_11} Gera uma mensagem indicando como acessar as figuras e habilita um servidor web para mostrar as mesmas. 
+\end{enumerate}
+
+A figura \ref{fig:conteineres_flowchart_work} mostra a estrutura do contêiner que usamos para reproduzir os resultados do artifo \cite{bmf_2019}. 
+\begin{figure}[hbt]
+	\centering
+	%\resizebox{.8\columnwidth}{!}{%
+\begin{tikzpicture}
+    \matrix (mat) [table] {
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
+    |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
+    |[fill=colseven]|       & |[fill=colseven]|   & |[fill=colseven]|\\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\
+    |[fill=colseven]|     & |[fill=colseven]| & |[fill=colseven]|    \\    
+  };
+  % Vertical lines
+  \draw[spgreen] (mat-1-1.north west) -- (mat-4-1.south west);
+  \draw[spgreen] (mat-1-3.north east) -- (mat-4-3.south east);
+  % Horizontal lines
+  \draw[spgreen] (mat-5-1.north west) -- (mat-5-3.north east);
+  \draw[spgreen] (mat-1-1.north west) -- (mat-1-3.north east);
+  %
+% horizontal rules
+  \draw[glyellow] (mat-5-1.north west) -- (mat-5-3.north east);
+  \draw[glyellow] (mat-7-1.north west) -- (mat-7-3.north east);
+  \draw[glyellow] (mat-8-1.south west) -- (mat-8-3.south east);
+  \draw[glyellow] (mat-10-1.south west) -- (mat-10-3.south east);
+  % Vertical lines
+  \draw[glyellow] (mat-5-1.north west) -- (mat-10-1.south west);
+  \draw[glyellow] (mat-5-3.north east) -- (mat-10-3.south east);
+  % The labels
+  \node[fill=colfour] at (mat-1-2) {Aplicativos};
+  \node[fill=colfour] at (mat-2-2) {Bins/Bibls};
+  \node[fill=colfour] at (mat-3-2) {Contêiner};
+  \node[fill=colfive] at (mat-5-2) {Docker};
+  \node[fill=colfive] at (mat-7-2) {Sistema operacional};
+  \node[fill=colfive] at (mat-9-2) {Máquina física};
+  \node[rotate = 90] at ([xshift=-52pt]mat-3-1.north)
+    {\textsc{Contêineres}};
+  % The braces
+  \draw[decorate, decoration={brace, mirror, raise=6pt}]
+    (mat-1-1.north west) -- (mat-5-1.north west);
+\end{tikzpicture}
+%}
+    \caption{Fluxograma usado no Docker}
+	\label{fig:conteineres_flowchart_work}
+\end{figure}
+Com o Dockerfile construído, rodamos o seguintes comandos do Docker para gerar a imagem. Primeiro, usamos o comando \texttt{docker build . -t quantpolsar/polsar\_fusion} para gerar a imagem Docker, depois, usamos \texttt{docker push quantpolsar/polsar\_fusion} para armazenar a imagem no repositório \url{https://hub.docker.com/}. 
+%
+\section{Resultados}\label{resultados}
+Os métodos apresentados no artigo \cite{bmf_2019} foram reproduzidos e executados com um computador Intel\copyright\ Core i7-9750HQ CPU  \SI{2.6}{\gibi\hertz} \SI{16}{\gibi\byte}. 
+
+Esse métodos tomaram como referência a região de interesse (FLEV-ROI) destacada na Figura~\ref{flevoland_radial_4_look_crop}. A figura também mostra as radiais usadas para extrair informações da imagens.
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{flevoland_radial_4_look_black_crop}%
+	\caption{Região de interesse da imagem Flevoland}
+\label{flevoland_radial_4_look_crop}
+\end{figure}
+
+As Figuras~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, e~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} mostram, respectivamente, as evidências de bordas nos canais~$\text{hh}$, $\text{hv}$,~e~$\text{vv}$, obtidas pelo método MLE. Para a FLEV-ROI foi estabelecido 100 radiais com comprimento de 120 píxeis, onde foi constatado uma forte oscilação da função de máxima verossimilhança total nos píxeis dos extremos das radiais,  para evitar a oscilação nesta região foi definida uma folga com 14 píxeis. Esse valor foi escolhido empiricamente e pode variar de acordo com a região de interesse da imagem, o canal, o sensor e a imagem. Na FLEV-ROI os 14 píxeis, escolhidos para cada extremidade, foram suficientes para contornar o problema da oscilação.
+
+Os parâmetros para as funções de máxima verossimilhança reduzidas são $L=4$ fixo, e $\mu$ é estimado usando a médias dos elementos da amostra. Estes parâmetros são aplicados nas funções de máxima verossimilhança total com o objetivo de encontrarmos o seu valor máximo e o seu argumento correspondente. O método GenSA foi usado para realizar este processo de maximização, obtendo as evidências de bordas com precisão.  
+\begin{figure}[hbt!]
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop_py}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_14_pixel_crop_py}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop_py}
+     	}
+    \caption{Evidências de bordas para os três canais de intensidades na FLEV-ROI}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}
+
+A inspeção visual destas figuras mostra a melhor acurácia dos métodos no canal hv, e presença de \textit{outliers} no canal vv.
+
+Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, e~\subref{fusion_met:d} mostram os resultados numéricos para os métodos propostos de fusão de evidência de bordas. 
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[Fusão por média\label{fusion_met:a}]{%
+       \includegraphics[width=0.5\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop_py}
+     }
+     \subfloat[Fusão SWT\label{fusion_met:b}]{%
+       \includegraphics[width=0.5\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop_py}
+     }\\
+     \subfloat[Fusão PCA \label{fusion_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.5\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop_py}       
+     }
+     \subfloat[Fusão E-ROC\label{fusion_met:d}]{%
+       \includegraphics[width=0.5\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop_py}
+     }\\
+%     \subfloat[Fusão MR-SWT \label{fusion_met:e}]{%
+%       \includegraphics[width=0.3\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop_py}
+%     }
+%     \subfloat[Fusão MR-SVD\label{fusion_met:f}]{%
+%       \includegraphics[width=0.3\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop_py}
+%     }
+     \caption{Métodos de fusão para a região FLEV-ROI}
+     \label{fusion_met}
+\end{figure}
+
+Os métodos de fusão por média e fusão PCA produzem resultados similares. A vantagem do método PCA está em realizar a média ponderada das evidências de bordas nos diferentes canais, possibilitando a quantificação da importância de cada canal no processo de fusão.
+
+O MR-SVD produz uma considerável vantagem em descartar \text{outliers}, porém o tempo de processamento é maior em comparação com os demais métodos.
+
+O método usando a estatística ROC produz bordas acuradas, com poucos \text{outliers}, porém de forma esparsa. Acreditamos que este método tem potencial na medida em que mais canais forem considerados, ou ao serem aplicadas outras funções de densidades de probabilidades para obter evidências de bordas. 
+
+O método baseado em \textit{wavelets} produz densas bordas, mesmo com a inpeção visual mostrarem melhores em possibilidades de detectar bordas, o método produz \text{outliers}. Destacamos que a detecção pode ser melhorada com o uso de pós-processamento \citep{fbgm}, podendo ser aplicado em todos os métodos, inclusive em cada canal onde as evidências forem detectadas.
+%
+\section{Discussão}\label{discussao}
+Os dois procedimentos utilizados alcançaram o objetivo de reproduzir os resultados da detecção de bordas. Portanto, destacamos a importância do uso desses procedimentos no desenvolvimento de novas pesquisas. 
+
+O procedimento de usar o Github como repositório da base de dados e dos códigos é uma boa prática para alcançar a reprodutibilidade dos resultados. Porém, a responsabilidade de execução dos processos serem centradas no usuário, podem acarretar problemas na adequação de compiladores e suas bibliotecas. 
+
+A utilização dos contêineres mostraram-se confiáveis e portáveis, pois, cada contêiner possui a estrutura adequada para rodar os programas. Lembrando que definimos no Dockerfile toda a estrutura que precisamos, o SO, os códigos e o servidor web para visualizar os arquivos no formato PDF (Portable Document Format). 
+
+A portabilidade foi testada usando o procedimento dos contêineres com o auxílio do Docker nos principais sistemas operacionais, no Linux, MacOS, e Windows e em computadores com diferentes configurações de hardware. Conseguimos reproduzir exatamente os mesmos resultados do artigo selecionada.
+
+Na criação da imagem Docker usamos somente softwares livres e de fácil acesso ao usuário.
+
+A facilidade de obter o Docker para diferentes sistemas operacionais e as vantagens citados no parágrafo anterior mostram que o uso desta tecnologia é muito conveniente. Com o desenvolvimento dessa tecnologia teremos plataformas melhores e eficientes para gerenciar os contêineres.
+
+Finalizando, citamos a confiabilidade, eficiência, e portabilidade como fatores para ampliar o uso da tecnologia dos contêineres.
+\bibliographystyle{IEEEtran}
+\bibliography{bibliografia}
+%\vspace{12pt}
+%\color{red}
+%IEEE conference templates contain guidance text for composing and formatting conference papers. Please %ensure that all template text is removed from your conference paper prior to submission to the conference. %Failure to remove the template text from your paper may result in your paper not being published.
+\end{document}
