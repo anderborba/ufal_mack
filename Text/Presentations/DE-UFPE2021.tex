@@ -1,0 +1,883 @@
+\documentclass[table,aspectratio=169]{beamer}
+
+\usefonttheme{professionalfonts}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{sansmathfonts}
+
+\usetheme[progressbar=frametitle]{metropolis}
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+\usepackage{bibentry}       % AAB
+\usepackage{amsmath, bm}    % AAB
+\usepackage{tikz}           % AAB    
+\usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{float}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{natbib}
+
+\DeclareMathOperator{\traco}{tr} %AAB
+\graphicspath{{../Dissertacao/figuras/}%
+{/Users/acfrery/Documents/Transparencias/Figuras/}
+}
+
+\definecolor{anti-flashwhite}{rgb}{0.95, 0.95, 0.96}
+\definecolor{byzantine}{rgb}{0.74, 0.2, 0.64}
+\definecolor{VUWgreen}{rgb}{0, .196, .136}
+
+\setbeamercolor{background canvas}{bg=VUWgreen}
+\setbeamercolor{normal text}{fg=anti-flashwhite, bg=VUWgreen}
+
+\setbeamercovered{dynamic}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{navigation symbols}{}
+
+\setcounter{tocdepth}{1}
+{\AtBeginSection[]
+	{
+		\begin{frame}<beamer>
+			\frametitle{Outline}
+			\tableofcontents
+		\end{frame}
+}}
+
+\renewcommand{\newblock}{}
+
+
+\title{Edge Detection in PolSAR Imagery with Statistical Tools}
+%\subtitle{A modern beamer theme}
+\date{14 October 2021}
+\author{Alejandro C.\ Frery} 
+\institute{Victoria University of Wellington}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\begin{frame}{PolSAR Images}
+PolSAR images are an essential source of information in Remote Sensing.
+
+They are formed with the echoes that the scene returns when illuminated with microwaves.
+
+Main characteristics:
+\begin{itemize}
+	\item The sensor is active.
+	\item Microwaves are little affected by adverse atmospheric conditions.
+	\item The signal may penetrate soil and canopies.
+	\item The return brings textural and dielectric information.
+	\item The technology has evolved to provide spatial resolutions of the order of centimetres.
+	\item Their statistical properties are challenging.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{PolSAR Images}
+	\begin{figure}[hbt]
+	\centering
+     \subfloat[Flevoland\label{evidencias_hh_hv_vv:a}]{%
+       \includegraphics[width=0.35\linewidth]{flevoland_4_look}
+     }\quad
+     \subfloat[San Francisco Bay\label{evidencias_hh_hv_vv:b}]{%
+       \includegraphics[width=0.35\linewidth]{san_francisco_2020}}
+     \caption{PolSAR images}
+     \label{fig12}
+   \end{figure}	
+\end{frame}
+
+\begin{frame}[fragile]{Edges}
+	Our visual system has evolved to extract edges and to use them to build higher-level cognitive representations.
+
+	Edges are one of the most important \textit{hidden} features in any image processing pipeline.
+	
+	Edges are boundaries between regions with intra-class similarities and inter-class differences.
+	
+	The same image may present different edges depending on the definition of the feature under consideration, e.g., color, contrast, or texture.
+\end{frame}
+
+\begin{frame}{Rationale}
+Our approach:
+\begin{itemize}
+	\item \alert{exploits} the multiplicity of information PolSAR images provide (one statistical model for each \alert{marginal description}),
+	\item \alert{estimates} the location of an edge on each feature using an \alert{efficient algorithm},
+	\item \alert{fuses} the evidences to provide a single estimate of the edge location.
+\end{itemize} 
+\end{frame}
+
+\section{Edge Detection}
+
+\begin{frame}{Edge detection}
+	\begin{columns}
+		\begin{column}{5cm}
+			\includegraphics[width=\linewidth]{EdgeDetectionScheme}
+		\end{column}
+		\begin{column}{9cm}
+			\begin{alertblock}{General procedure:}
+				\begin{itemize}
+					\item identify the centroid of a region of interest (ROI) in an automatic, semi-automatic or manual manner;
+					\item cast rays from the centroid to the outside of the area;
+					\item collect data around the rays, ideally one pixel width;
+					\item detect points in the data strips which provide evidence of changes in their statistical properties, i.e., a transition point.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Edge Detection}
+	\begin{columns}
+		{\begin{column}{10cm}
+				\begin{algorithm}[H]
+					\DontPrintSemicolon
+					\KwData{Strip $
+						z_1, z_2, \dots, z_{k-1}, z_k, 
+						z_{k+1},  \dots, z_{n-1}, z_n
+						$ in which we suspect there is coordinate $k^*$ where properties change.}
+					\For{each $k$}{
+						Estimate $
+						\underbrace{z_1, z_2, \dots, z_{k-1}, z_k}_{\widehat{\theta}_{1}(k)}, 
+						\underbrace{z_{k+1}, z_{k+2} \dots, z_{n-1}, z_n}_{\widehat{\theta}_{2}(k)}
+						$
+						
+						Compare $\mathcal D\big(\widehat{\theta}_{1}(k)\big)$ and $\mathcal D\big(\widehat{\theta}_{2}(k)\big)$
+						
+						Store the measurement of the difference in $v[k]$
+					}
+					
+					Find the maximum evidence in $v$, say $\widehat{k^*}$
+					
+					Return $\widehat{k^*}$
+					\caption{Gambini Algorithm}
+				\end{algorithm}
+		\end{column}}
+		{\begin{column}{3cm}
+				\includegraphics[width=\linewidth]{GambiniTango}
+		\end{column}}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Edge detection}
+	\centering
+	\includegraphics<1-1>[width=.7\linewidth]{Intensity}
+	\includegraphics<2-2>[width=.7\linewidth]{Parameter}
+	\includegraphics<3-3>[width=.7\linewidth]{Distance}
+\end{frame}
+
+\begin{frame}{Example}
+	\centering
+	\includegraphics[width=.7\linewidth]{flevoland_radial_25_point_hh_crop}
+\end{frame}
+
+\begin{frame}{Question}
+	We have several ways of measuring differences between samples, provided the models cited above, among them:
+	\begin{itemize}
+		\item joint likelihood equation,
+		\item stochastic distances (Kullback-Leibler, Hellinger, $\chi^2$, etc.)
+		\item difference of entropies,
+		\item geodesic distances.
+	\end{itemize}
+	
+	\begin{alertblock}{Edge estimation}
+		Which of those edge estimators has the best cost-effective performance (bias, mean squared error)?
+	\end{alertblock}
+\end{frame}
+
+\section{The Models}
+
+\begin{frame}{Statistical Modeling}
+The observation on each single-frequency fully PolSAR pixel is a Hermitian positive definite matrix with distribution characterized by the following probability density function:
+\begin{equation}
+    f_{\mathbf{Z}}(\mathbf{Z};\Sigma,L)=\frac{L^{mL}|\mathbf{Z}|^{L-m}}{|\Sigma_{s}|^{L}\Gamma_m(L)} \exp\big(-L\traco(\Sigma^{-1}\mathbf{Z})\big),
+    \label{eq_04},
+\end{equation} 
+where
+ $\traco(\cdot)$ is the trace operator, $\Gamma_m(L)$ is a multivariate Gamma function
+\begin{equation*}
+	\Gamma_m(L)=\pi^{\frac{1}{2}m(m-1)} \prod_{i=0}^{m-1}\Gamma(L-i),
+\end{equation*}
+$\Gamma(\cdot)$ is the Gamma function, and
+$m=3$.
+
+We denote this situation $\mathbf{Z}\sim \mathcal W(\Sigma, L)$.
+This is the Multilook Complex Scaled Wishart distribution.
+The parameters that index this law are the covariance matrix $\Sigma$ and the number of looks $L$.
+\end{frame}
+
+\begin{frame}{Statistical Modeling}
+More explicitly:
+$$
+\mathbf{Z} = 
+\begin{pmatrix}
+I_{\text{HH}}	& \text{Cov}(\text{HH},\text{HV})	& \text{Cov}(\text{HH},\text{VV})\\
+	*			& I_{\text{HV}}		& \text{Cov}(\text{HV},\text{VV})\\
+	*			&		*			& I_{\text{VV}}
+\end{pmatrix}
+\sim
+\mathcal W(\Sigma, L),
+$$
+where $I_{ii}$ is the intensity from channel $i$,
+$\text{Cov}(i,j)$ is the complex covariance between channels $i$ and $j$, 
+and $*$ denotes the conjugate.
+\end{frame}
+
+\begin{frame}{Marginal Distributions}
+The $\mathcal W(\Sigma, L)$ model describes the complete matrix, but it also induces the following marginal distributions:
+\begin{enumerate}
+	\uncover<1->{\item Each of the three intensities $I_{ii}$ follows a Gamma distribution with shape parameter $L$ and a different mean.}
+	\uncover<2->{\item Each of the three pairs $(I_{ii},I_{jj})$ follows a bivariate Gamma distribution.}
+	\uncover<3->{\item The triplet $(I_{\text{HH}},I_{\text{HV}},I_{\text{VV}})$ follows a trivariate Gamma distribution.}
+	\uncover<4->{\item Each of the six ratios $I_{ii}/I_{jj}$ follows a transformed Fisher-Snedekor distribution.}
+	\uncover<5->{\item Each of the three phase differences $\phi_{i,j}$ follows a distribution with support in $(-\pi,\pi]$.}
+	\uncover<6-6>{\item[] And there are other possibilities!}
+\end{enumerate}
+\uncover<7->{We have, at least, $3+ 3+ 1+ 6+ 3=16$ single potential sources of information.}
+\end{frame}
+
+\begin{frame}{Question}
+In principle, we have all the information coded in the full covariance matrix, but it may be expensive to obtain, store and process.
+
+\begin{alertblock}{Information content}
+	Which of those partial versions of the full covariance matrix carries the most information in a cost-effective scenario?
+\end{alertblock}
+\end{frame}
+
+
+
+\section{Fusion of evidences}
+%
+%\begin{frame}[fragile]{Evidence Fusion}
+%\begin{alertblock}{Average Fusion}
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%%
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=10em, fill=red!20, 
+%    minimum height=6em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+%    minimum height=10em, rounded corners, drop shadow]
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+%	\begin{figure}[htb!]
+%\centering
+%\begin{tikzpicture}
+%	\node (wa) [wa]  {$IF=\frac{1}{nc}\sum_{i=1}^{nc}IE_i$};
+%	\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+%    \path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+%    \path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_{nc}$};    
+%%
+%    \path [draw, ->] (e1.east) -- node [above] {} 
+%        (wa.160) ;
+%    \path [draw, ->] (e2.east) -- node [above] {} 
+%        (wa.180);
+%    \path [draw, ->] (e3.east) -- node [above] {} 
+%        (wa.200);
+%%  
+%%    \begin{pgfonlayer}{background}
+%%        \path (e1.west |- e1.north)+(-0.5, 0.5) node (a) {};
+%%        \path (wa.south -| wa.east)+(+1.0,-2.0) node (b) {};
+%%       %   
+%%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%%            (a) rectangle (b);           
+%%       %     
+%%    \end{pgfonlayer}   
+%\end{tikzpicture}
+%	\caption{Average Fusion.}
+%\label{fig5}
+%\end{figure}
+%\end{alertblock}
+%\end{frame}
+%
+%
+%
+%%\begin{frame}[fragile]{PolSAR Image}
+%%\begin{alertblock}{Average Fusion}
+%%\begin{itemize}
+%%	\item 
+%%	\begin{equation}
+%%	IF(x,y)=\frac{1}{nc}\sum_{i=1}^{nc}IE_i(x,y),
+%%\end{equation} 	
+%%\end{itemize}
+%%\end{alertblock}
+%%\end{frame}
+%
+%\begin{frame}[fragile]{Evidence Fusion}
+%\begin{alertblock}{PCA Fusion}
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+%    minimum height=3em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+%    minimum height=7em, rounded corners, drop shadow]
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+%	\begin{figure}[htb!]
+%\begin{tikzpicture}
+%	\path (wa.west)+(-2.0,0.0) node (pcanode) [wa] {$\text{PCA}$};
+%	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+%    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+%    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%    \path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+%                                                      \\$p=V_m(i)/||V_m||$
+%                                                      \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+%    \path [draw, ->] (e1.east) -- node [above] {} 
+%        (pcanode.160) ;
+%    \path [draw, ->] (e2.east) -- node [above] {} 
+%        (pcanode.180);
+%    \path [draw, ->] (e3.east) -- node [above] {} 
+%        (pcanode.200);
+%        %
+%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%        (pcanodefus.180) ;
+%%  
+%%    \begin{pgfonlayer}{background}
+%%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+%       %   
+%%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%%            (a) rectangle (c);           
+%%       %     
+%%    \end{pgfonlayer}
+%   
+%\end{tikzpicture}
+%	\caption{PCA Fusion.}
+%\label{fig6}
+%\end{figure}
+%\end{alertblock}
+%\end{frame}
+%
+%\begin{frame}[fragile]{Evidence Fusion}
+%\begin{alertblock}{Stationary wavelet transform -- SWT Fusion} 
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+%    minimum height=3em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+%    minimum height=7em, rounded corners, drop shadow]
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+%	\begin{figure}[htb!]
+%\begin{tikzpicture}
+%	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef SWT}_1$};
+%	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef SWT}_2$};
+%	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef SWT}_N$};  
+%	
+%	
+%	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+%    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+%    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavalets\\
+%                                                       coefficient};
+%                                                       
+%    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Image fusion};
+%    \path [draw, ->] (e1.east) -- node [above] {W} 
+%        (swtnode1.180) ;
+%    \path [draw, ->] (e2.east) -- node [above] {W} 
+%        (swtnode2.180);
+%    \path [draw, ->] (e3.east) -- node [above] {W} 
+%        (swtnode3.180);
+%%
+%    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+%        (swtnodefus.160) ;
+%    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+%        (swtnodefus.180);
+%    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+%        (swtnodefus.200);      
+%    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+%        (imagefus.north);        
+%        
+%%        %
+%%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%%        (pcanodefus.180) ;
+%%  
+%%    \begin{pgfonlayer}{background}
+%%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+%       %   
+%%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%%            (a) rectangle (c);           
+%%       %     
+%%    \end{pgfonlayer}
+%   
+%\end{tikzpicture}
+%	\caption{SWT Fusion.}
+%\label{fig7}
+%\end{figure}
+%\begin{itemize}
+%\vspace{-0.8cm}
+%\item $W$ is wavelet transformed.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+%
+%
+%\begin{frame}[fragile]{Conclusion}
+%\begin{alertblock}{Discrete wavelet transform -- DWT Fusion}
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+%    minimum height=3em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=10em, fill=red!20, 
+%    minimum height=7em, rounded corners, drop shadow]
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+%	\begin{figure}[htb!]
+%\begin{tikzpicture}
+%	\path (wa.west)+(-3.0,1.5) node (swtnode1) [sensor] {$\text{Coef DWT}_1$};
+%	\path (wa.west)+(-3.0,0.5) node (swtnode2) [sensor] {$\text{Coef DWT}_2$};
+%	\path (wa.west)+(-3.0,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-3.0,-2.0) node (swtnode3)[sensor] {$\text{Coef DWT}_N$};  
+%	
+%	
+%	\path (wa.west)+(-6.2,1.5) node (e1) [sensor] {$IE_1$};
+%    \path (wa.west)+(-6.2,0.5) node (e2)[sensor] {$IE_2$};
+%    \path (wa.west)+(-6.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-6.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%    \path (wa.west)+(1.0,1.0) node (swtnodefus) [wa] {Fused wavalets\\
+%                                                       coefficient};
+%                                                       
+%    \path (wa.west)+(1.0,-2.5) node (imagefus) [wa] {Image fusion};
+%    \path [draw, ->] (e1.east) -- node [above] {W} 
+%        (swtnode1.180) ;
+%    \path [draw, ->] (e2.east) -- node [above] {W} 
+%        (swtnode2.180);
+%    \path [draw, ->] (e3.east) -- node [above] {W} 
+%        (swtnode3.180);
+%%
+%    \path [draw, ->] (swtnode1.east) -- node [above] {} 
+%        (swtnodefus.160) ;
+%    \path [draw, ->] (swtnode2.east) -- node [above] {} 
+%        (swtnodefus.180);
+%    \path [draw, ->] (swtnode3.east) -- node [above] {} 
+%        (swtnodefus.200);      
+%    \path [draw, ->] (swtnodefus.south) -- node [right] {$W^{-1}$}      
+%        (imagefus.north);        
+%        
+%%        %
+%%    \path [draw, ->] (pcanode.east) -- node [above] {} 
+%%        (pcanodefus.180) ;
+%%  
+%%    \begin{pgfonlayer}{background}
+%%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+%       %   
+%%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%%            (a) rectangle (c);           
+%%       %     
+%%    \end{pgfonlayer}
+%   
+%\end{tikzpicture}
+%	\caption{DWT Fusion.}
+%\label{fig7}
+%\end{figure}
+%\end{alertblock}
+%\end{frame}
+%
+%\begin{frame}[fragile]{Evidence Fusion}
+%\begin{alertblock}{ROC statistics Fusion}
+%\begin{itemize}
+%\item Part I
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,main,foreground}
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
+%    text centered, minimum height=2.5em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=7em, fill=red!20, 
+%    minimum height=5em, rounded corners, drop shadow]
+%\tikzstyle{sc} = [sensor, text width=13em, fill=red!20, 
+%    minimum height=10em, rounded corners, drop shadow]
+%\def\blockdist{2.3}
+%\def\edgedist{2.5}
+%	\begin{figure}[htb!]
+%\begin{tikzpicture}
+%\path (wa.west)+(-3.0,0.0) node (pcanode) [wa] {$V=\sum_{i=1}^{N}IE_i$};
+%	\path (wa.west)+(-7.2,1.5) node (e1) [sensor] {$IE_1$};
+%    \path (wa.west)+(-7.2,0.5) node (e2)[sensor] {$IE_2$};
+%    \path (wa.west)+(-7.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(-7.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%    %\path (wa.west)+(2.0,0.0) node (pcanodefus) [sc] {$V_m=\max{V(i)}$
+%    %                                                  \\$p=V_m(i)/||V_m||$
+%    %                                                  \\$IF=\sum_{i=1}^{nc}p_iIE_i$};
+%    \path [draw, ->] (e1.east) -- node [above] {} 
+%        (pcanode.160) ;
+%    \path [draw, ->] (e2.east) -- node [above] {} 
+%        (pcanode.180);
+%    \path [draw, ->] (e3.east) -- node [above] {} 
+%        (pcanode.200);
+%        %
+%	%\node (wa) [wa]  {$V=\sum_{i=1}^{N}IE_i$};
+%	%\path (wa.west)+(-3.2,1.5) node (e1) [sensor] {$IE_1$};
+%    %\path (wa.west)+(-3.2,0.5) node (e2)[sensor] {$IE_2$};
+%    %\path (wa.west)+(-3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    %\path (wa.west)+(-3.2,-2.0) node (e3)[sensor] {$IE_N$};    
+%%%   
+%    \path (pcanode.east)+(3.2,1.5) node (m1) [sensor] {$M_1$};
+%    \path (pcanode.east)+(3.2,0.5) node (m2) [sensor] {$M_2$};
+%    \path (pcanode.east)+(3.2,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (pcanode.east)+(3.2,-2.0) node (m3) [sensor] {$M_N$};
+%%%
+%    %\path [draw, ->] (e1.east) -- node [above] {} 
+%    %    (wa.160) ;
+%    %\path [draw, ->] (e2.east) -- node [above] {} 
+%    %    (wa.180);
+%    %\path [draw, ->] (e3.east) -- node [above] {} 
+%    %    (wa.200);
+%	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_1$}} 
+%        (m1.west);
+%	\path [draw, ->] (pcanode.east) -- node [above] {\tiny{$CT_2$}} 
+%        (m2.west);
+%	\path [draw, ->] (pcanode.east) -- node [right] {\tiny{$CT_N$}} 
+%        (m3.west);
+%%               
+%%%    \path (wa.south) +(0,-\blockdist) node (asrs) {Estrutura geral da fusão de evidência proposta};
+%%  
+%%    \begin{pgfonlayer}{background}
+%%        \path (e1.west |- e1.north)+(-0.5,0.3) node (a) {};
+%%        \path (wa.south -| wa.east)+(+0.5,-0.3) node (b) {};
+%%        \path (m3.east |- m3.east)+(+0.5,-0.75) node (c) {};
+%       %   
+%%        \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+%%            (a) rectangle (c);           
+%%       %     
+%%    \end{pgfonlayer}
+%   
+%\end{tikzpicture}
+%	\caption{Fusion based in ROC statistics - Part I.}
+%\label{fig8}
+%\end{figure}
+%\item $CT_i$ is a threshold.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+%
+%
+%\begin{frame}[fragile]{Evidence Fusion}
+%\begin{alertblock}{ROC statistics Fusion}
+%\begin{itemize}
+%\item Part II - for each $M_j$
+%\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+%    text centered, minimum height=2em,drop shadow]
+%\tikzstyle{ann} = [above, text width=5em, text centered]
+%\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+%    minimum height=2em, rounded corners, drop shadow]
+%\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+%    minimum height=2em, rounded corners, drop shadow]
+%\begin{figure}[hbt]
+%\begin{tikzpicture}
+%\node[wa] (wa) at (0.0,0.0) {$M_j$};
+%\node[wa1] (wa1) at (4.0,0.0) {$\overline{TP}_j$};
+%
+%    \path (wa.west)+(2.5,1.5) node (e1_1) [sensor] {$TP_1$};
+%    \path (wa.west)+(2.5,0.5) node (e2_1)[sensor] {$TP_2$};
+%    \path (wa.west)+(2.5,-1.0) node (dots)[ann] {$\vdots$}; 
+%    \path (wa.west)+(2.5,-2.0) node (e3_1)[sensor] {$TP_N$};    
+%%
+%	\path [draw, ->] (wa.east) -- node [left] {\tiny{$\overline{\cap E_1}$}} 
+%        (e1_1.180) ;
+%	\path [draw, ->] (wa.east) -- node [below] {\tiny{$\overline{\cap E_2}$}} 
+%        (e2_1.180);
+%	\path [draw, ->] (wa.east) -- node [right] {\tiny{$\overline{\cap E_3}$}} 
+%        (e3_1.180);
+%	\path [draw, ->] (e1_1.east) -- node [right] {\tiny{$+$}} 
+%        (wa1.160);
+%	\path [draw, ->] (e2_1.east) -- node [above] {\tiny{$+$}} 
+%        (wa1.180);
+%	\path [draw, ->] (e3_1.east) -- node [right] {\tiny{$+$}} 
+%        (wa1.200);
+%  
+% %   \begin{pgfonlayer}{background}
+% %       \path (wa_1.west |- wa_1.north)+(5.25,1.75) node (a) {};
+% %       \path (e1_1.south -| e1_1.north)+(-2.75,-3.75) node (b) {};
+% %       %\path (wa1.east |- wa1.east)+(+4.0,-0.5) node (c) {};
+% %      %   
+% %       \path[fill=yellow!20,rounded corners, draw=black!50, dashed]
+% %           (a) rectangle (b);           
+% %      %     
+% %   \end{pgfonlayer}
+%    
+%\end{tikzpicture}
+%\caption{ROC Fusion for each $j$. It is true to $\overline{TN}_j$,$\overline{FP}_j$ and, $\overline{FN}_j$. }
+%\label{fig9}
+%\end{figure}
+%\item To generate the confusion matrix, and calculate the ROC statistics.
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+
+\begin{frame}{Strategies for fusion}
+	For each ray
+\begin{description}
+	\item[Input:] \mbox{}
+		\begin{itemize}
+			\item As many points as $\text{feature}\times\text{algorithm}$ are available.
+			\item \alert{A measure of their quality}
+		\end{itemize}
+	\item[Output:] \mbox{}
+		\begin{itemize}
+			\item A single edge estimate
+			\item \alert{A measure of confidence}
+		\end{itemize}
+\end{description}
+
+Currently available: Mean, PCA, ROC, SVD, and two wavelets-based techniques.
+\end{frame}
+
+\begin{frame}{Image and ROI}
+\centering
+	\includegraphics[width=.7\linewidth]{flevoland_radial_4_look_black}
+\end{frame}
+
+
+\begin{frame}{Evidences in Intensity channels}
+	\centering
+     \includegraphics[width=0.46\textwidth]{flevoland_100_point_hh_crop}    \quad
+     \includegraphics[width=0.46\linewidth]{flevoland_100_point_hv_crop}
+     \quad
+     \includegraphics[width=0.46\linewidth]{flevoland_100_point_vv_crop}
+\end{frame}
+
+\begin{frame}{Fusion}
+		\begin{figure}[hbt]
+			\centering
+			\subfloat[Average\label{fusion_met:a}]{%
+				%\includegraphics[width=0.18\textwidth]{example-image-a}
+				\includegraphics[width=0.18\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
+			}
+			\subfloat[MR-DWT\label{fusion_met:b}]{%
+				\includegraphics[width=0.18\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
+			}
+			\subfloat[PCA \label{fusion_met:c}]{%
+				%\includegraphics[width=0.18\textwidth]{example-image-a}
+				\includegraphics[width=0.18\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
+			}\\
+			\subfloat[ROC\label{fusion_met:d}]{%
+				\includegraphics[width=0.18\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+			}
+			\subfloat[MR-SWT\label{fusion_met:e}]{%
+				\includegraphics[width=0.18\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
+			}
+			\subfloat[MR-SVD\label{fusion_met:f}]{%
+				\includegraphics[width=0.18\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
+			}
+			\caption{}
+			\label{fusion_met}
+		\end{figure}
+
+\end{frame}
+
+\begin{frame}{Image}
+		\begin{figure}[hbt]
+			\centering
+			\subfloat[Image and rays. \label{flevoland_radial_25}]{%  
+				\includegraphics[width=.48\linewidth]{flevoland_r3_radial_crop}}
+			\subfloat[Ground reference\label{gt_flevoland_r3_crop}]{%
+				\includegraphics[width=.48\linewidth]{gt_flevoland_r3_crop}
+			}
+			\caption{Flevoland image in Pauli decomposition, and ground reference}
+			\label{roi_gt_2}
+		\end{figure}
+\end{frame}
+
+\begin{frame}{Evidences}
+	\begin{figure}[hbt]
+	\centering
+	\subfloat[Channel $\text{hh}$ \label{evidencias_flev_hh_hv_vv:a}]{%
+		\includegraphics[width=0.32\linewidth]{evid_real_flev_hh_param_L_mu_25_pixel_r3_crop}
+	}
+	\subfloat[Channel $\text{hv}$ \label{evidencias_flev_hh_hv_vv:b}]{%
+		\includegraphics[width=0.32\linewidth]{evid_real_flev_hv_param_L_mu_25_pixel_r3_crop}
+	}
+	\subfloat[Channel $\text{vv}$ \label{evidencias_flev_hh_hv_vv:c}]{%
+		\includegraphics[width=0.32\linewidth]{evid_real_flev_vv_param_L_mu_25_pixel_r3_crop}
+	}
+	\caption{Edges evidences from the three intensity channels, Flevoland image}
+	\label{evidencias_flev_hh_hv_vv} 
+\end{figure}
+\end{frame}
+
+\begin{frame}{Fusion}
+		\begin{figure}[hbt]
+			\centering
+			%	\subfloat[Average fusion\label{fusion_flev_met:a}]{%
+			%		%\includegraphics[width=0.2\textwidth]{example-image-a}
+			%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_media_param_L_mu_25_pixel_crop}
+			%	}
+			%	\subfloat[DWT fusion\label{fusion_flev_met:b}]{%
+			%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_dwt_param_L_mu_25_pixel_crop}
+			%	}
+			\subfloat[PCA fusion \label{fusion_flev_met:c}]{%
+				%\includegraphics[width=0.2\textwidth]{example-image-a}
+				\includegraphics[width=0.48\linewidth]{flev_r3_fus_pca_param_L_mu_25_pixel_crop}       
+			}
+			%	\subfloat[ROC fusion\label{fusion_flev_met:d}]{%
+			%		\includegraphics[width=0.32\linewidth]{flev_r3_fus_roc_param_L_mu_25_pixel_crop}
+			%	}
+			%	\subfloat[MR-SWT fusion\label{fusion_flev_met:e}]{%
+			%		\includegraphics[width=0.3\linewidth]{flev_r3_fus_swt_param_L_mu_25_pixel_crop}
+			%	}
+			\subfloat[MR-SVD fusion\label{fusion_flev_met:f}]{%
+				\includegraphics[width=0.48\linewidth]{flev_r3_fus_svd_param_L_mu_25_pixel_crop}
+			}
+			\caption{Two best fusion results in the Flevoland image}
+			\label{fusion_flev_met}
+		\end{figure}
+\end{frame}
+
+
+
+%\begin{frame}[fragile]{Results}
+%\begin{alertblock}{Results}
+%	\begin{figure}[hbt]
+%	\centering
+%	\subfloat[Channel $\text{hh}$ \label{evidencias_sf_hh_hv_vv:a}]{%
+%		\includegraphics[width=0.32\linewidth]{evid_real_sf_1_param_L_mu_25_pixel_r1_crop}
+%	}
+%	\subfloat[Channel $\text{hv}$ \label{evidencias_sf_hh_hv_vv:b}]{%
+%		\includegraphics[width=0.32\linewidth]{evid_real_sf_2_param_L_mu_25_pixel_r1_crop}
+%	}
+%	\subfloat[Channel $\text{vv}$ \label{evidencias_sf_hh_hv_vv:c}]{%
+%		\includegraphics[width=0.333\linewidth]{evid_real_sf_3_param_L_mu_25_pixel_r1_crop}
+%	}
+%	\caption{Edges evidences from the three intensity channels to San Francisco}
+%	\label{evidencias_sf_hh_hv_vv} 
+%\end{figure}
+%\end{alertblock}
+%\end{frame}
+%
+%
+%
+
+
+
+
+%\begin{frame}[fragile]{Results - Fusion}
+%\begin{alertblock}{Results}
+%	\begin{figure}[hbt]
+%	\centering
+%%	\subfloat[Average fusion\label{fusion_sf_met:a}]{%
+%%		%\includegraphics[width=0.2\textwidth]{example-image-a}
+%%		\includegraphics[width=0.32\linewidth]{sf_fus_media_param_L_mu_25_pixel_crop}
+%%	}
+%%	\subfloat[DWT fusion\label{fusion_sf_met:b}]{%
+%%		\includegraphics[width=0.32\linewidth]{sf_fus_dwt_param_L_mu_25_pixel_crop}
+%%	}
+%	\subfloat[PCA fusion \label{fusion_sf_met:c}]{%
+%		%\includegraphics[width=0.2\textwidth]{example-image-a}
+%		\includegraphics[width=0.48\linewidth]{sf_fus_pca_param_L_mu_25_pixel_crop}       
+%	}
+%%	\subfloat[ROC fusion\label{fusion_sf_met:d}]{%
+%%		\includegraphics[width=0.32\linewidth]{sf_fus_roc_param_L_mu_25_pixel_crop}
+%%	}
+%%	\subfloat[MR-SWT fusion\label{fusion_sf_met:e}]{%
+%%		\includegraphics[width=0.32\linewidth]{sf_fus_swt_param_L_mu_25_pixel_crop}
+%%	}
+%	\subfloat[MR-SVD fusion\label{fusion_sf_met:f}]{%
+%		\includegraphics[width=0.48\linewidth]{sf_fus_svd_param_L_mu_25_pixel_crop}
+%	}
+%	\caption{Two best fusion results in the San Francisco image}
+%	\label{fusion_sf_met}
+%\end{figure}
+%
+%\end{alertblock}
+%\end{frame}
+
+\section{Assessment}
+
+
+\begin{frame}{Assessment}
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.6\linewidth]{metricas_6_fusao_flevoland}
+	\caption{Probability of detecting the edge by the fusion methods.}
+	\label{probability_edge_detc}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Assessment}
+\begin{alertblock}{Run time}	
+\begin{table}[hbt]
+	\centering
+	\caption{Processing times (fusion method).}\label{metrica_de_tempo}
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
+		Method       & Aver.   &   PCA      &  MR-DWT  & MR-SWT &  ROC  &  MR-SVD \\ \midrule
+		Time (s)      & 0.01      & 0.02       &  0.08 & 0.18      &  0.40       & 1.11  \\
+		Rel. time     & 1.00      & 2.19       &  9.25 & 21.05     &  46.59      & 129.57  \\ \bottomrule
+	\end{tabular}
+\end{table}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Question}
+We are able to
+\begin{itemize}[<+->]
+	\item \alert{estimate} the position of the edge with data of type $d\in\{I_1, I_2, I_3, (I_1, I_2), \dots\}$ and algorithm of type $a\in\{\mathcal L, d^\phi_h, d_{\text{G}}, \dots\}$;
+	\item \alert{fuse} the edge evidences with $f\in\{F_1, F_2, \dots\}$.
+\end{itemize}
+\onslide<+->{Can we obtain measures of the quality of the estimators to improve the fusion?}
+\end{frame}
+
+\section{Conclusions}
+
+\begin{frame}{Conclusions}
+\begin{itemize}
+	\item Evidences from intensity channels are complementary and, therefore, relevant and suitable for fusion
+	\item SVD fusion and PCA fusion have better performance taking into account detection accuracy, run time and, robustness.
+\end{itemize}
+
+\begin{alertblock}{Promising directions}	
+\begin{itemize}
+	\item Increase the number of channels to improve the fusion
+	\item Investigate new fusion methods
+	\item Use other distances
+	\item Enhance with measures of performance
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\nocite{FusionofEvidencesinIntensitiesChannelsforEdgeDetectioninPolSARImages,Gambini:StatisticsComputing,NonparametricEdgeDetectionSpeckledImagery,EdgeDetectionDistancesEntropiesJSTARS,OpticalBasedSAREdgeDetectionKNOWSys,GeodesicDistanceGI0JSTARS,DistanceBasedEdgeDetectiononSyntheticApertureRadarImagery}	
+\bibliographystyle{agsm}
+\bibliography{acfrery}
+\end{frame}
+
+\begin{frame}
+Thanks for your attention!
+
+https://people.wgtn.ac.nz/alejandro.frery\\
+alejandro.frery@vuw.ac.nz
+\end{frame}
+
+\end{document}
