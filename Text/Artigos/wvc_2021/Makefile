@@ -1,7 +1,7 @@
 # 
 # makefile para a compilação do documento
 #
-BASE_NAME = art_wvc_2021
+BASE_NAME = art_wvc_2021Rev
 
 LATEX     = latex
 PDFLATEX  = pdflatex

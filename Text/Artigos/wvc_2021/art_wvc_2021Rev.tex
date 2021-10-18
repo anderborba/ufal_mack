@@ -1,12 +1,8 @@
 \documentclass[conference]{IEEEtran}
 
 %%% ACF Limpar; só deixar os pacotes que são usados
-\usepackage{cite}
+%\usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
-\usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
 \usepackage[binary-units=true]{siunitx}  % AAB inserido
 \usepackage{enumitem}                   % AAB inserido
 \usepackage{natbib}                     % AAB inserido
@@ -74,22 +70,29 @@
 \newcommand{\cbox}[1]{\parbox[t]{2cm}{\centering #1}}
 %
 \begin{document}
-\sloppy
-\title{Uma Proposta baseada em Contêineres para Mitigar a Crise de Reprodutibilidade na Comunidade de Visão Computacional}
+\title{A Container-based Proposal to Mitigate the Reproducibility Crisis in the Computer Vision Community}
 
-\author{
-\IEEEauthorblockN{Anderson Adaime De Borba}
-\IEEEauthorblockA{\textit{Dept. de Economia} \\
-\textit{IBMEC-SP}\\
+\author{\IEEEauthorblockN{Anderson A. de Borba}
+\IEEEauthorblockA{\textit{Dept. Economia} \\
+\textit{IBMEC--SP}\\
 São Paulo, Brasil \\
-anderborba@gmail.com\\
-https://orcid.org/0000-0001-8479-9128}
+anderborba@gmail.com}
 \and
 \IEEEauthorblockN{Luiz Barboza}
-\IEEEauthorblockA{\textit{Dept. de Eng. de Software)} \\
-\textit{CESAR School)}\\
+\IEEEauthorblockA{\textit{CESAR School}\\
 Recife, Brasil \\
 lcbj@cesar.school}
+\and
+\IEEEauthorblockN{M. Marengoni}
+\IEEEauthorblockA{\textit{Albion College}\\
+Albion, MI,  USA\\
+mmarengoni@albion.edu}
+\and
+\IEEEauthorblockN{A. C. Frery}
+\IEEEauthorblockA{\textit{School of Mathematics and Statistics} \\
+\textit{Victoria University of Wellington}\\
+Wellington, New Zealand \\
+alejandro.frery@vuw.ac.nz}
 }
 \maketitle
 
@@ -100,28 +103,26 @@ lcbj@cesar.school}
 \end{IEEEkeywords}
 
 \section{Introdução}
+O artigo propõe usar a tecnologia de contêineres com o objetivo de mitigar a crise de reprodutibilidade na comunidade de Visão Computacional. Crise que abrange várias áreas da ciências, como podemos ver no artigo \citep{nat_baker}.
 
-De maior para menor, sobre a crise de reprodutibilidade:
+Destacamos os seguintes fatos: 
 \begin{itemize}
-	\item Artigo da Nature
-	\item Artigo de Balz e Rocca
-	\item Sua análise dos anais
+	\item A reportagem da Nature que pode ser vista em \cite{nat_baker} cita que por volta de $70\%$ dos pesquisadores entrevistados não conseguiram reproduzir resultados publicados em artigos científicos. Adicionalmente, podemos destacar em \cite{nat_baker} a afirmação que mais da metade dos pesquisadores não reproduziram seus próprios resultados.
+	\item Informação semelhante ao artigo \citep{nat_baker} está descrito em \cite{br}, e menciona que cerca de $75\%$ dos pesquisadores encontraram problemas ao tentar reproduzir resultados de artigos publicados em importantes revistas científicas na área de sensoriamento remoto, mais especificamente na área de imagem SAR (\textit{Synthetic Aperture Radar}) a qual podemos considerar uma subárea da Visão Computacional.
+	\item Ao analisar os anais do congresso WVC (Workshop de Visão Computacional) em anos anteriores verificamos pouca adesão a disponibilizar os códigos usados para gerar os resultados dos artigos. Verificamos a porcentagem de artigos que disponibilizaram os códigos no repositório \url{https://github.com/}, considerada uma boa prática para melhorar a reprodutibilidade de resultados. No ano de 2016 encontramos por volta de $3.3\%$, no ano de 2019 encontramos $8.4\%$,  e no ano de 2020 $11.5\%$ de artigos que disponibilizavam os códigos no repositório \url{https://github.com/}. Notamos uma evolução com o passar dos anos, mas de fato, ainda é um número muito baixo.
 \end{itemize}
 
-Propostas de soluções para a crise de reprodutibilidade (ver dissertação de Aninha, atualizar e organizar em categorias; chegar a mencionar contêineres):
-\begin{itemize}
-	\item Web-based encapsulated solutions: CodeOcean, IPOL
-	\item Diretrizes (meu artigo DOI 10.1109/JSTARS.2020.3019418)
-	\item Software etc.
-\end{itemize}
+%Propostas de soluções para a crise de reprodutibilidade (ver dissertação de Aninha, atualizar e organizar em categorias; chegar a mencionar contêineres):
+%\begin{itemize}
+%	\item Web-based encapsulated solutions: CodeOcean, IPOL
+%	\item Diretrizes (meu artigo DOI 10.1109/JSTARS.2020.3019418)
+%	\item Software etc.
+%\end{itemize}
 
-Contêineres versus Git/Github
+O procedimento de usar o Git/Github difere da tecnologia dos contêineres. O Git/Github é um controlador de versões e repositório, temos que baixar os códigos para um computador e gerenciar as tarefas para viabilizar a execução dos mesmos, por exemplo, instalar e verificar as versões dos softwares necessários para a execução dos códigos e visualização dos dados. Enquanto na tecnologia dos contêineres podemos embalar no contêiner um sistema operacional (SO), códigos construídos para obter os resultados deste artigo, instalar e definir as versões dos softwares necessários para executar os códigos e habilitar um servidor web onde podemos visualizar as imagens com o resultado. Como vantagem dos contêineres, temos uma estrutura portável e independente para reproduzir os resultados que necessitamos. Como desvantagem da estrutura de contêineres podemos citar a maior complexidade com relação ao Git/Github em relação a deixar ambos operacionais.
+       
+Em razão do exposto acima, neste trabalho mostramos como construir uma versão reprodutível do artigo \cite{bmf_2019} usando contêineres.
 
-Em razão do exposto acima, neste trabalho mostramos como construir uma versão reprodutível do artigo (Seu) usando contêineres.
-
-%A pesquisa descrita em \cite{br} menciona que cerca de $75\%$ dos pesquisadores encontraram problemas ao tentar reproduzir resultados de artigos publicados em importantes revistas científicas na área de sensoriamento remoto, mais especificamente na área de imagem SAR (\textit{Synthetic Aperture Radar}). A reportagem da Nature que pode ser vista em \cite{nat_baker} mostra número semelhante, em torno de $70\%$ dos pesquisadores entrevistados não conseguiram reproduzir resultados publicados em artigos científicos. Adicionalmente, podemos destacar em \cite{nat_baker} a afirmação que mais da metade dos pesquisadores não reproduziram seus próprios resultados.
-
-Instigados por essas evidências, decidimos verificar a reprodutibilidade dos resultados do artigo \cite{bmf_2019}.
 Para este fim, aplicamos duas metodologias: o uso do repositório \url{https://github.com/} no qual disponibilizamos as bases de dados e os códigos necessários para a pesquisa; O uso do aplicativo Docker \citep{Merkel} para gerenciamento da tecnologia conhecida como contêineres \citep{linux_cont}. E o repositório de imagens chamado de Docker hub, onde disponibilizamos a imagem do contêiner, que pode ser acessado em \url{https://hub.docker.com/}. Nessas metodologias controlamos todos os processos, desde o armazenamento dos dados até a reprodução dos resultados do artigo selecionado. 
 
 Destacamos que a ideia principal do presente artigo é reproduzir os experimentos numéricos do artigo \cite{bmf_2019}. Para isso, se faz necessário a descrição do procedimento de fusão de evidências de bordas, para então descrever os processos usados para garantir a reprodutibilidade dos resultados. 
@@ -140,223 +141,18 @@ A imagem da região de Flevoland com dimensão $750\times 1024$ píxeis é uma i
 	\caption{Imagem da região de Flevoland}
 \label{flevoland_4_look}
 \end{figure}
+%
 \section{Metodologia}\label{metodologia}
-A metologia que usamos segue os seguintes procedimentos:
+A metologia que usamos segue o seguinte procedimento:
 \begin{enumerate}[label=(\roman*)]
 	\item \label{item:obj_i}  Especificar manualmente ou automaticamente a região de interesse ROI;\index{ROI}
 	\item \label{item:obj_ii} Em cada ROI calcular o centro de massa e, a partir desse ponto, traçar retas radiais cruzando duas amostras distintas. O artigo \cite{gmbf} propõe um método para garantir que cruzamos duas amostras. 
 	Nas radiais serão extraídas informações para o passo \ref{item:obj_iii};
-	\item \label{item:obj_iii} Nos dados extraídos em cada reta radial o método MLE é aplicado para estimar o ponto de transição entre duas amostras, chamado de evidência de borda;\index{Evidências de bordas}
+	\item \label{item:obj_iii} Nos dados extraídos em cada reta radial o método Estimativa de máxima verossimilhança (MLE) é aplicado para estimar o ponto de transição entre duas amostras, chamado de evidência de borda;
 	\item  \label{item:obj_iv} Métodos de fusão são aplicados nas evidências de bordas obtidas em cada canal, com o objetivo de detectar as bordas na ROI escolhida.	  
 \end{enumerate}
-\subsection{Estimativa por máxima verossimilhança}\label{metodo_mle_est_param}
-A técnica de máxima verossimilhança (MLE -- \textit{Maximum Likelihood Estimation}) permite estimar os parâmetros de um modelo estatístico usando uma amostra de dados observados.
-Essa técnica é desejável por apresentar boas propriedades em relação a outras abordagens.
-
-Suponha $\bm z = (z_1,\dots,z_n)$ um vetor de variáveis aleatórias independentes e identicamente distribuídas segundo uma distribuição caracterizada pela função de densidade de probabilidade $f(\bm z,\mathbf{\theta})$ que, por sua vez, é indexada pelos parâmetros $\mathbf{\theta}=(\theta_1,\dots,\theta_d)^T$ pertencentes ao espaço paramétrico $\Theta$. 
-Define-se então a função de verossimilhança 
-\begin{equation}\label{eq:funcao_de_verossimilhanca_theta}
-   L(\theta;\bm z) = \prod_{k=1}^{n}f(z_k;\theta), 
-\end{equation}
-e a função log-verossimilhança  
-\begin{equation}\label{eq:funcao_de_log_verossimilhanca_theta}
-	\mathcal{L}(\theta;\bm z)= \ln L(\theta;\bm z)  = \sum_{k=1}^{n}\ln f(z_k;\theta).
-\end{equation}
-
-O vetor de parâmetros $\theta$ é estimado pelo vetor $\widehat{\theta}$ tal que $\mathcal{L}(\widehat{\theta};\bm z)\ge \mathcal{L}(\theta;\bm z)$ para todo $\theta$ no espaço dos parâmetros $\Theta$. A estimativa de máxima verossimilhança pode ser representada por 
-\begin{equation}\label{eq:max_vetor_log_theta}
-    \widehat{\theta}= \text{arg}\,\max\limits_{\theta\in\Theta}\mathcal{L}(\theta;\bm z),
-\end{equation}
-em que $\bm z$ agora denota as observações.
-
-\subsection{A máxima verossimilhança usando os parâmetros estimados}\label{sec:sub:mle_param_estimados}
-
-Cada linha radial $\bm z = (z_1,z_2,\dots,z_n)$ é particionada em duas amostras disjuntas na posição $j$,
-$$
-\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
-\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
-$$
-para as quais são definidos modelos estatísticos di\-fe\-ren\-tes, um modelo para
-$\bm Z_\text{I} \sim W(\Sigma_\text{I},L_\text{I})$, e outro modelo para
-$\bm Z_\text{E} \sim W(\Sigma_\text{E},L_\text{E})$.
-
-O método MLE, descrito na seção \eqref{metodo_mle_est_param}, é aplicado nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ para estimar $(\Sigma_\text{I},L_\text{I})$ e $(\Sigma_\text{E},L_\text{E})$ maximizando~\eqref{eq:funcao_de_log_verossimilhanca_theta}, e obtendo $(\widehat{\Sigma}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\Sigma}_\text{E}, \widehat{L}_\text{E})$.
-
-A função de verossimilhança é definida no ponto $j$ de acordo com a função
-\begin{equation}\label{eq:vero_prod_int_ext}
-	L(j; \bm z)=\prod_{k=1}^{j}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k) \prod_{k=j+1}^{n}f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
-\end{equation}
-
-Usando propriedades de logaritmos naturais para cada termo do produtório \eqref{eq:vero_prod_int_ext} é definida a função log-verossimilhança total dependendo de $j$:
-\begin{equation}
-\mathcal{L}(j)=\sum_{k=1}^{j}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k)+ \sum_{k=j+1}^{n}\ln f_{\mathbf{Z}}(\bm z_k;\mathbf{\Sigma}_k,L_k).
-\label{eq:log_vero_int_ext}
-\end{equation}
-
-O estimador de máxima verossimilhança $\widehat{\jmath}_{\text{ML}}$ é uma evidência de borda, pois representa uma aproximação da transição entre regiões, sendo
-\begin{equation}\label{eq:max_j_ml}
-\begin{array}{rcl}
-	\widehat{\jmath}_{\text{ML}}&=&\text{arg}\max\limits_{j}\mathcal{L}(j).
-\end{array}
-\end{equation}
-É importante destacar que os parâmetros estimados em~\eqref{eq:max_j_ml} são os números de visadas $L$ (do lado interno e do lado externo),
-as matrizes de covariância $\mathbf\Sigma$ (do lado interno e do lado externo),
-e o ponto $j$.
-A evidência de borda é encontrada aplicando-se o método GenSA~\citep{xgsh}.
-\subsection{O MLE para a distribuição gama}\label{sec:eml_pdf_gamma}
-Cada canal de intensidade pode ser modelado por uma lei gama, como apresentado em~\eqref{pdf_gauss_univ}:
-\begin{equation}
-f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\},
-\label{pdf_gauss_univ}
-\end{equation}
-onde, $\mu>0$ e $L>0$.
-Aplicando o logaritmo natural obtemos a função,
-\begin{equation}\label{func_log_univ_gaussiana}
-	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
-\end{equation}
-
-Dada a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, e utilizando a função logarítmica~\eqref{func_log_univ_gaussiana}, definimos a função log-verossimilhança
-\begin{equation}\nonumber
-    \mathcal{L}(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L).
- \end{equation}
- resultando na função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss_univ} na sua forma reduzida
-\begin{equation}
-\mathcal{L}(\bm z;\mu, L) = 
-n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
-+L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
-\label{eq:LogLikelihoodGamma_red}
-\end{equation}
-
-A função~\eqref{eq:LogLikelihoodGamma_red} é usada para estimar os parâmetros $(\widehat \mu, \widehat L)$ com o método MLE de $(\mu, L)$ baseado na amostra $\bm z$. No trabalho \cite{bmf_2019} fixamos o parâmetro múltiplas visadas em $\text{L}=4$, e realizamos a estimativa para o parâmetro $\mu$ usando a média dos elementos da amostra considerada. Este procedimento fornece uma estimativa ($\widehat{L}, \widehat{\mu}$) para ($\widehat{L}, \widehat{\mu}$) que maximiza a função~\eqref{eq:LogLikelihoodGamma_red}.
-
-De acordo com a seção \ref{sec:sub:mle_param_estimados} é extraído de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras, disjuntas, na posição $j$:  
-$$
-\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
-\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
-$$
-para as quais são definidos modelos estatísticos diferentes, um modelo para
-$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e outro modelo para
-$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
-
-As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ são usadas para estimar os parâmetros $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ maximizando~\eqref{eq:LogLikelihoodGamma_red}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
-
-A log-verossimilhança total é definida no ponto $j$ pela seguinte função
-\begin{equation}
-\begin{aligned}
-\mathcal L\big(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E\big)= -\Bigg(
-	\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +
-	\frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k  
-	\Bigg)+\mbox{}\\
-&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
-+\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k + \mbox{}\\
-&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
-+\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k .%-\\ 
-\raisetag{2.2em}
-\label{eq:TotalLogLikelihood}
-\end{aligned}
-\end{equation}
-e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de borda
-$$
-\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
-$$ 
-\subsection{Métodos de fusão de informação para as evidências de bordas}
-As evidências de bordas estão armazenadas em $n_c$ imagens binárias $\{\widehat{\bm\jmath}_c\}_{1\leq c\leq n_c}$, onde o pixel de valor 1 denota uma estimativa de borda e o pixel de valor 0 denota um elemento onde não foi detectada borda. 
-As imagens (matrizes) têm tamanho  $m\times n$, e denotamos $\ell= mn$. 
-Essas imagens foram usadas para a fusão resultando na imagem $I_\text{F}$ com as bordas detectadas.
-
-No trabalho selecionado para usar as reprodutibilidades foram propostas 4 técnicas de fusão de evidências de bordas:
-\begin{itemize} 
-\item Média simples; 
-%\item Transformada wavelet discreta multi-resolução (MR-DWT);
-\item Transformada wavelet estacionária multi-resolução (MR-SWT); 
-\item Análise de componentes principais (PCA);
-\item Estatísticas ROC (E-ROC);
-%\item Decomposição em valores singulares com multi-resolução (MR-SVD).
-\end{itemize}
-
-O fluxograma do processo de fusão pode ser observada na figura~\ref{fig:fusion_flowchart},
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,main,foreground}
+Os detalhes desse procedimento estão descritos nos artigos \citep{bmf_2019} e \citep{bmf_2020}.
 %
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,main,foreground}
-\tikzstyle{sensor}=[draw, fill=blue!20, text width=3.2em, 
-text centered, minimum height=2em,drop shadow]
-\tikzstyle{ann} = [above, text width=5em, text centered]
-\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
-minimum height=2em, rounded corners, drop shadow]
-\tikzstyle{waimage} = [sensor, text width=3.4em, fill=red!20, 
-minimum height=2em, rounded corners, drop shadow]
-\tikzstyle{waimage1} = [sensor, text width=3.8em, fill=red!50, 
-minimum height=2em, rounded corners, drop shadow]
-\tikzstyle{wa1} = [sensor, text width=2.0em, fill=red!20, 
-minimum height=2em, rounded corners, drop shadow]
-\tikzstyle{wa2}=[draw, fill=green!20, text width=2.5em, 
-text centered, minimum height=3em,drop shadow]    
-\def\blockdist{2.3}
-\def\edgedist{2.5}
-
-\begin{figure}[hbt]
-	\centering
-	\resizebox{.8\columnwidth}{!}{%
-		\begin{tikzpicture}
-			\node[waimage] (waimage1) at (-7.0,0.0) {Imagem Polsar};
-			\node[waimage] (waimage2) at (-5.3,0.0) {ROI};
-			\node[wa2] (waimage3) at (-5.3,3.5) {GR};
-			\node[waimage] (waimage4) at (-3.5,0.0) {GA};
-			\node[waimage1] (wa1) at (0.5,2.0) {Fusão 1};
-			\node[wa2] (waimage5) at (2.0,3.5) {Erro};
-			\path (waimage4.west)+(4.7,1.0) node (dots)[ann] {$\vdots$};
-			\path (waimage4.west)+(4.7,0.5) node (dots)[ann] {$\vdots$};
-			\path (waimage4.west)+(4.7,0.0) node (dots)[ann] {$\vdots$};
-			\path (waimage4.west)+(4.7,-0.5) node (dots)[ann] {$\vdots$};
-			\path (waimage4.west)+(4.7,-1.0) node (dots)[ann] {$\vdots$};
-			\path (waimage4.west)+(4.7,-1.5) node (dots)[ann] {$\vdots$};
-			\node[waimage1] (wa6) at (0.5,-2.0) {Fusão N};
-			%
-			\path [draw, ->] (waimage1.east) -- node [left] {} 
-			(waimage2) ;
-			\path [draw, ->] (waimage2.east) -- node [left] {} 
-			(waimage4) ;
-			\path [draw, ->] (waimage2.north) -- node [left] {} 
-			(waimage3) ;
-			\path [draw, ->] (waimage3.east) -- node [left] {} 
-			(waimage5) ;        
-			%
-			\path (waimage4.west)+(2.5,1.5) node (e1_1) [sensor] {Canal hh};
-			\path (waimage4.west)+(2.5,0.0) node (e2_1)[sensor] {Canal hv}; 
-			\path (waimage4.west)+(2.5,-1.5) node (e3_1)[sensor] {Canal vv};    
-			%
-			\path [draw, ->] (waimage4.east) -- node [left] {} 
-			(e1_1.180) ;
-			\path [draw, ->] (waimage4.east) -- node [below] {} 
-			(e2_1.180);
-			\path [draw, ->] (waimage4.east) -- node [right] {} 
-			(e3_1.180);
-			\path [draw, ->] (e1_1.east) -- node [right] {} 
-			(wa1.160);
-			\path [draw, ->] (e2_1.east) -- node [above] {} 
-			(wa1.180);
-			\path [draw, ->] (e3_1.east) -- node [right] {} 
-			(wa1.200);
-			\path [draw, ->] (e1_1.east) -- node [right] {} 
-			(wa6.160);
-			\path [draw, ->] (e2_1.east) -- node [above] {} 
-			(wa6.180);
-			\path [draw, ->] (e3_1.east) -- node [right] {} 
-			(wa6.200);
-			%
-			\path [draw, ->] (wa1.east) -- node [left] {} 
-			(waimage5) ;
-			\path [draw, ->] (wa6.east) -- node [left] {} 
-			(waimage5) ;
-		\end{tikzpicture}
-	}
-	\caption{Fluxograma do processo de fusão de evidências}
-	\label{fig:fusion_flowchart}
-\end{figure}
 \section{Estrutura do processo de reprodutibilidade}\label{reprod}
 No trabalho \cite{bmf_2019} foi utilizado como linguagem de programação o matlab \cite{matlab} e a linguagem de programação R \cite{r_pack}. Neste trabalho fizemos a tradução dos códigos para a linguagem de programação Python \cite{py3}. A escolha por utilizar outra linguagem de programação não foi em detrimento a nenhuma das linguagem usadas anteriormente, trata-se somente de uma decisão de projeto, pois acreditamos que a reprodutibilidade não depende da linguagem de programação empregada.   
 \subsection{Usando o repositório Github}
@@ -591,10 +387,11 @@ A figura \ref{fig:conteineres_flowchart_work} mostra a estrutura do contêiner q
 Com o Dockerfile construído, rodamos o seguintes comandos do Docker para gerar a imagem. Primeiro, usamos o comando \texttt{docker build . -t quantpolsar/polsar\_fusion} para gerar a imagem Docker, depois, usamos \texttt{docker push quantpolsar/polsar\_fusion} para armazenar a imagem no repositório \url{https://hub.docker.com/}. 
 %
 \section{Resultados}\label{resultados}
-Os métodos apresentados no artigo \cite{bmf_2019} foram reproduzidos e executados com um computador Intel\copyright\ Core i7-9750HQ CPU  \SI{2.6}{\gibi\hertz} \SI{16}{\gibi\byte}. 
+As figuras apresentadas nessa seção foram produzidas pelo sistema de reprodutibilidade usando a tecnologia baseada em contêineres. Figuras idênticas foram obtidas pelo sistema de reprodutibilidade baseada mo Git/Github. 
 
-Esse métodos tomaram como referência a região de interesse (FLEV-ROI) destacada na Figura~\ref{flevoland_radial_4_look_crop}. A figura também mostra as radiais usadas para extrair informações da imagens.
+%Os métodos apresentados no presente artigo foram reproduzidos e executados com um computador Intel\copyright\ Core i7-9750HQ CPU  \SI{2.6}{\gibi\hertz} \SI{16}{\gibi\byte}. 
 
+Esses métodos tomaram como referência a região de interesse (FLEV-ROI) destacada na Figura~\ref{flevoland_radial_4_look_crop}. A figura também mostra as radiais usadas para extrair informações da imagens.
 \begin{figure}[htb!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{flevoland_radial_4_look_black_crop}%
@@ -602,9 +399,7 @@ Esse métodos tomaram como referência a região de interesse (FLEV-ROI) destaca
 \label{flevoland_radial_4_look_crop}
 \end{figure}
 
-As Figuras~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, e~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} mostram, respectivamente, as evidências de bordas nos canais~$\text{hh}$, $\text{hv}$,~e~$\text{vv}$, obtidas pelo método MLE. Para a FLEV-ROI foi estabelecido 100 radiais com comprimento de 120 píxeis, onde foi constatado uma forte oscilação da função de máxima verossimilhança total nos píxeis dos extremos das radiais,  para evitar a oscilação nesta região foi definida uma folga com 14 píxeis. Esse valor foi escolhido empiricamente e pode variar de acordo com a região de interesse da imagem, o canal, o sensor e a imagem. Na FLEV-ROI os 14 píxeis, escolhidos para cada extremidade, foram suficientes para contornar o problema da oscilação.
-
-Os parâmetros para as funções de máxima verossimilhança reduzidas são $L=4$ fixo, e $\mu$ é estimado usando a médias dos elementos da amostra. Estes parâmetros são aplicados nas funções de máxima verossimilhança total com o objetivo de encontrarmos o seu valor máximo e o seu argumento correspondente. O método GenSA foi usado para realizar este processo de maximização, obtendo as evidências de bordas com precisão.  
+As Figuras~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:a}, \ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:b}, e~\ref{evidencias_hh_hv_vv}\subref{evidencias_hh_hv_vv:c} mostram, respectivamente, as evidências de bordas nos canais~$\text{hh}$, $\text{hv}$,~e~$\text{vv}$, obtidas pelo usando o procedimento descrito na seção~\ref{metodologia}. 
 \begin{figure}[hbt!]
     \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
     	\includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop_py}
@@ -618,8 +413,6 @@ Os parâmetros para as funções de máxima verossimilhança reduzidas são $L=4
     \caption{Evidências de bordas para os três canais de intensidades na FLEV-ROI}
     \label{evidencias_hh_hv_vv} 
 \end{figure}
-
-A inspeção visual destas figuras mostra a melhor acurácia dos métodos no canal hv, e presença de \textit{outliers} no canal vv.
 
 Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fusion_met:c}, e~\subref{fusion_met:d} mostram os resultados numéricos para os métodos propostos de fusão de evidência de bordas. 
 \begin{figure}[hbt!]
@@ -647,26 +440,26 @@ Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fu
      \label{fusion_met}
 \end{figure}
 
-Os métodos de fusão por média e fusão PCA produzem resultados similares. A vantagem do método PCA está em realizar a média ponderada das evidências de bordas nos diferentes canais, possibilitando a quantificação da importância de cada canal no processo de fusão.
-
-O MR-SVD produz uma considerável vantagem em descartar \text{outliers}, porém o tempo de processamento é maior em comparação com os demais métodos.
-
-O método usando a estatística ROC produz bordas acuradas, com poucos \text{outliers}, porém de forma esparsa. Acreditamos que este método tem potencial na medida em que mais canais forem considerados, ou ao serem aplicadas outras funções de densidades de probabilidades para obter evidências de bordas. 
-
-O método baseado em \textit{wavelets} produz densas bordas, mesmo com a inpeção visual mostrarem melhores em possibilidades de detectar bordas, o método produz \text{outliers}. Destacamos que a detecção pode ser melhorada com o uso de pós-processamento \citep{fbgm}, podendo ser aplicado em todos os métodos, inclusive em cada canal onde as evidências forem detectadas.
+Observamos que informações sobre eficiência e acurácia dos métodos podem ser obtidas nos artigos \citep{bmf_2019} e \citep{bmf_2020}.
 %
 \section{Discussão}\label{discussao}
 Os dois procedimentos utilizados alcançaram o objetivo de reproduzir os resultados da detecção de bordas. Portanto, destacamos a importância do uso desses procedimentos no desenvolvimento de novas pesquisas. 
 
 O procedimento de usar o Github como repositório da base de dados e dos códigos é uma boa prática para alcançar a reprodutibilidade dos resultados. Porém, a responsabilidade de execução dos processos serem centradas no usuário, podem acarretar problemas na adequação de compiladores e suas bibliotecas. 
 
-A utilização dos contêineres mostraram-se confiáveis e portáveis, pois, cada contêiner possui a estrutura adequada para rodar os programas. Lembrando que definimos no Dockerfile toda a estrutura que precisamos, o SO, os códigos e o servidor web para visualizar os arquivos no formato PDF (Portable Document Format). 
+A utilização dos contêineres mostraram-se confiáveis e portáveis, pois, cada contêiner possui a estrutura adequada para rodar os programas. Lembrando que definimos no Dockerfile toda a estrutura que precisamos, o SO, os códigos e o servidor web para visualizar os arquivos no formato PDF (Portable Document Format).  
 
-A portabilidade foi testada usando o procedimento dos contêineres com o auxílio do Docker nos principais sistemas operacionais, no Linux, MacOS, e Windows e em computadores com diferentes configurações de hardware. Conseguimos reproduzir exatamente os mesmos resultados do artigo selecionada.
+A portabilidade foi testada usando o procedimento dos contêineres com o auxílio do Docker nos principais sistemas operacionais, no Linux, MacOS, e Windows e em computadores com diferentes configurações de hardware. Conseguimos reproduzir os mesmos resultados do artigo de referência.
 
 Na criação da imagem Docker usamos somente softwares livres e de fácil acesso ao usuário.
 
-A facilidade de obter o Docker para diferentes sistemas operacionais e as vantagens citados no parágrafo anterior mostram que o uso desta tecnologia é muito conveniente. Com o desenvolvimento dessa tecnologia teremos plataformas melhores e eficientes para gerenciar os contêineres.
+A tecnologia dos contêineres gerenciada pelo software Docker pode ser entendida no trabalho de duas formas: 
+\begin{itemize}
+	\item Como está definido na lista \ref{lst:dockerfile} chamamos de execução regular. Podemos entender como um processo limitado onde não estamos hábil a modificar a base de dados (imagem) e a ROI definida. Portanto, esse procedimento reproduz o resultado do artigo de referência.  
+	\item O Docker apresenta a forma interativa, usando o parâmetro \texttt{-it} fornecendo assim maior flexibilidade para o usuário. Neste caso temos acesso ao sistema operacional Linux definido para o contêiner, portanto, podemos inserir nova base de dados, definir a ROI, e consultar os código fontes  construídos durante e pesquisa para o artigo de referência. Nesse caso, os métodos de detecção de evidências de bordas e fusão dessas evidências podem ser usado como base para novas pesquisas, ou os métodos podem ser usados para estudos comparativos.       
+\end{itemize}
+
+A facilidade de obter o Docker para diferentes sistemas operacionais e as vantagens citados nos parágrafos anteriores mostram que o uso desta tecnologia é muito conveniente. Acreditamos que com o desenvolvimento dessa tecnologia teremos plataformas melhores e mais eficientes para gerenciar os contêineres.
 
 Finalizando, citamos a confiabilidade, eficiência, e portabilidade como fatores para ampliar o uso da tecnologia dos contêineres.
 \bibliographystyle{IEEEtran}
