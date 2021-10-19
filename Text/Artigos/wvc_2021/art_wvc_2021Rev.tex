@@ -1,6 +1,7 @@
 \documentclass[conference]{IEEEtran}
 
 %%% ACF Limpar; só deixar os pacotes que são usados
+%%% AAB Limpei alguns, não sei se todos!!!
 %\usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage[binary-units=true]{siunitx}  % AAB inserido
@@ -97,39 +98,44 @@ alejandro.frery@vuw.ac.nz}
 \maketitle
 
 \begin{abstract}
+The paper proposes to mitigate the reproducibility crisis in the computer vision community. The existence of various algorithms, methods, and databases continuously published in different media strongly contributes to the reproducibility crisis of scientific research.
 
+Making the databases and codes employed available is very important to strengthen the reliability and development of research in the Computer Vision community.
+
+For this reason, we propose and describe two techniques. The first technique uses Git/Github technology to make project data available; it is essential to conduct research when collaborators are in different locations. The second technique is a container technology that makes the results of scientific research strongly portable and reproducible. The Docker application manages the container technology by generating an image, stored and made available in the Dockerhub repository, facilitating moving container images.
+ 
+With the techniques defined, we show the routines to reproduce scientific research and end by proposing some discussions and conclusions to encourage the application of these technologies to reproduce results in Computer Vision. 
 \end{abstract}
 \begin{IEEEkeywords}
+Reproducibility, Github, Contêineres, Docker and Dockerhub 
 \end{IEEEkeywords}
 
 \section{Introdução}
-O artigo propõe usar a tecnologia de contêineres com o objetivo de mitigar a crise de reprodutibilidade na comunidade de Visão Computacional. Crise que abrange várias áreas da ciências, como podemos ver no artigo \citep{nat_baker}.
+O presente artigo propõe usar a tecnologia de contêineres com o objetivo de mitigar a crise de reprodutibilidade na comunidade de Visão Computacional. Crise que abrange várias áreas de pesquisas científicas, como podemos ver no artigo \citep{nat_baker}. Adicionalmente, descrevemos o uso do Git/Github e dos contêineres como meio de ajudar na reprodutibilidade das pesquisas científicas.
 
 Destacamos os seguintes fatos: 
 \begin{itemize}
-	\item A reportagem da Nature que pode ser vista em \cite{nat_baker} cita que por volta de $70\%$ dos pesquisadores entrevistados não conseguiram reproduzir resultados publicados em artigos científicos. Adicionalmente, podemos destacar em \cite{nat_baker} a afirmação que mais da metade dos pesquisadores não reproduziram seus próprios resultados.
-	\item Informação semelhante ao artigo \citep{nat_baker} está descrito em \cite{br}, e menciona que cerca de $75\%$ dos pesquisadores encontraram problemas ao tentar reproduzir resultados de artigos publicados em importantes revistas científicas na área de sensoriamento remoto, mais especificamente na área de imagem SAR (\textit{Synthetic Aperture Radar}) a qual podemos considerar uma subárea da Visão Computacional.
-	\item Ao analisar os anais do congresso WVC (Workshop de Visão Computacional) em anos anteriores verificamos pouca adesão a disponibilizar os códigos usados para gerar os resultados dos artigos. Verificamos a porcentagem de artigos que disponibilizaram os códigos no repositório \url{https://github.com/}, considerada uma boa prática para melhorar a reprodutibilidade de resultados. No ano de 2016 encontramos por volta de $3.3\%$, no ano de 2019 encontramos $8.4\%$,  e no ano de 2020 $11.5\%$ de artigos que disponibilizavam os códigos no repositório \url{https://github.com/}. Notamos uma evolução com o passar dos anos, mas de fato, ainda é um número muito baixo.
+	\item A reportagem da revista \textit{Nature}, encontrada em \cite{nat_baker}, cita que por volta de $70\%$ dos pesquisadores entrevistados não conseguiram reproduzir resultados publicados em artigos científicos. O artigo destaca outro dado interessante, a afirmação que mais da metade dos pesquisadores não reproduziram seus próprios resultados.
+	\item Informação semelhante a encontrada no artigo \citep{nat_baker} está des\-crita no artigo \citep{br}, o qual menciona que cerca de $75\%$ dos pesquisadores encontraram pro\-blemas ao tentar reproduzir resultados de artigos publicados em importantes revistas científicas na área de sensoriamento remoto, mais especificamente na área de imagem SAR (\textit{Synthetic Aperture Radar}) a qual podemos considerar uma subárea da Visão Computacional.
+	\item Ao analisar as publicações do congresso WVC (Workshop de Visão Computacional), em anos anteriores, constatamos que poucos participantes disponibilizarão os códigos usados para gerar os resultados dos artigos. Calculamos a porcentagem dos artigos que disponibilizaram os códigos no repositório \url{https://github.com/}, considerada uma boa prática de reprodutibilidade dos resultados, e obtivemos as seguintes valores: no ano de 2016 $3.3\%$, no ano de 2019 $8.4\%$, e no ano de 2020 $11.5\%$. Notamos uma evolução com o passar dos anos, entretanto, esse porcentual ainda é baixo perante o volume de estudos desenvolvidos.
 \end{itemize}
 
-%Propostas de soluções para a crise de reprodutibilidade (ver dissertação de Aninha, atualizar e organizar em categorias; chegar a mencionar contêineres):
-%\begin{itemize}
-%	\item Web-based encapsulated solutions: CodeOcean, IPOL
-%	\item Diretrizes (meu artigo DOI 10.1109/JSTARS.2020.3019418)
-%	\item Software etc.
-%\end{itemize}
+Na comunidade científica, no últimos anos têm surgindo boas iniciativas para mitigar a crise da reprodutibilidade coma as mencionadas no trabalho disponível em \url{http://www.repositorio.ufal.br/jspui/handle/riufal/3254}. Destacaremos três iniciativas importantes:
+\begin{itemize}
+	\item O IPOL (\textit{Image Processing On Line}) é considerado um dos jornais científicos pioneiros a se com\-prometer com a reprodutibilidade na área de processamento de imagem, veja em \url{http://www.ipol.im/}. 
+	\item O \textit{ReScience journal} é um jornal aberto com revisão por pares voltado para pesquisa computacional reprodutível. O objetivo desse jornal é incentivar a reprodução das pesquisas científicas, veja em \url{http://rescience.github.io/}.   
+	\item O \textit{Code ocean} é uma plataforma de reprodutibilidade computacional baseada em tecnologia de nuvem, onde podemos depositar a pesquisa e organizar o fluxo de trabalhos. O objetivo desse serviço é tornar a pesquisa visível para a comunidade, fortalecendo o ambiente colaborativo para que o desenvolvimento das pesquisas sejam mais consistentes e rápidas. Veja em \url{https://codeocean.com/}.
+\end{itemize}
 
-O procedimento de usar o Git/Github difere da tecnologia dos contêineres. O Git/Github é um controlador de versões e repositório, temos que baixar os códigos para um computador e gerenciar as tarefas para viabilizar a execução dos mesmos, por exemplo, instalar e verificar as versões dos softwares necessários para a execução dos códigos e visualização dos dados. Enquanto na tecnologia dos contêineres podemos embalar no contêiner um sistema operacional (SO), códigos construídos para obter os resultados deste artigo, instalar e definir as versões dos softwares necessários para executar os códigos e habilitar um servidor web onde podemos visualizar as imagens com o resultado. Como vantagem dos contêineres, temos uma estrutura portável e independente para reproduzir os resultados que necessitamos. Como desvantagem da estrutura de contêineres podemos citar a maior complexidade com relação ao Git/Github em relação a deixar ambos operacionais.
+Na referência \citep{fgmed} os autores descreveram as diretrizes para um sistema de selos ajustado as especificidades da comunidade de sensoriamento remoto. Tal sistema visa reconhecer o nível de reprodutibilidade da pesquisa científica. 
+
+A ideia principal do presente artigo é reproduzir os experimentos numéricos do artigo \citep{bmf_2019}. Portanto, as metodologias empregadas para a detecção de evidências de bordas e fusão dessas informações podem ser encontradas nas referências \citep{bmf_2019}, \citep{bmf_2020} e \citep{borba_tese}.    
+
+Com o objetivo de alcançar a reprodutibilidade da pesquisa descrita no artigo \citep{bmf_2019}, vamos usar duas tecnologias, o Git/Github e os contêineres, gerenciado pelo software Docker. O procedimento de usar o Git/Github difere da tecnologia dos contêineres. No Git/Github, que é um controlador de versões e repositório de arquivos, temos que baixar os códigos e a base de dados para um computador e gerenciar as tarefas para viabilizar a execução dos códigos, por exemplo, instalar e verificar as versões dos softwares necessários para a execução dos códigos. Enquanto na tecnologia dos contêineres podemos embalar no contêiner um sistema operacional (SO), códigos construídos para obter os resultados do artigo citado, definir as versões dos softwares necessários para executar os códigos e habilitar um servidor web onde podemos visualizar as imagens com os resultados. Portando, como vantagem dos contêineres, temos uma estrutura portável e independente para reproduzir os resultados. Como desvantagem dos contêineres podemos citar a maior complexidade com relação ao Git/Github em relação a deixar ambos operacionais.
        
-Em razão do exposto acima, neste trabalho mostramos como construir uma versão reprodutível do artigo \cite{bmf_2019} usando contêineres.
+Para construir uma versão reprodutível do artigo \citep{bmf_2019} usamos o repositório \url{https://github.com/} no qual disponibilizamos as bases de dados e os códigos necessários para a pesquisa, e o aplicativo Docker \citep{Merkel} para gerenciamento da tecnologia dos contêineres \citep{linux_cont}. Para armazenar e disponibilizar a imagem do contêiner gerada pelo aplicativo Docker utilizamos o repositório de imagens chamado de Docker hub, que pode ser acessado em \url{https://hub.docker.com/}. Nessas metodologias controlamos todos os processos, desde o armazenamento dos dados até a reprodução dos resultados do artigo selecionado. 
 
-Para este fim, aplicamos duas metodologias: o uso do repositório \url{https://github.com/} no qual disponibilizamos as bases de dados e os códigos necessários para a pesquisa; O uso do aplicativo Docker \citep{Merkel} para gerenciamento da tecnologia conhecida como contêineres \citep{linux_cont}. E o repositório de imagens chamado de Docker hub, onde disponibilizamos a imagem do contêiner, que pode ser acessado em \url{https://hub.docker.com/}. Nessas metodologias controlamos todos os processos, desde o armazenamento dos dados até a reprodução dos resultados do artigo selecionado. 
-
-Destacamos que a ideia principal do presente artigo é reproduzir os experimentos numéricos do artigo \cite{bmf_2019}. Para isso, se faz necessário a descrição do procedimento de fusão de evidências de bordas, para então descrever os processos usados para garantir a reprodutibilidade dos resultados. 
-
-As metodologias empregadas para a detecção de bordas podem ser encontradas nas referências \cite{bmf_2019} e \cite{borba_tese}, assim como as referência teóricas usadas para construir o método de fusão de evidências de bordas.    
-
-Sendo assim, o presente artigo está estruturado da seguinte forma: Na seção \ref{bd} descrevemos a base de dados (imagem) usada para a reprodutibilidade dos resultados. Na seção \ref{metodologia} mostramos as metodologias aplicacadas para a fusão de evidências de bordas. A estrutura do processo de reprodutibilidade está descrita na seção \ref{reprod}. Os resultados  são mostrados na seção \ref{resultados}. Para finalizar propomos algumas discussões na seção \ref{discussao}. 
+Esse artigo está estruturado da seguinte forma: Na seção \ref{bd} descrevemos a base de dados (imagem) usada para a reprodutibilidade dos resultados. Na seção \ref{metodologia} mostramos as metodologias aplicacadas para a fusão de evidências de bordas. A estrutura do processo de reprodutibilidade está descrita na seção \ref{reprod}. Os resultados  são mostrados na seção \ref{resultados}. Para finalizar propomos algumas discussões na seção \ref{discussao}. 
 \section{Base de dados}\label{bd}
 No presente trabalho usamos como base de dados a imagem de radar com abertura sintética polarimétrica (PolSAR) adquiridas com o sensor aerotransportado AIRSAR em uma aeronave DC-8. A aquisição das i\-ma\-gens é realizada com a aeronave voando a 8 kilometros da superfície terrestre com velocidade de \SI{215}{\meter\per\second}. Vamos descrever características específicas da imagem. 
 
@@ -239,7 +245,7 @@ O fluxograma do sistema de contêineres pode ser visto na figura \ref{fig:contei
     \matrix (mat) [table] {
     |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
     |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
-    |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
+    |[fill=coltwo]|      & |[fill=coltwo]|   & |[fill=coltwo]|     \\
     |[fill=coltwo]|       & |[fill=coltwo]|   & |[fill=coltwo]|     \\
     |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
     |[fill=colseven]|      & |[fill=colseven]|  & |[fill=colseven]| \\
@@ -442,7 +448,7 @@ Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fu
 
 Observamos que informações sobre eficiência e acurácia dos métodos podem ser obtidas nos artigos \citep{bmf_2019} e \citep{bmf_2020}.
 %
-\section{Discussão}\label{discussao}
+\section{Discussão e Conclusões}\label{discussao}
 Os dois procedimentos utilizados alcançaram o objetivo de reproduzir os resultados da detecção de bordas. Portanto, destacamos a importância do uso desses procedimentos no desenvolvimento de novas pesquisas. 
 
 O procedimento de usar o Github como repositório da base de dados e dos códigos é uma boa prática para alcançar a reprodutibilidade dos resultados. Porém, a responsabilidade de execução dos processos serem centradas no usuário, podem acarretar problemas na adequação de compiladores e suas bibliotecas. 
