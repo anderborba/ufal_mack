@@ -73,28 +73,28 @@
 \begin{document}
 \title{A Container-based Proposal to Mitigate the Reproducibility Crisis in the Computer Vision Community}
 
-\author{\IEEEauthorblockN{Anderson A. de Borba}
-\IEEEauthorblockA{\textit{Dept. Economia} \\
-\textit{IBMEC--SP}\\
-São Paulo, Brasil \\
-anderborba@gmail.com}
-\and
-\IEEEauthorblockN{Luiz Barboza}
-\IEEEauthorblockA{\textit{CESAR School}\\
-Recife, Brasil \\
-lcbj@cesar.school}
-\and
-\IEEEauthorblockN{M. Marengoni}
-\IEEEauthorblockA{\textit{Albion College}\\
-Albion, MI,  USA\\
-mmarengoni@albion.edu}
-\and
-\IEEEauthorblockN{A. C. Frery}
-\IEEEauthorblockA{\textit{School of Mathematics and Statistics} \\
-\textit{Victoria University of Wellington}\\
-Wellington, New Zealand \\
-alejandro.frery@vuw.ac.nz}
-}
+%\author{\IEEEauthorblockN{Anderson A. de Borba}
+%\IEEEauthorblockA{\textit{Dept. Economia} \\
+%\textit{IBMEC--SP}\\
+%São Paulo, Brasil \\
+%anderborba@gmail.com}
+%\and
+%\IEEEauthorblockN{Luiz Barboza}
+%\IEEEauthorblockA{\textit{CESAR School}\\
+%Recife, Brasil \\
+%lcbj@cesar.school}
+%\and
+%\IEEEauthorblockN{M. Marengoni}
+%\IEEEauthorblockA{\textit{Albion College}\\
+%Albion, MI,  USA\\
+%mmarengoni@albion.edu}
+%\and
+%\IEEEauthorblockN{A. C. Frery}
+%\IEEEauthorblockA{\textit{School of Mathematics and Statistics} \\
+%\textit{Victoria University of Wellington}\\
+%Wellington, New Zealand \\
+%alejandro.frery@vuw.ac.nz}
+%}
 \maketitle
 
 \begin{abstract}
@@ -127,19 +127,17 @@ Na comunidade científica, no últimos anos têm surgindo boas iniciativas para 
 	\item O \textit{Code ocean} é uma plataforma de reprodutibilidade computacional baseada em tecnologia de nuvem, onde podemos depositar a pesquisa e organizar o fluxo de trabalhos. O objetivo desse serviço é tornar a pesquisa visível para a comunidade, fortalecendo o ambiente colaborativo para que o desenvolvimento das pesquisas sejam mais consistentes e rápidas. Veja em \url{https://codeocean.com/}.
 \end{itemize}
 
-Na referência \citep{fgmed} os autores descreveram as diretrizes para um sistema de selos ajustado as especificidades da comunidade de sensoriamento remoto. Tal sistema visa reconhecer o nível de reprodutibilidade da pesquisa científica. 
+Outra iniciativa importante pode ser encontrado na referência \citep{fgmed} na qual aponta diretrizes para um sistema de selos ajustado as especificidades da comunidade de sensoriamento remoto. Tal sistema visa reconhecer o nível de reprodutibilidade da pesquisa científica. 
 
-A ideia principal do presente artigo é reproduzir os experimentos numéricos do artigo \citep{bmf_2019}. Portanto, as metodologias empregadas para a detecção de evidências de bordas e fusão dessas informações podem ser encontradas nas referências \citep{bmf_2019}, \citep{bmf_2020} e \citep{borba_tese}.    
+Dentro desse contexto, a ideia principal do presente artigo é reproduzir os experimentos numéricos do artigo \citep{bmf_2019}. As metodologias empregadas para a detecção de evidências de bordas e fusão dessas informações podem ser encontradas nas referências \citep{bmf_2019}, \citep{bmf_2020} e \citep{borba_tese}.    
 
-Com o objetivo de alcançar a reprodutibilidade da pesquisa descrita no artigo \citep{bmf_2019}, vamos usar duas tecnologias, o Git/Github e os contêineres, gerenciado pelo software Docker. O procedimento de usar o Git/Github difere da tecnologia dos contêineres. No Git/Github, que é um controlador de versões e repositório de arquivos, temos que baixar os códigos e a base de dados para um computador e gerenciar as tarefas para viabilizar a execução dos códigos, por exemplo, instalar e verificar as versões dos softwares necessários para a execução dos códigos. Enquanto na tecnologia dos contêineres podemos embalar no contêiner um sistema operacional (SO), códigos construídos para obter os resultados do artigo citado, definir as versões dos softwares necessários para executar os códigos e habilitar um servidor web onde podemos visualizar as imagens com os resultados. Portando, como vantagem dos contêineres, temos uma estrutura portável e independente para reproduzir os resultados. Como desvantagem dos contêineres podemos citar a maior complexidade com relação ao Git/Github em relação a deixar ambos operacionais.
+Para alcançar o objetivo de reprodutibilidade da pesquisa descrita no artigo \citep{bmf_2019}, vamos usar duas tecnologias, o Git/Github e os contêineres, gerenciado pelo software Docker. O procedimento de usar o Git/Github difere da tecnologia dos contêineres. No Git/Github, que é um controlador de versões e repositório de arquivos, temos que baixar os códigos e a base de dados para um computador e gerenciar as tarefas para viabilizar a execução dos códigos, por exemplo, instalar e verificar as versões dos softwares necessários para a execução dos códigos. Enquanto na tecnologia dos contêineres podemos embalar no contêiner um sistema operacional (SO), códigos construídos para obter os resultados do artigo citado, definir as versões dos softwares necessários para executar os códigos e habilitar um servidor web onde podemos visualizar as imagens com os resultados. Portando, como vantagem dos contêineres, temos uma estrutura portável e independente para reproduzir os resultados. Como desvantagem dos contêineres podemos citar a maior complexidade com relação ao Git/Github em deixar ambos operacionais.
        
 Para construir uma versão reprodutível do artigo \citep{bmf_2019} usamos o repositório \url{https://github.com/} no qual disponibilizamos as bases de dados e os códigos necessários para a pesquisa, e o aplicativo Docker \citep{Merkel} para gerenciamento da tecnologia dos contêineres \citep{linux_cont}. Para armazenar e disponibilizar a imagem do contêiner gerada pelo aplicativo Docker utilizamos o repositório de imagens chamado de Docker hub, que pode ser acessado em \url{https://hub.docker.com/}. Nessas metodologias controlamos todos os processos, desde o armazenamento dos dados até a reprodução dos resultados do artigo selecionado. 
 
-Esse artigo está estruturado da seguinte forma: Na seção \ref{bd} descrevemos a base de dados (imagem) usada para a reprodutibilidade dos resultados. Na seção \ref{metodologia} mostramos as metodologias aplicacadas para a fusão de evidências de bordas. A estrutura do processo de reprodutibilidade está descrita na seção \ref{reprod}. Os resultados  são mostrados na seção \ref{resultados}. Para finalizar propomos algumas discussões na seção \ref{discussao}. 
+Esse artigo está estruturado da seguinte forma: Na seção \ref{bd} descrevemos a base de dados (imagem) usada para a reprodutibilidade dos resultados. Na seção \ref{metodologia} mostramos as metodologias aplicadas para a detecção de bordas. A estrutura do processo de reprodutibilidade está descrita na seção \ref{reprod}. Os resultados  são mostrados na seção \ref{resultados}. Para finalizar propomos algumas discussões na seção \ref{discussao}. 
 \section{Base de dados}\label{bd}
-No presente trabalho usamos como base de dados a imagem de radar com abertura sintética polarimétrica (PolSAR) adquiridas com o sensor aerotransportado AIRSAR em uma aeronave DC-8. A aquisição das i\-ma\-gens é realizada com a aeronave voando a 8 kilometros da superfície terrestre com velocidade de \SI{215}{\meter\per\second}. Vamos descrever características específicas da imagem. 
-
-A imagem da região de Flevoland com dimensão $750\times 1024$ píxeis é uma imagem capturada pelo sensor AIRSAR com banda-L. A imagem tem 4 visadas, 9 canais com resolução de aproximadamente \SI{12,10}{\meter} na direção azimutal e \SI{6,6}{\meter} na direção lateral do sensor. A decomposição de Pauli da imagem capturada no sensor é mostrada na Figura \ref{flevoland_4_look}. 
+No presente trabalho usamos como base de dados a imagem da região de Flevoland com dimensão $750\times 1024$ píxeis é uma imagem capturada pelo sensor AIRSAR com banda-L. A imagem tem 4 visadas, 9 canais com resolução de aproximadamente \SI{12,10}{\meter} na direção azimutal e \SI{6,6}{\meter} na direção lateral do sensor. A decomposição de Pauli da imagem capturada no sensor é mostrada na Figura \ref{flevoland_4_look}. 
 %
 \begin{figure}[htb!]
 	\centering
@@ -162,27 +160,28 @@ Os detalhes desse procedimento estão descritos nos artigos \citep{bmf_2019} e \
 \section{Estrutura do processo de reprodutibilidade}\label{reprod}
 No trabalho \cite{bmf_2019} foi utilizado como linguagem de programação o matlab \cite{matlab} e a linguagem de programação R \cite{r_pack}. Neste trabalho fizemos a tradução dos códigos para a linguagem de programação Python \cite{py3}. A escolha por utilizar outra linguagem de programação não foi em detrimento a nenhuma das linguagem usadas anteriormente, trata-se somente de uma decisão de projeto, pois acreditamos que a reprodutibilidade não depende da linguagem de programação empregada.   
 \subsection{Usando o repositório Github}
-Os programas e a base de dados utilizados estão armazenados no repositório Github, no endereço eletrônico \url{https://github.com/anderborba/***********}. Para obter os resultados pode-se fazer o \textit{download}  do projeto e rodar os programas  com o comando do python \texttt{python3.7 CodigoAndersonCompleto\_tengarss.py ./Data/AirSAR\_Flevoland\_Enxuto.mat}. Quando executamos o comando, o programa está apto a ler a base de dados no diretório \path{/Data}, e gravar os resultados no diretório \path{/figuras} no formato pdf. Qualquer informação sobre os códigos pode ser encontrada no projeto, incluindo as orientações para execução e reprodução. O que pode ser um ponto de falha, pode depender de execução humana. 
+Os programas e a base de dados utilizados estão armazenados no repositório Github, no endereço eletrônico \url{https://github.com/anderborba/Codes\_wvc2021}. Para obter os resultados pode-se fazer o \textit{download}  do projeto e rodar os programas  com o comando do python \texttt{python3.7 main.py ./Data/AirSAR\_Flevoland\_Enxuto.mat}. Quando executamos o comando, o programa está apto a ler a base de dados no diretório \path{/Data}, e gravar os resultados no diretório \path{/figuras} no formato pdf. Qualquer informação sobre os códigos pode ser encontrada no projeto, incluindo as orientações para execução e reprodução. Observamos que o procedimento de execução depende da supervisão humana podendo ocorrer falhas.
+
+
+ O que pode ser um ponto de falha, pode depender de execução humana. 
 %
 \subsection{Usando a tecnologia Docker}
 Docker é um software de código aberto executado nos sistemas operacionais Linux, Windows e Mac OS, responsável pelo empacotamento dos nossos códigos e suas dependências em contêineres.
 
 Para entender o funcionamento do software Docker, explicaremos o que são contêineres e como são usados.  Os contêineres são tecnologias que permitem empacotar e isolar aplicações juntamente com todo o seu ambiente de execução. Isto facilita a movimentação e portabilidade da aplicação para diferentes sistemas operacionais e equipamentos, mantendo a funcionalidade total da aplicação. Portanto, com o uso dos contêineres podemos garantir que nossos códigos sejam confiáveis, escaláveis e portáveis.
 
-A primeira versão foi lançada em 2013. Veja \cite{Merkel}.
-
 O Docker pode ajudar nos seguintes problemas:
 \begin{enumerate}[label=(\roman*)]
 	\item \label{item:docker_prob_i} Conflito de dependências -- Se existe a necessidade de executar programas com duas versões de um mesmo software podemos empacotar cada versão em um contêiner, por exemplo, temos que executar programas em duas versões diferentes do software OpenCV \cite{opencv}, podemos instalar cada versão em um contêiner diferente.  
 	\item \label{item:docker_prob_ii} Dependências ausentes -- As dependências necessárias para seu software são empacotadas conjuntamente nos contêineres.  
-	\item \label{item:docker_prob_iii} Diferentes plataformas -- Mover o seu software de um SO para outro SO pode ser um problema. O Docker resolve o problema executando o contêiner nesse diferentes sistemas operacionais. 
+	\item \label{item:docker_prob_iii} Diferentes plataformas -- Mover o seu software de um SO (Sistema Operacional) para outro SO pode ser um problema. O Docker resolve o problema executando o contêiner nesses diferentes sistemas operacionais. 
 \end{enumerate}
 
 Muitos desenvolvedores de software usam o Docker para simplificar o processo de construção, execução e gerenciamento de seus software. 
 
-Podemos considerar que o Docker virtualiza um sistema operacional para usar o hardware do computador onde os contêineres serão executados. Para cada contêiner não é necessário ter um sistema operacional, veja \ref{fig:conteineres_flowchart}, diferença que podemos observar em relação VMs. As VMs necessitam de seu próprio sistema operacional, veja \ref{fig:vm_flowchart}. Assim, a principal diferença está no fato dos contêineres compartilharem o sistema operacional.
+Podemos considerar que o Docker virtualiza um sistema operacional para usar o hardware do computador onde os contêineres serão executados. Para cada contêiner não é necessário ter um sistema operacional, veja figura \ref{fig:conteineres_flowchart}, diferença que podemos observar em relação VMs. As VMs necessitam de seu próprio sistema operacional, veja figura \ref{fig:vm_flowchart}. Assim, a principal diferença está no fato dos contêineres compartilharem o sistema operacional.
 
-O fluxograma do sistema de contêineres pode ser visto na figura \ref{fig:conteineres_flowchart} e o fluxograma das VMs está na \ref{fig:vm_flowchart}. Nas figuras realizamos as seguintes abreviações: APP significam os aplicativos necessários, no nosso caso são os programas em Python que criamos para o processo de detecção de evidências de bordas e fusão das informações destas evidências. Enquanto Bins são os binários e Bibls são as bibliotecas que usamos. 
+O fluxograma do sistema de contêineres pode ser visto na figura \ref{fig:conteineres_flowchart} e o fluxograma das VMs está na figura \ref{fig:vm_flowchart}. Nas figuras realizamos as seguintes abreviações: APP significam os aplicativos necessários, no nosso caso são os programas em Python que criamos para o processo de detecção de evidências de bordas e fusão das informações destas evidências. Enquanto Bins são os binários e Bibls são as bibliotecas que usamos. 
 \begin{figure}[hbt]
 	\centering
 \begin{tikzpicture}
@@ -294,22 +293,22 @@ O fluxograma do sistema de contêineres pode ser visto na figura \ref{fig:contei
     \caption{Fluxograma das máquinas virtuais}
 	\label{fig:vm_flowchart}
 \end{figure}
-\subsection{Obter a imagem do contêiner e reproduzir os resultados}
+\subsection{Obter a imagem do contêiner e reproduzir os resultados}\label{obter_imagem}
 Nesta seção, vamos descrever como podemos obter e reproduzir os resultados do trabalho \cite{bmf_2019}. O pré-requisito comum para os sistemas operacionais Linux, Mac OS, e windows é a instalação do software Docker.
 
 Com o Docker instalado nos respectivos sistema o\-peracionais podemos seguir o seguinte procedimento:
 \begin{enumerate}[label=(\roman*)]
 	\item \label{item:linux_i} \texttt{docker pull quantpolsar/polsar\_fusion}. Comando para baixar a imagem Docker que está no repositório \url{https://hub.docker.com/}.  
 	\item \label{item:linux_ii} \texttt{docker run -e DATA=./Data/AirSAR\_Flevo\-land\_Enxuto.mat -p 8080:80 quantpolsar/polsar\_fusion}. Comando para rodar o Docker com o parâmetros \texttt{DATA} definindo sua base de dados, ou seja, a imagem PolSAR. Bem como o parâmetro \texttt{-p 8080:80} que associa uma porta física do SO hospedeiro a porta virtual na qual a aplicação está rodando dentro do contêiner.  
-	\item \label{item:linux_iii} Após o processamento dos canais de intensidade, as imagens com as bordas detectadas são disponibilizadas em um servidor web no contêiner. Elas podem ser acessadas através de um navegador de internet digitando o seguinte endereço \texttt{http://localhost:8080/imagens/}.
+	\item \label{item:linux_iii} As imagens com as bordas detectadas são disponibilizadas em um servidor web no contêiner. Elas podem ser acessadas através de um navegador de internet digitando o seguinte endereço \texttt{http://localhost:8080/imagens/}.
 	\item \label{item:linux_iv} \texttt{docker ps}. Comando do Docker para a obtenção do número do processo.
 	\item  \label{item:linux_v} \texttt{docker kill número do processo}. Comando para encerrar todo o processo. 	  
 \end{enumerate}
 
-Além do acesso às imagens com bordas detectadas via servidor web, é possível ter acesso a todos os códigos e base de dados, executando o container de maneira interativa (parâmetro \texttt{-it}) \texttt{docker run -e DATA=./Data/AirSAR\_Flevoland\_Enxuto.mat -p 8080:80 -it --entrypoint=/bin/bash quantpolsar/polsar\_fusion} alternativamente ao passo descrito no item \ref{item:linux_ii}. Esse processo deve ser executado quando encerramos o processo do item \ref{item:linux_ii} . Com isso, você estará dentro do contêiner e poderá encontrar os códigos em python na raiz do SO, encontrar a base de dados, e as figuras geradas, respectivamente nos caminhos \texttt{/Data} \texttt{/figuras}. Adicionalmente, observamos que o passo no item \ref{item:linux_ii} vai congelar o terminal com o endereço que deve ser acessado para analisar os resultados nas figuras com as imagens PolSAR. Para descongelar o processo é basta abrir outro terminal, e executar os passos dos itens \ref{item:linux_iv} e \ref{item:linux_v}.
+Além do acesso às imagens com bordas detectadas via servidor web, é possível ter acesso a todos os códigos e base de dados, executando o container de maneira interativa (parâmetro \texttt{-it}) \texttt{docker run -e DATA=./Data/AirSAR\_Flevoland\_Enxuto.mat -p 8080:80 -it --entrypoint=/bin/bash quantpolsar/polsar\_fusion} alternativamente ao passo descrito no item \ref{item:linux_ii}. Esse processo deve ser executado quando encerramos os processos do item \ref{item:linux_i} até \ref{item:linux_v}. Com isso, você estará dentro do contêiner e poderá encontrar os códigos em python na raiz do SO, encontrar a base de dados, e as figuras geradas, respectivamente nos caminhos \texttt{/Data} e \texttt{/figuras}. Adicionalmente, observamos que o passo no item \ref{item:linux_ii} vai congelar o terminal com o endereço que deve ser acessado para analisar os resultados nas figuras com as imagens PolSAR. Para descongelar o processo basta abrir outro terminal, e executar os passos dos itens \ref{item:linux_iv} e \ref{item:linux_v}.
 
 \subsection{A imagem Docker}
-A imagem Docker é construída a partir de um arquivo de definição legível por humanos e por máquinas, chamado Dockerfile.
+A imagem Docker é construída a partir de um arquivo de definição legível por humanos e por máquinas, chamado Dockerfile. Observamos que este processo é usado somente para gerar a imagem Docker. A seção \ref{obter_imagem} pode ser executada de forma independente.
 
 A lista \ref{lst:dockerfile} mostra a estrutura do Dockerfile
 \begin{lstlisting}[caption=Estrutura do Dockerfile, label={lst:dockerfile}]
@@ -332,16 +331,16 @@ Vamos fazer uma breve descrição para cada linha do arquivo Dockerfile da lista
 	\item \label{item:docker_2} Copia todos os arquivos para o projeto Docker.
 	\item \label{item:docker_3} Instala a linguagem de programação python.
 	\item \label{item:docker_4} Instala um servidor web para visualizar as figuras.
-	\item  \label{item:docker_5} Realiza um link para o paras as imagens geradas.
+	\item  \label{item:docker_5} Realiza um link para as imagens geradas.
 	\item  \label{item:docker_6} Cria uma página em html para visualizar as figuras.
-	\item  \label{item:docker_7} Instala as bibliotecas python usandas no programas.
+	\item  \label{item:docker_7} Instala as bibliotecas python usadas nos códigos.
 	\item  \label{item:docker_8} Define a base de dados.
 	\item  \label{item:docker_9} Comando em python que roda os programas.
 	\item  \label{item:docker_10} Define uma porta interna para o contêiner.
 	\item  \label{item:docker_11} Gera uma mensagem indicando como acessar as figuras e habilita um servidor web para mostrar as mesmas. 
 \end{enumerate}
 
-A figura \ref{fig:conteineres_flowchart_work} mostra a estrutura do contêiner que usamos para reproduzir os resultados do artifo \cite{bmf_2019}. 
+A figura \ref{fig:conteineres_flowchart_work} mostra a estrutura do contêiner que usamos para reproduzir os resultados do artigo \cite{bmf_2019}. 
 \begin{figure}[hbt]
 	\centering
 	%\resizebox{.8\columnwidth}{!}{%
@@ -393,7 +392,7 @@ A figura \ref{fig:conteineres_flowchart_work} mostra a estrutura do contêiner q
 Com o Dockerfile construído, rodamos o seguintes comandos do Docker para gerar a imagem. Primeiro, usamos o comando \texttt{docker build . -t quantpolsar/polsar\_fusion} para gerar a imagem Docker, depois, usamos \texttt{docker push quantpolsar/polsar\_fusion} para armazenar a imagem no repositório \url{https://hub.docker.com/}. 
 %
 \section{Resultados}\label{resultados}
-As figuras apresentadas nessa seção foram produzidas pelo sistema de reprodutibilidade usando a tecnologia baseada em contêineres. Figuras idênticas foram obtidas pelo sistema de reprodutibilidade baseada mo Git/Github. 
+As figuras apresentadas nessa seção foram produzidas pelo sistema de reprodutibilidade usando a tecnologia baseada em contêineres. Figuras idênticas foram obtidas pelo sistema de reprodutibilidade baseada no Git/Github. 
 
 %Os métodos apresentados no presente artigo foram reproduzidos e executados com um computador Intel\copyright\ Core i7-9750HQ CPU  \SI{2.6}{\gibi\hertz} \SI{16}{\gibi\byte}. 
 
@@ -449,20 +448,20 @@ Figuras~\ref{fusion_met}\subref{fusion_met:a}, \subref{fusion_met:b}, \subref{fu
 Observamos que informações sobre eficiência e acurácia dos métodos podem ser obtidas nos artigos \citep{bmf_2019} e \citep{bmf_2020}.
 %
 \section{Discussão e Conclusões}\label{discussao}
-Os dois procedimentos utilizados alcançaram o objetivo de reproduzir os resultados da detecção de bordas. Portanto, destacamos a importância do uso desses procedimentos no desenvolvimento de novas pesquisas. 
+Os dois procedimentos utilizados alcançaram o objetivo de reproduzir os resultados da detecção de bordas. Desta forma, destacamos a importância do uso desses procedimentos no desenvolvimento de novas pesquisas. 
 
-O procedimento de usar o Github como repositório da base de dados e dos códigos é uma boa prática para alcançar a reprodutibilidade dos resultados. Porém, a responsabilidade de execução dos processos serem centradas no usuário, podem acarretar problemas na adequação de compiladores e suas bibliotecas. 
+O procedimento de usar o Github como repositório da base de dados e dos códigos é uma boa prática para alcançar a reprodutibilidade dos resultados. Porém, a responsabilidade de execução dos processos são centradas no usuário, e pode acarretar problemas na adequação de compiladores e suas bibliotecas. 
 
 A utilização dos contêineres mostraram-se confiáveis e portáveis, pois, cada contêiner possui a estrutura adequada para rodar os programas. Lembrando que definimos no Dockerfile toda a estrutura que precisamos, o SO, os códigos e o servidor web para visualizar os arquivos no formato PDF (Portable Document Format).  
 
-A portabilidade foi testada usando o procedimento dos contêineres com o auxílio do Docker nos principais sistemas operacionais, no Linux, MacOS, e Windows e em computadores com diferentes configurações de hardware. Conseguimos reproduzir os mesmos resultados do artigo de referência.
+A portabilidade foi testada usando o procedimento dos contêineres com o auxílio do Docker nos principais sistemas operacionais, Linux, MacOS, e Windows e em computadores com diferentes configurações de hardware. Conseguimos reproduzir os mesmos resultados do artigo de referência.
 
 Na criação da imagem Docker usamos somente softwares livres e de fácil acesso ao usuário.
 
 A tecnologia dos contêineres gerenciada pelo software Docker pode ser entendida no trabalho de duas formas: 
 \begin{itemize}
 	\item Como está definido na lista \ref{lst:dockerfile} chamamos de execução regular. Podemos entender como um processo limitado onde não estamos hábil a modificar a base de dados (imagem) e a ROI definida. Portanto, esse procedimento reproduz o resultado do artigo de referência.  
-	\item O Docker apresenta a forma interativa, usando o parâmetro \texttt{-it} fornecendo assim maior flexibilidade para o usuário. Neste caso temos acesso ao sistema operacional Linux definido para o contêiner, portanto, podemos inserir nova base de dados, definir a ROI, e consultar os código fontes  construídos durante e pesquisa para o artigo de referência. Nesse caso, os métodos de detecção de evidências de bordas e fusão dessas evidências podem ser usado como base para novas pesquisas, ou os métodos podem ser usados para estudos comparativos.       
+	\item O Docker apresenta a forma interativa, usando o parâmetro \texttt{-it} fornecendo assim maior flexibilidade para o usuário. Neste caso temos acesso ao sistema operacional Linux definido para o contêiner, portanto, podemos inserir nova base de dados, definir a ROI, e consultar os código fontes  construídos durante a pesquisa para o artigo de referência. Nesse caso, os métodos de detecção de evidências de bordas e fusão dessas evidências podem ser usado como base para novas pesquisas, ou os métodos podem ser usados para estudos comparativos.       
 \end{itemize}
 
 A facilidade de obter o Docker para diferentes sistemas operacionais e as vantagens citados nos parágrafos anteriores mostram que o uso desta tecnologia é muito conveniente. Acreditamos que com o desenvolvimento dessa tecnologia teremos plataformas melhores e mais eficientes para gerenciar os contêineres.
