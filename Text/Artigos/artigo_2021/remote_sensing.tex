@@ -81,20 +81,19 @@
 
 % Authors, for the paper (add full first names)
 \Author{Anderson Adaime Borba $^{1,3,\dagger}$\orcidA{}, Alejandro C.\ Frery $^{2,\dagger}$\orcidB{} 
-and Maur\'icio Marengoni $^{3,\dagger}$*\orcidC{}}
+and Maurício Marengoni $^{3,\dagger}$*\orcidC{}}
 
 % Authors, for metadata in PDF
-\AuthorNames{Anderson Adaime Borba, Alejandro C. Frery and Mauricio Marengoni}
+\AuthorNames{Anderson Adaime Borba, Alejandro C. Frery and Maurício Marengoni}
 
 % Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
 \address{%
-$^{1}$ IBMEC-SP, S\~ao Paulo, Brazil;anderson.borba@ibmec.edu.br\\
-$^{2}$ Laborat\'orio de Computa\c c\~ao Cient\'ifica e An\'alise Num\'erica, Universidade Federal de Alagoas,
-Maceió, Brazil; acfrery@laccan.ufal.br\\
-$^{3}$ Dept.\ Engenharia El\'etrica e Computa\c c\~ao, Universidade Presbiteriana Mackenzie, S\~ao Paulo, Brazil; mmarengoni@mackenzie.br}
-
+$^{1}$ IBMEC-SP, São Paulo, Brazil; anderborba@gmail.com\\
+$^{2}$ School of Mathematics and Statistics, Victoria University of Wellington, Wellington, New Zealand, alejandro.frery@vuw.ac.nz\\
+$^{3}$ Albion College, Albion, MI,  USA, mmarengoni@albion.edu
+}
 % Contact information of the corresponding author
-\corres{Correspondence: mmarengoni@mackenzie.br}
+\corres{Correspondence: anderborba@gmail.com}
 
 % Current address and/or shared authorship
 \firstnote{These authors contributed equally to this work.}
@@ -142,14 +141,11 @@ We quantify the amount of information each combination of bands brings, and comp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\setcounter{section}{-1} %% Remove this when starting to work on the template.
 %\section{How to Use this Template}
 %The template details the sections that can be used in a manuscript. Note that the order and names of article sections may differ from the requirements of the journal (e.g., the positioning of the Materials and Methods section). Please check the instructions for authors page of the journal to verify the correct order and names. For any questions, please contact the editorial office of the journal or support@mdpi.com. For LaTeX related questions please contact latex@mdpi.com.
 %The order of the section titles is: Introduction, Materials and Methods, Results, Discussion, Conclusions for these journals: aerospace,algorithms,antibodies,antioxidants,atmosphere,axioms,biomedicines,carbon,crystals,designs,diagnostics,environments,fermentation,fluids,forests,fractalfract,informatics,information,inventions,jfmk,jrfm,lubricants,neonatalscreening,neuroglia,particles,pharmaceutics,polymers,processes,technologies,viruses,vision
-
-
 \section{Introduction}
 PolSAR systems transmit orthogonally polarized microwave pulses and measure orthogonal components of the received signal. For each pixel, the measurement results in a matrix of scattering coefficients. These coefficients are complex numbers that describe the transformation from the transmitted electromagnetic field to the received electromagnetic field in the SAR system.
 
@@ -211,26 +207,24 @@ if the total scattered power, in the case of a polarimetric radar system in reci
 \mathit{Span} = \Tr(\mathbf{SS}^\text{H})=|S_\text{hh}|^2+2|S_\text{hv}|^2+|S_\text{vv}|^2.
 \label{span_geral}
 \end{equation}
-
+%
 \section{Methodology}
-
-
+%
 \subsection{Sharp Edge Model}
 \subsection{Models}
 %\subsubsection{Fully PolSAR}
-\subsubsection{Marginal Models}
+\subsection{Marginal Models}
 \begin{enumerate}[leftmargin=*,labelsep=4.9mm]
 	\item Univariate Distribution
 		\begin{enumerate}[leftmargin=*,labelsep=4.9mm]
-		\item	Gamma -  
-			We assume that the distribution of each intensity channel is a 
-			Gamma law with probability density function
+		\item	Gamma - 
+			We assume that the distribution of each intensity channel is a Gamma law with probability density function
 			\begin{equation}
-			f_Z(z;\mu,L)=\frac{L^{L}z^{L-1}}{\mu^{L}\Gamma(L)} \exp\big\{-Lz/\mu\big\},\quad z>0,
-			\label{func_dens_uni_gamma}
+				f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, \\
+				\label{pdf_gauss_univ}
 			\end{equation}
-			where $L>0$ (rather than $L\geq1$ to allow for flexibility), and $\mu>0$ is the mean.
-
+			where $L>0$ (rather than $L\geq 1$ to allow for flexibility), and $\mu>0$ is the mean. 	  
+			
 			Given the sample $\bm z = (z_1,\dots,z_n)$, the reduced log-likelihood of this model is
 			\begin{equation}
 			\ell(\bm z; L,\mu) = n \big[L\ln (L / \mu) - \ln \Gamma(L)\big]+L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n}z_k.
@@ -241,7 +235,93 @@ if the total scattered power, in the case of a polarimetric radar system in reci
 			\ell(\bm z; \mu) = -n\ln (\mu) - \frac{1}{\mu}\sum_{k=1}^{n}z_k.
 			\label{eq:LogLikelihoodGamma_1_param}
 			\end{equation}
-			We obtain $\widehat \mu$, the maximum likelihood estimator (MLE) of $\mu$ based on $\bm z$, by 					maximizing~\eqref{eq:LogLikelihoodGamma_1_param} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}. Note that $\mu=\sum_{k=1}^{n}z_k$ is a maximum candidate.  
+			We obtain $\widehat \mu$, the maximum likelihood estimator (MLE) of $\mu$ based on $\bm z$, by 					maximizing~\eqref{eq:LogLikelihoodGamma_1_param} with the BFGS method implemented in the \texttt{maxLik} package~\cite{ht}. Note that $\mu=\sum_{k=1}^{n}z_k$ is a maximum candidate.
+			
+		%
+		\section{O MLE para a distribuição gama}\label{sec:eml_pdf_gamma}
+
+Cada canal de intensidade pode ser modelado por uma lei gama, como apresentado em~\eqref{pdf_inten_multilook}:
+\begin{equation}\label{pdf_gauss_univ}
+	f_{Z}(z;\mu,L)=\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}, %\\ %%% ACF Não use quebra de linha a não ser que se trate de um empilhamento de equações
+\end{equation}
+onde, $\mu>0$ e $L>0$.
+Aplicando o logaritmo natural obtemos:
+\begin{equation}\nonumber
+\begin{array}{ccl}
+	\ln f_{Z}(z;\mu,L)&=&\ln \left(\frac{L^{L}}{\Gamma(L)\mu^{L}} z^{L-1}\exp\left\{-\frac{L}{\mu}z\right\}\right), \\
+	                                         &=&\ln\left(\frac{L}{\mu}\right)^L-\ln\Gamma(L)+ \ln z^{L-1} + \ln \exp\left\{-L\frac{z}{\mu}\right\}, \\
+%	                                         &=&L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z,\\	                                         
+\end{array}
+\end{equation}
+obtendo a função,
+\begin{equation}\label{func_log_univ_gaussiana}
+	\ln f_{Z}(z;\mu,L)=L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z - \frac{L}{\mu} z.
+\end{equation}
+
+Dada a amostra $\bm z = (z_1,\dots,z_n)$ extraída dos canais de intensidades hh, hv, e vv, é definida a função log-verossimilhança, como  
+\begin{equation}\nonumber
+\begin{split}
+  \mathcal{L}(\bm z;\mu, L)=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,L)\\
+  \mathcal{L}(\bm z;\mu, L)=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L).
+ \end{split}
+ \end{equation}
+ 
+Com o uso da função logarítmica~\eqref{func_log_univ_gaussiana}, teremos
+\begin{equation}\nonumber
+\begin{split}
+    \mathcal{L}(\bm z;\mu, L)&=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,L)\\
+                      &=\sum_{k=1}^{n}\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)+(L-1)\ln z_k - \frac{L}{\mu} z_k\right]\\
+                      &=\sum_{k=1}^{n}L\ln\frac{L}{\mu}-\sum_{k=1}^{n}\ln\Gamma(L)+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
+                      &=L\ln\frac{L}{\mu}\sum_{k=1}^{n}1-\ln\Gamma(L)\sum_{k=1}^{n}1+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k\\
+                      &=L\ln\frac{L}{\mu}n-\ln\Gamma(L)n+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k.              
+ \end{split}
+ \end{equation}
+
+A função log-verossimilhança para a PDF univariada~\eqref{pdf_gauss_univ} pode ser reescrita por
+\begin{equation}\nonumber
+    \mathcal{L}(\bm z;\mu, L)=n\left[L\ln\frac{L}{\mu}-\ln\Gamma(L)\right]+(L-1)\sum_{k=1}^{n}\ln z_k - \frac{L}{\mu}\sum_{k=1}^{n} z_k,
+ \end{equation}
+e a sua forma reduzida, em que eliminamos os termos que não dependem dos parâmetros, por 
+\begin{equation}
+\mathcal{L}(\bm z;\mu, L) = 
+n \left[L\ln \frac{L}{\mu} - \ln \Gamma(L)\right]
++L \sum_{k=1}^{n}\ln z_k -\frac{L}{\mu}\sum_{k=1}^{n} z_k.
+\label{eq:LogLikelihoodGamma_red}
+\end{equation}
+
+A função~\eqref{eq:LogLikelihoodGamma_red} é usada para estimar os parâmetros $(\widehat \mu, \widehat L)$ com o método MLE de $(\mu, L)$ baseado na amostra $\bm z$. 
+O ponto que maximiza a função~\eqref{eq:LogLikelihoodGamma_red} é encontrado com o método BFGS, implementado no pacote \texttt{maxLik} \citep{ht}. 
+Para alcançar uma melhor estabilidade numérica, optou-se por realizar o processo de otimização resolvendo $\nabla\mathcal{L}=\bm 0$. 
+
+De acordo com a seção \ref{sec:sub:mle_param_estimados} é extraído de cada canal de intensidade da imagem PolSAR uma faixa de dados $\bm z = (z_1,z_2,\dots,z_n)$ de forma que seja particionada em duas amostras, disjuntas, na posição $j$:  
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
+$$
+para as quais são definidos modelos estatísticos diferentes, um modelo para
+$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},L_\text{I})$, e outro modelo para
+$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},L_\text{E})$.
+
+As funções log-verossimilhança reduzidas aplicadas nas amostras internas $\bm z_\text{I}$ e externas $\bm z_\text{E}$ são usadas para estimar os parâmetros $(\mu_\text{I},L_\text{I})$ e $(\mu_\text{E},L_\text{E})$ maximizando~\eqref{eq:LogLikelihoodGamma_red}, e obtendo $(\widehat{\mu}_\text{I}, \widehat{L}_\text{I})$ e $(\widehat{\mu}_\text{E}, \widehat{L}_\text{E})$.
+
+
+A log-verossimilhança total é definida no ponto $j$ pela seguinte função
+\begin{equation}\label{eq:TotalLogLikelihood}
+\begin{split}
+%\mathcal{L}(j&;\bm z_\text{I},\bm z_\text{E}) = \\
+\mathcal{L}(j&;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E)=\\
+&j \big[\widehat{L}_\text{I}\ln (\widehat{L}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{L}_\text{I})\big]
++\widehat{L}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{L}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
+&(n-j) \big[\widehat{L}_\text{E}\ln (\widehat{L}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{L}_\text{E})\big]
++\widehat{L}_\text{E} \sum_{k=j+1}^{n}\ln z_k - \frac{\widehat{L}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
+%\raisetag{2.2em}
+\end{split}
+\end{equation}
+e aplicando o método GenSA~\citep{xgsh} encontramos a evidência de borda
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\ell(j;\widehat{\mu}_I, \widehat{L}_I,\widehat{\mu}_E, \widehat{L}_E),
+$$ 
+onde $\min_s$ é uma constante de folga mínima definida empiricamente para as extremidades da amostra. A escolha do número de píxeis da amostra pode variar de acordo com a ROI, com o canal, ou com o tipo de sensor para aquisição de imagem.	
 		\item	Product of Intensities
 		\item	Ratio of Intensities
 		\end{enumerate}
@@ -444,11 +524,6 @@ shows the density function of $\sigma_\text{hh}$ with parameters extracted from 
      \caption{Edges evidences in one radial}
      \label{fig_evid_bordas}
    \end{figure}	
-
-
-
-
-
 The functions have a peak indicating the evidence of the edge that should be captured, but the functions are not smooth, hindering the use of optimization methods that require the calculation of the derivative.
 This problem was solved using Generalized Simulated Annealing (GenSA)~\cite{xgsh}, suitable for non-differentiable functions.
     

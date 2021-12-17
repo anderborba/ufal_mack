@@ -1,0 +1,500 @@
+\documentclass[10pt]{beamer}
+
+%\usetheme{metropolis}
+%\usetheme{AnnArbor}
+\usetheme[progressbar=frametitle]{metropolis}
+%\usecolortheme{beaver}
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage[brazil]{babel}
+\usepackage{xspace}
+\usepackage{algorithm2e} % AAB inserido
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+%\usepackage[brazil]{babel}  % AAB
+\usepackage{bibentry}       % AAB
+\usepackage{amsmath, bm}    % AAB
+\usepackage{tikz}           % AAB
+\usetikzlibrary{chains,fit,shapes} % AAB 
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+%\usepackage{siunitx}        % AAB inserido    
+\usetikzlibrary{shapes,arrows,shadows}  % AAB inserido
+%\usepackage[utf8]{inputenc}                  % AAB inserido
+                                              % AAB inserido
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+%\addto\captionsportuguese{
+%\renewcommand{\figurename}{Fig.}
+%\renewcommand{\tablename}{Tab.}
+%}% AAB Inserido
+\DeclareMathOperator{\traco}{tr} %AAB
+\graphicspath{{../Dissertacao/figuras/}}        % AAB - caminho das figuras
+%\graphicspath{{../Images/PDF/}}                 % AAB - caminho das figuras (recomendável) 
+
+
+\title{FUSÃO DE EVIDÊNCIAS DE BORDAS DOS CANAIS DE INTENSIDADES DE IMAGENS PolSAR}
+%\subtitle{Ongoing researches}
+\date{}
+\author{Dr. Anderson Adaime de Borba - IBMEC -- SP -- BR\\
+        Dr. Mauricio Marengoni -- Albion College -- Michigan -- USA\\
+        Dr. Alejandro Frery - Victoria University of Wellington -- NZ} 
+\institute{SP-NOV-2021}
+\begin{document}
+\maketitle
+\begin{frame}[fragile]{ELAMAP--2021}
+\centering
+       \begin{flushright}
+\begin{center}
+{\small Encontro Latino-Americano de Matem\'atica e Aplicaç\~oes \\[.2cm] 29 de novembro a 03 de dezembro  de 2021}
+\end{center}
+\end{flushright}
+\end{frame}
+%
+\begin{frame}[fragile]{Projeto de cooperação inter-institucional}
+\centering{
+\includegraphics[width=6cm]{logo_uni_wellington}\\
+\includegraphics[width=6cm]{albion_image}\\
+\includegraphics[width=6.1cm]{logo_ibmec1}\\}
+\end{frame}
+%
+%\begin{frame}{Índice}
+%  \setbeamertemplate{section in toc}[sections numbered]
+%  \tableofcontents[hideallsubsections]
+%\end{frame}
+%	
+\begin{frame}[fragile]{Base de dados (Imagem PolSAR )}
+\begin{alertblock}{Dados PolSAR}
+\begin{table}[hbt]
+\scriptsize
+	\centering
+	\caption{Informação do sistema PolSAR.}
+\begin{tabular}{@{}lccc@{}} \toprule
+	Polarização & hh  & hv & vv \\ \midrule
+	hh & $\sigma_\text{hh}$ & $\Re\big(\text{Cov}(\text{hh}, \text{hv})\big) + \Im\big(\text{Cov}(\text{hh}, \text{hv})\big)\hat{\jmath}$  & $\Re\big(\text{Cov}(\text{hh}, \text{vv})\big) + \Im\big(\text{Cov}(\text{hh}, \text{vv})\big)\hat{\jmath}$\\ 
+	hv &- &$\sigma_\text{hv}$ & $ \Re\big(\text{Cov}(\text{hv}, \text{vv})\big)+ \Im\big(\text{Cov}(\text{hv}, \text{vv})\big)\hat{\jmath}$\\ 
+	vv &- & -&$\sigma_\text{vv}$ \\ \bottomrule 
+\end{tabular}\label{tab:sistema_polsar}
+\end{table}
+\begin{table}[hbt]	
+	\centering
+	\caption{Canais de Intensidade da imagem PolSAR.}
+\begin{tabular}{@{}lcc@{}} \toprule
+	 $\text{C}_1$ &$\text{C}_2$&$\text{C}_3$ \\ \midrule
+	$\sigma_\text{hh}$&$\sigma_\text{hv}$&$\sigma_\text{vv}$\\ \bottomrule
+\end{tabular}\label{tab:canais}
+\end{table}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Imagem para cada canal.}
+   \begin{figure}[hbt]
+\minipage{0.35\textwidth}
+  \includegraphics[width=\linewidth]{sf_hh.pdf}
+\endminipage
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vh.pdf}
+\endminipage
+\centering
+\minipage{0.35\textwidth}
+	\includegraphics[width=\linewidth]{sf_vv.pdf}
+\endminipage
+	\caption{Imagens para os canais hh, hv e vv.}\label{fig:sf_hh_hv_vv}
+\end{figure}
+\end{frame}
+%
+%\section{Modelagem Estatística}
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{Modelagem estatística para dados PolSAR (1 -- visada)}
+\begin{itemize}
+\item Matriz de espalhamento complexa $\mathbf{S}$:
+\begin{equation}
+\mathbf{S} = \left[
+\begin{array}{cc}
+	S_\text{hh}   & S_\text{hv}   \\
+	S_\text{vv}   & S_\text{vv}   
+\end{array}
+\right].
+\end{equation}\label{eq_01}
+\item Se o meio de propagação de ondas é reciproco, então 
+$$\mathbf{s}=[S_\text{hh},S_\text{hv},S_{\text{vv}}]^T.$$
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{Modelagem estatística para dados PolSAR (L -- visadas ) - Ruído Speckle}
+\begin{itemize}
+\item Matriz amostral de covariância estimada -- Mitigar o Speckle:
+\begin{equation}
+    \mathbf{Z}=\frac{1}{\text{L}}\sum_{\ell=1}^{\text{L}} {\mathbf{s}_\ell}{\mathbf{s}_\ell}^\text{H},
+    \label{eq_03}
+\end{equation}
+\begin{description}
+      \item[-] $\mathbf{s}_\ell$, $\ell = 1, \dots, \text{L}$.
+      \item[-] L amostras vetoriais complexas independentes distribuídas como $\mathbf{s}$. 
+      \item[-] $\text{H}$ denota o vetor conjugado complexo. 
+\end{description}
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{Distribuição marginal para os canais de intensidades}
+\begin{description}
+\item
+\begin{equation}
+	f_{Z}(z;\mu,\text{L})=\frac{\text{L}^\text{L}}{\Gamma(\text{L})\mu^{\text{L}}} z^{\text{L}-1} \exp\left\{-\frac{\text{L}}{\mu}z\right\}, 
+\label{pdf_gauss_univ}
+\end{equation}
+\item onde, $\mu>0$ e $\text{L}>0$ são parâmetros.
+\item Aplicando o logaritmo natural,
+\begin{equation}\label{func_log_univ_gaussiana}
+	\ln f_{Z}(z;\mu,\text{L})=\text{L}\ln\frac{\text{L}}{\mu}-\ln\Gamma(\text{L})+(\text{L}-1)\ln z - \frac{\text{L}}{\mu} z.
+\end{equation}
+\end{description} 
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{MLE -- Estimativa de máxima verossimilhança.}
+\begin{description}
+\item[-] Seja uma amostra da imagem PolSAR $\bm z = (z_1,\dots,z_n)$.  
+\item[-] A função log-verossimilhança é definida por,
+\begin{equation}\nonumber
+\begin{split}
+  \mathcal{L}(\bm z;\mu, \text{L})=\ln\prod_{k=1}^{n}f_Z(z_k;\mu,\text{L})\\
+  \mathcal{L}(\bm z;\mu, \text{L})=\sum_{k=1}^{n}\ln f_Z(z_k;\mu,\text{L}).
+ \end{split}
+ \end{equation}
+\item[-] Então, 
+\begin{equation}
+    \mathcal{L}(\bm z;\mu, \text{L})=n\left[\text{L}\ln\frac{\text{L}}{\mu}-\ln\Gamma(\text{L})\right]+\text{L}\sum_{k=1}^{n}\ln z_k -\frac{\text{L}}{\mu}\sum_{k=1}^{n} z_k.
+\end{equation}
+\item[] \textcolor{red}{OBS: É uma função plana? SIM!!!!! (BFGS - Otimização - é usado e resolve o problema.)}
+\end{description}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{MLE -- Estimativa de máxima verossimilhança.}
+\begin{description}
+\item[-] Particionando a amostra 
+$$
+\bm z = (\underbrace{z_1,z_2,\dots,z_j}_{\bm z_\text{I}}, 
+\underbrace{z_{j+1}, z_{j+2},\dots,z_n}_{\bm z_\text{E}}),
+$$ 
+\item[-] Temos dois modelos $$\bm Z_\text{I} \sim \Gamma(\mu_\text{I},\text{L}_\text{I}),$$ e, $$\bm Z_\text{E} \sim \Gamma(\mu_\text{E},\text{L}_\text{E}).$$
+\item[-] Para estimar os parâmetros usamos o método de otimização BFGS.
+\end{description}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Modelagem estatística}
+\begin{alertblock}{MLE -- A função de log-verossimilhança total é definida no pixel $j$, por}
+\begin{equation}
+\begin{split}
+\mathcal{L}(j&;\widehat{\mu}_I, \widehat{\text{L}}_I,\widehat{\mu}_E, \widehat{\text{L}}_E)=\\
+&j \big[\widehat{\text{L}}_\text{I}\ln (\widehat{\text{L}}_\text{I} / \widehat{\mu}_\text{I}) - \ln \Gamma(\widehat{\text{L}}_\text{I})\big]
++\widehat{\text{L}}_\text{I} \sum_{k=1}^{j}\ln z_k -\frac{\widehat{\text{L}}_\text{I}}{\widehat{\mu}_\text{I}}\sum_{k=1}^{j} z_k +\\
+&(n-j) \big[\widehat{\text{L}}_\text{E}\ln (\widehat{\text{L}}_\text{E} / \widehat{\mu}_\text{E}) - \ln \Gamma(\widehat{\text{L}}_\text{E})\big]\\
+&+\widehat{\text{L}}_\text{E} \sum_{k=j+1}^{n}\ln z_k - \frac{\widehat{\text{L}}_\text{E}}{\widehat{\mu}_\text{E}}\sum_{k=j+1}^{n} z_k,
+\end{split}
+\end{equation}
+$$
+\widehat{\jmath}= \arg\max\limits_{j\in [\min_s,N-\min_s]}\mathcal{L}(j;\widehat{\mu}_I, \widehat{\text{L}}_I,\widehat{\mu}_E, \widehat{\text{L}}_E),
+$$
+\begin{description}
+\item[-] \textcolor{red}{A função é não diferenciável? SIM! GenSA.}
+\item[-] \textcolor{red}{A função tem oscilações nas extremidades? SIM! (Defina uma folga.}
+\end{description}
+\end{alertblock}
+\end{frame}
+%
+%\section{Edge detection}
+%\begin{frame}[fragile]{Detecção de bordas}
+%\begin{alertblock}{Ideia}
+%O seguinte procedimento é proposto para detectar evidências de bordas no canais $\text{hh}$, $\text{hv}$ e $\text{vv}$:
+%\begin{itemize}
+%    \item Identificar o centroide da região de interesse, de forma automática, semi-automática ou manual;
+%	\item Contruir radiais do centroide para fora da região, e; 
+%	\item Coletar dados usando o algoritmo \textit{Bresenham's midpoint line algorithm};
+%	\item Detectar pontos que fornecem evidências de mudanças de propriedades estatísticas nas radiais da região (Evidências de bordas) 
+%	\item Usar o método GenSA - \textit{Generalized Simulated Annealing} para encontrar o máximo da função proveniente do método MLE; 
+%\end{itemize}
+%\end{alertblock}
+%\end{frame}
+%
+\begin{frame}[fragile]{Detecção de evidências de bordas: O algoritmo Gambini}
+\begin{algorithm}[H]
+\SetAlgoLined
+\For{Canal $1\leq c\leq n_c$}{
+	\For{Radial}{
+		$\bm z = (z_1,z_2,\dots,z_n)\leftarrow$ dados extraídos da radial\;
+		\For{$\min_s\leq j\leq n-\min_s$}{\nllabel{Line:InitFor}
+			Particione a amostra $\bm z_{\text{I}}=(z_{\min_s},\dots,z_j)$ e 
+			$\bm z_{\text{E}}=(z_{j+1},\dots,z_{n-\min_s})$\;
+			Compute $\big(\widehat{\mu}_\text{I}, \widehat{\text{L}}_\text{I}\big)$ com $\bm z_{\text{I}}$, e $\big(\widehat{\mu}_\text{E}, \widehat{\text{L}}_\text{E}\big)$ com $\bm z_{\text{E}}$\;
+			Compute a função log-verossimilhança total em $j$ com $\mathcal L\big(j;\widehat{\mu}_I, \widehat{\text{L}}_I,\widehat{\mu}_E, \widehat{\text{L}}_E\big)$\;
+		}
+		$\widehat\jmath\leftarrow$ O valor de $j$ que maximiza a log-verossimilhança total\;
+		\Return $(\widehat x, \widehat y)$, as cordernadas em cada $\widehat\jmath$\;
+	}
+\Return A imagem binária  $\widehat{\bm\jmath}_c$ com $1$ em todo  $(\widehat x, \widehat y)$, e $0$ caso contrário.
+}
+\end{algorithm}
+\end{frame}
+%
+\begin{frame}[fragile]{Detecção de evidências de Bordas}
+\begin{alertblock}{Exemplo com 25 radiaos na ROI para a imagem de Flevoland} 
+\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.7\linewidth]{flevoland_radial_25_point_hh_crop}
+	\caption{Deteccão de evidências de bordas no canal $\text{hh}$.}
+\label{fig1}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%\section{Fusion methods to edge detection}
+\begin{frame}[fragile]{Fusão de evidências de bordas-- Idea Geral}
+\begin{alertblock}{O esquema para a Fusão}
+%\begin{itemize}
+%\item Parte II - Para cada $\bm{\widehat\imath}_t$
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+%
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=2em,drop shadow]
+\tikzstyle{ann} = [above, text width=5em, text centered]
+\tikzstyle{wa} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{waimage} = [sensor, text width=4em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+    \tikzstyle{waimage1} = [sensor, text width=3.75em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa1} = [sensor, text width=2em, fill=red!20, 
+    minimum height=2em, rounded corners, drop shadow]
+\tikzstyle{wa2}=[draw, fill=blue!20, text width=2.5em, 
+    text centered, minimum height=3em,drop shadow]    
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+\begin{figure}[hbt]
+\begin{tikzpicture}
+\node[waimage] (waimage1) at (-7.0,0.0) {Imagem};
+\node[waimage] (waimage2) at (-5.3,0.0) {ROI};
+\node[wa2] (waimage3) at (-5.3,3.5) {GR};
+\node[waimage] (waimage4) at (-3.5,0.0) {Radiais e centro};
+\node[waimage1] (wa1) at (0.5,2.0) {Fusão 1};
+\node[wa2] (waimage5) at (2.0,3.5) {Erro};
+\path (waimage4.west)+(4.7,1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,0.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-0.5) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.0) node (dots)[ann] {$\vdots$};
+\path (waimage4.west)+(4.7,-1.5) node (dots)[ann] {$\vdots$};
+\node[waimage1] (wa6) at (0.5,-2.0) {Fusão N};
+%
+\path [draw, ->] (waimage1.east) -- node [left] {} 
+        (waimage2) ;
+\path [draw, ->] (waimage2.east) -- node [left] {} 
+        (waimage4) ;
+\path [draw, ->] (waimage2.north) -- node [left] {} 
+        (waimage3) ;
+\path [draw, ->] (waimage3.east) -- node [left] {} 
+        (waimage5) ;        
+%
+    \path (waimage4.west)+(2.5,1.5) node (e1_1) [sensor] {Ch. hh};
+    \path (waimage4.west)+(2.5,0.0) node (e2_1)[sensor] {Ch. hv}; 
+    \path (waimage4.west)+(2.5,-1.5) node (e3_1)[sensor] {Ch. vv};    
+%
+	\path [draw, ->] (waimage4.east) -- node [left] {} 
+        (e1_1.180) ;
+	\path [draw, ->] (waimage4.east) -- node [below] {} 
+        (e2_1.180);
+	\path [draw, ->] (waimage4.east) -- node [right] {} 
+        (e3_1.180);
+	\path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa1.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa1.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa1.200);
+    \path [draw, ->] (e1_1.east) -- node [right] {} 
+        (wa6.160);
+	\path [draw, ->] (e2_1.east) -- node [above] {} 
+        (wa6.180);
+	\path [draw, ->] (e3_1.east) -- node [right] {} 
+        (wa6.200);
+%
+\path [draw, ->] (wa1.east) -- node [left] {} 
+        (waimage5) ;
+\path [draw, ->] (wa6.east) -- node [left] {} 
+        (waimage5) ;
+\end{tikzpicture}
+\caption{Esquema para a fusão}
+\label{fig9}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Métodos de fusão de evidências de bordas}
+\begin{alertblock}{Métodos de fusão}
+\begin{itemize}
+    \item Média simples (MS).
+    \item Transformada wavelet discreta multi-resolução (MR--DWT).
+    \item Análise dos componentes principais (PCA).
+    \item Estatística ROC (E--ROC).
+    \item Transformada wavelet estacionária multi-resolução (MR--SWT).
+    \item Decomposição em valores singulares multi-resolução (MR--SVD).
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{Resultados}
+	\begin{figure}[hbt]
+\centering
+	\includegraphics[width=.5\linewidth]{flevoland_radial_4_look_black}
+	\caption{Região de interesse (ROI--FLEV) da imagem de Flevoland.}
+\label{fig10}
+\end{figure}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Results}
+\begin{alertblock}{ROI--FLEV}
+\begin{figure}[hbt!]
+	\centering
+    \subfloat[Canal $\text{hh}$ \label{evidencias_hh_hv_vv:a}]{%
+    	\includegraphics[width=0.32\linewidth]{flevoland_hh_evid_param_L_mu_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{hv}$ \label{evidencias_hh_hv_vv:b}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_hv_evid_param_L_mu_14_pixel_crop}
+     	}
+    \subfloat[Canal $\text{vv}$ \label{evidencias_hh_hv_vv:c}]{%
+       	\includegraphics[width=0.32\linewidth]{flevoland_vv_evid_param_L_mu_14_pixel_crop}
+     	}
+    \caption{Evidências de bordas para ROI--FLEV}
+    \label{evidencias_hh_hv_vv} 
+\end{figure}	
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-I Fusão}
+\begin{figure}[hbt!]
+	\centering
+     \subfloat[MS\label{fusion_met:a}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_media_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-DWT\label{fusion_met:b}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_dwt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[PCA \label{fusion_met:c}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_pca_param_L_mu_14_pixel_crop}       
+     }\\
+     \subfloat[E-ROC\label{fusion_met:d}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_roc_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-SWT \label{fusion_met:e}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_swt_param_L_mu_14_pixel_crop}
+     }
+     \subfloat[MR-SVD\label{fusion_met:f}]{%
+       \includegraphics[width=0.23\linewidth]{flevoland_fus_svd_param_L_mu_14_pixel_crop}
+     }
+     \caption{Métodos de fusão para a FLEV-ROI-I}
+     \label{fusion_met}
+\end{figure}
+\end{alertblock}
+\end{frame}
+%
+\begin{frame}{Erro }
+\begin{figure}[hbt]
+	\centering
+	\includegraphics[width=.6\linewidth]{metricas_6_fusao_flevoland_port}
+	\caption{Probability of detecting the edge by the fusion methods.}
+	\label{probability_edge_detc}
+\end{figure}
+\end{frame}
+%
+\begin{frame}[fragile]{Resultados}
+\begin{alertblock}{FLEV-ROI-I}
+\begin{table}[hbt]
+\footnotesize
+	\centering
+	\caption{Tempo de processamento para os métodos de fusão}\label{metrica_de_tempo_3_canais}
+	\begin{tabular}{@{}lrrrrrr@{}} \toprule
+		Met.        & MS     &   PCA      &  MR-DWT  & MR-SWT    &  ROC  &  MR-SVD \\ \midrule
+		T(s)   & 0.0095&0.0186  & 0.109& 0.187&  0.457 &  1.168  \\
+		TR.    & 1.00      & 2.05       & 12.03    & 20.66     &   50.31     & 128.52  \\ \bottomrule
+	\end{tabular}
+\end{table}
+\end{alertblock}
+\end{frame}
+%
+%
+\begin{frame}[fragile]{Reprodutibilidade e Replicabilidade}
+\begin{alertblock}{Plataformas, and recursos computacionais}
+\begin{itemize}
+\item[-] Linguagem R.
+\item[-] Linguagem Matlab.
+\item[-] Computador Intel\copyright\ Core i7-9750HQ CPU \SI{2.6}{\giga\hertz} com \SI{16}{\giga\byte} de memória RAM.
+\end{itemize}
+\end{alertblock}
+\begin{alertblock}{Reprodutibilidade e Replicabilidade}
+\begin{itemize}
+\item[-] \url{https://github.com/anderborba/Code_GRSL_2020_1}.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+%
+%\section{Conclusões, discussões e futuras pesquisas}
+\begin{frame}[fragile]{Conclusions, and  discussions}
+\begin{alertblock}{Conclusions, and discussions}
+\begin{itemize}
+	\item É possível fazer a fusão de evidências de bordas para os canais de intensidades.
+    \item BFGS está apto para realizar a otimização nas funções apresentadas.
+    \item GenSA trabalha muito bem em funções não diferenciáveis.
+    \item Foi necessário definir folgas nas extremidades das radiais. 
+    \item Os métodos de fusão PCA e MR-SVD apresentaram bons resultado. (Outliers, tempo e erro).
+\end{itemize}
+\end{alertblock}	
+\end{frame}
+%
+\begin{frame}[fragile]{Future research}
+\begin{alertblock}{Future research}
+\begin{itemize}
+\item[-]  Aumentar o número de canais ou funções distribuíção de densidade. Pequisa em andamento, a fusão ROC melhora o desempenho.
+\item[-]  Propor novas técnicas de fusão de evidências.
+\item[-]  Melhoras as métricas para descartar ou considerar canais. 
+\item[-]  Classificar as regiões em imagens PolSAR, e usar a ideia proposta para refinar a detecção de bordas (Aprendizado de máquina ou reconhecimento de padrões).
+\item[-]  Pós-processamento tanto nas evidências detectadas nos canais de intensidades como nos métodos de fusão.
+%
+\end{itemize}	
+\end{alertblock}
+\end{frame}
+%\setbeamercolor{palette primary}{fg=white, bg=red!80!black}
+\begin{frame}[standout]
+  Obrigado!!!!
+\begin{itemize}
+\item emails: anderborba@gmail.com
+\item anderson.aborba@professores.ibmec.edu.br
+\item Linkedin: https://www.linkedin.com/in/anderson-borba-4469653a/
+\item Orcid: https://orcid.org/0000-0001-8479-9128 
+\end{itemize}
+\end{frame}
+%\begin{frame}[allowframebreaks]
+%\bibliographystyle{IEEEtran}
+%\bibliography{../bibliografia}
+%\end{frame}
+\end{document}

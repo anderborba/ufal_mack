@@ -1,0 +1,274 @@
+% Template for IGARSS-2020 paper; to be used with:
+%          spconf.sty  - LaTeX style file, and
+%          IEEEbib.bst - IEEE bibliography style file.
+% --------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{spconf,amsmath}
+\usepackage{bm,bbm}                                        % AAB inserted
+\usepackage[boxed]{algorithm2e}                            % AAB inserted
+\usepackage[caption=false,font=footnotesize]{subfig}       % AAB inserted
+\usepackage[binary-units]{siunitx}                         % AAB inserted
+\usepackage{booktabs}                                      % AAB inserted
+\usepackage[hidelinks]{hyperref}                                           % AAB inserted
+\usepackage{cite}
+\usepackage{tikz}                                          % AAB inserted 
+\usetikzlibrary{shapes,arrows,shadows}                     % AAB inserted
+\usepackage{enumitem}                                      % AAB inserted
+%
+\graphicspath{{../igarss_2022/figures_igarss_2022/}}        % AAB inserted
+%
+\DeclareMathOperator{\traco}{tr}                           % AAB inserted
+% Example definitions.
+% --------------------
+\def\x{{\mathbf x}}
+\def\L{{\cal L}}
+% Title.
+% ------
+\title{Title}
+%
+% Single address.
+% ---------------
+\name{Anderson A.\ de Borba$^a$, Maurício Marengoni$^b$, and Alejandro C.\ Frery$^c$.\thanks{e-mail:$^a$anderson.aborba@professores.ibmec.edu.br, $^b$mmarengoni@hotmail.com, $^c$alejandro.frery@vuw.ac.nz }}
+\address{$^a$IBMEC-SP, Alameda Santos, 2356 - Jardim Paulista, SP -- Brazil, \\
+$^b$Departamento de Ciência da Computação, Universidade Federal de Minas Gerais, MG -- Brazil,           \\
+$^c$School of Mathematics and Statistics, Victoria University of Wellington, 6140, New Zealand.}
+
+
+%\title{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images}
+%\author{Anderson A.\ de Borba, Maurício Marengoni, and Alejandro C.\ Frery,~\IEEEmembership{Senior Member,~IEEE}%
+%\thanks{This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Finance Code 001}
+%\thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.aborba@professores.ibmec.edu.br}
+%\thanks{M.\ Marengoni is with the Dept.\ Engenharia Elétrica e Computação,
+%UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
+%\thanks{A.\ C.\ Frery is with the School of Mathematics and Statistics,
+%Victoria University of Wellington, 6140, New Zealand. alejandro.frery@vuw.ac.nz}}
+
+%
+% For example:
+% ------------
+%\address{School\\
+%	Department\\
+%	Address}
+%
+% Two addresses (uncomment and modify for two-address case).
+% ----------------------------------------------------------
+%\twoauthors
+%  {A. Author-one, B. Author-two\sthanks{Thanks to XYZ agency for funding.}}
+%	{School A-B\\
+%	Department A-B\\
+%	Address A-B}
+%  {C. Author-three, D. Author-four\sthanks{The fourth author performed the work
+%	while at ...}}
+%	{School C-D\\
+%	Department C-D\\
+%	Address C-D}
+%
+\begin{document}
+%\ninept
+%
+\maketitle
+%
+\begin{abstract}
+
+\end{abstract}
+%
+\begin{keywords}
+
+\end{keywords}
+%
+\section{Introduction}
+\label{sec:intro}
+\section{Simulated Images}
+\label{sec:SimImag}
+We build the simulated images $800 \times 800\times 3$ two-classes phantom images, the third dimensions is a channel number. Into the image, we insert a rectangle centered in the pixel $(400, 400)$ and defined below. One class we define like outside of the rectangle, and another class is inside. The classes are Wishart distributions with $L=4$, $\mu_1$ and $\mu_2$.
+
+In the edge of the rectangle, we define a variable $\epsilon$ to both sides. This manner built a strip around the rectangle edges, inside this strip we using the same $L$ and the $\mu$ is arithmetic average between $\mu_1$ and $\mu_2$.
+
+We insert the samples under a base image built like:
+
+\begin{enumerate}[label=(\roman*)]
+	\item \label{item:obj_i}  To put zeros in the image $800 \times 800$.
+	\item \label{item:obj_ii} Into to the rectangle $[x_i+\epsilon, y_i+\epsilon]\times[x_u-\epsilon,y_u-\epsilon]$ set the value pixel 1. Where:
+	\begin{enumerate}[label=(\alph*)]
+		\item $x_i$ Lower horizontal coordinate.
+		\item $y_i$ Lower vertical coordinate.
+		\item $x_u$ Upper horizontal coordinate.
+		\item $y_u$ Upper vertical coordinate.
+		\item $\epsilon$ Adjustment constant.
+	\end{enumerate} 
+	\item \label{item:obj_iii} In the horizontal strips $[x_i+\epsilon, y_i-\epsilon]\times[x_u-\epsilon,y_i+\epsilon]$, and $[x_i+\epsilon, y_u-\epsilon]\times[x_u-\epsilon,y_u+\epsilon]$, we define like below functions.
+	\item  \label{item:obj_iv} In the vertical strips $[x_i-\epsilon, y_i+\epsilon]\times[x_i+\epsilon,y_u-\epsilon]$, and $[x_u-\epsilon, y_u+\epsilon]\times[x_u+\epsilon,y_u-\epsilon]$, we define like below functions.
+	\item  \label{item:obj_v} In the corner, we using the functions.
+\end{enumerate} 
+
+The function to horizontal strips: 
+$$f_x=\left\{ 
+  \begin{array}{ c l c}
+    0                 & \quad \textrm{if}&\quad x < 0 \\
+    6x^5 -15x^4 + 10x^3 & \quad \textrm{if }&\quad 0 \leq x \leq 1 \\
+    1                 & \quad \textrm{if}\quad& x > 1
+  \end{array}
+\right.$$
+
+The function to vertical strips: 
+$$f_y=\left\{ 
+  \begin{array}{ c l c}
+    0                 & \quad \textrm{if}&\quad y < 0 \\
+    6y^5 -15y^4 + 10y^3 & \quad \textrm{if }&\quad 0 \leq y \leq 1 \\
+    1                 & \quad \textrm{if}\quad& y > 1
+  \end{array}
+\right.$$
+   
+The function to corners:
+$$f=\left\{ 
+  \begin{array}{ c l c}
+    0                 & \quad \textrm{if}&\quad [x,y] < 0 \\
+    f_x \cdot f_y & \quad \textrm{if }&\quad 0 \leq [x,y] \leq 1 \\
+    1                 & \quad \textrm{if}\quad& [x,y] > 1
+  \end{array}
+\right.$$
+
+The idea to built the simulated image was based in \cite{gamf} and the parameters $\mu_i$ also.
+
+With base in the figure above and \cite{gamf}, we define the samples distributed as Wishart, where $L$, $\mu_1$, $\mu_2$, and $\mu_{av}= \frac{\mu_1+\mu_2}{2}$ in all channels . The $\mu_{av}$ is used to strip in the image.
+
+To each channel $n_i$ the parameters are: 
+\begin{enumerate}[label=(\roman*)]
+		\item $\mu_1=0.042811$, $\mu_2=0.014380$
+		\item $\mu_1=0.035977$, $\mu_2=0.002789$
+		\item $\mu_1=0.066498$, $\mu_2=0.015387$
+\end{enumerate}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Red channel\label{red_pauli_mu1_great_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2}
+     }
+     \subfloat[Green channel\label{green_pauli_mu1_great_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2}
+     }
+     \subfloat[Blue channel\label{blue_pauli_mu1_great_mu2}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2}       
+     }
+     \caption{Pauli decomposition to simulated image with $\mu_1$ greater than $\mu_2$ and smooth ramp}
+     \label{sim_image_mu1_greater_mu2_with_ramp}
+\end{figure}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Red channel\label{red_pauli_mu1_less_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2}
+     }
+     \subfloat[Green channel\label{green_pauli_mu1_less_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2}
+     }
+     \subfloat[Blue channel\label{blue_pauli_mu1_less_mu2}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2}       
+     }
+     \caption{Pauli decomposition to simulated image with $\mu_1$ less than $\mu_2$ and smooth ramp}
+     \label{sim_image_mu1_less_mu2_with_ramp}
+\end{figure}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Red channel\label{red_pauli_mu1_great_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_1_mu1_greater_mu2}
+     }
+     \subfloat[Green channel\label{green_pauli_mu1_great_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_2_mu1_greater_mu2}
+     }
+     \subfloat[Blue channel\label{blue_pauli_mu1_great_mu2}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_3_mu1_greater_mu2}       
+     }
+     \caption{Pauli decomposition to simulated image with $\mu_1$ greater than $\mu_2$}
+     \label{sim_image_mu1_greater_mu2}
+\end{figure}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Red channel\label{red_pauli_mu1_great_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_1_mu1_less_mu2}
+     }
+     \subfloat[Green channel\label{green_pauli_mu1_great_mu2}]{%
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_2_mu1_less_mu2}
+     }
+     \subfloat[Blue channel\label{blue_pauli_mu1_great_mu2}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_3_mu1_less_mu2}       
+     }
+     \caption{Pauli decomposition to simulated image with $\mu_1$ less than $\mu_2$}
+     \label{sim_image_mu1_less_mu2}
+\end{figure}
+%
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Channel hh\label{hh_mu1_great_mu2_with_smooth_ramp}]{%
+       \includegraphics[width=0.8\linewidth]{img_hh_mu1_greater_mu2_with_smooth_ramp}
+     }\\
+     \subfloat[Channel hv\label{hv_mu1_great_mu2_with_smooth_ramp}]{%
+       \includegraphics[width=0.8\linewidth]{img_hv_mu1_greater_mu2_with_smooth_ramp}
+     }\\
+     \subfloat[Channel vv\label{vv_mu1_great_mu2_with_smooth_ramp}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.8\linewidth]{img_vv_mu1_greater_mu2_with_smooth_ramp}       
+     }
+     \caption{Evidences in hh channel to simulated image with $\mu_1$ greater than $\mu_2$ and smooth ramp}
+     \label{sim_image_mu1_greater_mu2_with_ramp}
+\end{figure}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Channel hh\label{hh_mu1_less_mu2_with_smooth_ramp}]{%
+       \includegraphics[width=0.8\linewidth]{img_hh_mu1_less_mu2_with_smooth_ramp}
+     }\\
+     \subfloat[Channel hv\label{hv_mu1_less_mu2_with_smooth_ramp}]{%
+       \includegraphics[width=0.8\linewidth]{img_hv_mu1_less_mu2_with_smooth_ramp}
+     }\\
+     \subfloat[Channel vv\label{vv_mu1_less_mu2_with_smooth_ramp}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.8\linewidth]{img_vv_mu1_less_mu2_with_smooth_ramp}       
+     }
+     \caption{Evidences in hh channel to simulated image with $\mu_1$ less than $\mu_2$ and smooth ramp}
+     \label{sim_image_mu1_greater_mu2_with_ramp}
+\end{figure}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Channel hh\label{hh_mu1_great_mu2}]{%
+       \includegraphics[width=0.8\linewidth]{img_hh_mu1_greater_mu2}
+     }\\
+     \subfloat[Channel hv\label{hv_mu1_great_mu2}]{%
+       \includegraphics[width=0.8\linewidth]{img_hv_mu1_greater_mu2}
+     }\\
+     \subfloat[Channel vv\label{vv_mu1_great_mu2}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.8\linewidth]{img_vv_mu1_greater_mu2}       
+     }
+     \caption{Evidences in hh channel to simulated image with $\mu_1$ greater than $\mu_2$}
+     \label{sim_image_mu1_greater_mu2_with_ramp}
+\end{figure}
+%
+\begin{figure}[htb!]
+	\centering
+     \subfloat[Channel hh\label{hh_mu1_less_mu2}]{%
+       \includegraphics[width=0.8\linewidth]{img_hh_mu1_less_mu2}
+     }\\
+     \subfloat[Channel hv\label{hv_mu1_less_mu2}]{%
+       \includegraphics[width=0.8\linewidth]{img_hv_mu1_less_mu2}
+     }\\
+     \subfloat[Channel vv\label{vv_mu1_less_mu2}]{%
+       %\includegraphics[width=0.2\textwidth]{example-image-a}
+       \includegraphics[width=0.8\linewidth]{img_vv_mu1_less_mu2}       
+     }
+     \caption{Evidences in hh channel to simulated image with $\mu_1$ less than $\mu_2$}
+     \label{sim_image_mu1_greater_mu2_with_ramp}
+\end{figure}
+%  
+\bibliographystyle{IEEEtran}
+\bibliography{strings,refs}
+
+\end{document}
