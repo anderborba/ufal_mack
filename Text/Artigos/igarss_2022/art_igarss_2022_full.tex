@@ -102,7 +102,7 @@ We insert the samples under a base image built like:
 \end{enumerate} 
 
 The function for the horizontal strips is:
-$$f_x=
+$$f_x(x)=
   \begin{cases}
     0                 & \textrm{if } x < 0 \\
     6x^5 -15x^4 + 10x^3 & \textrm{if } 0 \leq x \leq 1 \\
@@ -110,14 +110,14 @@ $$f_x=
   \end{cases}
 $$
 The function for the vertical strips is:
-$$f_y=
+$$f_y(y)=
   \begin{cases}
     0                 & \textrm{if } y < 0 \\
     6y^5 -15y^4 + 10y^3 & \textrm{if } 0 \leq y \leq 1 \\
     1                 & \textrm{if } y > 1.
   \end{cases}$$
 The function for the corners is:
-$$f=
+$$f(x,y)=
   \begin{cases}
     0                 & \textrm{if } x,y < 0 \\
     f_x(x)  f_y(y) & \textrm{if } 0 \leq x,y \leq 1 \\
