@@ -14,6 +14,8 @@
 \usepackage{tikz}                                          % AAB inserted 
 \usetikzlibrary{shapes,arrows,shadows}                     % AAB inserted
 \usepackage{enumitem}                                      % AAB inserted
+\usepackage{calrsfs}                                       % AAB inserted
+\usepackage{amsfonts}                                      % AAB inserted
 %
 \graphicspath{{../igarss_2022/figures_igarss_2022/}}        % AAB inserted
 %
@@ -80,60 +82,63 @@ $^c$School of Mathematics and Statistics, Victoria University of Wellington, 614
 \label{sec:intro}
 \section{Simulated Images}
 \label{sec:SimImag}
-We build the simulated images $800 \times 800\times 3$ two-classes phantom images, the third dimensions is a channel number. Into the image, we insert a rectangle centered in the pixel $(400, 400)$ and defined below. One class we define like outside of the rectangle, and another class is inside. The classes are Wishart distributions with $L=4$, $\mu_1$ and $\mu_2$.
+We build the simulated images $800 \times 800 \times 3$ two-classes phantom images, the third dimensions is a channel number. Into the image, we insert a rectangle centered in the pixel $(x_c, y_c) = (400, 400)$ and defined below. One class we define like outside of the rectangle, and another class is inside. The classes are Wishart distributions with $L=4$, $\mu_1$ and $\mu_2$.
 
 In the edge of the rectangle, we define a variable $\epsilon$ to both sides. This manner built a strip around the rectangle edges, inside this strip we using the same $L$ and the $\mu$ is arithmetic average between $\mu_1$ and $\mu_2$.
 
 We insert the samples under a base image built like:
 
 \begin{enumerate}[label=(\roman*)]
-	\item \label{item:obj_i}  To put zeros in the image $800 \times 800$.
-	\item \label{item:obj_ii} Into to the rectangle $[x_i+\epsilon, y_i+\epsilon]\times[x_u-\epsilon,y_u-\epsilon]$ set the value pixel 1. Where:
+	\item \label{item:obj_i}  To put $0$ in the image $800 \times 800$, for all channels.
+	\item \label{item:obj_ii} Into to the rectangle $[x_i+\epsilon, x_u-\epsilon]\times[y_i+\epsilon,y_u-\epsilon]$ set the value pixel $1$. Where:
 	\begin{enumerate}[label=(\alph*)]
-		\item $x_i$ Lower horizontal coordinate.
-		\item $y_i$ Lower vertical coordinate.
-		\item $x_u$ Upper horizontal coordinate.
-		\item $y_u$ Upper vertical coordinate.
-		\item $\epsilon$ Adjustment constant.
+		\item $x_i=x_c - 100,$ lower horizontal coordinate.
+		\item $x_u=x_c + 100,$ upper horizontal coordinate.
+		\item $y_i=y_c - 50,$ lower vertical coordinate.
+		\item $y_u=y_c + 50,$ upper vertical coordinate.
+		\item $\epsilon,$ adjustment constant.
 	\end{enumerate} 
-	\item \label{item:obj_iii} In the horizontal strips $[x_i+\epsilon, y_i-\epsilon]\times[x_u-\epsilon,y_i+\epsilon]$, and $[x_i+\epsilon, y_u-\epsilon]\times[x_u-\epsilon,y_u+\epsilon]$, we define like below functions.
-	\item  \label{item:obj_iv} In the vertical strips $[x_i-\epsilon, y_i+\epsilon]\times[x_i+\epsilon,y_u-\epsilon]$, and $[x_u-\epsilon, y_u+\epsilon]\times[x_u+\epsilon,y_u-\epsilon]$, we define like below functions.
-	\item  \label{item:obj_v} In the corner, we using the functions.
+	\item \label{item:obj_iii} In the horizontal strips $[x_i-\epsilon, x_u+\epsilon]\times[y_i-\epsilon,y_i+\epsilon]$, and $[x_i-\epsilon, x_u +\epsilon]\times[y_u-\epsilon,y_u+\epsilon]$, we define the function \eqref{eq01}.
+	\item  \label{item:obj_iv} In the 4vertical strips $[x_i-\epsilon, x_i+\epsilon]\times[y_i-\epsilon,y_u+\epsilon]$, and $[x_u-\epsilon, x_u+\epsilon]\times[y_i-\epsilon,y_u+\epsilon]$, we define the function \eqref{eq02}.
+	\item  \label{item:obj_v} In the corners, we using the function \eqref{eq03}.
 \end{enumerate} 
 
 The function for the horizontal strips is:
-$$f_x(x)=
+\begin{equation}f_x(x)=
   \begin{cases}
     0                 & \textrm{if } x < 0 \\
     6x^5 -15x^4 + 10x^3 & \textrm{if } 0 \leq x \leq 1 \\
     1                 & \textrm{if } x > 1.
-  \end{cases}
-$$
+  \end{cases}\label{eq01}
+\end{equation}
+
 The function for the vertical strips is:
-$$f_y(y)=
+\begin{equation}f_y(y)=
   \begin{cases}
     0                 & \textrm{if } y < 0 \\
     6y^5 -15y^4 + 10y^3 & \textrm{if } 0 \leq y \leq 1 \\
     1                 & \textrm{if } y > 1.
-  \end{cases}$$
+  \end{cases}\label{eq02}
+\end{equation}
+
 The function for the corners is:
-$$f(x,y)=
-  \begin{cases}
-    0                 & \textrm{if } x,y < 0 \\
-    f_x(x)  f_y(y) & \textrm{if } 0 \leq x,y \leq 1 \\
-    1                 & \textrm{if } x,y > 1.
-  \end{cases}$$
+\begin{eqnarray}
+f(x,y) = f_x(x) \cdot f_y(y),& \textrm{with }(x,y)\in \mathbb{R}^2  
+\label{eq03}
+\end{eqnarray} 
 
-The idea to built the simulated image was based in \cite{gamf} and the parameters $\mu_i$ also.
+The idea to built the simulated image was based in \cite{gamf}.
 
-With base in the figure above and \cite{gamf}, we define the samples distributed as Wishart, where $L$, $\mu_1$, $\mu_2$, and $\mu_{av}= {(\mu_1+\mu_2)}/{2}$ in all channels. 
-We use $\mu_{av}$ to strip in the image.
+We use two images tests based in the procedure above and \cite{gamf}.
+Firstly, the image test ($\text{T}_1$) where was defined the samples distributed as Wishart, where $L$, $\mu_1^{\text{c}_i}$, $\mu_2^{\text{c}_i}$, and $\mu_{av}^{\text{c}_1}= {(\mu_1^{\text{c}_i}+\mu_2^{\text{c}_i})}/{2}$ using to strips in the image. The index $c_i$ defines the channels, that is, $c_1$, $c_2$, and $c_3$ are respectively the intensities channels $\text{HH}$, $\text{HV}$, and $\text{VV}$.
 
-To each channel $n_i$ the parameters are: 
+Secondly, in the test ($\text{T}_2$) was done a negative image, that is, in the item \ref{item:obj_i} we define 1 to the pixels and the item \ref{item:obj_ii} put 0 to the pixel. The items from \ref{item:obj_iii} to \ref{item:obj_v} were modified as needed. 
+
+To each channel in both images, we use $\mu_1^{\text{c}_i} > \mu_2^{\text{c}_i}$ and $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$. The parameters are using  in this article: 
 \begin{enumerate}[label=(\roman*)]
-		\item $\mu_1=0.042811$, $\mu_2=0.014380$
-		\item $\mu_1=0.035977$, $\mu_2=0.002789$
-		\item $\mu_1=0.066498$, $\mu_2=0.015387$
+		\item $\mu_1^{\text{c}_1}=0.042811$, $\mu_2^{\text{c}_1}=0.014380$;
+		\item $\mu_1^{\text{c}_2}=0.035977$, $\mu_2^{\text{c}_2}=0.002789$;
+		\item $\mu_1^{\text{c}_3}=0.066498$, $\mu_2^{\text{c}_3}=0.015387$.
 \end{enumerate}
 %
 \begin{figure}[hbt]
@@ -201,70 +206,433 @@ To each channel $n_i$ the parameters are:
 \end{figure}
 %
 %
-\begin{figure}[hbt]
+%\begin{figure}[hbt]
+%	\centering
+%     \subfloat[Channel hh\label{hh_mu1_great_mu2_with_smooth_ramp}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hh_mu1_greater_mu2_with_smooth_ramp}
+%     }\\
+%     \subfloat[Channel hv\label{hv_mu1_great_mu2_with_smooth_ramp}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hv_mu1_greater_mu2_with_smooth_ramp}
+%     }\\
+%     \subfloat[Channel vv\label{vv_mu1_great_mu2_with_smooth_ramp}]{%
+%       %\includegraphics[width=0.2\textwidth]{example-image-a}
+%       \includegraphics[width=0.8\linewidth]{img_vv_mu1_greater_mu2_with_smooth_ramp}       
+%     }
+%     \caption{Evidences in hh channel to simulated image with $\mu_1$ greater than $\mu_2$ and smooth ramp}
+%     \label{sim_image_mu1_greater_mu2_with_ramp}
+%\end{figure}
+%
+%\begin{figure}[hbt]
+%	\centering
+%     \subfloat[Channel hh\label{hh_mu1_less_mu2_with_smooth_ramp}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hh_mu1_less_mu2_with_smooth_ramp}
+%     }\\
+%     \subfloat[Channel hv\label{hv_mu1_less_mu2_with_smooth_ramp}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hv_mu1_less_mu2_with_smooth_ramp}
+%     }\\
+%     \subfloat[Channel vv\label{vv_mu1_less_mu2_with_smooth_ramp}]{%
+%       %\includegraphics[width=0.2\textwidth]{example-image-a}
+%       \includegraphics[width=0.8\linewidth]{img_vv_mu1_less_mu2_with_smooth_ramp}       
+%     }
+%     \caption{Evidences in hh channel to simulated image with $\mu_1$ less than $\mu_2$ and smooth ramp}
+%     \label{sim_image_mu1_greater_mu2_with_ramp}
+%\end{figure}
+%
+%\begin{figure}[hbt]
+%	\centering
+%     \subfloat[Channel hh\label{hh_mu1_great_mu2}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hh_mu1_greater_mu2}
+%     }\\
+%     \subfloat[Channel hv\label{hv_mu1_great_mu2}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hv_mu1_greater_mu2}
+%     }\\
+%     \subfloat[Channel vv\label{vv_mu1_great_mu2}]{%
+%       %\includegraphics[width=0.2\textwidth]{example-image-a}
+%       \includegraphics[width=0.8\linewidth]{img_vv_mu1_greater_mu2}       
+%     }
+%     \caption{Evidences in hh channel to simulated image with $\mu_1$ greater than $\mu_2$}
+%     \label{sim_image_mu1_greater_mu2_with_ramp}
+%\end{figure}
+%
+%\begin{figure}[hbt]
+%	\centering
+%     \subfloat[Channel hh\label{hh_mu1_less_mu2}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hh_mu1_less_mu2}
+%     }\\
+%     \subfloat[Channel hv\label{hv_mu1_less_mu2}]{%
+%       \includegraphics[width=0.8\linewidth]{img_hv_mu1_less_mu2}
+%     }\\
+%     \subfloat[Channel vv\label{vv_mu1_less_mu2}]{%
+%       %\includegraphics[width=0.2\textwidth]{example-image-a}
+%       \includegraphics[width=0.8\linewidth]{img_vv_mu1_less_mu2}       
+%     }
+%     \caption{Evidences in hh channel to simulated image with $\mu_1$ less than $\mu_2$}
+%     \label{sim_image_mu1_greater_mu2_with_ramp}
+%\end{figure}
+%
+\section{Edge detection}
+In this work, we compare two edge detector. The Gambini algorithm with the edge detector based in the constant false alarm rate (CFAR). 
+\subsection{Gambini algorithm}
+The methods were presented in \cite{gmbf} and \cite{fbgm}, and they are based in density distributions \textbf{$\mathcal{G}^0$} that can be founded in \cite{fmcs} or \cite{ffc}. We use the procedure with the Wishart distribution \cite{bmf_2020,bmf_2019}. The unique difference between 
+\subsection{CFAR}
+\section{Results}
+ Applying the Gambini algorithm from Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_8} until Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10} show $\text{T}_1$ and $t{T}_2$ with $\mu_1^{\text{c}_i}> \mu_2^{\text{c}_i}$ with $\epsilon=8$, $\epsilon=9$ and $\epsilon=10$. We can noted that edges evidences are detected when sample is based in zero. 
+
+Similar results happen in the Fig.~\ref{sim_image_mu1_less_mu2_with_ramp_eps_8} until Fig.~\ref{sim_image_mu1_less_mu2_with_ramp_eps_10} that show $\text{T}_3$ and $\text{T}_4$ with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ with $\epsilon=8$, $\epsilon=9$ and $\epsilon=10$. 
+
+The figures show the channels $\text{c}_1$ in the figures (a) and (b), the channel $\text{c}_2$ in the figures (c) and (d), and the channel $\text{c}_3$ in the figures (e) and (f).   
+ \begin{figure}[hbt]
 	\centering
-     \subfloat[Channel hh\label{hh_mu1_great_mu2_with_smooth_ramp}]{%
-       \includegraphics[width=0.8\linewidth]{img_hh_mu1_greater_mu2_with_smooth_ramp}
-     }\\
-     \subfloat[Channel hv\label{hv_mu1_great_mu2_with_smooth_ramp}]{%
-       \includegraphics[width=0.8\linewidth]{img_hv_mu1_greater_mu2_with_smooth_ramp}
-     }\\
-     \subfloat[Channel vv\label{vv_mu1_great_mu2_with_smooth_ramp}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.8\linewidth]{img_vv_mu1_greater_mu2_with_smooth_ramp}       
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 8$ \label{fig_c_1_mu1_greater_mu2_eps_8}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_08_radial}
      }
-     \caption{Evidences in hh channel to simulated image with $\mu_1$ greater than $\mu_2$ and smooth ramp}
-     \label{sim_image_mu1_greater_mu2_with_ramp}
+     \subfloat[T2 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$\label{fig_c_1_mu1_greater_mu2_eps_8_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_08_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_2} > \mu_2^{\text{c}_2}$ \label{fig_c_2_mu1_greater_mu2_eps_8}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_08_radial}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_2} > \mu_2^{\text{c}_2}$\label{fig_c_2_mu1_greater_mu2_eps_8_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_08_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_3} > \mu_2^{\text{c}_3}$ \label{fig_c_2_mu1_greater_mu2_eps_8}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_08_radial}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_3} > \mu_2^{\text{c}_3}$\label{fig_c_2_mu1_greater_mu2_eps_8_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_08_negative_radial}
+     }
+     \caption{The intensities channels to simulated image with $\mu_1^{\text{c}_i} > \mu_2^{\text{c}_i}$ and smooth ramp $\epsilon=8$}
+     \label{sim_image_mu1_greater_mu2_with_ramp_eps_8}
+\end{figure} 
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 9$ \label{fig_c_1_mu1_greater_mu2_eps_9}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_09_radial}
+     }                                          
+     \subfloat[T2 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 9$\label{fig_c_1_mu1_greater_mu2_eps_9_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_09_negative_radial}
+     }\\                                   
+     \subfloat[T1 with $\mu_1^{\text{c}_2} > \mu_2^{\text{c}_2}$ and $\epsilon = 9$ \label{fig_c_2_mu1_greater_mu2_eps_9}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_09_radial}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_2} > \mu_2^{\text{c}_2}$ and $\epsilon = 9$\label{fig_c_2_mu1_greater_mu2_eps_9_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_09_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_3} > \mu_2^{\text{c}_3}$ and $\epsilon = 9$ \label{fig_c_2_mu1_greater_mu2_eps_9}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_09_radial}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_3} > \mu_2^{\text{c}_3}$ and $\epsilon = 9$\label{fig_c_2_mu1_greater_mu2_eps_9_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_09_negative_radial}
+     }
+     \caption{The intensities channels to simulated image with $\mu_1^{\text{c}_i} > \mu_2^{\text{c}_i}$ and smooth ramp $\epsilon=9$}
+     \label{sim_image_mu1_greater_mu2_with_ramp_eps_9}
+\end{figure} 
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_greater_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_radial}
+     }                                          
+     \subfloat[T2 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_1_mu1_greater_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial}
+     }\\                                   
+     \subfloat[T1 with $\mu_1^{\text{c}_2} > \mu_2^{\text{c}_2}$ and $\epsilon = 10$ \label{fig_c_2_mu1_greater_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_radial}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_2} > \mu_2^{\text{c}_2}$ and $\epsilon = 10$\label{fig_c_2_mu1_greater_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_3} > \mu_2^{\text{c}_3}$ and $\epsilon = 10$ \label{fig_c_2_mu1_greater_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_radial}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_3} > \mu_2^{\text{c}_3}$ and $\epsilon = 10$\label{fig_c_2_mu1_greater_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial}
+     }
+     \caption{The intensities channels to simulated image with $\mu_1^{\text{c}_i} > \mu_2^{\text{c}_i}$ and smooth ramp $\epsilon=10$}
+     \label{sim_image_mu1_greater_mu2_with_ramp_eps_10}
 \end{figure}
 %
-\begin{figure}[hbt]
+ \begin{figure}[hbt]
 	\centering
-     \subfloat[Channel hh\label{hh_mu1_less_mu2_with_smooth_ramp}]{%
-       \includegraphics[width=0.8\linewidth]{img_hh_mu1_less_mu2_with_smooth_ramp}
-     }\\
-     \subfloat[Channel hv\label{hv_mu1_less_mu2_with_smooth_ramp}]{%
-       \includegraphics[width=0.8\linewidth]{img_hv_mu1_less_mu2_with_smooth_ramp}
-     }\\
-     \subfloat[Channel vv\label{vv_mu1_less_mu2_with_smooth_ramp}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.8\linewidth]{img_vv_mu1_less_mu2_with_smooth_ramp}       
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 8$ \label{fig_c_1_mu1_less_mu2_eps_08}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_08_radial}
+     }                                          
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 8$\label{fig_c_1_mu1_less_mu2_eps_08_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_08_negative_radial}
+     }\\                                   
+     \subfloat[T1 with $\mu_2^{\text{c}_2} < \mu_1^{\text{c}_2}$ and $\epsilon = 8$ \label{fig_c_2_mu1_less_mu2_eps_08}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_08_radial}
      }
-     \caption{Evidences in hh channel to simulated image with $\mu_1$ less than $\mu_2$ and smooth ramp}
-     \label{sim_image_mu1_greater_mu2_with_ramp}
+     \subfloat[T2 with $\mu_2^{\text{c}_2} < \mu_1^{\text{c}_2}$ and $\epsilon = 8$\label{fig_c_2_mu1_less_mu2_eps_08_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_08_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_3} < \mu_1^{\text{c}_3}$ and $\epsilon = 8$ \label{fig_c_2_mu1_less_mu2_eps_08}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_08_radial}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_3} < \mu_1^{\text{c}_3}$ and $\epsilon = 8$\label{fig_c_2_mu1_less_mu2_eps_08_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_08_negative_radial}
+     }
+     \caption{The intensities channels to simulated image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=8$}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_8}
+\end{figure} 
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 9$ \label{fig_c_1_mu1_less_mu2_eps_09}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_09_radial}
+     }                                          
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 9$\label{fig_c_1_mu1_less_mu2_eps_09_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_09_negative_radial}
+     }\\                                   
+     \subfloat[T1 with $\mu_2^{\text{c}_2} < \mu_1^{\text{c}_2}$ and $\epsilon = 9$ \label{fig_c_2_mu1_less_mu2_eps_09}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_09_radial}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_2} < \mu_1^{\text{c}_2}$ and $\epsilon = 9$\label{fig_c_2_mu1_less_mu2_eps_09_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_09_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_3} < \mu_1^{\text{c}_3}$ and $\epsilon = 9$ \label{fig_c_2_mu1_less_mu2_eps_09}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_09_radial}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_3} < \mu_1^{\text{c}_3}$ and $\epsilon = 9$\label{fig_c_2_mu1_less_mu2_eps_09_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_09_negative_radial}
+     }
+     \caption{The intensities channels to simulated image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=9$}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_9}
 \end{figure}
 %
-\begin{figure}[hbt]
+ \begin{figure}[hbt]
 	\centering
-     \subfloat[Channel hh\label{hh_mu1_great_mu2}]{%
-       \includegraphics[width=0.8\linewidth]{img_hh_mu1_greater_mu2}
-     }\\
-     \subfloat[Channel hv\label{hv_mu1_great_mu2}]{%
-       \includegraphics[width=0.8\linewidth]{img_hv_mu1_greater_mu2}
-     }\\
-     \subfloat[Channel vv\label{vv_mu1_great_mu2}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.8\linewidth]{img_vv_mu1_greater_mu2}       
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_10_radial}
+     }                                          
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_1_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_10_negative_radial}
+     }\\                                   
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_10_radial}
      }
-     \caption{Evidences in hh channel to simulated image with $\mu_1$ greater than $\mu_2$}
-     \label{sim_image_mu1_greater_mu2_with_ramp}
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_10_negative_radial}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_10_radial}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_10_negative_radial}
+     }
+     \caption{The intensities channels to simulated image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=10$}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure} 
+%
+Applying the Gambini algorithm from Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_step_5_10} until Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_step_5_10} with simulated image $\text{T}_5$ and $t{T}_6$ with $\mu_1^{\text{c}_i}> \mu_2^{\text{c}_i}$ with $\epsilon=10$, the edges have a little displacement to center the strip. 
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ and step from 5 to 10 \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_radial_step_5_10}
+     }
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ and step from 5 to 10 \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial_step_5_10}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ and step from 5 to 10\label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_radial_step_5_10}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ and step from 5 to 10\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial_step_5_10}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ and step from 5 to 10\label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_radial_step_5_10}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_1} > \mu_2^{\text{c}_1}$ and $\epsilon = 10$ and step from 5 to 10\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial_step_5_10}
+     }
+     \caption{The intensities channels to simulated image with $\mu_1^{\text{c}_i} > \mu_2^{\text{c}_i}$ and smooth ramp $\epsilon=10$ and step 5 to 10}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10_step_5_10}
 \end{figure}
 %
-\begin{figure}[hbt]
+Similar results happen from Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_step_10_5} until Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_step_5_10} with simulated image $\text{T}_7$ and $t{T}_8$ with $\mu_1^{\text{c}_i}> \mu_2^{\text{c}_i}$ with $\epsilon=10$, the edges have a little displacement to center the strip.
+ \begin{figure}[hbt]
 	\centering
-     \subfloat[Channel hh\label{hh_mu1_less_mu2}]{%
-       \includegraphics[width=0.8\linewidth]{img_hh_mu1_less_mu2}
-     }\\
-     \subfloat[Channel hv\label{hv_mu1_less_mu2}]{%
-       \includegraphics[width=0.8\linewidth]{img_hv_mu1_less_mu2}
-     }\\
-     \subfloat[Channel vv\label{vv_mu1_less_mu2}]{%
-       %\includegraphics[width=0.2\textwidth]{example-image-a}
-       \includegraphics[width=0.8\linewidth]{img_vv_mu1_less_mu2}       
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_10_radial_step_5_10}
      }
-     \caption{Evidences in hh channel to simulated image with $\mu_1$ less than $\mu_2$}
-     \label{sim_image_mu1_greater_mu2_with_ramp}
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_10_negative_radial_step_5_10}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_10_radial_step_5_10}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_10_negative_radial_step_5_10}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_10_radial_step_5_10}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_10_negative_radial_step_5_10}
+     }
+     \caption{The intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=10$ and step 10 to 5}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10_step_10_5}
 \end{figure}
-%  
+%
+% Cfar results.
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_1^{\text{c}_1} < \mu_2^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_step_0_1}
+     }
+     \subfloat[T1 with $\mu_1^{\text{c}_1} < \mu_2^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_2} < \mu_2^{\text{c}_2}$ and $\epsilon = 0$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_0_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_2} < \mu_2^{\text{c}_2}$ and $\epsilon = 0$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_3} < \mu_2^{\text{c}_3}$ and $\epsilon = 0$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_0_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_3} < \mu_2^{\text{c}_3}$ and $\epsilon = 0$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_step_0_1}
+     }
+     \caption{CFAR threshold = 0.32. TThe intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=0$ and step 0 to 1}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure} 
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_1^{\text{c}_1} < \mu_2^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_step_0_1}
+     }
+     \subfloat[T1 with $\mu_1^{\text{c}_1} < \mu_2^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_2} < \mu_2^{\text{c}_2}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_2} < \mu_2^{\text{c}_2}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_1^{\text{c}_3} < \mu_2^{\text{c}_3}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_1^{\text{c}_3} < \mu_2^{\text{c}_3}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_step_0_1}
+     }
+     \caption{CFAR threshold = 0.085.The intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=10$ }
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure}
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_0_cfar_step_0_1}
+     }
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_0_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_0_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_0_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_0_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_0_negative_cfar_step_0_1}
+     }
+     \caption{CFAR threshold = 0.32. TThe intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=0$ and step 0 to 1}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure} 
+%
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_10_cfar_step_0_1}
+     }
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_less_mu2_eps_10_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_10_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_less_mu2_eps_10_negative_cfar_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_10_cfar_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_less_mu2_eps_10_negative_cfar_step_0_1}
+     }
+     \caption{CFAR threshold = 0.082:w
+      . TThe intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=10$ and step 0 to 1}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure} 
+%
+Kernel = 3
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1}
+     }
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_coef_var_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_coef_var_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 0$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_coef_var_step_0_1}
+     }
+     \caption{CFAR coef var - threshold = 0.5. TThe intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=0$ and step 0 to 1}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure} 
+%
+Kernel = 5
+ \begin{figure}[hbt]
+	\centering
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_1}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1}
+     }
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_1_mu1_less_mu2_eps_10_2}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_2_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1}
+     }\\
+     \subfloat[T1 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$ \label{fig_c_2_mu1_less_mu2_eps_10}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1}
+     }
+     \subfloat[T2 with $\mu_2^{\text{c}_1} < \mu_1^{\text{c}_1}$ and $\epsilon = 10$\label{fig_c_2_mu1_less_mu2_eps_10_negative}]{%
+       \includegraphics[width=.5\linewidth]{fig_PI_c_3_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1}
+     }
+     \caption{CFAR coef var - threshold =. The intensities channels to simulated negative image with $\mu_2^{\text{c}_i} < \mu_1^{\text{c}_i}$ and smooth ramp $\epsilon=10$ and step 0 to 1}
+     \label{sim_image_mu1_less_mu2_with_ramp_eps_10}
+\end{figure} 
+\section{Conclusions and discussions}
+
+\begin{enumerate}[label=(\roman*)]
+	\item \label{item:conc_i} The visual inspection of the figures shows that edge detection is not depend on order relation between of the parameters $\mu_1^{\text{c}_i}$ and $\mu_2^{\text{c}_i}$. However, the edge detection. 
+	\item \label{item:conc_ii} When the simulated image is based ad step 0 to 1 or step 1 to 0 the edge are detected near sample based in 0.
+	\item \label{item:conc_iii} When the simulated image is based ad step 5 to 10 or step 10 to 5 the edge does repeat item \ref{item:conc_ii}. The edges position there are displacement to the strip center.
+	\item  \label{item:conc_iv} Threshold gets the empiric way to CFARs methods.
+	\item  \label{item:conc_v} The coefficient 
+\end{enumerate}
+ 
 \bibliographystyle{IEEEtran}
 \bibliography{strings,refs}
 

@@ -42,10 +42,10 @@ class_strip_samples = m*ns;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sigma
 % We take a valid sigma matrix
-Sigma1 = S(:,:,1);
-Sigma2 = S(:,:,2);
-%Sigma2 = S(:,:,1);
-%Sigma1 = S(:,:,2);
+%Sigma1 = S(:,:,1);
+%Sigma2 = S(:,:,2);
+Sigma2 = S(:,:,1);
+Sigma1 = S(:,:,2);
 Sigma_strip = 0.5 * (S(:,:,1) + S(:,:,2));
 % Class 1:
 [S_class_1] = cwishart_variates(Sigma1,L,class_1_samples);
