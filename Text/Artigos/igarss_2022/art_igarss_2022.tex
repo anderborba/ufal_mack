@@ -27,25 +27,14 @@
 \def\L{{\cal L}}
 % Title.
 % ------
-\title{Title}
+\title{Comparing the Gambini's algorithm and a CFAR method to edge detection for PolSAR images}
 %
 % Single address.
 % ---------------
-\name{Anderson A.\ de Borba$^a$, Maurício Marengoni$^b$, and Alejandro C.\ Frery$^c$.\thanks{e-mail:$^a$anderson.aborba@professores.ibmec.edu.br, $^b$mmarengoni@hotmail.com, $^c$alejandro.frery@vuw.ac.nz }}
+\name{Anderson A.\ de Borba$^a$, Maurício Marengoni$^b$, and Alejandro C.\ Frery$^c$.\thanks{e-mail:$^a$anderson.aborba@professores.ibmec.edu.br, $^b$mmarengoni@albion.edu, $^c$alejandro.frery@vuw.ac.nz }}
 \address{$^a$IBMEC-SP, Alameda Santos, 2356 - Jardim Paulista, SP -- Brazil, \\
-$^b$Departamento de Ciência da Computação, Universidade Federal de Minas Gerais, MG -- Brazil,           \\
+$^b$Albion College, Albion, MI -- USA,           \\
 $^c$School of Mathematics and Statistics, Victoria University of Wellington, 6140, New Zealand.}
-
-
-%\title{Fusion of Evidences in Intensity Channels for Edge Detection in PolSAR Images}
-%\author{Anderson A.\ de Borba, Maurício Marengoni, and Alejandro C.\ Frery,~\IEEEmembership{Senior Member,~IEEE}%
-%\thanks{This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Finance Code 001}
-%\thanks{A.\ A.\ de Borba is with the Dept.\ Engenharia Elétrica e Computação, Universidade Presbiteriana Mackenzie (UPM), and with IBMEC-SP, São Paulo, Brazil. anderson.aborba@professores.ibmec.edu.br}
-%\thanks{M.\ Marengoni is with the Dept.\ Engenharia Elétrica e Computação,
-%UPM, São Paulo, Brazil. mauricio.marengoni@mackenzie.br}
-%\thanks{A.\ C.\ Frery is with the School of Mathematics and Statistics,
-%Victoria University of Wellington, 6140, New Zealand. alejandro.frery@vuw.ac.nz}}
-
 %
 % For example:
 % ------------
@@ -72,51 +61,57 @@ $^c$School of Mathematics and Statistics, Victoria University of Wellington, 614
 \maketitle
 %
 \begin{abstract}
-
+In this work we compare two different method to detect edges for PolSAR images. The Gambini's algorithm and a simple CFAR method (The Coefficient of Variation Detector). Both methods were able to detect edges in the simulated images used in this work. The Gambini's algorithm has the advantage of finding a single pixel as an edge while the CFAR method detects multiple edges, mainly when the edge is a ramp edge. In the other hand, the CFAR method can be directly applied to the images while the Gambini's algorithm needs to have as input a region of interest and lines where the transition point between distributions (edges) are detected.
 \end{abstract}
 %
 \begin{keywords}
-
+Gambine's Algorithm, CFAR coefficient of variation, edge detection.
 \end{keywords}
 %
 \section{Introduction}
 \label{sec:intro}
-A presente pesquisa tem o objetivo de entender como o algoritmo da Gambini (Veja Refs.~\cite{fbgm, gmbf}) define as bordas detectadas. Para alcançar este objetivo desenhamos imagens simuladas testes com características específicas que serão descritas neste trabalho. Além disso, o método de detecão de evidencia de bordas  \textit{Constant False alarme rate} (CFAR) coeficiente de variação~\cite{tlb} é implementado para auxiliar na análise e definição de bordas detectadas. Verificamos como o CFAR trabalha para detectar bordas nas imagens simuladas testes, com o intuito de comparar com o comportamento do algoritmo da Gambini.
 
-Na Ref~\cite{fbgm, gmbf} Gambini at al. usaram a distribuíção polarimétrica $\mathcal{G}^0$ (veja Refs~\cite{fmcs, ffc}). Nas Refs.~\cite{bmf_2019,bmf_2020} Borba at al. modificaram a distribuíção polarimétrica $\mathcal{G}^0$ para a distribuíção Wishart aplicando em imagens PolSAR. Nos artigos podemos verificar os detalhes. As imagens simuladas foram desenhadas a partir dos trabalhos de~\cite{EDbook,gamf}. 
+The present research aims to compare two different methods to find edges in PolSAR images. The first method is the Gambini's algorithm (GA) (see Refs.~\cite{fbgm, gmbf}) which is not an edge detector but a method to find the transition point between two Gamma distributions, as different areas in the ground will respond differently for a PolSAR signal the transition point between these two areas can be seen as an edge. The second method is a Constant False Alarm Rate (CFAR) - Coefficient of Variation Detector (see Ref.~\cite{tlb}) where a coefficient of variation is used to find edges in PolSAR images. Simulated images were used in this research, a simple rectangle area in the middle of the image. Nine different images were used, three with a sharp edge and six with a ramp edge.
 
-Nas Refs.~\cite{tlb,sjx,flla} e~\cite{ssnc} podem ser encontrados métodos tipo CFAR. Neste trabalho, implementamos a ideia proposta em \cite{tlb} para o método CFAR coeficientes de variação. 
+In Refs~\cite{fbgm, gmbf}, Gambini et al. used the $\mathcal{G}^0$ polarimetric distributions (see Refs~\cite{fmcs, ffc}). In Refs.~\cite{bmf_2019,bmf_2020}, Borba et al. modified the polarimetric $\mathcal{G}^0$ distribution to the Wishart distribution applying it to PolSAR images. The simulated images were drawn from the works of~\cite{EDbook,gamf}.  
 
-É muito importante destacar a diferença entre o algoritmo Gambini e os métodos CFAR. É conhecido que as imagens PolSAR possui ruido multiplicativo conhecido por \textit{Speclke}. O algoritmo da Gambini usa o ruido \textit{Speclke} como um aliado, isto é, não é realizado nenhum tipo de tratamento como filtragem por exemplo. Por outro lado, mos métodos tipo CFAR o ruído \textit{spleclke} é tratado com processos de filtragem.
+Refs.~\cite{tlb} and~\cite{ssnc}  presents some CFAR-type methods. This work presented here implements the idea proposed in~\cite{tlb} for the CFAR method coefficient of variation detector. 
 
+It is essential to highlight the difference between the Gambini algorithm and the CFAR methods. It is known that PolSAR images have multiplicative noise known as speckle. GA uses the Speckle noise as an ally; that is, no treatment such as filtering is performed. On the other hand, in CFAR-like methods, the speckle noise is treated with filtering processes.
 
 The article is structured as follows.
 Section~\ref{sec:SimImag} describes the simulated image tests.
-Section~\ref{sec:edge_detc} Highlight the Gambini Algorithm (GA) to edge detection and describe CFAR coefficient of variation detect methods .
+Section~\ref{sec:edge_detc} highlight the Gambini Algorithm (GA) to edge detection and describe CFAR coefficient of variation detect methods .
 Section~\ref{sec:results} presents the results.
-And Finally, in Section~\ref{sec:conc_disc} we discuss the results.
+Finally, in Section~\ref{sec:conc_disc} we discuss the results.
+
+
+
 \section{Simulated Images}
 \label{sec:SimImag}
-Based on Refs~\cite{EDbook,gamf}, we get the simulated images with dimension $800 \times 800 \times 3$ with two classes, the third dimension is a channel number. To achieve this goal, we built an image of the reference following  way: 
-\begin{enumerate}[label=(\roman*)]
-	\item \label{item:obj_i}  To put $0$ in the image $800 \times 800$ for all channels.
-	\item \label{item:obj_ii} Insert a rectangle $[x_l+\epsilon, x_u-\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$ centered at the pixel $(x_c, y_c) = (400, 400)$.
-	\item \label{item:obj_iii} Inside to the rectangle and your boundary put the value pixel $1$. Where:
-	\begin{enumerate}[label=(\alph*)]
-		\item $x_l=x_c - 100,$ lower horizontal coordinate.
-		\item $x_u=x_c + 100,$ upper horizontal coordinate.
-		\item $y_l=y_c - 50,$ lower vertical coordinate.
-		\item $y_u=y_c + 50,$ upper vertical coordinate.
-		\item $\epsilon,$ adjustment constant.
-	\end{enumerate} 
-	\item \label{item:obj_iv} In the horizontal strips $[x_l+\epsilon, x_u-\epsilon]\times[y_l-\epsilon,y_l+\epsilon]$, and $[x_l+\epsilon, x_u -\epsilon]\times[y_u-\epsilon,y_u+\epsilon]$, we define the function \eqref{eq01}.
-	\item  \label{item:obj_v} In the vertical strips $[x_l-\epsilon, x_l+\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$, and $[x_u-\epsilon, x_u+\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$, we define the function \eqref{eq02}.
-	\item  \label{item:obj_vi} We use function \eqref{eq03}. on the corners. 
-\end{enumerate} 
+Based on Refs~\cite{EDbook,gamf}, we get the simulated images with dimension $800 \times 800 \times 3$ with two classes, the third dimension is a channel number. To achieve this goal, we built a reference image as follows:
+\begin{itemize}
+\item Set $0$ to all pixels in the image.
+\item Insert a rectangle $[x_l, x_u]\times[y_l,y_u]$ centered at the pixel $(x_c, y_c) = (400, 400)$, for all channels, where $x_l=x_c - 100,$ is the lower horizontal coordinate, $x_u=x_c + 100,$ is the upper horizontal coordinate,  $y_l=y_c - 50,$ is the lower vertical coordinate, $y_u=y_c + 50,$ is the upper vertical coordinate, and $\epsilon,$ is the ramp constant.
+	
+\item Set 1 for pixels inside the rectangle and its boundary, 
 
-The outer region in the simulated image is the region complementary to the strip defined around the rectangle plus the internal region of the rectangle. 
+\end{itemize}
+	
+We define the function \eqref{eq01} in the horizontal ramps $[x_l+\epsilon, x_u-\epsilon]\times[y_l-\epsilon,y_l+\epsilon]$, and $[x_l+\epsilon, x_u -\epsilon]\times[y_u-\epsilon,y_u+\epsilon]$. And, the same way in the vertical ramps $[x_l-\epsilon, x_l+\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$, and $[x_u-\epsilon, x_u+\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$.
+	
+We use function \eqref{eq03}, on the corners. 
 
-The function for the horizontal strips is:
+%\begin{enumerate}[label=(\roman*)]
+%	\item \label{item:obj_i}  Set $0$ to all pixels in the image $800 \times 800$, and insert a rectangle $[x_l+\epsilon, x_u-\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$ centered at the pixel $(x_c, y_c) = (400, 400)$, for all channels.
+%	\item \label{item:obj_iii} Set 1 for the pixels inside the rectangle and its boundary, where, $x_l=x_c - 100,$ is the lower horizontal coordinate, $x_u=x_c + 100,$ is the upper horizontal coordinate,  $y_l=y_c - 50,$ is the lower vertical coordinate, $y_u=y_c + 50,$ is the upper vertical coordinate, and $\epsilon,$ is the ramp constant. 
+%	\item \label{item:obj_iv}  We define the function \eqref{eq01} in the horizontal ramps $[x_l+\epsilon, x_u-\epsilon]\times[y_l-\epsilon,y_l+\epsilon]$, and $[x_l+\epsilon, x_u -\epsilon]\times[y_u-\epsilon,y_u+\epsilon]$. And, the same way in the vertical ramps $[x_l-\epsilon, x_l+\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$, and $[x_u-\epsilon, x_u+\epsilon]\times[y_l+\epsilon,y_u-\epsilon]$.
+%	\item  \label{item:obj_v} We use function \eqref{eq03}, on the corners. %
+%\end{enumerate} 
+
+The outer region in the simulated image is the  complementary region of the ramp, defined around the rectangle, plus the internal region of the rectangle. 
+
+The function for the horizontal ramps is:
 \begin{equation}f_x(x)=
   \begin{cases}
     0                 & \textrm{if } x < 0 \\
@@ -124,15 +119,15 @@ The function for the horizontal strips is:
     1                 & \textrm{if } x > 1.
   \end{cases}\label{eq01}
 \end{equation}
-
-The function for the vertical strips is:
-\begin{equation}f_y(y)=
-  \begin{cases}
-    0                 & \textrm{if } y < 0 \\
-    6y^5 -15y^4 + 10y^3 & \textrm{if } 0 \leq y \leq 1 \\
-    1                 & \textrm{if } y > 1.
-  \end{cases}\label{eq02}
-\end{equation}
+%The function for the vertical ramps is similar
+% 
+%\begin{equation}f_y(y)=
+%  \begin{cases}
+%    0                 & \textrm{if } y < 0 \\
+%    6y^5 -15y^4 + 10y^3 & \textrm{if } 0 \leq y \leq 1 \\
+%    1                 & \textrm{if } y > 1.
+%  \end{cases}\label{eq02}
+%\end{equation}
 
 The function for the corners is:
 \begin{eqnarray}
@@ -140,115 +135,146 @@ f(x,y) = f_x(x) \cdot f_y(y),& \textrm{with }(x,y)\in \mathbb{R}^2
 \label{eq03}
 \end{eqnarray} 
 
-We define the reference image built by $\text{R}_1$. In addition to this reference image, we define two more images, $\text{R}_2$, which we call the negative image of $\text{R}_1$. It consists of changing item \ref{item:obj_i} to 1  and item \ref{item:obj_iii} to 0. Similarly, in $\text{R}_3$, we change item \ref{item:obj_iii} to 5 and item \ref{item:obj_iii} to 10. In both cases, the functions from \ref{eq01} to \ref{eq03} are modified accordingly.
+The reference image is defined as $\text{R}_1$. In addition to this image, we define two more images, $\text{R}_2$, which we call the negative image of $\text{R}_1$. It consists of switching the values of 0 and 1 in the image. Similarly, in $\text{R}_3$, we switched the values of 0 by 5 and the values of 1 by 10. In both cases, the functions from \ref{eq01} to \ref{eq03} are modified accordingly.
 
-Three images tests based on the procedure above are defined.
-Firstly, the image test $\text{T}_1$ is based on $\text{R}_1$ where was defined the samples distributed as Wishart, with $\mu_1$ in the outer region, and $\mu_{av}= (\mu_1+\mu_2)/2$ to strips in the image, and $\mu_2$ into the internal region. The parameter $\text{L}$ is the same for all regions.
+Three images tests based on the procedure above were defined. First, the image test $\text{T}_1$, based on $\text{R}_1$ , was defined using Wishart distribution with $\mu1$ added in the outer region, $\mu2$ added in the internal rectangle and $\mu_{av}= (\mu_1+\mu_2)/2$ added in the ramps. The parameter $\text{L}=4$ is the same for all regions.
 
-Secondly, the image test $\text{T}_2$ is based on $\text{R}_2$ with the same parameters as the Wishart distribution. Furthermore, finally, the test $\text{T}_3$ is based on $\text{R}_3$, newly with the same parameters to Wishart distribution.
+Second, the image test $\text{T}_2$ and $\text{T}_3$ were built similarly to image test T1.
 
-The parameters use in this article to the channel $\text{HH}$ are $\mu_1=0.042811$, $\mu_2=0.014380$.  
+The parameters used for the Wishart distribution in the HH channel are $\text{HH}$  are $\mu_1=0.042811$, and $\mu_2=0.014380$:  
 %
 
-Fig~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica} shows red channel Pauli decomposition image \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica}\subref{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica} and its slice function with smooth ramp \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica}\subref{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica} to the test image $\text{T}_1$. The slice in the image was performed for the horizontal coordinate varying and the vertical coordinate fixed at 400. 
+Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica} shows the red channel of the Pauli decomposition of image $T_1$ and the slice of the function at coordinate 400 showing the ramp between the two areas.
 \begin{figure}[hbt]
 	\centering
      \subfloat[Pauli red channel\label{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica}]{%
-       \includegraphics[width=.5\linewidth]{fig_Pauli_c_1_smooth_ramp_mu1_greater_mu2_eps_10}
+       \includegraphics[width=.4\linewidth]{fig_Pauli_c_1_smooth_ramp_mu1_greater_mu2_eps_10}
      }
      \subfloat[Slice function \label{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica}]{%
-       \includegraphics[width=.5\linewidth]{fig_perfil_x_400_c_2_smooth_ramp_mu1_greater_mu2_eps_10}
+       \includegraphics[width=.4\linewidth]{fig_perfil_x_400_c_2_smooth_ramp_mu1_greater_mu2_eps_10}
      }
-     \caption{Image $\text{T}_1$ and its slice function with smooth ramp $\epsilon=10$}
+     \caption{Image $\text{T}_1$ and the slice function for $\epsilon=10$}
      \label{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica}
 \end{figure}
 
-Fig~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0} shows red channel Pauli decomposition image \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}\subref{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0} and its slice function \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}\subref{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0} to test image $\text{T}_2$. Its slice function with the smooth ramp was performed at the same conditions as before.
+Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0} shows the red channel of the Pauli decomposition of image $\text{T}_2$ and the slice of the function is similar with Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica}
+
+
+
+%Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0} shows the red channel of the Pauli decomposition image and its slice function \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}\subref{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0} to test image $\text{T}_2$. Its slice function with the smooth ramp was performed at the same conditions as shown in Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica}~.
 \begin{figure}[hbt]
 	\centering
      \subfloat[Pauli red channel\label{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}]{%
-       \includegraphics[width=.5\linewidth]{fig_Pauli_c_1_smooth_ramp_mu1_greater_mu2_eps_10_step_1_0}
+       \includegraphics[width=.4\linewidth]{fig_Pauli_c_1_smooth_ramp_mu1_greater_mu2_eps_10_step_1_0}
      }
      \subfloat[Slice function \label{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}]{%
-       \includegraphics[width=.5\linewidth]{fig_perfil_x_400_c_2_smooth_ramp_mu1_greater_mu2_eps_10_step_1_0}
+       \includegraphics[width=.4\linewidth]{fig_perfil_x_400_c_2_smooth_ramp_mu1_greater_mu2_eps_10_step_1_0}
      }
-     \caption{Image $\text{T}_2$ and its slice function with smooth ramp $\epsilon=10$}
+     \caption{Image $\text{T}_2$ and its slice function with  $\epsilon=10$}
      \label{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}
 \end{figure}
 
-Fig~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} shows red channel Pauli decomposition image \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}\subref{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} and its slice function \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}\subref{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} to test image $\text{T}_2$. Its slice function with the smooth ramp was performed at the same conditions as before. 
+Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} shows the red channel of the Pauli decomposition of image $\text{T}_3$ and the slice of the function is similar with Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica}
+
+%Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} shows the red channel of the Pauli decomposition image \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}\subref{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} and its slice function \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}\subref{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10} to test image $\text{T}_2$. Its slice function with the smooth ramp was performed at the same conditions as before. 
 \begin{figure}[hbt]
 	\centering
      \subfloat[Pauli red channel\label{sim_image_red_pauli_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}]{%
-       \includegraphics[width=.5\linewidth]{fig_Pauli_c_1_smooth_ramp_mu1_greater_mu2_eps_10_step_5_10}
+       \includegraphics[width=.4\linewidth]{fig_Pauli_c_1_smooth_ramp_mu1_greater_mu2_eps_10_step_5_10}
      }
      \subfloat[Slice function \label{sim_image_perfil_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}]{%
-       \includegraphics[width=.5\linewidth]{fig_perfil_x_400_c_2_smooth_ramp_mu1_greater_mu2_eps_10_step_5_10}
+       \includegraphics[width=.4\linewidth]{fig_perfil_x_400_c_2_smooth_ramp_mu1_greater_mu2_eps_10_step_5_10}
      }
-     \caption{Image $\text{T}_3$ and its slice function with smooth ramp $\epsilon=10$}
+     \caption{Image $\text{T}_3$ and its slice function with $\epsilon=10$}
      \label{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_5_10}
 \end{figure}
 %
+
+
+
 \section{Edge detection}\label{sec:edge_detc}
-In this work, we compare two kinds of edge detectors. The Gambini algorithm compared to the edge detector based on the constant false alarm rate (CFAR). 
-\subsection{Gambini algorithm}
-The methods were presented in Refs~\cite{gmbf, fbgm}, and they are based on density distributions \textbf{$\mathcal{G}^0$} that can be found in Refs~\cite{fmcs,ffc}. We modify and apply the procedure with the Wishart distribution. The method can be seen in more detail in Refs~\cite{bmf_2020,bmf_2019}.
-\subsection{CFAR Coefficient of variation detector}
-One of the methods shown in Refs [9] is called CFAR coefficient of variation detector. It is a CFAR type method known in the radar imaging area and consists of the following procedure:
-\begin{enumerate}[label=(\roman*)]
-	\item \label{item:cfar_i} Calculate the mean at each pixel defined by the sliding window with dimension $N = n \times n$ pixels, where $n$ is the width and height of the window. Moreover, calculate the average using the equation $M=\big(\sum_{i=1}^N x_i\big)/ N$. 
-	\item \label{item:cfar_ii} Calculate the standard deviation on each pixel using the same window before, with the formula $S=\sum_{i=1}^N \big(x_i-M\big)^2/ N - 1$.
-    \item \label{item:cfar_ii} For each pixel, calculate the ratio  $r=S/M$.
-    \item \label{item:cfar_iii} Compare $r$ to the threshold $\ell_1=1/\sqrt{L} + \tau$, where L is the multi-look parameter. Large values of r are considered edges evidence, then if $r> \ell$, it is defined as an edge evidence. 
-\end{enumerate}
+In this work, we compare two popular methods to find edges in PolSAR images, the GA and a Constant False Alarm Rate (CFAR) that uses the coefficient of variation detector. 
+\subsection{Gambini's algorithm -- GA}
+The GA is actually not an edge detector. It's main purpose is to find the transition point between two different Gamma distributions in neighbor areas. This transition point can be seen, and have been used as an edge detector. The algorithm is presented in Refs.~\cite{gmbf, fbgm}, and they are based on the density distributions \textbf{$\mathcal{G}^0$}, that can be found in Refs.~\cite{fmcs,ffc}. We modified the algorithm to apply in Wishart distributions from PolSAR images. The method is described in Refs.~\cite{bmf_2020,bmf_2019}. 
+\subsection{CFAR Coefficient of Variation Detector}
+One of the methods shown in Refs [9] is called CFAR Coefficient of Variation Detector. It is a CFAR type method known for edge detection in radar images implemented as follows:
+\begin{itemize}
+\item Calculate the mean $M$ for the center pixel defined by the sliding window with dimension $N = n \times n$ pixels, where $n$ is the width and height of the window.  $M=\big(\sum_{i=1}^N x_i\big)/ N$. 
+
+\item Calculate the standard deviation $S$ for the center pixel using the same window before. $S=\sum_{i=1}^N \big(x_i-M\big)^2/ N - 1$.
+
+\item For each pixel, calculate the ratio  $r=S/M$.
+
+\item Compare $r$ to the threshold $\ell_1=1/\sqrt{L} + \tau$, where L is the multi-look parameter. Large values of r are considered edge evidence, then if $r> \ell_1$, set the pixel as an edge. 
+
+\end{itemize}
+%\begin{enumerate}[label=(\roman*)]
+%	\item \label{item:cfar_i} Calculate the mean for the center pixel defined by the sliding window with dimension $N = n \times n$ pixels, where $n$ is the width and height of the window. Moreover, calculate the average using the equation $M=\big(\sum_{i=1}^N x_i\big)/ N$. 
+%	\item \label{item:cfar_ii} Calculate the standard deviation for the center pixel using the same window before, with the formula $S=\sum_{i=1}^N \big(x_i-M\big)^2/ N - 1$.
+%    \item \label{item:cfar_ii} For each pixel, calculate the ratio  $r=S/M$.
+%    \item \label{item:cfar_iii} Compare $r$ to the threshold $\ell_1=1/\sqrt{L} + \tau$, where L is the multi-look parameter. Large values of r are considered edges evidence, then if $r> \ell_1$, it is defined as an edge evidence. 
+%\end{enumerate}
+
+
+
 \section{Results}\label{sec:results}
-We apply the Gambini algorithm in test images $\text{T}_1$ and $\text{T}_2$ with $\epsilon=8,9,10$, Figs.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10_basica_step_1_0}, \ref{sim_image_mu1_greater_mu2_with_ramp_eps_9}, and \ref{sim_image_mu1_greater_mu2_with_ramp_eps_10} show the results.
+We applied the GA in test images $\text{T}_1$, $\text{T}_2$, and $\text{T}_3$. Tests were performed for $\epsilon$ equals $0$ and $10$. The results were different for these two cases.  
 
-Fig~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10}\subref{fig_c_1_mu1_greater_mu2_eps_10_radial} shows edges evidences detected near the sample based on 0. Fig~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10}\subref{fig_c_1_mu1_greater_mu2_eps_10_negative_radial} gets the same results. Therefore, we can note that edges evidences are detected when the sample is based on zero to image test $\text{T}_1$ and $\text{T}_2$  .
-
- \begin{figure}[hbt]
+Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_0} shows edges evidences detected for image test $\text{T}_1$ and  $\text{T}_2$. We can see that GA presents similar results for both images and no outliers. 
+\begin{figure}[hbt]
 	\centering
-     \subfloat[Image test $\text{T}_1$\label{fig_c_1_mu1_greater_mu2_eps_8_radial}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_08_radial}
-     }
-     \subfloat[Image test $\text{T}_2$\label{fig_c_1_mu1_greater_mu2_eps_8_negative_radial}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_08_negative_radial}
-     }%
-     \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=8$}
-     \label{sim_image_mu1_greater_mu2_with_ramp_eps_8}
-\end{figure} 
-%
- \begin{figure}[hbt]
-	\centering
-     \subfloat[Image test $\text{T}_1$\label{fig_c_1_mu1_greater_mu2_eps_9_radial}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_09_radial}
+	 \subfloat[Image test $\text{T}_1$ \label{fig_c_1_mu1_greater_mu2_eps_10_radial}]{%
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_radial}
      }                                          
-     \subfloat[Image test $\text{T}_2$\label{fig_c_1_mu1_greater_mu2_eps_9_negative_radial}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_09_negative_radial}
-     }%
-     \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=9$}
-     \label{sim_image_mu1_greater_mu2_with_ramp_eps_9}
-\end{figure} 
+     \subfloat[Image test $\text{T}_2$ \label{fig_c_1_mu1_greater_mu2_eps_10_negative_radial}]{%
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_negative_radial}
+     }%     
+     \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=0$}
+     \label{sim_image_mu1_greater_mu2_with_ramp_eps_0}
+\end{figure}
+
+Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10} shows edges evidences detected when we added a ramp around the internal rectangle. Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10}\subref{fig_c_1_mu1_greater_mu2_eps_10_radial} shows edge evidence near the outer region. Fig~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10}\subref{fig_c_1_mu1_greater_mu2_eps_10_negative_radial} shows edge evidence internal to the rectangle. Therefore, we can note that edges evidences are detected when the sample value goes to zero in the image test $\text{T}_1$ and $\text{T}_2$  .
+% \begin{figure}[hbt]
+%	\centering
+%     \subfloat[Image test $\text{T}_1$\label{fig_c_1_mu1_greater_mu2_eps_8_radial}]{%
+%       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_08_radial}
+%     }
+%     \subfloat[Image test $\text{T}_2$\label{fig_c_1_mu1_greater_mu2_eps_8_negative_radial}]{%
+%       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_08_negative_radial}
+%     }%
+%     \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=8$}
+%     \label{sim_image_mu1_greater_mu2_with_ramp_eps_8}
+%\end{figure} 
+%%
+% \begin{figure}[hbt]
+%	\centering
+%     \subfloat[Image test $\text{T}_1$\label{fig_c_1_mu1_greater_mu2_eps_9_radial}]{%
+%       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_09_radial}
+%     }                                          
+%     \subfloat[Image test $\text{T}_2$\label{fig_c_1_mu1_greater_mu2_eps_9_negative_radial}]{%
+%       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_09_negative_radial}
+%     }%
+%     \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=9$}
+%     \label{sim_image_mu1_greater_mu2_with_ramp_eps_9}
+%\end{figure} 
 %
  \begin{figure}[hbt]
 	\centering
      \subfloat[Image test $\text{T}_1$ \label{fig_c_1_mu1_greater_mu2_eps_10_radial}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_radial}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_radial}
      }                                          
      \subfloat[Image test $\text{T}_2$ \label{fig_c_1_mu1_greater_mu2_eps_10_negative_radial}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_radial}
      }%
      \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=10$}
      \label{sim_image_mu1_greater_mu2_with_ramp_eps_10}
 \end{figure}
 
-
-Newly, we Apply the Gambini algorithm to test image $\text{T}_3$, check Figs..~\ref{fig_c_1_mu1_greater_mu2_eps_10 step_5_10_radial}, and note that the edges have a displacement to center the strip. 
-
+Looking at the results presented in Fig.~\ref{sim_image_mu1_greater_mu2_with_ramp_eps_10} we thought that the area with the 0 value could be a problem, so we decided to create image tests $\text{T}_3$ and $\text{T}_4$ (not shown here) with $\epsilon=10$ and applied the GA to these images. In both cases the result was the same as presented in Fig.~\ref{fig_c_1_mu1_greater_mu2_eps_10 step_5_10_radial} with the edge at about the center of the ramp.
  \begin{figure}[hbt]
 	\centering
      {%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_radial_step_5_10}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_radial_step_5_10}
      }%
      \caption{Edge evidences to image test $\text{T}_3$ with $\epsilon=10$}
      \label{fig_c_1_mu1_greater_mu2_eps_10 step_5_10_radial}
@@ -257,69 +283,88 @@ Newly, we Apply the Gambini algorithm to test image $\text{T}_3$, check Figs..~\
 % Cfar results.
 %
 
-The methods CFAR Coefficient of variation detector is applied to image test $\text{T}_1$ and $\text{T}_2$, and the results are shown in Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3}. We configure the method with a kernel value equal to $3\times 3$, and $\tau$ to control the threshold equal to $0.3$.
-
-To the images tests, we can note the arising outliers.
+The Coefficient of Variation Detector was applied to image test $\text{T}_1$ and $\text{T}_2$, and the results are shown in Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3}. We configured the method with a kernel value equals to $3\times 3$, and $\tau=0.3$, to control the threshold value and reduce outliers.
  \begin{figure}[hbt]
 	\centering
      \subfloat[Image test $\text{T}_1$ \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3_positive}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3}
      }
      \subfloat[Image test $\text{T}_2$\label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3_negative}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_coef_var_step_0_1_kernel_3}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_negative_cfar_coef_var_step_0_1_kernel_3}
      }%
      \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=0$}
      \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3}
 \end{figure} 
 %
 
-The method CFAR coefficient of variation detector is applied to images tests $\text{T}_1$ and $\text{T}_2$, and the results are shown Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}. We configure the method with a kernel value equal to $5 \times 5$, and $\tau$ to control the threshold equal to $0.5$.
-
-In Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_positive_cfar_coef_var_step_0_1_kernal_5} and~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1_kernal_5}, we observe similar behavior to Gambini's algorithm. Evidence of edges was detected near the zero-based sample.
+Because of the outliers shown in Fig~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_0_cfar_coef_var_step_0_1_kernel_3}. we changed the CFAR parameters using a $5 \times 5$ kernel and $\tau$ equals 0.5. The result is presented in Fig.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}. In Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_positive_cfar_coef_var_step_0_1_kernal_5} and~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1_kernal_5}, we observe a similar behavior to GA. Evidence of edges was detected near the zero-based sample.
  \begin{figure}[hbt]
 	\centering
      \subfloat[Image test $\text{T}_1$ \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_positive_cfar_coef_var_step_0_1_kernal_5}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernal_5}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernal_5}
      }
      \subfloat[Image test $\text{T}_2$ \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1_kernal_5}]{%
-       \includegraphics[width=.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1_kernal_5}
+       \includegraphics[width=.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_negative_cfar_coef_var_step_0_1_kernal_5}
      }%
      \caption{Edge evidences to images test $\text{T}_1$ and $\text{T}_2$ with $\epsilon=10$}
      \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}
 \end{figure}
 %
 %
-The methods CFAR Coefficient of variation detector is applied to image test $\text{T}_3$, and the results are shown in Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_0_1_kernel_5}. We configure the method with a kernel value equal to $5 \times 5$ and control the threshold equal to $\ell_2=1/(5\sqrt{L}+\tau)$. In this case, the threshold was got empiric way. 
 
-In the present test, the threshold defined in Ref.\cite{tlb} was unsuitable for edge evidence detection. Fig.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_without_cfar_coef_var_step_5_10_kernal_5} shows the image with no evidence of edges detected.
+The Coefficient of Variation Detector was applied to image test $\text{T}_3$, and the results are shown in Figs.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}. We configured the method with a kernel value equals to $5 \times 5$, and defined $\ell_2$ as $\frac{1}{5} \sqrt{L} + \tau$. This threshold was defined empirically. The threshold original defined in Ref.\cite{tlb} ($\ell_1$) did not work well to test image $\text{T}_3$.  Fig.~\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_without_cfar_coef_var_step_5_10_kernal_5} shows that no edge evidence was detected with the $\ell_1$ threshold.
 
-Fig.\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_positive_cfar_coef_var_step_5_10_kernal_5} shows the edge evidence using the threshold empirically found $\ell_2$ to the CFAR coefficient of variation detector method.
+Fig.\ref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}\subref{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_positive_cfar_coef_var_step_5_10_kernal_5} shows the edge evidence using the threshold  $\ell_2$ for the Coefficient of Variation Detector.
  \begin{figure}[hbt]
 	\centering
      \subfloat[ Image test $\text{T}_3$ with $\ell_2$ \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_positive_cfar_coef_var_step_5_10_kernal_5}]{%
-        \includegraphics[width=0.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}
+        \includegraphics[width=0.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}
         }
      \subfloat[Image test $\text{T}_3$ with $\ell_1$ \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_without_cfar_coef_var_step_5_10_kernal_5}]{%
-       \includegraphics[width=0.5\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_without_edge_cfar_coef_var_step_5_10_kernal_5}
+       \includegraphics[width=0.4\linewidth]{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_without_edge_cfar_coef_var_step_5_10_kernal_5}
        }%
      \caption{Edge evidences to images test $\text{T}_3$ with $\epsilon=10$}
      \label{fig_PI_c_1_smooth_ramp_mu1_greater_mu2_eps_10_cfar_coef_var_step_5_10_kernal_5}
-\end{figure} 
-\section{Conclusions and discussions}\label{sec:conc_disc}
+\end{figure}
 
+We emphasize that the tests performed to detect evidence of edges do not depend on the order  between $\mu_1$ and $\mu_2$. Also, all PolSAR channels show similar results to the $\text{HH}$ channel used to generate the pictures presented in this paper.
+
+ We can highlight the following results:
+ 
+% When the tests are performed using  $\text{T}_1$ and $\text{T}_2$, the edge was detected near sample based on 0. For both detectors. The CFAR coefficient of variation detects multiple edges when there is a ramp edge in the image and needs further processing to refine its result and the GA finds a single edge in both cases, sharp or ramp edges.  
+
+%When the tests were performed in $\text{T}_3$, the GA method finds edge evidence within the ramp.
+
+%In the tests performed with the negative image of $\text{T}_3$, the results for GA were similar to the tests performed on the test image $\text{T}_3$.
+
+%The CFAR coefficient of variation detector method has a high sensitivity to the choice of the $\tau$ parameter.
+
+%The CFAR coefficient of variation detector is applied in $\text{T}_1$, $\text{T}_2$ and $\text{T}_3$, and there are arising outliers. We can note that the method has  sensitivity in the choice of the $\tau$ parameter.
+
+%The CFAR coefficient of variation detector is applied in $\text{T}_3$. In this case, the threshold that does not respect the rule proposed in the article \cite{tlb}. We propose empirically the threshold $\ell_2=\frac{1}{5}\sqrt{L}+\tau$ which showed good results visually.
+
+%In the CFAR coefficient of variation detector with test image $\text{T}_3$ almost all strip region was detected. 
+ 
 \begin{enumerate}[label=(\roman*)]
-	\item \label{item:conc_i} The tests performed shows that edge detection is not depend on order relation between of the parameters $\mu_1$ and $\mu_2$. 
-	\item \label{item:conc_ii} When the tests are performed using  $\text{T}_1$ and $\text{T}_2$, the edge are detected near sample based on 0.
-	\item \label{item:conc_iii} When the tests are performed in $\text{T}_3$. The edges evidence detected there are displacement to the strip center.
-	\item  \label{item:conc_iv} In the tests performed with the negative image of T3, the results for algorithm Gambini were similar to the tests performed on the test image T3.
-	\item  \label{item:conc_v} All channels using to tests performed with Gambini algorithm work the similar way to $\text{HH}$ channel.
-	\item  \label{item:conc_vi} The CFAR coefficient of variation detector algorithm has a high sensitivity to the choice of the $\epsilon$ parameter.
-	\item  \label{item:conc_vii} The CFAR coefficient of variation detector is applying in $\text{T}_1$, $\text{T}_2$ and $\text{T}_2$ arising outliers.
-	\item  \label{item:conc_viii} In the CFAR coefficient of variation detector is applying in $\text{T}_3$. In this case, A threshold that does not respect the rule proposed in the article was found empirically  ($\ell=1/(5\sqrt{L}+\tau)$) .
-	\item  \label{item:conc_ix} In the CFAR coefficient of variation detector with test image $\text{T}_3$ all strip region was detected.
-	\item  \label{item:conc_x} The statement made in the previous item\ref{item:conc_ix} shows an advantage of the Gambini algorithm because it detects only one pixel as edge evidence. 
-\end{enumerate}
+	\item \label{item:conc_i} When the tests are performed using  $\text{T}_1$ and $\text{T}_2$, the edge was detected near sample based on 0 for both detectors. The Coefficient of Variation Detector detects multiple edges when there is a ramp edge in the image and needs further processing to refine its result. In this case the GA finds a single edge.   
+	\item \label{item:conc_i} When the tests were performed in $\text{T}_3$ and its negative, the GA method finds edge evidence within the ramp.
+
+	\item  \label{item:conc_v} The Coefficient of Variation Detector is applied in $\text{T}_1$, $\text{T}_2$ and $\text{T}_3$, and there are arising outliers. We can note that the method has  sensitivity in the choice of the $\tau$ parameter.
+	\item  \label{item:conc_vi} The Coefficient of Variation Detector is applied in $\text{T}_3$. In this case, the threshold does not respect the rule proposed in the article \cite{tlb}. We propose empirically the threshold $\ell_2=\frac{1}{5}\sqrt{L}+\tau$ which showed good results visually.
+	\item  \label{item:conc_vii} In the Coefficient of Variation Detector with test image $\text{T}_3$ almost all ramp region was detected. 
+\end{enumerate} 
+
+\section{Conclusions and discussions}\label{sec:conc_disc}
+This work investigates how the GA and the CFAR Coefficient of Variation Detector method detect edge evidence. The two detectors worked similarly when applied to the simulated images tests $\text{T}_1$ and $\text{T}_2$. However, the Coefficient of Variation Detector finds multiple edges in for these images which does not happen when using GA.
+
+We can point out that the detectors work differently on the $\text{T}_3$ test, while for GA, the evidence of edges was shifted to the center on the ramp. The Coefficient of Variation Detector finds almost the entire ramp region as edges and would need further processing to narrow the edge in that area. 
+
+In all test performed the GA showed an advantage over the Coefficient of Variation Detector  as it detects only one pixel as edge evidence.
+
+On the other hand, GA compared with Variable Coefficients Detector presents the limitation of defining the region of interest for edge detection and the lines for detecting the transition point between Wishart distributions. At the same time, the Coefficient of Variation Detector method can be applied to the entire image.
+
+As a future work we plan to apply these methods to real PolSAR images and also investigate the values of $\mu_1$ and $\mu_2$ related to the values added to the Wishart distribution.
+
 \bibliographystyle{IEEEtran}
 \bibliography{strings,refs}
-
 \end{document}
