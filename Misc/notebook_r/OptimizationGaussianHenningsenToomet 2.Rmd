@@ -1,0 +1,169 @@
+---
+title: "Optimization with two parameters in Gaussian distribution"
+author: "Anderson A. De Borba"
+date: "25 June 2021"
+output:
+  bookdown::html_document2: default
+  bookdown::pdf_document2: default
+  citation_package: biblatex
+#bibliography: ref_notebook.bib
+bibliography: ["ref_notebook.bib"]
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+require(maxLik)
+require(stats)
+```
+
+# Optimization with two parameters in Gaussian distribution
+The objective of this notebook is to understand how to estimate parameters with gaussian distribution using three functions (routines). The first is the MaxLik package [@maxlik], and the second is function maxBFGS, which is wrappers for optim package used inside MaxLik package. And, finally, the optim package [@rpack].
+
+Additionally, we define the search space to optimization methods similar to the parametric space of the distribution. This practice helps when the models have the parametric space more complex than the gaussian model described in this text.
+
+Hence, we assume the gaussian distributions, so the density is
+\begin{equation}
+f_{Z}(z; \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}\exp\{-(z-\mu)^2/2\sigma^2\}.
+(\#eq:01)
+\end{equation}
+
+We illustrate the idea of finding parameters to the density applying  MLE (Maximum Likelihood Estimation). For this, we use log on both sides of the equation \@ref(eq:01),
+\begin{equation}
+\ell(z; \mu, \sigma)=\log\frac{1}{\sigma} + \log\frac{1}{\sqrt{2\pi}} + \log\Bigg(\exp\{-(z-\mu)^2/2\sigma^2\}\Bigg),
+\end{equation}
+\begin{equation}
+\ell(z; \mu, \sigma)=\log\sigma^{-1} + \log\sqrt{2\pi}^{-1}-\frac{1}{2\sigma^2}(z-\mu)^2,
+\end{equation}
+\begin{equation}
+\ell(z; \mu, \sigma)=-\log\sigma - \log\sqrt{2\pi}-\frac{1}{2\sigma^2}(z-\mu)^2.
+(\#eq:02)
+\end{equation}
+
+We used the equation \@ref(eq:02) intending to find the log-likelihood function
+\begin{equation}
+\mathcal{L}(\mu, \sigma)= \sum_{i=1}^n\ell(z_i; \mu, \sigma),
+\end{equation}
+\begin{equation}
+\mathcal{L}(\mu, \sigma)= \sum_{i=1}^n\Bigg[-\log\big(\sigma\big) - \log\big(\sqrt{2\pi}\big)-\frac{1}{2\sigma^2}(z_i-\mu)^2\Bigg],
+\end{equation}
+\begin{equation}
+\mathcal{L}(\mu, \sigma)= -\sum_{i=1}^n\log\big(\sigma\big) - \sum_{i=1}^n\log\big(\sqrt{2\pi}\big)-\frac{1}{2\sigma^2}\sum_{i=1}^n\Bigg[\frac{1}{2\sigma^2}(z_i-\mu)^2\Bigg],
+\end{equation}
+where, the algebraic manipulation results on the log-likelihood function with two parameters ($\mu,\sigma$),
+\begin{equation}
+\mathcal{L}(\mu, \sigma)= -n\log\big(\sigma\big) - n\log\big(\sqrt{2\pi}\big)-\frac{1}{2\sigma^2}\sum_{i=1}^n(z_i-\mu)^2.
+(\#eq:03)
+\end{equation}
+
+The code below defines the sample with mean and standard deviation, respectively equal to 1 and 2. Additionally, the code sets the log-likelihood function \@ref(eq:03).
+```{r Define log-likelihood function}
+n <- 100
+z <- rnorm(n, mean = 1, sd = 2)
+logLikFun <- function(theta) {
+  mu <- theta[1]
+  sigma <- theta[2]
+  logLikFunValue <- -n*log(sqrt(2*pi)) - n*log(sigma) - 0.5*sum((z - mu)^2/sigma^2)
+  return(logLikFunValue)
+}
+```
+We apply an optimization process using MaxLik package to find the parameters $\mu$ and $\sigma$. Some information are sumarized below.
+```{r Apply optimization}
+eps1 <- 0.001
+inf <- 1000
+A <- matrix(c(-1, 1,  0, 0, 0, 0, 1, -1), 4, 2)
+B <- c(inf, -eps1, -eps1, inf) 
+mle <- maxLik(logLik = logLikFun, start = c(mu = 0.5, sigma = 0.5), method = "BFGS",
+              constraints=list(ineqA=A, ineqB=B))
+summary(mle)
+```
+The commands show the estimated parameters and the Standard Error.
+```{r coef and error}
+coef(mle)
+stdEr(mle)
+```
+Another manner of calculating the parameters is using the function BFGS, which is wrappers for optim using inside MaxLik package.
+```{r Apply BFGS optimization (maxLik package)}
+mleBFGS <- maxBFGS(logLikFun, start = c(mu = 0.5, sigma = 0.5), 
+                   constraints=list(ineqA=A, ineqB=B))
+summary(mleBFGS)
+```
+# The gradient of the log-likelihood function
+The gradient of the log-likelihood function with respect to the two parameters are:
+\begin{equation}
+\frac{\partial\mathcal{L}}{\partial \mu}(\mu, \sigma)= \frac{1}{\sigma^2}\sum_{i=1}^n(z_i-\mu),
+(\#eq:04)
+\end{equation}
+and
+\begin{equation}
+\frac{\partial\mathcal{L}}{\partial \sigma}(\mu, \sigma)= -\frac{n}{\sigma} +\frac{1}{\sigma^3}\sum_{i=1}^n(z_i-\mu)^2,
+(\#eq:05)
+\end{equation}
+if we put the gradient equal to zero then, we would find optimal solution $\mu$ and $\sigma$:
+\begin{equation}
+\mu= \frac{1}{n}\sum_{i=1}^nz_i,
+\end{equation}
+and
+\begin{equation}
+\sigma = \sqrt{\frac{1}{n}\sum_{i=1}^n(z_i-\mu)^2}.
+\end{equation}
+Straightway, we use the equations \@ref(eq:04) and \@ref(eq:04) with Maxlik package.
+```{r Define log-likelihood function gradient}
+logLikGrad <- function(theta) {
+  mu <- theta[1]
+  sigma <- theta[2]
+  N <- length(z)
+  logGradValue <- numeric(2)
+  logGradValue[1] <- sum((z - mu)/sigma^2)
+  logGradValue[2] <- -N/sigma + sum((z - mu)^2/sigma^3)
+  return(logGradValue)
+}
+mleGrad <- maxLik(logLik = logLikFun, grad = logLikGrad, start = c(mu = 0.5, sigma = 0.5), 
+                  constraints=list(ineqA=A, ineqB=B))
+summary(mleGrad)
+```
+Below, we show the estimated parameters and standard error.
+```{r coef and error to log-likelihood function gradient - MaxLik}
+coef(mleGrad)
+stdEr(mleGrad)
+```
+Now, the maxBFGS function is used to estimate the parameters.
+```{r Apply BFGS optimization with exact gradient (maxLik package)}
+mleBFGS_grad <- maxBFGS(logLikFun, grad = logLikGrad, start = c(mu = 0.5, sigma = 0.5),
+                        constraints=list(ineqA=A, ineqB=B))
+summary(mleBFGS_grad)
+pt <- mleBFGS_grad$estimate
+print(pt)
+```
+Finally, we are coded the method to estimated parameters using the optim package, with the log-likelihood function and the respective gradient.
+```{r Apply BFGS optimization with exact gradient (Optim package)}
+method = "L-BFGS-B"
+factr = 1e-08
+iterlim = 200
+parscale= c(1, 1)
+alpha = NULL
+beta  = NULL
+gamma = NULL
+temp  = NULL
+tmax  = NULL
+start <- c(mu = 0.5, sigma = 0.5)
+control <- list(trace=max(0, 0),
+                REPORT=1,
+                fnscale=-1,
+                factr=factr,
+                maxit=iterlim,
+                parscale=parscale,
+                alpha=alpha,
+                beta=beta,
+                gamma=gamma,
+                temp=temp,
+                tmax=tmax )
+mleOptim <- optim(par = start,
+                  fn=logLikFun,
+                  gr = logLikGrad,
+                  control = control,
+                  method = method,
+                  lower=c(eps1, eps1), upper=c(inf, inf))
+pt <- mleOptim$par
+print(pt)
+```
+# References

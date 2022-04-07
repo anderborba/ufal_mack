@@ -1,0 +1,63 @@
+---
+title: "Hagedorn Study"
+output: html_notebook
+bibliography: /home/aborba/ufal_mack/Text/bibliografia.bib
+---
+
+This is an R Markdown Notebook. It is a studies about the article:
+A trivariate chi-squared distribution derived from the complex Wishart distribution
+M. Hagedorn a , P.J. Smith, P.J. Bones a , R.P. Millane a , D. Pairman
+- See reference [@hsbmp]
+- The joint density for a particular trivariate chi-square distribution given by the diagonal elements of complex Wishart matrix is derived.
+- This distribution has apllications in the processing of multilook synthetic aperture radar data.
+
+Let $\tilde{\mathbf{W}_j} =\begin{bmatrix}
+  \tilde{\mathbf{X}}_j & \tilde{\mathbf{Y}}_j & \tilde{\mathbf{Z}}_j \\ 
+\end{bmatrix}$ be the $j$-th sample from a three-dimensional complex zero mean circular gaussian random process where $j=1,2,\dots,L$, and the $\tilde{W_j}$ are muttually independent and identically distributed.If the covariance matrix for each $\tilde{\mathbf{W}_j}$ is $\Sigma$, then $\mathbf{S} = \sum_{j=1}^L\tilde{\mathbf{W}_j}\tilde{\mathbf{W}_j}^{\text{H}}$has a complex Wishart distribution denotes by $\mathbf{W_3}(L,\Sigma)$, where the superscript (H) refers the Hermitiana transpose.
+
+The diagonal elements of $\mathbf{S}$ is defined by
+\begin{equation}
+\text{Diag}(\mathbf{S}) =
+\begin{bmatrix}
+  \sum_{j=1}^L|\tilde{\mathbf{X}}_j|^2 & \sum_{j=1}^L|\tilde{\mathbf{Y}}_j|^2 & \sum_{j=1}^L|\tilde{\mathbf{Z}}_j|^2 \\ 
+\end{bmatrix}
+=
+\begin{bmatrix}
+  I_X& I_Y& I_Z \\ 
+\end{bmatrix}\tag{Diagonal $\mathbf{S}$}
+\end{equation}
+have chi-square($\chi^2$) distributions with $2L$ degrees of freedom and a correlation struture induced by $\Sigma$. In this study we derive the joint density function of $\begin{bmatrix}
+  I_X& I_Y& I_Z \\ 
+\end{bmatrix}$ which is a ttpe of trivariate $\chi^2$ variable derived fron complex Wishart.
+
+The elements of $\begin{bmatrix}
+  I_X& I_Y& I_Z \\ 
+\end{bmatrix}$ are the intensities of the radar signal return. We can also define the amplitude of signal 
+$\begin{bmatrix}
+  A_X& A_Y& A_Z \\ 
+\end{bmatrix}$=
+$\begin{bmatrix}
+  \sqrt{I_X}& \sqrt{I_Y}& \sqrt{I_Z} \\ 
+\end{bmatrix}.$ 
+
+# Derivation of the joint Density
+Consider de L samples $\tilde{\mathbf{W}_j} =\begin{bmatrix}
+  \tilde{\mathbf{X}}_j & \tilde{\mathbf{Y}}_j & \tilde{\mathbf{Z}}_j \\ 
+\end{bmatrix}$ where $\tilde{\mathbf{X}}_j=\tilde{\mathbf{X}}_{Rj}+\dot{\imath}\tilde{\mathbf{X}}_{Ij}$  and similarly for $\tilde{\mathbf{Y}}_j=\tilde{\mathbf{Y}}_{Rj}+\dot{\imath}\tilde{\mathbf{Y}}_{Ij}$ and $\tilde{\mathbf{Z}}_j=\tilde{\mathbf{Z}}_{Rj}+\dot{\imath}\tilde{\mathbf{Z}}_{Ij}$. 
+
+According to [@good] the complex multivariate Gaussian distribution can adequately by statistical model to $\mathbf{S}$. This is called single-look complex PolSAR data representation and we can define the scatter vector by $\mathbf{S}=[S_{hh},S_{hv},S_{vv}]^H$. Defining $\mathbf{S}= R_j+\dot{\imath}I_j$ where $R_j$ e $I_j$ are real numbers with $j=1,2,3$.
+
+\begin{equation*}
+\mathbf{S} \mathbf{S}^H= \left[
+\begin{array}{rrrrrr}
+	R_{hh}^2       & 0            & R_{hh}R_{hv}  &-R_{hh}I_{hv}  &R_{hh}R_{vv}  &-R_{hh}I_{vv}    \\
+    0              & I_{hh}^2     & I_{hh}R_{hv}  & I_{hh}I_{hv}  &I_{hh}R_{vv}  & I_{hh}I_{vv}   \\
+	R_{hv}R_{hh}   & R_{hv}I_{hh} & R_{hv}^2      & 0             &R_{hv}R_{vv}  &-R_{hv}I_{vv}     \\
+   -I_{hv}R_{hh}   & I_{hv}I_{hh} & 0             & I_{hv}^2      &I_{hv}R_{vv}  & I_{hh}I_{vv} \\
+    R_{vv}R_{hh}   & R_{vv}I_{hh} & R_{vv}R_{hv}  & R_{vv}I_{hv}  &R_{vv}^2      & 0            \\
+   -I_{vv}R_{hh}   & I_{vv}I_{hh} &-I_{vv}R_{hv}  & I_{vv}I_{hv}  &0             & I_{vv}^2     \\
+\end{array}
+\right].
+\end{equation*}
+
+# References
