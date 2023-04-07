@@ -1,0 +1,25 @@
+---
+title: "Bananas para Anderson"
+author: "Alejandro C. Frery"
+format: html
+---
+
+```{r LeituraDataFrame}
+load("./EdgesHxC.RData")
+
+ggplot(Linf3, aes(x=V1, y=V2)) +
+  geom_line() +
+  geom_line(data=Lsup3, aes(x=V1, y=V2))
+
+ggplot(Linf4, aes(x=V1, y=V2)) +
+  geom_line() +
+  geom_line(data=Lsup4, aes(x=V1, y=V2))
+
+ggplot(Linf5, aes(x=V1, y=V2)) +
+  geom_line() +
+  geom_line(data=Lsup5, aes(x=V1, y=V2))
+
+ggplot(Linf6, aes(x=V1, y=V2)) +
+  geom_line() +
+  geom_line(data=Lsup6, aes(x=V1, y=V2))
+```
